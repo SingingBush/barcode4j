@@ -15,27 +15,28 @@
     <section>
       <title>Requirements</title>
       <ul>
-        <li>Java Development Kit (JDK) 1.3 or higher</li>
+        <li>Java Development Kit (JDK) 1.3 or higher (available from <jump href="ext:java">http://java.sun.com/</jump>)</li>
         <li><jump href="ext:ant.apache.org">Apache Ant</jump> 1.5 or higher</li>
         <li>Download <strong>Barcode4J</strong> as described on the 
           <link href="download.html">Download page</link> or from 
-          <link href="viewcvs.html">CVS</link>.
+          <link href="viewcvs.html">CVS</link>
+          (requires <jump href="ext:ant.apache.org">Apache Ant</jump> 1.5 or higher, then follow directions on the <link href="building.html">Building page</link>).
         </li>
       </ul>
     </section>
     <section>
       <title>Building</title>
       <p>Go to the directory where you placed <strong>Barcode4J</strong> and 
-        run the Ant build script ("ant" on Windows, "./ant.sh" on Unix).
+        run the Ant build script ("<code>ant</code>" on Windows, "<code>./ant.sh</code>" on Unix).
       </p>
       <p>If all goes well, this creates a "build" directory which now contains several things:</p>
       <ul>
-        <li>barcode4j.jar: The barcode package</li>
-        <li>barcode4j-light.jar: A reduced barcode package without dependency on Avalon Framework.</li>
-        <li>barcode4j-fop-ext-0.20.5.jar: The FOP barcode extension</li>
-        <li>barcode4j-fop-ext-0.20.5-complete.jar: Combines barcode4j.jar and the FOP extension in a single JAR.</li>
-        <li>barcode4j.war: The sample web application with the sample servlet</li>
-        <li>the "docs" directory: This directory contains the generated Javadocs</li>
+        <li><code>barcode4j.jar</code>: The barcode package</li>
+        <li><code>barcode4j-light.jar</code>: A reduced barcode package without dependency on Avalon Framework.</li>
+        <li><code>barcode4j-fop-ext-0.20.5.jar</code>: The FOP barcode extension</li>
+        <li><code>barcode4j-fop-ext-0.20.5-complete.jar</code>: Combines barcode4j.jar and the FOP extension in a single JAR.</li>
+        <li><code>barcode4j.war</code>: The sample web application with the sample servlet</li>
+        <li>the "<code>docs</code>" directory: This directory contains the generated Javadocs</li>
       </ul>
     </section>
   </body>

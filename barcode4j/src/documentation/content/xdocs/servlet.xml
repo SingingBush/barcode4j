@@ -43,7 +43,7 @@
           <td>required</td>
           <td>
             Type of the barcode. Examples: code128 (for Code 128), ean-13, upc-e etc. 
-            The values are the same used for the org.krysalis.barcode4j.BarcodeClassResolver.
+            The values are the same used for the <code>org.krysalis.barcode4j.BarcodeClassResolver</code>.
           </td>
         </tr>
         <tr>

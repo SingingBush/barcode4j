@@ -21,26 +21,26 @@
         using <strong>Barcode4J</strong>.
       </p>
       <ol>
-        <li>You can generate a barcode in SVG format during the XSLT stage.</li>
-        <li>You can generate a barcode during XSL-FO processing.</li>
+        <li>generate a barcode in SVG format during the XSLT stage</li>
+		  <ul>
+			<li>
+			  If you're using the <fork href="ext:xalan">Apache Xalan-J XSLT Processor</fork> you
+			  can use the <link href="xalan-ext.html">Xalan extension</link>.
+			</li>
+			<li>
+			  If you're using the <fork href="ext:saxon">SAXON XSLT Processor from Michael Kay</fork> you
+			  can use the <link href="saxon-ext.html">SAXON extension</link>.
+			</li>
+		  </ul> 
+        <li>generate a barcode during XSL-FO processing</li>
+		  <ul>
+			<li>
+			  If you work with <fork href="ext:fop">Apache FOP</fork>, using the 
+			  <link href="fop-ext.html">FOP extension</link> will be the most attractive option.
+			</li>
+		  </ul> 
       </ol>
-      <p>
-        Which option you choose depends on your environment:
-      </p>
-      <ul>
-        <li>
-          If you work with <fork href="ext:fop">Apache FOP</fork>, using the 
-          <link href="fop-ext.html">FOP extension</link> will be the most attractive option.
-        </li>
-        <li>
-          If you're using the <fork href="ext:xalan">Apache Xalan-J XSLT Processor</fork> you
-          can use the <link href="xalan-ext.html">Xalan extension</link>.
-        </li>
-        <li>
-          If you're using the <fork href="ext:saxon">SAXON XSLT Processor from Michael Kay</fork> you
-          can use the <link href="saxon-ext.html">SAXON extension</link>.
-        </li>
-      </ul> 
+      <note>A <link href="fop-ext.html#The+special+FOP+extension+%28for+experienced+developers+only%29">special FOP extension</link> is also available which does not generate the barcode using the intermediate SVG format. It is only available through CVS. It is not included in the distribution.</note>
       <p>
         If you don't find a matching solution for your environment, drop us a mail on the 
         <link href="ext:mailing-lists">barcode4j-users mailing list</link>.

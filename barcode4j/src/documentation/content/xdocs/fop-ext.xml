@@ -2,7 +2,7 @@
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
   <header>
-    <title>Instructions for the FOP extension</title>
+    <title>Instructions for the Apache FOP extension</title>
     <authors>
       <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
     </authors>
@@ -24,16 +24,16 @@
       <ul>
         <li>Make sure you have FOP version 0.20.5 or later.</li>
         <li>
-          Add barcode4j.jar and barcode4j-fop-ext-0.20.5.jar to the
+          Add <code>barcode4j.jar</code> and <code>barcode4j-fop-ext-0.20.5.jar</code> to the
           <link href="faq.html#classpath">classpath</link>. (Alternatively,
           you can use the combined JAR:
-          barcode4j-fop-ext-0.20.5-complete.jar which contains both
-          Barcode4J and the FOP extension.)</li>
+          <code>barcode4j-fop-ext-0.20.5-complete.jar</code> which combines both
+          <strong>Barcode4J</strong> and the FOP extension.)</li>
         <li>
           <strong>Important:</strong> When you use FOP 0.20.5 together with
-          Barcode4J, make sure you use the version of Avalon Framework that comes with
-          Barcode4J (or the latest release of
-          <fork href="ext:avalon">Avalon Framework</fork>). The one from FOP
+          <strong>Barcode4J</strong>, make sure you use the version of Avalon Framework that comes with
+          <strong>Barcode4J</strong> (or the latest release of
+          <fork href="ext:avalon">Avalon Framework</fork>). The version from FOP
           is slightly out-of-date.
         </li>
         <li>The barcode extension is tied to the follwing namespace:
@@ -68,7 +68,7 @@
       <p>
         FOP&#039;s page-number can be incorporated into barcode output.
         To incorporate the page-number into the barcode, insert
-        <code>#page-number#</code> in your barcode message. For example,
+        <code>#page-number#</code> into your barcode message. For example,
         to insert a page number between <code>12345-</code> and <code>-6789</code>
         do the following:
       </p>
@@ -113,7 +113,7 @@
       </p>
       <p>
         The normal FOP extension described above internally creates the barcode in SVG format.
-        The generated SVG image is then converted by Batik to the target format
+        The generated SVG image is then converted by <fork href="ext:batik">Batik</fork> to the target format
         (PDF, PostScript or whatever).
       </p>
     </section>
@@ -121,7 +121,7 @@
       <title>The special FOP extension (for experienced developers only)</title>
       <note>This extension is only available through CVS. It is not included in the distribution.</note>
       <p>
-        Barcode4J contains another FOP extension. This extension is
+        <strong>Barcode4J</strong> contains another FOP extension. This extension is
         <strong>experimental, unsupported</strong> and won't run in the current 0.20.5 release of FOP.
         What distiguishes this special extension from the standard one is the ability to
         generate the barcode directly in the same format as the renderer in use (only PDF and
@@ -136,12 +136,11 @@
       </p>
       <p>
         If you like to use this extension, please send a mail
-        to barcode4j-users oder barcode4j-developers, so I can send you the necessary code changes
-        against FOP 0.20.5 to make it run. Help with finishing the extension is welcome. Please
-        understand that I won't help an unexperienced user to make this work just because it's
-        a cool feature. This thing is purely experimental. In the unlikely case that there will be
-        a FOP version 0.20.6 before a 1.0 I will make sure that this extension is released. FOP
-        1.0 will also contain this functionality but the code isn't written, yet.
+        to <link href="http://sourceforge.net/mail/?group_id=96670">barcode4j-users</link> or <link href="http://sourceforge.net/mail/?group_id=96670">barcode4j-developers</link>, so we can send you the modified <code>fop.jar</code> to make it run. Help with finishing the extension is welcome. Please
+        understand that we won't help an unexperienced users make this work just because it's
+        a cool feature. This is purely experimental. In the unlikely case that there will be
+        a FOP version 0.20.6 before a 1.0 release we will make sure this extension is released. FOP
+        1.0 will also contain this functionality but the code hasn't been written, yet.
       </p>
     </section>
   </body>

@@ -35,9 +35,9 @@
       </p>
       <p>Required libraries are:</p>
       <ul>
-        <li>barcode4j.jar (from the build directory)</li>
-        <li>avalon-framework-4.1.5.jar (<fork href="ext:avalon">Apache Avalon Framework</fork>, from the lib directory)</li>
-        <li>commons-cli-1.0.jar (<fork href="ext:commons-cli">Apache Jakarta Commons CLI</fork>, from the lib directory)</li>
+        <li><code>barcode4j.jar</code> (from the <code>build/</code> directory)</li>
+        <li><code>avalon-framework-4.1.5.jar</code> (<fork href="ext:avalon">Apache Avalon Framework</fork>, from the <code>lib/</code> directory)</li>
+        <li><code>commons-cli-1.0.jar</code> (<fork href="ext:commons-cli">Apache Jakarta Commons CLI</fork>, from the <code>lib/</code> directory)</li>
       </ul>
       <p>An example:</p>
       <source><![CDATA[

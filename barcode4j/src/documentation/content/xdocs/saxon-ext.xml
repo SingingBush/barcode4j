@@ -23,7 +23,7 @@
       </p>
       <p>To make to barcode extension available in your XSLT stylesheets, do the following:</p>
       <ul>
-        <li>Add barcode4j.jar to the classpath.</li>
+        <li>Add <code>barcode4j.jar</code> to the classpath.</li>
         <li>Add the following namespace declaration to the root element of your XSLT stylesheet: 
           <strong><code>
 xmlns:barcode="http://barcode4j.krysalis.org/org.krysalis.barcode4j.saxon.BarcodeExtensionElementFactory"</code></strong>

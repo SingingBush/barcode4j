@@ -78,6 +78,7 @@ See http://xml.apache.org/forrest/linking.html for more info
         <webapp href="your-project.html#webapp"/>
       </forrest>
       <fop href="fop/"/>
+      <batik href="batik/"/>
       <cocoon href="cocoon/"/>
       <xalan href="xalan-j/"/>
     </xml.apache.org>
@@ -85,6 +86,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     <jakarta.apache.org href="http://jakarta.apache.org/">
       <commons-cli href="commons/cli"/>
     </jakarta.apache.org>
+    <java href="http://java.sun.com/"/>
     <avalon href="http://avalon.apache.org/"/>
     <w3.org href="http://www.w3.org/">
       <xsl-fo href="TR/xsl/"/>
