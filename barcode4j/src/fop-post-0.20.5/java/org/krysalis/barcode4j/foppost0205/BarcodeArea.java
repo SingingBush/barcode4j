@@ -1,8 +1,8 @@
 /*
- * $Id: BarcodeArea.java,v 1.1 2003-12-13 20:23:42 jmaerki Exp $
+ * $Id: BarcodeArea.java,v 1.2 2004-06-27 14:48:52 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
- * Copyright (c) 2003 Nicola Ken Barozzi.  All rights reserved.
+ * Copyright (c) 2003-2004 Nicola Ken Barozzi.  All rights reserved.
  *
  * This Licence is compatible with the BSD licence as described and
  * approved by http://www.opensource.org/, and is based on the
@@ -92,28 +92,19 @@ public class BarcodeArea extends org.krysalis.barcode4j.fop0205.BarcodeArea {
      * @param renderer the Renderer to use
      */
     public void render(Renderer renderer) {
-        if (renderer instanceof PSRenderer) {
+        if ("svg".equalsIgnoreCase(getRenderMode())) {
+            //MessageHandler.logln("Rendering Barcode using SVG/Batik");
+            super.render(renderer);
+        } else if (renderer instanceof PSRenderer) {
             PSRenderer psr = (PSRenderer)renderer;
-            if ("svg".equalsIgnoreCase(getRenderMode())) {
-                //MessageHandler.logln("Rendering Barcode to PS using SVG/Batik");
-                renderPostScriptBarcodeUsingSVG(psr);
-            } else {
-                //MessageHandler.logln("Rendering Barcode to PS using EPS");
-                renderPostScriptBarcodeEPS(psr);
-            }
+            //MessageHandler.logln("Rendering Barcode to PS using EPS");
+            renderPostScriptBarcodeEPS(psr);
         } else if (renderer instanceof PDFRenderer) {
             PDFRenderer pdfr = (PDFRenderer)renderer;
-            if ("svg".equalsIgnoreCase(getRenderMode())) {
-                //MessageHandler.logln("Rendering Barcode to PDF using SVG/Batik");
-                renderPDFBarcodeUsingSVG(pdfr);
-            } else {
-                //MessageHandler.logln("Rendering Barcode to PDF natively");
-                renderPDFBarcodeNative(pdfr);
-            }
+            //MessageHandler.logln("Rendering Barcode to PDF natively");
+            renderPDFBarcodeNative(pdfr);
         } else {
-            MessageHandler.errorln(
-                "Cannot render barcode. Unsupported renderer: " 
-                    + renderer.getClass().getName());
+            super.render(renderer);
         }
     }
     

@@ -57,6 +57,9 @@
   <changes>
     <!-- Add new releases here -->
     <release version="1.0" date="soon">
+      <action dev="jmaerki" type="fix" context="code" due-to="Bruno Marçal Dias" due-to-email="bruno-m-dias.at.telecom.pt">
+        Fixed FOP extension to work with the AWT renderer.
+      </action>
       <action dev="jmaerki" type="fix" context="code" fixes-bug="942246">
         Bug 942246: Fixed a bug in the default Code 128 encoder for FNC1 commands in codeset C.
       </action>

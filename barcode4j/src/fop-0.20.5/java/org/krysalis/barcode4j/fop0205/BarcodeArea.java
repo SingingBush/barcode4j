@@ -1,8 +1,8 @@
 /*
- * $Id: BarcodeArea.java,v 1.1 2003-12-13 20:23:43 jmaerki Exp $
+ * $Id: BarcodeArea.java,v 1.2 2004-06-27 14:48:52 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
- * Copyright (c) 2003 Nicola Ken Barozzi.  All rights reserved.
+ * Copyright (c) 2003-2004 Nicola Ken Barozzi.  All rights reserved.
  *
  * This Licence is compatible with the BSD licence as described and
  * approved by http://www.opensource.org/, and is based on the
@@ -62,8 +62,6 @@ import org.apache.fop.layout.Area;
 import org.apache.fop.layout.FontState;
 import org.apache.fop.messaging.MessageHandler;
 import org.apache.fop.render.Renderer;
-import org.apache.fop.render.pdf.PDFRenderer;
-import org.apache.fop.render.ps.PSRenderer;
 import org.apache.fop.svg.SVGArea;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
@@ -127,17 +125,7 @@ public class BarcodeArea extends Area {
      * @param renderer the Renderer to use
      */
     public void render(Renderer renderer) {
-        if (renderer instanceof PSRenderer) {
-            PSRenderer psr = (PSRenderer)renderer;
-            renderPostScriptBarcodeUsingSVG(psr);
-        } else if (renderer instanceof PDFRenderer) {
-            PDFRenderer pdfr = (PDFRenderer)renderer;
-            renderPDFBarcodeUsingSVG(pdfr);
-        } else {
-            MessageHandler.errorln(
-                "Cannot render barcode. Unsupported renderer: " 
-                    + renderer.getClass().getName());
-        }
+        renderBarcodeUsingSVG(renderer);
     }
     
     protected SVGArea createSVGArea() throws BarcodeCanvasSetupException {
@@ -150,19 +138,9 @@ public class BarcodeArea extends Area {
         return svgarea;
     }
     
-    protected void renderPostScriptBarcodeUsingSVG(PSRenderer psr) {
+    protected void renderBarcodeUsingSVG(Renderer renderer) {
         try {
-            psr.renderSVGArea(createSVGArea());
-        } catch (BarcodeCanvasSetupException bcse) {
-            MessageHandler.errorln(
-                "Couldn't render barcode due to BarcodeCanvasSetupException: " 
-                    + bcse.getMessage());
-        }
-    }
-
-    protected void renderPDFBarcodeUsingSVG(PDFRenderer pdfr) {
-        try {
-            pdfr.renderSVGArea(createSVGArea());
+            renderer.renderSVGArea(createSVGArea());
         } catch (BarcodeCanvasSetupException bcse) {
             MessageHandler.errorln(
                 "Couldn't render barcode due to BarcodeCanvasSetupException: " 
