@@ -1,8 +1,8 @@
 /*
- * $Id: Code128LogicImpl.java,v 1.1 2003-12-13 20:23:42 jmaerki Exp $
+ * $Id: Code128LogicImpl.java,v 1.2 2004-04-28 19:28:36 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
- * Copyright (c) 2002-2003 Nicola Ken Barozzi.  All rights reserved.
+ * Copyright (c) 2002-2004 Nicola Ken Barozzi.  All rights reserved.
  *
  * This Licence is compatible with the BSD licence as described and
  * approved by http://www.opensource.org/, and is based on the
@@ -220,10 +220,16 @@ public class Code128LogicImpl {
     /**
      * Determines whether a character is a digit or a function 1 command.
      * @param ch the character to check
+     * @param second true if checking the character for the second position in
+     *   a duo.
      * @return true if the above condition is met
      */
-    public static boolean canBeInCodeSetC(char ch) {
-        return (ch >= '0' && ch <= '9') || (ch == FNC_1);
+    public static boolean canBeInCodeSetC(char ch, boolean second) {
+        if (second) {
+            return (ch >= '0' && ch <= '9');
+        } else {
+            return (ch >= '0' && ch <= '9') || (ch == FNC_1);
+        }
     }
     
     /**
