@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<project default="all" basedir=".">
+  <import file="${basedir}/build.xml"/>
+  
+  <!-- FORREST_HOME must be set as an environment variable -->
+  <property environment="env"/>
+  <property name="forrest.home" value="${env.FORREST_HOME}"/>
+  <import file="${env.FORREST_HOME}/forrest.build.xml"/>
+  
+  <!-- =================================================================== -->
+  <!-- Website                                                             -->
+  <!-- =================================================================== -->
+  <target name="website" depends="package, javadocs, site" description="Creates the whole Barcode4J website in one run">
+    <mkdir dir="${build.dir}/site"/>
+    <mkdir dir="${build.dir}/site/javadocs"/>
+    <copy todir="${build.dir}/site/javadocs">
+      <fileset dir="${docs.dir}">
+        <include name="*"/>
+      </fileset>
+    </copy>
+    <subant target="all">
+      <dirset dir="${basedir}" includes="examples/demo-applet"/> 
+    </subant>
+    <copy todir="${build.dir}/site">
+      <fileset dir="${basedir}/examples/demo-applet/build">
+        <include name="barcode4j-demo-applet.jar"/>
+      </fileset>
+    </copy>
+    <copy todir="${build.dir}/site">
+      <fileset dir="${build.dir}">
+        <include name="barcode4j-light.jar"/>
+      </fileset>
+    </copy>
+    <tar destfile="${build.dir}/barcode4j-site.tar.gz" basedir="${build.dir}/site" compression="gzip"/>
+  </target>
+  <target name="ssh-test" description="With this target you can verify if the SSH connection works">
+    <sshexec host="shell.sourceforge.net" trust="yes" username="${ssh.uid}" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" command="echo 'Hello World'"/>
+  </target>
+  <target name="deploy-site" description="Deploys the website to SourceForge"><!-- depends="website"-->
+    <scp file="${build.dir}/barcode4j-site.tar.gz" todir="${ssh.uid}@shell.sourceforge.net:/home/groups/b/ba/barcode4j/htdocs" trust="yes" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" verbose="true"/>
+    <sshexec host="shell.sourceforge.net" trust="yes" username="${ssh.uid}" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" 
+        command="cd /home/groups/b/ba/barcode4j/htdocs;gunzip barcode4j-site.tar.gz;tar xUvf barcode4j-site.tar;chgrp -R barcode4j *;chmod -R g+rwX *;rm barcode4j-site.tar"/>
+  </target>
+  <!-- =================================================================== -->
+  <!-- Distribution                                                        -->
+  <!-- =================================================================== -->
+  <target name="dist-clean">
+    <delete dir="${dist.dir}"/>
+  </target>
+  <target name="dist" depends="dist-clean, package, webapp, website" description="Creates the distribution files">
+    <echo message="Creating the distribution"/>
+    <property name="rel-name" value="${name}-${version}"/>
+    <mkdir dir="${dist.dir}/work/bin/${rel-name}/docs"/>
+    <mkdir dir="${dist.dir}/work/src/${rel-name}"/>
+    <!-- Copy site (without javasrc) -->
+    <copy todir="${dist.dir}/work/bin/${rel-name}/docs">
+      <fileset dir="${build.dir}/site">
+        <!--exclude name="javasrc/**"/-->
+      </fileset>
+    </copy>
+    <copy todir="${dist.dir}/work/bin/${rel-name}">
+      <fileset dir="${basedir}/">
+        <include name="build/*.jar"/>
+        <include name="build/*.war"/>
+        <include name="README*"/>
+        <include name="WARNING*"/>
+        <include name="NOTICE*"/>
+        <include name="barcode.bat"/>
+        <include name="barcode.cfg"/>
+        <include name="examples/**"/>
+        <include name="lib/*.jar"/>
+        <include name="legal/**"/>
+        <exclude name="build/*fop-ext-post-0.20.5*"/>
+        <exclude name="lib/saxon*"/>
+        <exclude name="**/junit*"/>
+        <exclude name="examples/**/build/**"/>
+        <exclude name="examples/xsl-fo/*.bat"/>
+        <exclude name="**/out/**"/>
+      </fileset>
+    </copy>
+    <copy todir="${dist.dir}/work/src/${rel-name}">
+      <fileset dir="${basedir}/">
+        <include name="README*"/>
+        <include name="WARNING*"/>
+        <include name="NOTICE*"/>
+        <include name="status.xml"/>
+        <include name="forrest.properties"/>
+        <include name="properties.xml"/>
+        <include name="barcode.bat"/>
+        <include name="barcode.cfg"/>
+        <include name="build.xml"/>
+        <include name="build.properties"/>
+        <include name="examples/**"/>
+        <include name="lib/*.jar"/>
+        <include name="legal/**"/>
+        <include name="src/**"/>
+        <exclude name="**/build/**"/>
+        <exclude name="**/out/**"/>
+        <exclude name="lib/saxon*"/>
+        <exclude name="src/fop-post-0.20.5/**"/>
+        <exclude name="src/sandbox/**"/>
+        <exclude name="examples/xsl-fo/*.bat"/>
+        <exclude name="build-local.properties"/>
+        <exclude name="*gump*.xml"/>
+      </fileset>
+    </copy>
+    <zip destfile="${dist.dir}/${rel-name}-bin.zip">
+      <fileset dir="${dist.dir}/work/bin"/>
+    </zip>
+    <tar destfile="${dist.dir}/${rel-name}-bin.tar.gz" compression="gzip">
+      <tarfileset dir="${dist.dir}/work/bin"/>
+    </tar>
+    <zip destfile="${dist.dir}/${rel-name}-src.zip">
+      <fileset dir="${dist.dir}/work/src"/>
+    </zip>
+    <tar destfile="${dist.dir}/${rel-name}-src.tar.gz" compression="gzip">
+      <tarfileset dir="${dist.dir}/work/src"/>
+    </tar>
+  </target>
+</project>
