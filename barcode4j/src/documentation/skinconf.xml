@@ -87,7 +87,7 @@ which will be used to configure the chosen Forrest skin.
   <host-logo>http://sourceforge.net/sflogo.php?&amp;group_id=36516&amp;type=1</host-logo>
 
   <!-- relative url of a favicon file, normally favicon.ico -->
-  <favicon-url></favicon-url>
+  <favicon-url>favicon.ico</favicon-url>
 
   <!-- The following are used to construct a copyright statement -->
   <year>2003-2004</year>
