@@ -56,14 +56,6 @@
 			</note>
     </section>
     <section>
-      <title>Java2D (AWT)</title>
-      <p>
-        The Java2D implementation can be used to embed <strong>Barcode4J</strong>
-        in a Java application (such as a report engine, for example). It is also used
-        to paint barcodes on bitmap images.
-      </p>
-    </section>
-    <section>
       <title>Bitmap formats (PNG, TIFF, JPEG etc.)</title>
       <p>
         Bitmap formats are supported through the Java2D output support. What bitmap formats
@@ -97,6 +89,14 @@
         compression format and contrast will suffer and thus degrading the 
         readability of the generated barcode. 
       </note>
+    </section>
+    <section>
+      <title>Java2D (AWT)</title>
+      <p>
+        The Java2D implementation can be used to embed <strong>Barcode4J</strong>
+        in a Java application (such as a report engine, for example). It is also used
+        to paint barcodes on bitmap images.
+      </p>
     </section>
   </body>
 </document>
