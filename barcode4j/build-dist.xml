@@ -14,9 +14,7 @@
     <mkdir dir="${build.dir}/site"/>
     <mkdir dir="${build.dir}/site/javadocs"/>
     <copy todir="${build.dir}/site/javadocs">
-      <fileset dir="${docs.dir}">
-        <include name="*"/>
-      </fileset>
+      <fileset dir="${docs.dir}"/>
     </copy>
     <subant target="all">
       <dirset dir="${basedir}" includes="examples/demo-applet"/> 
