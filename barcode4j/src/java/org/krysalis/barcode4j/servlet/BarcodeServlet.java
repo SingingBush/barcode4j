@@ -42,7 +42,7 @@ import org.krysalis.barcode4j.tools.MimeTypes;
  * Simple barcode servlet.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeServlet.java,v 1.3 2004-10-02 14:53:23 jmaerki Exp $
+ * @version $Id: BarcodeServlet.java,v 1.4 2004-10-31 13:53:38 jmaerki Exp $
  */
 public class BarcodeServlet extends HttpServlet {
 
@@ -165,6 +165,7 @@ public class BarcodeServlet extends HttpServlet {
      * Build an Avalon Configuration object from the request.
      * @param request the request to use
      * @return the newly built COnfiguration object
+     * @todo Change to bean API
      */
     protected Configuration buildCfg(HttpServletRequest request) {
         DefaultConfiguration cfg = new DefaultConfiguration("barcode");

@@ -28,7 +28,7 @@ import org.krysalis.barcode4j.tools.Length;
  * Base class for most Avalon-Configurable barcode implementation proxies.
  * 
  * @author Jeremias Maerki
- * @version $Id: ConfigurableBarcodeGenerator.java,v 1.2 2004-10-24 11:45:37 jmaerki Exp $
+ * @version $Id: ConfigurableBarcodeGenerator.java,v 1.3 2004-10-31 13:53:39 jmaerki Exp $
  */
 public abstract class ConfigurableBarcodeGenerator 
             implements BarcodeGenerator, Configurable {
@@ -62,7 +62,6 @@ public abstract class ConfigurableBarcodeGenerator
             Length fs = new Length(hr.getChild("font-size").getValue("8pt"));
             getBean().setFontSize(fs.getValueAsMillimeter());
 
-            //TODO this does not seem to work
             getBean().setFontName(hr.getChild("font-name").getValue("Helvetica"));
         } else {
             //Legacy code for compatibility
