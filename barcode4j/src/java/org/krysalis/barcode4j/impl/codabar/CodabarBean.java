@@ -27,16 +27,24 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Codabar barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: CodabarBean.java,v 1.2 2004-09-12 18:02:02 jmaerki Exp $
+ * @version $Id: CodabarBean.java,v 1.3 2004-09-24 07:21:45 jmaerki Exp $
  */
 public class CodabarBean extends AbstractBarcodeBean {
 
+    /** The default module width for Codabar. */
+    protected static final double DEFAULT_MODULE_WIDTH = 0.21f; //mm
+    
     /** The default wide factor for Codabar. */
     protected static final double DEFAULT_WIDE_FACTOR = 3.0;
 
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
     private double wideFactor = DEFAULT_WIDE_FACTOR; //Width of binary one
 
+    /** Create a new instance. */
+    public CodabarBean() {
+        this.moduleWidth = DEFAULT_MODULE_WIDTH;
+    }
+    
     /**
      * Returns the current checksum mode.
      * @return ChecksumMode the checksum mode

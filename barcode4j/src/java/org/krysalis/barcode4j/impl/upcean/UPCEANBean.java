@@ -26,12 +26,21 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This is an abstract base class for UPC and EAN barcodes.
  * 
  * @author Jeremias Maerki
- * @version $Id: UPCEANBean.java,v 1.1 2004-09-12 17:57:52 jmaerki Exp $
+ * @version $Id: UPCEANBean.java,v 1.2 2004-09-24 07:21:45 jmaerki Exp $
  */
 public abstract class UPCEANBean extends AbstractBarcodeBean {
 
+    /** The default module width for UPC and EAN. */
+    protected static final double DEFAULT_MODULE_WIDTH = 0.33f; //mm
+    
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
 
+    /** Create a new instance. */
+    public UPCEANBean() {
+        super();
+        this.moduleWidth = DEFAULT_MODULE_WIDTH;
+    }
+    
     /**
      * Sets the checksum mode
      * @param mode the checksum mode

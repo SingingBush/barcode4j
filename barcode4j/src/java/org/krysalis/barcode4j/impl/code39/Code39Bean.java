@@ -27,17 +27,26 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Code39 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code39Bean.java,v 1.2 2004-09-12 18:02:03 jmaerki Exp $
+ * @version $Id: Code39Bean.java,v 1.3 2004-09-24 07:21:46 jmaerki Exp $
  */
 public class Code39Bean extends AbstractBarcodeBean {
+
+    /** The default module width for Code 39. */
+    protected static final double DEFAULT_MODULE_WIDTH = 0.19f; //mm
 
     /** The default wide factor for Code 39 */
     protected static final double DEFAULT_WIDE_FACTOR = 2.5;
 
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
-    private double intercharGapWidth = moduleWidth;
+    private double intercharGapWidth;
     private double wideFactor = DEFAULT_WIDE_FACTOR; //Width of binary one
 
+    /** Create a new instance. */
+    public Code39Bean() {
+        this.moduleWidth = DEFAULT_MODULE_WIDTH;
+        this.intercharGapWidth = this.moduleWidth;
+    }
+    
     /**
      * Sets the checksum mode
      * @param mode the checksum mode

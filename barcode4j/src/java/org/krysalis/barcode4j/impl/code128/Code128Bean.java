@@ -27,10 +27,18 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Code 128 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code128Bean.java,v 1.2 2004-09-12 18:02:02 jmaerki Exp $
+ * @version $Id: Code128Bean.java,v 1.3 2004-09-24 07:21:44 jmaerki Exp $
  */
 public class Code128Bean extends AbstractBarcodeBean {
 
+    /** The default module width for Code 128. */
+    protected static final double DEFAULT_MODULE_WIDTH = 0.21f; //mm
+
+    /** Create a new instance. */
+    public Code128Bean() {
+        this.moduleWidth = DEFAULT_MODULE_WIDTH;
+    }
+    
     /**
      * @see org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator#getBarWidth(int)
      */
