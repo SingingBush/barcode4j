@@ -57,6 +57,9 @@
   <changes>
     <!-- Add new releases here -->
     <release version="1.0" date="soon">
+      <action dev="jmaerki" type="add" context="code">
+        Added an XSLT extension for SAXON 8.x.
+      </action>
       <action dev="jmaerki" type="fix" context="code" due-to="Bruno Marçal Dias" due-to-email="bruno-m-dias.at.telecom.pt">
         Fixed FOP extension to work with the AWT renderer.
       </action>
