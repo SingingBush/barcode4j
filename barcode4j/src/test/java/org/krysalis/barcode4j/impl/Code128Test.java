@@ -1,5 +1,5 @@
 /*
- * $Id: Code128Test.java,v 1.1 2003-12-13 20:23:42 jmaerki Exp $
+ * $Id: Code128Test.java,v 1.2 2004-04-27 19:49:43 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
  * Copyright (c) 2002-2003 Nicola Ken Barozzi.  All rights reserved.
@@ -106,6 +106,12 @@ public class Code128Test extends TestCase {
         //System.out.println(expected);
         //System.out.println(sb.toString());
         assertEquals(expected, sb.toString());
+    }
+
+    public void testBug942246() throws Exception {
+        Code128LogicImpl logic = new Code128LogicImpl();
+        logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "\u00f1020456789012341837100\u00f13101000200");
+        //expect no failure
     }
 
 }
