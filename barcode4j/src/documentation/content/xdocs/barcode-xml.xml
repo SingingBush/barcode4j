@@ -106,7 +106,7 @@
             <li>top: Short and long lines are aligned at the top.</li>
           </ul>
         </li>
-        <li id="font-name">{font-name}: As the name says, a font name used in outputting <code>&#60;human-readable-font/&#62;</code>. Note that not all fonts are available for all output formats.</li>
+        <li id="font-name">{font-name}: As the name says, a font name used in outputting <code>&#60;font-name/&#62;</code>. Note that not all fonts are available for all output formats.</li>
       </ul>
       <p>
         Datatypes below are often given in the format "{<link href="#length">length</link>:15mm}". The value after the datatype indicates 
@@ -135,9 +135,13 @@
     &#60;interchar-gap-width&#62;<link href="#length">1mw</link>&#60;/interchar-gap-width&#62;
     &#60;quiet-zone enabled="<link href="#boolean">true</link>"&#62;<link href="#length">10mw</link>&#60;/quiet-zone&#62;
     &#60;checksum&#62;<link href="#checksum-mode">auto</link>&#60;/checksum&#62;
-    &#60;human-readable&#62;<link href="#human-readable-placement">bottom</link>&#60;/human-readable&#62;
-    &#60;human-readable-font&#62;<link href="#font-name">Helvetica</link>&#60;/human-readable-font&#62;
-    &#60;human-readable-size&#62;<link href="#length">8pt</link>&#60;/human-readable-size&#62;
+    &#60;human-readable&#62;
+      &#60;placement&#62;<link href="#human-readable-placement">bottom</link>&#60;/placement&#62;
+      &#60;font-name&#62;<link href="#font-name">Helvetica</link>&#60;/font-name&#62;
+      &#60;font-size&#62;<link href="#length">8pt</link>&#60;/font-size&#62;
+      &#60;display-start-stop&#62;<link href="#boolean">false</link>&#60;/display-start-stop&#62;
+      &#60;display-checksum&#62;<link href="#boolean">false</link>&#60;/display-checksum&#62;
+    &#60;/human-readable&#62;
   &#60;/<link href="#Code39">code39</link>&#62;
 &#60;/barcode&#62;</source>
     </section>
@@ -151,9 +155,12 @@
       &#60;wide-factor&#62;{<link href="#number">number</link>:3.0}&#60;/wide-factor&#62;
       &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
       &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=ignore}&#60;/checksum&#62;
-      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
-      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
-      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+      &#60;human-readable&#62;
+        &#60;placement&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
+        &#60;font-name&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
+        &#60;font-size&#62;{<link href="#length">length</link>:8pt}&#60;/font-size&#62;
+        &#60;display-checksum&#62;{<link href="#boolean">boolean</link>:false}&#60;/display-checksum&#62;
+      &#60;/human-readable&#62;
   &#60;/<link href="#Interleaved2of5">intl2of5</link>&#62;
 &#60;/barcode&#62;</source>
       <section>
@@ -170,6 +177,7 @@
             the ratio must exceed 2.2.
           </li>
           <li>Quiet zones must be at least 10 times the module width or at least 0.25 inches.</li>
+          <li>display-checksum controls whether the calculated checksum should be included in the human-readable part.</li>
         </ul>
       </section>
       <section>
@@ -191,9 +199,13 @@
       &#60;interchar-gap-width&#62;{<link href="#length">length</link>:1mw}&#60;/interchar-gap-width&#62;
       &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
       &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=ignore}&#60;/checksum&#62;
-      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
-      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
-      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+      &#60;human-readable&#62;
+        &#60;placement&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
+        &#60;font-name&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
+        &#60;font-size&#62;{<link href="#length">length</link>:8pt}&#60;/font-size&#62;
+        &#60;display-start-stop&#62;{<link href="#boolean">boolean</link>:false}&#60;/display-start-stop&#62;
+        &#60;display-checksum&#62;{<link href="#boolean">boolean</link>:false}&#60;/display-checksum&#62;
+      &#60;/human-readable&#62;
   &#60;/<link href="#Code39">code39</link>&#62;
 &#60;/barcode&#62;</source>
       <section>
@@ -221,12 +233,19 @@
         <title>Message format</title>
         <ul>
           <li>Valid characters are 0-9, A-Z and the characters: - . $ / + % SPACE</li>
-          <li>
-						The character '*' is only used as start and stop character and may not be used 
-						in the message. The '*' character is automatically added before and after the
-						message.
-					</li>
           <li>The implementation currently doesn't support the extended character set.</li>
+          <li>
+            The character '*' is only used as start and stop character and may not be used 
+            in the message. The '*' character is automatically added before and after the
+            message even though you may not see it in the human-readable part. (See also
+            "display-start-stop" and "display-checksum" values)
+          </li>
+          <li>
+            display-start-stop controls whether the start and stop characters should be included 
+            in the human-readable part. Setting display-start-stop to true, automatically sets 
+            display-checksum to true, too.
+          </li>
+          <li>display-checksum controls whether the calculated checksum should be included in the human-readable part.</li>
         </ul>
       </section>
     </section>
@@ -240,9 +259,11 @@
       &#60;module-width&#62;{<link href="#length">length</link>:0.21mm}&#60;/module-width&#62;
       &#60;wide-factor&#62;{<link href="#number">number</link>:3.0}&#60;/wide-factor&#62;
       &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
-      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
-      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
-      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+      &#60;human-readable&#62;
+        &#60;placement&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
+        &#60;font-name&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
+        &#60;font-size&#62;{<link href="#length">length</link>:8pt}&#60;/font-size&#62;
+      &#60;/human-readable&#62;
   &#60;/<link href="#Codabar">codabar</link>&#62;
 &#60;/barcode&#62;</source>
       <section>
@@ -268,9 +289,11 @@
       &#60;height&#62;{<link href="#length">length</link>:15mm}&#60;/height&#62;
       &#60;module-width&#62;{<link href="#length">length</link>:0.21mm}&#60;/module-width&#62;
       &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
-      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
-      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
-      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+      &#60;human-readable&#62;
+        &#60;placement&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
+        &#60;font-name&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
+        &#60;font-size&#62;{<link href="#length">length</link>:8pt}&#60;/font-size&#62;
+      &#60;/human-readable&#62;
   &#60;/<link href="#Code128">code128</link>&#62;
 &#60;/barcode&#62;</source>
       <section>
@@ -299,9 +322,11 @@
       &#60;module-width&#62;{<link href="#length">length</link>:0.33mm}&#60;/module-width&#62;
       &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
       &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=add|check}&#60;/checksum&#62;
-      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
-      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
-      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+      &#60;human-readable&#62;
+        &#60;placement&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
+        &#60;font-name&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
+        &#60;font-size&#62;{<link href="#length">length</link>:8pt}&#60;/font-size&#62;
+      &#60;/human-readable&#62;
   &#60;/<link href="#UPC-A">upc-a</link>&#62;
 &#60;/barcode&#62;</source>
       <section>
@@ -330,9 +355,11 @@
       &#60;module-width&#62;{<link href="#length">length</link>:0.33mm}&#60;/module-width&#62;
       &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
       &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=add|check}&#60;/checksum&#62;
-      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
-      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
-      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+      &#60;human-readable&#62;
+        &#60;placement&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
+        &#60;font-name&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
+        &#60;font-size&#62;{<link href="#length">length</link>:8pt}&#60;/font-size&#62;
+      &#60;/human-readable&#62;
   &#60;/<link href="#UPC-E">upc-e</link>&#62;
 &#60;/barcode&#62;</source>
       <section>
@@ -366,9 +393,11 @@
       &#60;module-width&#62;{<link href="#length">length</link>:0.33mm}&#60;/module-width&#62;
       &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
       &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=add|check}&#60;/checksum&#62;
-      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
-      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
-      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+      &#60;human-readable&#62;
+        &#60;placement&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
+        &#60;font-name&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
+        &#60;font-size&#62;{<link href="#length">length</link>:8pt}&#60;/font-size&#62;
+      &#60;/human-readable&#62;
   &#60;/<link href="#EAN-13">ean-13</link>&#62;
 &#60;/barcode&#62;</source>
       <section>
@@ -397,9 +426,11 @@
       &#60;module-width&#62;{<link href="#length">length</link>:0.33mm}&#60;/module-width&#62;
       &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
       &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=add|check}&#60;/checksum&#62;
-      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
-      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
-      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+      &#60;human-readable&#62;
+        &#60;placement&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
+        &#60;font-name&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
+        &#60;font-size&#62;{<link href="#length">length</link>:8pt}&#60;/font-size&#62;
+      &#60;/human-readable&#62;
   &#60;/<link href="#EAN-8">ean-8</link>&#62;
 &#60;/barcode&#62;</source>
       <section>
@@ -428,19 +459,23 @@
       &#60;module-width&#62;{<link href="#length">length</link>:0.02in}&#60;/module-width&#62;
       &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
       &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=ignore}&#60;/checksum&#62;
-      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:none}&#60;/human-readable&#62;
-      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
-      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
       &#60;interchar-gap-width&#62;{<link href="#length">length</link>:0.026in}&#60;/interchar-gap-width&#62;
       &#60;tall-bar-height&#62;{<link href="#length">length</link>:0.125in}&#60;/tall-bar-height&#62;
       &#60;short-bar-height&#62;{<link href="#length">length</link>:0.050in}&#60;/short-bar-height&#62;
       &#60;baseline-alignment&#62;{<link href="#baseline-alignment">baseline-alignment</link>:bottom}&#60;/baseline-alignment&#62;
+      &#60;human-readable&#62;
+        &#60;placement&#62;{<link href="#human-readable-placement">human-readable-placement</link>:none}&#60;/placement&#62;
+        &#60;font-name&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
+        &#60;font-size&#62;{<link href="#length">length</link>:8pt}&#60;/font-size&#62;
+        &#60;display-checksum&#62;{<link href="#boolean">boolean</link>:false}&#60;/display-checksum&#62;
+      &#60;/human-readable&#62;
   &#60;/<link href="#POSTNET">postnet</link>&#62;
 &#60;/barcode&#62;</source>
       <section>
         <title>Message format</title>
         <ul>
           <li>Valid characters are 0-9</li>
+          <li>display-checksum controls whether the calculated checksum should be included in the human-readable part.</li>
         </ul>
       </section>
     </section>
