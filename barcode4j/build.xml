@@ -34,6 +34,11 @@
   <property name="jdom.dir" value="${src.dir}/jdom"/>
   <property name="checkstyle.home" value=""/>
   
+  <!-- FORREST_HOME must be set as an environment variable -->
+  <property environment="env"/>
+  <property name="forrest.home" value="${env.FORREST_HOME}"/>
+  <import file="${env.FORREST_HOME}/forrest.build.xml"/>
+
   <!-- jars -->
   <path id="project.classpath">
     <fileset dir="${lib.dir}">
@@ -484,6 +489,41 @@
   <!-- =================================================================== -->
   <target name="clean" depends="init" description="Cleans and deletes the build directory">
     <delete dir="${build.dir}"/>
+    <ant dir="${basedir}/examples/demo-applet" target="clean"/>
+  </target>
+  <!-- =================================================================== -->
+  <!-- Website                                                             -->
+  <!-- =================================================================== -->
+  <target name="website" depends="package, javadocs, site" description="Creates the whole Barcode4J website in one run">
+    <mkdir dir="${build.dir}/site"/>
+    <mkdir dir="${build.dir}/site/javadocs"/>
+    <copy todir="${build.dir}/site/javadocs">
+      <fileset dir="${docs.dir}">
+        <include name="*"/>
+      </fileset>
+    </copy>
+    <subant target="all">
+      <dirset dir="${basedir}" includes="examples/demo-applet"/> 
+    </subant>
+    <copy todir="${build.dir}/site">
+      <fileset dir="${basedir}/examples/demo-applet/build">
+        <include name="barcode4j-demo-applet.jar"/>
+      </fileset>
+    </copy>
+    <copy todir="${build.dir}/site">
+      <fileset dir="${build.dir}">
+        <include name="barcode4j-light.jar"/>
+      </fileset>
+    </copy>
+    <tar destfile="${build.dir}/barcode4j-site.tar.gz" basedir="${build.dir}/site" compression="gzip"/>
+  </target>
+  <target name="ssh-test" description="With this target you can verify if the SSH connection works">
+    <sshexec host="shell.sourceforge.net" trust="yes" username="${ssh.uid}" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" command="echo 'Hello World'"/>
+  </target>
+  <target name="deploy-site" description="Deploys the website to SourceForge"><!-- depends="website"-->
+    <scp file="${build.dir}/barcode4j-site.tar.gz" todir="${ssh.uid}@shell.sourceforge.net:/home/groups/b/ba/barcode4j/htdocs" trust="yes" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" verbose="true"/>
+    <sshexec host="shell.sourceforge.net" trust="yes" username="${ssh.uid}" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" 
+        command="cd /home/groups/b/ba/barcode4j/htdocs;gunzip barcode4j-site.tar.gz;tar xUvf barcode4j-site.tar;chgrp -R barcode4j *;chmod -R g+rwX *;rm barcode4j-site.tar"/>
   </target>
   <!-- =================================================================== -->
   <!-- Distribution                                                        -->
