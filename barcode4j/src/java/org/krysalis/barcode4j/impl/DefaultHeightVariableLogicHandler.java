@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.output.Canvas;
  * for painting on a Canvas.
  * 
  * @author Chris Dolphy
- * @version $Id: DefaultHeightVariableLogicHandler.java,v 1.3 2004-09-12 17:57:51 jmaerki Exp $
+ * @version $Id: DefaultHeightVariableLogicHandler.java,v 1.4 2004-10-02 15:33:25 jmaerki Exp $
  */
 public class DefaultHeightVariableLogicHandler 
             implements ClassicBarcodeLogicHandler {
@@ -69,7 +69,7 @@ public class DefaultHeightVariableLogicHandler
     }
 
     /**
-     * @see org.krysalis.barcode4j.HeightVariableLogicHandler#addBar(boolean, int)
+     * @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler#addBar(boolean, int)
      */
     public void addBar(boolean black, int height) {
         final double w = black ? bcBean.getBarWidth(1) : bcBean.getBarWidth(-1);
@@ -110,13 +110,13 @@ public class DefaultHeightVariableLogicHandler
     }
 
     /**
-     * @see org.krysalis.barcode4j.HeightVariableLogicHandler#startBarGroup(BarGroup, String)
+     * @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler#startBarGroup(BarGroup, String)
      */
     public void startBarGroup(BarGroup barGroup, String string) {
     }
 
     /**
-     * @see org.krysalis.barcode4j.HeightVariableLogicHandler#endBarGroup()
+     * @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler#endBarGroup()
      */
     public void endBarGroup() {
     }

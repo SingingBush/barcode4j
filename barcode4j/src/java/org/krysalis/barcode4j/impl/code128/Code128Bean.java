@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Code 128 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code128Bean.java,v 1.3 2004-09-24 07:21:44 jmaerki Exp $
+ * @version $Id: Code128Bean.java,v 1.4 2004-10-02 15:33:25 jmaerki Exp $
  */
 public class Code128Bean extends AbstractBarcodeBean {
 
@@ -40,7 +40,7 @@ public class Code128Bean extends AbstractBarcodeBean {
     }
     
     /**
-     * @see org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator#getBarWidth(int)
+     * @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarWidth(int)
      */
     public double getBarWidth(int width) {
         if ((width >= 1) && (width <= 4)) {
