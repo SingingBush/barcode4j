@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" font-family="sans-serif" font-size="10pt">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="simpleA4" page-height="29.7cm" page-width="21cm" margin-top="2cm" margin-bottom="1cm" margin-left="2cm" margin-right="2cm">
+      <fo:region-body margin-bottom="1.1cm"/>
+      <fo:region-after extent="1cm"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-reference="simpleA4" language="de_CH">
+    <fo:static-content flow-name="xsl-region-after">
+      <fo:block text-align="center" font-style="italic">This PDF was generated using Barcode4J&#160;(<fo:basic-link external-destination="url(http://barcode4j.krysalis.org)">http://barcode4j.krysalis.org</fo:basic-link>) and Apache&#160;FOP&#160;(<fo:basic-link external-destination="url(http://xml.apache.org/fop)">http://xml.apache.org/fop</fo:basic-link>)</fo:block>
+    </fo:static-content>
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block font-weight="bold" font-size="16pt" space-after="5mm">FOP extension example</fo:block>
+      <fo:block>This document demonstrates the FOP extension for Barcode4J.</fo:block>
+      <fo:block>Some simple examples:</fo:block>
+      <fo:block space-before="3mm">
+        <fo:table table-layout="fixed">
+          <fo:table-column column-width="8.5cm"/>
+          <fo:table-column column-width="8.5cm"/>
+          <fo:table-header>
+            <fo:table-row background-color="blue" color="white">
+              <fo:table-cell padding-top="1mm" padding-bottom="1mm">
+                <fo:block>render-mode: default</fo:block>
+                <fo:block font-style="italic" font-size="8pt">For FOP 0.20.5 this defaults to "svg".</fo:block>
+                <fo:block font-style="italic" font-size="8pt">For FOP post-0.20.5 this defaults to "native".</fo:block>
+              </fo:table-cell>
+              <fo:table-cell padding-top="1mm" padding-bottom="1mm">
+                <fo:block>render-mode: svg</fo:block>
+              </fo:table-cell>
+            </fo:table-row>
+          </fo:table-header>
+          <fo:table-body>
+            <fo:table-row height="5mm"/>
+            <fo:table-row>
+              <fo:table-cell>
+                <fo:block>
+                  <fo:instream-foreign-object>
+                    <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="1234">
+                      <bc:postnet/>
+                    </bc:barcode>
+                  </fo:instream-foreign-object>
+                </fo:block>
+              </fo:table-cell>
+              <fo:table-cell>
+                <fo:block>
+                  <fo:instream-foreign-object>
+                    <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="1234" render-mode="svg">
+                      <bc:postnet/>
+                    </bc:barcode>
+                  </fo:instream-foreign-object>
+                </fo:block>
+              </fo:table-cell>
+            </fo:table-row>
+            <fo:table-row height="5mm"/>
+            <fo:table-row>
+              <fo:table-cell>
+                <fo:block>
+                  <fo:instream-foreign-object>
+                    <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="603716A64622">
+                      <bc:code39>
+                        <bc:human-readable>top</bc:human-readable>
+                      </bc:code39>
+                    </bc:barcode>
+                  </fo:instream-foreign-object>
+                </fo:block>
+              </fo:table-cell>
+              <fo:table-cell>
+                <fo:block>
+                  <fo:instream-foreign-object>
+                    <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="603716A64622" render-mode="svg">
+                      <bc:code39>
+                        <bc:human-readable>top</bc:human-readable>
+                      </bc:code39>
+                    </bc:barcode>
+                  </fo:instream-foreign-object>
+                </fo:block>
+              </fo:table-cell>
+            </fo:table-row>
+            <fo:table-row height="5mm"/>
+            <fo:table-row>
+              <fo:table-cell>
+                <fo:block>
+                  <fo:instream-foreign-object>
+                    <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="4194586705506+07">
+                      <bc:ean-13>
+                        <bc:human-readable>top</bc:human-readable>
+                      </bc:ean-13>
+                    </bc:barcode>
+                  </fo:instream-foreign-object>
+                </fo:block>
+              </fo:table-cell>
+              <fo:table-cell>
+                <fo:block>
+                  <fo:instream-foreign-object>
+                    <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="4194586705506+07" render-mode="svg">
+                      <bc:ean-13>
+                        <bc:human-readable>top</bc:human-readable>
+                      </bc:ean-13>
+                    </bc:barcode>
+                  </fo:instream-foreign-object>
+                </fo:block>
+              </fo:table-cell>
+            </fo:table-row>
+          </fo:table-body>
+        </fo:table>
+      </fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

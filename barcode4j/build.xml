@@ -1,0 +1,516 @@
+<?xml version="1.0"?>
+<project default="all" basedir=".">
+  <property file="build-local.properties"/>
+  <property name="Name" value="Barcode4J Library"/>
+  <property name="name" value="barcode4j"/>
+  <property name="version" value="1.0beta"/>
+  <property name="year" value="2000-2003"/>
+  <property name="build.compiler" value="classic"/>
+  <property name="debug" value="on"/>
+  <property name="optimize" value="off"/>
+  <property name="deprecation" value="on"/>
+  <property name="src.dir" value="${basedir}/src"/>
+  <property name="src.java.dir" value="${src.dir}/java"/>
+  <property name="src.java14.dir" value="${src.dir}/java-1.4"/>
+  <property name="src.test.java.dir" value="${src.dir}/test/java"/>
+  <property name="src.conf.dir" value="${src.dir}/conf"/>
+  <property name="src.test" value="${basedir}/src/test"/>
+  <property name="lib.dir" value="${basedir}/lib"/>
+  <property name="build.dir" value="${basedir}/build"/>
+  <property name="build.test" value="${build.dir}/test"/>
+  <property name="build.dest" value="${build.dir}/classes"/>
+  <property name="dist.dir" value="${basedir}/dist"/>
+  <property name="docs.dir" value="${build.dir}/javadocs"/>
+  <property name="fop-0.20.5.ext.dir" value="${src.dir}/fop-0.20.5"/>
+  <property name="fop-post-0.20.5.ext.dir" value="${src.dir}/fop-post-0.20.5"/>
+  <property name="src.fop-0.20.5.dir" value="${fop-0.20.5.ext.dir}/java"/>
+  <property name="src.fop-post-0.20.5.dir" value="${fop-post-0.20.5.ext.dir}/java"/>
+  <property name="build.dest.fop-0.20.5" value="${build.dir}/fop-0.20.5/classes"/>
+  <property name="build.dest.fop-post-0.20.5" value="${build.dir}/fop-post-0.20.5/classes"/>
+  <property name="xalan.dir" value="${src.dir}/xalan"/>
+  <property name="saxon.dir" value="${src.dir}/saxon"/>
+  <property name="jdom.dir" value="${src.dir}/jdom"/>
+  <property name="checkstyle.home" value=""/>
+  
+  <!-- jars -->
+  <path id="project.classpath">
+    <fileset dir="${lib.dir}">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <path id="test.classpath">
+    <pathelement location="${build.dest}"/>
+    <pathelement location="${build.test}/classes"/>
+    <path refid="project.classpath"/>
+  </path>
+
+  <path id="checkstylepath">
+    <fileset dir="${checkstyle.home}">
+      <include name="checkstyle-all-*.jar"/>
+    </fileset>
+  </path>
+
+  <!-- =================================================================== -->
+  <!-- Initialization target                                               -->
+  <!-- =================================================================== -->
+  <target name="init">
+    <tstamp/>
+    <echo message="------------------- ${Name} ${version} [${year}] ----------------"/>
+    <tstamp>
+      <format property="ts" pattern="yyyyMMdd-HHmmss-z"/>
+    </tstamp>
+    <available property="jdk14.present" classname="java.lang.CharSequence"/>
+    <available property="xalan.present" classname="org.apache.xalan.xslt.Process" classpathref="project.classpath"/>
+    <available property="saxon.present" classname="com.icl.saxon.TransformerFactoryImpl" classpathref="project.classpath"/>
+    <available property="jdom.present" classname="org.jdom.Document" classpathref="project.classpath"/>
+    <condition property="init.fop-0.20.5">
+      <isset property="fop-0.20.5.home"/>
+    </condition>
+    <available property="fop-post-0.20.5.src.present" file="${src.fop-post-0.20.5.dir}"/>
+    <condition property="init.fop-post-0.20.5">
+      <and>
+        <isset property="fop-post-0.20.5.home"/>
+        <istrue value="${fop-post-0.20.5.src.present}"/>
+      </and>
+    </condition>
+  </target>
+  <target name="init.fop-0.20.5" depends="init" if="init.fop-0.20.5">
+    <echo message="Home directory for Apache FOP 0.20.5 is set. Will try to compile FOP extension."/>
+    <property name="src.fop-0.20.5.dir" value="${fop-0.20.5.ext.dir}/java"/>
+    <path id="fop-0.20.5.classpath">
+      <path refid="project.classpath"/>
+      <fileset dir="${fop-0.20.5.home}/lib">
+        <include name="batik*.jar"/>
+      </fileset>
+      <fileset dir="${fop-0.20.5.home}/build">
+        <include name="fop*.jar"/>
+      </fileset>
+    </path>
+    <condition property="fop-0.20.5.present">
+      <and>
+        <available classname="org.apache.fop.apps.Driver" classpathref="fop-0.20.5.classpath"/>
+        <available classname="org.apache.batik.dom.svg.SVGDOMImplementation" classpathref="fop-0.20.5.classpath"/>
+      </and>
+    </condition>
+  </target>
+  <target name="info.xalan" depends="init" unless="xalan.present">
+    <echo message="===================================================================="/>
+    <echo message="You can enable compilation of the Xalan-J XSLT extension by adding"/>
+    <echo message="xalan.jar to the lib directory."/>
+    <echo message="===================================================================="/>
+  </target>
+  <target name="info.saxon" depends="init" unless="saxon.present">
+    <echo message="===================================================================="/>
+    <echo message="You can enable compilation of the SAXON XSLT extension by adding"/>
+    <echo message="saxon.jar to the lib directory."/>
+    <echo message="===================================================================="/>
+  </target>
+  <target name="info.jdom" depends="init" unless="jdom.present">
+    <echo message="===================================================================="/>
+    <echo message="You can enable compilation of the JDOM-related sources by adding"/>
+    <echo message="jdom.jar to the lib directory."/>
+    <echo message="===================================================================="/>
+  </target>
+  <target name="info.fop-0.20.5" depends="init" unless="init.fop-0.20.5">
+    <echo message="===================================================================="/>
+    <echo message="You can enable compilation of the FOP 0.20.5 barcode extension"/>
+    <echo message="by specifying the 'fop-0.20.5.home' value in build-local.properties."/>
+    <echo message="===================================================================="/>
+  </target>
+  <target name="init.fop-post-0.20.5" depends="init" if="init.fop-post-0.20.5">
+    <echo message="Home directory for Apache FOP (maintenance branch, post 0.20.5) is set. Will try to compile FOP extension."/>
+    <path id="fop-post-0.20.5.classpath">
+      <path refid="project.classpath"/>
+      <fileset dir="${fop-post-0.20.5.home}/lib">
+        <include name="batik*.jar"/>
+      </fileset>
+      <fileset dir="${fop-post-0.20.5.home}/build">
+        <include name="fop*.jar"/>
+      </fileset>
+    </path>
+    <condition property="fop-post-0.20.5.present">
+      <and>
+        <available classname="org.apache.fop.apps.Driver" classpathref="fop-post-0.20.5.classpath"/>
+        <available classname="org.apache.batik.dom.svg.SVGDOMImplementation" classpathref="fop-post-0.20.5.classpath"/>
+      </and>
+    </condition>
+  </target>
+  <!-- =================================================================== -->
+  <!-- Prepares the build directory                                        -->
+  <!-- =================================================================== -->
+  <target name="echo-jdk14" if="jdk14.present">
+    <echo message="JDK 1.4 present."/>
+  </target>
+  <target name="prepare" depends="init, init.fop-0.20.5, info.fop-0.20.5, init.fop-post-0.20.5, info.xalan, info.saxon, info.jdom">
+    <!-- create directories -->
+    <echo message="Preparing the build directories"/>
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.dest}"/>
+    <!-- echo options -->
+    <antcall target="echo-jdk14"/>
+  </target>
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory                                       -->
+  <!-- =================================================================== -->
+  <target name="compile-jdk13" depends="prepare">
+    <echo message="Compiling the core sources"/>
+    <javac srcdir="${src.java.dir}" destdir="${build.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath refid="project.classpath"/>
+    </javac>
+  </target>
+  <target name="compile-jdk14" depends="prepare" if="jdk14.present">
+    <echo message="Compiling the JDK-1.4-dependant sources"/>
+    <javac srcdir="${src.java14.dir}" destdir="${build.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath refid="project.classpath"/>
+    </javac>
+  </target>
+  <target name="compile-xalan" depends="compile-jdk13" if="xalan.present">
+    <echo message="Compiling the Apache Xalan-J extension"/>
+    <javac srcdir="${xalan.dir}/java" destdir="${build.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath refid="project.classpath"/>
+    </javac>
+  </target>
+  <target name="compile-saxon" depends="compile-jdk13" if="saxon.present">
+    <echo message="Compiling the SAXON extension"/>
+    <javac srcdir="${saxon.dir}/java" destdir="${build.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath refid="project.classpath"/>
+    </javac>
+  </target>
+  <target name="compile-jdom" depends="compile-jdk13" if="jdom.present">
+    <echo message="Compiling the JDOM-related classes"/>
+    <javac srcdir="${jdom.dir}/java" destdir="${build.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath refid="project.classpath"/>
+    </javac>
+  </target>
+  <target name="compile-fop-0.20.5" depends="compile-jdk13" if="fop-0.20.5.present">
+    <echo message="Compiling the Apache FOP 0.20.5 extension"/>
+    <mkdir dir="${build.dest.fop-0.20.5}"/>
+    <javac srcdir="${src.fop-0.20.5.dir}" destdir="${build.dest.fop-0.20.5}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath>
+        <path refid="fop-0.20.5.classpath"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </javac>
+  </target>
+  <target name="compile-fop-post-0.20.5" depends="compile-jdk13" if="fop-post-0.20.5.present">
+    <echo message="Compiling the Apache FOP (maintenance branch, post 0.20.5) extension"/>
+    <mkdir dir="${build.dest.fop-post-0.20.5}"/>
+    <!-- the post 0.20.5 extension is based on the 0.20.5 one. -->
+    <javac srcdir="${src.fop-0.20.5.dir}" destdir="${build.dest.fop-post-0.20.5}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath>
+        <path refid="fop-post-0.20.5.classpath"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </javac>
+    <javac srcdir="${src.fop-post-0.20.5.dir}" destdir="${build.dest.fop-post-0.20.5}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath>
+        <path refid="fop-post-0.20.5.classpath"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </javac>
+  </target>
+  <target name="compile" depends="compile-jdk13, compile-jdk14, compile-xalan, compile-saxon, compile-jdom, compile-fop-0.20.5, compile-fop-post-0.20.5" description="Compiles the sources"/>
+  <!-- =================================================================== -->
+  <!-- Creates Java docs                                                   -->
+  <!-- =================================================================== -->
+  <target name="javadocs" depends="prepare" description="Generates Javadocs">
+    <echo message="Creating java docs"/>
+    <mkdir dir="${docs.dir}"/>
+    <style in="${basedir}/module.xml"
+        out="${build.dir}/tmp/overview.html"
+        style="${src.dir}/documentation/resources/stylesheets/module2overview.xsl">
+    </style>
+    <javadoc destdir="${docs.dir}" packagenames="org.krysalis.*" 
+          version="true" author="true" use="true"
+          overview="${build.dir}/tmp/overview.html"
+          windowtitle="${name} ${version} API"
+          stylesheetfile="${src.dir}/documentation/resources/stylesheets/javadoc.css">
+      <classpath refid="project.classpath"/>
+      <fileset dir="${src.java.dir}" defaultexcludes="yes"/>
+      <fileset dir="${src.java14.dir}" defaultexcludes="yes"/>
+      <fileset dir="${xalan.dir}/java" defaultexcludes="yes"/>
+      <fileset dir="${saxon.dir}/java" defaultexcludes="yes"/>
+      <fileset dir="${jdom.dir}/java" defaultexcludes="yes"/>
+      <tag name="todo" scope="all" description="TODO:" />
+      <link href="http://avalon.apache.org/framework/api/"/>
+      <doctitle>${name} ${version} API</doctitle>
+      <bottom>&lt;i&gt;Copyright &#169; ${year} The Krysalis Community Project. All rights reserved.&lt;i&gt;</bottom>
+      <header><![CDATA[${name} ${version}]]></header>
+      <footer><![CDATA[${name} ${version}]]></footer>
+    </javadoc>
+  </target>
+  <!-- =================================================================== -->
+  <!-- Creates the class package                                           -->
+  <!-- =================================================================== -->
+  <target name="package-base" depends="compile">
+    <echo message="Creating the jar file ${build.dir}/${name}.jar"/>
+    
+    <pathconvert property="manifest-classpath" dirsep="/" pathsep=" " refid="project.classpath">
+      <map from="${basedir}${file.separator}lib${file.separator}" to=""/>
+      <map from="${basedir}${file.separator}build${file.separator}barcode4j.jar" to=""/>
+    </pathconvert>
+
+    <jar jarfile="${build.dir}/${name}.jar">
+      <manifest>
+        <attribute name="Main-Class" value="org.krysalis.barcode4j.cli.Main"/>
+        <attribute name="Class-Path" value="${manifest-classpath}"/>
+        <attribute name="Implementation-Title" value="${Name}"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
+        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
+      </manifest>
+      <fileset dir="${build.dest}">
+        <include name="org/krysalis/**"/>
+      </fileset>
+    </jar>
+  </target>
+  <target name="package-fop-0.20.5" depends="compile" if="fop-0.20.5.present">
+    <echo message="Creating the jar file ${build.dir}/${name}-fop-ext-0.20.5.jar"/>
+    <jar jarfile="${build.dir}/${name}-fop-ext-0.20.5.jar">
+      <manifest>
+        <attribute name="Implementation-Title" value="${Name}"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
+        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
+      </manifest>
+      <metainf dir="${fop-0.20.5.ext.dir}/resources">
+        <include name="**"/>
+      </metainf>
+      <fileset dir="${build.dest.fop-0.20.5}">
+        <include name="org/krysalis/**"/>
+      </fileset>
+    </jar>
+    <jar jarfile="${build.dir}/${name}-fop-ext-0.20.5-complete.jar">
+      <manifest>
+        <attribute name="Main-Class" value="org.krysalis.barcode4j.cli.Main"/>
+        <attribute name="Class-Path" value="${manifest-classpath}"/>
+        <attribute name="Implementation-Title" value="${Name}"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
+        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
+      </manifest>
+      <metainf dir="${fop-0.20.5.ext.dir}/resources">
+        <include name="**"/>
+      </metainf>
+      <fileset dir="${build.dest.fop-0.20.5}">
+        <include name="org/krysalis/**"/>
+      </fileset>
+      <fileset dir="${build.dest}">
+        <include name="org/krysalis/**"/>
+      </fileset>
+    </jar>
+  </target>
+  <target name="package-fop-post-0.20.5" depends="compile" if="fop-post-0.20.5.present">
+    <echo message="Creating the jar file ${build.dir}/${name}-fop-ext-post-0.20.5.jar"/>
+    <jar jarfile="${build.dir}/${name}-fop-ext-post-0.20.5.jar">
+      <manifest>
+        <attribute name="Implementation-Title" value="${Name}"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
+        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
+      </manifest>
+      <metainf dir="${fop-post-0.20.5.ext.dir}/resources">
+        <include name="**"/>
+      </metainf>
+      <fileset dir="${build.dest.fop-post-0.20.5}">
+        <include name="org/krysalis/**"/>
+      </fileset>
+    </jar>
+    <jar jarfile="${build.dir}/${name}-fop-ext-post-0.20.5-complete.jar">
+      <manifest>
+        <attribute name="Main-Class" value="org.krysalis.barcode4j.cli.Main"/>
+        <attribute name="Class-Path" value="${manifest-classpath}"/>
+        <attribute name="Implementation-Title" value="${Name}"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
+        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
+      </manifest>
+      <metainf dir="${fop-post-0.20.5.ext.dir}/resources">
+        <include name="**"/>
+      </metainf>
+      <fileset dir="${build.dest.fop-post-0.20.5}">
+        <include name="org/krysalis/**"/>
+      </fileset>
+      <fileset dir="${build.dest}">
+        <include name="org/krysalis/**"/>
+      </fileset>
+    </jar>
+  </target>
+  <target name="package" depends="package-base, package-fop-0.20.5, package-fop-post-0.20.5" description="Creates the Barcode JAR package(s)"/>
+  <!-- =================================================================== -->
+  <!-- Sample web application                                             -->
+  <!-- =================================================================== -->
+  <target name="webapp" depends="package" description="Creates the sample webapp found in the example/webapp directory">
+    <echo message="Creating the WAR file ${build.dir}/${name}.war"/>
+    <property name="webapp.dir" value="examples/webapp"/>
+    <property name="build.webapp.dest" value="${build.dir}/webapp/classes"/>
+    <mkdir dir="${build.webapp.dest}"/>
+    <path id="webapp.classpath">
+      <fileset dir="${build.dir}">
+        <include name="${name}.jar"/>
+      </fileset>
+      <path refid="project.classpath"/>
+    </path>
+    <javac srcdir="${webapp.dir}/java" destdir="${build.webapp.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath refid="webapp.classpath"/>
+    </javac>
+    <war warfile="${build.dir}/${name}.war" webxml="${webapp.dir}/conf/web.xml">
+      <lib dir="${lib.dir}">
+        <include name="avalon-framework*.jar"/>
+      </lib>
+      <lib dir="${build.dir}">
+        <include name="${name}.jar"/>
+      </lib>
+      <classes dir="${build.webapp.dest}"/>
+      <fileset dir="${webapp.dir}/html"/>
+      <webinf dir="${webapp.dir}/xml">
+        <include name="*.xslt"/>
+      </webinf>
+    </war>
+  </target>
+  <!-- =================================================================== -->
+  <!-- Tests                                                               -->
+  <!-- =================================================================== -->
+  <target name="test-init" depends="compile">
+    <mkdir dir="${build.test}/classes"/>
+  </target>
+  <target name="test-compile-core" depends="test-init">
+    <javac srcdir="${src.test.java.dir}" destdir="${build.test}/classes" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath refid="test.classpath"/>
+    </javac>
+  </target>
+  <target name="test-compile-xalan" depends="test-init" if="xalan.present">
+    <javac srcdir="${xalan.dir}/test/java" destdir="${build.test}/classes" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath refid="test.classpath"/>
+    </javac>
+  </target>
+  <target name="test-compile-saxon" depends="test-init" if="saxon.present">
+    <javac srcdir="${saxon.dir}/test/java" destdir="${build.test}/classes" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath refid="test.classpath"/>
+    </javac>
+  </target>
+  <target name="test-compile-jdom" depends="test-init" if="jdom.present">
+    <javac srcdir="${jdom.dir}/test/java" destdir="${build.test}/classes" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath refid="test.classpath"/>
+    </javac>
+  </target>
+  <target name="test-compile" depends="test-compile-core, test-compile-xalan, test-compile-saxon, test-compile-jdom"/>
+  <target name="test" depends="test-compile">
+    <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
+    <junit printsummary="yes" haltonfailure="yes" fork="yes">
+      <formatter type="brief" usefile="false"/> 
+      <classpath refid="test.classpath"/>
+      <batchtest todir="${build.test}">
+        <fileset dir="${build.test}/classes">
+          <include name="**/*Test.class" />
+          <include name="**/*TestCase.class" />          
+          <exclude name="**/Abstract*.class" />          
+        </fileset>
+      </batchtest>
+    </junit>  
+  </target>
+  <!-- =================================================================== -->
+  <!-- Default target                                                      -->
+  <!-- =================================================================== -->
+  <target name="all" depends="test, package, webapp"/>
+  <!-- =================================================================== -->
+  <!-- Clean targets                                                       -->
+  <!-- =================================================================== -->
+  <target name="clean" depends="init" description="Cleans and deletes the build directory">
+    <delete dir="${build.dir}"/>
+  </target>
+  <!-- =================================================================== -->
+  <!-- Distribution                                                        -->
+  <!-- =================================================================== -->
+  <target name="dist-clean">
+    <delete dir="${dist.dir}"/>
+  </target>
+  <target name="dist" depends="dist-clean, package, webapp" description="Creates the distribution files">
+    <echo message="Creating the distribution"/>
+    <property name="rel-name" value="${name}-${version}"/>
+    <mkdir dir="${dist.dir}/work/bin/${rel-name}/docs"/>
+    <mkdir dir="${dist.dir}/work/src/${rel-name}"/>
+    <!-- Copy site (without javasrc) -->
+    <copy todir="${dist.dir}/work/bin/${rel-name}/docs">
+      <fileset dir="${build.dir}/site">
+        <include name="*"/>
+        <include name="images/**"/>
+        <include name="javadocs/**"/>
+        <include name="resources/**"/>
+        <include name="skin/**"/>
+      </fileset>
+    </copy>
+    <copy todir="${dist.dir}/work/bin/${rel-name}">
+      <fileset dir="${build.dir}">
+        <include name="*.jar"/>
+        <include name="*.war"/>
+        <exclude name="{$name}-fop-ext-post-0.20.5*"/>
+      </fileset>
+      <fileset dir="${basedir}/">
+        <include name="README*"/>
+        <include name="WARNING*"/>
+        <include name="barcode.bat"/>
+        <include name="examples/**"/>
+        <include name="lib/**"/>
+        <exclude name="**/junit*"/>
+        <include name="legal/**"/>
+      </fileset>
+    </copy>
+    <copy todir="${dist.dir}/work/src/${rel-name}">
+      <fileset dir="${basedir}/">
+        <include name="README*"/>
+        <include name="WARNING*"/>
+        <include name="barcode.bat"/>
+        <include name="*.xml"/>
+        <include name="checkstyle*"/>
+        <include name="examples/**"/>
+        <include name="lib/**"/>
+        <include name="legal/**"/>
+        <include name="src/**"/>
+        <exclude name="src/fop-post-0.20.5/**"/>
+        <exclude name="src/sandbox/**"/>
+        <exclude name="checkstyle-noframes.xsl"/>
+        <exclude name="build-local.properties"/>
+        <exclude name="*gump*.xml"/>
+      </fileset>
+    </copy>
+    <zip destfile="${dist.dir}/${rel-name}-bin.zip">
+      <fileset dir="${dist.dir}/work/bin"/>
+    </zip>
+    <tar destfile="${dist.dir}/${rel-name}-bin.tar.gz" compression="gzip">
+      <tarfileset dir="${dist.dir}/work/bin"/>
+    </tar>
+    <zip destfile="${dist.dir}/${rel-name}-src.zip">
+      <fileset dir="${dist.dir}/work/src"/>
+    </zip>
+    <tar destfile="${dist.dir}/${rel-name}-src.tar.gz" compression="gzip">
+      <tarfileset dir="${dist.dir}/work/src"/>
+    </tar>
+  </target>
+  <!-- =================================================================== -->
+  <!-- Checkstyle                                                          -->
+  <!-- =================================================================== -->
+  <target name="checkstyle" depends="prepare" description="Runs Checkstyle for a code quality report">
+    <fail message="Please make sure you've set the checkstyle.home property in your build-local.properties file. You can get Checkstyle from http://checkstyle.sourceforge.net" unless="checkstyle.home"/>
+    <available property="checkstyle.available" classname="com.puppycrawl.tools.checkstyle.CheckStyleTask" classpathref="checkstylepath"/>
+    <fail message="Please make sure you've set the checkstyle.home property in your build-local.properties file. You can get Checkstyle from http://checkstyle.sourceforge.net" unless="checkstyle.available"/>
+    <taskdef name="checkstyle" classname="com.puppycrawl.tools.checkstyle.CheckStyleTask" classpathref="checkstylepath"/>
+
+    <checkstyle config="checkstyle.cfg" failonviolation="false">
+      <fileset dir="${src.java.dir}" includes="**/*.java"/>
+      <formatter type="plain" toFile="${build.dir}/checkstyle_report.txt"/>
+      <formatter type="xml" toFile="${build.dir}/checkstyle_report.xml"/>
+    </checkstyle>
+    <available property="checkstyle.stylesheet.available" file="checkstyle-noframes.xsl"/>
+    <antcall target="checkstyle-html"/>
+  </target>
+
+  <target name="checkstyle-html" if="checkstyle.stylesheet.available">
+    <style in="${build.dir}/checkstyle_report.xml" out="${build.dir}/checkstyle_report.html" style="checkstyle-noframes.xsl"/>
+  </target>
+  <!-- =================================================================== -->
+  <!-- Gump                                                                -->
+  <!-- =================================================================== -->
+  <target name="gump" depends="test, package, webapp, javadocs"/>
+</project>

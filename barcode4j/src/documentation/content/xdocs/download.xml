@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Download Barcode4J</title>
+    <authors>
+      <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+      <title>Releases</title>
+      <table>
+        <caption>Current version numbers</caption>
+        <tr>
+          <th>Type</th>
+          <th>Version</th>
+          <th>Release date</th>
+        </tr>
+        <tr>
+          <td>Latest release</td>
+          <td>0.9 (as Krysalis Barcode)</td>
+          <td>2003-05-08</td>
+        </tr>
+        <tr>
+          <td>Latest beta release</td>
+          <td>1.0 beta (as Krysalis Barcode)</td>
+          <td>2003-10-31</td>
+        </tr>
+      </table>
+      <p>
+        Releases can be downloaded from the
+        <fork href="ext:project-files">Barcode4J project's files page</fork>.
+      </p>
+      <p>
+        Old releases (before the name changed from Krysalis Barcode to Barcode4J) 
+        can be downloaded from the
+        <fork href="ext:krysalis-project-files">Krysalis project's files page</fork>.
+      </p>
+      <note>A new beta release (under the new name) can be expected real soon now.</note>
+    </section>
+    <section>
+      <title>Latest code</title>
+      <p>
+        The latest code is available through <link href="viewcvs.html">CVS</link>.
+      </p>
+      <p>
+        Since public CVS access can be problematic at SourceForge, we provide 
+        <link href="ext:tarballs">daily CVS snapshots</link> containing the latest code.
+        This allows you to download the latest (unreleased) code without having to setup
+        CVS access.
+      </p>
+    </section>
+  </body>
+</document>

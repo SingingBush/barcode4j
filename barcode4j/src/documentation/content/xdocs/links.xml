@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Links</title>
+    <authors>
+      <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+      <title>Introduction</title>
+      <p>
+        This page contains useful links to sites related to Barcode4J or barcodes in general.
+      </p>
+      <p>
+        Please report dead links if you encounter any on this page. Thanks!
+      </p>
+    </section>
+    <section>
+      <title>Information about barcodes</title>
+      <ul>
+        <li><fork href="http://www.adams1.com/pub/russadam/barcode1.html">Barcode 1 by Russ Adams</fork></li>
+        <li><fork href="http://www.taltech.com/TALtech_web/resources/intro_to_bc/bcsymbol.htm">Introduction into barcoding by TALtech</fork></li>
+        <li><fork href="http://www.barcodeisland.com">Barcode Island</fork></li>
+        <li><fork href="http://www.iso.org/iso/en/CatalogueListPage.CatalogueList?ICS1=1&amp;ICS2=80&amp;ICS3=50">Barcode standards at ISO</fork></li>
+      </ul>
+    </section>
+    <section>
+      <title>Other Open Source barcode libraries</title>
+      <ul>
+        <li><fork href="http://barbecue.sourceforge.net/">Barbecue</fork></li>
+      </ul>
+    </section>
+  </body>
+</document>

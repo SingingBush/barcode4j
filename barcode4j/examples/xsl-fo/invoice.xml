@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<invoice lang="en">
+	<header>
+		<client salutation="Mr.">
+			<id>843759</id>
+			<name>Smith</name>
+			<firstname>John</firstname>
+			<postal>
+				<street>Business Road 2</street>
+				<zip countrycode="DE">23046</zip>
+				<place>Hannover</place>
+			</postal>
+		</client>
+		<invoicenr>6465-8896</invoicenr>
+		<invoicedate>2001-02-09</invoicedate>
+		<due>2001-03-31</due>
+		<currency>USD</currency>
+	</header>
+	<details>
+	  <position amount="22.95">Mousepad "Fancy"</position>
+	  <position amount="13277.00">GeekyScreen TFT Display 36"</position>
+	</details>
+</invoice>

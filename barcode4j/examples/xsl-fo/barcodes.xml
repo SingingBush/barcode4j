@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<barcodes>
+  <section title="Examples of all supported symbologies">
+    <barcode>
+      <description>Hello World! as Code 128</description>
+      <msg>Hello World!</msg>
+      <code128/>
+    </barcode>
+    <barcode>
+      <description>Interleaved 2 of 5</description>
+      <msg>0123456789</msg>
+      <intl2of5/>
+    </barcode>
+    <barcode>
+      <description>Code 39</description>
+      <msg>0123456789</msg>
+      <code39/>
+    </barcode>
+    <barcode>
+      <description>Code 128</description>
+      <msg>0123456789</msg>
+      <code128/>
+    </barcode>
+    <barcode>
+      <description>Codabar</description>
+      <msg>0123456789</msg>
+      <codabar/>
+    </barcode>
+    <barcode>
+      <description>UPC-A</description>
+      <msg>00123456789</msg>
+      <upc-a/>
+    </barcode>
+    <barcode>
+      <description>UPC-E</description>
+      <msg>0123413</msg>
+      <upc-e/>
+    </barcode>
+    <barcode>
+      <description>EAN-13 (with supplemental)</description>
+      <msg>200123456789+12</msg>
+      <ean-13/>
+    </barcode>
+    <barcode>
+      <description>EAN-8</description>
+      <msg>2012345</msg>
+      <ean-8/>
+    </barcode>
+    <barcode>
+      <description>Postnet</description>
+      <msg>0123456789</msg>
+      <postnet/>
+    </barcode>
+  </section>
+  <section title="Real-life examples">
+    <barcode>
+      <description>The serial number of my USB 2.0 hub. (Code 128)</description>
+      <msg>O5-2C0272AD0126</msg>
+      <code128/>
+    </barcode>
+    <barcode>
+      <description>A book: Code Complete by Steve McConnell, ISBN&#160;1-55615-484-4 (EAN-13)</description>
+      <msg>978155615484</msg>
+      <ean13/>
+    </barcode>
+    <barcode>
+      <description>The german "Java Magazin" issue 4.03 (EAN-13 with supplemental)</description>
+      <msg>4194586705506+04</msg>
+      <ean13/>
+    </barcode>
+    <barcode>
+      <description>Nutella chocolate spread (EAN-8)</description>
+      <msg>80135463</msg>
+      <ean8/>
+    </barcode>
+    <barcode>
+      <description>Swiss Post: PostPac Priority marker (Code 128)</description>
+      <msg>0509</msg>
+      <code128>
+        <module-width>0.5mm</module-width>
+        <height>8mm</height>
+        <human-readable>none</human-readable>
+      </code128>
+    </barcode>
+  </section>
+  <section title="Feature demonstrations">
+    <barcode>
+      <description>EAN-13 (default)</description>
+      <msg>200123456789</msg>
+      <ean-13/>
+    </barcode>
+    <barcode>
+      <description>EAN-13 (human-readable message on top)</description>
+      <msg>200123456789</msg>
+      <ean-13>
+        <human-readable>top</human-readable>
+      </ean-13>
+    </barcode>
+    <barcode>
+      <description>EAN-13 (no human-readable message)</description>
+      <msg>200123456789</msg>
+      <ean-13>
+        <human-readable>none</human-readable>
+      </ean-13>
+    </barcode>
+    <barcode>
+      <description>EAN-13 (height to 5mm)</description>
+      <msg>200123456789</msg>
+      <ean-13>
+        <height>5mm</height>
+      </ean-13>
+    </barcode>
+    <barcode>
+      <description>EAN-13 (without quiet zone)</description>
+      <msg>200123456789</msg>
+      <ean-13>
+        <quiet-zone enabled="false"/>
+      </ean-13>
+    </barcode>
+    <barcode>
+      <description>EAN-13 (with a bigger quiet zone)</description>
+      <msg>200123456789</msg>
+      <ean-13>
+        <quiet-zone>1cm</quiet-zone>
+      </ean-13>
+    </barcode>
+    <barcode>
+      <description>Code 39 (default)</description>
+      <msg>0123456789</msg>
+      <code39/>
+    </barcode>
+    <barcode>
+      <description>Code 39 (with a wide factor of 4)</description>
+      <msg>0123456789</msg>
+      <code39>
+        <wide-factor>4</wide-factor>
+      </code39>
+    </barcode>
+    <barcode>
+      <description>Code 39 (with a module-width of 0.4mm)</description>
+      <msg>0123456789</msg>
+      <code39>
+        <module-width>0.4mm</module-width>
+      </code39>
+    </barcode>
+    <barcode>
+      <description>Code 39 (with an interchar-gap-width of 8mw [8 times a module width])</description>
+      <msg>0123456789</msg>
+      <code39>
+        <interchar-gap-width>8mw</interchar-gap-width>
+      </code39>
+    </barcode>
+    <barcode>
+      <description>Interleaved 2 of 5 (default)</description>
+      <msg>0123456789</msg>
+      <intl2of5/>
+    </barcode>
+    <barcode>
+      <description>Interleaved 2 of 5 (checksum mode: add)</description>
+      <msg>0123456789</msg>
+      <intl2of5>
+        <checksum>add</checksum>
+      </intl2of5>
+    </barcode>
+    <barcode>
+      <description>UPC-E (default)</description>
+      <msg>0425261</msg>
+      <upc-e/>
+    </barcode>
+    <barcode>
+      <description>UPC-E (the same as above but using a UPC-A message: 04210000526)</description>
+      <msg>04210000526</msg>
+      <upc-e/>
+    </barcode>
+    <barcode>
+      <description>UPC-E (with 2-character supplemental. Message: 04210000526+34)</description>
+      <msg>04210000526+34</msg>
+      <upc-e/>
+    </barcode>
+    <barcode>
+      <description>UPC-E (with 5-character supplemental. Message: 04210000526+56789)</description>
+      <msg>04210000526+56789</msg>
+      <upc-e/>
+    </barcode>
+    <barcode>
+      <description>Postnet (default)</description>
+      <msg>80122-2014-01</msg>
+      <postnet/>
+    </barcode>
+    <barcode>
+      <description>Postnet (baseline-alignment set to "top")</description>
+      <msg>80122-2014-01</msg>
+      <postnet>
+        <baseline-alignment>top</baseline-alignment>
+      </postnet>
+    </barcode>
+    <barcode>
+      <description>Postnet (playing with module-width, interchar-gap-width, tall-bar-height, short-bar-height and human-readable)</description>
+      <msg>80122-2014-01</msg>
+      <postnet>
+        <baseline-alignment>top</baseline-alignment>
+        <module-width>0.2mm</module-width>
+        <interchar-gap-width>1mm</interchar-gap-width>
+        <tall-bar-height>6mm</tall-bar-height>
+        <short-bar-height>3mm</short-bar-height>
+        <human-readable>top</human-readable>
+      </postnet>
+    </barcode>
+  </section>
+  <section title="Character set demonstration">
+    <barcode>
+      <description>Interleaved 2 of 5: 0-9</description>
+      <msg>0123456789</msg>
+      <intl2of5/>
+    </barcode>
+    <barcode>
+      <description>Code 39: 0-9, [space] and "-.$/+%"</description>
+      <msg>0123456789 -.$/+%</msg>
+      <code39/>
+    </barcode>
+    <barcode>
+      <description>Code 39: A-Z</description>
+      <msg>ABCDEFGHIJKLMNOPQRSTUVWXYZ</msg>
+      <code39/>
+    </barcode>
+    <barcode>
+      <description>Code 128: 0-9</description>
+      <msg>0123456789</msg>
+      <code128/>
+    </barcode>
+    <barcode>
+      <description>Code 128: A-Z</description>
+      <msg>ABCDEFGHIJKLMNOPQRSTUVWXYZ</msg>
+      <code128/>
+    </barcode>
+    <barcode>
+      <description>Code 128: a-z</description>
+      <msg>abcdefghijklmnopqrstuvwxyz</msg>
+      <code128/>
+    </barcode>
+    <barcode>
+      <description>Codabar: 0-9 and "+-/$.:"</description>
+      <msg>0123456789+-/$.:</msg>
+      <codabar/>
+    </barcode>
+    <barcode>
+      <description>UPC-A: 0-9 (11 characters, checksum will be calculated)</description>
+      <msg>00123456789</msg>
+      <upc-a/>
+    </barcode>
+    <barcode>
+      <description>EAN-13: 0-9 (12 characters, checksum will be calculated)</description>
+      <msg>200123456789</msg>
+      <ean-13/>
+    </barcode>
+    <barcode>
+      <description>Postnet (dash is a valid character but won't be painted)</description>
+      <msg>01234-56789</msg>
+      <postnet>
+        <human-readable>bottom</human-readable>
+      </postnet>
+    </barcode>
+  </section>
+</barcodes>

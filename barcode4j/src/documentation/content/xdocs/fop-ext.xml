@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Instructions for the FOP extension</title>
+    <authors>
+      <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+      <title>Introduction</title>
+      <p>
+        This page describes how to generate barcodes within an XSL-FO document with that is 
+        processed with <fork href="ext:fop">Apache FOP</fork>.
+      </p>
+    </section>
+    <section>
+      <title>Using the barcode extension for Apache FOP</title>
+      <p>This package contains an extension for <jump href="ext:fop">Apache FOP</jump> for 
+        generating barcodes.
+      </p>
+      <p>To setup the barcode extension, do the following:</p>
+      <ul>
+        <li>Make sure you have FOP version 0.20.5 or later.</li>
+        <li>
+          Add barcode4j.jar and barcode4j-fop-ext-0.20.5.jar to the 
+          classpath. (Alternatively, you can use the combined JAR: 
+          barcode4j-fop-ext-0.20.5-complete.jar which contains both 
+          Barcode4J and the FOP extension.)</li>
+        <li>
+          <strong>Important:</strong> When you use FOP 0.20.5 together with
+          Barcode4J, make sure you use the version of Avalon Framework that comes with 
+          Barcode4J (or the latest release of 
+          <fork href="ext:avalon">Avalon Framework</fork>). The one from FOP 
+          is slightly out-of-date.
+        </li>
+        <li>The barcode extension is tied to the follwing namespace: 
+          <strong><code>http://barcode4j.krysalis.org/ns</code></strong>
+        </li>
+      </ul>
+      <p>
+        To create a barcode the <link href="barcode-xml.html">Barcode XML</link> can be used within fo:instream-foreign-object elements.
+      </p>
+      <p>Here's an example (XSL-FO snippet):</p>
+      <source><![CDATA[
+<fo:block>
+  <fo:instream-foreign-object>
+    <barcode:barcode xmlns:barcode="http://barcode4j.krysalis.org/ns" 
+          message="my message">
+      <barcode:code128>
+        <barcode:height>8mm</barcode:height>
+      </barcode:code128>
+    </barcode:barcode>
+  </fo:instream-foreign-object>
+</fo:block>]]>
+      </source>
+      <warning>
+        Due to a mistake in 1.0beta the above is incorrect. Please use <strong>"msg"</strong>
+        instead of "message" for the message attribute above. This will be 
+        fixed in the final version.
+      </warning>
+    </section>
+    <section>
+      <title>Some technical background</title>
+      <p>
+        If you wonder how the FOP extension is found by FOP just by adding it to the classpath 
+        and by using the right namespace, open the extension JAR in a ZIP Viewer and look at 
+        the file in the directory META-INF\services\. FOP will look for this file at startup
+        and will recognize the ElementMapping class.
+      </p>
+      <p>
+        The normal FOP extension described above internally creates the barcode in SVG format.
+        The generated SVG image is then converted by Batik to the target format 
+        (PDF, PostScript or whatever).
+      </p>
+    </section>
+    <section>
+      <title>The special FOP extension (for experienced developers only)</title>
+      <note>This extension is only available through CVS. It is not included in the distribution.</note>
+      <p>
+        Barcode4J contains another FOP extension. This extension is 
+        <strong>experimental, unsupported</strong> and won't run in the current 0.20.5 release of FOP.
+        What distiguishes this special extension from the standard one is the ability to
+        generate the barcode directly in the same format as the renderer in use (only PDF and 
+        PostScript are supported right now). This leads to a higher performance since
+        there is no intermediate format (SVG).
+      </p>
+      <p>
+        The extension is marked experimental because it is not fully implemented and needs some 
+        changes in FOP's source code. It currently
+        has some deficiencies with the human readable part (in other words: text) of a barcode, 
+        especially the PDF part of it.
+      </p>
+      <p>
+        If you like to use this extension, please send a mail 
+        to barcode4j-users oder barcode4j-developers, so I can send you the necessary code changes 
+        against FOP 0.20.5 to make it run. Help with finishing the extension is welcome. Please
+        understand that I won't help an unexperienced user to make this work just because it's
+        a cool feature. This thing is purely experimental. In the unlikely case that there will be
+        a FOP version 0.20.6 before a 1.0 I will make sure that this extension is released. FOP
+        1.0 will also contain this functionality but the code isn't written, yet.
+      </p>
+    </section>
+  </body>
+</document>

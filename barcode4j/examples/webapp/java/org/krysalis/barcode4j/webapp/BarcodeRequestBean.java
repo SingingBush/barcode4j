@@ -1,0 +1,308 @@
+/*
+ * $Id: BarcodeRequestBean.java,v 1.1 2003-12-13 20:23:42 jmaerki Exp $
+ * ============================================================================
+ * The Krysalis Patchy Software License, Version 1.1_01
+ * Copyright (c) 2002-2003 Nicola Ken Barozzi.  All rights reserved.
+ *
+ * This Licence is compatible with the BSD licence as described and
+ * approved by http://www.opensource.org/, and is based on the
+ * Apache Software Licence Version 1.1.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * 3. The end-user documentation included with the redistribution,
+ *    if any, must include the following acknowledgment:
+ *       "This product includes software developed for project
+ *        Krysalis (http://www.krysalis.org/)."
+ *    Alternately, this acknowledgment may appear in the software itself,
+ *    if and wherever such third-party acknowledgments normally appear.
+ *
+ * 4. The names "Krysalis" and "Nicola Ken Barozzi" and
+ *    "Barcode4J" must not be used to endorse or promote products
+ *    derived from this software without prior written permission. For
+ *    written permission, please contact nicolaken@krysalis.org.
+ *
+ * 5. Products derived from this software may not be called "Krysalis"
+ *    or "Barcode4J", nor may "Krysalis" appear in their name,
+ *    without prior written permission of Nicola Ken Barozzi.
+ *
+ * 6. This software may contain voluntary contributions made by many
+ *    individuals, who decided to donate the code to this project in
+ *    respect of this licence, and was originally created by
+ *    Jeremias Maerki <jeremias@maerki.org>.
+ *
+ * THIS SOFTWARE IS PROVIDED ''AS IS'' AND ANY EXPRESSED OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED.  IN NO EVENT SHALL THE KRYSALIS PROJECT OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ * ====================================================================
+ */
+package org.krysalis.barcode4j.webapp;
+
+import org.krysalis.barcode4j.servlet.BarcodeServlet;
+import org.krysalis.barcode4j.tools.MimeTypes;
+
+/**
+ * This is just a little helper bean for the JSP page.
+ * 
+ * @author Jeremias Maerki
+ */
+public class BarcodeRequestBean {
+
+    private String type;
+    private String msg;
+    private String height;
+    private String moduleWidth;
+    private String wideFactor;
+    private String quietZone;
+    private String humanReadable;
+    private String humanReadableSize;
+    private String humanReadableFont;
+    private String format;
+    private String resolution;
+    private boolean gray;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String string) {
+        type = string;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String string) {
+        height = string;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String string) {
+        msg = string;
+    }
+
+    public String getModuleWidth() {
+        return moduleWidth;
+    }
+
+    public void setModuleWidth(String string) {
+        moduleWidth = string;
+    }
+
+    public String getWideFactor() {
+        return wideFactor;
+    }
+
+    public void setWideFactor(String string) {
+        wideFactor = string;
+    }
+
+    public String getQuietZone() {
+        return quietZone;
+    }
+
+    public void setQuietZone(String string) {
+        quietZone = string;
+    }
+
+    public String getHumanReadable() {
+        if ("[default]".equals(humanReadable)) {
+            return null;
+        } else {
+            return humanReadable;
+        }
+    }
+
+    public void setHumanReadable(String string) {
+        humanReadable = string;
+    }
+
+    public String getHumanReadableSize() {
+        return humanReadableSize;
+    }
+
+    public void setHumanReadableSize(String humanReadableSize) {
+        this.humanReadableSize = humanReadableSize;
+    }
+
+    public String getHumanReadableFont() {
+        return humanReadableFont;
+    }
+
+    public void setHumanReadableFont(String humanReadableFont) {
+        this.humanReadableFont = humanReadableFont;
+    }
+
+    public String getFormat() {
+        return this.format;
+    }
+
+    public boolean isSVG() {
+        return MimeTypes.MIME_SVG.equals(MimeTypes.expandFormat(getFormat()))
+            || (getFormat() == null) 
+            || (getFormat().length() == 0);
+    }
+
+    public boolean isBitmap() {
+        return MimeTypes.isBitmapFormat(getFormat());
+    }
+    
+    public void setFormat(String string) {
+        this.format = string;
+    }
+
+    public String getResolution() {
+        return this.resolution;
+    }
+
+    public void setResolution(String string) {
+        this.resolution = string;
+    }
+
+    public boolean isGray() {
+        return this.gray;
+    }
+
+    public void setGray(boolean value) {
+        this.gray = value;
+    }
+
+    public String toURL() {
+        StringBuffer sb = new StringBuffer(64);
+        sb.append("genbc?");
+    
+        //Type
+        String type = getType();
+        if (type == null) {
+            type = "code128";
+        }
+        sb.append(BarcodeServlet.BARCODE_TYPE);
+        sb.append("=");
+        sb.append(type);
+    
+        //Message
+        String msg = getMsg();
+        if (msg == null) {
+            msg = "123456";
+        }
+        sb.append("&");
+        sb.append(BarcodeServlet.BARCODE_MSG);
+        sb.append("=");
+        sb.append(java.net.URLEncoder.encode(msg));
+        //sb.append(java.net.URLEncoder.encode(msg, "UTF-8")); //works for JDK 1.4 only
+    
+        //Height
+        String height = getHeight();
+        if (height != null) {
+            sb.append("&");
+            sb.append(BarcodeServlet.BARCODE_HEIGHT);
+            sb.append("=");
+            sb.append(height);
+        }
+
+        //Module Width
+        String moduleWidth = getModuleWidth();
+        if (moduleWidth != null) {
+            sb.append("&");
+            sb.append(BarcodeServlet.BARCODE_MODULE_WIDTH);
+            sb.append("=");
+            sb.append(moduleWidth);
+        }
+
+        //Wide Factor
+        String wideFactor = getWideFactor();
+        if (wideFactor != null) {
+            sb.append("&");
+            sb.append(BarcodeServlet.BARCODE_WIDE_FACTOR);
+            sb.append("=");
+            sb.append(wideFactor);
+        }
+
+        //Quiet Zone
+        String quietZone = getQuietZone();
+        if (quietZone != null) {
+            sb.append("&");
+            sb.append(BarcodeServlet.BARCODE_QUIET_ZONE);
+            sb.append("=");
+            sb.append(quietZone);
+        }
+
+        //Human Readable Part
+        String humanReadable = getHumanReadable();
+        if (humanReadable != null) {
+            sb.append("&");
+            sb.append(BarcodeServlet.BARCODE_HUMAN_READABLE_POS);
+            sb.append("=");
+            sb.append(humanReadable);
+        }
+        
+        //Output Format
+        String fmt = getFormat();
+        if (fmt != null && !isSVG()) {
+            sb.append("&");
+            sb.append(BarcodeServlet.BARCODE_FORMAT);
+            sb.append("=");
+            sb.append(fmt);
+        }
+    
+        String humanReadableSize = getHumanReadableSize();
+        if (humanReadableSize != null) {
+            sb.append("&");
+            sb.append(BarcodeServlet.BARCODE_HUMAN_READABLE_SIZE);
+            sb.append("=");
+            sb.append(humanReadableSize);
+        }
+
+        String humanReadableFont = getHumanReadableFont();
+        if (humanReadableSize != null) {
+            sb.append("&");
+            sb.append(BarcodeServlet.BARCODE_HUMAN_READABLE_FONT);
+            sb.append("=");
+            sb.append(java.net.URLEncoder.encode(humanReadableFont));
+        }
+
+        //Output Format
+        String res = getResolution();
+        if (res != null && isBitmap()) {
+            sb.append("&");
+            sb.append(BarcodeServlet.BARCODE_IMAGE_RESOLUTION);
+            sb.append("=");
+            sb.append(res);
+        }
+        
+        //Output Format
+        boolean gray = isGray();
+        if (gray && isBitmap()) {
+            sb.append("&");
+            sb.append(BarcodeServlet.BARCODE_IMAGE_GRAYSCALE);
+            sb.append("=");
+            sb.append((isGray() ? "true" : "false"));
+        }
+        
+        return sb.toString();
+    }
+
+}

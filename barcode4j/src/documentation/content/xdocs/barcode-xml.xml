@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>The Barcode XML format</title>
+    <authors>
+      <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+      <title>Introduction</title>
+      <p>
+        This page describes the XML format used by <strong>Barcode4J</strong> to define barcodes. 
+        It also contains notes about the message format supported by each symbology.</p>
+      <note>
+        Hopefully, this page will always be up-to-date. :-) If it's not or you simply want to see where the 
+        configuration happens, have a look at the <code>org.krysalis.barcode4j.impl</code> package. The 
+        <code>configure()</code> method will tell you what values are supported by the individual 
+        implementations.
+      </note>
+    </section>
+    <section>
+      <title>General structure</title>
+      <p>
+        The general structure of the Barcode XML format looks like this:
+      </p>
+      <source><![CDATA[
+  <barcode>
+    <{type}>
+      {barcode-specific configuration}
+    </{type}>
+  </barcode>]]>
+      </source>
+      <p>
+        Replace <strong>{type}</strong> with the name of the barcode type, ex. "ean13" or "code39". You can also use the 
+        fully qualified classname of the implementing class, ex. "org.krysalis.barcode4j.impl.Code39". If 
+        you use a name it will be resolved internally using the <code>BarcodeClassResolver</code> interface.
+      </p>
+      <p>
+        The barcode-specific configuration is a set of elements and attributes defined by the barcode implementation
+        itself. Please see further down for specifics. But here's an example:
+      </p>
+      <source><![CDATA[
+  <barcode>
+    <intl2of5>
+      <height>10mm</height>
+      <wide-factor>2.5</wide-factor>
+    </intl2of5>
+  </barcode>]]>
+      </source>
+    </section>
+    <section>
+      <title>Datatypes</title>
+      <p>
+        The values for the configuration elements are of various datatypes:
+      </p>
+      <ul>
+        <li>{boolean}: The values "true"/"yes"/"on" or "false"/"no"/"off".</li>
+        <li>{string}: A simple unicode string.</li>
+        <li>{number}: A number such in the format "2.43" or "5".</li>
+        <li>{unit}: length unit, one of "mm", "cm", "pt".
+          <ul>
+            <li>The default unit is normally "mm" (Millimeters) but is implementation-dependent.</li>
+            <li>A special unit supported in certain places is "mw" (module width). This is used in 
+              certain 1D barcode to specify values like "10 times the module width", ex. for the quiet zone.
+            </li>
+          </ul>
+        </li>
+        <li>{length}: A length in the form "{number}[[ ]{unit}]". Examples: "1.2mm", "5.0", "3".</li>
+        <li>{checksum-mode}: The checksum mode determines the behaviour for checksums. Possible values (not 
+        	all values are supported by all symbologies):
+          <ul>
+            <li>add: the checksum is automatically added to the message.</li>
+            <li>check: the checksum is checked while rendering the barcode.</li>
+            <li>ignore: no checksum processing is done.</li>
+            <li>auto: Enables the barcode type's default behaviour.</li>
+          </ul>
+        </li>
+        <li>{human-readable-placement}: This enumeration determines the placement of the human-readable part 
+        	of a barcode. Possible values:
+          <ul>
+            <li>bottom: the message is placed at the bottom of the symbol.</li>
+            <li>top: the message is placed at the top of the symbol.</li>
+            <li>none: no human-readable part is generated.</li>
+          </ul>
+        </li>
+        <li>{baseline-alignment}: This enumeration determines the alignment of the lines of barcodes such as
+         POSTNET.
+          <ul>
+            <li>bottom: Short and long lines are aligned at the bottom.</li>
+            <li>top: Short and long lines are aligned at the top.</li>
+          </ul>
+        </li>
+        <li>{font-name}: As the name says, a font name. Note that not all fonts are available for all output formats.</li>
+      </ul>
+      <p>
+        Datatypes below are often given in the format "{length:15mm}". The value after the datatype indicates 
+        the default value. If the datatype specifies a default value, this means that the whole element is optional.
+      </p>
+    </section>
+    <section>
+      <title>Interleaved 2 of 5</title>
+      <p>The configuration for the default implementation is:</p>
+      <source><![CDATA[
+  <barcode>
+    <intl2of5>
+      <height>{length:15mm}</height>
+      <module-width>{length:0.21mm}</module-width>
+      <wide-factor>{number:3.0}</wide-factor>
+      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
+      <checksum>{checksum-mode:auto=ignore}</checksum>
+      <human-readable>{human-readable-placement:bottom}</human-readable>
+      <human-readable-font>{font-name:Helvetica}</human-readable-font>
+      <human-readable-size>{length:8pt}</human-readable-size>
+    </intl2of5>
+  </barcode>]]>
+      </source>
+      <section>
+        <title>Notes</title>
+        <ul>
+          <li>The height should be at least 0.15 times the barcode's length or 0.25 inches, whichever is larger.</li>
+          <li>
+            The module width (width of narrow element) should be at least 
+            7.5 mils (a mil is 1/1000 inch) or 0.19mm.
+          </li>
+          <li>
+            The multiple for the wide element should be between 2.0 and 3.0 <strong>if</strong> 
+            the narrow element is greater than 20 mils. If the narrow element is less than 20 mils,
+            the ratio must exceed 2.2.
+          </li>
+          <li>Quiet zones must be at least 10 times the module width or at least 0.25 inches.</li>
+        </ul>
+      </section>
+      <section>
+        <title>Message format</title>
+        <ul>
+          <li>Valid characters are 0-9.</li>
+        </ul>
+      </section>
+    </section>
+    <section>
+      <title>Code 39</title>
+      <p>also known as: USD-3, 3 of 9 code</p>
+      <p>The configuration for the default implementation is:</p>
+      <source><![CDATA[
+  <barcode>
+    <code39>
+      <height>{length:15mm}</height>
+      <module-width>{length:0.19mm}</module-width>
+      <wide-factor>{number:2.5}</wide-factor>
+      <interchar-gap-width>{length:1mw}</interchar-gap-width>
+      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
+      <checksum>{checksum-mode:auto=ignore}</checksum>
+      <human-readable>{human-readable-placement:bottom}</human-readable>
+      <human-readable-font>{font-name:Helvetica}</human-readable-font>
+      <human-readable-size>{length:8pt}</human-readable-size>
+    </code39>
+  </barcode>]]>
+      </source>
+      <section>
+        <title>Notes</title>
+        <ul>
+          <li>The height should be at least 0.15 times the barcode's length or 0.25 inches.</li>
+          <li>
+            The module width (width of narrow element) should be at least 
+            7.5 mils (a mil is 1/1000 inch) or 0.19mm.
+          </li>
+          <li>
+            The multiple for the wide element should be between 2.0 and 3.0 <strong>if</strong> 
+            the narrow element is greater than 20 mils. If the narrow element is less than 20 mils,
+            the multiple can only range between 2.0 and 2.2.
+          </li>
+          <li>Quiet zones must be at least 10 times the module width or 0.10 inches, whichever is larger.</li>
+          <li>
+            The intercharacter gap width (igw) is 5.3 times the module width (mw) if mw is less than 10 mils. 
+            If mw is 10 mils or greater, the value for igw is 3mw or 53 mils, whichever is greater. However,
+            for quality printers, igw often equals mw.
+          </li>
+        </ul>
+      </section>
+      <section>
+        <title>Message format</title>
+        <ul>
+          <li>Valid characters are 0-9, A-Z and the characters: - . $ / + % SPACE</li>
+          <li>The character '*' is only used as start and stop character and may not be used in the message.</li>
+          <li>The implementation currently doesn't support the extended character set.</li>
+        </ul>
+      </section>
+    </section>
+    <section>
+      <title>Codabar</title>
+      <p>also known as: USD-4, NW-7, 2 of 7 code</p>
+      <p>The configuration for the default implementation is:</p>
+      <source><![CDATA[
+  <barcode>
+    <codabar>
+      <height>{length:15mm}</height>
+      <module-width>{length:0.21mm}</module-width>
+      <wide-factor>{number:3.0}</wide-factor>
+      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
+      <human-readable>{human-readable-placement:bottom}</human-readable>
+      <human-readable-font>{font-name:Helvetica}</human-readable-font>
+      <human-readable-size>{length:8pt}</human-readable-size>
+    </codabar>
+  </barcode>]]>
+      </source>
+      <section>
+        <title>Notes</title>
+        <ul>
+          <li>No checksums are implemented at the moment</li>
+        </ul>
+      </section>
+      <section>
+        <title>Message format</title>
+        <ul>
+          <li>Valid characters are 0-9, the characters: - $ : / . +</li>
+          <li>Start and stop characters are: a b c d e * n t</li>
+        </ul>
+      </section>
+    </section>
+    <section>
+      <title>Code 128</title>
+      <p>also known as: EAN/UCC 128</p>
+      <p>The configuration for the default implementation is:</p>
+      <source><![CDATA[
+  <barcode>
+    <code128>
+      <height>{length:15mm}</height>
+      <module-width>{length:0.21mm}</module-width>
+      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
+      <human-readable>{human-readable-placement:bottom}</human-readable>
+      <human-readable-font>{font-name:Helvetica}</human-readable-font>
+      <human-readable-size>{length:8pt}</human-readable-size>
+    </code128>
+  </barcode>]]>
+      </source>
+      <section>
+        <title>Notes</title>
+        <ul>
+          <li>The height should be at least 0.15 times the barcode's length or 0.25 inches.</li>
+        </ul>
+      </section>
+      <section>
+        <title>Message format</title>
+        <ul>
+          <li>Valid characters: The full 7 bit ASCII (US-ASCII) character set is supported</li>
+          <li>
+            Functions 1 to 4 may be used. They are encoded as ASCII characters 
+            0xF1 (241), 0xF2 (242), 0xF3 (243) and 0xF4 (244) in the message.
+          </li>
+        </ul>
+      </section>
+    </section>
+    <section>
+      <title>UPC-A</title>
+      <p>The configuration for the default implementation is:</p>
+      <source><![CDATA[
+  <barcode>
+    <upc-a>
+      <height>{length:15mm}</height>
+      <module-width>{length:0.33mm}</module-width>
+      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
+      <checksum>{checksum-mode:auto=add|check}</checksum>
+      <human-readable>{human-readable-placement:bottom}</human-readable>
+      <human-readable-font>{font-name:Helvetica}</human-readable-font>
+      <human-readable-size>{length:8pt}</human-readable-size>
+    </upc-a>
+  </barcode>]]>
+      </source>
+      <section>
+        <title>Message format</title>
+        <ul>
+          <li>Valid characters are 0-9</li>
+          <li>Message length must be 11 or 12 characters depending on the checksum mode.</li>
+          <li>
+          	Behaviour when checksum-mode is set to auto: If a 11-character message is passed 
+          	in, the check character is added. If a 12-character message is passed in, the 
+          	check character is checked.
+          </li>
+          <li>
+            Supplementals are supported (2 and 5 characters). You can add them by appending a "+" 
+            along with the supplemental message to the barcode message. Example: 037145007991+51528
+          </li>
+        </ul>
+      </section>
+    </section>
+    <section>
+      <title>UPC-E</title>
+      <p>The configuration for the default implementation is:</p>
+      <source><![CDATA[
+  <barcode>
+    <upc-a>
+      <height>{length:15mm}</height>
+      <module-width>{length:0.33mm}</module-width>
+      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
+      <checksum>{checksum-mode:auto=add|check}</checksum>
+      <human-readable>{human-readable-placement:bottom}</human-readable>
+      <human-readable-font>{font-name:Helvetica}</human-readable-font>
+      <human-readable-size>{length:8pt}</human-readable-size>
+    </upc-a>
+  </barcode>]]>
+      </source>
+      <section>
+        <title>Message format</title>
+        <ul>
+          <li>Valid characters are 0-9</li>
+          <li>Message length must be 7 or 8 characters depending on the checksum mode.</li>
+          <li>
+          	Behaviour when checksum-mode is set to auto: If a 7-character message is passed 
+          	in, the check character is added. If a 8-character message is passed in, the 
+          	check character is checked.
+          </li>
+          <li>The first character (number system) must be 0 or 1.</li>
+          <li>
+          	You can pass in a UPC-A message (12 or 13 characters) to generate a UPC-E barcode.
+          	If the UPC-A message cannot be converted to a UPC-E message you'll get an exception.
+          </li>
+          <li>
+            Supplementals are supported (2 and 5 characters). You can add them by appending a "+" 
+            along with the supplemental message to the barcode message. Example: 0123413+77
+          </li>
+        </ul>
+      </section>
+    </section>
+    <section>
+      <title>EAN-13</title>
+      <p>The configuration for the default implementation is:</p>
+      <source><![CDATA[
+  <barcode>
+    <ean-13>
+      <height>{length:15mm}</height>
+      <module-width>{length:0.33mm}</module-width>
+      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
+      <checksum>{checksum-mode:auto=add|check}</checksum>
+      <human-readable>{human-readable-placement:bottom}</human-readable>
+      <human-readable-font>{font-name:Helvetica}</human-readable-font>
+      <human-readable-size>{length:8pt}</human-readable-size>
+    </ean-13>
+  </barcode>]]>
+      </source>
+      <section>
+        <title>Message format</title>
+        <ul>
+          <li>Valid characters are 0-9</li>
+          <li>Message length must be 12 or 13 characters depending on the checksum mode.</li>
+          <li>
+          	Behaviour when checksum-mode is set to auto: If a 12-character message is passed 
+          	in, the check character is added. If a 13-character message is passed in, the 
+          	check character is checked.
+          </li>
+          <li>
+            Supplementals are supported (2 and 5 characters). You can add them by appending a "+" 
+            along with the supplemental message to the barcode message. Example: 9783468111242+56789
+          </li>
+        </ul>
+      </section>
+    </section>
+    <section>
+      <title>EAN-8</title>
+      <p>The configuration for the default implementation is:</p>
+      <source><![CDATA[
+  <barcode>
+    <ean-8>
+      <height>{length:15mm}</height>
+      <module-width>{length:0.33mm}</module-width>
+      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
+      <checksum>{checksum-mode:auto=add|check}</checksum>
+      <human-readable>{human-readable-placement:bottom}</human-readable>
+      <human-readable-font>{font-name:Helvetica}</human-readable-font>
+      <human-readable-size>{length:8pt}</human-readable-size>
+    </ean-8>
+  </barcode>]]>
+      </source>
+      <section>
+        <title>Message format</title>
+        <ul>
+          <li>Valid characters are 0-9</li>
+          <li>Message length must be 7 or 8 characters depending on the checksum mode.</li>
+          <li>
+          	Behaviour when checksum-mode is set to auto: If a 7-character message is passed 
+          	in, the check character is added. If a 8-character message is passed in, the 
+          	check character is checked.
+          </li>
+          <li>
+            Supplementals are supported (2 and 5 characters). You can add them by appending a "+" 
+            along with the supplemental message to the barcode message. Example: 22139337+12
+          </li>
+        </ul>
+      </section>
+    </section>
+    <section>
+      <title>POSTNET</title>
+      <p>The configuration for the default implementation is:</p>
+      <source><![CDATA[
+  <barcode>
+    <postnet>
+      <height>{length:15mm}</height>
+      <module-width>{length:0.02in}</module-width>
+      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
+      <checksum>{checksum-mode:auto=ignore}</checksum>
+      <human-readable>{human-readable-placement:none}</human-readable>
+      <human-readable-font>{font-name:Helvetica}</human-readable-font>
+      <human-readable-size>{length:8pt}</human-readable-size>
+      <interchar-gap-width>{length:0.026in}</interchar-gap-width>
+      <tall-bar height>{length:0.125in}</tall-barheight>
+      <short-bar-height>{lenth:0.050in}</short-bar-height>
+      <baseline-alignment><{baseline-alignment:bottom}</baseline-alignment>
+    </postnet>
+  </barcode>]]>
+      </source>
+      <section>
+        <title>Message format</title>
+        <ul>
+          <li>Valid characters are 0-9</li>
+        </ul>
+      </section>
+    </section>
+  </body>
+</document>

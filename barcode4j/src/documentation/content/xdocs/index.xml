@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Welcome to Barcode4J</title>
+    <authors>
+      <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+      <title>Introduction</title>
+      <p>
+        <strong>Barcode4J</strong> is a flexible generator for barcodes written 
+        in Java. It's free, available under an Apache-style Open Source license.
+      </p>
+      <note>Although the package has already seen real-life usage it has recently undergone a refactoring
+        cycle and it is to be considered <strong>beta quality</strong>. You're invited to try it and
+        help with its development by providing feedback and sending patches (code or documentation).
+      </note>
+    </section>
+    <section>
+      <title>Important News for Krysalis Barcode users</title>
+      <p>
+      	Krysalis Barcode has been renamed to <strong>Barcode4J</strong> and moved 
+      	to its own SourceForge project. <link href="krysalis-barcode.html">More...</link>
+      </p>
+    </section>
+    <section>
+      <title>Features</title>
+      <ul>
+        <li>1D barcode implementations:
+          <ul>
+            <li>Interleaved 2 of 5</li>
+            <li>Code 39</li>
+            <li>Codabar</li>
+            <li>Code 128</li>
+            <li>UPC-A and UPC-E (with supplementals)</li>
+            <li>EAN-13 and EAN-8 (with supplementals)</li>
+            <li>POSTNET</li>
+          </ul>
+        </li>
+        <li>Support for multiple output formats:
+          <ul>
+            <li>SVG</li>
+            <li>EPS (Encapsulated PostScript)</li>
+            <li>Bitmap images (such as PNG or JPEG)</li>
+            <li>Java2D (AWT)</li>
+            <li>Text (for testing and debugging only)</li>
+          </ul>
+        </li>
+        <li>Servlet with support for SVG, EPS and bitmap output</li>
+        <li>Command-line interface</li>
+        <li>Plug-ins/extensions for third-party products:
+          <ul>
+            <li>
+              <fork href="ext:xalan">Apache Xalan</fork>: SVG-generating XSLT extension
+            </li>
+            <li>
+              The <fork href="ext:saxon">SAXON XSLT Processor from Michael Kay</fork>: SVG-generating XSLT extension
+            </li>
+            <li>
+              <fork href="ext:fop">Apache FOP</fork>: support as fo:instream-foreign-object
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <title>Planned features</title>
+      <ul>
+        <li>Additional 1D barcode implementations</li>
+        <li>Support for 2D barcodes such as Data Matrix or Aztec Code</li>
+      </ul>
+      <note>Help wanted!</note>
+    </section>
+  </body>
+</document>

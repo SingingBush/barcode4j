@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+
+<!--
+Forrest site.xml
+
+This file contains an outline of the site's information content.  It is used to:
+- Generate the website menus (though these can be overridden - see docs)
+- Provide semantic, location-independent aliases for internal 'site:' URIs, eg
+<link href="site:changes"> links to changes.html (or ../changes.html if in
+  subdir).
+- Provide aliases for external URLs in the external-refs section.  Eg, <link
+  href="ext:cocoon"> links to http://xml.apache.org/cocoon/ 
+
+See http://xml.apache.org/forrest/linking.html for more info
+-->
+
+<site label="Barcode" href="" xmlns="http://apache.org/forrest/linkmap/1.0">
+
+  <about label="About">
+    <index label="Index" href="index.html"/>
+    <krysalis-barcode label="Important info for Krysalis Barcode users" href="krysalis-barcode.html"/>
+    <download label="Download" href="download.html"/>
+    <demo label="Demonstration" href="examples.html"/>
+  </about>
+  
+  <docs label="Documentation">
+    <building label="Building" href="building.html"/>
+    <design label="Design" href="design.html"/>
+    <barcode-xml label="Barcode XML format" href="barcode-xml.html"/>
+    <output-formats label="Output Formats" href="output-formats.html"/>
+    <xsl-fo label="Use case: XSL-FO" href="xsl-fo.html"/>
+    <svg-dom label="Use case: SVG DOM" href="svg-dom.html"/>
+    <embedding label="Embedding in Java" href="embedding.html"/>
+    <xalan-ext label="Usage with Xalan-J" href="xalan-ext.html"/>
+    <saxon-ext label="Usage with SAXON" href="saxon-ext.html"/>
+    <fop-ext label="Usage with FOP" href="fop-ext.html"/>
+    <servlet label="Barcode Servlet" href="servlet.html"/>
+    <cli label="Command Line" href="cli.html"/>
+    <changes label="Changes" href="changes.html"/>
+    <todo label="Todo" href="todo.html"/>
+    <links label="Links" href="links.html"/>
+    <!--
+    <sample label="Sample page" href="sample.html">
+      <top href="#top"/>
+      <section href="#section"/>
+    </sample>
+    <sample-ihtml label="Sample ihtml page" href="ihtml-sample.html"/>
+    <sample-ehtml label="Sample ehtml page" href="ehtml-sample.html"/>
+    -->
+  </docs>
+  <support label="Support">
+    <troubleshooting label="Troubleshooting" href="troubleshooting.html"/>
+    <faq label="FAQ" href="faq.html"/>
+    <ml label="Mailing Lists" href="ext:mailing-lists"/>
+  </support>
+  <code label="Code">
+    <viewcvs label="View CVS" href="viewcvs.html"/>
+    <javadocs label="Javadocs" href="ext:javadocs"/>
+    <!--javasrc label="Java Source Ref" href="javasrc/index.html"/-->
+    <!--checkstyle label="Code Style Checks" href="checkstyle/index.html"/-->
+    <!--junit label="Unit tests" href="junit/index.html"/-->
+  </code>
+
+
+  <!--subdir label="Subdir" href="subdir/">
+    <index label="Index" href="index.html"/>
+  </subdir-->
+
+  <external-refs>
+  	<mailing-lists href="http://sourceforge.net/mail/?group_id=96670"/>
+  	<javadocs href="http://barcode4j.krysalis.org/javadocs/index.html"/>
+  	<project-files href="http://sourceforge.net/project/showfiles.php?group_id=96670"/>
+  	<tarballs href="http://www.krysalis.org/tarballs/krysalis-barcode"/>
+  	<krysalis-project-files href="http://sourceforge.net/project/showfiles.php?group_id=36516"/>
+    <xml.apache.org href="http://xml.apache.org/">
+      <forrest href="forrest/">
+        <validation href="validation.html"/>
+        <webapp href="your-project.html#webapp"/>
+      </forrest>
+      <fop href="fop/"/>
+      <cocoon href="cocoon/"/>
+      <xalan href="xalan-j/"/>
+    </xml.apache.org>
+    <ant.apache.org href="http://ant.apache.org/"/>
+    <jakarta.apache.org href="http://jakarta.apache.org/">
+      <commons-cli href="commons/cli"/>
+    </jakarta.apache.org>
+    <avalon href="http://avalon.apache.org/"/>
+    <w3.org href="http://www.w3.org/">
+      <xsl-fo href="TR/xsl/"/>
+      <svg href="Graphics/SVG"/>
+    </w3.org>
+    <saxon href="http://saxon.sourceforge.net"/>
+  </external-refs>
+
+</site>

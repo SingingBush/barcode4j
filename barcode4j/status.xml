@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<status>
+
+  <developers>
+    <person name="Nicola Ken Barozzi"      email="nicolaken@krysalis.org"        id="nicolaken" />
+    <person name="Jeremias Maerki"         email="jmaerki@users.sourceforge.net" id="jmaerki" />
+    <!-- Add more people here -->
+  </developers>
+
+  <todo>
+    <actions priority="high">
+      <action context="feedback" dev="everyone">
+        Provide feedback (positive or negative) on the barcode package and help make it better. Thanks!
+      </action>
+    </actions>
+    <actions priority="medium">
+      <action context="code" dev="open">
+        Create a demo applet that we could put on the Barcode4J website.
+      </action>
+      <action context="code" dev="open">
+        Add FOP extension for redesign code.
+      </action>
+      <action context="code" dev="open">
+        Add support for 2D barcode such as DataMatrix and Aztec code. Volunteers wanted!
+      </action>
+      <action context="code" dev="open">
+        Special bitmap generation mode that allows for the narrow bar to match exactly one pixel 
+        (smallest possible bitmap to paint the barcode in).
+      </action>
+      <action context="code" dev="open">
+        Escape special characters in Code 128 messages.
+      </action>
+      <action context="code" dev="open">
+        Implement plausibility checks for configuration.
+      </action>
+    </actions>
+    <actions priority="low">
+      <action context="code" dev="open">
+        Build Playground application.
+      </action>
+    </actions>
+    <!-- Add todo items. @context is an arbitrary string. Eg:
+    <actions priority="high">
+      <action context="code" dev="SN">
+      </action>
+    </actions>
+    <actions priority="medium">
+      <action context="docs" dev="open">
+      </action>
+    </actions>
+    -->
+  </todo>
+
+  <changes>
+    <!-- Add new releases here -->
+    <release version="1.0" date="soon">
+      <action dev="jmaerki" type="update" context="admin">
+        "Krysalis Barcode" renamed to "Barcode4J" and moved to its own
+        SourceForge project.
+      </action>
+      <action dev="jmaerki" type="add" context="code" due-to="Andrew Nelson" due-to-email="Andrew.Nelson.at.hsc.utah.edu">
+        Added support for font and font size (human-readable part) from barcode XML, the servlet and the example webapp.
+      </action>
+      <action dev="jmaerki" type="fix" context="code">
+        Fixed a mistake in the FOP extension so it accepts the message in both the "message" and 
+        "msg" attributes.
+      </action>
+    </release>
+    <release version="1.0beta" date="2003-10-31">
+      <action dev="jmaerki" type="update" context="code">
+        Allow lowercase a-z in Code39 symbols.
+      </action>
+      <action dev="jmaerki" type="fix" context="code">
+        Fixed bug where Krysalis Barcode failed under JDK 1.3.x when compiled under JDK 1.4.x (ImageIO not present).
+      </action>
+      <action dev="jmaerki" type="update" context="code">
+        Moved responsibility for instantiating a Canvas object from the user to the barcode implementation. Simplification for users.
+      </action>
+      <action dev="jmaerki" type="add" context="code">
+        Display a full list of supported MIME types in the command line application.
+      </action>
+      <action dev="jmaerki" type="add" context="code">
+        Add support for passing resolution information into the generated bitmaps.
+      </action>
+      <action dev="jmaerki" type="add" context="code">
+        Extended Xalan extension to handle barcode XML just like the SAXON extension instead of using the generate function.
+      </action>
+      <action dev="jmaerki" type="add" context="code">
+        Added an extension for the SAXON XSLT Processor from Michael Kay.
+      </action>
+      <action dev="jmaerki" type="add" context="code">
+        Added FOP extension for FOP 0.20.5 and an experimental extension with native output support (for EPS and PDF, not going via SVG/Batik).
+      </action>
+      <action dev="jmaerki" type="add" context="code" due-to="Chris Dolphy" due-to-email="dolphycj.at.charter.net">
+        Support for inches in lengths.
+      </action>
+      <action dev="jmaerki" type="add" context="code" due-to="Chris Dolphy" due-to-email="dolphycj.at.charter.net">
+        Added POSTNET implementation.
+      </action>
+      <action dev="jmaerki" type="add" context="code">
+        Improved DOM to Avalon Configuration conversion.
+      </action>
+      <action dev="jmaerki" type="add" context="code">
+        Extended sample webapp to support the new output formats.
+      </action>
+      <action dev="jmaerki" type="add" context="code">
+        Full command-line interface.
+      </action>
+      <action dev="jmaerki" type="add" context="code">
+        Add Java2D (Graphics2D/AWT) output support.
+      </action>
+      <action dev="jmaerki" type="add" context="code">
+        Add bitmap output support.
+      </action>
+      <action dev="jmaerki" type="add" context="code">
+        Added EPS (Encapsulated PostScript) output support.
+      </action>
+    </release>
+    <release version="0.9" date="2003-05-09">
+      <!-- Some action types have associated images. By default, images are
+      defined for 'add', 'fix', 'remove' and 'update'. If you add
+      src/documentation/resources/images/<foo>.jpg images, these will
+        automatically be used for entries of type <foo>. -->
+		    <action dev="jmaerki" type="update" context="code">
+		      Improve usability of sample web application. Error result in
+		      a SVG that shows the detailed error message.
+		    </action>
+		    <action dev="jmaerki" type="fix" context="code">
+		      Reestablished JDK 1.3 compatibility. 
+		    </action>
+		    <action dev="jmaerki" type="fix" context="code">
+    		   Fixed OutOfMemoryError problem with long Code128 messages by 
+    		   rewriting the message encoder. The encoder is also factored
+    		   out as an interface so plugging in custom implementations is
+    		   possible.
+		    </action>
+		    <action dev="jmaerki" type="add" context="code">
+    		   Added support for supplementals (UPC and EAN barcodes).
+		    </action>
+		    <action dev="jmaerki" type="add" context="code">
+    		   Added an EAN-8 implementation.
+		    </action>
+          <action dev="jmaerki" type="add" context="code">
+            Added a UPC-E implementation.
+          </action>
+          <action dev="jmaerki" type="fix" context="code">
+            Fixed size calculation for Interleaved 2 of 5 and Code 128.
+          </action>
+          <action dev="jmaerki" type="update" context="code">
+            Nicer UPC-A painting.
+          </action>
+          <action dev="jmaerki" type="fix" context="code">
+            Fixed painting of symbols without human-readable message.
+          </action>
+          <action dev="jmaerki" type="update" context="code">
+            Improved checksum configuration (mode="add|check|ignore|auto" 
+            instead of add-checksum/enable="yes|no").
+          </action>
+          <action dev="jmaerki" type="update" context="code">
+            Refactored BarcodeUtil into a Singleton to make usage easier.
+          </action>
+          <action dev="jmaerki" type="add" context="docs">
+            Added some initial content to the website.
+          </action>
+          <action dev="nicolaken" type="add" context="admin">
+            Initial Import
+          </action>
+          <!-- Sample action:
+          <action dev="JB" type="fix" due-to="Joe Contributor"
+            due-to-email="joec@apache.org" fixes-bug="123">
+            Fixed a bug in the Foo class.
+          </action>
+          -->
+        </release>
+      </changes>
+    </status>

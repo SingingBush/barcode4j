@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+    "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+<web-app>
+  <servlet>
+    <servlet-name>BarcodeServlet</servlet-name>
+    <servlet-class>org.krysalis.barcode4j.servlet.BarcodeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>BarcodeErrorServlet</servlet-name>
+    <servlet-class>org.krysalis.barcode4j.webapp.BarcodeErrorServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BarcodeServlet</servlet-name>
+    <url-pattern>/gensvg</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BarcodeServlet</servlet-name>
+    <url-pattern>/genbc</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BarcodeErrorServlet</servlet-name>
+    <url-pattern>/errsvg</url-pattern>
+  </servlet-mapping>
+  <mime-mapping>
+    <extension>xhtml</extension>
+    <!--mime-type>application/xhtml+xml</mime-type-->
+    <!--the above is not supported by IE6-->
+    <mime-type>text/html</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>svg</extension>
+    <mime-type>image/svg+xml</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>svgz</extension>
+    <mime-type>image/svg+xml</mime-type>
+  </mime-mapping>
+  <error-page>
+    <exception-type>org.krysalis.barcode4j.BarcodeException</exception-type>
+    <location>/errsvg</location>
+  </error-page>
+</web-app>
