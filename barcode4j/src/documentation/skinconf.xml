@@ -122,7 +122,7 @@ which will be used to configure the chosen Forrest skin.
   <toc max-depth="2" min-sections="1" location="page"/>
 
   <!-- Heading types can be clean|underlined|boxed  -->
-  <headings type="boxed"/>
+  <headings type="underlined"/>
   
   <!-- The optional feedback element will be used to construct a
     feedback link in the footer with the page pathname appended:
