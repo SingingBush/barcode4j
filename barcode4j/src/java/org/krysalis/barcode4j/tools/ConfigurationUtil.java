@@ -1,8 +1,8 @@
 /*
- * $Id: ConfigurationUtil.java,v 1.1 2003-12-13 20:23:42 jmaerki Exp $
+ * $Id: ConfigurationUtil.java,v 1.2 2004-02-29 10:55:55 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
- * Copyright (c) 2002-2003 Nicola Ken Barozzi.  All rights reserved.
+ * Copyright (c) 2002-2004 Nicola Ken Barozzi.  All rights reserved.
  *
  * This Licence is compatible with the BSD licence as described and
  * approved by http://www.opensource.org/, and is based on the
@@ -91,15 +91,19 @@ public class ConfigurationUtil {
     }
     
     private static Element findDocumentElement(Document document) {
-        //return document.getDocumentElement(); Xalan-bug, doesn't work (2.4.1)
-        Node nd = null;
-        for (int i = 0; i < document.getChildNodes().getLength(); i++) {
-            nd = document.getChildNodes().item(i);
-            if (nd.getNodeType() == Node.ELEMENT_NODE) {
-                return (Element)nd;
+        try {
+            return document.getDocumentElement(); //Xalan-bug, doesn't work (2.4.1)
+        } catch (Exception e) {
+            //Alternative method 
+            Node nd = null;
+            for (int i = 0; i < document.getChildNodes().getLength(); i++) {
+                nd = document.getChildNodes().item(i);
+                if (nd.getNodeType() == Node.ELEMENT_NODE) {
+                    return (Element)nd;
+                }
             }
+            return null;
         }
-        return null;
     }
     
     private static DefaultConfiguration processNode(Node node) {
