@@ -1,5 +1,5 @@
 /*
- * $Id: GenericBarcodeImpl.java,v 1.1 2003-12-13 20:23:42 jmaerki Exp $
+ * $Id: GenericBarcodeImpl.java,v 1.2 2004-08-30 21:21:54 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
  * Copyright (c) 2002-2003 Nicola Ken Barozzi.  All rights reserved.
@@ -82,8 +82,8 @@ public abstract class GenericBarcodeImpl
     protected double moduleWidth;
     /** Position of human-readable text */
     protected HumanReadablePlacement msgPos = HumanReadablePlacement.HRP_BOTTOM;
-    /** Font size in pt */
-    protected double fontSize        = 8; //pt
+    /** Font size in mm */
+    protected double fontSize        = UnitConv.pt2mm(8); //pt
     /** Font name */
     protected String fontName        = "Helvetica"; //"OCR-B,Helvetica,Arial";
     /** True if quiet zone should be rendered */
@@ -100,11 +100,7 @@ public abstract class GenericBarcodeImpl
             cfg.getChild("human-readable").getValue(HumanReadablePlacement.HRP_BOTTOM.getName()));
 
         Length fs = new Length(cfg.getChild("human-readable-size").getValue("8pt"));
-        if (fs.getUnit().equals("pt")) {
-            this.fontSize = fs.getValue();
-        } else {
-            this.fontSize = UnitConv.mm2pt(fs.getValueAsMillimeter());
-        } 
+        this.fontSize = fs.getValueAsMillimeter();
 
         /* this does not seem to work */
         this.fontName = cfg.getChild("human-readable-font").getValue("Helvetica");
@@ -128,7 +124,7 @@ public abstract class GenericBarcodeImpl
      * @return the height of the human-readable part (in mm)
      */
     public double getHumanReadableHeight() {
-        double textHeight = UnitConv.pt2mm(this.fontSize);
+        double textHeight = this.fontSize;
         return 1.0 * textHeight;
     }
 

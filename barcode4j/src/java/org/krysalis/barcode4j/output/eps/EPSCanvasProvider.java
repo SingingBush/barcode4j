@@ -1,5 +1,5 @@
 /*
- * $Id: EPSCanvasProvider.java,v 1.1 2003-12-13 20:23:43 jmaerki Exp $
+ * $Id: EPSCanvasProvider.java,v 1.2 2004-08-30 21:21:53 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
  * Copyright (c) 2002-2003 Nicola Ken Barozzi.  All rights reserved.
@@ -76,7 +76,6 @@ import org.krysalis.barcode4j.tools.UnitConv;
  */
 public class EPSCanvasProvider extends AbstractCanvasProvider {
 
-    private OutputStream out;
     private Writer writer;
     private DecimalFormat df;
     private IOException firstError;
@@ -89,7 +88,6 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
      */
     public EPSCanvasProvider(OutputStream out) throws IOException {
         super();
-        this.out = out;
         try {
             this.writer = new java.io.OutputStreamWriter(out, "US-ASCII");
         } catch (UnsupportedEncodingException uee) {
@@ -229,7 +227,7 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
         }
         try {
             writer.write("/" + fontName + " findfont " 
-                    + fontSize + " scalefont setfont\n");
+                    + UnitConv.mm2pt(fontSize) + " scalefont setfont\n");
 
             writer.write("(" + text + ") " 
                     + formatmm(x1) + " " 
@@ -253,7 +251,7 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
         }
         try {
             writer.write("/" + fontName + " findfont " 
-                    + fontSize + " scalefont setfont\n");
+                    + UnitConv.mm2pt(fontSize) + " scalefont setfont\n");
             writer.write("(" + text + ") " 
                     + formatmm((x1 + x2) / 2, y1) + " ct\n");
         } catch (IOException ioe) {

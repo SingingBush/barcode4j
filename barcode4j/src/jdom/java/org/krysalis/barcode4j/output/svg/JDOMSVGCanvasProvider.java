@@ -1,8 +1,8 @@
 /*
- * $Id: JDOMSVGCanvasProvider.java,v 1.1 2003-12-13 20:23:43 jmaerki Exp $
+ * $Id: JDOMSVGCanvasProvider.java,v 1.2 2004-08-30 21:21:54 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
- * Copyright (c) 2002-2003 Nicola Ken Barozzi.  All rights reserved.
+ * Copyright (c) 2002-2004 Nicola Ken Barozzi.  All rights reserved.
  *
  * This Licence is compatible with the BSD licence as described and
  * approved by http://www.opensource.org/, and is based on the
@@ -162,17 +162,20 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     public void establishDimensions(BarcodeDimension dim) {
         super.establishDimensions(dim);
         Element svg = doc.getRootElement();
-        svg.setAttribute("width", addUnit(dim.getWidthPlusQuiet()));
-        svg.setAttribute("height", addUnit(dim.getHeightPlusQuiet()));
+        svg.setAttribute("width", getDecimalFormat().format(dim.getWidthPlusQuiet()));
+        svg.setAttribute("height", getDecimalFormat().format(dim.getHeightPlusQuiet()));
+        svg.setAttribute("viewBox", "0 0 " 
+                + getDecimalFormat().format(dim.getWidthPlusQuiet()) + " " 
+                + getDecimalFormat().format(dim.getHeightPlusQuiet()));
     }
 
     /** @see org.krysalis.barcode4j.output.CanvasProvider */
     public void deviceFillRect(double x, double y, double w, double h) {
         Element el = new Element("rect", ns);
-        el.setAttribute("x", addUnit(x));
-        el.setAttribute("y", addUnit(y));
-        el.setAttribute("width", addUnit(w));
-        el.setAttribute("height", addUnit(h));
+        el.setAttribute("x", getDecimalFormat().format(x));
+        el.setAttribute("y", getDecimalFormat().format(y));
+        el.setAttribute("width", getDecimalFormat().format(w));
+        el.setAttribute("height", getDecimalFormat().format(h));
         detailGroup.addContent(el);
     }
 
@@ -202,11 +205,11 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
                             String fontName, double fontSize, boolean justify) {
         Element el = new Element("text", ns);
         el.setAttribute("style", "font-family:" + fontName + "; font-size:" 
-                    + fontSize + "pt; text-anchor:middle");
-        el.setAttribute("x", addUnit(x1 + (x2 - x1) / 2));
-        el.setAttribute("y", addUnit(y1));
+                    + getDecimalFormat().format(fontSize) + "; text-anchor:middle");
+        el.setAttribute("x", getDecimalFormat().format(x1 + (x2 - x1) / 2));
+        el.setAttribute("y", getDecimalFormat().format(y1));
         if (justify) {
-            el.setAttribute("textLength", addUnit(x2 - x1));
+            el.setAttribute("textLength", getDecimalFormat().format(x2 - x1));
         }
         el.addContent(text);
         detailGroup.addContent(el);

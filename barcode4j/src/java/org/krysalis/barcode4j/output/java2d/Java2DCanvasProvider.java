@@ -1,5 +1,5 @@
 /*
- * $Id: Java2DCanvasProvider.java,v 1.1 2003-12-13 20:23:42 jmaerki Exp $
+ * $Id: Java2DCanvasProvider.java,v 1.2 2004-08-30 21:21:53 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
  * Copyright (c) 2002-2003 Nicola Ken Barozzi.  All rights reserved.
@@ -144,10 +144,10 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
             System.out.println("deviceText " + x1 + " " + x2 + " " 
                     + (x2 - x1) + " " + y1 + " " + text);
             System.out.println("fontSize: " 
-                    + fontSize + "pt (" + UnitConv.pt2mm(fontSize) + "mm)");
+                    + fontSize + "mm (" + UnitConv.mm2pt(fontSize) + "pt)");
         }
         Font font = new Font(fontName, Font.PLAIN, 
-            (int)Math.round(UnitConv.pt2mm(fontSize)));
+            (int)Math.round(fontSize));
         FontRenderContext frc = g2d.getFontRenderContext();
         GlyphVector gv = font.createGlyphVector(frc, text);
         
@@ -176,7 +176,6 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
         g2d.setFont(font);
         if (justify) {
             //move the individual glyphs
-            float rx = 0.0f;
             for (int i = 0; i < gv.getNumGlyphs(); i++) {
                 Point2D point = gv.getGlyphPosition(i);
                 point.setLocation(point.getX() + i * intercharSpace, point.getY());
@@ -193,11 +192,11 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
         g2d.setFont(oldFont);
         if (DEBUG) {
             g2d.setStroke(new BasicStroke(0.01f));
-            g2d.draw(new Rectangle2D.Double(x1, y1 - UnitConv.pt2mm(fontSize), 
-                x2 - x1, UnitConv.pt2mm(fontSize)));
+            g2d.draw(new Rectangle2D.Double(x1, y1 - fontSize, 
+                x2 - x1, fontSize));
             g2d.draw(new Rectangle2D.Double(x1 + indent, 
-                y1 - UnitConv.pt2mm(fontSize), 
-                textwidth, UnitConv.pt2mm(fontSize)));
+                y1 - fontSize, 
+                textwidth, fontSize));
         }
     }
 
