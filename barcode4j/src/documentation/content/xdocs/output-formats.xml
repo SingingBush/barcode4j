@@ -49,6 +49,11 @@
         used in the barcode is expected to be present in the target PostScript
         interpreter.
       </p>
+			<note>
+				To minimise file size and for performance reasons, the generated EPS 
+				files do not contain a bitmap preview. So if you import the EPS file
+				into an application (such as Visio) you may not see the barode.
+			</note>
     </section>
     <section>
       <title>Java2D (AWT)</title>
