@@ -20,13 +20,12 @@
       <p>
         There are several basic steps involved for generating barcodes:
       </p>
-      <ul>
+      <ol>
         <li>Provide an Avalon Configuration object to configure the barcode engine</li>
-        <li>Provide an Avalon Logger implementation</li>
         <li>Create a BarcodeGenerator</li>
         <li>Create a CanvasProvider (depending on the output format)</li>
         <li>Finally generate the barcode</li>
-      </ul>
+      </ol>
     </section>
     <section>
       <title>Providing an Avalon Configuration object</title>
@@ -64,21 +63,6 @@ Configuration cfg = builder.buildFromFile(new File("C:\Temp\barcode-cfg.xml"));]
       </p>
     </section>
     <section>
-      <title>Providing a Logger</title>
-      <p>
-        <strong>Barcode4J</strong> uses the Avalon Logger interface for 
-        logging. There are many implementations (for Log4J, JDK 1.4 
-        logging, LogKit) available. Please refer to the Avalon documentation 
-        for details.
-      </p>
-      <p>
-        Normally, you will probably assign a NullLogger (a logger that logs to 
-        /dev/null, i.e. not at all).
-      </p>
-      <source><![CDATA[
-Logger log = new org.apache.avalon.framework.logger.NullLogger();]]></source>
-    </section>
-    <section>
       <title>Creating a BarcodeGenerator</title>
       <p>
         The BarcodeGenerator is used to generate the logical parts of a barcode 
@@ -90,7 +74,7 @@ Logger log = new org.apache.avalon.framework.logger.NullLogger();]]></source>
         the configuration you've built above.
       </p>
       <source><![CDATA[
-BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator( cfg, log );]]></source>
+BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator( cfg );]]></source>
     </section>
     <section>
       <title>Creating the CanvasProvider and generating the barcode</title>
@@ -160,6 +144,11 @@ provider.finish();]]></source>
         <p>
           The example here produces a grayscale PNG with 300 dpi and anti-aliasing.
         </p>
+        <note>
+          Although, JPEG output is supported, it is NOT recommended as it is a lossy
+          compression format and contrast will suffer and thus degrading the 
+          readability of the generated barcode. 
+        </note>
         <p>
           Instead of writing the bitmap to a file you can fetch the BufferedImage instead. That 
           would look like this:

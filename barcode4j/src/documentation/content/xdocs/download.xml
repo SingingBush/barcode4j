@@ -44,12 +44,12 @@
       <p>
         The latest code is available through <link href="viewcvs.html">CVS</link>.
       </p>
-      <p>
+      <!--p>
         Since public CVS access can be problematic at SourceForge, we provide 
         <link href="ext:tarballs">daily CVS snapshots</link> containing the latest code.
         This allows you to download the latest (unreleased) code without having to setup
         CVS access.
-      </p>
+      </p-->
     </section>
   </body>
 </document>

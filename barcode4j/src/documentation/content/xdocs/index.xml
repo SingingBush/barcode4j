@@ -12,15 +12,11 @@
       <title>Introduction</title>
       <p>
         <strong>Barcode4J</strong> is a flexible generator for barcodes written 
-        in Java. It's free, available under an Apache-style Open Source license.
+        in Java. It's free, available under the Apache License, version 2.0.
       </p>
-      <note>Although the package has already seen real-life usage it has recently undergone a refactoring
-        cycle and it is to be considered <strong>beta quality</strong>. You're invited to try it and
-        help with its development by providing feedback and sending patches (code or documentation).
-      </note>
     </section>
     <section>
-      <title>Important News for Krysalis Barcode users</title>
+      <title>Important Krysalis Barcode News</title>
       <p>
       	Krysalis Barcode has been renamed to <strong>Barcode4J</strong> and moved 
       	to its own SourceForge project. <link href="krysalis-barcode.html">More...</link>

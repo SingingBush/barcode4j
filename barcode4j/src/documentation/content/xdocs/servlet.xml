@@ -89,6 +89,16 @@
           <td>Determines the placement of the human-readable part. Possible values: "top", "bottom" or "none"</td>
         </tr>
         <tr>
+          <td>hrsize</td>
+          <td>optional</td>
+          <td>Determines the font size for the human-readable part. Example: 12pt</td>
+        </tr>
+        <tr>
+          <td>hrfont</td>
+          <td>optional</td>
+          <td>Determines the font to use for the human-readable part. Example: CourierNew</td>
+        </tr>
+        <tr>
           <td>res</td>
           <td>defaults to 300dpi</td>
           <td>(Applies to bitmaps only) Determines the resolution in dpi (dots per inch) for bitmaps.</td>

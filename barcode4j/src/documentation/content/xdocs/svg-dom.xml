@@ -46,21 +46,14 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
       <p>The easiest way to obtain the barcode in SVG as a DocumentFragment is to use 
         <code>org.krysalis.barcode4j.BarcodeUtil</code>. See the following example:</p>
       <source><![CDATA[
-import org.apache.avalon.framework.ExceptionUtil;
-import org.apache.avalon.framework.logger.Logger;
+import org.w3c.dom.DocumentFragment;
+
 [..]
 
-    Logger log = new org.apache.avalon.framework.logger.ConsoleLogger();
-    
     String myMessage = "012345679";
-    
-    org.w3c.dom.DocumentFragment frag = BarcodeUtil.getInstance().generateBarcode(cfg, log, myMessage);]]>
+    DocumentFragment frag = BarcodeUtil.getInstance()
+          .generateBarcode(cfg, myMessage);]]>
       </source>
-      <note>You'll notice the logger. Barcode4J uses the logger abstraction from Avalon Framework. It 
-        enables you to use any kind of logging implementation. The object passed must simply 
-        implement the <code>org.apache.avalon.framework.logger.Logger</code> interface. You'll find implementations
-        for LogKit, Log4J, System.out (Console, see above), /dev/nul etc. right there in the same package as the 
-        Logger interface. Please refer to the Avalon documentation for further details.</note>
     </section>
     <section id="serialize-dom">
       <title>Serializing the barcode</title>
@@ -69,8 +62,8 @@ import org.apache.avalon.framework.logger.Logger;
       <source><![CDATA[
     TransformerFactory factory = TransformerFactory.newInstance();
     Transformer trans = factory.newTransformer();
-    Source src = new javax.xml.transform.dom.DOMSource(frag);
-    Result res = new javax.xml.transform.stream.StreamResult(new File("C:\Temp\myBarcode.svg"));
+    Source src = new DOMSource(frag);
+    Result res = new StreamResult(new File("C:\Temp\myBarcode.svg"));
     trans.transform(src, res);]]>
       </source>
     </section>

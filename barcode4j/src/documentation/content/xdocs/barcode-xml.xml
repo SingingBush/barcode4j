@@ -40,7 +40,9 @@
         <p>
           When implementing with <link href="xalan-ext.html">Usage with Xalan-J</link>, <link href="saxon-ext.html">Usage with SAXON</link>, or <link href="fop-ext.html">Usage with FOP</link>, the general structure of the Barcode XML format changes slightly, to include the barcode namespace. For example, when using Barcode 4J with FOP, it looks like this:
         </p>
-	  <source>&#60;barcode:barcode xmlns:barcode="http://barcode4j.krysalis.org/ns" message="123456789"&#62;
+	  <source>&#60;barcode:barcode
+    xmlns:barcode="http://barcode4j.krysalis.org/ns"
+    message="123456789"&#62;
   &#60;barcode:{type}&#62;
     {barcode-specific configuration}
   &#60;/barcode:{type}&#62;

@@ -37,6 +37,11 @@
           resolution and use HTML to scale down the bitmap or ...(see next point)
         </li>
         <li>
+          Avoid JPEG as target format for your barcodes. JPEG is a lossy compression
+          format and contrast will suffer and thus degrading the readability of the 
+          generated barcode. 
+        </li>
+        <li>
           Sometimes you need to play with the resolution and module width 
           settings to get the best result. As a help: the minimum module width 
           can be computed by 1 / [resolution]. Example: 1 / 300dpi = 0.0033333333in. 

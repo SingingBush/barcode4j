@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Hall of Fame</title>
+    <authors>
+      <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+      <title>Committers</title>
+      <ul>
+        <li>Jeremias Märki (primary author)</li>
+      </ul>
+    </section>
+    <section>
+      <title>Contributors</title>
+      <ul>
+        <li>Chris Dolphy (POSTNET implementation)</li>
+        <li>Clay Leeds (documentation improvements)</li>
+        <li>Bruno Marçal Dias (bug fixes)</li>
+        <li>Andrew Nelson (servlet improvements)</li>
+      </ul>
+      <p>
+        Special thanks to Nicola Ken Barozzi, Nick Chalko and Adam Jack.
+      </p>
+    </section>
+  </body>
+</document>

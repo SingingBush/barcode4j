@@ -92,6 +92,11 @@
         enable or disable anti-aliasing for grayscale images. You can also choose to generate
         monochrome images (1 bit). Additionally, you can specify the resolution for the bitmap.
       </p>
+      <note>
+        Although, JPEG output is supported, it is NOT recommended as it is a lossy
+        compression format and contrast will suffer and thus degrading the 
+        readability of the generated barcode. 
+      </note>
     </section>
   </body>
 </document>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE faqs PUBLIC "-//APACHE//DTD FAQ V1.1//EN" "dtd/faq-v11.dtd">
 
 <faqs title="Frequently Asked Questions">
@@ -29,20 +29,6 @@
         </p>
       </answer>
     </faq>
-    <faq id="avalon-framework">
-      <question>
-        I've got error messages that contain the words "avalon" and "framework". What's wrong?
-      </question>
-      <answer>
-        <p>
-          Most probably you have an outdated version of
-          <fork href="ext:avalon">Avalon Framework</fork> in your classpath. This can happen if
-          you're working with FOP 0.20.5, for example, which contains an older version of
-          Avalon Framework. Please use the one supplied with Barcode4J or download the
-          latest release directly from the <fork href="ext:avalon">Avalon site</fork>.
-        </p>
-      </answer>
-    </faq>
   </part>
   <part id="docs">
     <title>Documentation</title>
@@ -60,7 +46,47 @@
         </p>
       </answer>
     </faq>
-    <!-- More faqs or parts here -->
+  </part>
+  <part id="fop">
+    <title>Apache FOP</title>
+    <faq id="fop-ext-failure">
+      <question>
+        The FOP extension fails.
+      </question>
+      <answer>
+        <p>
+          You will see error messages like this:
+        </p>
+        <source><![CDATA[
+[ERROR] Unknown formatting object http://barcode4j.krysalis.org/ns^barcode
+[ERROR] no handler defined for http://barcode4j.krysalis.org/ns:barcode foreign xml]]></source>
+        <p>
+          This usually indicates that the FOP extension is not present in the 
+          classpath. Make sure you've got either both barcode4j.jar and 
+          barcode4j-fop-ext-0.20.5.jar or the bigger 
+          barcode4j-fop-ext-0.20.5-complete.jar in your classpath. If you work
+          from the command-line you may have to change fop.bat or fop.sh.
+        </p>
+        <p>
+          In rare circumstances this may be a result of a classloader problem.
+          The resolution of problems like this depends on your environment.
+        </p>
+      </answer>
+    </faq>
+    <faq id="avalon-framework">
+      <question>
+        I've got error messages that contain the words "avalon" and "framework". What's wrong?
+      </question>
+      <answer>
+        <p>
+          Most probably you have an outdated version of
+          <fork href="ext:avalon">Avalon Framework</fork> in your classpath. This can happen if
+          you're working with FOP 0.20.5, for example, which contains an older version of
+          Avalon Framework. Please use the one supplied with Barcode4J or download the
+          latest release directly from the <fork href="ext:avalon">Avalon site</fork>.
+        </p>
+      </answer>
+    </faq>
   </part>
   <part id="java">
     <title>Java</title>
@@ -78,8 +104,13 @@
           looks like when you want to run Barcode4J from the command-line:
         </p>
         <source><![CDATA[
-Windows: java -cp lib\avalon-framework-4.1.5.jar;lib\commons-cli-1.0.jar;build\barcode4j.jar org.krysalis.barcode4j.cli.Main
-Unix:    java -cp lib\avalon-framework-4.1.5.jar:lib\commons-cli-1.0.jar:build\barcode4j.jar org.krysalis.barcode4j.cli.Main]]>
+Windows:
+java -cp lib\avalon-framework-4.1.5.jar;lib\commons-cli-1.0.jar;build\barcode4j.jar 
+    org.krysalis.barcode4j.cli.Main
+
+Unix:
+java -cp lib\avalon-framework-4.1.5.jar:lib\commons-cli-1.0.jar:build\barcode4j.jar 
+    org.krysalis.barcode4j.cli.Main]]>
         </source>
         <note>
           Instead of "-cp" you can also use "-classpath".

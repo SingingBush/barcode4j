@@ -17,37 +17,36 @@ See http://xml.apache.org/forrest/linking.html for more info
 <site label="Barcode" href="" xmlns="http://apache.org/forrest/linkmap/1.0">
 
   <about label="About">
-    <index label="Index" href="index.html"/>
-    <krysalis-barcode label="Important info for Krysalis Barcode users" href="krysalis-barcode.html"/>
+    <index label="Introduction" href="index.html"/>
+    <krysalis-barcode label="Important Krysalis Barcode News" href="krysalis-barcode.html"/>
     <download label="Download" href="download.html"/>
-    <demo label="Demonstration" href="examples.html"/>
+    <demo label="Examples" href="examples.html"/>
   </about>
-  
+  <start label="Getting started">
+    <building label="Building&#160;Barcode4J" href="building.html"/>
+    <running label="Running&#160;Barcode4J" href="running.html"/>
+  </start>  
   <docs label="Documentation">
-    <building label="Building" href="building.html"/>
-    <running label="Running" href="running.html"/>
-    <design label="Design" href="design.html"/>
-    <barcode-xml label="Barcode XML format" href="barcode-xml.html"/>
+    <scenarios label="Scenarios">
+      <xsl-fo label="XSL-FO" href="xsl-fo.html"/>
+      <svg-dom label="SVG DOM" href="svg-dom.html"/>
+    </scenarios>
+    <running label="Creating&#160;barcodes">
+      <fop-ext label="...with FOP" href="fop-ext.html"/>
+      <xalan-ext label="...with Xalan-J" href="xalan-ext.html"/>
+      <saxon-ext label="...with SAXON" href="saxon-ext.html"/>
+      <servlet label="...with a Servlet" href="servlet.html"/>
+      <cli label="...from the Command Line" href="cli.html"/>
+      <embedding label="Embedding in Java (XML API)" href="embedding.html"/>
+      <embedding-bean label="Embedding in Java (Bean API)" href="embedding-bean.html"/>
+    </running>
+    <barcode-xml label="The Barcode XML format" href="barcode-xml.html"/>
     <output-formats label="Output Formats" href="output-formats.html"/>
-    <xsl-fo label="Use case: XSL-FO" href="xsl-fo.html"/>
-    <svg-dom label="Use case: SVG DOM" href="svg-dom.html"/>
-    <embedding label="Embedding in Java" href="embedding.html"/>
-    <xalan-ext label="Usage with Xalan-J" href="xalan-ext.html"/>
-    <saxon-ext label="Usage with SAXON" href="saxon-ext.html"/>
-    <fop-ext label="Usage with FOP" href="fop-ext.html"/>
-    <servlet label="Barcode Servlet" href="servlet.html"/>
-    <cli label="Command Line" href="cli.html"/>
+    <design label="Design" href="design.html"/>
     <changes label="Changes" href="changes.html"/>
     <todo label="Todo" href="todo.html"/>
+    <contributors label="Hall of Fame" href="contributors.html"/>
     <links label="Links" href="links.html"/>
-    <!--
-    <sample label="Sample page" href="sample.html">
-      <top href="#top"/>
-      <section href="#section"/>
-    </sample>
-    <sample-ihtml label="Sample ihtml page" href="ihtml-sample.html"/>
-    <sample-ehtml label="Sample ehtml page" href="ehtml-sample.html"/>
-    -->
   </docs>
   <support label="Support">
     <troubleshooting label="Troubleshooting" href="troubleshooting.html"/>

@@ -27,12 +27,12 @@
       <title>Running</title>
       <p>Depending on how you will run Barcode4J, you will have differing dependencies. The directions below:</p>
       <ul>
-        <li><link href="embedding.html">Embedding in a Java application</link></li>
-        <li><link href="xalan-ext.html">Usage with Xalan-J</link></li>
+        <li><link href="xalan-ext.html">Usage with Apache Xalan-J</link></li>
         <li><link href="saxon-ext.html">Usage with SAXON</link></li>
-        <li><link href="fop-ext.html">Usage with FOP</link></li>
+        <li><link href="fop-ext.html">Usage with Apache FOP</link></li>
         <li><link href="servlet.html">Barcode Servlet</link></li>
         <li><link href="cli.html">Command Line</link></li>
+        <li><link href="embedding.html">Embedding in a Java application</link></li>
       </ul>
     </section>
   </body>

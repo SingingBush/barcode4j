@@ -42,10 +42,12 @@
       <p>An example:</p>
       <source><![CDATA[
 Windows:
-java -cp build\barcode4j.jar;lib\avalon-framework-4.1.4.jar;lib\commons-cli-1.0.jar org.krysalis.barcode4j.cli.Main <parameters>
+java -cp build\barcode4j.jar;lib\avalon-framework-4.1.5.jar;lib\commons-cli-1.0.jar
+    org.krysalis.barcode4j.cli.Main <parameters>
 
 Unix:
-java -cp build/barcode4j.jar:lib/avalon-framework-4.1.4.jar:lib/commons-cli-1.0.jar org.krysalis.barcode4j.cli.Main <parameters>]]></source>
+java -cp build/barcode4j.jar:lib/avalon-framework-4.1.5.jar:lib/commons-cli-1.0.jar
+    org.krysalis.barcode4j.cli.Main <parameters>]]></source>
     </section>
     <section>
       <title>Parameters</title>

@@ -47,7 +47,8 @@
       <source><![CDATA[
 <fo:block>
   <fo:instream-foreign-object>
-    <barcode:barcode xmlns:barcode="http://barcode4j.krysalis.org/ns"
+    <barcode:barcode
+          xmlns:barcode="http://barcode4j.krysalis.org/ns"
           message="my message">
       <barcode:code128>
         <barcode:height>8mm</barcode:height>
@@ -71,7 +72,8 @@
         to insert a page number between <code>12345-</code> and <code>-6789</code>
         do the following:
       </p>
-    <source>&#60;barcode:barcode xmlns:barcode="http://barcode4j.krysalis.org/ns"
+    <source>&#60;barcode:barcode
+    xmlns:barcode="http://barcode4j.krysalis.org/ns"
     message="12345-#page-number#-6789"&#62;
   &#60;code39/&#62;
 &#60;/barcode:barcode&#62;</source>
@@ -84,7 +86,7 @@
         you would use "#page-number:0000#" in the message.
       </p>
       <note>
-        This feature is exclusively available in the FOP extension. It doesn't work
+        This feature is exclusively available in the FOP extension. It does not work
         in the XSLT extensions for Xalan-J or SAXON because only FOP has the 
         information about the current page number. The XSLT stage runs before any
         layout is processed.
