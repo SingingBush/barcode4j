@@ -1,5 +1,5 @@
 /*
- * $Id: Code128EncoderTest.java,v 1.2 2004-04-27 18:28:18 jmaerki Exp $
+ * $Id: Code128EncoderTest.java,v 1.3 2004-04-28 19:25:17 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
  * Copyright (c) 2002-2003 Nicola Ken Barozzi.  All rights reserved.
@@ -187,7 +187,9 @@ public class Code128EncoderTest extends TestCase {
     }
 
     private String encodeToDebug(String msg, Code128Encoder encoder) {
-        return visualize(encoder.encode(msg));
+        String s = visualize(encoder.encode(msg));
+        //System.out.println(s); 
+        return s;
     }
     
     private void testEncoderSpecialChars(Code128Encoder encoder) {
@@ -247,6 +249,14 @@ public class Code128EncoderTest extends TestCase {
     
     public void testBug942246() throws Exception {
         Code128Encoder encoder = new DefaultCode128Encoder();
-        encodeToDebug("\u00f1020456789012341837100\u00f13101000200", encoder);
+        assertEquals(
+            "->C[37][10]->B0<FNC1>->C[31][1][0][2][0]",
+            encodeToDebug("37100\u00f13101000200", encoder));
+        assertEquals(
+            "->C<FNC1>[2][4][56][78][90][12][34][18][37][10]->B0<FNC1>->C[31][1][0][2][0]",
+            encodeToDebug("\u00f1020456789012341837100\u00f13101000200", encoder));
+        assertEquals(
+            "->C<FNC1>[2][4][56][78][90][12][34][18][37][10]<FNC1>[31][1][0][2][0]",
+            encodeToDebug("\u00f102045678901234183710\u00f13101000200", encoder));
     }
 }
