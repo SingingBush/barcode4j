@@ -25,7 +25,7 @@ import org.krysalis.barcode4j.output.Canvas;
  * Default Logic Handler implementation for painting on a Canvas.
  * 
  * @author Jeremias Maerki
- * @version $Id: DefaultCanvasLogicHandler.java,v 1.3 2004-09-12 17:57:51 jmaerki Exp $
+ * @version $Id: DefaultCanvasLogicHandler.java,v 1.4 2004-09-12 18:02:03 jmaerki Exp $
  */
 public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
     
@@ -37,7 +37,7 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
     
     /**
      * Main constructor.
-     * @param bcImpl the barcode implementation class
+     * @param bcBean the barcode implementation class
      * @param canvas the canvas to paint to
      */
     public DefaultCanvasLogicHandler(AbstractBarcodeBean bcBean, Canvas canvas) {

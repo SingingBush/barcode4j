@@ -18,7 +18,6 @@ package org.krysalis.barcode4j.impl;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.HumanReadablePlacement;
-import org.krysalis.barcode4j.output.Canvas;
 import org.krysalis.barcode4j.output.CanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
 
@@ -26,7 +25,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * Base class for most barcode implementations.
  * 
  * @author Jeremias Maerki
- * @version $Id: AbstractBarcodeBean.java,v 1.1 2004-09-12 17:57:51 jmaerki Exp $
+ * @version $Id: AbstractBarcodeBean.java,v 1.2 2004-09-12 18:02:03 jmaerki Exp $
  */
 public abstract class AbstractBarcodeBean 
             implements BarcodeGenerator {

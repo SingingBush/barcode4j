@@ -19,7 +19,6 @@ import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
-import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
 import org.krysalis.barcode4j.impl.DefaultCanvasLogicHandler;
 import org.krysalis.barcode4j.output.Canvas;
 import org.krysalis.barcode4j.output.CanvasProvider;
@@ -28,7 +27,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Code39 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code39Bean.java,v 1.1 2004-09-12 17:57:53 jmaerki Exp $
+ * @version $Id: Code39Bean.java,v 1.2 2004-09-12 18:02:03 jmaerki Exp $
  */
 public class Code39Bean extends AbstractBarcodeBean {
 

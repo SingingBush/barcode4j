@@ -22,7 +22,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * This class is an implementation of the Code 128 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code128LogicImpl.java,v 1.1 2004-09-12 17:57:52 jmaerki Exp $
+ * @version $Id: Code128LogicImpl.java,v 1.2 2004-09-12 18:02:02 jmaerki Exp $
  */
 public class Code128LogicImpl {
 
@@ -139,9 +139,9 @@ public class Code128LogicImpl {
                                        {1, 1, 4, 1, 3, 1}, 
                                        {3, 1, 1, 1, 4, 1}, 
                                        {4, 1, 1, 1, 3, 1}, 
-                                       {2, 1, 1, 4, 1, 2}, //103, Start A
-                                       {2, 1, 1, 2, 1, 4}, //104, Start B
-                                       {2, 1, 1, 2, 3, 2}};//105, Start C
+                                       {2, 1, 1, 4, 1, 2},  //103, Start A
+                                       {2, 1, 1, 2, 1, 4},  //104, Start B
+                                       {2, 1, 1, 2, 3, 2}}; //105, Start C
 
     private static final byte[] STOP = {2, 3, 3, 1, 1, 1, 2}; //106, STOP
 

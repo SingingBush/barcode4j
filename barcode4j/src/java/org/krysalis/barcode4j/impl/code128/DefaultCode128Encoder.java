@@ -19,7 +19,7 @@ package org.krysalis.barcode4j.impl.code128;
  * Default encoder algorithm for Code128 barcode messages.
  *  
  * @author Jeremias Maerki
- * @version $Id: DefaultCode128Encoder.java,v 1.1 2004-09-12 17:57:52 jmaerki Exp $
+ * @version $Id: DefaultCode128Encoder.java,v 1.2 2004-09-12 18:02:02 jmaerki Exp $
  */
 public class DefaultCode128Encoder implements Code128Encoder {
 
@@ -47,7 +47,7 @@ public class DefaultCode128Encoder implements Code128Encoder {
      *   position in a duo.
      * @return true if the character is in the codeset
      */
-    private final boolean inCodeset(char c, int codeset, boolean second) {
+    private boolean inCodeset(char c, int codeset, boolean second) {
         switch (codeset) {
             case CODESET_A: return Code128LogicImpl.isInCodeSetA(c);
             case CODESET_B: return Code128LogicImpl.isInCodeSetB(c);

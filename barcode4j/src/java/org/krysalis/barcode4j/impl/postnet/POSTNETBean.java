@@ -19,7 +19,6 @@ import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BaselineAlignment;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.HumanReadablePlacement;
-import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
 import org.krysalis.barcode4j.impl.DefaultHeightVariableLogicHandler;
 import org.krysalis.barcode4j.impl.HeightVariableBarcodeBean;
 import org.krysalis.barcode4j.output.Canvas;
@@ -29,7 +28,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * Implements the United States Postal Service POSTNET barcode.
  * 
  * @author Chris Dolphy
- * @version $Id: POSTNETBean.java,v 1.1 2004-09-12 17:57:51 jmaerki Exp $
+ * @version $Id: POSTNETBean.java,v 1.2 2004-09-12 18:02:03 jmaerki Exp $
  */
 public class POSTNETBean extends HeightVariableBarcodeBean {
 
