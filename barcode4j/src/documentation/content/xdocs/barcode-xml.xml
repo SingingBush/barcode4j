@@ -25,12 +25,12 @@
       <p>
         The general structure of the Barcode XML format looks like this:
       </p>
-      <source><![CDATA[
-  <barcode>
-    <{type}>
+      <source>
+  &#60;barcode&#62;
+    &#60;{type}&#62;
       {barcode-specific configuration}
-    </{type}>
-  </barcode>]]>
+    &#60;/{type}&#62;
+  &#60;/barcode&#62;
       </source>
       <p>
         Replace <strong>{type}</strong> with the name of the barcode type, ex. "ean13" or "code39". You can also use the 
@@ -41,13 +41,18 @@
         The barcode-specific configuration is a set of elements and attributes defined by the barcode implementation
         itself. Please see further down for specifics. But here's an example:
       </p>
-      <source><![CDATA[
-  <barcode>
-    <intl2of5>
-      <height>10mm</height>
-      <wide-factor>2.5</wide-factor>
-    </intl2of5>
-  </barcode>]]>
+      <note>
+      	In the examples below, the sample code <code>&#60;height&#62;{length}&#60;/height&#62;</code> would be changed to
+		<code>&#60;height&#62;10mm&#60;/height&#62;</code> (replacing everything between the "{" and "}"
+		<strong>including the "{" and "}" marks</strong>), as is shown in the example code fragment below.
+      </note>
+      <source>
+  &#60;barcode&#62;
+    &#60;intl2of5&#62;
+      &#60;height&#62;10mm&#60;/height&#62;
+      &#60;wide-factor&#62;2.5&#60;/wide-factor&#62;
+    &#60;/intl2of5&#62;
+  &#60;/barcode&#62;
       </source>
     </section>
     <section>
@@ -56,10 +61,10 @@
         The values for the configuration elements are of various datatypes:
       </p>
       <ul>
-        <li>{boolean}: The values "true"/"yes"/"on" or "false"/"no"/"off".</li>
-        <li>{string}: A simple unicode string.</li>
-        <li>{number}: A number such in the format "2.43" or "5".</li>
-        <li>{unit}: length unit, one of "mm", "cm", "pt".
+        <li id="boolean">{boolean}: The values <code>true</code>|<code>yes</code>|<code>on</code> or <code>false</code>|<code>no</code>|<code>off</code>.</li>
+        <li id="string">{string}: A simple unicode string.</li>
+        <li id="number">{number}: A number such as "2.43" or "5".</li>
+        <li id="unit">{unit}: length unit, one of <code>mm</code>, <code>cm</code>, or <code>pt</code>.
           <ul>
             <li>The default unit is normally "mm" (Millimeters) but is implementation-dependent.</li>
             <li>A special unit supported in certain places is "mw" (module width). This is used in 
@@ -67,8 +72,8 @@
             </li>
           </ul>
         </li>
-        <li>{length}: A length in the form "{number}[[ ]{unit}]". Examples: "1.2mm", "5.0", "3".</li>
-        <li>{checksum-mode}: The checksum mode determines the behaviour for checksums. Possible values (not 
+        <li id="length">{length}: A length in the form "{<link href="#number">number</link>}[[ ]{<link href="#unit">unit</link>}]". Examples: <code>1.2mm</code>, <code>5.0</code>, or <code>3</code>.</li>
+        <li id="checksum-mode">{checksum-mode}: The checksum mode determines the behaviour for checksums. Possible values (not 
         	all values are supported by all symbologies):
           <ul>
             <li>add: the checksum is automatically added to the message.</li>
@@ -77,7 +82,7 @@
             <li>auto: Enables the barcode type's default behaviour.</li>
           </ul>
         </li>
-        <li>{human-readable-placement}: This enumeration determines the placement of the human-readable part 
+        <li id="human-readable-placement">{human-readable-placement}: This enumeration determines the placement of the human-readable part 
         	of a barcode. Possible values:
           <ul>
             <li>bottom: the message is placed at the bottom of the symbol.</li>
@@ -85,36 +90,39 @@
             <li>none: no human-readable part is generated.</li>
           </ul>
         </li>
-        <li>{baseline-alignment}: This enumeration determines the alignment of the lines of barcodes such as
+        <li id="baseline-alignment">{baseline-alignment}: This enumeration determines the alignment of the lines of barcodes such as
          POSTNET.
           <ul>
             <li>bottom: Short and long lines are aligned at the bottom.</li>
             <li>top: Short and long lines are aligned at the top.</li>
           </ul>
         </li>
-        <li>{font-name}: As the name says, a font name. Note that not all fonts are available for all output formats.</li>
+        <li id="font-name">{font-name}: As the name says, a font name. Note that not all fonts are available for all output formats.</li>
       </ul>
       <p>
-        Datatypes below are often given in the format "{length:15mm}". The value after the datatype indicates 
-        the default value. If the datatype specifies a default value, this means that the whole element is optional.
+        Datatypes below are often given in the format "{<link href="#length">length</link>:15mm}". The value after the datatype indicates 
+        the default value.
       </p>
+      <note>
+      	If the datatype specifies a default value (as in <code>length:15mm</code> above), this means that the whole element is optional.
+      </note>
     </section>
     <section>
       <title>Interleaved 2 of 5</title>
       <p>The configuration for the default implementation is:</p>
-      <source><![CDATA[
-  <barcode>
-    <intl2of5>
-      <height>{length:15mm}</height>
-      <module-width>{length:0.21mm}</module-width>
-      <wide-factor>{number:3.0}</wide-factor>
-      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
-      <checksum>{checksum-mode:auto=ignore}</checksum>
-      <human-readable>{human-readable-placement:bottom}</human-readable>
-      <human-readable-font>{font-name:Helvetica}</human-readable-font>
-      <human-readable-size>{length:8pt}</human-readable-size>
-    </intl2of5>
-  </barcode>]]>
+      <source>
+  &#60;barcode&#62;
+    &#60;intl2of5&#62;
+      &#60;height&#62;{<link href="#length">length</link>:15mm}&#60;/height&#62;
+      &#60;module-width&#62;{<link href="#length">length</link>:0.21mm}&#60;/module-width&#62;
+      &#60;wide-factor&#62;{<link href="#number">number</link>:3.0}&#60;/wide-factor&#62;
+      &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
+      &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=ignore}&#60;/checksum&#62;
+      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
+      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
+      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+    &#60;/intl2of5&#62;
+  &#60;/barcode&#62;
       </source>
       <section>
         <title>Notes</title>
@@ -143,20 +151,20 @@
       <title>Code 39</title>
       <p>also known as: USD-3, 3 of 9 code</p>
       <p>The configuration for the default implementation is:</p>
-      <source><![CDATA[
-  <barcode>
-    <code39>
-      <height>{length:15mm}</height>
-      <module-width>{length:0.19mm}</module-width>
-      <wide-factor>{number:2.5}</wide-factor>
-      <interchar-gap-width>{length:1mw}</interchar-gap-width>
-      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
-      <checksum>{checksum-mode:auto=ignore}</checksum>
-      <human-readable>{human-readable-placement:bottom}</human-readable>
-      <human-readable-font>{font-name:Helvetica}</human-readable-font>
-      <human-readable-size>{length:8pt}</human-readable-size>
-    </code39>
-  </barcode>]]>
+      <source>
+  &#60;barcode&#62;
+    &#60;code39&#62;
+      &#60;height&#62;{<link href="#length">length</link>:15mm}&#60;/height&#62;
+      &#60;module-width&#62;{<link href="#length">length</link>:0.19mm}&#60;/module-width&#62;
+      &#60;wide-factor&#62;{<link href="#number">number</link>:2.5}&#60;/wide-factor&#62;
+      &#60;interchar-gap-width&#62;{<link href="#length">length</link>:1mw}&#60;/interchar-gap-width&#62;
+      &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
+      &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=ignore}&#60;/checksum&#62;
+      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
+      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
+      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+    &#60;/code39&#62;
+  &#60;/barcode&#62;
       </source>
       <section>
         <title>Notes</title>
@@ -192,18 +200,18 @@
       <title>Codabar</title>
       <p>also known as: USD-4, NW-7, 2 of 7 code</p>
       <p>The configuration for the default implementation is:</p>
-      <source><![CDATA[
-  <barcode>
-    <codabar>
-      <height>{length:15mm}</height>
-      <module-width>{length:0.21mm}</module-width>
-      <wide-factor>{number:3.0}</wide-factor>
-      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
-      <human-readable>{human-readable-placement:bottom}</human-readable>
-      <human-readable-font>{font-name:Helvetica}</human-readable-font>
-      <human-readable-size>{length:8pt}</human-readable-size>
-    </codabar>
-  </barcode>]]>
+      <source>
+  &#60;barcode&#62;
+    &#60;codabar&#62;
+      &#60;height&#62;{<link href="#length">length</link>:15mm}&#60;/height&#62;
+      &#60;module-width&#62;{<link href="#length">length</link>:0.21mm}&#60;/module-width&#62;
+      &#60;wide-factor&#62;{<link href="#number">number</link>:3.0}&#60;/wide-factor&#62;
+      &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
+      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
+      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
+      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+    &#60;/codabar&#62;
+  &#60;/barcode&#62;
       </source>
       <section>
         <title>Notes</title>
@@ -223,17 +231,17 @@
       <title>Code 128</title>
       <p>also known as: EAN/UCC 128</p>
       <p>The configuration for the default implementation is:</p>
-      <source><![CDATA[
-  <barcode>
-    <code128>
-      <height>{length:15mm}</height>
-      <module-width>{length:0.21mm}</module-width>
-      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
-      <human-readable>{human-readable-placement:bottom}</human-readable>
-      <human-readable-font>{font-name:Helvetica}</human-readable-font>
-      <human-readable-size>{length:8pt}</human-readable-size>
-    </code128>
-  </barcode>]]>
+      <source>
+  &#60;barcode&#62;
+    &#60;code128&#62;
+      &#60;height&#62;{<link href="#length">length</link>:15mm}&#60;/height&#62;
+      &#60;module-width&#62;{<link href="#length">length</link>:0.21mm}&#60;/module-width&#62;
+      &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
+      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
+      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
+      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+    &#60;/code128&#62;
+  &#60;/barcode&#62;
       </source>
       <section>
         <title>Notes</title>
@@ -255,18 +263,18 @@
     <section>
       <title>UPC-A</title>
       <p>The configuration for the default implementation is:</p>
-      <source><![CDATA[
-  <barcode>
-    <upc-a>
-      <height>{length:15mm}</height>
-      <module-width>{length:0.33mm}</module-width>
-      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
-      <checksum>{checksum-mode:auto=add|check}</checksum>
-      <human-readable>{human-readable-placement:bottom}</human-readable>
-      <human-readable-font>{font-name:Helvetica}</human-readable-font>
-      <human-readable-size>{length:8pt}</human-readable-size>
-    </upc-a>
-  </barcode>]]>
+      <source>
+  &#60;barcode&#62;
+    &#60;upc-a&#62;
+      &#60;height&#62;{<link href="#length">length</link>:15mm}&#60;/height&#62;
+      &#60;module-width&#62;{<link href="#length">length</link>:0.33mm}&#60;/module-width&#62;
+      &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
+      &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=add|check}&#60;/checksum&#62;
+      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
+      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
+      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+    &#60;/upc-a&#62;
+  &#60;/barcode&#62;
       </source>
       <section>
         <title>Message format</title>
@@ -288,18 +296,18 @@
     <section>
       <title>UPC-E</title>
       <p>The configuration for the default implementation is:</p>
-      <source><![CDATA[
-  <barcode>
-    <upc-a>
-      <height>{length:15mm}</height>
-      <module-width>{length:0.33mm}</module-width>
-      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
-      <checksum>{checksum-mode:auto=add|check}</checksum>
-      <human-readable>{human-readable-placement:bottom}</human-readable>
-      <human-readable-font>{font-name:Helvetica}</human-readable-font>
-      <human-readable-size>{length:8pt}</human-readable-size>
-    </upc-a>
-  </barcode>]]>
+      <source>
+  &#60;barcode&#62;
+    &#60;upc-a&#62;
+      &#60;height&#62;{<link href="#length">length</link>:15mm}&#60;/height&#62;
+      &#60;module-width&#62;{<link href="#length">length</link>:0.33mm}&#60;/module-width&#62;
+      &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
+      &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=add|check}&#60;/checksum&#62;
+      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
+      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
+      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+    &#60;/upc-a&#62;
+  &#60;/barcode&#62;
       </source>
       <section>
         <title>Message format</title>
@@ -326,18 +334,18 @@
     <section>
       <title>EAN-13</title>
       <p>The configuration for the default implementation is:</p>
-      <source><![CDATA[
-  <barcode>
-    <ean-13>
-      <height>{length:15mm}</height>
-      <module-width>{length:0.33mm}</module-width>
-      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
-      <checksum>{checksum-mode:auto=add|check}</checksum>
-      <human-readable>{human-readable-placement:bottom}</human-readable>
-      <human-readable-font>{font-name:Helvetica}</human-readable-font>
-      <human-readable-size>{length:8pt}</human-readable-size>
-    </ean-13>
-  </barcode>]]>
+      <source>
+  &#60;barcode&#62;
+    &#60;ean-13&#62;
+      &#60;height&#62;{<link href="#length">length</link>:15mm}&#60;/height&#62;
+      &#60;module-width&#62;{<link href="#length">length</link>:0.33mm}&#60;/module-width&#62;
+      &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
+      &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=add|check}&#60;/checksum&#62;
+      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
+      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
+      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+    &#60;/ean-13&#62;
+  &#60;/barcode&#62;
       </source>
       <section>
         <title>Message format</title>
@@ -359,18 +367,18 @@
     <section>
       <title>EAN-8</title>
       <p>The configuration for the default implementation is:</p>
-      <source><![CDATA[
-  <barcode>
-    <ean-8>
-      <height>{length:15mm}</height>
-      <module-width>{length:0.33mm}</module-width>
-      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
-      <checksum>{checksum-mode:auto=add|check}</checksum>
-      <human-readable>{human-readable-placement:bottom}</human-readable>
-      <human-readable-font>{font-name:Helvetica}</human-readable-font>
-      <human-readable-size>{length:8pt}</human-readable-size>
-    </ean-8>
-  </barcode>]]>
+      <source>
+  &#60;barcode&#62;
+    &#60;ean-8&#62;
+      &#60;height&#62;{<link href="#length">length</link>:15mm}&#60;/height&#62;
+      &#60;module-width&#62;{<link href="#length">length</link>:0.33mm}&#60;/module-width&#62;
+      &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
+      &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=add|check}&#60;/checksum&#62;
+      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/human-readable&#62;
+      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
+      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+    &#60;/ean-8&#62;
+  &#60;/barcode&#62;
       </source>
       <section>
         <title>Message format</title>
@@ -392,22 +400,22 @@
     <section>
       <title>POSTNET</title>
       <p>The configuration for the default implementation is:</p>
-      <source><![CDATA[
-  <barcode>
-    <postnet>
-      <height>{length:15mm}</height>
-      <module-width>{length:0.02in}</module-width>
-      <quiet-zone enabled="{boolean:true}">{length:10mw}</quiet-zone>
-      <checksum>{checksum-mode:auto=ignore}</checksum>
-      <human-readable>{human-readable-placement:none}</human-readable>
-      <human-readable-font>{font-name:Helvetica}</human-readable-font>
-      <human-readable-size>{length:8pt}</human-readable-size>
-      <interchar-gap-width>{length:0.026in}</interchar-gap-width>
-      <tall-bar height>{length:0.125in}</tall-barheight>
-      <short-bar-height>{lenth:0.050in}</short-bar-height>
-      <baseline-alignment><{baseline-alignment:bottom}</baseline-alignment>
-    </postnet>
-  </barcode>]]>
+      <source>
+  &#60;barcode&#62;
+    &#60;postnet&#62;
+      &#60;height&#62;{<link href="#length">length</link>:15mm}&#60;/height&#62;
+      &#60;module-width&#62;{<link href="#length">length</link>:0.02in}&#60;/module-width&#62;
+      &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
+      &#60;checksum&#62;{<link href="#checksum-mode">checksum-mode</link>:auto=ignore}&#60;/checksum&#62;
+      &#60;human-readable&#62;{<link href="#human-readable-placement">human-readable-placement</link>:none}&#60;/human-readable&#62;
+      &#60;human-readable-font&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/human-readable-font&#62;
+      &#60;human-readable-size&#62;{<link href="#length">length</link>:8pt}&#60;/human-readable-size&#62;
+      &#60;interchar-gap-width&#62;{<link href="#length">length</link>:0.026in}&#60;/interchar-gap-width&#62;
+      &#60;tall-bar-height&#62;{<link href="#length">length</link>:0.125in}&#60;/tall-bar-height&#62;
+      &#60;short-bar-height&#62;{<link href="#length">length</link>:0.050in}&#60;/short-bar-height&#62;
+      &#60;baseline-alignment&#62;{<link href="#baseline-alignment">baseline-alignment</link>:bottom}&#60;/baseline-alignment&#62;
+    &#60;/postnet&#62;
+  &#60;/barcode&#62;
       </source>
       <section>
         <title>Message format</title>
@@ -418,3 +426,4 @@
     </section>
   </body>
 </document>
+
