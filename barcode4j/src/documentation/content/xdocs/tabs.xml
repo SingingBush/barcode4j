@@ -17,9 +17,11 @@
   <tab label="How-Tos" dir="community/howto/"/>
   <tab label="XML Site" dir="xml-site/"/>
   -->
+  <tab id="doc" label="Documentation" dir="" indexfile="documentation.html"/>
+  <!-- alternate method
   <tab id="doc" label="Documentation" dir="" indexfile="documentation.html">
-    <!--tab id="build-it" label="Building" dir="" indexfile="building.html"/-->
-    <!--tab id="run-it" label="Running" dir="" indexfile="running.html"/-->
-  </tab>
+    <tab id="build-it" label="Building" dir="" indexfile="building.html"/>
+    <tab id="run-it" label="Running" dir="" indexfile="running.html"/>
+  </tab-->
 
 </tabs>
