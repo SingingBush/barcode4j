@@ -50,12 +50,12 @@ be used to configure the chosen Forrest skin.
   <!-- Do we want to disable the Google search box? -->
   <disable-search>false</disable-search>
   <disable-compliance-links>false</disable-compliance-links>
-  <searchsite-domain>www.krysalis.org</searchsite-domain>
-  <searchsite-name>Krysalis</searchsite-name>  
+  <searchsite-domain>barcode4j.krysalis.org</searchsite-domain>
+  <searchsite-name>Barcode4J</searchsite-name>  
 
   <!-- mandatory project logo
        skin: forrest-site renders it at the top -->
-  <project-name>Barcode</project-name>
+  <project-name>Barcode4J</project-name>
   <project-url>http://barcode4j.krysalis.org/</project-url>
   <project-logo>resources/images/barcode4j-logo.gif</project-logo>
 
@@ -71,7 +71,7 @@ be used to configure the chosen Forrest skin.
   <host-logo>http://sourceforge.net/sflogo.php?&amp;group_id=36516&amp;type=1</host-logo>
   
   <!-- The following are used to construct a copyright statement -->
-  <year>2003</year>
+  <year>2003-2004</year>
   <vendor>The Krysalis Community Project</vendor>
 
   <!-- Some skins use this to form a 'breadcrumb trail' of links. If you don't
