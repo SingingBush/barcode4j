@@ -15,15 +15,13 @@
  */
 package org.krysalis.barcode4j;
 
-import org.apache.avalon.framework.Enum;
-
 /**
  * Enumeration for placement of the human readable part of a barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: HumanReadablePlacement.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: HumanReadablePlacement.java,v 1.3 2004-10-02 14:53:22 jmaerki Exp $
  */
-public class HumanReadablePlacement extends Enum {
+public class HumanReadablePlacement {
 
     /** The human-readable part is suppressed. */
     public static final HumanReadablePlacement HRP_NONE
@@ -35,12 +33,21 @@ public class HumanReadablePlacement extends Enum {
     public static final HumanReadablePlacement HRP_BOTTOM
                                     = new HumanReadablePlacement("bottom");
 
+    private String name;
+    
     /**
      * Creates a new HumanReadablePlacement instance.
      * @param name the name for the instance
      */
     protected HumanReadablePlacement(String name) {
-        super(name);
+        this.name = name;
+    }
+    
+    /**
+     * @return the name of the instance.
+     */
+    public String getName() {
+        return this.name;
     }
     
     /**

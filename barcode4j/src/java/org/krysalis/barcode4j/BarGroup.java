@@ -17,15 +17,13 @@ package org.krysalis.barcode4j;
 
 import java.util.Map;
 
-import org.apache.avalon.framework.Enum;
-
 /**
  * Enumeration type for bar groups.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarGroup.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: BarGroup.java,v 1.3 2004-10-02 14:53:22 jmaerki Exp $
  */
-public class BarGroup extends Enum {
+public class BarGroup {
 
     private static final Map MAP = new java.util.HashMap();
 
@@ -46,13 +44,23 @@ public class BarGroup extends Enum {
     /** Bar group is represents a UPC/EAN supplemental */
     public static final BarGroup UPC_EAN_SUPP    = new BarGroup("upc-ean-supp", MAP);
 
+    private String name;
+    
     /**
      * Creates a new BarGroup instance.
      * @param name name of the BarGroup
      * @param map Map to register the instance in.
      */
     protected BarGroup(String name, final Map map) {
-        super(name, map);
+        this.name = name;
+        MAP.put(name, this);
+    }
+    
+    /**
+     * @return the name of the instance.
+     */
+    public String getName() {
+        return this.name;
     }
     
     /**

@@ -15,11 +15,9 @@
  */
 package org.krysalis.barcode4j;
 
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
 import org.w3c.dom.DocumentFragment;
 
@@ -30,7 +28,7 @@ import org.w3c.dom.DocumentFragment;
  * BarcodeClassResolver.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeUtil.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: BarcodeUtil.java,v 1.3 2004-10-02 14:53:22 jmaerki Exp $
  */
 public class BarcodeUtil {
     
@@ -61,19 +59,17 @@ public class BarcodeUtil {
     /**
      * Creates a BarcoderGenerator.
      * @param cfg Configuration object that specifies the barcode to produce.
-     * @param logger The logger to use
      * @param classResolver The BarcodeClassResolver to use for lookup of
      * barcode implementations.
      * @return the newly instantiated BarcodeGenerator
      * @throws BarcodeException if setting up a BarcodeGenerator fails
+     * @throws ConfigurationException if something's wrong wth the configuration
      */
     public static BarcodeGenerator createBarcodeGenerator(Configuration cfg, 
-                                    Logger logger,
                                     BarcodeClassResolver classResolver) 
-            throws BarcodeException {
+            throws BarcodeException, ConfigurationException {
+        Class cl = null;
         try {
-            Class cl = null;
-            
             //First, check Configuration directly
             String type = cfg.getName();
             try {
@@ -109,57 +105,57 @@ public class BarcodeUtil {
 
             //Instantiate the BarcodeGenerator            
             BarcodeGenerator gen = (BarcodeGenerator)cl.newInstance();
-            if (gen instanceof LogEnabled) {
-                ((LogEnabled)gen).enableLogging(logger);
+            try {
+                ContainerUtil.configure(gen, (child != null ? child : cfg));
+            } catch (IllegalArgumentException iae) {
+                throw new ConfigurationException("Cannot configure barcode generator", iae);
             }
-            if (gen instanceof Configurable) {
-                ((Configurable)gen).configure((child != null ? child : cfg));
-            }
-            if (gen instanceof Initializable) {
-                ((Initializable)gen).initialize();
+            try {
+                ContainerUtil.initialize(gen);
+            } catch (Exception e) {
+                throw new RuntimeException("Cannot initialize barcode generator. " 
+                        + e.getMessage());
             }
             return gen;
-        } catch (Exception e) {
-            throw new BarcodeException("Error instantiating a barcode generator", e);
+        } catch (IllegalAccessException ia) {
+            throw new RuntimeException("Problem while instantiating a barcode"
+                    + " generator: " + ia.getMessage());
+        } catch (InstantiationException ie) {
+            throw new BarcodeException("Error instantiating a barcode generator: "
+                    + cl.getName());
         }
     }
             
     /**
      * Creates a BarcoderGenerator.
      * @param cfg Configuration object that specifies the barcode to produce.
-     * @param logger The logger to use
      * @return the newly instantiated BarcodeGenerator
      * @throws BarcodeException if setting up a BarcodeGenerator fails
+     * @throws ConfigurationException if something's wrong wth the configuration
      */
-    public BarcodeGenerator createBarcodeGenerator(Configuration cfg,
-                                                   Logger logger) 
-            throws BarcodeException {
-        return createBarcodeGenerator(cfg, logger, this.classResolver);
+    public BarcodeGenerator createBarcodeGenerator(Configuration cfg) 
+            throws ConfigurationException, BarcodeException {
+        return createBarcodeGenerator(cfg, this.classResolver);
     }
     
     /**
      * Convenience method to create an SVG barocde as a DOM fragment.
      * @param cfg Configuration object that specifies the barcode to produce.
-     * @param logger The logger to use
      * @param msg message to encode.
      * @return the requested barcode as an DOM fragment (SVG format)
-     * @throws BarcodeException if an error occurs during barcode generation
+     * @throws BarcodeException if setting up a BarcodeGenerator fails
+     * @throws ConfigurationException if something's wrong wth the configuration
      */
-    public DocumentFragment generateBarcode(Configuration cfg,
-                                            Logger logger,
-                                            String msg) 
-                    throws BarcodeException {
-        BarcodeGenerator gen = createBarcodeGenerator(cfg, logger);
-        try {
-            SVGCanvasProvider svg = new SVGCanvasProvider(false);
+    public DocumentFragment generateSVGBarcode(Configuration cfg,
+                                               String msg) 
+                    throws ConfigurationException, BarcodeException {
+        BarcodeGenerator gen = createBarcodeGenerator(cfg);
+        SVGCanvasProvider svg = new SVGCanvasProvider(false);
 
-            //Create Barcode and render it to SVG
-            gen.generateBarcode(svg, msg);
-    
-            return svg.getDOMFragment();
-        } catch (Exception e) {
-            throw new BarcodeException("Error while generating barcode", e);
-        }
+        //Create Barcode and render it to SVG
+        gen.generateBarcode(svg, msg);
+
+        return svg.getDOMFragment();
     }
 
 }

@@ -20,7 +20,7 @@ import java.util.Map;
 import org.krysalis.barcode4j.impl.codabar.Codabar;
 import org.krysalis.barcode4j.impl.code128.Code128;
 import org.krysalis.barcode4j.impl.code39.Code39;
-import org.krysalis.barcode4j.impl.int2fo5.Interleaved2Of5;
+import org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5;
 import org.krysalis.barcode4j.impl.postnet.POSTNET;
 import org.krysalis.barcode4j.impl.upcean.EAN13;
 import org.krysalis.barcode4j.impl.upcean.EAN8;
@@ -31,7 +31,7 @@ import org.krysalis.barcode4j.impl.upcean.UPCE;
  * This is a simple implementation of a BarcodeClassResolver.
  * 
  * @author Jeremias Maerki
- * @version $Id: DefaultBarcodeClassResolver.java,v 1.3 2004-09-12 17:57:54 jmaerki Exp $
+ * @version $Id: DefaultBarcodeClassResolver.java,v 1.4 2004-10-02 14:53:22 jmaerki Exp $
  */
 public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
 

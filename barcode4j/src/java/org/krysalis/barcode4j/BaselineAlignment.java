@@ -15,29 +15,36 @@
  */
 package org.krysalis.barcode4j;
 
-import org.apache.avalon.framework.Enum;
-
 /**
  * Enumeration for the alignment of bars when the heights are not uniform.
  * 
  * @author Chris Dolphy
- * @version $Id: BaselineAlignment.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: BaselineAlignment.java,v 1.3 2004-10-02 14:53:22 jmaerki Exp $
  */
-public class BaselineAlignment extends Enum {
+public class BaselineAlignment {
 
     /** The bars are aligned to be even along the top. */
     public static final BaselineAlignment ALIGN_TOP = new BaselineAlignment("top");
     /** The bars are aligned to be even along the bottom. */
     public static final BaselineAlignment ALIGN_BOTTOM = new BaselineAlignment("bottom");
 
+    private String name;
+    
     /**
      * Creates a new BaselineAlignment instance.
      * @param name the name for the instance
      */
     protected BaselineAlignment(String name) {
-        super(name);
+        this.name = name;
     }
 
+    /**
+     * @return the name of the instance.
+     */
+    public String getName() {
+        return this.name;
+    }
+    
     /**
      * Returns a BaselineAlignment instance by name.
      * @param name the name of the instance

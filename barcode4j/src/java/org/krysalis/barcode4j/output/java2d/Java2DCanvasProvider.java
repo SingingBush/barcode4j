@@ -30,7 +30,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * CanvasProvider implementation that renders to Java2D (AWT).
  * 
  * @author Jeremias Maerki
- * @version $Id: Java2DCanvasProvider.java,v 1.4 2004-09-24 07:20:37 jmaerki Exp $
+ * @version $Id: Java2DCanvasProvider.java,v 1.5 2004-10-02 14:53:22 jmaerki Exp $
  */
 public class Java2DCanvasProvider extends AbstractCanvasProvider {
 
@@ -59,10 +59,18 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
         setGraphics2D(g2d);
     }
     
+    /**
+     * Sets the Graphics2D instance to paint on
+     * @param g2d the Graphics2D instance
+     */
     public void setGraphics2D(Graphics2D g2d) {
         this.g2d = g2d;
     }
 
+    /**
+     * Returns the Graphics2D in use.
+     * @return the Graphics2D instance to paint on
+     */
     public Graphics2D getGraphics2D() {
         return this.g2d;
     }

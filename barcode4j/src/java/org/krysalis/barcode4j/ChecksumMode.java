@@ -15,15 +15,13 @@
  */
 package org.krysalis.barcode4j;
 
-import org.apache.avalon.framework.Enum;
-
 /**
  * Enumeration type for checksum policy.
  * 
  * @author Jeremias Maerki
- * @version $Id: ChecksumMode.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: ChecksumMode.java,v 1.3 2004-10-02 14:53:22 jmaerki Exp $
  */
-public class ChecksumMode extends Enum {
+public class ChecksumMode {
 
     /** "auto" chooses the barcode's default checksum behaviour */
     public static final ChecksumMode CP_AUTO   = new ChecksumMode("auto");
@@ -36,12 +34,21 @@ public class ChecksumMode extends Enum {
      */
     public static final ChecksumMode CP_CHECK  = new ChecksumMode("check");
 
+    private String name;
+    
     /**
      * Creates a new ChecksumMode instance.
      * @param name the name of the ChecksumMode
      */
     protected ChecksumMode(String name) {
-        super(name);
+        this.name = name;
+    }
+    
+    /**
+     * @return the name of the instance.
+     */
+    public String getName() {
+        return this.name;
     }
     
     /**
