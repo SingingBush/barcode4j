@@ -1,5 +1,5 @@
 /*
- * $Id: XalanExtTest.java,v 1.2 2004-02-29 10:54:03 jmaerki Exp $
+ * $Id: XalanExtTest.java,v 1.3 2004-08-31 18:44:29 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
  * Copyright (c) 2003-2004 Nicola Ken Barozzi.  All rights reserved.
@@ -113,8 +113,8 @@ public class XalanExtTest extends AbstractBarcodeTestCase {
     }
 
     public void testXalanExtSAXOutputBarcodeElement() throws Exception {
-        //innerXalanExtSAXOutput("xalan-test2.xsl");
-        System.out.println("Skipping test for Xalan barcode element extension because of Xalan bug #24220");
+        innerXalanExtSAXOutput("xalan-test2.xsl");
+        //System.out.println("Skipping test for Xalan barcode element extension because of Xalan bug #24220");
     }
 
     /* This test is done because FOP reacts with an NPE when endDocument is
@@ -133,7 +133,9 @@ public class XalanExtTest extends AbstractBarcodeTestCase {
             public void endDocument() throws SAXException {
                 if (!this.endDocumentCalled) {
                     this.endDocumentCalled = true;
-                } else throw new SAXException("endDocument() called twice");
+                } else throw new SAXException("endDocument() called twice. "
+                    + "This may be due to this Xalan-J bug: "
+                    + "http://nagoya.apache.org/bugzilla/show_bug.cgi?id=24220");
             }
         });
         trans.transform(src, res);
