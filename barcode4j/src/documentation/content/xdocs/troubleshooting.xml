@@ -18,54 +18,57 @@
       <ul>
         <li>
           Check the specifications of your barcode scanner to find out if the barcode
-          you wanted to scan is supported at all.
+          you wanted to scan is even supported.
         </li>
         <li>
-          Check your barcode settings. Make sure the module widths, for example, are 
+          Check your <link href="barcode-xml.html#General+structure">barcode settings</link>. Make sure the module widths, for example, are 
           within the specs. Barcode4J can not always detect in advance that
           a barcode will be unreadable.
         </li>
         <li>
-          Depending on your printer you might need to adjust the barcode settings 
-          (wide factor or module width, for example) to get a better result.
-          If the printer resolution compared to the barcode size is bad, you will
+          Depending on your printer you might need to adjust the <link href="barcode-xml.html#General+structure">barcode settings</link> 
+          (<em>e.g.</em>, wide factor or module width) to get a better result.
+          If the printer resolution compared to the barcode size is poor (<em>e.g.</em>, laser printers generally output higher resolution than inkjet printers), you will
           run into problems.
         </li>
         <li>
           Be careful when printing bitmap barcodes from a browser. You can't just
-          reduce the resolution to get the desired size. Better increase the 
+          reduce the resolution to get the desired size. It is better to increase the 
           resolution and use HTML to scale down the bitmap or ...(see next point)
         </li>
         <li>
-          Avoid JPEG as target format for your barcodes. JPEG is a lossy compression
+          Avoid JPEG as target format for your barcodes (<em>e.g.</em> GIF or TIFF are better). JPEG is a lossy compression
           format and contrast will suffer and thus degrading the readability of the 
           generated barcode. 
         </li>
         <li>
           Sometimes you need to play with the resolution and module width 
-          settings to get the best result. As a help: the minimum module width 
+          settings to get the best result.</li>
+        <dl>
+          <dt><strong>Example:</strong></dt>
+          <dd>The minimum <em>module width</em> 
           can be computed by 1 / [resolution]. Example: 1 / 300dpi = 0.0033333333in. 
           This results in narrow bars being exactly one pixel in width. For 
           barcodes with a wide-factor parameter (like Codabar) you need to choose 
-          a non-fractional value (2 or 3, not 2.5) in this case because there is 
-          so "half a pixel" in bitmaps. If your values are too small the barcode
-          scanner can't detect the difference between narrow and wide bars anymore.
-        </li>
+          a non-fractional value in this case (2 or 3, not 2.5), because there is 
+          no "half a pixel" in bitmaps. If your values are <em>too</em> small, the barcode
+          scanner won&apos;t be able to detect the difference between narrow and wide bars.</dd>
+        </dl>
         <li>
           Make sure your printer is in good operating condition. Print a test page 
           to see if you have any missing areas or vertical lines. If only one element
-          of a 1D barcode is more narrow than it should be because the printer 
-          doesn't work properly, you can't read the barcode anymore.
+          of a 1D barcode is narrower than it should be (<em>e.g.</em>, because the printer 
+          doesn't work properly) the barcode will no longer be readable.
         </li>
         <li>
-          Make sure you respect the quiet zones defined in the individual barcode 
-          specs when you place the barcode on a page.
+          Make sure you respect the quiet zones (defined in the individual barcode 
+          specs) when you place the barcode on a page.
         </li>
         <li>
           Make sure the barcode doesn't get clipped or overwritten by text.
         </li>
         <li>
-          Make sure checksums are done properly. For some barcodes you can supply a
+          Make sure you use checksums properly. For some barcodes, you can supply a
           checksum yourself in the message or let Barcode4J calculate it. If
           you do it yourself make sure the calculation is correct.
         </li>
@@ -75,8 +78,8 @@
       <title>What if my barcode scanner sends back some incorrect characters?</title>
       <p>
         Barcode scanners connected to the the keyboard cable send the barcode to the
-        computer as simulated key presses. You need to make sure that your barcode
-        scanner is correctly setup with the same character set as your keyboard.
+        computer as simulated key presses. You need to make sure your barcode
+        scanner is correctly set up with the same character set as your keyboard.
         Please consult the manual for your barcode scanner to find out how to do that.
       </p>
     </section>
