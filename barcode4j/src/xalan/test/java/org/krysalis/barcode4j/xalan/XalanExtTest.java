@@ -1,8 +1,8 @@
 /*
- * $Id: XalanExtTest.java,v 1.1 2003-12-13 20:23:43 jmaerki Exp $
+ * $Id: XalanExtTest.java,v 1.2 2004-02-29 10:54:03 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
- * Copyright (c) 2003 Nicola Ken Barozzi.  All rights reserved.
+ * Copyright (c) 2003-2004 Nicola Ken Barozzi.  All rights reserved.
  *
  * This Licence is compatible with the BSD licence as described and
  * approved by http://www.opensource.org/, and is based on the
@@ -73,8 +73,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import org.krysalis.barcode4j.AbstractBarcodeTestCase;
 
-import org.apache.xalan.processor.TransformerFactoryImpl;
-
 /**
  * Test class for the Xalan-J extension.
  * 
@@ -95,7 +93,8 @@ public class XalanExtTest extends AbstractBarcodeTestCase {
     }
 
     public void innerXalanExt(String xslt) throws Exception {
-        TransformerFactory factory = new TransformerFactoryImpl();
+        Class clazz = Class.forName("org.apache.xalan.processor.TransformerFactoryImpl");
+        TransformerFactory factory = (TransformerFactory)clazz.newInstance();
         Transformer trans = factory.newTransformer(new StreamSource(
                 new File(getBaseDir(), "src/xalan/test/xml/" + xslt)));
         Source src = new StreamSource(
@@ -122,7 +121,8 @@ public class XalanExtTest extends AbstractBarcodeTestCase {
      * called twice.
      */
     public void innerXalanExtSAXOutput(String xslt) throws Exception {
-        TransformerFactory factory = new TransformerFactoryImpl();
+        Class clazz = Class.forName("org.apache.xalan.processor.TransformerFactoryImpl");
+        TransformerFactory factory = (TransformerFactory)clazz.newInstance();
         Transformer trans = factory.newTransformer(new StreamSource(
                 new File(getBaseDir(), "src/xalan/test/xml/" +xslt)));
         Source src = new StreamSource(
