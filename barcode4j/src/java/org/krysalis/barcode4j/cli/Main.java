@@ -59,12 +59,12 @@ import org.apache.commons.cli.PosixParser;
  * Command-line interface.
  * 
  * @author Jeremias Maerki
- * @version $Id: Main.java,v 1.3 2004-10-02 14:53:23 jmaerki Exp $
+ * @version $Id: Main.java,v 1.4 2004-11-18 11:31:56 jmaerki Exp $
  */
 public class Main {
 
     private static final String[] APP_HEADER = {
-        "Barcode4J command-line application, Version 1.0beta",
+        "Barcode4J command-line application, Version 1.0",
         ""};
 
     /** stdout for this application (default: System.out) */
