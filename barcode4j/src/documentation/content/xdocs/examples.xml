@@ -2,7 +2,7 @@
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 <document>
   <header>
-    <title>Barcode examples</title>
+    <title>Barcode4J examples</title>
     <authors>
       <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
     </authors>
@@ -43,47 +43,47 @@
           <th>SVG graphic</th>
         </tr>
         <tr>
-          <td>Interleaved 2 of 5</td>
+          <td id="interleaved2of5">Interleaved 2 of 5</td>
           <td><img src="images/example-intl2of5.png" alt="Sample Interleaved 2 of 5 barcode (PNG)"/></td>
           <td><fork href="svg/example-intl2of5.svg">view SVG version</fork></td>
         </tr>
         <tr>
-          <td>Code 39</td>
+          <td id="code39">Code 39</td>
           <td><img src="images/example-code39.png" alt="Sample Code 39 barcode (PNG)"/></td>
           <td><fork href="svg/example-code39.svg">view SVG version</fork></td>
         </tr>
         <tr>
-          <td>Code 128</td>
+          <td id="code128">Code 128</td>
           <td><img src="images/example-code128.png" alt="Sample Code 128 barcode (PNG)"/></td>
           <td><fork href="svg/example-code128.svg">view SVG version</fork></td>
         </tr>
         <tr>
-          <td>Codabar</td>
+          <td id="codabar">Codabar</td>
           <td><img src="images/example-codabar.png" alt="Sample Codabar barcode (PNG)"/></td>
           <td><fork href="svg/example-codabar.svg">view SVG version</fork></td>
         </tr>
         <tr>
-          <td>UPC-A</td>
+          <td id="upc-A">UPC-A</td>
           <td><img src="images/example-upc-a.png" alt="Sample UPC-A barcode (PNG)"/></td>
           <td><fork href="svg/example-upc-a.svg">view SVG version</fork></td>
         </tr>
         <tr>
-          <td>UPC-E</td>
+          <td id="upc-E">UPC-E</td>
           <td><img src="images/example-upc-e.png" alt="Sample UPC-E barcode (PNG)"/></td>
           <td><fork href="svg/example-upc-e.svg">view SVG version</fork></td>
         </tr>
         <tr>
-          <td>EAN-13</td>
+          <td id="ean-13">EAN-13</td>
           <td><img src="images/example-ean-13.png" alt="Sample EAN-13 barcode (PNG)"/></td>
           <td><fork href="svg/example-ean-13.svg">view SVG version</fork></td>
         </tr>
         <tr>
-          <td>EAN-8</td>
+          <td id="ean-8">EAN-8</td>
           <td><img src="images/example-ean-8.png" alt="Sample EAN-8 barcode (PNG)"/></td>
           <td><fork href="svg/example-ean-8.svg">view SVG version</fork></td>
         </tr>
         <tr>
-          <td>POSTNET</td>
+          <td id="postnet">POSTNET</td>
           <td><img src="images/example-postnet.png" alt="Sample POSTNET barcode (PNG)"/></td>
           <td><fork href="svg/example-postnet.svg">view SVG version</fork></td>
         </tr>
