@@ -20,7 +20,7 @@
     </faq>
     <faq id="wrong-characters">
       <question>
-        My barcode scanner sends some wrong characters.
+        My barcode scanner occasionally sends incorrect characters.
       </question>
       <answer>
         <p>
@@ -117,7 +117,7 @@ java -cp lib\avalon-framework-4.1.5.jar:lib\commons-cli-1.0.jar:build\barcode4j.
         </note>
         <p>
           The above works fine under JDK 1.4.x or higher. If you use JDK 1.3.x you
-          need to add XML support (JAXP, Xerces and Xalan). Only JDK 1.4 has XML
+          need to add XML support (JAXP, Xerces and Xalan). JDK 1.4 has XML
           support built-in. You would add these libraries using the same pattern as
           shown above.
         </p>
@@ -129,7 +129,7 @@ java -cp lib\avalon-framework-4.1.5.jar:lib\commons-cli-1.0.jar:build\barcode4j.
       </question>
       <answer>
         <p>
-          Since JDK 1.4 Java comes with XML support built-in. XML support comprises
+          Starting with JDK 1.4, Java comes with XML support built-in. XML support comprises
           the JAXP API (SAX, DOM, parsing and XSLT processing APIs) plus implementations
           (Crimson/Xerces-J for basic XML support and Xalan-J as XSLT engine).
         </p>
@@ -160,12 +160,11 @@ java -cp lib\avalon-framework-4.1.5.jar:lib\commons-cli-1.0.jar:build\barcode4j.
           Batik needs the graphical environment to work.
         </p>
         <p>
-          The work-arounds are the same as for Apache FOP:
+          The work-arounds are the <link href="http://xml.apache.org/fop/graphics.html#batik">same</link> as for Apache FOP:
         </p>
         <ul>
           <li>
-            If you are using JDK 1.4 or later, start it with the -Djava.awt.headless=true 
-            command line option.
+            If you are using JDK 1.4 or later, start it with the command line option:<br /> <code>-Djava.awt.headless=true</code> 
           </li>
           <li>
             Install an X server which provides an in-memory framebuffer without actually 
