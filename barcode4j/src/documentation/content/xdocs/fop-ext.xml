@@ -63,6 +63,20 @@
       </warning>
     </section>
     <section>
+    	<title>Including FOP&#039;s <code>page-number</code> in Barcode Output</title>
+    	<p>
+    		FOP&#039;s page-number can be incorporated into barcode output.
+    		To incorporate the page-number into the barcode, insert
+    		<code>#page-number#</code> in your barcode message. For example,
+    		to insert a page number between <code>12345-</code> and <code>-6789</code>
+    		do the following:
+    	</p>
+	  <source>&#60;barcode:barcode xmlns:barcode="http://barcode4j.krysalis.org/ns"
+    message="12345-#page-number#-6789"&#62;
+  &#60;code39/&#62;
+&#60;/barcode:barcode&#62;</source>
+    </section>
+    <section>
     	<title>Using FOP from the command-line</title>
     	<p>
     		If you use FOP from the command-line (by calling fop.bat on Windows) it may not be 
