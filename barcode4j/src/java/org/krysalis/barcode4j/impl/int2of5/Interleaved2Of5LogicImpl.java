@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.krysalis.barcode4j.impl.int2fo5;
+package org.krysalis.barcode4j.impl.int2of5;
 
 import org.krysalis.barcode4j.BarGroup;
 import org.krysalis.barcode4j.ChecksumMode;
@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * This class is an implementation of the Interleaved 2 of 5 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Interleaved2Of5LogicImpl.java,v 1.1 2004-09-12 17:57:53 jmaerki Exp $
+ * @version $Id: Interleaved2Of5LogicImpl.java,v 1.1 2004-10-02 14:51:43 jmaerki Exp $
  */
 public class Interleaved2Of5LogicImpl {
 
