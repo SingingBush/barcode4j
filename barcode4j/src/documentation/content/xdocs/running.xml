@@ -16,11 +16,11 @@
       <title>Requirements</title>
       <ul>
         <li>Java Development Kit (JDK) 1.3 or higher (available from <jump href="ext:java">http://java.sun.com/</jump>)</li>
-        <li>Download <strong>Barcode4J</strong> as described on the 
-          <link href="download.html">Download page</link><br />
-          or from <link href="viewcvs.html">CVS</link> 
-          (requires <jump href="ext:ant.apache.org">Apache Ant</jump> 1.5 or higher, then follow directions on the <link href="building.html">Building page</link>).
-        </li>
+        <li>Download <strong>Barcode4J</strong> as described on:</li>
+        <ul>
+          <li>the <link href="download.html">Download page</link>, or</li>
+          <li>from <link href="viewcvs.html">CVS</link> (requires <jump href="ext:ant.apache.org">Apache Ant</jump> 1.5 or higher, then follow directions on the <link href="building.html">Building page</link>)</li>
+        </ul>
       </ul>
     </section>
     <section>
