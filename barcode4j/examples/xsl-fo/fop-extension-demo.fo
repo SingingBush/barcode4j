@@ -105,6 +105,14 @@
           </fo:table-body>
         </fo:table>
       </fo:block>
+      <fo:block font-weight="bold" space-before="2cm">Using the current page number as part of the message: xxx${page-number}xxx</fo:block>
+      <fo:block>
+        <fo:instream-foreign-object>
+          <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="xxx${page-number}xxx">
+            <bc:code128/>
+          </bc:barcode>
+        </fo:instream-foreign-object>
+      </fo:block>
     </fo:flow>
   </fo:page-sequence>
 </fo:root>
