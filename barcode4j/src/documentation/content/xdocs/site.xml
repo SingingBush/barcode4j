@@ -49,6 +49,7 @@ See http://xml.apache.org/forrest/linking.html for more info
    <barcode-xml label="The Barcode XML Format" href="barcode-xml.html"/>
    <output-formats label="Output Formats" href="output-formats.html"/>
    <design label="Design" href="design.html"/>
+   <javadocs label="Javadocs" href="ext:javadocs"/>
    <scenarios label="Scenarios">
      <xsl-fo label="XSL-FO" href="xsl-fo.html"/>
      <svg-dom label="SVG DOM" href="svg-dom.html"/>
