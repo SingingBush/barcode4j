@@ -21,6 +21,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     <krysalis-barcode label="Important Krysalis Barcode News" href="krysalis-barcode.html"/>
     <download label="Download" href="download.html"/>
     <demo label="Examples" href="examples.html"/>
+    <applet label="Demo Applet" href="applet.html"/>
   </about>
   <start label="Getting started">
     <building label="Building&#160;Barcode4J" href="building.html"/>
@@ -31,14 +32,14 @@ See http://xml.apache.org/forrest/linking.html for more info
       <xsl-fo label="XSL-FO" href="xsl-fo.html"/>
       <svg-dom label="SVG DOM" href="svg-dom.html"/>
     </scenarios>
-    <running label="Creating&#160;barcodes">
+    <running label="Creating&#160;Barcodes">
       <fop-ext label="...with FOP" href="fop-ext.html"/>
       <xalan-ext label="...with Xalan-J" href="xalan-ext.html"/>
       <saxon-ext label="...with SAXON" href="saxon-ext.html"/>
       <servlet label="...with a Servlet" href="servlet.html"/>
       <cli label="...from the Command Line" href="cli.html"/>
-      <embedding label="Embedding in Java (XML API)" href="embedding.html"/>
-      <embedding-bean label="Embedding in Java (Bean API)" href="embedding-bean.html"/>
+      <embedding label="...embedding in Java (XML API)" href="embedding.html"/>
+      <embedding-bean label="...embedding in Java (Bean API)" href="embedding-bean.html"/>
     </running>
     <barcode-xml label="The Barcode XML format" href="barcode-xml.html"/>
     <output-formats label="Output Formats" href="output-formats.html"/>

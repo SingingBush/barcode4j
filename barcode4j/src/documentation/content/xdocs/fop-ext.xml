@@ -79,10 +79,10 @@
 &#60;/barcode:barcode&#62;</source>
       <p>
         You can also use #page-number:{number-format}# where "{number-format}" is 
-        the number format pattern supported by Java's
+        the number format pattern supported by Java's 
         <fork href="http://java.sun.com/j2se/1.4.2/docs/api/java/text/DecimalFormat.html">java.text.DecimalFormat</fork>.
-        This way you can get effect like formatting page number 3 as "0003" if you
-        need a constant number of characters in the barcode message. For this example,
+        This allows you to format page "<code>3</code>" as "<code>0003</code>" if you 
+        need a constant number of characters in the barcode message. For this example,  
         you would use "#page-number:0000#" in the message.
       </p>
       <note>
