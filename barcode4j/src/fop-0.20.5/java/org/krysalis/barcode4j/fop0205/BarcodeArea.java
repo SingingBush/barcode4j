@@ -31,7 +31,7 @@ import org.w3c.dom.Document;
 /**
  * Class representing an Barcode area in which the Barocde graphics sit
  * 
- * @version $Id: BarcodeArea.java,v 1.4 2004-09-19 17:08:56 jmaerki Exp $
+ * @version $Id: BarcodeArea.java,v 1.5 2004-09-24 07:23:38 jmaerki Exp $
  */
 public class BarcodeArea extends Area {
     
@@ -67,24 +67,6 @@ public class BarcodeArea extends Area {
         return this.msg;
     }
     
-    private static String replace(String text, String repl, String with) {
-        StringBuffer buf = new StringBuffer(text.length());
-        int start = 0, end = 0;
-        while ((end = text.indexOf(repl, start)) != -1) {
-            buf.append(text.substring(start, end)).append(with);
-            start = end + repl.length();
-        }
-        buf.append(text.substring(start));
-        return buf.toString();
-    }
-    
-    public String getExpandedMessage() {
-        String s = getMessage();
-        s = replace(s, "${page-number}", Integer.toString(getPage().getNumber()));
-        s = replace(s, "${formatted-page-number}", getPage().getFormattedNumber());
-        return s;
-    }
-
     public String getRenderMode() {
         return this.renderMode;
     }
@@ -109,7 +91,7 @@ public class BarcodeArea extends Area {
     protected SVGArea createSVGArea() throws BarcodeCanvasSetupException {
         DOMImplementation domImpl = SVGDOMImplementation.getDOMImplementation();
         SVGCanvasProvider svgout = new SVGCanvasProvider(domImpl, true);
-        getBarcodeGenerator().generateBarcode(svgout, getExpandedMessage());
+        getBarcodeGenerator().generateBarcode(svgout, getMessage());
         Document dom = svgout.getDOM();
         SVGArea svgarea = new SVGArea(getFontState(), getWidth(), getHeight());
         svgarea.setSVGDocument(dom);
