@@ -191,7 +191,11 @@
         <title>Message format</title>
         <ul>
           <li>Valid characters are 0-9, A-Z and the characters: - . $ / + % SPACE</li>
-          <li>The character '*' is only used as start and stop character and may not be used in the message.</li>
+          <li>
+						The character '*' is only used as start and stop character and may not be used 
+						in the message. The '*' character is automatically added before and after the
+						message.
+					</li>
           <li>The implementation currently doesn't support the extended character set.</li>
         </ul>
       </section>
