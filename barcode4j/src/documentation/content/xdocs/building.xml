@@ -16,7 +16,7 @@
       <title>Requirements</title>
       <ul>
         <li>Java Development Kit (JDK) 1.4 or higher (available from <jump href="ext:java">http://java.sun.com/</jump>)</li>
-        <li><jump href="ext:ant.apache.org">Apache Ant</jump> 1.6.2 or higher</li>
+        <li><jump href="ext:ant.apache.org">Apache Ant</jump> 1.6.2 or higher (available from <jump href="ext:ant.apache.org">http;//ant.apache.org/</jump>)</li>
         <li>Download <strong>Barcode4J</strong> as described on the 
           <link href="download.html">Download page</link> or from 
           <link href="viewcvs.html">CVS</link>
