@@ -19,6 +19,11 @@
         </tr>
         <tr>
           <td>Latest release</td>
+          <td>1.0</td>
+          <td>real soon now!</td>
+        </tr>
+        <tr>
+          <td>Last release</td>
           <td>0.9 (as Krysalis Barcode)</td>
           <td>2003-05-08</td>
         </tr>
@@ -37,7 +42,6 @@
         can be downloaded from the
         <fork href="ext:krysalis-project-files">Krysalis project's files page</fork>.
       </p>
-      <note>A new beta release (under the new name) can be expected real soon now.</note>
     </section>
     <section>
       <title>Latest code</title>
