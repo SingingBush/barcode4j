@@ -2,8 +2,9 @@
 <status>
 
   <developers>
-    <person name="Jeremias Maerki"         email="jmaerki@users.sourceforge.net" id="jmaerki" />
-    <person name="Nicola Ken Barozzi"      email="nicolaken@krysalis.org"        id="nicolaken" />
+    <person name="Jeremias Maerki"         email="jmaerki@users.sourceforge.net"        id="jmaerki" />
+    <person name="Web Maestro Clay Leeds"  email="the_webmaestro@users.sourceforge.net" id="the_webmaestro" />
+    <person name="Nicola Ken Barozzi"      email="nicolaken@krysalis.org"               id="nicolaken" />
     <!-- Add more people here -->
   </developers>
 
@@ -58,6 +59,11 @@
 
   <changes>
     <!-- Add new releases here -->
+    <release version="1.0" date="2004-11-18">
+      <action dev="the_webmaestro" type="update" context="docs">
+        Documentation updates.
+      </action>
+    </release>
     <release version="1.0rc1" date="2004-10-31">
       <action dev="jmaerki" type="update" context="code">
         For Interleaved 2 of 5, Code 39 and POSTNET, added the ability to include the generated 
