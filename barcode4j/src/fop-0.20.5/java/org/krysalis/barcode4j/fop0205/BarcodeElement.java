@@ -48,7 +48,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * Class representing bc:barcode pseudo flow object.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeElement.java,v 1.2 2004-09-04 20:25:55 jmaerki Exp $
+ * @version $Id: BarcodeElement.java,v 1.3 2004-09-19 17:08:56 jmaerki Exp $
  */
 public class BarcodeElement extends BarcodeObj {
 
@@ -175,7 +175,6 @@ public class BarcodeElement extends BarcodeObj {
 
         //MessageHandler.logln("Creating barcode area");
 
-        final Element barcodeRoot = element;
         /* create a barcode area */
         /* if width and height are zero, get the bounds of the content. */
         final ForeignObjectArea foa = (ForeignObjectArea)area;
@@ -210,6 +209,8 @@ public class BarcodeElement extends BarcodeObj {
             
             
             BarcodeArea barcodeArea = createArea(fs, w, h);
+            barcodeArea.setParent(foa);
+            barcodeArea.setPage(foa.getPage());
             barcodeArea.setBarcode(bargen, msg, renderMode);
             barcodeArea.start();
             barcodeArea.end();
