@@ -58,7 +58,19 @@
 
   <changes>
     <!-- Add new releases here -->
-    <release version="1.0" date="soon">
+    <release version="1.0rc1" date="2004-10-31">
+      <action dev="jmaerki" type="update" context="code">
+        For Interleaved 2 of 5, Code 39 and POSTNET, added the ability to include the generated 
+        checksum in the human-readable part. For Code39, the start and stop characters can also 
+        be enabled.
+      </action>
+      <action dev="jmaerki" type="update" context="code">
+        Barcode XML for the human-readable part is now different, all parameters sub-elements of 
+        a "human-readable" element.      
+      </action>
+      <action dev="jmaerki" type="fix" context="code">
+        POSTNET now displays the correct expected checksum character.
+      </action>
       <action dev="jmaerki" type="add" context="code">
         Added a sample applet to demonstrate barcodes on the website and the use of the Bean-API
         in conjunction with Java2D/AWT-drawing.
