@@ -37,7 +37,7 @@
           resolution and use HTML to scale down the bitmap or ...(see next point)
         </li>
         <li>
-          Avoid JPEG as target format for your barcodes (<em>e.g.</em> GIF or TIFF are better). JPEG is a lossy compression
+          Avoid JPEG as target format for your barcodes (<em>e.g.</em> GIF, PNG or TIFF are better). JPEG is a lossy compression
           format and contrast will suffer and thus degrading the readability of the 
           generated barcode. 
         </li>
