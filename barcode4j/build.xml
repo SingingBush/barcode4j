@@ -280,6 +280,34 @@
         <include name="org/krysalis/**"/>
       </fileset>
     </jar>
+    <jar jarfile="${build.dir}/${name}-light.jar">
+      <manifest>
+        <attribute name="Implementation-Title" value="${Name}"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
+        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
+      </manifest>
+      <fileset dir="${build.dest}">
+        <include name="org/krysalis/**"/>
+        <exclude name="org/krysalis/barcode4j/cli/**"/>
+        <exclude name="org/krysalis/barcode4j/servlet/**"/>
+        <exclude name="org/krysalis/barcode4j/xalan/**"/>
+        <exclude name="org/krysalis/barcode4j/saxon*/**"/>
+        <exclude name="org/krysalis/barcode4j/BarcodeUtil.class"/>
+        <exclude name="org/krysalis/barcode4j/impl/ConfigurableBarcodeGenerator.class"/>
+        <exclude name="org/krysalis/barcode4j/impl/codabar/Codabar.class"/>
+        <exclude name="org/krysalis/barcode4j/impl/code39/Code39.class"/>
+        <exclude name="org/krysalis/barcode4j/impl/code128/Code128.class"/>
+        <exclude name="org/krysalis/barcode4j/impl/int2of5/Interleaved2Of5.class"/>
+        <exclude name="org/krysalis/barcode4j/impl/postnet/POSTNET.class"/>
+        <exclude name="org/krysalis/barcode4j/impl/upcean/EAN13.class"/>
+        <exclude name="org/krysalis/barcode4j/impl/upcean/EAN8.class"/>
+        <exclude name="org/krysalis/barcode4j/impl/upcean/UPCA.class"/>
+        <exclude name="org/krysalis/barcode4j/impl/upcean/UPCE.class"/>
+        <exclude name="org/krysalis/barcode4j/impl/upcean/UPCEAN.class"/>
+        <exclude name="org/krysalis/barcode4j/tools/ConfigurationUtil.class"/>
+      </fileset>
+    </jar>
   </target>
   <target name="package-fop-0.20.5" depends="compile" if="fop-0.20.5.present">
     <echo message="Creating the jar file ${build.dir}/${name}-fop-ext-0.20.5.jar"/>
