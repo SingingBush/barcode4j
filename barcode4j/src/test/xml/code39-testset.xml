@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<barcodes>
+  <section title="Code 39 Testset">
+    <barcode>
+      <description>Code 39 with defaults</description>
+      <msg>0123456789</msg>
+      <code39/>
+    </barcode>
+    <barcode>
+      <description>Code 39 (default)</description>
+      <msg>0123456789</msg>
+      <code39/>
+    </barcode>
+    <barcode>
+      <description>Code 39 (with checksum)</description>
+      <msg>0123456789</msg>
+      <code39>
+        <checksum>add</checksum>
+      </code39>
+    </barcode>
+    <barcode>
+      <description>Code 39 (with checksum displayed)</description>
+      <msg>0123456789</msg>
+      <code39>
+        <checksum>add</checksum>
+        <human-readable>
+          <display-start-stop>false</display-start-stop>
+          <display-checksum>true</display-checksum>
+        </human-readable>
+      </code39>
+    </barcode>
+    <barcode>
+      <description>Code 39 (with start/stop and checksum displayed)</description>
+      <msg>0123456789</msg>
+      <code39>
+        <checksum>add</checksum>
+        <human-readable>
+          <display-start-stop>true</display-start-stop>
+          <display-checksum>true</display-checksum>
+        </human-readable>
+      </code39>
+    </barcode>
+    <barcode>
+      <description>Code 39 (with start/stop displayed, checksum shown automatically)</description>
+      <msg>0123456789</msg>
+      <code39>
+        <checksum>add</checksum>
+        <human-readable>
+          <display-start-stop>true</display-start-stop>
+        </human-readable>
+      </code39>
+    </barcode>
+    <barcode>
+      <description>Code 39 (with start/stop displayed, without checksum)</description>
+      <msg>0123456789</msg>
+      <code39>
+        <human-readable>
+          <display-start-stop>true</display-start-stop>
+        </human-readable>
+      </code39>
+    </barcode>
+    <barcode>
+      <description>Code 39 (with a wide factor of 4)</description>
+      <msg>0123456789</msg>
+      <code39>
+        <wide-factor>4</wide-factor>
+      </code39>
+    </barcode>
+    <barcode>
+      <description>Code 39 (with a module-width of 0.4mm)</description>
+      <msg>0123456789</msg>
+      <code39>
+        <module-width>0.4mm</module-width>
+      </code39>
+    </barcode>
+    <barcode>
+      <description>Code 39 (with an interchar-gap-width of 8mw [8 times a module width])</description>
+      <msg>0123456789</msg>
+      <code39>
+        <interchar-gap-width>8mw</interchar-gap-width>
+      </code39>
+    </barcode>
+    <barcode>
+      <description>Code 39 (playing with hr-messages)</description>
+      <msg>0123456789</msg>
+      <code39>
+        <human-readable>
+          <font-name>Courier</font-name>
+          <font-size>14pt</font-size>
+        </human-readable>
+      </code39>
+    </barcode>
+  </section>
+  <section title="Character set test">
+    <barcode>
+      <description>Code 39: 0-9, [space] and "-.$/+%"</description>
+      <msg>0123456789 -.$/+%</msg>
+      <code39/>
+    </barcode>
+    <barcode>
+      <description>Code 39: A-Z</description>
+      <msg>ABCDEFGHIJKLMNOPQRSTUVWXYZ</msg>
+      <code39/>
+    </barcode>
+  </section>
+</barcodes>

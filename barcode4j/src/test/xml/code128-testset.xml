@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<barcodes>
+  <section title="Code 128 Testset">
+    <barcode>
+      <description>Hello World! as Code 128</description>
+      <msg>Hello World!</msg>
+      <code128/>
+    </barcode>
+    <barcode>
+      <description>Code 128 with defaults</description>
+      <msg>0123456789</msg>
+      <code128/>
+    </barcode>
+    <barcode>
+      <description>Code 128 (with a module-width of 0.4mm)</description>
+      <msg>0123456789</msg>
+      <code128>
+        <module-width>0.4mm</module-width>
+      </code128>
+    </barcode>
+    <barcode>
+      <description>Code 128 (playing with hr-messages)</description>
+      <msg>0123456789</msg>
+      <code128>
+        <human-readable>
+          <font-name>Courier</font-name>
+          <font-size>8pt</font-size>
+        </human-readable>
+      </code128>
+    </barcode>
+    <barcode>
+      <description>Swiss Post: PostPac Priority marker</description>
+      <msg>0509</msg>
+      <code128>
+        <module-width>0.5mm</module-width>
+        <height>8mm</height>
+        <human-readable>
+          <placement>none</placement>
+        </human-readable>
+      </code128>
+    </barcode>
+  </section>
+  <section title="Character set test">
+    <barcode>
+      <description>Code 128: 0-9</description>
+      <msg>0123456789</msg>
+      <code128/>
+    </barcode>
+    <barcode>
+      <description>Code 128: A-Z</description>
+      <msg>ABCDEFGHIJKLMNOPQRSTUVWXYZ</msg>
+      <code128/>
+    </barcode>
+    <barcode>
+      <description>Code 128: a-z</description>
+      <msg>abcdefghijklmnopqrstuvwxyz</msg>
+      <code128/>
+    </barcode>
+  </section>
+</barcodes>

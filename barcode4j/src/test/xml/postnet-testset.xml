@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<barcodes>
+  <section title="POSTNET Testset">
+    <barcode>
+      <description>POSTNET with defaults</description>
+      <msg>0123456789</msg>
+      <postnet/>
+    </barcode>
+    <barcode>
+      <description>POSTNET (checksum mode: add)</description>
+      <msg>0123456789</msg>
+      <postnet>
+        <checksum>add</checksum>
+      </postnet>
+    </barcode>
+    <barcode>
+      <description>POSTNET (checksum mode: check)</description>
+      <msg>01234567895</msg>
+      <postnet>
+        <checksum>check</checksum>
+      </postnet>
+    </barcode>
+    <barcode>
+      <description>POSTNET (checksum mode: add, checksum displayed)</description>
+      <msg>0123456789</msg>
+      <postnet>
+        <checksum>add</checksum>
+        <human-readable>
+          <display-checksum>true</display-checksum>
+        </human-readable>
+      </postnet>
+    </barcode>
+    <barcode>
+      <description>POSTNET (checksum mode: check, checksum displayed)</description>
+      <msg>01234567895</msg>
+      <postnet>
+        <checksum>check</checksum>
+        <human-readable>
+          <display-checksum>true</display-checksum>
+        </human-readable>
+      </postnet>
+    </barcode>
+    <barcode>
+      <description>POSTNET (default)</description>
+      <msg>80122-2014-01</msg>
+      <postnet/>
+    </barcode>
+    <barcode>
+      <description>POSTNET (baseline-alignment set to "top")</description>
+      <msg>80122-2014-01</msg>
+      <postnet>
+        <baseline-alignment>top</baseline-alignment>
+      </postnet>
+    </barcode>
+    <barcode>
+      <description>POSTNET (playing with module-width, interchar-gap-width, tall-bar-height, short-bar-height and human-readable)</description>
+      <msg>80122-2014-01</msg>
+      <postnet>
+        <baseline-alignment>top</baseline-alignment>
+        <module-width>0.2mm</module-width>
+        <interchar-gap-width>1mm</interchar-gap-width>
+        <tall-bar-height>6mm</tall-bar-height>
+        <short-bar-height>3mm</short-bar-height>
+        <human-readable>
+          <placement>top</placement>
+        </human-readable>
+      </postnet>
+    </barcode>
+    <barcode>
+      <description>POSTNET (playing with hr-messages)</description>
+      <msg>0123456789</msg>
+      <postnet>
+        <human-readable>
+          <font-name>Courier</font-name>
+          <font-size>12pt</font-size>
+        </human-readable>
+      </postnet>
+    </barcode>
+  </section>
+  <section title="Character set test">
+    <barcode>
+      <description>POSTNET (dash is a valid character but won't be painted)</description>
+      <msg>01234-56789</msg>
+      <postnet>
+        <human-readable>
+          <placement>bottom</placement>
+        </human-readable>
+      </postnet>
+    </barcode>
+  </section>
+</barcodes>

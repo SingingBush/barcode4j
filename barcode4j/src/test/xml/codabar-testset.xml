@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<barcodes>
+  <section title="Codabar Testset">
+    <barcode>
+      <description>Codabar with defaults</description>
+      <msg>0123456789</msg>
+      <codabar/>
+    </barcode>
+    <barcode>
+      <description>Codabar (with a wide factor of 4)</description>
+      <msg>0123456789</msg>
+      <codabar>
+        <wide-factor>4</wide-factor>
+      </codabar>
+    </barcode>
+    <barcode>
+      <description>Codabar (with a module-width of 0.4mm)</description>
+      <msg>0123456789</msg>
+      <codabar>
+        <module-width>0.4mm</module-width>
+      </codabar>
+    </barcode>
+    <barcode>
+      <description>Codabar (with an interchar-gap-width of 8mw [8 times a module width])</description>
+      <msg>0123456789</msg>
+      <codabar>
+        <interchar-gap-width>8mw</interchar-gap-width>
+      </codabar>
+    </barcode>
+    <barcode>
+      <description>Codabar (playing with hr-messages)</description>
+      <msg>0123456789</msg>
+      <codabar>
+        <human-readable>
+          <font-name>Courier</font-name>
+          <font-size>14pt</font-size>
+        </human-readable>
+      </codabar>
+    </barcode>
+  </section>
+  <section title="Character set test">
+    <barcode>
+      <description>Codabar: 0-9 and "+-/$.:"</description>
+      <msg>0123456789+-/$.:</msg>
+      <codabar/>
+    </barcode>
+  </section>
+</barcodes>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<barcodes>
+  <section title="Interleaved 2 of 5 Testset">
+    <barcode>
+      <description>Interleaved 2 of 5 with defaults</description>
+      <msg>0123456789</msg>
+      <intl2of5/>
+    </barcode>
+    <barcode>
+      <description>Interleaved 2 of 5 (checksum mode: add)</description>
+      <msg>0123456789</msg>
+      <intl2of5>
+        <checksum>add</checksum>
+      </intl2of5>
+    </barcode>
+    <barcode>
+      <description>Interleaved 2 of 5 (checksum mode: check)</description>
+      <msg>01234567895</msg>
+      <intl2of5>
+        <checksum>check</checksum>
+      </intl2of5>
+    </barcode>
+    <barcode>
+      <description>Interleaved 2 of 5 (checksum mode: add, checksum displayed)</description>
+      <msg>0123456789</msg>
+      <intl2of5>
+        <checksum>add</checksum>
+        <human-readable>
+          <display-checksum>true</display-checksum>
+        </human-readable>
+      </intl2of5>
+    </barcode>
+    <barcode>
+      <description>Interleaved 2 of 5 (checksum mode: check, checksum displayed)</description>
+      <msg>01234567895</msg>
+      <intl2of5>
+        <checksum>check</checksum>
+        <human-readable>
+          <display-checksum>true</display-checksum>
+        </human-readable>
+      </intl2of5>
+    </barcode>
+    <barcode>
+      <description>Interleaved 2 of 5 (with a wide factor of 4)</description>
+      <msg>0123456789</msg>
+      <intl2of5>
+        <wide-factor>4</wide-factor>
+      </intl2of5>
+    </barcode>
+    <barcode>
+      <description>Interleaved 2 of 5 (with a module-width of 0.4mm)</description>
+      <msg>0123456789</msg>
+      <intl2of5>
+        <module-width>0.4mm</module-width>
+      </intl2of5>
+    </barcode>
+    <barcode>
+      <description>Interleaved 2 of 5 (playing with hr-messages)</description>
+      <msg>0123456789</msg>
+      <intl2of5>
+        <human-readable>
+          <font-name>Courier</font-name>
+          <font-size>12pt</font-size>
+        </human-readable>
+      </intl2of5>
+    </barcode>
+  </section>
+  <section title="Character set test">
+    <barcode>
+      <description>Interleaved 2 of 5: 0-9</description>
+      <msg>0123456789</msg>
+      <intl2of5/>
+    </barcode>
+  </section>
+</barcodes>
