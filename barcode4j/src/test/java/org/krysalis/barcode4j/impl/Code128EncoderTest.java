@@ -1,5 +1,5 @@
 /*
- * $Id: Code128EncoderTest.java,v 1.1 2003-12-13 20:23:42 jmaerki Exp $
+ * $Id: Code128EncoderTest.java,v 1.2 2004-04-27 18:28:18 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
  * Copyright (c) 2002-2003 Nicola Ken Barozzi.  All rights reserved.
@@ -190,25 +190,6 @@ public class Code128EncoderTest extends TestCase {
         return visualize(encoder.encode(msg));
     }
     
-    /*
-    public void testNaiveEncoder() throws Exception {
-        Code128Encoder encoder = new NaiveCode128Encoder();
-        testEncoder(encoder);
-    }*/
-
-    public void testDefaultEncoder() throws Exception {
-        Code128Encoder encoder = new DefaultCode128Encoder();
-        testEncoder(encoder);
-        testEncoderSpecialChars(encoder);
-        
-        try {
-            encodeToDebug("before\u00f5after", encoder);
-            fail("Expected IllegalArgumentException because of illegal char 0xF5");
-        } catch (IllegalArgumentException iae) {
-            //expected
-        }
-    }
-    
     private void testEncoderSpecialChars(Code128Encoder encoder) {
         assertEquals("->BCode<SHIFT-A><HT>128", encodeToDebug("Code\t128", encoder));
         assertEquals("->BCode->A<HT><HT>128", encodeToDebug("Code\t\t128", encoder));
@@ -245,4 +226,27 @@ public class Code128EncoderTest extends TestCase {
         assertEquals("->BCode5->C[67][89]", encodeToDebug("Code56789", encoder));
     }
 
+    /*
+    public void testNaiveEncoder() throws Exception {
+        Code128Encoder encoder = new NaiveCode128Encoder();
+        testEncoder(encoder);
+    }*/
+
+    public void testDefaultEncoder() throws Exception {
+        Code128Encoder encoder = new DefaultCode128Encoder();
+        testEncoder(encoder);
+        testEncoderSpecialChars(encoder);
+        
+        try {
+            encodeToDebug("before\u00f5after", encoder);
+            fail("Expected IllegalArgumentException because of illegal char 0xF5");
+        } catch (IllegalArgumentException iae) {
+            //expected
+        }
+    }
+    
+    public void testBug942246() throws Exception {
+        Code128Encoder encoder = new DefaultCode128Encoder();
+        encodeToDebug("\u00f1020456789012341837100\u00f13101000200", encoder);
+    }
 }
