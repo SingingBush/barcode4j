@@ -28,7 +28,8 @@
   <property name="build.dest.fop-0.20.5" value="${build.dir}/fop-0.20.5/classes"/>
   <property name="build.dest.fop-post-0.20.5" value="${build.dir}/fop-post-0.20.5/classes"/>
   <property name="xalan.dir" value="${src.dir}/xalan"/>
-  <property name="saxon.dir" value="${src.dir}/saxon"/>
+  <property name="saxon6.dir" value="${src.dir}/saxon"/>
+  <property name="saxon8.dir" value="${src.dir}/saxon8"/>
   <property name="jdom.dir" value="${src.dir}/jdom"/>
   <property name="checkstyle.home" value=""/>
   
@@ -62,7 +63,8 @@
     </tstamp>
     <available property="jdk14.present" classname="java.lang.CharSequence"/>
     <available property="xalan.present" classname="org.apache.xalan.xslt.Process" classpathref="project.classpath"/>
-    <available property="saxon.present" classname="com.icl.saxon.TransformerFactoryImpl" classpathref="project.classpath"/>
+    <available property="saxon6.present" classname="com.icl.saxon.TransformerFactoryImpl" classpathref="project.classpath"/>
+    <available property="saxon8.present" classname="net.sf.saxon.TransformerFactoryImpl" classpathref="project.classpath"/>
     <available property="jdom.present" classname="org.jdom.Document" classpathref="project.classpath"/>
     <condition property="init.fop-0.20.5">
       <isset property="fop-0.20.5.home"/>
@@ -100,10 +102,16 @@
     <echo message="xalan.jar to the lib directory."/>
     <echo message="===================================================================="/>
   </target>
-  <target name="info.saxon" depends="init" unless="saxon.present">
+  <target name="info.saxon6" depends="init" unless="saxon6.present">
     <echo message="===================================================================="/>
-    <echo message="You can enable compilation of the SAXON XSLT extension by adding"/>
-    <echo message="saxon.jar to the lib directory."/>
+    <echo message="You can enable compilation of the SAXON 6.5.x XSLT extension by"/>
+    <echo message="adding saxon.jar to the lib directory."/>
+    <echo message="===================================================================="/>
+  </target>
+  <target name="info.saxon8" depends="init" unless="saxon8.present">
+    <echo message="===================================================================="/>
+    <echo message="You can enable compilation of the SAXON 8.x XSLT extension by adding"/>
+    <echo message="saxon8.jar to the lib directory."/>
     <echo message="===================================================================="/>
   </target>
   <target name="info.jdom" depends="init" unless="jdom.present">
@@ -142,7 +150,7 @@
   <target name="echo-jdk14" if="jdk14.present">
     <echo message="JDK 1.4 present."/>
   </target>
-  <target name="prepare" depends="init, init.fop-0.20.5, info.fop-0.20.5, init.fop-post-0.20.5, info.xalan, info.saxon, info.jdom">
+  <target name="prepare" depends="init, init.fop-0.20.5, info.fop-0.20.5, init.fop-post-0.20.5, info.xalan, info.saxon6, info.saxon8, info.jdom">
     <!-- create directories -->
     <echo message="Preparing the build directories"/>
     <mkdir dir="${build.dir}"/>
@@ -171,9 +179,15 @@
       <classpath refid="project.classpath"/>
     </javac>
   </target>
-  <target name="compile-saxon" depends="compile-jdk13" if="saxon.present">
-    <echo message="Compiling the SAXON extension"/>
-    <javac srcdir="${saxon.dir}/java" destdir="${build.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+  <target name="compile-saxon6" depends="compile-jdk13" if="saxon6.present">
+    <echo message="Compiling the SAXON 6.5.x extension"/>
+    <javac srcdir="${saxon6.dir}/java" destdir="${build.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath refid="project.classpath"/>
+    </javac>
+  </target>
+  <target name="compile-saxon8" depends="compile-jdk13" if="saxon8.present">
+    <echo message="Compiling the SAXON 8.x extension"/>
+    <javac srcdir="${saxon8.dir}/java" destdir="${build.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
       <classpath refid="project.classpath"/>
     </javac>
   </target>
@@ -210,7 +224,7 @@
       </classpath>
     </javac>
   </target>
-  <target name="compile" depends="compile-jdk13, compile-jdk14, compile-xalan, compile-saxon, compile-jdom, compile-fop-0.20.5, compile-fop-post-0.20.5" description="Compiles the sources"/>
+  <target name="compile" depends="compile-jdk13, compile-jdk14, compile-xalan, compile-saxon6, compile-saxon8, compile-jdom, compile-fop-0.20.5, compile-fop-post-0.20.5" description="Compiles the sources"/>
   <!-- =================================================================== -->
   <!-- Creates Java docs                                                   -->
   <!-- =================================================================== -->
@@ -230,10 +244,12 @@
       <fileset dir="${src.java.dir}" defaultexcludes="yes"/>
       <fileset dir="${src.java14.dir}" defaultexcludes="yes"/>
       <fileset dir="${xalan.dir}/java" defaultexcludes="yes"/>
-      <fileset dir="${saxon.dir}/java" defaultexcludes="yes"/>
+      <fileset dir="${saxon6.dir}/java" defaultexcludes="yes"/>
+      <fileset dir="${saxon8.dir}/java" defaultexcludes="yes"/>
       <fileset dir="${jdom.dir}/java" defaultexcludes="yes"/>
       <tag name="todo" scope="all" description="TODO:" />
       <link href="http://avalon.apache.org/framework/api/"/>
+      <link href="http://www.saxonica.com/documentation/javadoc/"/>
       <doctitle>${name} ${version} API</doctitle>
       <bottom>&lt;i&gt;Copyright &#169; ${year} The Krysalis Community Project. All rights reserved.&lt;i&gt;</bottom>
       <header><![CDATA[${name} ${version}]]></header>
@@ -385,8 +401,13 @@
       <classpath refid="test.classpath"/>
     </javac>
   </target>
-  <target name="test-compile-saxon" depends="test-init" if="saxon.present">
-    <javac srcdir="${saxon.dir}/test/java" destdir="${build.test}/classes" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+  <target name="test-compile-saxon6" depends="test-init" if="saxon6.present">
+    <javac srcdir="${saxon6.dir}/test/java" destdir="${build.test}/classes" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+      <classpath refid="test.classpath"/>
+    </javac>
+  </target>
+  <target name="test-compile-saxon8" depends="test-init" if="saxon8.present">
+    <javac srcdir="${saxon8.dir}/test/java" destdir="${build.test}/classes" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
       <classpath refid="test.classpath"/>
     </javac>
   </target>
@@ -395,10 +416,11 @@
       <classpath refid="test.classpath"/>
     </javac>
   </target>
-  <target name="test-compile" depends="test-compile-core, test-compile-xalan, test-compile-saxon, test-compile-jdom"/>
+  <target name="test-compile" depends="test-compile-core, test-compile-xalan, test-compile-saxon6, test-compile-saxon8, test-compile-jdom"/>
   <target name="test" depends="test-compile">
     <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
     <junit printsummary="yes" haltonfailure="yes" fork="yes">
+      <!--jvmarg value="-verbose:class"/-->
       <sysproperty key="java.awt.headless" value="true"/>
       <formatter type="brief" usefile="false"/> 
       <classpath refid="test.classpath"/>
