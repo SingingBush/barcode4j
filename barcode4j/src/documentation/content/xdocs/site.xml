@@ -23,8 +23,8 @@ See http://xml.apache.org/forrest/linking.html for more info
     <demo label="Examples" href="examples.html"/>
     <applet label="Demo Applet" href="applet.html"/>
     <start label="Getting started">
-      <building label="Building&#160;Barcode4J" href="building.html"/>
-      <running label="Running&#160;Barcode4J" href="running.html"/>
+      <building label="Build&#160;Barcode4J" href="building.html"/>
+      <running label="Run&#160;Barcode4J" href="running.html"/>
     </start>  
     <support label="Support">
       <troubleshooting label="Troubleshooting" href="troubleshooting.html"/>
@@ -66,11 +66,11 @@ See http://xml.apache.org/forrest/linking.html for more info
   </documentation>
 
   <!-- Uncomment this if we want aggregate HTML/PDFs for this site 
+  -->
   <pdfs label="PDFs">
     <whole_site_html label="Whole site HTML" href="wholesite.html"/>
     <whole_site_pdf label="Whole site PDF" href="wholesite.pdf"/>
   </pdfs>
-  -->
 
 
   <!--subdir label="Subdir" href="subdir/">
