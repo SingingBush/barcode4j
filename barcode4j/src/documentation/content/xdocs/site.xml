@@ -25,6 +25,7 @@ See http://xml.apache.org/forrest/linking.html for more info
   
   <docs label="Documentation">
     <building label="Building" href="building.html"/>
+    <running label="Running" href="running.html"/>
     <design label="Design" href="design.html"/>
     <barcode-xml label="Barcode XML format" href="barcode-xml.html"/>
     <output-formats label="Output Formats" href="output-formats.html"/>
