@@ -429,6 +429,19 @@
           <include name="**/*Test.class" />
           <include name="**/*TestCase.class" />          
           <exclude name="**/Abstract*.class" />          
+          <exclude name="**/XalanExtTest.class" />          
+        </fileset>
+      </batchtest>
+    </junit>  
+    <!-- Tests for external bugs separately without haltonfailure -->
+    <junit printsummary="yes" haltonfailure="no" fork="yes">
+      <!--jvmarg value="-verbose:class"/-->
+      <sysproperty key="java.awt.headless" value="true"/>
+      <formatter type="brief" usefile="false"/> 
+      <classpath refid="test.classpath"/>
+      <batchtest todir="${build.test}">
+        <fileset dir="${build.test}/classes">
+          <include name="**/XalanExtTest.class" />
         </fileset>
       </batchtest>
     </junit>  
