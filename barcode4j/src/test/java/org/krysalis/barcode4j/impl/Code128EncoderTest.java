@@ -15,13 +15,16 @@
  */
 package org.krysalis.barcode4j.impl;
 
+import org.krysalis.barcode4j.impl.code128.Code128Encoder;
+import org.krysalis.barcode4j.impl.code128.DefaultCode128Encoder;
+
 import junit.framework.TestCase;
 
 /**
  * Test class for the Code128 message encoder implementations.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code128EncoderTest.java,v 1.4 2004-09-04 20:25:55 jmaerki Exp $
+ * @version $Id: Code128EncoderTest.java,v 1.5 2004-09-12 17:57:52 jmaerki Exp $
  */
 public class Code128EncoderTest extends TestCase {
 

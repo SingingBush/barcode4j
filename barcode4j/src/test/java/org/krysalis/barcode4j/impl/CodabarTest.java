@@ -16,6 +16,8 @@
 package org.krysalis.barcode4j.impl;
 
 import org.krysalis.barcode4j.ChecksumMode;
+import org.krysalis.barcode4j.impl.codabar.Codabar;
+import org.krysalis.barcode4j.impl.codabar.CodabarLogicImpl;
 
 import junit.framework.TestCase;
 
@@ -23,7 +25,7 @@ import junit.framework.TestCase;
  * Test class for the Codabar implementation.
  * 
  * @author Jeremias Maerki
- * @version $Id: CodabarTest.java,v 1.2 2004-09-04 20:25:55 jmaerki Exp $
+ * @version $Id: CodabarTest.java,v 1.3 2004-09-12 17:57:52 jmaerki Exp $
  */
 public class CodabarTest extends TestCase {
 

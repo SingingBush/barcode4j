@@ -25,11 +25,11 @@ import org.krysalis.barcode4j.output.Canvas;
  * Default Logic Handler implementation for painting on a Canvas.
  * 
  * @author Jeremias Maerki
- * @version $Id: DefaultCanvasLogicHandler.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: DefaultCanvasLogicHandler.java,v 1.3 2004-09-12 17:57:51 jmaerki Exp $
  */
 public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
     
-    private GenericBarcodeImpl bcImpl;
+    private AbstractBarcodeBean bcBean;
     private Canvas canvas;
     private double x = 0.0;
     private String msg;
@@ -40,14 +40,14 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
      * @param bcImpl the barcode implementation class
      * @param canvas the canvas to paint to
      */
-    public DefaultCanvasLogicHandler(GenericBarcodeImpl bcImpl, Canvas canvas) {
-        this.bcImpl = bcImpl;
+    public DefaultCanvasLogicHandler(AbstractBarcodeBean bcBean, Canvas canvas) {
+        this.bcBean = bcBean;
         this.canvas = canvas;
     }
     
     private double getStartX() {
-        if (bcImpl.hasQuietZone()) {
-            return bcImpl.getQuietZone();
+        if (bcBean.hasQuietZone()) {
+            return bcBean.getQuietZone();
         } else {
             return 0.0;
         }
@@ -57,7 +57,7 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
     public void startBarcode(String msg) {
         this.msg = msg;
         //Calculate extents
-        BarcodeDimension dim = bcImpl.calcDimensions(msg);
+        BarcodeDimension dim = bcBean.calcDimensions(msg);
         
         canvas.establishDimensions(dim);
         x = getStartX();
@@ -70,14 +70,14 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
 
     /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
     public void addBar(boolean black, int width) {
-        final double w = bcImpl.getBarWidth(width);
+        final double w = bcBean.getBarWidth(width);
         if (black) {
-            if (bcImpl.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
-                canvas.drawRectWH(x, 0, w, bcImpl.getHeight());
-            } else if (bcImpl.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
-                canvas.drawRectWH(x, bcImpl.getHumanReadableHeight(), w, bcImpl.getBarHeight());
-            } else if (bcImpl.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
-                canvas.drawRectWH(x, 0, w, bcImpl.getBarHeight());
+            if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
+                canvas.drawRectWH(x, 0, w, bcBean.getHeight());
+            } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
+                canvas.drawRectWH(x, bcBean.getHumanReadableHeight(), w, bcBean.getBarHeight());
+            } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
+                canvas.drawRectWH(x, 0, w, bcBean.getBarHeight());
             }
         }
         x += w;
@@ -89,12 +89,14 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
 
     /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
     public void endBarcode() {
-        if (bcImpl.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
+        if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
             //nop
-        } else if (bcImpl.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
-            bcImpl.drawCenteredText(canvas, msg, getStartX(), x, bcImpl.getHumanReadableHeight());
-        } else if (bcImpl.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
-            bcImpl.drawCenteredText(canvas, msg, getStartX(), x, bcImpl.getHeight());
+        } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
+            DrawingUtil.drawCenteredText(canvas, bcBean, msg, 
+                    getStartX(), x, bcBean.getHumanReadableHeight());
+        } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
+            DrawingUtil.drawCenteredText(canvas, bcBean, msg, 
+                    getStartX(), x, bcBean.getHeight());
         }
     }
 

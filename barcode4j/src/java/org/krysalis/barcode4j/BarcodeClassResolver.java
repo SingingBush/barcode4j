@@ -20,7 +20,7 @@
  * implementations.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeClassResolver.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: BarcodeClassResolver.java,v 1.3 2004-09-12 17:57:54 jmaerki Exp $
  */
 public interface BarcodeClassResolver {
 
@@ -33,4 +33,12 @@ public interface BarcodeClassResolver {
      */
     Class resolve(String name) throws ClassNotFoundException;
 
+    /**
+     * Returns the Class object of a Barcode bean implementation.
+     * 
+     * @param name Name or Classname of a Barcode bean implementation class
+     * @return Class The class requested
+     * @throws ClassNotFoundException If the class could not be resolved
+     */
+    Class resolveBean(String name) throws ClassNotFoundException;
 }

@@ -23,17 +23,17 @@ import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.output.Canvas;
 
 /**
- * Logic Handler to be used by subclasses of HeightVariableBarcodeImpl 
+ * Logic Handler to be used by subclasses of HeightVariableBarcodeBean 
  * for painting on a Canvas.
  * 
  * @author Chris Dolphy
- * @version $Id: DefaultHeightVariableLogicHandler.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: DefaultHeightVariableLogicHandler.java,v 1.3 2004-09-12 17:57:51 jmaerki Exp $
  */
 public class DefaultHeightVariableLogicHandler 
             implements ClassicBarcodeLogicHandler {
 
 
-    private HeightVariableBarcodeImpl bcImpl;
+    private HeightVariableBarcodeBean bcBean;
     private Canvas canvas;
     private double x = 0.0;
     //private int baselinePos;
@@ -41,17 +41,17 @@ public class DefaultHeightVariableLogicHandler
 
     /**
      * Constructor 
-     * @param bcImpl the barcode implementation class
+     * @param bcBean the barcode implementation class
      * @param canvas the canvas to paint to
      */
-    public DefaultHeightVariableLogicHandler(HeightVariableBarcodeImpl bcImpl, Canvas canvas) {
-        this.bcImpl = bcImpl;
+    public DefaultHeightVariableLogicHandler(HeightVariableBarcodeBean bcBean, Canvas canvas) {
+        this.bcBean = bcBean;
         this.canvas = canvas;
     }
 
     private double getStartX() {
-        if (bcImpl.hasQuietZone()) {
-            return bcImpl.getQuietZone();
+        if (bcBean.hasQuietZone()) {
+            return bcBean.getQuietZone();
         } else {
             return 0.0;
         }
@@ -63,7 +63,7 @@ public class DefaultHeightVariableLogicHandler
     public void startBarcode(String msg) {
         this.msg = msg;
         //Calculate extents
-        BarcodeDimension dim = bcImpl.calcDimensions(msg);       
+        BarcodeDimension dim = bcBean.calcDimensions(msg);       
         canvas.establishDimensions(dim);        
         x = getStartX();
     }
@@ -72,22 +72,22 @@ public class DefaultHeightVariableLogicHandler
      * @see org.krysalis.barcode4j.HeightVariableLogicHandler#addBar(boolean, int)
      */
     public void addBar(boolean black, int height) {
-        final double w = black ? bcImpl.getBarWidth(1) : bcImpl.getBarWidth(-1);
-        final double h = bcImpl.getBarHeight(height);
-        final BaselineAlignment baselinePosition = bcImpl.getBaselinePosition();
+        final double w = black ? bcBean.getBarWidth(1) : bcBean.getBarWidth(-1);
+        final double h = bcBean.getBarHeight(height);
+        final BaselineAlignment baselinePosition = bcBean.getBaselinePosition();
         
         if (black) {
-            if (bcImpl.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
+            if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
                 if (baselinePosition == BaselineAlignment.ALIGN_TOP) {
-                    canvas.drawRectWH(x, bcImpl.getHumanReadableHeight(), w, h);
+                    canvas.drawRectWH(x, bcBean.getHumanReadableHeight(), w, h);
                 } else if (baselinePosition == BaselineAlignment.ALIGN_BOTTOM) {
-                    canvas.drawRectWH(x, bcImpl.getHeight() - h, w, h);
+                    canvas.drawRectWH(x, bcBean.getHeight() - h, w, h);
                 }
             } else {
                 if (baselinePosition == BaselineAlignment.ALIGN_TOP) {
                     canvas.drawRectWH(x, 0, w, h);
                 } else if (baselinePosition == BaselineAlignment.ALIGN_BOTTOM) {
-                    canvas.drawRectWH(x, bcImpl.getBarHeight() - h, w, h);
+                    canvas.drawRectWH(x, bcBean.getBarHeight() - h, w, h);
                 } 
             }
         }
@@ -98,12 +98,14 @@ public class DefaultHeightVariableLogicHandler
      * @see org.krysalis.barcode4j.BarcodeLogicHandler#endBarcode()
      */
     public void endBarcode() {
-        if (bcImpl.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
+        if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
             //nop
-        } else if (bcImpl.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
-            bcImpl.drawCenteredText(canvas, msg, getStartX(), x, bcImpl.getHumanReadableHeight());
-        } else if (bcImpl.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
-            bcImpl.drawCenteredText(canvas, msg, getStartX(), x, bcImpl.getHeight());
+        } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
+            DrawingUtil.drawCenteredText(canvas, bcBean, msg, 
+                    getStartX(), x, bcBean.getHumanReadableHeight());
+        } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
+            DrawingUtil.drawCenteredText(canvas, bcBean, msg, 
+                    getStartX(), x, bcBean.getHeight());
         }
     }
 

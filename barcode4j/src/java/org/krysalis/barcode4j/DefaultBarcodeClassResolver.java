@@ -17,11 +17,21 @@ package org.krysalis.barcode4j;
 
 import java.util.Map;
 
+import org.krysalis.barcode4j.impl.codabar.Codabar;
+import org.krysalis.barcode4j.impl.code128.Code128;
+import org.krysalis.barcode4j.impl.code39.Code39;
+import org.krysalis.barcode4j.impl.int2fo5.Interleaved2Of5;
+import org.krysalis.barcode4j.impl.postnet.POSTNET;
+import org.krysalis.barcode4j.impl.upcean.EAN13;
+import org.krysalis.barcode4j.impl.upcean.EAN8;
+import org.krysalis.barcode4j.impl.upcean.UPCA;
+import org.krysalis.barcode4j.impl.upcean.UPCE;
+
 /**
  * This is a simple implementation of a BarcodeClassResolver.
  * 
  * @author Jeremias Maerki
- * @version $Id: DefaultBarcodeClassResolver.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: DefaultBarcodeClassResolver.java,v 1.3 2004-09-12 17:57:54 jmaerki Exp $
  */
 public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
 
@@ -33,21 +43,21 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
      * Already registers a default set of implementations.
      */
     public DefaultBarcodeClassResolver() {
-        registerBarcodeClass("codabar", "org.krysalis.barcode4j.impl.Codabar");
-        registerBarcodeClass("code39", "org.krysalis.barcode4j.impl.Code39");
-        registerBarcodeClass("code128", "org.krysalis.barcode4j.impl.Code128");
-        registerBarcodeClass("2of5", "org.krysalis.barcode4j.impl.Interleaved2Of5");
-        registerBarcodeClass("intl2of5", "org.krysalis.barcode4j.impl.Interleaved2Of5");
-        registerBarcodeClass("interleaved2of5", "org.krysalis.barcode4j.impl.Interleaved2Of5");
-        registerBarcodeClass("ean-13", "org.krysalis.barcode4j.impl.EAN13");
-        registerBarcodeClass("ean13", "org.krysalis.barcode4j.impl.EAN13");
-        registerBarcodeClass("ean-8", "org.krysalis.barcode4j.impl.EAN8");
-        registerBarcodeClass("ean8", "org.krysalis.barcode4j.impl.EAN8");
-        registerBarcodeClass("upc-a", "org.krysalis.barcode4j.impl.UPCA");
-        registerBarcodeClass("upca", "org.krysalis.barcode4j.impl.UPCA");
-        registerBarcodeClass("upc-e", "org.krysalis.barcode4j.impl.UPCE");
-        registerBarcodeClass("upce", "org.krysalis.barcode4j.impl.UPCE");
-        registerBarcodeClass("postnet", "org.krysalis.barcode4j.impl.POSTNET");
+        registerBarcodeClass("codabar", Codabar.class.getName());
+        registerBarcodeClass("code39", Code39.class.getName());
+        registerBarcodeClass("code128", Code128.class.getName());
+        registerBarcodeClass("2of5", Interleaved2Of5.class.getName());
+        registerBarcodeClass("intl2of5", Interleaved2Of5.class.getName());
+        registerBarcodeClass("interleaved2of5", Interleaved2Of5.class.getName());
+        registerBarcodeClass("ean-13", EAN13.class.getName());
+        registerBarcodeClass("ean13", EAN13.class.getName());
+        registerBarcodeClass("ean-8", EAN8.class.getName());
+        registerBarcodeClass("ean8", EAN8.class.getName());
+        registerBarcodeClass("upc-a", UPCA.class.getName());
+        registerBarcodeClass("upca", UPCA.class.getName());
+        registerBarcodeClass("upc-e", UPCE.class.getName());
+        registerBarcodeClass("upce", UPCE.class.getName());
+        registerBarcodeClass("postnet", POSTNET.class.getName());
     }
 
     /**
@@ -77,4 +87,18 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
         return cl;
     }
 
+    /**
+     * @see org.krysalis.barcode4j.BarcodeClassResolver#resolveBean(String)
+     */
+    public Class resolveBean(String name) throws ClassNotFoundException {
+        String clazz = null;
+        if (this.classes != null) {
+            clazz = (String)this.classes.get(name.toLowerCase());
+        }
+        if (clazz == null) {
+            clazz = name;
+        }
+        Class cl = Class.forName(clazz + "Bean");
+        return cl;
+    }
 }
