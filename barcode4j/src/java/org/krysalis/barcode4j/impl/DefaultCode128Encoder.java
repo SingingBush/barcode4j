@@ -1,8 +1,8 @@
 /*
- * $Id: DefaultCode128Encoder.java,v 1.1 2003-12-13 20:23:42 jmaerki Exp $
+ * $Id: DefaultCode128Encoder.java,v 1.2 2004-04-28 19:31:00 jmaerki Exp $
  * ============================================================================
  * The Krysalis Patchy Software License, Version 1.1_01
- * Copyright (c) 2002-2003 Nicola Ken Barozzi.  All rights reserved.
+ * Copyright (c) 2002-2004 Nicola Ken Barozzi.  All rights reserved.
  *
  * This Licence is compatible with the BSD licence as described and
  * approved by http://www.opensource.org/, and is based on the
@@ -64,9 +64,9 @@ package org.krysalis.barcode4j.impl;
  */
 public class DefaultCode128Encoder implements Code128Encoder {
 
-    private static final int CODESET_A = 1;
-    private static final int CODESET_B = 2;
-    private static final int CODESET_C = 4;
+    private static final int CODESET_A              = 1;
+    private static final int CODESET_B              = 2;
+    private static final int CODESET_C              = 4;
 
     private static final int START_A = 103;
     private static final int START_B = 104;
@@ -80,11 +80,19 @@ public class DefaultCode128Encoder implements Code128Encoder {
     private static final int SHIFT   = 98;
     
 
-    private final boolean inCodeset(char c, int codeset) {
+    /**
+     * Determine whether a character is in a particular codeset.
+     * @param c character to test
+     * @param codeset codeset to check
+     * @param second For codeset C only: true if we're checking for the second 
+     *   position in a duo.
+     * @return true if the character is in the codeset
+     */
+    private final boolean inCodeset(char c, int codeset, boolean second) {
         switch (codeset) {
             case CODESET_A: return Code128LogicImpl.isInCodeSetA(c);
             case CODESET_B: return Code128LogicImpl.isInCodeSetB(c);
-            case CODESET_C: return Code128LogicImpl.canBeInCodeSetC(c);
+            case CODESET_C: return Code128LogicImpl.canBeInCodeSetC(c, second);
             default: throw new IllegalArgumentException("Invalid codeset");
         }
     }
@@ -123,7 +131,9 @@ public class DefaultCode128Encoder implements Code128Encoder {
             return false;
         }
         for (int i = 0; i < count; i++) {
-            if (!inCodeset(msg.charAt(startpos + i), codeset)) {
+            char c = msg.charAt(startpos + i);
+            boolean second = (codeset == CODESET_C) && ((i % 2) != 0);
+            if (!inCodeset(c, codeset, second)) {
                 return false;
             }
         }
@@ -133,7 +143,8 @@ public class DefaultCode128Encoder implements Code128Encoder {
     private int countCharsInSameCodeset(String msg, int startpos, int codeset) {
         int count = 0;
         while (startpos + count < msg.length()) {
-            if (!inCodeset(msg.charAt(startpos + count), codeset)) {
+            boolean second = (codeset == CODESET_C) && ((count % 2) != 0);
+            if (!inCodeset(msg.charAt(startpos + count), codeset, second)) {
                 break;
             }
             count++;
@@ -240,7 +251,8 @@ public class DefaultCode128Encoder implements Code128Encoder {
                         if ((c % 2) != 0) {
                             //Odd number of digits in next passage
                             //Encode the first digit in the old codeset
-                            encoded[respos] = Character.digit(msg.charAt(msgpos), 10) + 16;
+                            //encoded[respos] = Character.digit(msg.charAt(msgpos), 10) + 16;
+                            encoded[respos] = encodeAorB(msg.charAt(msgpos), currentCodeset);
                             respos++;
                             msgpos++;
                         }
