@@ -69,7 +69,8 @@
         <li>
           JDK 1.4 or later provides the Image I/O API which contains support for JPEG, 
           PNG by default. Additional formats (such as TIFF or BMP) are supported if 
-          JAI (Java Advanced Imaging) is present in the classpath. Support for these
+          <fork href="http://java.sun.com/products/java-media/jai/">JAI (Java Advanced Imaging)</fork>
+          is present in the classpath (Download the "Image I/O Tools"). Support for these 
           formats is enabled automatically.
         </li>
         <li>
