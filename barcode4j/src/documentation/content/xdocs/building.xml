@@ -31,7 +31,10 @@
       <p>If all goes well, this creates a "build" directory which now contains several things:</p>
       <ul>
         <li>barcode4j.jar: The barcode package</li>
-        <li>barcode4j.war: The sample web application with the SVG-generating servlet</li>
+        <li>barcode4j-light.jar: A reduced barcode package without dependency on Avalon Framework.</li>
+        <li>barcode4j-fop-ext-0.20.5.jar: The FOP barcode extension</li>
+        <li>barcode4j-fop-ext-0.20.5-complete.jar: Combines barcode4j.jar and the FOP extension in a single JAR.</li>
+        <li>barcode4j.war: The sample web application with the sample servlet</li>
         <li>the "docs" directory: This directory contains the generated Javadocs</li>
       </ul>
     </section>
