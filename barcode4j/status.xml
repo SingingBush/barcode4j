@@ -2,8 +2,8 @@
 <status>
 
   <developers>
-    <person name="Nicola Ken Barozzi"      email="nicolaken@krysalis.org"        id="nicolaken" />
     <person name="Jeremias Maerki"         email="jmaerki@users.sourceforge.net" id="jmaerki" />
+    <person name="Nicola Ken Barozzi"      email="nicolaken@krysalis.org"        id="nicolaken" />
     <!-- Add more people here -->
   </developers>
 
@@ -72,6 +72,12 @@
   <changes>
     <!-- Add new releases here -->
     <release version="1.0" date="soon">
+      <action dev="jmaerki" type="update" context="legal">
+        Barcode4J is now under the Apache License, Version 2.0. The Copyright name has been changed 
+        from Nicola Ken Barozzi to Jeremias Maerki. The latter was requested by Nicola Ken Barozzi 
+        and was approved through community decision. At least 95% percent of the code has been 
+        developed by Jeremias Maerki anyway.
+      </action>
       <action dev="jmaerki" type="add" context="code">
         SVG generators now create a viewBox and work with logical units 
         instead of with real world units.

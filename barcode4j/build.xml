@@ -251,7 +251,7 @@
       <link href="http://avalon.apache.org/framework/api/"/>
       <link href="http://www.saxonica.com/documentation/javadoc/"/>
       <doctitle>${name} ${version} API</doctitle>
-      <bottom>&lt;i&gt;Copyright &#169; ${year} The Krysalis Community Project. All rights reserved.&lt;i&gt;</bottom>
+      <bottom>&lt;i&gt;Copyright &#169; ${year} Jeremias Maerki. All rights reserved.&lt;i&gt;</bottom>
       <header><![CDATA[${name} ${version}]]></header>
       <footer><![CDATA[${name} ${version}]]></footer>
     </javadoc>
