@@ -25,7 +25,8 @@
         <li>Make sure you have FOP version 0.20.5 or later.</li>
         <li>
           Add barcode4j.jar and barcode4j-fop-ext-0.20.5.jar to the 
-          classpath. (Alternatively, you can use the combined JAR: 
+          <link href="faq.html#classpath">classpath</link>. (Alternatively, 
+          you can use the combined JAR: 
           barcode4j-fop-ext-0.20.5-complete.jar which contains both 
           Barcode4J and the FOP extension.)</li>
         <li>
@@ -60,6 +61,17 @@
         instead of "message" for the message attribute above. This will be 
         fixed in the final version.
       </warning>
+    </section>
+    <section>
+    	<title>Using FOP from the command-line</title>
+    	<p>
+    		If you use FOP from the command-line (by calling fop.bat on Windows) it may not be 
+    		enough to simply add the JAR files mentioned above to FOP's lib directory. On Unix
+    		all JAR files are automatically added to the classpath through the fop.sh script, so
+    		you only have to make sure that you don't have two different avalon-framework.jar 
+    		files the the lib directory. On Windows, you will have to edit fop.bat and manually
+    		edit the entries there.
+    	</p>
     </section>
     <section>
       <title>Some technical background</title>

@@ -62,5 +62,57 @@
     </faq>
     <!-- More faqs or parts here -->
   </part>
+  <part id="java">
+  	<title>Java</title>
+  	<faq id="classpath">
+  		<question>
+  			What's this "classpath" thing?
+  		</question>
+  		<answer>
+  			<p>
+  				The classpath is a set of locations where the Java Virtual Machine (JVM) 
+  				can load Java code from. In the easiest case, the classpath is simply a
+  				directory, but normally the classpath consists of a list of filenames
+  				pointing to JAR files (essentially ZIP files with some special extensions).
+  				Barcode4J delivers several such JAR files. Let's see what the classpath 
+  				looks like when you want to run Barcode4J from the command-line:
+  			</p>
+        <source><![CDATA[
+Windows: java -cp lib\avalon-framework-4.1.5.jar;lib\commons-cli-1.0.jar;build\barcode4j.jar org.krysalis.barcode4j.cli.Main
+Unix:    java -cp lib\avalon-framework-4.1.5.jar:lib\commons-cli-1.0.jar:build\barcode4j.jar org.krysalis.barcode4j.cli.Main]]>
+        </source>
+        <note>
+        	Instead of "-cp" you can also use "-classpath".
+        </note>
+      	<p>
+      		The above works fine under JDK 1.4.x or higher. If you use JDK 1.3.x you 
+      		need to add XML support (JAXP, Xerces and Xalan). Only JDK 1.4 has XML 
+      		support built-in. You would add these libraries using the same pattern as
+      		shown above.
+      	</p>
+  		</answer>
+  	</faq>
+  	<faq id="endorsement">
+  		<question>
+  			How do I make sure the right XML parser and the right XSLT engine are used under JDK 1.4.x and higher?
+  		</question>
+  		<answer>
+  			<p>
+  				Since JDK 1.4 Java comes with XML support built-in. XML support comprises 
+  				the JAXP API (SAX, DOM, parsing and XSLT processing APIs) plus implementations
+  				(Crimson/Xerces-J for basic XML support and Xalan-J as XSLT engine).
+  			</p>
+  			<p>
+  			  By default, the implementations coming with the JDK are used even if you have
+  			  different JAXP implementations in your classpath. There's a mechanism called 
+  			  "Endorsed Standards Override Mechanism" that allows you to override the default
+  			  XML implementations with your own. See 
+  			  <fork href="http://xml.apache.org/xalan-j/faq.html#faq-N100CB">Xalan-J's FAQ entry</fork>
+  			  or the 
+  			  <fork href="http://java.sun.com/j2se/1.4/docs/guide/standards/">documentation from Sun</fork>.
+  			</p>
+  		</answer>
+  	</faq>
+  </part>
   <!-- More faqs or parts here -->
 </faqs>
