@@ -64,11 +64,6 @@ See http://xml.apache.org/forrest/linking.html for more info
    </running>
   </documentation>
 
-  <references label="Related projects">
-    <xml label="Apache XML" href="http://xml.apache.org/"/>
-    <xml-fop label="Apache FOP" href="http://xml.apache.org/fop/"/>
-    <xml-batik label="Apache Batik" href="http://xml.apache.org/batik/"/>
-  </references>
   <!-- Uncomment this if we want aggregate HTML/PDFs for this site 
   <pdfs label="PDFs">
     <whole_site_html label="Whole site HTML" href="wholesite.html"/>
