@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v20.dtd">
 <document>
   <header>
     <title>Welcome to Barcode4J</title>
@@ -27,36 +27,36 @@
       <ul>
         <li>1D barcode implementations:
           <ul>
-            <li>Interleaved 2 of 5</li>
-            <li>Code 39</li>
-            <li>Codabar</li>
-            <li>Code 128</li>
-            <li>UPC-A and UPC-E (with supplementals)</li>
-            <li>EAN-13 and EAN-8 (with supplementals)</li>
-            <li>POSTNET</li>
+            <li>Interleaved 2 of 5 [<link href="examples.html#interleaved2of5">example</link>] [<link href="barcode-xml.html#Interleaved2of5">xml-format</link>]</li>
+            <li>Code 39 [<link href="examples.html#code39">example</link>] [<link href="barcode-xml.html#Code39">xml-format</link>]</li>
+            <li>Code 128 [<link href="examples.html#code128">example</link>] [<link href="barcode-xml.html#Code128">xml-format</link>]</li>
+            <li>Codabar [<link href="examples.html#codabar">example</link>] [<link href="barcode-xml.html#Codabar">xml-format</link>]</li>
+            <li>UPC-A and UPC-E (with supplementals) [<link href="examples.html#upc-A">example</link>] [<link href="barcode-xml.html#UPC-A">xml-format</link>]</li>
+            <li>EAN-13 and EAN-8 (with supplementals) [<link href="examples.html#ean-13">example</link>] [<link href="barcode-xml.html#EAN-13">xml-format</link>]</li>
+            <li>POSTNET [<link href="examples.html#postnet">example</link>] [<link href="barcode-xml.html#POSTNET">xml-format</link>]</li>
           </ul>
         </li>
         <li>Support for multiple output formats:
           <ul>
-            <li>SVG</li>
-            <li>EPS (Encapsulated PostScript)</li>
-            <li>Bitmap images (such as PNG or JPEG)</li>
-            <li>Java2D (AWT)</li>
+            <li>SVG [<link href="output-formats.html#SVG">output-format</link>]</li>
+            <li>EPS (Encapsulated PostScript) [<link href="output-formats.html#EPS+%28Encapsulated+PostScript%29">output-format</link>]</li>
+            <li>Bitmap images (such as PNG or JPEG) [<link href="output-formats.html#Bitmap+formats+%28PNG%2C+TIFF%2C+JPEG+etc.%29">output-format</link>]</li>
+            <li>Java2D (AWT) [<link href="output-formats.html#Java2D+%28AWT%29">output-format</link>]</li>
             <li>Text (for testing and debugging only)</li>
           </ul>
         </li>
-        <li>Servlet with support for SVG, EPS and bitmap output</li>
-        <li>Command-line interface</li>
+        <li>Servlet with support for SVG, EPS and bitmap output [<link href="servlet.html">more info</link>]</li>
+        <li>Command-line interface [<link href="cli.html">more info</link>]</li>
         <li>Plug-ins/extensions for third-party products:
           <ul>
             <li>
-              <fork href="ext:xalan">Apache Xalan</fork>: SVG-generating XSLT extension
+              <fork href="ext:xalan">Apache Xalan</fork>: SVG-generating XSLT extension [<link href="xalan-ext.html">more info</link>]
             </li>
             <li>
-              The <fork href="ext:saxon">SAXON XSLT Processor from Michael Kay</fork>: SVG-generating XSLT extension
+              The <fork href="ext:saxon">SAXON XSLT Processor from Michael Kay</fork>: SVG-generating XSLT extension [<link href="saxon-ext.html">more info</link>]
             </li>
             <li>
-              <fork href="ext:fop">Apache FOP</fork>: support as fo:instream-foreign-object
+              <fork href="ext:fop">Apache FOP</fork>: support as fo:instream-foreign-object [<link href="fop-ext.html">more info</link>]
             </li>
           </ul>
         </li>
