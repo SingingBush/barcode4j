@@ -16,7 +16,7 @@
 package org.krysalis.barcode4j.impl;
 
 import org.krysalis.barcode4j.ChecksumMode;
-import org.krysalis.barcode4j.impl.int2fo5.Interleaved2Of5LogicImpl;
+import org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5LogicImpl;
 
 import junit.framework.TestCase;
 
@@ -24,7 +24,7 @@ import junit.framework.TestCase;
  * Test class for the Interleaved 2 of 5 implementation.
  * 
  * @author Jeremias Maerki
- * @version $Id: Interleaved2Of5Test.java,v 1.3 2004-09-12 17:57:52 jmaerki Exp $
+ * @version $Id: Interleaved2Of5Test.java,v 1.4 2004-10-02 14:57:27 jmaerki Exp $
  */
 public class Interleaved2Of5Test extends TestCase {
 
