@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * This class is an implementation of the EAN-13 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: EAN13LogicImpl.java,v 1.1 2004-09-12 17:57:52 jmaerki Exp $
+ * @version $Id: EAN13LogicImpl.java,v 1.2 2004-10-24 11:45:53 jmaerki Exp $
  */
 public class EAN13LogicImpl extends UPCEANLogicImpl {
 
@@ -119,7 +119,7 @@ public class EAN13LogicImpl extends UPCEANLogicImpl {
         if (supp != null) {
             canonicalMessage = canonicalMessage + "+" + supp;
         }
-        logic.startBarcode(canonicalMessage);
+        logic.startBarcode(canonicalMessage, canonicalMessage);
         
         //Left guard
         drawSideGuard(logic);

@@ -24,7 +24,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * 
  * @author Jeremias Maerki
  * @todo Add ASCII-7bit encoding table
- * @version $Id: Code39LogicImpl.java,v 1.1 2004-09-12 17:57:53 jmaerki Exp $
+ * @version $Id: Code39LogicImpl.java,v 1.2 2004-10-24 11:45:55 jmaerki Exp $
  */
 public class Code39LogicImpl {
 
@@ -84,14 +84,22 @@ public class Code39LogicImpl {
                          {0, 1, 0, 0, 1, 0, 1, 0, 0}}; //*
 
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
-    
+    private boolean displayStartStop = false;
+    private boolean displayChecksum = false;
 
     /**
      * Main constructor
      * @param mode checksum mode
+     * @param displayStartStop Controls whether to display start and stop
+     *   characters in the human-readable message
+     * @param displayChecksum Controls whether to display checksum
+     *   in the human-readable message
      */
-    public Code39LogicImpl(ChecksumMode mode) {
+    public Code39LogicImpl(ChecksumMode mode, boolean displayStartStop, 
+                boolean displayChecksum) {
         this.checksumMode = mode;
+        this.displayStartStop = displayStartStop;
+        this.displayChecksum = displayChecksum;
     }
 
     /**
@@ -102,6 +110,16 @@ public class Code39LogicImpl {
         return this.checksumMode;
     }
 
+    private static void invalidCharacter(char c) {
+        if (c != STARTSTOP) {
+            throw new IllegalArgumentException("Invalid character: " + c);
+        } else {
+            throw new IllegalArgumentException("You may not include '*' as "
+                    + "part of the message. This start/stop character is "
+                    + "automatically added before and after the message.");
+        }
+    }
+    
     /**
      * Calculates the checksum for a message to be encoded as an 
      * Code39 barcode.
@@ -115,7 +133,7 @@ public class Code39LogicImpl {
             if (chidx >= 0) {
                 checksum += chidx;
             } else {
-                throw new IllegalArgumentException("Invalid character: " + msg.charAt(i));
+                invalidCharacter(msg.charAt(i));
             }
         }
         return CHARACTERS[checksum % 43];
@@ -148,7 +166,6 @@ public class Code39LogicImpl {
         return -1;
     }
 
-
     private static boolean isValidChar(char ch) {
         if (ch == STARTSTOP) return false;
         return (getCharIndex(ch) >= 0);
@@ -160,7 +177,8 @@ public class Code39LogicImpl {
             int binary = CHARSET[chidx][index];
             return binary + 1;
         } else {
-            throw new IllegalArgumentException("Invalid character: " + ch);
+            invalidCharacter(ch);
+            return 0; //this is unreachable code.
         }
     }
 
@@ -184,9 +202,16 @@ public class Code39LogicImpl {
         logic.addBar(false, -1); //-1 is special
     }
         
-    private void handleChecksum(StringBuffer sb) {
+    private String handleChecksum(StringBuffer sb) {
         if (getChecksumMode() == ChecksumMode.CP_ADD) {
-            sb.append(calcChecksum(sb.toString()));
+            if (displayChecksum) {
+                sb.append(calcChecksum(sb.toString()));
+                return sb.toString();
+            } else {
+                String msg = sb.toString();
+                sb.append(calcChecksum(msg));
+                return msg;
+            }
         } else if (getChecksumMode() == ChecksumMode.CP_CHECK) {
             if (!validateChecksum(sb.toString())) {
                 throw new IllegalArgumentException("Message '" 
@@ -194,10 +219,17 @@ public class Code39LogicImpl {
                     + "' has a bad checksum. Expected: " 
                     + calcChecksum(sb.toString()));
             }
+            if (displayChecksum) {
+                return sb.toString();
+            } else {
+                return sb.substring(0, sb.length() - 1);
+            }
         } else if (getChecksumMode() == ChecksumMode.CP_IGNORE) {
-            return;
+            return sb.toString();
         } else if (getChecksumMode() == ChecksumMode.CP_AUTO) {
-            return; //equals ignore
+            return sb.toString(); //equals ignore
+        } else {
+            throw new IllegalStateException("Unknown checksum mode");
         }
     }
 
@@ -207,12 +239,16 @@ public class Code39LogicImpl {
      * @param msg the message to encode
      */
     public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
-        logic.startBarcode(msg);
-
         StringBuffer sb = new StringBuffer(msg);
         
         //Checksum handling as requested
-        handleChecksum(sb);
+        String formattedMsg = handleChecksum(sb);
+
+        if (displayStartStop) {
+            logic.startBarcode(sb.toString(), STARTSTOP + formattedMsg + STARTSTOP);
+        } else {
+            logic.startBarcode(sb.toString(), formattedMsg);
+        }
 
         //Start character
         logic.startBarGroup(BarGroup.START_CHARACTER, new Character(STARTSTOP).toString());

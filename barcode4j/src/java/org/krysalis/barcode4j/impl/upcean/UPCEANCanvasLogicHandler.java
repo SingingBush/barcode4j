@@ -30,7 +30,7 @@ import org.krysalis.barcode4j.output.Canvas;
  * implementation for UPC and EAN barcodes.
  * 
  * @author Jeremias Maerki
- * @version $Id: UPCEANCanvasLogicHandler.java,v 1.1 2004-09-12 17:57:52 jmaerki Exp $
+ * @version $Id: UPCEANCanvasLogicHandler.java,v 1.2 2004-10-24 11:45:38 jmaerki Exp $
  */
 public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
     
@@ -68,7 +68,7 @@ public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
     }            
 
     /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
-    public void startBarcode(String msg) {
+    public void startBarcode(String msg, String formattedMsg) {
         this.msg = msg;
         //Calculate extents
         this.dim = bcBean.calcDimensions(msg);

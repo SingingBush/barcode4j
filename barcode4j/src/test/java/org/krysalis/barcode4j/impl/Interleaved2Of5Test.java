@@ -24,7 +24,7 @@ import junit.framework.TestCase;
  * Test class for the Interleaved 2 of 5 implementation.
  * 
  * @author Jeremias Maerki
- * @version $Id: Interleaved2Of5Test.java,v 1.4 2004-10-02 14:57:27 jmaerki Exp $
+ * @version $Id: Interleaved2Of5Test.java,v 1.5 2004-10-24 11:45:55 jmaerki Exp $
  */
 public class Interleaved2Of5Test extends TestCase {
 
@@ -48,7 +48,7 @@ public class Interleaved2Of5Test extends TestCase {
         Interleaved2Of5LogicImpl logic;
         String expected;
         
-        logic = new Interleaved2Of5LogicImpl(ChecksumMode.CP_AUTO);
+        logic = new Interleaved2Of5LogicImpl(ChecksumMode.CP_AUTO, false);
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "12345670");
         expected = "<BC><SBG:start-char:null>B1W1B1W1</SBG>"
                                   + "<SBG:msg-char:12>B2W1B1W2B1W1B1W1B2W2</SBG>"
@@ -63,7 +63,7 @@ public class Interleaved2Of5Test extends TestCase {
 
 
         sb.setLength(0);
-        logic = new Interleaved2Of5LogicImpl(ChecksumMode.CP_ADD);
+        logic = new Interleaved2Of5LogicImpl(ChecksumMode.CP_ADD, false);
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "12345670");
         expected = "<BC><SBG:start-char:null>B1W1B1W1</SBG>"
                                   + "<SBG:msg-char:01>B1W2B1W1B2W1B2W1B1W2</SBG>"
@@ -79,7 +79,7 @@ public class Interleaved2Of5Test extends TestCase {
 
 
         sb.setLength(0);
-        logic = new Interleaved2Of5LogicImpl(ChecksumMode.CP_CHECK);
+        logic = new Interleaved2Of5LogicImpl(ChecksumMode.CP_CHECK, false);
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "123456700");
         //Variable expected stays the same for this test!!!!!
         //System.out.println(expected);
@@ -88,7 +88,7 @@ public class Interleaved2Of5Test extends TestCase {
 
         
         sb.setLength(0);
-        logic = new Interleaved2Of5LogicImpl(ChecksumMode.CP_CHECK);
+        logic = new Interleaved2Of5LogicImpl(ChecksumMode.CP_CHECK, false);
         try {
             logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "123456706");
             fail("Expected logic implementation to fail because wrong checksum is supplied");

@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * This class is an implementation of the Interleaved 2 of 5 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Interleaved2Of5LogicImpl.java,v 1.1 2004-10-02 14:51:43 jmaerki Exp $
+ * @version $Id: Interleaved2Of5LogicImpl.java,v 1.2 2004-10-24 11:45:37 jmaerki Exp $
  */
 public class Interleaved2Of5LogicImpl {
 
@@ -39,13 +39,17 @@ public class Interleaved2Of5LogicImpl {
                                              {1, 2, 1, 2, 1}};
 
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
+    private boolean displayChecksum = false;
     
     /**
      * Main constructor.
      * @param mode the checksum mode
+     * @param displayChecksum Controls whether to display checksum
+     *   in the human-readable message
      */
-    public Interleaved2Of5LogicImpl(ChecksumMode mode) {
+    public Interleaved2Of5LogicImpl(ChecksumMode mode, boolean displayChecksum) {
         this.checksumMode = mode;
+        this.displayChecksum = displayChecksum;
     }
 
     /**
@@ -127,21 +131,32 @@ public class Interleaved2Of5LogicImpl {
         logic.endBarGroup();
     }
     
-    private String handleChecksum(String msg) {
+    private String handleChecksum(StringBuffer sb) {
         if (getChecksumMode() == ChecksumMode.CP_ADD) {
-            return msg + calcChecksum(msg);
-        } else if (getChecksumMode() == ChecksumMode.CP_CHECK) {
-            if (!validateChecksum(msg)) {
-                throw new IllegalArgumentException("Message '" 
-                    + msg
-                    + "' has a bad checksum. Expected: " 
-                    + calcChecksum(msg.substring(0, msg.length() - 1)));
+            if (displayChecksum) {
+                sb.append(calcChecksum(sb.toString()));
+                return sb.toString();
+            } else {
+                String msg = sb.toString();
+                sb.append(calcChecksum(msg));
+                return msg;
             }
-            return msg;
+        } else if (getChecksumMode() == ChecksumMode.CP_CHECK) {
+            if (!validateChecksum(sb.toString())) {
+                throw new IllegalArgumentException("Message '" 
+                    + sb.toString()
+                    + "' has a bad checksum. Expected: " 
+                    + calcChecksum(sb.substring(0, sb.length() - 1)));
+            }
+            if (displayChecksum) {
+                return sb.toString();
+            } else {
+                return sb.substring(0, sb.length() - 1);
+            }
         } else if (getChecksumMode() == ChecksumMode.CP_IGNORE) {
-            return msg;
+            return sb.toString();
         } else if (getChecksumMode() == ChecksumMode.CP_AUTO) {
-            return msg; //equals ignore
+            return sb.toString(); //equals ignore
         } else {
             throw new UnsupportedOperationException(
                 "Unknown checksum mode: " + getChecksumMode());
@@ -155,14 +170,15 @@ public class Interleaved2Of5LogicImpl {
      */
     public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
         //Checksum handling as requested
-        String s = handleChecksum(msg);
+        StringBuffer sb = new StringBuffer(msg);
+        String formattedMsg = handleChecksum(sb);
         
         //Length must be even
-        if ((s.length() % 2) != 0) {
-            s = "0" + s;
+        if ((sb.length() % 2) != 0) {
+            sb.insert(0, '0');
         }
 
-        logic.startBarcode(msg);
+        logic.startBarcode(msg, formattedMsg);
 
         //Start character
         logic.startBarGroup(BarGroup.START_CHARACTER, null);
@@ -175,9 +191,9 @@ public class Interleaved2Of5LogicImpl {
         //Process string
         int i = 0;
         do {
-            encodeGroup(logic, s.substring(i, i + 2));
+            encodeGroup(logic, sb.substring(i, i + 2));
             i += 2;
-        } while (i < s.length());
+        } while (i < sb.length());
 
         //End character
         logic.startBarGroup(BarGroup.STOP_CHARACTER, null);

@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * Implements the United States Postal Service Postnet barcode.
  * 
  * @author Chris Dolphy
- * @version $Id: POSTNETLogicImpl.java,v 1.1 2004-09-12 17:57:51 jmaerki Exp $
+ * @version $Id: POSTNETLogicImpl.java,v 1.2 2004-10-24 11:45:53 jmaerki Exp $
  */
 public class POSTNETLogicImpl {
 
@@ -39,15 +39,20 @@ public class POSTNETLogicImpl {
                          {2, 1, 1, 2, 1},  //8
                          {2, 1, 2, 1, 1}}; //9
 
-    private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
     private static final char DASH = '-';
+
+    private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
+    private boolean displayChecksum = false;
 
     /**
      * Main constructor
      * @param mode checksum mode
+     * @param displayChecksum Controls whether to display checksum
+     *   in the human-readable message
      */
-    public POSTNETLogicImpl(ChecksumMode mode) {
+    public POSTNETLogicImpl(ChecksumMode mode, boolean displayChecksum) {
         this.checksumMode = mode;
+        this.displayChecksum = displayChecksum;
     }
 
     /**
@@ -154,20 +159,35 @@ public class POSTNETLogicImpl {
         logic.addBar(false, -1); //-1 is special
     }
         
-    private void handleChecksum(StringBuffer sb) {
+    private String handleChecksum(StringBuffer sb) {
         if (getChecksumMode() == ChecksumMode.CP_ADD) {
-            sb.append(calcChecksum(sb.toString()));
+            if (displayChecksum) {
+                sb.append(calcChecksum(sb.toString()));
+                return sb.toString();
+            } else {
+                String msg = sb.toString();
+                sb.append(calcChecksum(msg));
+                return msg;
+            }
         } else if (getChecksumMode() == ChecksumMode.CP_CHECK) {
             if (!validateChecksum(sb.toString())) {
                 throw new IllegalArgumentException("Message '" 
                     + sb.toString()
                     + "' has a bad checksum. Expected: " 
-                    + calcChecksum(sb.toString()));
+                    + calcChecksum(sb.substring(0, sb.length() - 1)));
+            }
+            if (displayChecksum) {
+                return sb.toString();
+            } else {
+                return sb.substring(0, sb.length() - 1);
             }
         } else if (getChecksumMode() == ChecksumMode.CP_IGNORE) {
-            return;
+            return sb.toString();
         } else if (getChecksumMode() == ChecksumMode.CP_AUTO) {
-            return; //equals ignore
+            return sb.toString(); //equals ignore
+        } else {
+            throw new UnsupportedOperationException(
+                    "Unknown checksum mode: " + getChecksumMode());
         }
     }
 
@@ -177,12 +197,11 @@ public class POSTNETLogicImpl {
      * @param msg the message to encode
      */
     public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
-        logic.startBarcode(msg);
-
         StringBuffer sb = new StringBuffer(msg);
+        String formattedMsg = handleChecksum(sb);
 
-        handleChecksum(sb);
-
+        logic.startBarcode(sb.toString(), formattedMsg);
+        
         // start frame bar
         logic.addBar(true, 2);
         addIntercharacterGap(logic);

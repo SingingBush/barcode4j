@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * This class is an implementation of the UPC-E barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: UPCELogicImpl.java,v 1.1 2004-09-12 17:57:52 jmaerki Exp $
+ * @version $Id: UPCELogicImpl.java,v 1.2 2004-10-24 11:45:53 jmaerki Exp $
  */
 public class UPCELogicImpl extends UPCEANLogicImpl {
 
@@ -288,7 +288,7 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
         if (supp != null) {
             canonicalMessage = canonicalMessage + "+" + supp;
         }
-        logic.startBarcode(canonicalMessage);
+        logic.startBarcode(canonicalMessage, canonicalMessage);
         
         //Left guard
         drawSideGuard(logic);

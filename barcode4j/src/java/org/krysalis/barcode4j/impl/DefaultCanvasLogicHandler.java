@@ -25,14 +25,14 @@ import org.krysalis.barcode4j.output.Canvas;
  * Default Logic Handler implementation for painting on a Canvas.
  * 
  * @author Jeremias Maerki
- * @version $Id: DefaultCanvasLogicHandler.java,v 1.4 2004-09-12 18:02:03 jmaerki Exp $
+ * @version $Id: DefaultCanvasLogicHandler.java,v 1.5 2004-10-24 11:45:37 jmaerki Exp $
  */
 public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
     
     private AbstractBarcodeBean bcBean;
     private Canvas canvas;
     private double x = 0.0;
-    private String msg;
+    private String formattedMsg;
     private String lastgroup;
     
     /**
@@ -54,8 +54,8 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
     }            
 
     /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
-    public void startBarcode(String msg) {
-        this.msg = msg;
+    public void startBarcode(String msg, String formattedMsg) {
+        this.formattedMsg = formattedMsg;
         //Calculate extents
         BarcodeDimension dim = bcBean.calcDimensions(msg);
         
@@ -92,10 +92,10 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
         if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
             //nop
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
-            DrawingUtil.drawCenteredText(canvas, bcBean, msg, 
+            DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg, 
                     getStartX(), x, bcBean.getHumanReadableHeight());
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
-            DrawingUtil.drawCenteredText(canvas, bcBean, msg, 
+            DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg, 
                     getStartX(), x, bcBean.getHeight());
         }
     }

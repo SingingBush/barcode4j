@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Interleaved 2 of 5 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Interleaved2Of5Bean.java,v 1.2 2004-10-02 15:33:25 jmaerki Exp $
+ * @version $Id: Interleaved2Of5Bean.java,v 1.3 2004-10-24 11:45:37 jmaerki Exp $
  */
 public class Interleaved2Of5Bean extends AbstractBarcodeBean {
 
@@ -39,10 +39,30 @@ public class Interleaved2Of5Bean extends AbstractBarcodeBean {
 
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
     private double wideFactor = DEFAULT_WIDE_FACTOR; //Determines the width of wide bar
+    private boolean displayChecksum = false;
 
     /** Create a new instance. */
     public Interleaved2Of5Bean() {
         this.moduleWidth = DEFAULT_MODULE_WIDTH;
+    }
+    
+    /**
+     * Indicates whether the checksum will be displayed as
+     * part of the human-readable message.
+     * @return true if checksum will be included in the human-readable message
+     */
+    public boolean isDisplayChecksum() {
+        return this.displayChecksum;
+    }
+    
+    /**
+     * Enables or disables the use of the checksum in the
+     * human-readable message.
+     * @param value true to include the checksum in the human-readable message, 
+     *   false to ignore
+     */
+    public void setDisplayChecksum(boolean value) {
+        this.displayChecksum = value;
     }
     
     /**
@@ -58,7 +78,8 @@ public class Interleaved2Of5Bean extends AbstractBarcodeBean {
                 new DefaultCanvasLogicHandler(this, new Canvas(canvas));
         //handler = new LoggingLogicHandlerProxy(handler);
 
-        Interleaved2Of5LogicImpl impl = new Interleaved2Of5LogicImpl(getChecksumMode());
+        Interleaved2Of5LogicImpl impl = new Interleaved2Of5LogicImpl(
+                getChecksumMode(), isDisplayChecksum());
         impl.generateBarcodeLogic(handler, msg);
     }
     

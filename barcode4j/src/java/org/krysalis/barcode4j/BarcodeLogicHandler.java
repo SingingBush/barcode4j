@@ -26,16 +26,18 @@ package org.krysalis.barcode4j;
  * and painting/rendering logic.
  *
  * @author Jeremias Maerki
- * @version $Id: BarcodeLogicHandler.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: BarcodeLogicHandler.java,v 1.3 2004-10-24 11:45:54 jmaerki Exp $
  */
 public interface BarcodeLogicHandler {
 
     /**
      * This is always the first method called. It is called to inform the
      * logic handler that a new barcode is about to be painted.
-     * @param msg full message to be encoded (without checksum)
+     * @param msg full message to be encoded
+     * @param formattedMsg message as it is to be presented in the 
+     *      human-readable part
      */
-    void startBarcode(String msg);
+    void startBarcode(String msg, String formattedMsg);
     
     /**
      * This is always the last method called. It is called to inform the 

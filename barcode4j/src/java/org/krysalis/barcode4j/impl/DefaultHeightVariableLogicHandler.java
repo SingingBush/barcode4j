@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.output.Canvas;
  * for painting on a Canvas.
  * 
  * @author Chris Dolphy
- * @version $Id: DefaultHeightVariableLogicHandler.java,v 1.4 2004-10-02 15:33:25 jmaerki Exp $
+ * @version $Id: DefaultHeightVariableLogicHandler.java,v 1.5 2004-10-24 11:45:37 jmaerki Exp $
  */
 public class DefaultHeightVariableLogicHandler 
             implements ClassicBarcodeLogicHandler {
@@ -37,7 +37,7 @@ public class DefaultHeightVariableLogicHandler
     private Canvas canvas;
     private double x = 0.0;
     //private int baselinePos;
-    private String msg;
+    private String formattedMsg;
 
     /**
      * Constructor 
@@ -58,10 +58,10 @@ public class DefaultHeightVariableLogicHandler
     }            
 
     /**
-     * @see org.krysalis.barcode4j.BarcodeLogicHandler#startBarcode(String)
+     * @see org.krysalis.barcode4j.BarcodeLogicHandler#startBarcode(String, String)
      */
-    public void startBarcode(String msg) {
-        this.msg = msg;
+    public void startBarcode(String msg, String formattedMsg) {
+        this.formattedMsg = formattedMsg;
         //Calculate extents
         BarcodeDimension dim = bcBean.calcDimensions(msg);       
         canvas.establishDimensions(dim);        
@@ -101,10 +101,10 @@ public class DefaultHeightVariableLogicHandler
         if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
             //nop
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
-            DrawingUtil.drawCenteredText(canvas, bcBean, msg, 
+            DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg, 
                     getStartX(), x, bcBean.getHumanReadableHeight());
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
-            DrawingUtil.drawCenteredText(canvas, bcBean, msg, 
+            DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg, 
                     getStartX(), x, bcBean.getHeight());
         }
     }

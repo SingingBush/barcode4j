@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.tools.Length;
  * This class is an implementation of the Interleaved 2 of 5 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Interleaved2Of5.java,v 1.1 2004-10-02 14:51:43 jmaerki Exp $
+ * @version $Id: Interleaved2Of5.java,v 1.2 2004-10-24 11:45:37 jmaerki Exp $
  */
 public class Interleaved2Of5 extends ConfigurableBarcodeGenerator 
             implements Configurable {
@@ -55,6 +55,13 @@ public class Interleaved2Of5 extends ConfigurableBarcodeGenerator
         getInterleaved2Of5Bean().setWideFactor(
             cfg.getChild("wide-factor").getValueAsFloat(
                     (float)Interleaved2Of5Bean.DEFAULT_WIDE_FACTOR));
+
+        Configuration hr = cfg.getChild("human-readable", false);
+        if (hr != null) {
+            //Display checksum in hr-message or not
+            getInterleaved2Of5Bean().setDisplayChecksum(
+                    hr.getChild("display-checksum").getValueAsBoolean(false));
+        }
     }
 
     /**

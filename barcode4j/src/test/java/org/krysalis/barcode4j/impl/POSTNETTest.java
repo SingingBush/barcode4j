@@ -25,7 +25,7 @@ import junit.framework.TestCase;
  * Test class for the POSTNET implementation.
  * 
  * @author Chris Dolphy
- * @version $Id: POSTNETTest.java,v 1.3 2004-09-12 17:57:52 jmaerki Exp $
+ * @version $Id: POSTNETTest.java,v 1.4 2004-10-24 11:45:55 jmaerki Exp $
  */
 public class POSTNETTest extends TestCase {
 
@@ -61,14 +61,14 @@ public class POSTNETTest extends TestCase {
         String expected;
         
         try {
-            logic = new POSTNETLogicImpl(ChecksumMode.CP_AUTO);
+            logic = new POSTNETLogicImpl(ChecksumMode.CP_AUTO, false);
             logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "123èöö2");
             fail("Expected an exception complaining about illegal characters");
         } catch (IllegalArgumentException iae) {
             //must fail
         }
         
-        logic = new POSTNETLogicImpl(ChecksumMode.CP_AUTO);
+        logic = new POSTNETLogicImpl(ChecksumMode.CP_AUTO, false);
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "75368");
         expected = "<BC>"
             + "B2W-1"
@@ -85,7 +85,7 @@ public class POSTNETTest extends TestCase {
         
         
         sb.setLength(0);
-        logic = new POSTNETLogicImpl(ChecksumMode.CP_ADD);;
+        logic = new POSTNETLogicImpl(ChecksumMode.CP_ADD, false);
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "75368");
         expected = "<BC>"
             + "B2W-1"
@@ -103,7 +103,7 @@ public class POSTNETTest extends TestCase {
         
         
         sb.setLength(0);
-        logic = new POSTNETLogicImpl(ChecksumMode.CP_CHECK);
+        logic = new POSTNETLogicImpl(ChecksumMode.CP_CHECK, false);
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "753681");
         expected = "<BC>"
             + "B2W-1"
@@ -121,7 +121,7 @@ public class POSTNETTest extends TestCase {
         
         
         sb.setLength(0);
-        logic = new POSTNETLogicImpl(ChecksumMode.CP_CHECK);
+        logic = new POSTNETLogicImpl(ChecksumMode.CP_CHECK, false);
         try {
             logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "753685");
             fail("Expected logic implementation to fail because wrong checksum is supplied");

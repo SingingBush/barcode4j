@@ -22,7 +22,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * This class is an implementation of the Code 128 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code128LogicImpl.java,v 1.2 2004-09-12 18:02:02 jmaerki Exp $
+ * @version $Id: Code128LogicImpl.java,v 1.3 2004-10-24 11:45:53 jmaerki Exp $
  */
 public class Code128LogicImpl {
 
@@ -286,7 +286,7 @@ public class Code128LogicImpl {
      * @param msg the message to encode
      */
     public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
-        logic.startBarcode(msg);
+        logic.startBarcode(msg, msg);
         
         int[] encodedMsg = createEncodedMessage(msg);
         for (int i = 0; i < encodedMsg.length; i++) {

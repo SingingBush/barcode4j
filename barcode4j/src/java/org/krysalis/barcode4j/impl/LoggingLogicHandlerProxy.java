@@ -22,7 +22,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * Proxy class for logging.
  * 
  * @author Jeremias Maerki
- * @version $Id: LoggingLogicHandlerProxy.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: LoggingLogicHandlerProxy.java,v 1.3 2004-10-24 11:45:37 jmaerki Exp $
  */
 public class LoggingLogicHandlerProxy implements ClassicBarcodeLogicHandler {
 
@@ -55,9 +55,9 @@ public class LoggingLogicHandlerProxy implements ClassicBarcodeLogicHandler {
     }
 
     /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
-    public void startBarcode(String msg) {
-        System.out.println("startBarcode(" + msg + ")");
-        delegate.startBarcode(msg);
+    public void startBarcode(String msg, String formattedMsg) {
+        System.out.println("startBarcode(" + msg + ", " + formattedMsg + ")");
+        delegate.startBarcode(msg, formattedMsg);
     }
 
     /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */

@@ -24,7 +24,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * 
  * @author Jeremias Maerki
  * @todo Complete the implementation (checksum, automatic start/stops chars...)
- * @version $Id: CodabarLogicImpl.java,v 1.1 2004-09-12 17:57:53 jmaerki Exp $
+ * @version $Id: CodabarLogicImpl.java,v 1.2 2004-10-24 11:45:54 jmaerki Exp $
  */
 public class CodabarLogicImpl {
 
@@ -161,7 +161,8 @@ public class CodabarLogicImpl {
         
         handleChecksum(sb);
         
-        logic.startBarcode(sb.toString());
+        String effMsg = sb.toString();
+        logic.startBarcode(effMsg, effMsg);
 
         for (int i = 0; i < sb.length(); i++) {
             if (i > 0) {

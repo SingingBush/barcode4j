@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * easy verification in tests.
  * 
  * @author Jeremias Maerki
- * @version $Id: MockClassicBarcodeLogicHandler.java,v 1.2 2004-09-04 20:25:55 jmaerki Exp $
+ * @version $Id: MockClassicBarcodeLogicHandler.java,v 1.3 2004-10-24 11:45:55 jmaerki Exp $
  */
 public class MockClassicBarcodeLogicHandler
             implements ClassicBarcodeLogicHandler {
@@ -65,9 +65,9 @@ public class MockClassicBarcodeLogicHandler
     }
 
     /**
-     * @see org.krysalis.barcode4j.BarcodeLogicHandler#startBarcode(String)
+     * @see org.krysalis.barcode4j.BarcodeLogicHandler#startBarcode(String, String)
      */
-    public void startBarcode(String msg) {
+    public void startBarcode(String msg, String formattedMsg) {
         sb.append("<BC>");
     }
 

@@ -25,7 +25,7 @@ import junit.framework.TestCase;
  * Test class for the Code39 implementation.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code39Test.java,v 1.3 2004-09-12 17:57:52 jmaerki Exp $
+ * @version $Id: Code39Test.java,v 1.4 2004-10-24 11:45:54 jmaerki Exp $
  */
 public class Code39Test extends TestCase {
 
@@ -56,14 +56,14 @@ public class Code39Test extends TestCase {
         String expected;
         
         try {
-            logic = new Code39LogicImpl(ChecksumMode.CP_AUTO);
+            logic = new Code39LogicImpl(ChecksumMode.CP_AUTO, false, false);
             logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "123èöö2");
             fail("Expected an exception complaining about illegal characters");
         } catch (IllegalArgumentException iae) {
             //must fail
         }
         
-        logic = new Code39LogicImpl(ChecksumMode.CP_AUTO);
+        logic = new Code39LogicImpl(ChecksumMode.CP_AUTO, false, false);
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "123ABC");
         expected = "<BC>"
             + "<SBG:start-char:*>"
@@ -92,7 +92,7 @@ public class Code39Test extends TestCase {
         
         
         sb.setLength(0);
-        logic = new Code39LogicImpl(ChecksumMode.CP_ADD);
+        logic = new Code39LogicImpl(ChecksumMode.CP_ADD, false, false);
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "123");
         expected = "<BC>"
             + "<SBG:start-char:*>"
@@ -117,7 +117,7 @@ public class Code39Test extends TestCase {
         
         
         sb.setLength(0);
-        logic = new Code39LogicImpl(ChecksumMode.CP_CHECK);
+        logic = new Code39LogicImpl(ChecksumMode.CP_CHECK, false, false);
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "1236");
         expected = "<BC>"
             + "<SBG:start-char:*>"
@@ -142,7 +142,7 @@ public class Code39Test extends TestCase {
         
         
         sb.setLength(0);
-        logic = new Code39LogicImpl(ChecksumMode.CP_CHECK);
+        logic = new Code39LogicImpl(ChecksumMode.CP_CHECK, false, false);
         try {
             logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "123F");
             fail("Expected logic implementation to fail because wrong checksum is supplied");

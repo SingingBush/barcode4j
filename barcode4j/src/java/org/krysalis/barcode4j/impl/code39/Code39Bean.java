@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Code39 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code39Bean.java,v 1.4 2004-10-02 15:33:26 jmaerki Exp $
+ * @version $Id: Code39Bean.java,v 1.5 2004-10-24 11:45:55 jmaerki Exp $
  */
 public class Code39Bean extends AbstractBarcodeBean {
 
@@ -40,6 +40,8 @@ public class Code39Bean extends AbstractBarcodeBean {
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
     private double intercharGapWidth;
     private double wideFactor = DEFAULT_WIDE_FACTOR; //Width of binary one
+    private boolean displayStartStop = false;
+    private boolean displayChecksum = false;
 
     /** Create a new instance. */
     public Code39Bean() {
@@ -99,6 +101,50 @@ public class Code39Bean extends AbstractBarcodeBean {
     }
 
     /**
+     * Indicates whether the start and stop character will be displayed as
+     * part of the human-readable message.
+     * @return true if leading and trailing "*" will be displayed
+     */
+    public boolean isDisplayStartStop() {
+        return this.displayStartStop;
+    }
+    
+    /**
+     * Enables or disables the use of the start and stop characters in the
+     * human-readable message.
+     * @param value true to enable the start/stop character, false to disable
+     */
+    public void setDisplayStartStop(boolean value) {
+        this.displayStartStop = value;
+        if (value) {
+            //Checksum must also be enabled if start/stop is shown
+            setDisplayChecksum(true);
+        }
+    }
+    
+    /**
+     * Indicates whether the checksum will be displayed as
+     * part of the human-readable message.
+     * @return true if checksum will be included in the human-readable message
+     */
+    public boolean isDisplayChecksum() {
+        return this.displayChecksum;
+    }
+    
+    /**
+     * Enables or disables the use of the checksum in the
+     * human-readable message.
+     * @param value true to include the checksum in the human-readable message, 
+     *   false to ignore
+     */
+    public void setDisplayChecksum(boolean value) {
+        if (isDisplayStartStop() && !value) {
+            return; //display-checksum may not be false if start/stop is displayed
+        }
+        this.displayChecksum = value;
+    }
+    
+    /**
      * @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarWidth(int)
      */
     public double getBarWidth(int width) {
@@ -124,7 +170,8 @@ public class Code39Bean extends AbstractBarcodeBean {
         ClassicBarcodeLogicHandler handler = 
                 new DefaultCanvasLogicHandler(this, new Canvas(canvas));
 
-        Code39LogicImpl impl = new Code39LogicImpl(getChecksumMode());
+        Code39LogicImpl impl = new Code39LogicImpl(getChecksumMode(), 
+                isDisplayStartStop(), isDisplayChecksum());
         impl.generateBarcodeLogic(handler, msg);
     }
 
@@ -133,8 +180,9 @@ public class Code39Bean extends AbstractBarcodeBean {
      * @see org.krysalis.barcode4j.BarcodeGenerator#calcDimensions(String)
      */
     public BarcodeDimension calcDimensions(String msg) {
-        final double width = ((msg.length() + 2) * (3 * wideFactor + 6) * moduleWidth) 
-                + ((msg.length() + 1) * intercharGapWidth);
+        int msglen = msg.length();
+        final double width = ((msglen + 2) * (3 * wideFactor + 6) * moduleWidth) 
+                + ((msglen + 1) * intercharGapWidth);
         final double qz = (hasQuietZone() ? quietZone : 0);
         return new BarcodeDimension(width, getHeight(), 
                 width + (2 * qz), getHeight(), 
