@@ -1,5 +1,5 @@
 The Krysalis Patchy Software License, Version 1.1_01
-Copyright (c) 2002-2003 Nicola Ken Barozzi.  All rights reserved.
+Copyright (c) 2002-2004 Nicola Ken Barozzi.  All rights reserved.
 
 This Licence is compatible with the BSD licence as described and
 approved by http://www.opensource.org/, and is based on the
