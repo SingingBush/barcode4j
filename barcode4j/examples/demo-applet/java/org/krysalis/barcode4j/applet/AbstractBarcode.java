@@ -137,7 +137,7 @@ public abstract class AbstractBarcode extends JComponent {
                 g2d.setTransform(baktrans);
             }
         } catch (Exception e) {
-            g.setColor(Color.RED);
+            g.setColor(Color.red);
             g.drawLine(0, 0, getWidth(), getHeight());
             g.drawLine(0, getHeight(), getWidth(), 0);
             fireErrorNotification(e);

@@ -68,12 +68,12 @@ public class DemoApplet extends Applet
                 GridBagConstraints.BOTH, GridBagConstraints.CENTER);
         GridBagAdder.add(panel, msgField, 0, 1, 4, 1, 1, 0, 
                 GridBagConstraints.BOTH, GridBagConstraints.CENTER);
-        panel.setBackground(Color.LIGHT_GRAY);
+        panel.setBackground(Color.lightGray);
         return panel;
     }
 
     public void init() {
-        setBackground(Color.WHITE);
+        setBackground(Color.white);
         setLayout(new BorderLayout());
 
         initComponents();
