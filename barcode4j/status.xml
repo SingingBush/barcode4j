@@ -18,9 +18,6 @@
     </actions>
     <actions priority="medium">
       <action context="code" dev="open">
-        Create a demo applet that we could put on the Barcode4J website.
-      </action>
-      <action context="code" dev="open">
         Add FOP extension for redesign code.
       </action>
       <action context="code" dev="open">
@@ -62,6 +59,10 @@
   <changes>
     <!-- Add new releases here -->
     <release version="1.0" date="soon">
+      <action dev="jmaerki" type="add" context="code">
+        Added a sample applet to demonstrate barcodes on the website and the use of the Bean-API
+        in conjunction with Java2D/AWT-drawing.
+      </action>
       <action dev="jmaerki" type="add" context="code">
         Barcode4J now has a Bean-style API making Avalon Framework an 
         optional dependency. The build produces a new JAR, 
