@@ -249,37 +249,6 @@
         </ul>
       </section>
     </section>
-    <section id="Codabar">
-      <title>Codabar</title>
-      <p>also known as: USD-4, NW-7, 2 of 7 code</p>
-      <p>The configuration for the default implementation is:</p>
-      <source>&#60;barcode&#62;
-  &#60;<link href="#Codabar">codabar</link>&#62;
-      &#60;height&#62;{<link href="#length">length</link>:15mm}&#60;/height&#62;
-      &#60;module-width&#62;{<link href="#length">length</link>:0.21mm}&#60;/module-width&#62;
-      &#60;wide-factor&#62;{<link href="#number">number</link>:3.0}&#60;/wide-factor&#62;
-      &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
-      &#60;human-readable&#62;
-        &#60;placement&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
-        &#60;font-name&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
-        &#60;font-size&#62;{<link href="#length">length</link>:8pt}&#60;/font-size&#62;
-      &#60;/human-readable&#62;
-  &#60;/<link href="#Codabar">codabar</link>&#62;
-&#60;/barcode&#62;</source>
-      <section>
-        <title>Notes</title>
-        <ul>
-          <li>No checksums are implemented at the moment</li>
-        </ul>
-      </section>
-      <section>
-        <title>Message format</title>
-        <ul>
-          <li>Valid characters are 0-9, the characters: - $ : / . +</li>
-          <li>Start and stop characters are: a b c d e * n t</li>
-        </ul>
-      </section>
-    </section>
     <section id="Code128">
       <title>Code 128</title>
       <p>also known as: EAN/UCC 128</p>
@@ -310,6 +279,37 @@
             Functions 1 to 4 may be used. They are encoded as ASCII characters 
             0xF1 (241), 0xF2 (242), 0xF3 (243) and 0xF4 (244) in the message.
           </li>
+        </ul>
+      </section>
+    </section>
+    <section id="Codabar">
+      <title>Codabar</title>
+      <p>also known as: USD-4, NW-7, 2 of 7 code</p>
+      <p>The configuration for the default implementation is:</p>
+      <source>&#60;barcode&#62;
+  &#60;<link href="#Codabar">codabar</link>&#62;
+      &#60;height&#62;{<link href="#length">length</link>:15mm}&#60;/height&#62;
+      &#60;module-width&#62;{<link href="#length">length</link>:0.21mm}&#60;/module-width&#62;
+      &#60;wide-factor&#62;{<link href="#number">number</link>:3.0}&#60;/wide-factor&#62;
+      &#60;quiet-zone enabled="{<link href="#boolean">boolean</link>:true}"&#62;{<link href="#length">length</link>:10mw}&#60;/quiet-zone&#62;
+      &#60;human-readable&#62;
+        &#60;placement&#62;{<link href="#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
+        &#60;font-name&#62;{<link href="#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
+        &#60;font-size&#62;{<link href="#length">length</link>:8pt}&#60;/font-size&#62;
+      &#60;/human-readable&#62;
+  &#60;/<link href="#Codabar">codabar</link>&#62;
+&#60;/barcode&#62;</source>
+      <section>
+        <title>Notes</title>
+        <ul>
+          <li>No checksums are implemented at the moment</li>
+        </ul>
+      </section>
+      <section>
+        <title>Message format</title>
+        <ul>
+          <li>Valid characters are 0-9, the characters: - $ : / . +</li>
+          <li>Start and stop characters are: a b c d e * n t</li>
         </ul>
       </section>
     </section>
