@@ -28,7 +28,7 @@ import org.krysalis.barcode4j.BarcodeConstants;
  * Registers the elements covered by Barcode4's namespace.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeElementMapping.java,v 1.2 2004-09-04 20:25:55 jmaerki Exp $
+ * @version $Id: BarcodeElementMapping.java,v 1.3 2004-10-25 18:40:00 jmaerki Exp $
  */
 public class BarcodeElementMapping implements ElementMapping {
 
@@ -37,7 +37,11 @@ public class BarcodeElementMapping implements ElementMapping {
          "upc-a", "upc-e", "ean-13", "ean-8",
          "postnet",
          "height", "module-width", "wide-factor", "quiet-zone",
-         "checksum", "human-readable", "interchar-gap-width",
+         "checksum", "human-readable",
+         "human-readable-font", "human-readable-size",
+         "font-name", "font-size", "placement", 
+         "display-start-stop", "display-checksum",
+         "interchar-gap-width",
          "tall-bar-height", "short-bar-height", "baseline-alignment"
          };
 
