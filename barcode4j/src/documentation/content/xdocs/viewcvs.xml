@@ -52,7 +52,7 @@
  
         cvs -z3 -d:ext:developername@cvs.sourceforge.net:/cvsroot/barcode4j co modulename 
       </source>
-      <note>The module name for the main module of Barcode4J is "barcode4j".</note>
+      <note>The module name for the main module of Barcode4J is <code>barcode4j</code>.</note>
     </section>    
     
   </body>
