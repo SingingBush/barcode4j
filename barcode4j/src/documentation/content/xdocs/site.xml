@@ -14,7 +14,7 @@ This file contains an outline of the site's information content.  It is used to:
 See http://xml.apache.org/forrest/linking.html for more info
 -->
 
-<site label="Barcode" href="" xmlns="http://apache.org/forrest/linkmap/1.0">
+<site label="Barcode" href="" xmlns="http://apache.org/forrest/linkmap/1.0" tab="home">
 
   <about label="About">
     <index label="Introduction" href="index.html"/>
@@ -22,45 +22,59 @@ See http://xml.apache.org/forrest/linking.html for more info
     <download label="Download" href="download.html"/>
     <demo label="Examples" href="examples.html"/>
     <applet label="Demo Applet" href="applet.html"/>
-  </about>
-  <start label="Getting started">
-    <building label="Building&#160;Barcode4J" href="building.html"/>
-    <running label="Running&#160;Barcode4J" href="running.html"/>
-  </start>  
-  <docs label="Documentation">
-    <scenarios label="Scenarios">
-      <xsl-fo label="XSL-FO" href="xsl-fo.html"/>
-      <svg-dom label="SVG DOM" href="svg-dom.html"/>
-    </scenarios>
-    <running label="Creating&#160;Barcodes">
-      <fop-ext label="...with FOP" href="fop-ext.html"/>
-      <xalan-ext label="...with Xalan-J" href="xalan-ext.html"/>
-      <saxon-ext label="...with SAXON" href="saxon-ext.html"/>
-      <servlet label="...with a Servlet" href="servlet.html"/>
-      <cli label="...from the Command Line" href="cli.html"/>
-      <embedding label="...embedding in Java (XML API)" href="embedding.html"/>
-      <embedding-bean label="...embedding in Java (Bean API)" href="embedding-bean.html"/>
-    </running>
-    <barcode-xml label="The Barcode XML format" href="barcode-xml.html"/>
-    <output-formats label="Output Formats" href="output-formats.html"/>
-    <design label="Design" href="design.html"/>
+    <start label="Getting started">
+      <building label="Building&#160;Barcode4J" href="building.html"/>
+      <running label="Running&#160;Barcode4J" href="running.html"/>
+    </start>  
+    <support label="Support">
+      <troubleshooting label="Troubleshooting" href="troubleshooting.html"/>
+      <faq label="FAQ" href="faq.html"/>
+      <ml label="Mailing Lists" href="ext:mailing-lists"/>
+    </support>
+    <code label="Code">
+      <viewcvs label="View CVS" href="viewcvs.html"/>
+      <javadocs label="Javadocs" href="ext:javadocs"/>
+      <!--javasrc label="Java Source Ref" href="javasrc/index.html"/-->
+      <!--checkstyle label="Code Style Checks" href="checkstyle/index.html"/-->
+      <!--junit label="Unit tests" href="junit/index.html"/-->
+    </code>
     <changes label="Changes" href="changes.html"/>
     <todo label="Todo" href="todo.html"/>
     <contributors label="Hall of Fame" href="contributors.html"/>
     <links label="Links" href="links.html"/>
-  </docs>
-  <support label="Support">
-    <troubleshooting label="Troubleshooting" href="troubleshooting.html"/>
-    <faq label="FAQ" href="faq.html"/>
-    <ml label="Mailing Lists" href="ext:mailing-lists"/>
-  </support>
-  <code label="Code">
-    <viewcvs label="View CVS" href="viewcvs.html"/>
-    <javadocs label="Javadocs" href="ext:javadocs"/>
-    <!--javasrc label="Java Source Ref" href="javasrc/index.html"/-->
-    <!--checkstyle label="Code Style Checks" href="checkstyle/index.html"/-->
-    <!--junit label="Unit tests" href="junit/index.html"/-->
-  </code>
+  </about>
+ 
+  <documentation label="Documentation" tab="doc">
+   <docs-overview label="Overview" href="documentation.html"/>
+   <barcode-xml label="The Barcode XML Format" href="barcode-xml.html"/>
+   <output-formats label="Output Formats" href="output-formats.html"/>
+   <design label="Design" href="design.html"/>
+   <scenarios label="Scenarios">
+     <xsl-fo label="XSL-FO" href="xsl-fo.html"/>
+     <svg-dom label="SVG DOM" href="svg-dom.html"/>
+   </scenarios>
+   <running label="Creating&#160;Barcodes">
+     <fop-ext label="...with FOP" href="fop-ext.html"/>
+     <xalan-ext label="...with Xalan-J" href="xalan-ext.html"/>
+     <saxon-ext label="...with SAXON" href="saxon-ext.html"/>
+     <servlet label="...with a Servlet" href="servlet.html"/>
+     <cli label="...from the Command Line" href="cli.html"/>
+     <embedding label="...embedding in Java (XML API)" href="embedding.html"/>
+     <embedding-bean label="...embedding in Java (Bean API)" href="embedding-bean.html"/>
+   </running>
+  </documentation>
+
+  <references label="Related projects">
+    <xml label="Apache XML" href="http://xml.apache.org/"/>
+    <xml-fop label="Apache FOP" href="http://xml.apache.org/fop/"/>
+    <xml-batik label="Apache Batik" href="http://xml.apache.org/batik/"/>
+  </references>
+  <!-- Uncomment this if we want aggregate HTML/PDFs for this site 
+  <pdfs label="PDFs">
+    <whole_site_html label="Whole site HTML" href="wholesite.html"/>
+    <whole_site_pdf label="Whole site PDF" href="wholesite.pdf"/>
+  </pdfs>
+  -->
 
 
   <!--subdir label="Subdir" href="subdir/">

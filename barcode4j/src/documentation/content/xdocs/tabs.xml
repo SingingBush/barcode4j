@@ -12,11 +12,12 @@
     directory (ends in '/'), in which case /index.html will be added
   -->
 
-
-  <tab label="Home" dir=""/>
+  <tab id="home" label="Home" dir=""/>
   <!-- Add new tabs here, eg:
   <tab label="How-Tos" dir="community/howto/"/>
   <tab label="XML Site" dir="xml-site/"/>
   -->
+  <tab id="doc" label="Documentation" dir="" indexfile="documentation.html">
+  </tab>
 
 </tabs>
