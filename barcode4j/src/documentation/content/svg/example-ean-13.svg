@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg:svg xmlns:svg="http://www.w3.org/2000/svg" height="15mm" width="37.95mm">
+  <svg:g style="fill:black; stroke:none">
+    <svg:rect height="13.5891mm" width="0.33mm" x="3.3mm" y="0mm"/>
+    <svg:rect height="13.5891mm" width="0.33mm" x="3.96mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.66mm" x="5.28mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="6.27mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.66mm" x="7.59mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="8.58mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.66mm" x="9.24mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.66mm" x="10.56mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.66mm" x="11.88mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.66mm" x="12.87mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="1.32mm" x="13.86mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="15.51mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.99mm" x="16.5mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="17.82mm" y="0mm"/>
+    <svg:text style="font-family:Helvetica; font-size:8.0pt; text-anchor:middle" x="1.155mm" y="14.4356mm">2</svg:text>
+    <svg:text style="font-family:Helvetica; font-size:8.0pt; text-anchor:middle" textLength="13.2mm" x="11.22mm" y="14.4356mm">001234</svg:text>
+    <svg:rect height="13.5891mm" width="0.33mm" x="18.48mm" y="0mm"/>
+    <svg:rect height="13.5891mm" width="0.33mm" x="19.14mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="19.8mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.99mm" x="20.79mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="22.11mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="22.77mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="24.42mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="25.74mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="26.73mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="27.72mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.99mm" x="29.04mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="30.36mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="31.35mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.33mm" x="33mm" y="0mm"/>
+    <svg:text style="font-family:Helvetica; font-size:8.0pt; text-anchor:middle" textLength="13.2mm" x="26.73mm" y="14.4356mm">567893</svg:text>
+    <svg:rect height="13.5891mm" width="0.33mm" x="33.66mm" y="0mm"/>
+    <svg:rect height="13.5891mm" width="0.33mm" x="34.32mm" y="0mm"/>
+  </svg:g>
+</svg:svg>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg:svg xmlns:svg="http://www.w3.org/2000/svg" height="15mm" width="23.1mm">
+  <svg:g style="fill:black; stroke:none">
+    <svg:rect height="12.1781mm" width="0.42mm" x="2.1mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.21mm" x="2.73mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.63mm" x="3.36mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.42mm" x="4.41mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.42mm" x="5.25mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.42mm" x="5.88mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.63mm" x="6.72mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.42mm" x="7.56mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.63mm" x="8.19mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.21mm" x="9.03mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.63mm" x="9.45mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.42mm" x="10.29mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.21mm" x="11.34mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.21mm" x="12.39mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.42mm" x="12.81mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.42mm" x="13.65mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.42mm" x="14.28mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.84mm" x="14.91mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.21mm" x="15.96mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.42mm" x="17.01mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.21mm" x="17.64mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.42mm" x="18.27mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.63mm" x="19.32mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.21mm" x="20.16mm" y="0mm"/>
+    <svg:rect height="12.1781mm" width="0.42mm" x="20.58mm" y="0mm"/>
+    <svg:text style="font-family:Helvetica; font-size:8.0pt; text-anchor:middle" x="11.55mm" y="14.4356mm">0123456789</svg:text>
+  </svg:g>
+</svg:svg>
