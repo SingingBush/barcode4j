@@ -18,6 +18,8 @@
   <tab label="XML Site" dir="xml-site/"/>
   -->
   <tab id="doc" label="Documentation" dir="" indexfile="documentation.html">
+    <!--tab id="build-it" label="Building" dir="" indexfile="running.html"/-->
+    <!--tab id="run-it" label="Running" dir="" indexfile="running.html"/-->
   </tab>
 
 </tabs>
