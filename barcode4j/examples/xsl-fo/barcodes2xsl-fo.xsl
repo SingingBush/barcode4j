@@ -16,31 +16,33 @@
         </fo:static-content>
         <fo:flow flow-name="xsl-region-body">
           <xsl:apply-templates/>
-          <!-- ======== static section ======= -->
-          <xsl:call-template name="section">
-            <xsl:with-param name="title" select="'Playing with SVG'"/>
-          </xsl:call-template>
-          <xsl:variable name="barcode-cfg">
-            <barcode>
-              <ean-13/>
-            </barcode>
-          </xsl:variable>
-          <fo:block>A normal barcode:</fo:block>
-          <fo:block>
-            <fo:instream-foreign-object>
-              <xsl:copy-of select="barcode:generate($barcode-cfg, '4006408551379')"/>
-            </fo:instream-foreign-object>
-          </fo:block>
-          <fo:block space-before="2mm">The same barcode, but rotated this time:</fo:block>
-          <fo:block>
-            <fo:instream-foreign-object>
-              <svg:svg xmlns:svg="http://www.w3.org/2000/svg" width="10cm" height="10cm">
-                <svg:g transform="translate(30, 0), rotate(45)">
-                  <xsl:copy-of select="barcode:generate($barcode-cfg, '4006408551379')"/>
-                </svg:g>
-              </svg:svg>
-            </fo:instream-foreign-object>
-          </fo:block>
+          <xsl:if test="/barcodes/@add-play-section = 'true'">
+            <!-- ======== static section ======= -->
+            <xsl:call-template name="section">
+              <xsl:with-param name="title" select="'Playing with SVG'"/>
+            </xsl:call-template>
+            <xsl:variable name="barcode-cfg">
+              <barcode>
+                <ean-13/>
+              </barcode>
+            </xsl:variable>
+            <fo:block>A normal barcode:</fo:block>
+            <fo:block>
+              <fo:instream-foreign-object>
+                <xsl:copy-of select="barcode:generate($barcode-cfg, '4006408551379')"/>
+              </fo:instream-foreign-object>
+            </fo:block>
+            <fo:block space-before="2mm">The same barcode, but rotated this time:</fo:block>
+            <fo:block>
+              <fo:instream-foreign-object>
+                <svg:svg xmlns:svg="http://www.w3.org/2000/svg" width="10cm" height="10cm">
+                  <svg:g transform="translate(30, 0), rotate(45)">
+                    <xsl:copy-of select="barcode:generate($barcode-cfg, '4006408551379')"/>
+                  </svg:g>
+                </svg:svg>
+              </fo:instream-foreign-object>
+            </fo:block>
+          </xsl:if>
         </fo:flow>
       </fo:page-sequence>
     </fo:root>
