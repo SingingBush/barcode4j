@@ -11,16 +11,15 @@
     <section>
       <title>Releases</title>
       <table>
-        <caption>Current version numbers</caption>
         <tr>
           <th>Type</th>
           <th>Version</th>
           <th>Release date</th>
         </tr>
         <tr>
-          <td>Latest release</td>
-          <td>1.0</td>
-          <td>real soon now!</td>
+          <td><strong>Current release</strong></td>
+          <td><strong>1.0rc1</strong></td>
+          <td><strong>2004-10-31</strong></td>
         </tr>
         <tr>
           <td>Last release</td>
