@@ -1,12 +1,12 @@
 /*
  * Copyright 2003,2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,7 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.Logger;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -36,12 +37,10 @@ import com.icl.saxon.style.StyleElement;
 
 /**
  * This represents the main barcode element.
- * 
+ *
  * @author Jeremias Maerki
  */
 public class BarcodeStyleElement extends StyleElement {
-
-    private Logger log = new org.apache.avalon.framework.logger.ConsoleLogger();
 
     private Expression message;
 
@@ -51,7 +50,7 @@ public class BarcodeStyleElement extends StyleElement {
      */
     public void prepareAttributes() throws TransformerConfigurationException {
         // Get mandatory message attribute
-        
+
         String msgAtt = attributeList.getValue("message");
         if (msgAtt == null) {
             reportAbsence("message");
@@ -68,9 +67,9 @@ public class BarcodeStyleElement extends StyleElement {
 
         try {
             //Acquire BarcodeGenerator
-            final BarcodeGenerator gen = 
-                    BarcodeUtil.getInstance().createBarcodeGenerator(cfg, log);
-    
+            final BarcodeGenerator gen =
+                    BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
+
             //Setup Canvas
             final SVGCanvasProvider svg;
             if (cfg.getAttributeAsBoolean("useNamespace", true)) {
@@ -80,7 +79,7 @@ public class BarcodeStyleElement extends StyleElement {
             }
             //Generate barcode
             gen.generateBarcode(svg, message.evaluateAsString(context));
-            
+
             ContentEmitter ce = new ContentEmitter();
             ce.setEmitter(context.getOutputter().getEmitter());
             ce.setNamePool(NamePool.getDefaultNamePool());
@@ -92,11 +91,13 @@ public class BarcodeStyleElement extends StyleElement {
             } catch (SAXException saxe) {
                 throw new TransformerException(saxe);
             }
+        } catch (ConfigurationException ce) {
+            throw new TransformerException(ce);
         } catch (BarcodeException be) {
             throw new TransformerException(be);
         }
     }
-   
+
 
     /**
      * @see com.icl.saxon.style.StyleElement#isInstruction()

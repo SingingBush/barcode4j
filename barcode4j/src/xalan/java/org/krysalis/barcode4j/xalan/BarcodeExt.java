@@ -18,7 +18,6 @@ package org.krysalis.barcode4j.xalan;
 import javax.xml.transform.TransformerException;
 
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.xalan.extensions.XSLProcessorContext;
 import org.apache.xalan.templates.ElemExtensionCall;
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -34,11 +33,9 @@ import org.xml.sax.SAXException;
  * This class is an Extension for Apache XML Xalan to generate SVG barcodes.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeExt.java,v 1.2 2004-09-04 20:26:16 jmaerki Exp $
+ * @version $Id: BarcodeExt.java,v 1.3 2004-10-02 14:59:40 jmaerki Exp $
  */
 public class BarcodeExt {
-
-    private Logger log = new org.apache.avalon.framework.logger.ConsoleLogger();
 
     /**
      * Generates a barcode in SVG format as a DOM fragment.
@@ -56,7 +53,7 @@ public class BarcodeExt {
             
             //Acquire BarcodeGenerator
             final BarcodeGenerator gen = 
-                    BarcodeUtil.getInstance().createBarcodeGenerator(cfg, log);
+                    BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
     
             //Setup Canvas
             final SVGCanvasProvider svg;
@@ -94,7 +91,7 @@ public class BarcodeExt {
             
             //Acquire BarcodeGenerator
             final BarcodeGenerator gen = 
-                    BarcodeUtil.getInstance().createBarcodeGenerator(cfg, log);
+                    BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
     
             //Setup Canvas
             final SVGCanvasProvider svg;

@@ -18,8 +18,6 @@ package org.krysalis.barcode4j.output.eps;
 import java.io.ByteArrayOutputStream;
 
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.NullLogger;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 
@@ -29,7 +27,7 @@ import junit.framework.TestCase;
  * Test class for basic EPS output functionality.
  * 
  * @author Jeremias Maerki
- * @version $Id: EPSOutputTest.java,v 1.2 2004-09-04 20:26:14 jmaerki Exp $
+ * @version $Id: EPSOutputTest.java,v 1.3 2004-10-02 14:58:23 jmaerki Exp $
  */
 public class EPSOutputTest extends TestCase {
 
@@ -40,10 +38,9 @@ public class EPSOutputTest extends TestCase {
     public void testEPS() throws Exception {
         DefaultConfiguration cfg = new DefaultConfiguration("cfg");
         cfg.addChild(new DefaultConfiguration("intl2of5"));
-        Logger log = new NullLogger();
 
         BarcodeUtil util = BarcodeUtil.getInstance();
-        BarcodeGenerator gen = util.createBarcodeGenerator(cfg, log);
+        BarcodeGenerator gen = util.createBarcodeGenerator(cfg);
         
         ByteArrayOutputStream baout = new ByteArrayOutputStream();
         EPSCanvasProvider provider = new EPSCanvasProvider(baout); 

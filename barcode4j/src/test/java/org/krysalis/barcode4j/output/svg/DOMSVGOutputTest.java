@@ -16,8 +16,6 @@
 package org.krysalis.barcode4j.output.svg;
 
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.NullLogger;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 import org.w3c.dom.DocumentFragment;
@@ -28,7 +26,7 @@ import junit.framework.TestCase;
  * Test class for SVG output to JDOM.
  * 
  * @author Jeremias Maerki
- * @version $Id: DOMSVGOutputTest.java,v 1.2 2004-09-04 20:26:17 jmaerki Exp $
+ * @version $Id: DOMSVGOutputTest.java,v 1.3 2004-10-02 14:58:23 jmaerki Exp $
  */
 public class DOMSVGOutputTest extends TestCase {
 
@@ -39,8 +37,7 @@ public class DOMSVGOutputTest extends TestCase {
     public void testDOMSVG() throws Exception {
         DefaultConfiguration cfg = new DefaultConfiguration("cfg");
         cfg.addChild(new DefaultConfiguration("intl2of5"));
-        Logger log = new NullLogger();
-        BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg, log);
+        BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
         SVGCanvasProvider svg = new SVGCanvasProvider(false);
 
         //Create Barcode and render it to SVG

@@ -25,7 +25,7 @@ import org.krysalis.barcode4j.AbstractBarcodeTestCase;
 /**
  * Tests the command line application
  * @author Jeremias Maerki
- * @version $Id: CommandLineTestCase.java,v 1.2 2004-09-04 20:26:14 jmaerki Exp $
+ * @version $Id: CommandLineTestCase.java,v 1.3 2004-10-02 14:58:23 jmaerki Exp $
  */
 public class CommandLineTestCase extends AbstractBarcodeTestCase {
 
@@ -147,7 +147,7 @@ public class CommandLineTestCase extends AbstractBarcodeTestCase {
         final String[] args = {"-c", cfgFile.getAbsolutePath(),
             "9771422985503+00006"};
         callCLI(args);
-        assertEquals("Exit code must be -3", -3, this.exitHandler.getLastExitCode());
+        assertEquals("Exit code must be -6", -6, this.exitHandler.getLastExitCode());
         assertNotNull(this.exitHandler.getLastMsg());
         assertNotNull(this.exitHandler.getLastThrowable());
         assertTrue("In case of error stdout may only be written to if there's "

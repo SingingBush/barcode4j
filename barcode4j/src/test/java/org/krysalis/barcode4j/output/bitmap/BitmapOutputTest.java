@@ -18,9 +18,8 @@ package org.krysalis.barcode4j.output.bitmap;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.NullLogger;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -32,7 +31,7 @@ import junit.framework.TestCase;
  * Test class for basic bitmap output functionality.
  * 
  * @author Jeremias Maerki
- * @version $Id: BitmapOutputTest.java,v 1.2 2004-09-04 20:25:55 jmaerki Exp $
+ * @version $Id: BitmapOutputTest.java,v 1.3 2004-10-02 14:58:24 jmaerki Exp $
  */
 public class BitmapOutputTest extends TestCase {
 
@@ -40,13 +39,12 @@ public class BitmapOutputTest extends TestCase {
         super(name);
     }
 
-    private BarcodeGenerator getGenerator() throws BarcodeException {
+    private BarcodeGenerator getGenerator() throws ConfigurationException, BarcodeException {
         DefaultConfiguration cfg = new DefaultConfiguration("cfg");
         cfg.addChild(new DefaultConfiguration("intl2of5"));
-        Logger log = new NullLogger();
 
         BarcodeUtil util = BarcodeUtil.getInstance();
-        BarcodeGenerator gen = util.createBarcodeGenerator(cfg, log);
+        BarcodeGenerator gen = util.createBarcodeGenerator(cfg);
         return gen;
     }
 
