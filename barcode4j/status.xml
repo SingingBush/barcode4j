@@ -59,6 +59,12 @@
 
   <changes>
     <!-- Add new releases here -->
+    <release version="dev">
+      <action dev="jmaerki" type="fix" context="code">
+        For Code128, the font descender has to be added to the overall barcode height so
+        lower-case characters don't get clipped.
+      </action>      
+    </release>
     <release version="1.0" date="2004-11-18">
       <action dev="the_webmaestro" type="update" context="docs">
         Documentation updates.

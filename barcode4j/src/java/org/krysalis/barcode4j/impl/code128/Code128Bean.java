@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2005 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Code 128 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code128Bean.java,v 1.4 2004-10-02 15:33:25 jmaerki Exp $
+ * @version $Id: Code128Bean.java,v 1.5 2005-05-05 08:06:35 jmaerki Exp $
  */
 public class Code128Bean extends AbstractBarcodeBean {
 
@@ -37,6 +37,13 @@ public class Code128Bean extends AbstractBarcodeBean {
     /** Create a new instance. */
     public Code128Bean() {
         this.moduleWidth = DEFAULT_MODULE_WIDTH;
+    }
+    
+    /**
+     * @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#hasFontDescender()
+     */
+    protected boolean hasFontDescender() {
+        return true;
     }
     
     /**

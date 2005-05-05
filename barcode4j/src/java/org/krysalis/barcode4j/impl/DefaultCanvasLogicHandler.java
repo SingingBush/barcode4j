@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2005 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.krysalis.barcode4j.output.Canvas;
  * Default Logic Handler implementation for painting on a Canvas.
  * 
  * @author Jeremias Maerki
- * @version $Id: DefaultCanvasLogicHandler.java,v 1.5 2004-10-24 11:45:37 jmaerki Exp $
+ * @version $Id: DefaultCanvasLogicHandler.java,v 1.6 2005-05-05 08:06:35 jmaerki Exp $
  */
 public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
     
@@ -92,11 +92,19 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
         if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
             //nop
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
+            double ty = bcBean.getHumanReadableHeight();
+            if (bcBean.hasFontDescender()) {
+                ty -= bcBean.getHumanReadableHeight() / 13 * 3;
+            }
             DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg, 
-                    getStartX(), x, bcBean.getHumanReadableHeight());
+                    getStartX(), x, ty);
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
+            double ty = bcBean.getHeight();
+            if (bcBean.hasFontDescender()) {
+                ty -= bcBean.getHumanReadableHeight() / 13 * 3;
+            }
             DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg, 
-                    getStartX(), x, bcBean.getHeight());
+                    getStartX(), x, ty);
         }
     }
 
