@@ -41,7 +41,11 @@
             </fo:table-row>
           </fo:table-header>
           <fo:table-body>
-            <fo:table-row height="5mm"/>
+            <fo:table-row height="5mm">
+              <fo:table-cell>
+                <fo:block/>
+              </fo:table-cell>
+            </fo:table-row>
             <fo:table-row>
               <fo:table-cell>
                 <fo:block>
@@ -62,7 +66,11 @@
                 </fo:block>
               </fo:table-cell>
             </fo:table-row>
-            <fo:table-row height="5mm"/>
+            <fo:table-row height="5mm">
+              <fo:table-cell>
+                <fo:block/>
+              </fo:table-cell>
+            </fo:table-row>
             <fo:table-row>
               <fo:table-cell>
                 <fo:block>
@@ -87,7 +95,11 @@
                 </fo:block>
               </fo:table-cell>
             </fo:table-row>
-            <fo:table-row height="5mm"/>
+            <fo:table-row height="5mm">
+              <fo:table-cell>
+                <fo:block/>
+              </fo:table-cell>
+            </fo:table-row>
             <fo:table-row>
               <fo:table-cell>
                 <fo:block>
@@ -127,6 +139,14 @@
       <fo:block>
         <fo:instream-foreign-object>
           <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="xxx#page-number:000#xxx">
+            <bc:code128/>
+          </bc:barcode>
+        </fo:instream-foreign-object>
+      </fo:block>
+      <fo:block font-weight="bold">...and the formatted page number: xxx#formatted-page-number#xxx</fo:block>
+      <fo:block>
+        <fo:instream-foreign-object>
+          <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="xxx#formatted-page-number#xxx">
             <bc:code128/>
           </bc:barcode>
         </fo:instream-foreign-object>
