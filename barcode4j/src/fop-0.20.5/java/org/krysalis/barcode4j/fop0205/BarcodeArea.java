@@ -29,9 +29,9 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
 /**
- * Class representing an Barcode area in which the Barocde graphics sit
+ * Class representing an Barcode area in which the barcode graphics sits.
  * 
- * @version $Id: BarcodeArea.java,v 1.5 2004-09-24 07:23:38 jmaerki Exp $
+ * @version $Id: BarcodeArea.java,v 1.6 2006-01-20 08:14:54 jmaerki Exp $
  */
 public class BarcodeArea extends Area {
     
