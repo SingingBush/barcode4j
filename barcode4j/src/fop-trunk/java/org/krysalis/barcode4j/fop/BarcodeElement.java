@@ -37,7 +37,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * Class representing bc:barcode extension element object.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeElement.java,v 1.1 2006-01-20 08:16:49 jmaerki Exp $
+ * @version $Id: BarcodeElement.java,v 1.2 2006-01-20 13:51:12 jmaerki Exp $
  */
 public class BarcodeElement extends BarcodeObj {
 
@@ -89,7 +89,7 @@ public class BarcodeElement extends BarcodeObj {
             
             BarcodeGenerator bargen = BarcodeUtil.getInstance().
                     createBarcodeGenerator(cfg);
-            String expandedMsg = msg; //VariableUtil.getExpandedMessage(foa.getPage(), msg);
+            String expandedMsg = VariableUtil.getExpandedMessage(null, msg);
             BarcodeDimension bardim = bargen.calcDimensions(expandedMsg);
             float w = (float)UnitConv.mm2pt(bardim.getWidthPlusQuiet());
             float h = (float)UnitConv.mm2pt(bardim.getHeightPlusQuiet());
