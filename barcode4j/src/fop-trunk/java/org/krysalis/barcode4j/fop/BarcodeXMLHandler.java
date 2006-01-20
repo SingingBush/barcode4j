@@ -55,7 +55,7 @@ import org.w3c.dom.Document;
  * SVG or by rendering it directly to the output format.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeXMLHandler.java,v 1.2 2006-01-20 13:51:12 jmaerki Exp $
+ * @version $Id: BarcodeXMLHandler.java,v 1.3 2006-01-20 14:44:38 jmaerki Exp $
  */
 public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants {
 
@@ -117,14 +117,14 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
         bargen.generateBarcode(canvas, msg);
         canvas.finish();
         
-        float width = ((Integer)context.getProperty(WIDTH)).intValue() / 1000f + 1;
-        float height = ((Integer)context.getProperty(HEIGHT)).intValue() / 1000f + 1;
+        float width = ((Integer)context.getProperty(WIDTH)).intValue() / 1000f;
+        float height = ((Integer)context.getProperty(HEIGHT)).intValue() / 1000f;
         float x = ((Integer)context.getProperty(XPOS)).intValue() / 1000f;
         float y = ((Integer)context.getProperty(YPOS)).intValue() / 1000f;
         
         if (DEBUG) System.out.println(" --> EPS");
         PSImageUtils.renderEPS(baout.toByteArray(), "Barcode:" + msg, 
-                x, y, width, height, 0, 0, (int)width, (int)height, gen);
+                x, y, width, height, 0, 0, width, height, gen);
     }
     
     private boolean renderUsingGraphics2D(RendererContext context, 
