@@ -37,7 +37,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * Class representing bc:barcode extension element object.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeElement.java,v 1.2 2006-01-20 13:51:12 jmaerki Exp $
+ * @version $Id: BarcodeElement.java,v 1.3 2006-01-25 09:21:41 jmaerki Exp $
  */
 public class BarcodeElement extends BarcodeObj {
 
@@ -59,15 +59,6 @@ public class BarcodeElement extends BarcodeObj {
 
     private void init() {
         createBasicDocument();
-        /*
-        DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();
-        String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
-        doc = impl.createDocument(svgNS, "svg", null);
-
-        element = doc.getDocumentElement();
-
-        buildTopLevel(doc, element);
-        */
     }
 
     public Point2D getDimension(Point2D view) {
@@ -83,10 +74,7 @@ public class BarcodeElement extends BarcodeObj {
                     throw ce;
                 }
             }
-            System.out.println("Barcode message: " + msg);
-            String renderMode = cfg.getAttribute("render-mode", "native");
-            System.out.println("Render mode: " + renderMode);
-            
+
             BarcodeGenerator bargen = BarcodeUtil.getInstance().
                     createBarcodeGenerator(cfg);
             String expandedMsg = VariableUtil.getExpandedMessage(null, msg);

@@ -39,7 +39,6 @@ import org.apache.fop.render.ps.PSRenderer;
 import org.apache.fop.render.ps.PSRendererContextConstants;
 
 import org.krysalis.barcode4j.BarcodeDimension;
-import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
@@ -58,7 +57,7 @@ import org.w3c.dom.Document;
  * SVG or by rendering it directly to the output format.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeXMLHandler.java,v 1.4 2006-01-25 08:17:30 jmaerki Exp $
+ * @version $Id: BarcodeXMLHandler.java,v 1.5 2006-01-25 09:21:41 jmaerki Exp $
  */
 public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants {
 
@@ -79,7 +78,6 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
         String msg = getMessage(cfg);
         if (DEBUG) System.out.println("Barcode message: " + msg);
         String renderMode = cfg.getAttribute("render-mode", "native");
-        if (DEBUG) System.out.println("Render mode: " + renderMode);
         
         PageViewport page = (PageViewport)context.getProperty(PAGE_VIEWPORT);
 
@@ -89,22 +87,32 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
                 page, msg);
 
         boolean handled = false;
+        String effRenderMode = renderMode;
         if ("native".equals(renderMode)) {
             AbstractRenderer renderer = context.getRenderer();
             if (renderer instanceof PSRenderer) {
                 renderUsingEPS(context, bargen, expandedMsg);
+                effRenderMode = "native";
                 handled = true;
             }
         } else if ("g2d".equals(renderMode)) {
             handled = renderUsingGraphics2D(context, bargen, expandedMsg);
+            if (handled) {
+                effRenderMode = "g2d";
+            }
         } else if ("bitmap".equals(renderMode)) {
             handled = renderUsingBitmap(context, bargen, expandedMsg);
+            if (handled) {
+                effRenderMode = "bitmap";
+            }
         }
         if (!handled) {
             //Convert the Barcode XML to SVG and let it render through 
             //an SVG handler
             convertToSVG(context, bargen, expandedMsg);
+            effRenderMode = "svg";
         }
+        if (DEBUG) System.out.println("Effective render mode: " + effRenderMode);
     }
 
     private void renderUsingEPS(RendererContext context, BarcodeGenerator bargen, 
