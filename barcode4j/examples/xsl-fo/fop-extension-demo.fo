@@ -51,7 +51,7 @@
             </fo:table-row>
           </fo:table-header>
           <fo:table-body>
-            <fo:table-row height="5mm">
+            <fo:table-row>
               <fo:table-cell display-align="center" padding-top="1mm" padding-bottom="1mm">
                 <fo:block>default</fo:block>
               </fo:table-cell>
@@ -95,7 +95,7 @@
                 <fo:block font-style="italic" font-size="8pt">For FOP 0.91 and later this defaults to "native".</fo:block>
               </fo:table-cell>
             </fo:table-row>
-            <fo:table-row height="5mm">
+            <fo:table-row>
               <fo:table-cell display-align="center" border-bottom="solid 1pt" padding-top="1mm" padding-bottom="1mm">
                 <fo:block>svg</fo:block>
               </fo:table-cell>
@@ -131,7 +131,7 @@
                 </fo:block>
               </fo:table-cell>
             </fo:table-row>
-            <fo:table-row height="5mm">
+            <fo:table-row>
               <fo:table-cell display-align="center" border-bottom="solid 1pt" padding-top="1mm" padding-bottom="1mm">
                 <fo:block>native</fo:block>
               </fo:table-cell>
@@ -167,7 +167,7 @@
                 </fo:block>
               </fo:table-cell>
             </fo:table-row>
-            <fo:table-row height="5mm">
+            <fo:table-row>
               <fo:table-cell display-align="center" border-bottom="solid 1pt" padding-top="1mm" padding-bottom="1mm">
                 <fo:block>g2d</fo:block>
               </fo:table-cell>
@@ -203,7 +203,7 @@
                 </fo:block>
               </fo:table-cell>
             </fo:table-row>
-            <fo:table-row height="5mm">
+            <fo:table-row>
               <fo:table-cell display-align="center" border-bottom="solid 1pt" padding-top="1mm" padding-bottom="1mm">
                 <fo:block>bitmap</fo:block>
               </fo:table-cell>
