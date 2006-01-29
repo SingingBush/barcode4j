@@ -90,12 +90,12 @@ bean.setWideFactor(3);
 bean.doQuietZone(false);
 
 //Open output file
-File outputFile = new File("out.jpg");
+File outputFile = new File("out.png");
 OutputStream out = new FileOutputStream(outputFile);
 try {
-    //Set up the canvas provider for monochrome JPEG output 
+    //Set up the canvas provider for monochrome PNG output 
     BitmapCanvasProvider canvas = new BitmapCanvasProvider(
-            out, "image/jpeg", dpi, BufferedImage.TYPE_BYTE_BINARY, false);
+            out, "image/x-png", dpi, BufferedImage.TYPE_BYTE_BINARY, false);
 
     //Generate the barcode
     bean.generateBarcode(canvas, "123456");
