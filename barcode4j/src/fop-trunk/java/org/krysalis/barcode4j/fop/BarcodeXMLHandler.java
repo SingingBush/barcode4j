@@ -33,10 +33,10 @@ import org.apache.fop.render.ImageAdapter;
 import org.apache.fop.render.Renderer;
 import org.apache.fop.render.RendererContext;
 import org.apache.fop.render.XMLHandler;
-import org.apache.fop.render.ps.PSGenerator;
 import org.apache.fop.render.ps.PSImageUtils;
 import org.apache.fop.render.ps.PSRenderer;
 import org.apache.fop.render.ps.PSRendererContextConstants;
+import org.apache.xmlgraphics.ps.PSGenerator;
 
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -57,7 +57,7 @@ import org.w3c.dom.Document;
  * SVG or by rendering it directly to the output format.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeXMLHandler.java,v 1.5 2006-01-25 09:21:41 jmaerki Exp $
+ * @version $Id: BarcodeXMLHandler.java,v 1.6 2006-04-05 15:54:55 jmaerki Exp $
  */
 public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants {
 
