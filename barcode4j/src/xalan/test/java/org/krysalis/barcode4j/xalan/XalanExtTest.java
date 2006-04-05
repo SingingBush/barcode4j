@@ -35,7 +35,7 @@ import org.krysalis.barcode4j.AbstractBarcodeTestCase;
  * Test class for the Xalan-J extension.
  * 
  * @author Jeremias Maerki
- * @version $Id: XalanExtTest.java,v 1.4 2004-09-04 20:25:58 jmaerki Exp $
+ * @version $Id: XalanExtTest.java,v 1.5 2006-04-05 15:53:40 jmaerki Exp $
  */
 public class XalanExtTest extends AbstractBarcodeTestCase {
     
@@ -73,7 +73,7 @@ public class XalanExtTest extends AbstractBarcodeTestCase {
 
     public void testXalanExtSAXOutputBarcodeElement() throws Exception {
         innerXalanExtSAXOutput("xalan-test2.xsl");
-        //System.out.println("Skipping test for Xalan barcode element extension because of Xalan bug #24220");
+        //System.out.println("Skipping test for Xalan barcode element extension because of Xalan bug XALANJ-1706");
     }
 
     /* This test is done because FOP reacts with an NPE when endDocument is
@@ -94,7 +94,7 @@ public class XalanExtTest extends AbstractBarcodeTestCase {
                     this.endDocumentCalled = true;
                 } else throw new SAXException("endDocument() called twice. "
                     + "This may be due to this Xalan-J bug: "
-                    + "http://nagoya.apache.org/bugzilla/show_bug.cgi?id=24220");
+                    + "http://issues.apache.org/jira/browse/XALANJ-1706");
             }
         });
         trans.transform(src, res);
