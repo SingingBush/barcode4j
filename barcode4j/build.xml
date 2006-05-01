@@ -120,6 +120,7 @@
     <path id="fop-trunk.classpath">
       <path refid="project.classpath"/>
       <fileset dir="${fop.home}/lib">
+        <include name="xmlgraphics-commons*.jar"/>
         <include name="batik*.jar"/>
       </fileset>
       <fileset dir="${fop.home}/build">

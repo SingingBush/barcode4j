@@ -2,6 +2,8 @@
 <project default="all" basedir=".">
   <import file="${basedir}/build.xml"/>
   
+  <property name="docs.dir" value="${build.dir}/javadocs"/>
+
   <!-- FORREST_HOME must be set as an environment variable -->
   <property environment="env"/>
   <property name="forrest.home" value="${env.FORREST_HOME}"/>
