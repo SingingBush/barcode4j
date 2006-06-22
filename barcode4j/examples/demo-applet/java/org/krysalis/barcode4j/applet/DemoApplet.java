@@ -45,7 +45,7 @@ public class DemoApplet extends Applet
 
     private static final String[] BARCODE_TYPES = 
         {"codabar", "code39", "code128", "2of5", "postnet", 
-            "ean-13", "ean-8", "upc-a", "upc-e"};
+            "ean-13", "ean-8", "upc-a", "upc-e", "pdf417"};
 
     //Controller part
     private Model model = new Model();

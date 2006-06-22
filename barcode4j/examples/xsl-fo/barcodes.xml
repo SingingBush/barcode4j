@@ -51,6 +51,11 @@
       <msg>0123456789</msg>
       <postnet/>
     </barcode>
+    <barcode>
+      <description>PDF417</description>
+      <msg>0123456789_ABC-abc</msg>
+      <pdf417/>
+    </barcode>
   </section>
   <section title="Real-life examples">
     <barcode>
