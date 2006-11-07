@@ -20,6 +20,7 @@ import javax.xml.transform.TransformerException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.xalan.extensions.XSLProcessorContext;
 import org.apache.xalan.templates.ElemExtensionCall;
+import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
@@ -33,7 +34,7 @@ import org.xml.sax.SAXException;
  * This class is an Extension for Apache XML Xalan to generate SVG barcodes.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeExt.java,v 1.3 2004-10-02 14:59:40 jmaerki Exp $
+ * @version $Id: BarcodeExt.java,v 1.4 2006-11-07 16:44:47 jmaerki Exp $
  */
 public class BarcodeExt {
 
@@ -56,11 +57,13 @@ public class BarcodeExt {
                     BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
     
             //Setup Canvas
+            int orientation = cfg.getAttributeAsInteger("orientation", 0);
+            orientation = BarcodeDimension.normalizeOrientation(orientation);
             final SVGCanvasProvider svg;
             if (cfg.getAttributeAsBoolean("useNamespace", true)) {
-                svg = new SVGCanvasProvider(cfg.getAttribute("prefix", "svg"));
+                svg = new SVGCanvasProvider(cfg.getAttribute("prefix", "svg"), orientation);
             } else {
-                svg = new SVGCanvasProvider(false);
+                svg = new SVGCanvasProvider(false, orientation);
             }
             //Generate barcode
             gen.generateBarcode(svg, message);
@@ -94,11 +97,13 @@ public class BarcodeExt {
                     BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
     
             //Setup Canvas
+            int orientation = cfg.getAttributeAsInteger("orientation", 0);
+            orientation = BarcodeDimension.normalizeOrientation(orientation);
             final SVGCanvasProvider svg;
             if (cfg.getAttributeAsBoolean("useNamespace", true)) {
-                svg = new SVGCanvasProvider(cfg.getAttribute("prefix", "svg"));
+                svg = new SVGCanvasProvider(cfg.getAttribute("prefix", "svg"), orientation);
             } else {
-                svg = new SVGCanvasProvider(false);
+                svg = new SVGCanvasProvider(false, orientation);
             }
             //Generate barcode
             gen.generateBarcode(svg, message);

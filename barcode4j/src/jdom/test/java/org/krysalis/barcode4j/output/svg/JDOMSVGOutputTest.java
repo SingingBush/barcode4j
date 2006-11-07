@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  * Test class for SVG output to JDOM.
  * 
  * @author Jeremias Maerki
- * @version $Id: JDOMSVGOutputTest.java,v 1.3 2004-10-02 14:54:52 jmaerki Exp $
+ * @version $Id: JDOMSVGOutputTest.java,v 1.4 2006-11-07 16:44:25 jmaerki Exp $
  */
 public class JDOMSVGOutputTest extends TestCase {
 
@@ -38,7 +38,7 @@ public class JDOMSVGOutputTest extends TestCase {
         DefaultConfiguration cfg = new DefaultConfiguration("cfg");
         cfg.addChild(new DefaultConfiguration("intl2of5"));
         BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
-        JDOMSVGCanvasProvider svg = new JDOMSVGCanvasProvider(false);
+        JDOMSVGCanvasProvider svg = new JDOMSVGCanvasProvider(false, 0);
 
         //Create Barcode and render it to SVG
         gen.generateBarcode(svg, "123");

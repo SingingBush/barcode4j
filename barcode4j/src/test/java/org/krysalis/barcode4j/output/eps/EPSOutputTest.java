@@ -27,7 +27,7 @@ import junit.framework.TestCase;
  * Test class for basic EPS output functionality.
  * 
  * @author Jeremias Maerki
- * @version $Id: EPSOutputTest.java,v 1.3 2004-10-02 14:58:23 jmaerki Exp $
+ * @version $Id: EPSOutputTest.java,v 1.4 2006-11-07 16:44:25 jmaerki Exp $
  */
 public class EPSOutputTest extends TestCase {
 
@@ -43,7 +43,7 @@ public class EPSOutputTest extends TestCase {
         BarcodeGenerator gen = util.createBarcodeGenerator(cfg);
         
         ByteArrayOutputStream baout = new ByteArrayOutputStream();
-        EPSCanvasProvider provider = new EPSCanvasProvider(baout); 
+        EPSCanvasProvider provider = new EPSCanvasProvider(baout, 0); 
 
         //Create Barcode and render it to EPS
         gen.generateBarcode(provider, "123");

@@ -57,7 +57,7 @@ import org.w3c.dom.Document;
  * SVG or by rendering it directly to the output format.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeXMLHandler.java,v 1.6 2006-04-05 15:54:55 jmaerki Exp $
+ * @version $Id: BarcodeXMLHandler.java,v 1.7 2006-11-07 16:45:08 jmaerki Exp $
  */
 public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants {
 
@@ -78,6 +78,8 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
         String msg = getMessage(cfg);
         if (DEBUG) System.out.println("Barcode message: " + msg);
         String renderMode = cfg.getAttribute("render-mode", "native");
+        int orientation = cfg.getAttributeAsInteger("orientation", 0);
+        orientation = BarcodeDimension.normalizeOrientation(orientation);
         
         PageViewport page = (PageViewport)context.getProperty(PAGE_VIEWPORT);
 
@@ -91,17 +93,17 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
         if ("native".equals(renderMode)) {
             AbstractRenderer renderer = context.getRenderer();
             if (renderer instanceof PSRenderer) {
-                renderUsingEPS(context, bargen, expandedMsg);
+                renderUsingEPS(context, bargen, expandedMsg, orientation);
                 effRenderMode = "native";
                 handled = true;
             }
         } else if ("g2d".equals(renderMode)) {
-            handled = renderUsingGraphics2D(context, bargen, expandedMsg);
+            handled = renderUsingGraphics2D(context, bargen, expandedMsg, orientation);
             if (handled) {
                 effRenderMode = "g2d";
             }
         } else if ("bitmap".equals(renderMode)) {
-            handled = renderUsingBitmap(context, bargen, expandedMsg);
+            handled = renderUsingBitmap(context, bargen, expandedMsg, orientation);
             if (handled) {
                 effRenderMode = "bitmap";
             }
@@ -109,17 +111,17 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
         if (!handled) {
             //Convert the Barcode XML to SVG and let it render through 
             //an SVG handler
-            convertToSVG(context, bargen, expandedMsg);
+            convertToSVG(context, bargen, expandedMsg, orientation);
             effRenderMode = "svg";
         }
         if (DEBUG) System.out.println("Effective render mode: " + effRenderMode);
     }
 
     private void renderUsingEPS(RendererContext context, BarcodeGenerator bargen, 
-                String msg) throws IOException {
+                String msg, int orientation) throws IOException {
         PSGenerator gen = (PSGenerator)context.getProperty(PS_GENERATOR);
         ByteArrayOutputStream baout = new ByteArrayOutputStream(1024);
-        EPSCanvasProvider canvas = new EPSCanvasProvider(baout);
+        EPSCanvasProvider canvas = new EPSCanvasProvider(baout, orientation);
         bargen.generateBarcode(canvas, msg);
         canvas.finish();
         
@@ -135,7 +137,7 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
     
     private boolean renderUsingGraphics2D(RendererContext context, 
             final BarcodeGenerator bargen, 
-            final String msg) throws IOException {
+            final String msg, final int orientation) throws IOException {
         
         Graphics2DAdapter g2dAdapter = context.getRenderer().getGraphics2DAdapter();
         if (g2dAdapter != null) {
@@ -148,7 +150,7 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
             Graphics2DImagePainter painter = new Graphics2DImagePainter() {
 
                 public void paint(Graphics2D g2d, Rectangle2D area) {
-                    Java2DCanvasProvider canvas = new Java2DCanvasProvider(null);
+                    Java2DCanvasProvider canvas = new Java2DCanvasProvider(null, orientation);
                     canvas.setGraphics2D(g2d);
                     g2d.scale(area.getWidth() / barDim.getWidthPlusQuiet(),
                             area.getHeight() / barDim.getHeightPlusQuiet());
@@ -177,12 +179,12 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
 
     private boolean renderUsingBitmap(RendererContext context, 
             final BarcodeGenerator bargen, 
-            final String msg) throws IOException {
+            final String msg, final int orientation) throws IOException {
         ImageAdapter imgAdapter = context.getRenderer().getImageAdapter();
         if (imgAdapter != null) {
             
             BitmapCanvasProvider canvas = new BitmapCanvasProvider(
-                    300, BufferedImage.TYPE_BYTE_BINARY, false);
+                    300, BufferedImage.TYPE_BYTE_BINARY, false, orientation);
             bargen.generateBarcode(canvas, msg);
             
             if (DEBUG) System.out.println(" --> Bitmap");
@@ -207,11 +209,11 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
      * @throws BarcodeCanvasSetupException In case of an error while generating the barcode
      */
     private void convertToSVG(RendererContext context, 
-            BarcodeGenerator bargen, String msg) 
+            BarcodeGenerator bargen, String msg, int orientation) 
                 throws BarcodeCanvasSetupException {
         DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();
 
-        SVGCanvasProvider canvas = new SVGCanvasProvider(impl, true);
+        SVGCanvasProvider canvas = new SVGCanvasProvider(impl, true, orientation);
         bargen.generateBarcode(canvas, msg);
         Document svg = canvas.getDOM();
         

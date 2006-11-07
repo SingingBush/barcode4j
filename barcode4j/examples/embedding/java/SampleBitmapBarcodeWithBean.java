@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * This example demonstrates creating a bitmap barcode using the bean API.
  * 
  * @author Jeremias Maerki
- * @version $Id: SampleBitmapBarcodeWithBean.java,v 1.1 2004-10-02 14:23:44 jmaerki Exp $
+ * @version $Id: SampleBitmapBarcodeWithBean.java,v 1.2 2006-11-07 16:45:28 jmaerki Exp $
  */
 public class SampleBitmapBarcodeWithBean {
 
@@ -50,7 +50,7 @@ public class SampleBitmapBarcodeWithBean {
             try {
                 //Set up the canvas provider for monochrome JPEG output 
                 BitmapCanvasProvider canvas = new BitmapCanvasProvider(
-                        out, "image/jpeg", dpi, BufferedImage.TYPE_BYTE_BINARY, false);
+                        out, "image/jpeg", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
             
                 //Generate the barcode
                 bean.generateBarcode(canvas, "123456");

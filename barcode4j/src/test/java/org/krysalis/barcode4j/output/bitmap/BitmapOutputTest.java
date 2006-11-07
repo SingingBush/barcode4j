@@ -31,7 +31,7 @@ import junit.framework.TestCase;
  * Test class for basic bitmap output functionality.
  * 
  * @author Jeremias Maerki
- * @version $Id: BitmapOutputTest.java,v 1.3 2004-10-02 14:58:24 jmaerki Exp $
+ * @version $Id: BitmapOutputTest.java,v 1.4 2006-11-07 16:44:25 jmaerki Exp $
  */
 public class BitmapOutputTest extends TestCase {
 
@@ -63,7 +63,7 @@ public class BitmapOutputTest extends TestCase {
         
         ByteArrayOutputStream baout = new ByteArrayOutputStream();
         BitmapCanvasProvider provider = new BitmapCanvasProvider(baout, 
-                "image/jpeg", 200, BufferedImage.TYPE_BYTE_GRAY, true); 
+                "image/jpeg", 200, BufferedImage.TYPE_BYTE_GRAY, true, 0); 
 
         //Create Barcode and render it to a bitmap
         gen.generateBarcode(provider, "123");
@@ -76,7 +76,7 @@ public class BitmapOutputTest extends TestCase {
         BarcodeGenerator gen = getGenerator();
         
         BitmapCanvasProvider provider = 
-            new BitmapCanvasProvider(200, BufferedImage.TYPE_BYTE_GRAY, true); 
+            new BitmapCanvasProvider(200, BufferedImage.TYPE_BYTE_GRAY, true, 0); 
 
         //Create Barcode and render it to a bitmap
         gen.generateBarcode(provider, "123");
