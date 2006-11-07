@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417LogicImpl.java,v 1.1 2006-06-22 09:01:16 jmaerki Exp $ */
+/* $Id: PDF417LogicImpl.java,v 1.2 2006-11-07 16:03:17 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -25,19 +25,10 @@ import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 /**
  * Top-level class for the logic part of the PDF417 implementation.
  * 
- * @version $Id: PDF417LogicImpl.java,v 1.1 2006-06-22 09:01:16 jmaerki Exp $
+ * @version $Id: PDF417LogicImpl.java,v 1.2 2006-11-07 16:03:17 jmaerki Exp $
  */
 public class PDF417LogicImpl {
 
-    /*
-    private int cols;
-    private int errorCorrectionLevel;
-    
-    public PDF417LogicImpl(int columns, int errorCorrectionLevel) {
-        this.cols = columns;
-        this.errorCorrectionLevel = errorCorrectionLevel;
-    }*/
-    
     /**
      * Calculates the necessary number of rows as described in annex Q of ISO/IEC 15438:2001(E).
      * @param m the number of source codewords prior to the additional of the Symbol Length

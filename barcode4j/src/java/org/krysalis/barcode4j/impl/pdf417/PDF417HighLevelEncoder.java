@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417HighLevelEncoder.java,v 1.1 2006-06-22 09:01:16 jmaerki Exp $ */
+/* $Id: PDF417HighLevelEncoder.java,v 1.2 2006-11-07 16:03:17 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.util.Arrays;
 
 /**
  * PDF417 high-level encoder following the algorithm described in ISO/IEC 15438:2001(E) in
  * annex P.
  * 
- * @version $Id: PDF417HighLevelEncoder.java,v 1.1 2006-06-22 09:01:16 jmaerki Exp $
+ * @version $Id: PDF417HighLevelEncoder.java,v 1.2 2006-11-07 16:03:17 jmaerki Exp $
  */
 public class PDF417HighLevelEncoder implements PDF417Constants {
 
@@ -295,15 +296,18 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
     public static void encodeNumeric(String msg, int startpos, int count, StringBuffer sb) {
         int idx = startpos;
         StringBuffer tmp = new StringBuffer(count / 3 + 1);
+        final BigInteger num900 = BigInteger.valueOf(900);
+        final BigInteger num0 = BigInteger.valueOf(0);
         while (idx < startpos + count) {
             tmp.setLength(0);
-            int len = Math.min(44, count);
+            int len = Math.min(44, count - idx);
             String part = "1" + msg.substring(idx, idx + len);
-            long t = Long.parseLong(part);
+            BigInteger bigint = new BigInteger(part);
             do {
-                tmp.append((char)(t % 900));
-                t /= 900;
-            } while (t != 0);
+                BigInteger c = bigint.mod(num900);
+                tmp.append((char)(c.intValue()));
+                bigint = bigint.divide(num900);
+            } while (!bigint.equals(num0));
             
             //Reverse temporary string
             for (int i = tmp.length() - 1; i >= 0; i--) {
