@@ -19,7 +19,7 @@
           <xsl:if test="/barcodes/@add-play-section = 'true'">
             <!-- ======== static section ======= -->
             <xsl:call-template name="section">
-              <xsl:with-param name="title" select="'Playing with SVG'"/>
+              <xsl:with-param name="title" select="'Barcode Rotation'"/>
             </xsl:call-template>
             <xsl:variable name="barcode-cfg">
               <barcode>
@@ -32,7 +32,7 @@
                 <xsl:copy-of select="barcode:generate($barcode-cfg, '4006408551379')"/>
               </fo:instream-foreign-object>
             </fo:block>
-            <fo:block space-before="2mm">The same barcode, but rotated this time:</fo:block>
+            <fo:block space-before="2mm">The same barcode, but rotated this time using SVG:</fo:block>
             <fo:block>
               <fo:instream-foreign-object>
                 <svg:svg xmlns:svg="http://www.w3.org/2000/svg" width="10cm" height="10cm">
@@ -60,7 +60,7 @@
     </fo:block>
   </xsl:template>
   <xsl:template match="barcode">
-    <fo:table table-layout="fixed" space-before="3mm">
+    <fo:table table-layout="fixed" width="100%" space-before="3mm">
       <fo:table-column column-width="8.5cm"/>
       <fo:table-column column-width="8.5cm"/>
       <fo:table-body>

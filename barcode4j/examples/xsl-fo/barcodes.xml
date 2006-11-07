@@ -21,6 +21,13 @@
       <msg>0123456789</msg>
       <code128/>
     </barcode>
+    <!--barcode>
+      <description>EAN 128</description>
+      <msg>010123456789012&#xF0;100123456789&#xF1;15041220</msg>
+      <ean128>
+        <quiet-zone>1cm</quiet-zone>
+      </ean128>
+    </barcode-->
     <barcode>
       <description>Codabar</description>
       <msg>0123456789</msg>
@@ -50,6 +57,11 @@
       <description>Postnet</description>
       <msg>0123456789</msg>
       <postnet/>
+    </barcode>
+    <barcode>
+      <description>Royal Mail Customer Barcode</description>
+      <msg>SN34RD1A</msg>
+      <royal-mail-cbc/>
     </barcode>
     <barcode>
       <description>PDF417</description>
@@ -135,6 +147,21 @@
         <quiet-zone>1cm</quiet-zone>
       </ean-13>
     </barcode>
+    <!--barcode>
+      <description>Ean 128 (with extention for USPS Confirmation Service. 
+      I do not realy know what this is good for but according to the specification 
+      it should be usable)</description>
+      <msg>42012345&#xF1;910112345678912345678&#xF0;</msg>
+      <ean128>
+              <quiet-zone>1cm</quiet-zone>
+              <template>(420)n5(91)n2+n9+n2-8+cd0</template>
+              <group-separator>&#xF1;</group-separator>
+              <check-digit-marker>&#xF0;</check-digit-marker>
+              <human-readable>
+	              <omit-brackets>true</omit-brackets>
+	          </human-readable>
+      </ean128>
+    </barcode-->
     <barcode>
       <description>Code 39 (default)</description>
       <msg>0123456789</msg>
@@ -230,6 +257,20 @@
         </human-readable>
       </postnet>
     </barcode>
+    <barcode>
+      <description>Royal Mail Customer Barcode (default)</description>
+      <msg>B31HQ1A</msg>
+      <royal-mail-cbc/>
+    </barcode>
+    <barcode>
+      <description>Royal Mail Customer Barcode (playing with interchar-gap-width, ascender-height, track-height)</description>
+      <msg>B31HQ1A</msg>
+      <royal-mail-cbc>
+        <interchar-gap-width>2mw</interchar-gap-width>
+        <ascender-height>2.16mm</ascender-height>
+        <track-height>1.02mm</track-height>
+      </royal-mail-cbc>
+    </barcode>
   </section>
   <section title="Character set demonstration">
     <barcode>
@@ -285,6 +326,11 @@
           <placement>bottom</placement>
         </human-readable>
       </postnet>
+    </barcode>
+    <barcode>
+      <description>Royal Mail Customer Barcode: 0-9 and A-Z (parentheses and brackets are valid but will be filtered and automatically used as start/stop characters)</description>
+      <msg>0123456789</msg>
+      <royal-mail-cbc/>
     </barcode>
   </section>
 </barcodes>
