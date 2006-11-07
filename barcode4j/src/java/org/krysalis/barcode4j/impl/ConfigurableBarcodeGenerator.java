@@ -28,7 +28,7 @@ import org.krysalis.barcode4j.tools.Length;
  * Base class for most Avalon-Configurable barcode implementation proxies.
  * 
  * @author Jeremias Maerki
- * @version $Id: ConfigurableBarcodeGenerator.java,v 1.3 2004-10-31 13:53:39 jmaerki Exp $
+ * @version $Id: ConfigurableBarcodeGenerator.java,v 1.4 2006-11-07 16:40:37 jmaerki Exp $
  */
 public abstract class ConfigurableBarcodeGenerator 
             implements BarcodeGenerator, Configurable {
@@ -46,7 +46,7 @@ public abstract class ConfigurableBarcodeGenerator
         
         //Quiet zone
         getBean().doQuietZone(cfg.getChild("quiet-zone").getAttributeAsBoolean("enabled", true));
-        Length qz = new Length(cfg.getChild("quiet-zone").getValue("10mw"), "mw");
+        Length qz = new Length(cfg.getChild("quiet-zone").getValue(getDefaultQuietZone()), "mw");
         if (qz.getUnit().equalsIgnoreCase("mw")) {
             getBean().setQuietZone(qz.getValue() * getBean().getModuleWidth());
         } else {
@@ -93,6 +93,11 @@ public abstract class ConfigurableBarcodeGenerator
     /** @see org.krysalis.barcode4j.BarcodeGenerator */
     public BarcodeDimension calcDimensions(String msg) {
         return getBean().calcDimensions(msg);
+    }
+
+    /** @return the default quiet zone */
+    protected String getDefaultQuietZone() {
+        return "10mw";
     }
     
 }
