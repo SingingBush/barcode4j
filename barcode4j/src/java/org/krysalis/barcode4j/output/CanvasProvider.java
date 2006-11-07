@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2004,2006 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.krysalis.barcode4j.BarcodeDimension;
  * a coordinate system.
  * 
  * @author Jeremias Maerki
- * @version $Id: CanvasProvider.java,v 1.2 2004-09-04 20:25:56 jmaerki Exp $
+ * @version $Id: CanvasProvider.java,v 1.3 2006-11-07 16:43:37 jmaerki Exp $
  */
 public interface CanvasProvider {
 
@@ -38,6 +38,8 @@ public interface CanvasProvider {
      */
     BarcodeDimension getDimensions();
 
+    int getOrientation();
+    
     /**
      * Paints a filled rectangle.
      * @param x x coordinate of the upper left corner

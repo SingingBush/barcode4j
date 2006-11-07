@@ -22,7 +22,7 @@ import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
  * Abstract base class for implementations that generate SVG.
  * 
  * @author Jeremias Maerki
- * @version $Id: AbstractSVGGeneratingCanvasProvider.java,v 1.2 2004-09-04 20:26:16 jmaerki Exp $
+ * @version $Id: AbstractSVGGeneratingCanvasProvider.java,v 1.3 2006-11-07 16:43:36 jmaerki Exp $
  */
 public abstract class AbstractSVGGeneratingCanvasProvider
     extends AbstractXMLGeneratingCanvasProvider {
@@ -39,8 +39,10 @@ public abstract class AbstractSVGGeneratingCanvasProvider
      * @param namespacePrefix the namespace prefix to use, null for no prefix
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public AbstractSVGGeneratingCanvasProvider(boolean useNamespace, String namespacePrefix) 
+    public AbstractSVGGeneratingCanvasProvider(boolean useNamespace, String namespacePrefix, 
+                    int orientation) 
                 throws BarcodeCanvasSetupException {
+        super(orientation);
         if (!useNamespace && namespacePrefix != null) 
             throw new IllegalArgumentException("No prefix allow when namespaces are enabled");
         this.useNamespace = true;
@@ -52,9 +54,9 @@ public abstract class AbstractSVGGeneratingCanvasProvider
      * @param namespacePrefix the namespace prefix to use, null for no prefix
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public AbstractSVGGeneratingCanvasProvider(String namespacePrefix) 
+    public AbstractSVGGeneratingCanvasProvider(String namespacePrefix, int orientation) 
                 throws BarcodeCanvasSetupException {
-        this(true, namespacePrefix);
+        this(true, namespacePrefix, orientation);
     }
 
     /**
@@ -62,9 +64,9 @@ public abstract class AbstractSVGGeneratingCanvasProvider
      * @param useNamespace Controls whether namespaces should be used
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public AbstractSVGGeneratingCanvasProvider(boolean useNamespace) 
+    public AbstractSVGGeneratingCanvasProvider(boolean useNamespace, int orientation) 
                 throws BarcodeCanvasSetupException {
-        this(useNamespace, null);
+        this(useNamespace, null, orientation);
     }
 
     /**
@@ -72,9 +74,9 @@ public abstract class AbstractSVGGeneratingCanvasProvider
      * namespaces, but without namespace prefix).
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public AbstractSVGGeneratingCanvasProvider() 
+    public AbstractSVGGeneratingCanvasProvider(int orientation) 
                 throws BarcodeCanvasSetupException {
-        this(true, null);
+        this(true, null, orientation);
     }
 
     /**

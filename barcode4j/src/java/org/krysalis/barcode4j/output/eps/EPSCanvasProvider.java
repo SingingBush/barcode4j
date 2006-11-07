@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2004,2006 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * CanvasProvider implementation for EPS output (Encapsulated PostScript).
  * @author Jeremias Maerki
- * @version $Id: EPSCanvasProvider.java,v 1.4 2004-10-02 14:53:22 jmaerki Exp $
+ * @version $Id: EPSCanvasProvider.java,v 1.5 2006-11-07 16:43:37 jmaerki Exp $
  */
 public class EPSCanvasProvider extends AbstractCanvasProvider {
 
@@ -42,10 +42,11 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
     /**
      * Main constructor.
      * @param out OutputStream to write the EPS to
+     * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws IOException in case of an I/O problem
      */
-    public EPSCanvasProvider(OutputStream out) throws IOException {
-        super();
+    public EPSCanvasProvider(OutputStream out, int orientation) throws IOException {
+        super(orientation);
         try {
             this.writer = new java.io.OutputStreamWriter(out, "US-ASCII");
         } catch (UnsupportedEncodingException uee) {
@@ -144,12 +145,29 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
     /** {@inheritDoc} */
     public void establishDimensions(BarcodeDimension dim) {
         super.establishDimensions(dim);
+        int orientation = BarcodeDimension.normalizeOrientation(getOrientation());
         if (firstError != null) {
             return;
         }
         this.height = dim.getHeightPlusQuiet();
         try {
-            writeHeader(dim.getWidthPlusQuiet(), dim.getHeightPlusQuiet());
+            writeHeader(dim.getWidthPlusQuiet(orientation), 
+                    dim.getHeightPlusQuiet(orientation));
+            String w = formatmm(dim.getWidthPlusQuiet());
+            String h = formatmm(dim.getHeightPlusQuiet());
+            switch (orientation) {
+            case 90:
+                writer.write("90 rotate 0" + " -" + h + " translate\n");
+                break;
+            case 180:
+                writer.write("180 rotate -" + w + " -" + h + " translate\n");
+                break;
+            case 270:
+                writer.write("270 rotate -" + w + " 0 translate\n");
+                break;
+            default:
+                //nop
+            }
         } catch (IOException ioe) {
             firstError = ioe;
         }

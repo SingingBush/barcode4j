@@ -31,7 +31,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * Helper class for bitmap generation.
  * 
  * @author Jeremias Maerki
- * @version $Id: BitmapBuilder.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: BitmapBuilder.java,v 1.3 2006-11-07 16:43:36 jmaerki Exp $
  */
 public class BitmapBuilder {
 
@@ -49,10 +49,24 @@ public class BitmapBuilder {
      * @param imageType the desired image type (Values: BufferedImage.TYPE_*)
      * @return the requested BufferedImage
      */
-    public static BufferedImage prepareImage(BarcodeDimension dim, 
+    public static BufferedImage prepareImage(BarcodeDimension dim,
                         int resolution, int imageType) {
-        int bmw = UnitConv.mm2px(dim.getWidthPlusQuiet(), resolution);
-        int bmh = UnitConv.mm2px(dim.getHeightPlusQuiet(), resolution);
+        return prepareImage(dim, 0, resolution, imageType);
+    }
+    
+    /**
+     * Prepares a BufferedImage to paint to.
+     * @param dim the barcode dimensions
+     * @param orientation the barcode orientation (0, 90, 180, 270)
+     * @param resolution the desired image resolution (dots per inch)
+     * @param imageType the desired image type (Values: BufferedImage.TYPE_*)
+     * @return the requested BufferedImage
+     */
+    public static BufferedImage prepareImage(BarcodeDimension dim,
+                        int orientation,
+                        int resolution, int imageType) {
+        int bmw = UnitConv.mm2px(dim.getWidthPlusQuiet(orientation), resolution);
+        int bmh = UnitConv.mm2px(dim.getHeightPlusQuiet(orientation), resolution);
         BufferedImage bi = new BufferedImage(
                 bmw,
                 bmh,
@@ -65,11 +79,13 @@ public class BitmapBuilder {
      * coordinate system is adjusted to the demands of the Java2DCanvasProvider.
      * @param image the BufferedImage instance
      * @param dim the barcode dimensions
+     * @param orientation the barcode orientation (0, 90, 180, 270)
      * @param antiAlias true enables anti-aliasing
      * @return the Graphics2D object to paint on
      */
     public static Graphics2D prepareGraphics2D(BufferedImage image, 
-                BarcodeDimension dim, boolean antiAlias) {
+                BarcodeDimension dim, int orientation,
+                boolean antiAlias) {
         Graphics2D g2d = image.createGraphics();
         if (antiAlias) {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
@@ -82,8 +98,8 @@ public class BitmapBuilder {
         g2d.setBackground(Color.white);
         g2d.setColor(Color.black);
         g2d.clearRect(0, 0, image.getWidth(), image.getHeight());
-        g2d.scale(image.getWidth() / dim.getWidthPlusQuiet(), 
-                image.getHeight() / dim.getHeightPlusQuiet());
+        g2d.scale(image.getWidth() / dim.getWidthPlusQuiet(orientation), 
+                image.getHeight() / dim.getHeightPlusQuiet(orientation));
         return g2d;
     }
 
@@ -97,8 +113,9 @@ public class BitmapBuilder {
     public static BufferedImage getImage(BarcodeGenerator bargen, String msg, int resolution) {
         BarcodeDimension dim = bargen.calcDimensions(msg);
         BufferedImage bi = prepareImage(dim, resolution, BufferedImage.TYPE_BYTE_GRAY);
-        Graphics2D g2d = prepareGraphics2D(bi, dim, true);
-        Java2DCanvasProvider provider = new Java2DCanvasProvider(g2d);
+        int orientation = 0;
+        Graphics2D g2d = prepareGraphics2D(bi, dim, orientation, true);
+        Java2DCanvasProvider provider = new Java2DCanvasProvider(g2d, orientation);
         bargen.generateBarcode(provider, msg);
         bi.flush();
         return bi;

@@ -23,13 +23,17 @@ import java.text.DecimalFormatSymbols;
  * generating XML representations of barcodes.
  * 
  * @author Jeremias Maerki
- * @version $Id: AbstractXMLGeneratingCanvasProvider.java,v 1.2 2004-09-04 20:25:56 jmaerki Exp $
+ * @version $Id: AbstractXMLGeneratingCanvasProvider.java,v 1.3 2006-11-07 16:43:37 jmaerki Exp $
  */
 public abstract class AbstractXMLGeneratingCanvasProvider
         extends AbstractCanvasProvider {
 
     private DecimalFormat df;
 
+    public AbstractXMLGeneratingCanvasProvider(int orientation) {
+        super(orientation);
+    }
+    
     /**
      * Returns the DecimalFormat instance to use internally to format numbers.
      * @return a DecimalFormat instance

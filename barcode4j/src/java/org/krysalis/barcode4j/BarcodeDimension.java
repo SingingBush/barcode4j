@@ -15,12 +15,14 @@
  */
 package org.krysalis.barcode4j;
 
+import java.awt.geom.Rectangle2D;
+
 /**
  * This class provides information on the dimensions of a barcode. It makes a
  * distinction between the dimensions with and without quiet zone.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeDimension.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: BarcodeDimension.java,v 1.3 2006-11-07 16:43:37 jmaerki Exp $
  */
 public class BarcodeDimension {
     
@@ -77,6 +79,15 @@ public class BarcodeDimension {
         return height;
     }
 
+    public double getHeight(int orientation) {
+        orientation = normalizeOrientation(orientation);
+        if (orientation % 180 != 0) {
+            return getWidth();
+        } else {
+            return getHeight();
+        }
+    }
+    
     /**
      * Returns the height of the barcode (quiet-zone included).
      * @return height in millimeters (mm)
@@ -85,6 +96,15 @@ public class BarcodeDimension {
         return heightPlusQuiet;
     }
 
+    public double getHeightPlusQuiet(int orientation) {
+        orientation = normalizeOrientation(orientation);
+        if (orientation % 180 != 0) {
+            return getWidthPlusQuiet();
+        } else {
+            return getHeightPlusQuiet();
+        }
+    }
+    
     /**
      * Returns the width of the barcode (ignores quiet-zone).
      * @return width in millimeters (mm)
@@ -93,6 +113,34 @@ public class BarcodeDimension {
         return width;
     }
 
+    public static int normalizeOrientation(int orientation) {
+        switch (orientation) {
+        case 0:
+            return 0;
+        case 90:
+        case -270:
+            return 90;
+        case 180:
+        case -180:
+            return 180;
+        case 270:
+        case -90:
+            return 270;
+        default:
+            throw new IllegalArgumentException(
+                    "Orientation must be 0, 90, 180, 270, -90, -180 or -270");
+        }
+    }
+    
+    public double getWidth(int orientation) {
+        orientation = normalizeOrientation(orientation);
+        if (orientation % 180 != 0) {
+            return getHeight();
+        } else {
+            return getWidth();
+        }
+    }
+    
     /**
      * Returns the width of the barcode (quiet-zone included).
      * @return width in millimeters (mm)
@@ -101,6 +149,15 @@ public class BarcodeDimension {
         return widthPlusQuiet;
     }
 
+    public double getWidthPlusQuiet(int orientation) {
+        orientation = normalizeOrientation(orientation);
+        if (orientation % 180 != 0) {
+            return getHeightPlusQuiet();
+        } else {
+            return getWidthPlusQuiet();
+        }
+    }
+    
     /**
      * Returns the x-offset of the upper-left corner of the barcode within the 
      * extended barcode area.
@@ -119,6 +176,20 @@ public class BarcodeDimension {
         return yOffset;
     }
 
+    /** @return a bounding rectangle (including quiet zone if applicable) */
+    public Rectangle2D getBoundingRect() {
+        Rectangle2D.Double r = new Rectangle2D.Double(
+                0, 0, getWidthPlusQuiet(), getHeightPlusQuiet());
+        return r;
+    }
+    
+    /** @return a content rectangle (excluding quiet zone) */
+    public Rectangle2D getContentRect() {
+        Rectangle2D.Double r = new Rectangle2D.Double(
+                getXOffset(), getYOffset(), getWidth(), getHeight());
+        return r;
+    }
+    
     /**
      * @see java.lang.Object#toString()
      */

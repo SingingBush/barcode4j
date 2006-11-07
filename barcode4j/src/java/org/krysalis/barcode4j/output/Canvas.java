@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.BarcodeDimension;
  * provides some convenience methods.
  * 
  * @author Jeremias Maerki
- * @version $Id: Canvas.java,v 1.2 2004-09-04 20:25:56 jmaerki Exp $
+ * @version $Id: Canvas.java,v 1.3 2006-11-07 16:43:37 jmaerki Exp $
  */
 public class Canvas {
 
@@ -51,6 +51,13 @@ public class Canvas {
      */
     public void establishDimensions(BarcodeDimension dim) {
         getCanvasImp().establishDimensions(dim);
+    }
+    
+    /**
+     * @return the orientation of the barcode (0, 90, 180, 270, -90, -180, -270)
+     */
+    public int getOrientation() {
+        return getCanvasImp().getOrientation();
     }
 
     /**

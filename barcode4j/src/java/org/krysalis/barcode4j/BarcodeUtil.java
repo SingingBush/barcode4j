@@ -28,7 +28,7 @@ import org.w3c.dom.DocumentFragment;
  * BarcodeClassResolver.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeUtil.java,v 1.3 2004-10-02 14:53:22 jmaerki Exp $
+ * @version $Id: BarcodeUtil.java,v 1.4 2006-11-07 16:43:37 jmaerki Exp $
  */
 public class BarcodeUtil {
     
@@ -150,12 +150,12 @@ public class BarcodeUtil {
                                                String msg) 
                     throws ConfigurationException, BarcodeException {
         BarcodeGenerator gen = createBarcodeGenerator(cfg);
-        SVGCanvasProvider svg = new SVGCanvasProvider(false);
+        SVGCanvasProvider svg = new SVGCanvasProvider(false, 0);
 
         //Create Barcode and render it to SVG
         gen.generateBarcode(svg, msg);
 
         return svg.getDOMFragment();
     }
-
+    
 }

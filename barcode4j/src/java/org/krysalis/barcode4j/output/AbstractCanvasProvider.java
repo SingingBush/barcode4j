@@ -21,15 +21,26 @@ import org.krysalis.barcode4j.BarcodeDimension;
  * Abstract base class for most CanvasProvider implementations.
  * 
  * @author Jeremias Maerki
- * @version $Id: AbstractCanvasProvider.java,v 1.2 2004-09-04 20:25:56 jmaerki Exp $
+ * @version $Id: AbstractCanvasProvider.java,v 1.3 2006-11-07 16:43:37 jmaerki Exp $
  */
 public abstract class AbstractCanvasProvider implements CanvasProvider {
 
     /** the cached barcode dimensions */
     protected BarcodeDimension bardim;
 
+    /** the barcode orientation (0, 90, 180, 270) */
+    int orientation;
+    
+    public AbstractCanvasProvider() {
+        this(0);
+    }
+
+    public AbstractCanvasProvider(int orientation) {
+        this.orientation = BarcodeDimension.normalizeOrientation(orientation);
+    }
+    
     /**
-     * @see org.krysalis.barcode4j.output.CanvasProvider#establishDimensions(org.krysalis.barcode4j.BarcodeDimension)
+     * @see org.krysalis.barcode4j.output.CanvasProvider
      */
     public void establishDimensions(BarcodeDimension dim) {
         this.bardim = dim;
@@ -40,6 +51,11 @@ public abstract class AbstractCanvasProvider implements CanvasProvider {
      */
     public BarcodeDimension getDimensions() {
         return this.bardim;
+    }
+    
+    /** @see org.krysalis.barcode4j.output.CanvasProvider#getOrientation() */
+    public int getOrientation() {
+        return this.orientation;
     }
 
 }

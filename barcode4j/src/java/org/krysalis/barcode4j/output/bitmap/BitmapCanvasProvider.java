@@ -28,7 +28,7 @@ import org.krysalis.barcode4j.output.java2d.Java2DCanvasProvider;
  * Java2DCanvasProvider to do the actual rendering.
  * 
  * @author Jeremias Maerki
- * @version $Id: BitmapCanvasProvider.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: BitmapCanvasProvider.java,v 1.3 2006-11-07 16:43:36 jmaerki Exp $
  */
 public class BitmapCanvasProvider extends AbstractCanvasProvider {
 
@@ -49,8 +49,8 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
      * @param antiAlias true if anti-aliasing should be enabled
      */
     public BitmapCanvasProvider(OutputStream out, String mime, 
-                    int resolution, int imageType, boolean antiAlias) {
-        super();
+                    int resolution, int imageType, boolean antiAlias, int orientation) {
+        super(orientation);
         this.out = out;
         this.mime = mime;
         this.resolution = resolution;
@@ -64,8 +64,9 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
      * @param imageType the desired image type (Values: BufferedImage.TYPE_*)
      * @param antiAlias true if anti-aliasing should be enabled
      */
-    public BitmapCanvasProvider(int resolution, int imageType, boolean antiAlias) {
-        this(null, null, resolution, imageType, antiAlias);
+    public BitmapCanvasProvider(int resolution, int imageType, boolean antiAlias, 
+                    int orientation) {
+        this(null, null, resolution, imageType, antiAlias, orientation);
     }
 
     /**
@@ -92,9 +93,11 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
     /** {@inheritDoc} */
     public void establishDimensions(BarcodeDimension dim) {
         super.establishDimensions(dim);
-        this.image = BitmapBuilder.prepareImage(dim, this.resolution, this.imageType);
+        this.image = BitmapBuilder.prepareImage(dim, getOrientation(),
+                this.resolution, this.imageType);
         this.delegate = new Java2DCanvasProvider(
-            BitmapBuilder.prepareGraphics2D(this.image, dim, this.antiAlias));
+            BitmapBuilder.prepareGraphics2D(this.image, dim, getOrientation(),
+                    this.antiAlias), getOrientation());
         this.delegate.establishDimensions(dim);
     }
 

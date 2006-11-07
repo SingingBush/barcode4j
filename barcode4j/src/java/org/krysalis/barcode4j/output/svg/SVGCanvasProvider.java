@@ -31,7 +31,7 @@ import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
  * Implementation that outputs to a W3C DOM.
  * 
  * @author Jeremias Maerki
- * @version $Id: SVGCanvasProvider.java,v 1.3 2004-09-04 20:26:16 jmaerki Exp $
+ * @version $Id: SVGCanvasProvider.java,v 1.4 2006-11-07 16:43:36 jmaerki Exp $
  */
 public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
 
@@ -44,9 +44,9 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param namespacePrefix the namespace prefix to use, null for no prefix
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public SVGCanvasProvider(String namespacePrefix) 
+    public SVGCanvasProvider(String namespacePrefix, int orientation) 
                 throws BarcodeCanvasSetupException {
-        this(null, namespacePrefix);
+        this(null, namespacePrefix, orientation);
     }
 
     /**
@@ -56,9 +56,10 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param namespacePrefix the namespace prefix to use, null for no prefix
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public SVGCanvasProvider(DOMImplementation domImpl, String namespacePrefix) 
+    public SVGCanvasProvider(DOMImplementation domImpl, String namespacePrefix, 
+                    int orientation) 
                 throws BarcodeCanvasSetupException {
-        super(namespacePrefix);
+        super(namespacePrefix, orientation);
         this.domImpl = domImpl;
         init();
     }
@@ -68,9 +69,9 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param useNamespace Controls whether namespaces should be used
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public SVGCanvasProvider(boolean useNamespace) 
+    public SVGCanvasProvider(boolean useNamespace, int orientation) 
                 throws BarcodeCanvasSetupException {
-        this(null, useNamespace);
+        this(null, useNamespace, orientation);
     }
 
     /**
@@ -80,9 +81,9 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param useNamespace Controls whether namespaces should be used
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public SVGCanvasProvider(DOMImplementation domImpl, boolean useNamespace) 
+    public SVGCanvasProvider(DOMImplementation domImpl, boolean useNamespace, int orientation) 
                 throws BarcodeCanvasSetupException {
-        super(useNamespace);
+        super(useNamespace, orientation);
         this.domImpl = domImpl;
         init();
     }
@@ -92,8 +93,8 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * but without namespace prefix).
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public SVGCanvasProvider() throws BarcodeCanvasSetupException {
-        super();
+    public SVGCanvasProvider(int orientation) throws BarcodeCanvasSetupException {
+        super(orientation);
         init();
     }
 
@@ -169,12 +170,30 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     /** @see org.krysalis.barcode4j.output.CanvasProvider */
     public void establishDimensions(BarcodeDimension dim) {
         super.establishDimensions(dim);
+        int orientation = BarcodeDimension.normalizeOrientation(getOrientation());
         Element svg = (Element)doc.getDocumentElement();
-        svg.setAttribute("width", addUnit(dim.getWidthPlusQuiet()));
-        svg.setAttribute("height", addUnit(dim.getHeightPlusQuiet()));
-        svg.setAttribute("viewBox", "0 0 " 
-                + getDecimalFormat().format(dim.getWidthPlusQuiet()) + " " 
-                + getDecimalFormat().format(dim.getHeightPlusQuiet()));
+        svg.setAttribute("width", addUnit(dim.getWidthPlusQuiet(orientation)));
+        svg.setAttribute("height", addUnit(dim.getHeightPlusQuiet(orientation)));
+        String w = getDecimalFormat().format(dim.getWidthPlusQuiet(orientation));
+        String h = getDecimalFormat().format(dim.getHeightPlusQuiet(orientation));
+        svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+        String transform;
+        switch (orientation) {
+        case 90:
+            transform = "rotate(-90) translate(-" + h + ")";
+            break;
+        case 180:
+            transform = "rotate(-180) translate(-" + w + " -" + h + ")";
+            break;
+        case 270:
+            transform = "rotate(-270) translate(0 -" + w + ")";
+            break;
+        default:
+            transform = null;
+        }
+        if (transform != null) {
+            detailGroup.setAttribute("transform", transform);
+        }
     }
 
     /** @see org.krysalis.barcode4j.output.CanvasProvider */

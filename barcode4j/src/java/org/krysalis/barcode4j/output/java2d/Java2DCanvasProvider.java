@@ -23,6 +23,7 @@ import java.awt.font.GlyphVector;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.output.AbstractCanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
 
@@ -30,7 +31,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * CanvasProvider implementation that renders to Java2D (AWT).
  * 
  * @author Jeremias Maerki
- * @version $Id: Java2DCanvasProvider.java,v 1.5 2004-10-02 14:53:22 jmaerki Exp $
+ * @version $Id: Java2DCanvasProvider.java,v 1.6 2006-11-07 16:43:37 jmaerki Exp $
  */
 public class Java2DCanvasProvider extends AbstractCanvasProvider {
 
@@ -55,7 +56,8 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
      * </code>
      * @param g2d Graphics2D object to paint on
      */
-    public Java2DCanvasProvider(Graphics2D g2d) {
+    public Java2DCanvasProvider(Graphics2D g2d, int orientation) {
+        super(orientation);
         setGraphics2D(g2d);
     }
     
@@ -75,6 +77,34 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
         return this.g2d;
     }
     
+    /**
+     * @see org.krysalis.barcode4j.output.AbstractCanvasProvider#establishDimensions(
+     *          org.krysalis.barcode4j.BarcodeDimension)
+     */
+    public void establishDimensions(BarcodeDimension dim) {
+        super.establishDimensions(dim);
+        int orientation = BarcodeDimension.normalizeOrientation(getOrientation());
+        double w = dim.getWidthPlusQuiet(orientation);
+        double h = dim.getHeightPlusQuiet(orientation);
+        this.g2d = (Graphics2D)this.g2d.create();
+        switch (orientation) {
+        case 90:
+            g2d.rotate(-Math.PI / 2);
+            g2d.translate(-h, 0);
+            break;
+        case 180:
+            g2d.rotate(-Math.PI);
+            g2d.translate(-w, -h);
+            break;
+        case 270:
+            g2d.rotate(-Math.PI * 1.5);
+            g2d.translate(0, -w);
+            break;
+        default:
+            //nop
+        }
+    }
+
     /** @see org.krysalis.barcode4j.output.CanvasProvider */
     public void deviceFillRect(double x, double y, double w, double h) {
         g2d.fill(new Rectangle2D.Double(x, y, w, h));

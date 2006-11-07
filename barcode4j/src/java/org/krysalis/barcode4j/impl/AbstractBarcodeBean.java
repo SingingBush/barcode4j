@@ -25,7 +25,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * Base class for most barcode implementations.
  * 
  * @author Jeremias Maerki
- * @version $Id: AbstractBarcodeBean.java,v 1.4 2006-06-22 09:01:19 jmaerki Exp $
+ * @version $Id: AbstractBarcodeBean.java,v 1.5 2006-11-07 16:43:37 jmaerki Exp $
  */
 public abstract class AbstractBarcodeBean 
             implements BarcodeGenerator {
@@ -215,4 +215,5 @@ public abstract class AbstractBarcodeBean
     public BarcodeDimension calcDimensions(String msg) {
         throw new UnsupportedOperationException("NYI");
     }
+
 }

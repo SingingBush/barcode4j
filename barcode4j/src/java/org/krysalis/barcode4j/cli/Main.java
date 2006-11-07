@@ -59,7 +59,7 @@ import org.apache.commons.cli.PosixParser;
  * Command-line interface.
  * 
  * @author Jeremias Maerki
- * @version $Id: Main.java,v 1.4 2004-11-18 11:31:56 jmaerki Exp $
+ * @version $Id: Main.java,v 1.5 2006-11-07 16:43:37 jmaerki Exp $
  */
 public class Main {
 
@@ -152,6 +152,7 @@ public class Main {
             //Output format
             String format = MimeTypes.expandFormat(
                     cl.getOptionValue("f", MimeTypes.MIME_SVG));
+            int orientation = 0;
             log.info("Generating " + format + "...");
             BarcodeUtil util = BarcodeUtil.getInstance();
             BarcodeGenerator gen = util.createBarcodeGenerator(
@@ -159,7 +160,7 @@ public class Main {
             
             if (MimeTypes.MIME_SVG.equals(format)) {
                 //Create Barcode and render it to SVG
-                SVGCanvasProvider svg = new SVGCanvasProvider(false);
+                SVGCanvasProvider svg = new SVGCanvasProvider(false, orientation);
                 gen.generateBarcode(svg, msg[0]);
     
                 //Serialize SVG barcode
@@ -174,7 +175,7 @@ public class Main {
                     exitHandler.failureExit(this, "XML/XSLT library error", te, -6);
                 }
             } else if (MimeTypes.MIME_EPS.equals(format)) {
-                EPSCanvasProvider eps = new EPSCanvasProvider(out);
+                EPSCanvasProvider eps = new EPSCanvasProvider(out, orientation);
                 gen.generateBarcode(eps, msg[0]);
                 eps.finish();
             } else {
@@ -184,11 +185,11 @@ public class Main {
                 if (cl.hasOption("bw")) {
                     log.debug("Black/white image (1-bit)");
                     bitmap = new BitmapCanvasProvider(out, 
-                        format, dpi, BufferedImage.TYPE_BYTE_BINARY, false);
+                        format, dpi, BufferedImage.TYPE_BYTE_BINARY, false, orientation);
                 } else {
                     log.debug("Grayscale image (8-bit) with anti-aliasing");
                     bitmap = new BitmapCanvasProvider(out, 
-                        format, dpi, BufferedImage.TYPE_BYTE_GRAY, true);
+                        format, dpi, BufferedImage.TYPE_BYTE_GRAY, true, orientation);
                 }
                 gen.generateBarcode(bitmap, msg[0]);
                 bitmap.finish();
