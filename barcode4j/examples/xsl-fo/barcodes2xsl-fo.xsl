@@ -12,7 +12,7 @@
       </fo:layout-master-set>
       <fo:page-sequence master-reference="simpleA4" language="de_CH">
         <fo:static-content flow-name="xsl-region-after">
-          <fo:block text-align="center" font-style="italic">This PDF was generated using Barcode4J&#160;(<fo:basic-link external-destination="url(http://barcode4j.krysalis.org)">http://barcode4j.krysalis.org</fo:basic-link>) and Apache&#160;FOP&#160;(<fo:basic-link external-destination="url(http://xmlgraphics.apache.org/fop/)">http://xml.apache.org/fop</fo:basic-link>)</fo:block>
+          <fo:block text-align="center" font-style="italic">This PDF was generated using Barcode4J&#160;(<fo:basic-link external-destination="url(http://barcode4j.krysalis.org)">http://barcode4j.krysalis.org</fo:basic-link>) and Apache&#160;FOP&#160;(<fo:basic-link external-destination="url(http://xmlgraphics.apache.org/fop/)">http://xmlgraphics.apache.org/fop/</fo:basic-link>)</fo:block>
         </fo:static-content>
         <fo:flow flow-name="xsl-region-body">
           <xsl:apply-templates/>
