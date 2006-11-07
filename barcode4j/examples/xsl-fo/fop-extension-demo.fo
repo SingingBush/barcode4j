@@ -244,6 +244,71 @@
       </fo:block>
       <fo:block space-before="5mm">
       </fo:block>
+      <fo:block font-weight="bold">Orientation:</fo:block>
+      <fo:block>
+        <fo:table table-layout="fixed" width="100%" border-collapse="separate" border="solid 1pt">
+          <fo:table-column column-width="proportional-column-width(3)"/>
+          <fo:table-column column-width="proportional-column-width(1)"/>
+          <fo:table-column column-width="proportional-column-width(3)"/>
+          <fo:table-column column-width="proportional-column-width(1)"/>
+          <fo:table-header>
+            <fo:table-row>
+              <fo:table-cell border="solid 1pt">
+                <fo:block text-align="center">0°</fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="solid 1pt">
+                <fo:block text-align="center">90°</fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="solid 1pt">
+                <fo:block text-align="center">180°</fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="solid 1pt">
+                <fo:block text-align="center">270°</fo:block>
+              </fo:table-cell>
+            </fo:table-row>
+          </fo:table-header>
+          <fo:table-body>
+            <fo:table-row>
+              <fo:table-cell border="solid 1pt" display-align="center" text-align="center">
+                <fo:block>
+                  <fo:instream-foreign-object>
+                    <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="4194586705506+07">
+                      <bc:ean-13/>
+                    </bc:barcode>
+                  </fo:instream-foreign-object>
+                </fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="solid 1pt" display-align="center" text-align="center">
+                <fo:block>
+                  <fo:instream-foreign-object>
+                    <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="4194586705506+07" orientation="90">
+                      <bc:ean-13/>
+                    </bc:barcode>
+                  </fo:instream-foreign-object>
+                </fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="solid 1pt" display-align="center" text-align="center">
+                <fo:block>
+                  <fo:instream-foreign-object>
+                    <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="4194586705506+07" orientation="180">
+                      <bc:ean-13/>
+                    </bc:barcode>
+                  </fo:instream-foreign-object>
+                </fo:block>
+              </fo:table-cell>
+              <fo:table-cell border="solid 1pt" display-align="center" text-align="center">
+                <fo:block>
+                  <fo:instream-foreign-object>
+                    <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="4194586705506+07" orientation="270">
+                      <bc:ean-13/>
+                    </bc:barcode>
+                  </fo:instream-foreign-object>
+                </fo:block>
+              </fo:table-cell>
+            </fo:table-row>
+          </fo:table-body>
+        </fo:table>
+      </fo:block>
       <fo:block break-before="page" font-weight="bold" space-before="2cm">Using the current page number as part of the message: xxx#page-number#xxx</fo:block>
       <fo:block>
         <fo:instream-foreign-object>
