@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * Implements the United States Postal Service Postnet barcode.
  * 
  * @author Chris Dolphy
- * @version $Id: POSTNETLogicImpl.java,v 1.2 2004-10-24 11:45:53 jmaerki Exp $
+ * @version $Id: POSTNETLogicImpl.java,v 1.3 2006-11-07 16:42:17 jmaerki Exp $
  */
 public class POSTNETLogicImpl {
 
@@ -65,7 +65,7 @@ public class POSTNETLogicImpl {
 
     /**
      * Calculates the checksum for a message to be encoded as an 
-     * Code39 barcode.
+     * POSTNET barcode.
      * @param msg message to calculate the check digit for
      * @return char the check digit
      */

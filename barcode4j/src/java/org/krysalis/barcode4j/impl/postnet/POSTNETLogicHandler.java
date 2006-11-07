@@ -1,0 +1,70 @@
+/*
+ * Copyright 2003,2004,2006 Jeremias Maerki.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.krysalis.barcode4j.impl.postnet;
+
+import org.krysalis.barcode4j.BaselineAlignment;
+import org.krysalis.barcode4j.HumanReadablePlacement;
+import org.krysalis.barcode4j.impl.AbstractVariableHeightLogicHandler;
+import org.krysalis.barcode4j.impl.HeightVariableBarcodeBean;
+import org.krysalis.barcode4j.output.Canvas;
+
+/**
+ * Logic Handler to be used by subclasses of HeightVariableBarcodeBean 
+ * for painting on a Canvas.
+ * 
+ * @author Chris Dolphy
+ * @version $Id: POSTNETLogicHandler.java,v 1.1 2006-11-07 16:42:17 jmaerki Exp $
+ */
+public class POSTNETLogicHandler 
+            extends AbstractVariableHeightLogicHandler {
+
+    /**
+     * Constructor 
+     * @param bcBean the barcode implementation class
+     * @param canvas the canvas to paint to
+     */
+    public POSTNETLogicHandler(HeightVariableBarcodeBean bcBean, Canvas canvas) {
+        super(bcBean, canvas);
+    }
+
+    /**
+     * @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler#addBar(boolean, int)
+     */
+    public void addBar(boolean black, int height) {
+        POSTNETBean pnBean = (POSTNETBean)bcBean;
+        final double w = black ? bcBean.getBarWidth(1) : bcBean.getBarWidth(-1);
+        final double h = bcBean.getBarHeight(height);
+        final BaselineAlignment baselinePosition = pnBean.getBaselinePosition();
+        
+        if (black) {
+            if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
+                if (baselinePosition == BaselineAlignment.ALIGN_TOP) {
+                    canvas.drawRectWH(x, bcBean.getHumanReadableHeight(), w, h);
+                } else if (baselinePosition == BaselineAlignment.ALIGN_BOTTOM) {
+                    canvas.drawRectWH(x, bcBean.getHeight() - h, w, h);
+                }
+            } else {
+                if (baselinePosition == BaselineAlignment.ALIGN_TOP) {
+                    canvas.drawRectWH(x, 0, w, h);
+                } else if (baselinePosition == BaselineAlignment.ALIGN_BOTTOM) {
+                    canvas.drawRectWH(x, bcBean.getBarHeight() - h, w, h);
+                } 
+            }
+        }
+        x += w;
+    }
+
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2003,2004 Jeremias Maerki.
+ * Copyright 2003,2004,2006 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BaselineAlignment;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.HumanReadablePlacement;
-import org.krysalis.barcode4j.impl.DefaultHeightVariableLogicHandler;
 import org.krysalis.barcode4j.impl.HeightVariableBarcodeBean;
 import org.krysalis.barcode4j.output.Canvas;
 import org.krysalis.barcode4j.output.CanvasProvider;
@@ -29,7 +28,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * Implements the United States Postal Service POSTNET barcode.
  * 
  * @author Chris Dolphy
- * @version $Id: POSTNETBean.java,v 1.5 2004-10-24 11:45:53 jmaerki Exp $
+ * @version $Id: POSTNETBean.java,v 1.6 2006-11-07 16:42:17 jmaerki Exp $
  */
 public class POSTNETBean extends HeightVariableBarcodeBean {
 
@@ -151,8 +150,8 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        DefaultHeightVariableLogicHandler handler = 
-                new DefaultHeightVariableLogicHandler(this, new Canvas(canvas));
+        POSTNETLogicHandler handler = 
+                new POSTNETLogicHandler(this, new Canvas(canvas));
 
         POSTNETLogicImpl impl = new POSTNETLogicImpl(
                 getChecksumMode(), isDisplayChecksum());
