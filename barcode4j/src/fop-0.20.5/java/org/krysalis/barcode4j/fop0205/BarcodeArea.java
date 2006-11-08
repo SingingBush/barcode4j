@@ -31,7 +31,7 @@ import org.w3c.dom.Document;
 /**
  * Class representing an Barcode area in which the barcode graphics sits.
  * 
- * @version $Id: BarcodeArea.java,v 1.6 2006-01-20 08:14:54 jmaerki Exp $
+ * @version $Id: BarcodeArea.java,v 1.7 2006-11-08 15:02:51 jmaerki Exp $
  */
 public class BarcodeArea extends Area {
     
@@ -90,7 +90,8 @@ public class BarcodeArea extends Area {
     
     protected SVGArea createSVGArea() throws BarcodeCanvasSetupException {
         DOMImplementation domImpl = SVGDOMImplementation.getDOMImplementation();
-        SVGCanvasProvider svgout = new SVGCanvasProvider(domImpl, true);
+        //TODO Implement orientation feature
+        SVGCanvasProvider svgout = new SVGCanvasProvider(domImpl, true, 0);
         getBarcodeGenerator().generateBarcode(svgout, getMessage());
         Document dom = svgout.getDOM();
         SVGArea svgarea = new SVGArea(getFontState(), getWidth(), getHeight());

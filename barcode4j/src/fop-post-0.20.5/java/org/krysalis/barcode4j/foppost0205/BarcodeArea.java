@@ -31,7 +31,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * Class representing an Barcode area in which the Barocde graphics sit
  * 
- * @version $Id: BarcodeArea.java,v 1.5 2004-09-24 07:47:05 jmaerki Exp $
+ * @version $Id: BarcodeArea.java,v 1.6 2006-11-08 15:06:56 jmaerki Exp $
  */
 public class BarcodeArea extends org.krysalis.barcode4j.fop0205.BarcodeArea {
     
@@ -71,7 +71,7 @@ public class BarcodeArea extends org.krysalis.barcode4j.fop0205.BarcodeArea {
     protected void renderPostScriptBarcodeEPS(PSRenderer psr) {
         try {
             ByteArrayOutputStream baout = new ByteArrayOutputStream(1024);
-            EPSCanvasProvider epsout = new EPSCanvasProvider(baout);
+            EPSCanvasProvider epsout = new EPSCanvasProvider(baout, 0);
             getBarcodeGenerator().generateBarcode(epsout, getMessage());
             epsout.finish();
             BarcodeDimension dim = epsout.getDimensions();

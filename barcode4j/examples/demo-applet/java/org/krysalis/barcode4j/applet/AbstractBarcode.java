@@ -113,7 +113,7 @@ public abstract class AbstractBarcode extends JComponent {
         }
         Graphics2D g2d = (Graphics2D)g;
         if (canvas == null) {
-            canvas = new Java2DCanvasProvider(g2d);
+            canvas = new Java2DCanvasProvider(g2d, 0);
         } else {
             canvas.setGraphics2D(g2d);
         }
