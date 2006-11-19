@@ -2,7 +2,7 @@
   Barcode4J
 *************************************
 
-Website: http://barcode4j.krysalis.org
+Website: http://barcode4j.sourceforge.net
 
 For instructions on how to get started please read the documentation on the
 website or the one included in the binary distribution.
@@ -23,5 +23,3 @@ The development mailing list is barcode4j-developers@lists.sourceforge.net
 
 Barcode4J is licensed under the the Apache License, Version 2.0.
 The license text can be found under legal/barcode4j.LICENSE.txt.
-
-Barcode4J is part of the Krysalis Community Project.
