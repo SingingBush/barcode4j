@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Codabar barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: CodabarBean.java,v 1.4 2004-10-02 15:33:25 jmaerki Exp $
+ * @version $Id: CodabarBean.java,v 1.5 2006-11-27 09:02:37 jmaerki Exp $
  */
 public class CodabarBean extends AbstractBarcodeBean {
 
@@ -43,6 +43,7 @@ public class CodabarBean extends AbstractBarcodeBean {
     /** Create a new instance. */
     public CodabarBean() {
         this.moduleWidth = DEFAULT_MODULE_WIDTH;
+        this.quietZone = 10 * this.moduleWidth;
     }
     
     /**

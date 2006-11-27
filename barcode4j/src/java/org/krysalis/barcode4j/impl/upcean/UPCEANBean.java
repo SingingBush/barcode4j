@@ -26,7 +26,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This is an abstract base class for UPC and EAN barcodes.
  * 
  * @author Jeremias Maerki
- * @version $Id: UPCEANBean.java,v 1.3 2004-10-02 15:33:26 jmaerki Exp $
+ * @version $Id: UPCEANBean.java,v 1.4 2006-11-27 09:02:37 jmaerki Exp $
  */
 public abstract class UPCEANBean extends AbstractBarcodeBean {
 
@@ -39,6 +39,7 @@ public abstract class UPCEANBean extends AbstractBarcodeBean {
     public UPCEANBean() {
         super();
         this.moduleWidth = DEFAULT_MODULE_WIDTH;
+        this.quietZone = 10 * this.moduleWidth;
     }
     
     /**
