@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.output.Canvas;
  * for painting on a Canvas.
  * 
  * @author Chris Dolphy
- * @version $Id: AbstractVariableHeightLogicHandler.java,v 1.1 2006-11-07 16:43:37 jmaerki Exp $
+ * @version $Id: AbstractVariableHeightLogicHandler.java,v 1.2 2006-11-27 09:11:37 jmaerki Exp $
  */
 public abstract class AbstractVariableHeightLogicHandler 
             implements ClassicBarcodeLogicHandler {
@@ -36,6 +36,7 @@ public abstract class AbstractVariableHeightLogicHandler
     protected HeightVariableBarcodeBean bcBean;
     protected Canvas canvas;
     protected double x = 0.0;
+    protected double y = 0.0;
     private String formattedMsg;
 
     /**
@@ -75,10 +76,10 @@ public abstract class AbstractVariableHeightLogicHandler
             //nop
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
             DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg, 
-                    getStartX(), x, bcBean.getHumanReadableHeight());
+                    getStartX(), x, y + bcBean.getHumanReadableHeight());
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
             DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg, 
-                    getStartX(), x, bcBean.getHeight());
+                    getStartX(), x, y + bcBean.getHeight());
         }
     }
 
