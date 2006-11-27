@@ -21,7 +21,7 @@ import java.util.Map;
  * This is a simple implementation of a BarcodeClassResolver.
  * 
  * @author Jeremias Maerki
- * @version $Id: DefaultBarcodeClassResolver.java,v 1.7 2006-11-07 21:19:11 jmaerki Exp $
+ * @version $Id: DefaultBarcodeClassResolver.java,v 1.8 2006-11-27 09:00:45 jmaerki Exp $
  */
 public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
 
@@ -52,6 +52,7 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
         registerBarcodeClass("royal-mail-cbc", 
                 "org.krysalis.barcode4j.impl.fourstate.RoyalMailCBC");
         registerBarcodeClass("pdf417", "org.krysalis.barcode4j.impl.pdf417.PDF417");
+        registerBarcodeClass("datamatrix", "org.krysalis.barcode4j.impl.datamatrix.DataMatrix");
     }
 
     /**
