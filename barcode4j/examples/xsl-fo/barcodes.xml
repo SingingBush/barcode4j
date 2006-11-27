@@ -68,6 +68,11 @@
       <msg>0123456789_ABC-abc</msg>
       <pdf417/>
     </barcode>
+    <barcode>
+      <description>DataMatrix</description>
+      <msg>123456</msg>
+      <datamatrix/>
+    </barcode>
   </section>
   <section title="Real-life examples">
     <barcode>
@@ -100,6 +105,11 @@
           <placement>none</placement>
         </human-readable>
       </code128>
+    </barcode>
+    <barcode>
+      <description>The special reference symbol from ISO/IEC 16022:2000(E) (Annexe T.2) (DataMatrix)</description>
+      <msg>30Q324343430794&lt;OQQ</msg>
+      <datamatrix/>
     </barcode>
   </section>
   <section title="Feature demonstrations">
