@@ -79,7 +79,6 @@ public class Model {
                 clazz = resolver.resolveBean(type);
                 this.bean = (AbstractBarcodeBean)clazz.newInstance();
                 this.bean.doQuietZone(true);
-                this.bean.setQuietZone(10 * bean.getModuleWidth());
             } catch (Exception e) {
                 this.bean = null;
                 e.printStackTrace();
