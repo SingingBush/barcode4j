@@ -14,27 +14,17 @@
  * limitations under the License.
  */
 
-/* $Id: HighLevelEncoderTest.java,v 1.1 2006-06-22 09:01:18 jmaerki Exp $ */
+/* $Id: HighLevelEncoderTest.java,v 1.2 2006-11-27 08:12:11 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
 import org.krysalis.barcode4j.impl.pdf417.PDF417HighLevelEncoder;
+import org.krysalis.barcode4j.tools.TestHelper;
 
 import junit.framework.TestCase;
 
 public class HighLevelEncoderTest extends TestCase {
 
-    public static String visualize(String codewords) {
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < codewords.length(); i++) {
-            if (i > 0) {
-                sb.append(" ");
-            }
-            sb.append((int)codewords.charAt(i));
-        }
-        return sb.toString();
-    }
-    
     public void testFindNumericSequence() throws Exception {
         String msg = "1234567890ABC";
         int count = PDF417HighLevelEncoder.determineConsecutiveDigitCount(msg, 0);
@@ -106,55 +96,55 @@ public class HighLevelEncoderTest extends TestCase {
         StringBuffer sb = new StringBuffer();
         PDF417HighLevelEncoder.encodeBinary(msg, bytes, 0, msg.length(), sb);
         String expected = "924 387 700 208 213 302";
-        log(expected, visualize(sb.toString()));
-        assertEquals(expected, visualize(sb.toString()));
+        log(expected, TestHelper.visualize(sb.toString()));
+        assertEquals(expected, TestHelper.visualize(sb.toString()));
 
         msg = msg + msg + msg.substring(0, 1);
         sb.setLength(0);
         bytes = PDF417HighLevelEncoder.getBytesForMessage(msg);
         PDF417HighLevelEncoder.encodeBinary(msg, bytes, 0, msg.length(), sb);
-        expected = visualize("\u0385\u0183\u02bc\u00d0\u00d5\u012e\u0183\u02bc\u00d0\u00d5\u012e\u00e7");
-        assertEquals(expected, visualize(sb.toString()));
+        expected = TestHelper.visualize("\u0385\u0183\u02bc\u00d0\u00d5\u012e\u0183\u02bc\u00d0\u00d5\u012e\u00e7");
+        assertEquals(expected, TestHelper.visualize(sb.toString()));
         
         msg = "הההההההההההה"; //12 binary characters = 2x6
         bytes = PDF417HighLevelEncoder.getBytesForMessage(msg);
         sb.setLength(0);
         PDF417HighLevelEncoder.encodeBinary(msg, bytes, 0, msg.length(), sb);
         expected = "924 222 69 238 51 792 222 69 238 51 792";
-        assertEquals(expected, visualize(sb.toString()));
+        assertEquals(expected, TestHelper.visualize(sb.toString()));
 
         msg = "הההההההההה"; //10 binary characters = 1x6 + 4
         bytes = PDF417HighLevelEncoder.getBytesForMessage(msg);
         sb.setLength(0);
         PDF417HighLevelEncoder.encodeBinary(msg, bytes, 0, msg.length(), sb);
         expected = "901 222 69 238 51 792 132 132 132 132";
-        assertEquals(expected, visualize(sb.toString()));
+        assertEquals(expected, TestHelper.visualize(sb.toString()));
     }
     
     public void testEncodeHighLevel() throws Exception {
         String msg = "000213298174000";
-        String result = visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        String result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
         String expected = "902 1 624 434 632 282 200";
         assertEquals(expected, result);
 
         msg = "PDF417";
-        result = visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
         expected = "453 178 121 239";
         assertEquals(expected, result);
 
         msg = "000213298174000PDF417";
-        result = visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
         expected = "902 1 624 434 632 282 200 900 453 178 121 239";
         assertEquals(expected, result);
 
         msg = "TestTestהההההההההההה"; //12 binary characters = 2x6
-        result = visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
         System.out.println(result);
         expected = "597 138 597 574 559 924 222 69 238 51 792 222 69 238 51 792";
         assertEquals(expected, result);
 
         msg = "TestTestהההההההההה"; //10 binary characters = 1x6 + 4
-        result = visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
         System.out.println(result);
         expected = "597 138 597 574 559 901 222 69 238 51 792 132 132 132 132";
         log(expected, result);
