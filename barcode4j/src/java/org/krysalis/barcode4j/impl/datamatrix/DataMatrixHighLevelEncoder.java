@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.2 2006-12-01 13:31:11 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.3 2006-12-01 15:22:43 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import java.util.Arrays;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  * 
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.2 2006-12-01 13:31:11 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.3 2006-12-01 15:22:43 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
@@ -67,7 +67,8 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
      */
     public static String encodeHighLevel(String msg) {
         //the codewords 0..255 are encoded as Unicode characters
-        Encoder[] encoders = new Encoder[] {new ASCIIEncoder(), new C40Encoder()}; 
+        Encoder[] encoders = new Encoder[] {new ASCIIEncoder(), 
+                new C40Encoder(), new TextEncoder()}; 
         
         int encodingMode = ASCII_ENCODATION; //Default mode
         EncoderContext context = new EncoderContext(msg);
@@ -197,14 +198,14 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         
         public void encode(EncoderContext context) {
             //step C
-            StringBuffer c40 = new StringBuffer();
+            StringBuffer buffer = new StringBuffer();
             while (context.hasMoreCharacters()) {
                 char c = context.getCurrentChar();
-                encodeC40(c, c40);
-                int count = c40.length(); 
+                encodeChar(c, buffer);
+                int count = buffer.length(); 
                 if (count >= 3) {
-                    context.writeCodewords(encodeC40ToCodewords(c40, 0));
-                    c40.delete(0, 3);
+                    context.writeCodewords(encodeToCodewords(buffer, 0));
+                    buffer.delete(0, 3);
                     
                     int newMode = lookAheadTest(context.msg, context.pos, getEncodingMode());
                     if (newMode != getEncodingMode()) {
@@ -213,10 +214,10 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 }
                 context.pos++;
             }
-            int count = c40.length();
+            int count = buffer.length();
             if (count == 2) {
-                c40.append('\0'); //Shift 1
-                context.writeCodewords(encodeC40ToCodewords(c40, 0));
+                buffer.append('\0'); //Shift 1
+                context.writeCodewords(encodeToCodewords(buffer, 0));
             } else if (count == 1) {
                 context.writeCodeword(C40_UNLATCH);
                 //TODO Skip unlatch if only one character until the symbol is full
@@ -227,7 +228,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             
         }
         
-        private static void encodeC40(char c, StringBuffer sb) {
+        protected void encodeChar(char c, StringBuffer sb) {
             if (c == ' ') {
                 sb.append('\3');
             } else if (c >= '0' && c <= '9') {
@@ -251,13 +252,13 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 sb.append((char)(c - 96));
             } else if (c >= '\u0080') {
                 sb.append("\1\u001e"); //Shift 2, Upper Shift
-                encodeC40((char)(c - 128), sb);
+                encodeChar((char)(c - 128), sb);
             } else {
                 throw new IllegalArgumentException("Illegal character: " + c);
             }
         }
         
-        private static String encodeC40ToCodewords(StringBuffer sb, int startPos) {
+        protected String encodeToCodewords(StringBuffer sb, int startPos) {
             char c1 = sb.charAt(startPos);
             char c2 = sb.charAt(startPos + 1);
             char c3 = sb.charAt(startPos + 2);
@@ -267,6 +268,50 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             return "" + cw1 + cw2; 
         }
 
+    }
+    
+    private static class TextEncoder extends C40Encoder {
+        
+        public int getEncodingMode() {
+            return TEXT_ENCODATION;
+        }
+        
+        protected void encodeChar(char c, StringBuffer sb) {
+            if (c == ' ') {
+                sb.append('\3');
+            } else if (c >= '0' && c <= '9') {
+                sb.append((char)(c - 48 + 4));
+            } else if (c >= 'a' && c <= 'z') {
+                sb.append((char)(c - 97 + 14));
+            } else if (c >= '\0' && c <= '\u001f') {
+                sb.append('\0'); //Shift 1 Set
+                sb.append(c);
+            } else if (c >= '!' && c <= '/') {
+                sb.append('\1'); //Shift 2 Set
+                sb.append((char)(c - 33));
+            } else if (c >= ':' && c <= '@') {
+                sb.append('\1'); //Shift 2 Set
+                sb.append((char)(c - 58 + 15));
+            } else if (c >= '[' && c <= '_') {
+                sb.append('\1'); //Shift 2 Set
+                sb.append((char)(c - 91 + 22));
+            } else if (c == '\'') {
+                sb.append('\2'); //Shift 3 Set
+                sb.append((char)(c - 96));
+            } else if (c >= 'A' && c <= 'Z') {
+                sb.append('\2'); //Shift 3 Set
+                sb.append((char)(c - 65 + 1));
+            } else if (c >= '{' && c <= '\u007f') {
+                sb.append('\2'); //Shift 3 Set
+                sb.append((char)(c - 123 + 26));
+            } else if (c >= '\u0080') {
+                sb.append("\1\u001e"); //Shift 2, Upper Shift
+                encodeChar((char)(c - 128), sb);
+            } else {
+                throw new IllegalArgumentException("Illegal character: " + c);
+            }
+        }
+        
     }
     
     private static char encodeASCIIDigits(char digit1, char digit2) {
@@ -279,12 +324,12 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
     }
 
     private static int lookAheadTest(String msg, int startpos, int currentMode) {
-        double[] charCounts;
+        float[] charCounts;
         //step J
         if (currentMode == ASCII_ENCODATION) {
-            charCounts = new double[] {0, 1, 1, 1, 1, 1.25f};
+            charCounts = new float[] {0, 1, 1, 1, 1, 1.25f};
         } else {
-            charCounts = new double[] {1, 2, 2, 2, 2, 2.25f};
+            charCounts = new float[] {1, 2, 2, 2, 2, 2.25f};
             charCounts[currentMode] = 0;
         }
         
@@ -329,38 +374,38 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             
             //step M
             if (isNativeC40(c)) {
-                charCounts[C40_ENCODATION] += 2.0 / 3.0;
+                charCounts[C40_ENCODATION] += 2f / 3f;
             } else if (isExtendedASCII(c)) {
-                charCounts[C40_ENCODATION] += 8.0 / 3.0;
+                charCounts[C40_ENCODATION] += 8f / 3f;
             } else {
-                charCounts[C40_ENCODATION] += 4.0 / 3.0;
+                charCounts[C40_ENCODATION] += 4f / 3f;
             }
             
             //step N
             if (isNativeText(c)) {
-                charCounts[TEXT_ENCODATION] += 2.0 / 3.0;
+                charCounts[TEXT_ENCODATION] += 2f / 3f;
             } else if (isExtendedASCII(c)) {
-                charCounts[TEXT_ENCODATION] += 8.0 / 3.0;
+                charCounts[TEXT_ENCODATION] += 8f / 3f;
             } else {
-                charCounts[TEXT_ENCODATION] += 4.0 / 3.0;
+                charCounts[TEXT_ENCODATION] += 4f / 3f;
             }
             
             //step O
             if (isNativeX12(c)) {
-                charCounts[X12_ENCODATION] += 2.0 / 3.0;
+                charCounts[X12_ENCODATION] += 2f / 3f;
             } else if (isExtendedASCII(c)) {
-                charCounts[X12_ENCODATION] += 13.0 / 3.0;
+                charCounts[X12_ENCODATION] += 13f / 3f;
             } else {
-                charCounts[X12_ENCODATION] += 10.0 / 3.0;
+                charCounts[X12_ENCODATION] += 10f / 3f;
             }
             
             //step P
             if (isNativeEDIFACT(c)) {
-                charCounts[EDIFACT_ENCODATION] += 3.0 / 4.0;
+                charCounts[EDIFACT_ENCODATION] += 3f / 4f;
             } else if (isExtendedASCII(c)) {
-                charCounts[EDIFACT_ENCODATION] += 17.0 / 4.0;
+                charCounts[EDIFACT_ENCODATION] += 17f / 4f;
             } else {
-                charCounts[EDIFACT_ENCODATION] += 13.0 / 4.0;
+                charCounts[EDIFACT_ENCODATION] += 13f / 4f;
             }
             
             // step Q
@@ -405,9 +450,9 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                         && intCharCounts[C40_ENCODATION] + 1 < intCharCounts[BASE256_ENCODATION]
                         && intCharCounts[C40_ENCODATION] + 1 < intCharCounts[EDIFACT_ENCODATION]
                         && intCharCounts[C40_ENCODATION] + 1 < intCharCounts[TEXT_ENCODATION]) {
-                    if (mins[C40_ENCODATION] < mins[X12_ENCODATION]) {
+                    if (intCharCounts[C40_ENCODATION] < intCharCounts[X12_ENCODATION]) {
                         return C40_ENCODATION;
-                    } else if (mins[C40_ENCODATION] == mins[X12_ENCODATION]) {
+                    } else if (intCharCounts[C40_ENCODATION] == intCharCounts[X12_ENCODATION]) {
                         int p = startpos + charsProcessed + 1;
                         while (p < msg.length()) {
                             char tc = msg.charAt(p);
@@ -416,6 +461,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                             } else if (!isNativeX12(tc)) {
                                 break;
                             }
+                            p++;
                         }
                         return C40_ENCODATION;
                     }
@@ -424,7 +470,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         }
     }
 
-    private static int findMinimums(double[] charCounts, int[] intCharCounts, 
+    private static int findMinimums(float[] charCounts, int[] intCharCounts, 
             int min, byte[] mins) {
         Arrays.fill(mins, (byte)0);
         for (int i = 0; i < 6; i++) {
@@ -483,11 +529,17 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
     }
     
     private static final boolean isNativeC40(char ch) {
-        return isASCII7(ch);
+        //return isASCII7(ch);
+        return (ch == 32)
+                || (ch >= 48 && ch <= 57) //0..9
+                || (ch >= 65 && ch <= 90); //A..Z
     }
     
     private static final boolean isNativeText(char ch) {
-        return isASCII7(ch);
+        //return isASCII7(ch);
+        return (ch == 32)
+        || (ch >= 48 && ch <= 57) //0..9
+        || (ch >= 97 && ch <= 122); //a..z
     }
     
     private static final boolean isNativeX12(char ch) {
