@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixPlacement.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $ */
+/* $Id: DataMatrixPlacement.java,v 1.2 2006-12-01 13:29:43 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
 /**
  * Symbol Character Placement Program. Adapted from Annex M.1 in ISO/IEC 16022:2000(E). 
  * 
- * @version $Id: DataMatrixPlacement.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $
+ * @version $Id: DataMatrixPlacement.java,v 1.2 2006-12-01 13:29:43 jmaerki Exp $
  */
 public abstract class DataMatrixPlacement {
 
@@ -85,7 +85,7 @@ public abstract class DataMatrixPlacement {
         } while ((row < numrows) || (col < numcols));
         
         /* Lastly, if the lower righthand corner is untouched, fill in fixed pattern */
-        if (!getBit(numcols - 1, numrows - 1)) {
+        if (!hasBit(numcols - 1, numrows - 1)) {
             setBit(numcols - 1, numrows - 1, true);
             setBit(numcols - 2, numrows - 2, true);
         }
@@ -125,8 +125,8 @@ public abstract class DataMatrixPlacement {
     
     private void corner1(int pos) {
         module(numrows - 1, 0, pos, 1);
-        module(numrows - 2, 1, pos, 2);
-        module(numrows - 2, 2, pos, 3);
+        module(numrows - 1, 1, pos, 2);
+        module(numrows - 1, 2, pos, 3);
         module(0, numcols - 2, pos, 4);
         module(0, numcols - 1, pos, 5);
         module(1, numcols - 1, pos, 6);
@@ -147,8 +147,8 @@ public abstract class DataMatrixPlacement {
     
     private void corner3(int pos) {
         module(numrows - 3, 0, pos, 1);
-        module(numrows - 2, 1, pos, 2);
-        module(numrows - 1, 2, pos, 3);
+        module(numrows - 2, 0, pos, 2);
+        module(numrows - 1, 0, pos, 3);
         module(0, numcols - 2, pos, 4);
         module(0, numcols - 1, pos, 5);
         module(1, numcols - 1, pos, 6);
