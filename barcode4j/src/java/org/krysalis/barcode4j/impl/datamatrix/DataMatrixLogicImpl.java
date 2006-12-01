@@ -14,21 +14,45 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixLogicImpl.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $ */
+/* $Id: DataMatrixLogicImpl.java,v 1.2 2006-12-01 13:31:11 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
-
-import java.util.Arrays;
 
 import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 
 /**
  * Top-level class for the logic part of the DataMatrix implementation.
  * 
- * @version $Id: DataMatrixLogicImpl.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $
+ * @version $Id: DataMatrixLogicImpl.java,v 1.2 2006-12-01 13:31:11 jmaerki Exp $
  */
 public class DataMatrixLogicImpl {
 
+    /**
+     * Convert a string of char codewords into a different string which lists each character 
+     * using its decimal value.
+     * @param codewords the codewords 
+     * @return the visualized codewords
+     */
+    public static String visualize(String codewords) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < codewords.length(); i++) {
+            if (i > 0) {
+                sb.append(" ");
+            }
+            sb.append((int)codewords.charAt(i));
+        }
+        return sb.toString();
+    }
+    
+    private char randomizedPad(char pad, int codewordPosition) {
+        int pseudoRandom = ((149 * codewordPosition) % 253) + 1;
+        int tempVariable = pad + pseudoRandom;
+        if (tempVariable <= 254) {
+            return (char)tempVariable;
+        } else {
+            return (char)(tempVariable - 254);
+        }
+    }
 
     /**
      * Generates the barcode logic.
@@ -45,12 +69,17 @@ public class DataMatrixLogicImpl {
         DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length());
         StringBuffer codewords = new StringBuffer(symbolInfo.getCodewordCount());
         codewords.append(encoded);
+        if (codewords.length() < symbolInfo.dataCapacity) {
+            codewords.append(DataMatrixConstants.PAD);
+        }
         while (codewords.length() < symbolInfo.dataCapacity) {
-            codewords.append("\171");
+            codewords.append(randomizedPad(DataMatrixConstants.PAD, codewords.length() + 1));
         }
         //TODO PADDING! Padding correct?
+        
         //2. step: ECC generation
-        String ecc = DataMatrixErrorCorrection.encodeECC200(encoded, symbolInfo.errorCodewords);
+        String ecc = DataMatrixErrorCorrection.encodeECC200(
+                codewords.toString(), symbolInfo.errorCodewords);
         codewords.append(ecc);
 
         //3. step: Module placement in Matrix
@@ -88,30 +117,6 @@ public class DataMatrixLogicImpl {
             logic.addBar(true, 1);
         }
         logic.endRow();
-    }
-
-    private static class DefaultDataMatrixPlacement extends DataMatrixPlacement {
-        
-        private byte[] bits;
-        
-        public DefaultDataMatrixPlacement(String codewords, int numcols, int numrows) {
-            super(codewords, numcols, numrows);
-            this.bits = new byte[numcols * numrows];
-            Arrays.fill(this.bits, (byte)-1);
-        }
-        
-        protected boolean getBit(int col, int row) {
-            return bits[row * numcols + col] == 1;
-        }
-
-        protected void setBit(int col, int row, boolean bit) {
-            bits[row * numcols + col] = (bit ? (byte)1 : (byte)0);
-        }
-
-        protected boolean hasBit(int col, int row) {
-            return bits[row * numcols + col] >= 0;
-        }
-        
     }
     
 }

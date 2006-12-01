@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixConstants.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $ */
+/* $Id: DataMatrixConstants.java,v 1.2 2006-12-01 13:31:11 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
 /**
  * Constants for DataMatrix.
  * 
- * @version $Id: DataMatrixConstants.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $
+ * @version $Id: DataMatrixConstants.java,v 1.2 2006-12-01 13:31:11 jmaerki Exp $
  */
 public interface DataMatrixConstants {
 
@@ -52,5 +52,6 @@ public interface DataMatrixConstants {
     /** ECI character (Extended Channel Interpretation) */
     char ECI = 241;
     
-
+    /** Unlatch from C40 encodation */
+    char C40_UNLATCH = 254;
 }

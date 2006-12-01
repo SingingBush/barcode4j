@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.2 2006-12-01 13:31:11 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import java.util.Arrays;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  * 
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.2 2006-12-01 13:31:11 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
@@ -38,6 +38,9 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
     private static final int EDIFACT_ENCODATION = 4;
     private static final int BASE256_ENCODATION = 5;
 
+    private static final String[] ENCODATION_NAMES
+        = new String[] {"ASCII", "C40", "Text", "ANSI X12", "EDIFACT", "Base 256"};
+    
     private static final String DEFAULT_ASCII_ENCODING = "ISO-8859-1";
     
     /**
@@ -64,98 +67,208 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
      */
     public static String encodeHighLevel(String msg) {
         //the codewords 0..255 are encoded as Unicode characters
-        StringBuffer sb = new StringBuffer(msg.length());
-        int lengthBytePosition = -1;
+        Encoder[] encoders = new Encoder[] {new ASCIIEncoder(), new C40Encoder()}; 
         
-        int len = msg.length();
-        int p = 0;
         int encodingMode = ASCII_ENCODATION; //Default mode
-        while (p < len) {
-            char c;
-            switch (encodingMode) {
-            case ASCII_ENCODATION:
-                //step B
-                int n = determineConsecutiveDigitCount(msg, p);
-                if (n >= 2) {
-                    sb.append(encodeASCIIDigits(msg.charAt(p), msg.charAt(p + 1)));
-                    p += 2;
-                } else {
-                    c = msg.charAt(p);
-                    int newMode = lookAheadTest(msg, p, encodingMode);
-                    if (newMode != encodingMode) {
-                        switch (newMode) {
-                        case BASE256_ENCODATION:
-                            sb.append(LATCH_TO_BASE256);
-                            lengthBytePosition = sb.length();
-                            sb.append('\000');
-                            break;
-                        case C40_ENCODATION:
-                            sb.append(LATCH_TO_C40);
-                            break;
-                        case X12_ENCODATION:
-                            sb.append(LATCH_TO_ANSIX12);
-                            break;
-                        case TEXT_ENCODATION:
-                            sb.append(LATCH_TO_TEXT);
-                            break;
-                        case EDIFACT_ENCODATION:
-                            sb.append(LATCH_TO_EDIFACT);
-                            break;
-                        default:
-                            throw new IllegalStateException("Illegal mode: " + newMode);
-                        }
-                    } else if (isExtendedASCII(c)) {
-                        sb.append(UPPER_SHIFT);
-                        sb.append(c);
-                        p++;
-                    } else {
-                        if (DEBUG) {
-                            if (!isASCII7(c)) {
-                                throw new IllegalArgumentException("Not an ASCII-7 character");
-                            }
-                        }
-                        sb.append((char)(c + 1));
-                        p++;
+        EncoderContext context = new EncoderContext(msg);
+        while (context.hasMoreCharacters()) {
+            encoders[encodingMode].encode(context);
+            if (context.newEncoding >= 0) {
+                encodingMode = context.newEncoding;
+                context.resetEncoderSignal();
+            }
+        }
+        if (encodingMode != ASCII_ENCODATION) {
+            context.writeCodeword('\u00fe'); //Unlatch (254)
+        }
+        
+        return context.codewords.toString();
+    }
+
+    private static class EncoderContext {
+
+        private String msg;
+        private StringBuffer codewords;
+        private int pos = 0;
+        private int newEncoding = -1;
+        
+        public EncoderContext(String msg) {
+            this.msg = msg;
+            this.codewords = new StringBuffer(msg.length());
+        }
+        
+        public char getCurrentChar() {
+            return msg.charAt(pos);
+        }
+        
+        public void writeCodewords(String codewords) {
+            this.codewords.append(codewords);
+        }
+        
+        public void writeCodeword(char codeword) {
+            this.codewords.append(codeword);
+        }
+        
+        public void signalEncoderChange(int encoding) {
+            this.newEncoding = encoding;
+        }
+        
+        public void resetEncoderSignal() {
+            this.newEncoding = -1;
+        }
+
+        public boolean hasMoreCharacters() {
+            return pos < msg.length();
+        }
+    }
+    
+    private interface Encoder {
+        int getEncodingMode();
+        void encode(EncoderContext context);
+    }
+    
+    private static class ASCIIEncoder implements Encoder {
+        
+        public int getEncodingMode() {
+            return ASCII_ENCODATION;
+        }
+        
+        public void encode(EncoderContext context) {
+            //step B
+            int n = determineConsecutiveDigitCount(context.msg, context.pos);
+            if (n >= 2) {
+                context.writeCodeword(encodeASCIIDigits(context.msg.charAt(context.pos), 
+                        context.msg.charAt(context.pos + 1)));
+                context.pos += 2;
+            } else {
+                char c = context.getCurrentChar();
+                int newMode = lookAheadTest(context.msg, context.pos, getEncodingMode());
+                if (newMode != getEncodingMode()) {
+                    switch (newMode) {
+                    case BASE256_ENCODATION:
+                        context.writeCodeword(LATCH_TO_BASE256);
+                        //lengthBytePosition = codewords.length();
+                        context.writeCodeword('\000');
+                        context.signalEncoderChange(BASE256_ENCODATION);
+                        return;
+                    case C40_ENCODATION:
+                        context.writeCodeword(LATCH_TO_C40);
+                        context.signalEncoderChange(C40_ENCODATION);
+                        return;
+                    case X12_ENCODATION:
+                        context.writeCodeword(LATCH_TO_ANSIX12);
+                        context.signalEncoderChange(X12_ENCODATION);
+                        break;
+                    case TEXT_ENCODATION:
+                        context.writeCodeword(LATCH_TO_TEXT);
+                        context.signalEncoderChange(TEXT_ENCODATION);
+                        break;
+                    case EDIFACT_ENCODATION:
+                        context.writeCodeword(LATCH_TO_EDIFACT);
+                        context.signalEncoderChange(EDIFACT_ENCODATION);
+                        break;
+                    default:
+                        throw new IllegalStateException("Illegal mode: " + newMode);
                     }
-                    
-                }
-                break;
-            case C40_ENCODATION:
-                //step C
-                c = msg.charAt(p);
-                if (true) throw new IllegalStateException("NYI");
-                break;
-            case TEXT_ENCODATION:
-                //step D
-                c = msg.charAt(p);
-                if (true) throw new IllegalStateException("NYI");
-                break;
-            case X12_ENCODATION:
-                //step E
-                c = msg.charAt(p);
-                if (true) throw new IllegalStateException("NYI");
-                break;
-            case EDIFACT_ENCODATION:
-                //step F
-                c = msg.charAt(p);
-                if (true) throw new IllegalStateException("NYI");
-                break;
-            case BASE256_ENCODATION:
-                //step G
-                int newMode = lookAheadTest(msg, p, encodingMode);
-                if (newMode != encodingMode) {
-                    encodingMode = newMode;
+                } else if (isExtendedASCII(c)) {
+                    context.writeCodeword(UPPER_SHIFT);
+                    context.writeCodeword((char)(c - 128));
+                    context.pos++;
                 } else {
-                    c = msg.charAt(p);
-                    if (true) throw new IllegalStateException("NYI");
+                    if (DEBUG) {
+                        if (!isASCII7(c)) {
+                            throw new IllegalArgumentException("Not an ASCII-7 character");
+                        }
+                    }
+                    context.writeCodeword((char)(c + 1));
+                    context.pos++;
                 }
-                break;
+                
             }
         }
         
-        return sb.toString();
     }
+    
+    private static class C40Encoder implements Encoder {
+        
+        public int getEncodingMode() {
+            return C40_ENCODATION;
+        }
+        
+        public void encode(EncoderContext context) {
+            //step C
+            StringBuffer c40 = new StringBuffer();
+            while (context.hasMoreCharacters()) {
+                char c = context.getCurrentChar();
+                encodeC40(c, c40);
+                int count = c40.length(); 
+                if (count >= 3) {
+                    context.writeCodewords(encodeC40ToCodewords(c40, 0));
+                    c40.delete(0, 3);
+                    
+                    int newMode = lookAheadTest(context.msg, context.pos, getEncodingMode());
+                    if (newMode != getEncodingMode()) {
+                        context.signalEncoderChange(newMode);
+                    }
+                }
+                context.pos++;
+            }
+            int count = c40.length();
+            if (count == 2) {
+                c40.append('\0'); //Shift 1
+                context.writeCodewords(encodeC40ToCodewords(c40, 0));
+            } else if (count == 1) {
+                context.writeCodeword(C40_UNLATCH);
+                //TODO Skip unlatch if only one character until the symbol is full
+                //and it has to be enlarged 
+                context.pos--;
+                context.signalEncoderChange(ASCII_ENCODATION);
+            }
+            
+        }
+        
+        private static void encodeC40(char c, StringBuffer sb) {
+            if (c == ' ') {
+                sb.append('\3');
+            } else if (c >= '0' && c <= '9') {
+                sb.append((char)(c - 48 + 4));
+            } else if (c >= 'A' && c <= 'Z') {
+                sb.append((char)(c - 65 + 14));
+            } else if (c >= '\0' && c <= '\u001f') {
+                sb.append('\0'); //Shift 1 Set
+                sb.append(c);
+            } else if (c >= '!' && c <= '/') {
+                sb.append('\1'); //Shift 2 Set
+                sb.append((char)(c - 33));
+            } else if (c >= ':' && c <= '@') {
+                sb.append('\1'); //Shift 2 Set
+                sb.append((char)(c - 58 + 15));
+            } else if (c >= '[' && c <= '_') {
+                sb.append('\1'); //Shift 2 Set
+                sb.append((char)(c - 91 + 22));
+            } else if (c >= '\'' && c <= '\u007f') {
+                sb.append('\2'); //Shift 3 Set
+                sb.append((char)(c - 96));
+            } else if (c >= '\u0080') {
+                sb.append("\1\u001e"); //Shift 2, Upper Shift
+                encodeC40((char)(c - 128), sb);
+            } else {
+                throw new IllegalArgumentException("Illegal character: " + c);
+            }
+        }
+        
+        private static String encodeC40ToCodewords(StringBuffer sb, int startPos) {
+            char c1 = sb.charAt(startPos);
+            char c2 = sb.charAt(startPos + 1);
+            char c3 = sb.charAt(startPos + 2);
+            int v = (1600 * c1) + (40 * c2) + c3 + 1;
+            char cw1 = (char)(v / 256);
+            char cw2 = (char)(v % 256);
+            return "" + cw1 + cw2; 
+        }
 
+    }
+    
     private static char encodeASCIIDigits(char digit1, char digit2) {
         if (isDigit(digit1) && isDigit(digit2)) {
             int num = (digit1 - 48) * 10 + (digit2 - 48);
@@ -181,10 +294,11 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             if ((startpos + charsProcessed) == msg.length() - 1) {
                 int min = Integer.MAX_VALUE;
                 byte[] mins = new byte[6];
-                min = findMinimums(charCounts, min, mins);
+                int[] intCharCounts = new int[6];
+                min = findMinimums(charCounts, intCharCounts, min, mins);
                 int minCount = getMinimumCount(mins);
                 
-                if (charCounts[ASCII_ENCODATION] == min) {
+                if (intCharCounts[ASCII_ENCODATION] == min) {
                     return ASCII_ENCODATION;
                 } else if (minCount == 1 && mins[BASE256_ENCODATION] > 0) {
                     return BASE256_ENCODATION;
@@ -258,26 +372,39 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             
             //step R
             if (charsProcessed >= 4) {
+                /*
+                for (int a = 0; a < charCounts.length; a++) {
+                    System.out.println(a + " " + ENCODATION_NAMES[a] + " " + charCounts[a]);
+                }*/
+                
                 int min = Integer.MAX_VALUE;
+                int[] intCharCounts = new int[6];
                 byte[] mins = new byte[6];
-                min = findMinimums(charCounts, min, mins);
+                min = findMinimums(charCounts, intCharCounts, min, mins);
                 int minCount = getMinimumCount(mins);
                 
-                if (charCounts[ASCII_ENCODATION] + 1 == min + 1) {
+                if (intCharCounts[ASCII_ENCODATION] + 1 <= intCharCounts[BASE256_ENCODATION]
+                        && intCharCounts[ASCII_ENCODATION] + 1 <= intCharCounts[C40_ENCODATION]
+                        && intCharCounts[ASCII_ENCODATION] + 1 <= intCharCounts[TEXT_ENCODATION]
+                        && intCharCounts[ASCII_ENCODATION] + 1 <= intCharCounts[X12_ENCODATION]
+                        && intCharCounts[ASCII_ENCODATION] + 1 <= intCharCounts[EDIFACT_ENCODATION]) {
                     return ASCII_ENCODATION;
-                } else if (mins[BASE256_ENCODATION] + 1 <= charCounts[ASCII_ENCODATION]
-                        || charCounts[BASE256_ENCODATION] + 1 == min + 1) {
+                } else if (intCharCounts[BASE256_ENCODATION] + 1 <= intCharCounts[ASCII_ENCODATION]
+                        || (mins[C40_ENCODATION] 
+                                 + mins[TEXT_ENCODATION]
+                                 + mins[X12_ENCODATION]
+                                 + mins[EDIFACT_ENCODATION]) == 0) {
                     return BASE256_ENCODATION;
-                } else if (minCount == 1 && mins[EDIFACT_ENCODATION] + 1 > 0) {
+                } else if (minCount == 1 && mins[EDIFACT_ENCODATION] > 0) {
                     return EDIFACT_ENCODATION;
-                } else if (minCount == 1 && mins[TEXT_ENCODATION] + 1 > 0) {
+                } else if (minCount == 1 && mins[TEXT_ENCODATION] > 0) {
                     return TEXT_ENCODATION;
-                } else if (minCount == 1 && mins[X12_ENCODATION] + 1 > 0) {
+                } else if (minCount == 1 && mins[X12_ENCODATION] > 0) {
                     return X12_ENCODATION;
-                } else if (mins[C40_ENCODATION] + 1 < mins[ASCII_ENCODATION]
-                        || mins[C40_ENCODATION] + 1 < mins[BASE256_ENCODATION]
-                        || mins[C40_ENCODATION] + 1 < mins[EDIFACT_ENCODATION]
-                        || mins[C40_ENCODATION] + 1 < mins[TEXT_ENCODATION]) {
+                } else if (intCharCounts[C40_ENCODATION] + 1 < intCharCounts[ASCII_ENCODATION]
+                        && intCharCounts[C40_ENCODATION] + 1 < intCharCounts[BASE256_ENCODATION]
+                        && intCharCounts[C40_ENCODATION] + 1 < intCharCounts[EDIFACT_ENCODATION]
+                        && intCharCounts[C40_ENCODATION] + 1 < intCharCounts[TEXT_ENCODATION]) {
                     if (mins[C40_ENCODATION] < mins[X12_ENCODATION]) {
                         return C40_ENCODATION;
                     } else if (mins[C40_ENCODATION] == mins[X12_ENCODATION]) {
@@ -297,11 +424,12 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         }
     }
 
-    private static int findMinimums(double[] charCounts, int min, byte[] mins) {
+    private static int findMinimums(double[] charCounts, int[] intCharCounts, 
+            int min, byte[] mins) {
         Arrays.fill(mins, (byte)0);
         for (int i = 0; i < 6; i++) {
-            charCounts[i] = Math.ceil(charCounts[i]);
-            int current = (int)charCounts[i];
+            intCharCounts[i] = (int)Math.ceil(charCounts[i]);
+            int current = intCharCounts[i];
             if (min > current) {
                 min = current;
                 Arrays.fill(mins, (byte)0);
@@ -333,18 +461,21 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 || (ch >= 32 && ch <= 126)); 
     }
 
-    
-    private static final boolean isExtendedASCII(char ch) {
+    private static final String EXTENDED_ASCII; 
+    static {
         byte[] buf = new byte[128];
         for (int i = 0; i < 128; i++) {
             buf[i] = (byte)(i + 128);
         }
         try {
-            String ext = new String(buf, DEFAULT_ASCII_ENCODING);
-            return (ext.indexOf(ch) >= 0); 
+            EXTENDED_ASCII = new String(buf, DEFAULT_ASCII_ENCODING);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+    
+    private static final boolean isExtendedASCII(char ch) {
+        return (EXTENDED_ASCII.indexOf(ch) >= 0); 
     }
     
     private static final boolean isASCII7(char ch) {

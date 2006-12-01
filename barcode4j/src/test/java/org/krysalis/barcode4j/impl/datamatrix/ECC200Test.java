@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ECC200Test.java,v 1.1 2006-11-27 08:12:11 jmaerki Exp $ */
+/* $Id: ECC200Test.java,v 1.2 2006-12-01 13:31:11 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 /**
  * Tests for the ECC200 error correction.
  * 
- * @version $Id: ECC200Test.java,v 1.1 2006-11-27 08:12:11 jmaerki Exp $
+ * @version $Id: ECC200Test.java,v 1.2 2006-12-01 13:31:11 jmaerki Exp $
  */
 public class ECC200Test extends TestCase {
 
@@ -35,6 +35,11 @@ public class ECC200Test extends TestCase {
         char[] cw = new char[] {142, 164, 186};
         String s = DataMatrixErrorCorrection.encodeECC200(String.valueOf(cw), 5);
         assertEquals("114 25 5 88 102", TestHelper.visualize(s));
+
+        //"A" encoded (ASCII encoding + 2 padding characters)
+        cw = new char[] {66, 129, 70};
+        s = DataMatrixErrorCorrection.encodeECC200(String.valueOf(cw), 5);
+        assertEquals("138 234 82 82 95", TestHelper.visualize(s));
     }
     
 }
