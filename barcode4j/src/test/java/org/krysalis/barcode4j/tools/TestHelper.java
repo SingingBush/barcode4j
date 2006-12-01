@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-/* $Id: TestHelper.java,v 1.1 2006-11-27 08:12:11 jmaerki Exp $ */
+/* $Id: TestHelper.java,v 1.2 2006-12-01 13:28:40 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.tools;
+
+import java.util.StringTokenizer;
 
 /**
  * Helper methods for testing.
  * 
- * @version $Id: TestHelper.java,v 1.1 2006-11-27 08:12:11 jmaerki Exp $
+ * @version $Id: TestHelper.java,v 1.2 2006-12-01 13:28:40 jmaerki Exp $
  */
 public class TestHelper {
 
@@ -38,6 +40,15 @@ public class TestHelper {
                 sb.append(" ");
             }
             sb.append((int)codewords.charAt(i));
+        }
+        return sb.toString();
+    }
+    
+    public static String unvisualize(String visualized) {
+        StringBuffer sb = new StringBuffer();
+        StringTokenizer st = new StringTokenizer(visualized, " ");
+        while (st.hasMoreTokens()) {
+            sb.append((char)Integer.parseInt(st.nextToken()));
         }
         return sb.toString();
     }
