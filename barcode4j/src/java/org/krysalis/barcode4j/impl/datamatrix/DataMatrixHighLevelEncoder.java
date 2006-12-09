@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.5 2006-12-09 15:47:41 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.6 2006-12-09 15:51:08 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import java.util.Arrays;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  * 
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.5 2006-12-09 15:47:41 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.6 2006-12-09 15:51:08 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
@@ -421,7 +421,6 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         protected void handleEOD(EncoderContext context, StringBuffer buffer) {
             context.updateSymbolInfo();
             int available = context.symbolInfo.dataCapacity - context.getCodewordCount();
-            int remaining = context.getRemainingCharacters(); 
             int count = buffer.length();
             if (count == 2) {
                 context.writeCodeword(C40_UNLATCH);
@@ -547,9 +546,6 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         }
         
         public void encode(EncoderContext context) {
-            //Prepare length field
-            int startPos = context.pos;
-            
             StringBuffer buffer = new StringBuffer();
             buffer.append('\0'); //Initialize length field
             while (context.hasMoreCharacters()) {
