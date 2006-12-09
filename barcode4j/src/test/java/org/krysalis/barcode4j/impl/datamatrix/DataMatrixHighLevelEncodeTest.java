@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncodeTest.java,v 1.4 2006-12-09 13:01:26 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncodeTest.java,v 1.5 2006-12-09 15:47:42 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 /**
  * Tests for the high-level encoder.
  * 
- * @version $Id: DataMatrixHighLevelEncodeTest.java,v 1.4 2006-12-09 13:01:26 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncodeTest.java,v 1.5 2006-12-09 15:47:42 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncodeTest extends TestCase {
 
@@ -36,6 +36,9 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
 
         visualized = encodeHighLevel("123456");
         assertEquals("142 164 186", visualized);
+
+        visualized = encodeHighLevel("123456£");
+        assertEquals("142 164 186 235 36", visualized);
 
         visualized = encodeHighLevel("30Q324343430794<OQQ");
         assertEquals("160 82 162 173 173 173 137 224 61 80 82 82", visualized);
@@ -51,11 +54,11 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         visualized = encodeHighLevel("AIMAIAb");
         assertEquals("230 91 11 90 255 12 209 254", visualized);
 
-        visualized = encodeHighLevel("AIMAIMAIMË");
+        visualized = encodeHighLevel("AIMAIMAIMË"); //TODO Really correct?
         assertEquals("230 91 11 91 11 91 11 11 9 254 129 147", visualized);
 
-        visualized = encodeHighLevel("AIMAIMAIMë");
-        assertEquals("230 91 11 91 11 91 11 10 243 254 235 107", visualized);
+        visualized = encodeHighLevel("AIMAIMAIMë"); //TODO Really correct?
+        assertEquals("230 91 11 91 11 91 11 10 243 254 235 108", visualized);
 
         visualized = encodeHighLevel("A1B2C3D4E5F6G7H8I9J0K1L2");
         assertEquals("230 88 88 40 8 107 147 59 67 126 206 78 126 144 121 35 47 254", visualized);
@@ -128,6 +131,26 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
 
     }
 
+    public void testBase256Encodation() throws Exception {
+        String visualized;
+
+        //231 shifts to Base256 encodation
+
+        visualized = encodeHighLevel("«äöüé»");
+        assertEquals("231 44 108 59 226 126 1 104", visualized);
+        visualized = encodeHighLevel("«äöüéà»");
+        assertEquals("231 51 108 59 226 126 1 141 254 254 129 147", visualized);
+
+        visualized = encodeHighLevel(" 23£"); //ASCII only (for reference)
+        assertEquals("33 153 235 36 129", visualized);
+        
+        visualized = encodeHighLevel("«äöüé» 23£"); //Mixed Base256 + ASCII
+        assertEquals("231 50 108 59 226 126 1 104 33 153 235 36", visualized);
+
+        visualized = encodeHighLevel("«äöüé» 23£ 1234567890123456789");
+        assertEquals("231 55 108 59 226 126 1 104 99 10 161 167 185 142 164 186 208 220 142 164 186 208 58 129 59 209 104 254 150 45", visualized);
+    }
+    
     private String encodeHighLevel(String msg) {
         String encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg);
         String visualized = TestHelper.visualize(encoded);
