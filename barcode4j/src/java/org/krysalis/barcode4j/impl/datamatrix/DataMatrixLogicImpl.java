@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixLogicImpl.java,v 1.3 2006-12-09 13:01:26 jmaerki Exp $ */
+/* $Id: DataMatrixLogicImpl.java,v 1.4 2006-12-09 15:46:52 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -23,27 +23,10 @@ import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 /**
  * Top-level class for the logic part of the DataMatrix implementation.
  * 
- * @version $Id: DataMatrixLogicImpl.java,v 1.3 2006-12-09 13:01:26 jmaerki Exp $
+ * @version $Id: DataMatrixLogicImpl.java,v 1.4 2006-12-09 15:46:52 jmaerki Exp $
  */
 public class DataMatrixLogicImpl {
 
-    /**
-     * Convert a string of char codewords into a different string which lists each character 
-     * using its decimal value.
-     * @param codewords the codewords 
-     * @return the visualized codewords
-     */
-    public static String visualize(String codewords) {
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < codewords.length(); i++) {
-            if (i > 0) {
-                sb.append(" ");
-            }
-            sb.append((int)codewords.charAt(i));
-        }
-        return sb.toString();
-    }
-    
     /**
      * Generates the barcode logic.
      * @param logic the logic handler to receive generated events
@@ -57,16 +40,6 @@ public class DataMatrixLogicImpl {
         String encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg);
         
         DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length());
-        /*
-        StringBuffer codewords = new StringBuffer(symbolInfo.getCodewordCount());
-        codewords.append(encoded);
-        if (codewords.length() < symbolInfo.dataCapacity) {
-            codewords.append(DataMatrixConstants.PAD);
-        }
-        while (codewords.length() < symbolInfo.dataCapacity) {
-            codewords.append(randomizedPad(DataMatrixConstants.PAD, codewords.length() + 1));
-        }*/
-        //TODO PADDING! Padding correct?
         
         //2. step: ECC generation
         StringBuffer codewords = new StringBuffer(symbolInfo.getCodewordCount());
