@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixLogicImpl.java,v 1.2 2006-12-01 13:31:11 jmaerki Exp $ */
+/* $Id: DataMatrixLogicImpl.java,v 1.3 2006-12-09 13:01:26 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 /**
  * Top-level class for the logic part of the DataMatrix implementation.
  * 
- * @version $Id: DataMatrixLogicImpl.java,v 1.2 2006-12-01 13:31:11 jmaerki Exp $
+ * @version $Id: DataMatrixLogicImpl.java,v 1.3 2006-12-09 13:01:26 jmaerki Exp $
  */
 public class DataMatrixLogicImpl {
 
@@ -44,16 +44,6 @@ public class DataMatrixLogicImpl {
         return sb.toString();
     }
     
-    private char randomizedPad(char pad, int codewordPosition) {
-        int pseudoRandom = ((149 * codewordPosition) % 253) + 1;
-        int tempVariable = pad + pseudoRandom;
-        if (tempVariable <= 254) {
-            return (char)tempVariable;
-        } else {
-            return (char)(tempVariable - 254);
-        }
-    }
-
     /**
      * Generates the barcode logic.
      * @param logic the logic handler to receive generated events
@@ -67,6 +57,7 @@ public class DataMatrixLogicImpl {
         String encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg);
         
         DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length());
+        /*
         StringBuffer codewords = new StringBuffer(symbolInfo.getCodewordCount());
         codewords.append(encoded);
         if (codewords.length() < symbolInfo.dataCapacity) {
@@ -74,12 +65,14 @@ public class DataMatrixLogicImpl {
         }
         while (codewords.length() < symbolInfo.dataCapacity) {
             codewords.append(randomizedPad(DataMatrixConstants.PAD, codewords.length() + 1));
-        }
+        }*/
         //TODO PADDING! Padding correct?
         
         //2. step: ECC generation
+        StringBuffer codewords = new StringBuffer(symbolInfo.getCodewordCount());
         String ecc = DataMatrixErrorCorrection.encodeECC200(
-                codewords.toString(), symbolInfo.errorCodewords);
+                encoded, symbolInfo.errorCodewords);
+        codewords.append(encoded);
         codewords.append(ecc);
 
         //3. step: Module placement in Matrix

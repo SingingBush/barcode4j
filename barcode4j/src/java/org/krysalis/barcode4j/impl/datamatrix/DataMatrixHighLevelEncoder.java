@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.3 2006-12-01 15:22:43 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.4 2006-12-09 13:01:26 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import java.util.Arrays;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  * 
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.3 2006-12-01 15:22:43 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.4 2006-12-09 13:01:26 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
@@ -59,6 +59,16 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         }
     }
     
+    private static char randomizedPad(char pad, int codewordPosition) {
+        int pseudoRandom = ((149 * codewordPosition) % 253) + 1;
+        int tempVariable = pad + pseudoRandom;
+        if (tempVariable <= 254) {
+            return (char)tempVariable;
+        } else {
+            return (char)(tempVariable - 254);
+        }
+    }
+
     /**
      * Performs message encoding of a DataMatrix message using the algorithm described in annex P
      * of ISO/IEC 16022:2000(E).
@@ -68,7 +78,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
     public static String encodeHighLevel(String msg) {
         //the codewords 0..255 are encoded as Unicode characters
         Encoder[] encoders = new Encoder[] {new ASCIIEncoder(), 
-                new C40Encoder(), new TextEncoder()}; 
+                new C40Encoder(), new TextEncoder(), new X12Encoder(), new EdifactEncoder()}; 
         
         int encodingMode = ASCII_ENCODATION; //Default mode
         EncoderContext context = new EncoderContext(msg);
@@ -79,8 +89,22 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 context.resetEncoderSignal();
             }
         }
-        if (encodingMode != ASCII_ENCODATION) {
-            context.writeCodeword('\u00fe'); //Unlatch (254)
+        int len = context.codewords.length();
+        context.updateSymbolInfo();
+        int capacity = context.symbolInfo.dataCapacity;
+        if (len < capacity) {
+            if (encodingMode != ASCII_ENCODATION) {
+                //TODO Only do this when the symbol is not filled up
+                context.writeCodeword('\u00fe'); //Unlatch (254)
+            }
+        }
+        //Padding
+        StringBuffer codewords = context.codewords;
+        if (codewords.length() < capacity) {
+            codewords.append(DataMatrixConstants.PAD);
+        }
+        while (codewords.length() < capacity) {
+            codewords.append(randomizedPad(DataMatrixConstants.PAD, codewords.length() + 1));
         }
         
         return context.codewords.toString();
@@ -92,6 +116,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         private StringBuffer codewords;
         private int pos = 0;
         private int newEncoding = -1;
+        private DataMatrixSymbolInfo symbolInfo;
         
         public EncoderContext(String msg) {
             this.msg = msg;
@@ -110,6 +135,10 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             this.codewords.append(codeword);
         }
         
+        public int getCodewordCount() {
+            return this.codewords.length();
+        }
+        
         public void signalEncoderChange(int encoding) {
             this.newEncoding = encoding;
         }
@@ -120,6 +149,17 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
         public boolean hasMoreCharacters() {
             return pos < msg.length();
+        }
+        
+        public int getRemainingCharacters() {
+            return msg.length() - pos;
+        }
+        
+        public void updateSymbolInfo() {
+            int len = codewords.length();
+            if (this.symbolInfo == null || len > this.symbolInfo.dataCapacity) {
+                this.symbolInfo = DataMatrixSymbolInfo.lookup(len);
+            }
         }
     }
     
@@ -214,6 +254,15 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 }
                 context.pos++;
             }
+            handleEOD(context, buffer);
+        }
+
+        /**
+         * Handle "end of data" situations
+         * @param context the encoder context
+         * @param buffer the buffer with the remaining encoded characters
+         */
+        protected void handleEOD(EncoderContext context, StringBuffer buffer) {
             int count = buffer.length();
             if (count == 2) {
                 buffer.append('\0'); //Shift 1
@@ -225,7 +274,6 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 context.pos--;
                 context.signalEncoderChange(ASCII_ENCODATION);
             }
-            
         }
         
         protected void encodeChar(char c, StringBuffer sb) {
@@ -312,6 +360,152 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             }
         }
         
+    }
+    
+    private static class X12Encoder extends C40Encoder {
+        
+        public int getEncodingMode() {
+            return X12_ENCODATION;
+        }
+        
+        protected void encodeChar(char c, StringBuffer sb) {
+            if (c == '\r') {
+                sb.append('\0');
+            } else if (c == '*') {
+                sb.append('\1');
+            } else if (c == '>') {
+                sb.append('\2');
+            } else if (c == ' ') {
+                sb.append('\3');
+            } else if (c >= '0' && c <= '9') {
+                sb.append((char)(c - 48 + 4));
+            } else if (c >= 'A' && c <= 'Z') {
+                sb.append((char)(c - 65 + 14));
+            } else {
+                throw new IllegalArgumentException("Illegal character: " + c);
+            }
+        }
+        
+        protected void handleEOD(EncoderContext context, StringBuffer buffer) {
+            context.updateSymbolInfo();
+            int available = context.symbolInfo.dataCapacity - context.getCodewordCount();
+            int remaining = context.getRemainingCharacters(); 
+            int count = buffer.length();
+            if (count == 2) {
+                context.writeCodeword(C40_UNLATCH);
+                context.pos -= 2;
+                context.signalEncoderChange(ASCII_ENCODATION);
+            } else if (count == 1) {
+                context.pos--;
+                if (available > 1) {
+                    context.writeCodeword(C40_UNLATCH);
+                } else {
+                    //NOP - No unlatch necessary
+                }
+                context.signalEncoderChange(ASCII_ENCODATION);
+            }
+        }
+    }
+    
+    private static class EdifactEncoder implements Encoder {
+        
+        public int getEncodingMode() {
+            return EDIFACT_ENCODATION;
+        }
+        
+        public void encode(EncoderContext context) {
+            //step C
+            StringBuffer buffer = new StringBuffer();
+            while (context.hasMoreCharacters()) {
+                char c = context.getCurrentChar();
+                encodeChar(c, buffer);
+                int count = buffer.length(); 
+                if (count >= 4) {
+                    context.writeCodewords(encodeToCodewords(buffer, 0));
+                    buffer.delete(0, 4);
+                    
+                    int newMode = lookAheadTest(context.msg, context.pos, getEncodingMode());
+                    if (newMode != getEncodingMode()) {
+                        context.signalEncoderChange(newMode);
+                    }
+                }
+                context.pos++;
+            }
+            buffer.append((char)31); //Unlatch
+            handleEOD(context, buffer);
+        }
+
+        /**
+         * Handle "end of data" situations
+         * @param context the encoder context
+         * @param buffer the buffer with the remaining encoded characters
+         */
+        protected void handleEOD(EncoderContext context, StringBuffer buffer) {
+            try {
+                int count = buffer.length();
+                if (count == 0) {
+                    return; //Already finished
+                } else if (count == 1) {
+                    //Only an unlatch at the end
+                    context.updateSymbolInfo();
+                    int available = context.symbolInfo.dataCapacity - context.getCodewordCount();
+                    int remaining = context.getRemainingCharacters();
+                    if (remaining == 0 && available <= 2) {
+                        return; //No unlatch
+                    }
+                }
+
+                if (count > 4) {
+                    throw new IllegalStateException("Count must not exceed 4");
+                }
+                int restChars = buffer.length() - 1;
+                context.updateSymbolInfo();
+                int available = context.symbolInfo.dataCapacity - context.getCodewordCount();
+                if (restChars <= available && available <= 2) {
+                    context.pos -= buffer.length() - 1;
+                } else {
+                    context.writeCodewords(encodeToCodewords(buffer, 0));
+                }
+            } finally {
+                context.signalEncoderChange(ASCII_ENCODATION);
+            }    
+        }
+        
+        protected void encodeChar(char c, StringBuffer sb) {
+            if (c >= ' ' && c <= '?') {
+                sb.append(c);
+            } else if (c >= '@' && c <= '^') {
+                sb.append((char)(c - 64));
+            } else {
+                throw new IllegalArgumentException("Illegal character: " + c);
+            }
+        }
+        
+        protected String encodeToCodewords(StringBuffer sb, int startPos) {
+            int len = sb.length() - startPos;
+            if (len == 0) {
+                throw new IllegalStateException("StringBuffer must not be empty");
+            }
+            char c1 = sb.charAt(startPos);
+            char c2 = (len >= 2 ? sb.charAt(startPos + 1) : 0);
+            char c3 = (len >= 3 ? sb.charAt(startPos + 2) : 0);
+            char c4 = (len >= 4 ? sb.charAt(startPos + 3) : 0);
+            
+            int v = (c1 << 18) + (c2 << 12) + (c3 << 6) + c4;
+            char cw1 = (char)((v >> 16) & 255);
+            char cw2 = (char)((v >> 8) & 255);
+            char cw3 = (char)(v & 255);
+            StringBuffer res = new StringBuffer(3);
+            res.append(cw1);
+            if (len >= 2) {
+                res.append(cw2);
+            }
+            if (len >= 3) {
+                res.append(cw3);
+            }
+            return res.toString(); 
+        }
+
     }
     
     private static char encodeASCIIDigits(char digit1, char digit2) {
