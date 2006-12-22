@@ -26,7 +26,7 @@ import org.krysalis.barcode4j.tools.Length;
  * Implements the Royal Mail Customer Barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: RoyalMailCBC.java,v 1.1 2006-11-07 16:50:36 jmaerki Exp $
+ * @version $Id: RoyalMailCBC.java,v 1.2 2006-12-22 15:55:45 jmaerki Exp $
  */
 public class RoyalMailCBC extends ConfigurableBarcodeGenerator 
             implements Configurable {
@@ -41,7 +41,7 @@ public class RoyalMailCBC extends ConfigurableBarcodeGenerator
      */
     public void configure(Configuration cfg) throws ConfigurationException {
         //Module width (MUST ALWAYS BE FIRST BECAUSE QUIET ZONE MAY DEPEND ON IT)
-        Length mw = new Length(cfg.getChild("module-width").getValue("0.4mm"), "mm");
+        Length mw = new Length(cfg.getChild("module-width").getValue("0.53mm"), "mm");
         getRoyalMailCBCBean().setModuleWidth(mw.getValueAsMillimeter());
 
         super.configure(cfg);
