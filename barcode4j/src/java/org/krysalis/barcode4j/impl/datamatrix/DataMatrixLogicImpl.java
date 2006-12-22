@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixLogicImpl.java,v 1.4 2006-12-09 15:46:52 jmaerki Exp $ */
+/* $Id: DataMatrixLogicImpl.java,v 1.5 2006-12-22 15:58:27 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -23,10 +23,12 @@ import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 /**
  * Top-level class for the logic part of the DataMatrix implementation.
  * 
- * @version $Id: DataMatrixLogicImpl.java,v 1.4 2006-12-09 15:46:52 jmaerki Exp $
+ * @version $Id: DataMatrixLogicImpl.java,v 1.5 2006-12-22 15:58:27 jmaerki Exp $
  */
 public class DataMatrixLogicImpl {
 
+    private static final boolean DEBUG = true;
+    
     /**
      * Generates the barcode logic.
      * @param logic the logic handler to receive generated events
@@ -40,17 +42,16 @@ public class DataMatrixLogicImpl {
         String encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg);
         
         DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length());
+        if (DEBUG) System.out.println(symbolInfo);
         
         //2. step: ECC generation
-        StringBuffer codewords = new StringBuffer(symbolInfo.getCodewordCount());
-        String ecc = DataMatrixErrorCorrection.encodeECC200(
-                encoded, symbolInfo.errorCodewords);
-        codewords.append(encoded);
-        codewords.append(ecc);
+        String codewords = DataMatrixErrorCorrection.encodeECC200(
+                encoded, symbolInfo);
 
         //3. step: Module placement in Matrix
         DefaultDataMatrixPlacement placement = new DefaultDataMatrixPlacement(
-                    codewords.toString(), symbolInfo.matrixWidth, symbolInfo.matrixHeight);
+                    codewords, 
+                    symbolInfo.getSymbolDataWidth(), symbolInfo.getSymbolDataHeight());
         placement.place();
         
         //4. step: low-level encoding
@@ -61,28 +62,35 @@ public class DataMatrixLogicImpl {
 
     private void encodeLowLevel(TwoDimBarcodeLogicHandler logic, 
             DataMatrixPlacement placement, DataMatrixSymbolInfo symbolInfo) {
-        if (symbolInfo.dataRegions > 1) {
-            throw new UnsupportedOperationException("Handling of multiple data regions NYI");
-        }
-        logic.startRow();
-        for (int x = 0; x < symbolInfo.matrixWidth + 2; x++) {
-            logic.addBar((x % 2) == 0, 1);
-        }
-        logic.endRow();
-        for (int y = 0; y < symbolInfo.matrixHeight; y++) {
-            logic.startRow();
-            logic.addBar(true, 1); //left finder edge
-            for (int x = 0; x < symbolInfo.matrixWidth; x++) {
-                logic.addBar(placement.getBit(x, y), 1);
+        int symbolWidth = symbolInfo.getSymbolDataWidth();
+        int symbolHeight = symbolInfo.getSymbolDataHeight();
+        for (int y = 0; y < symbolHeight; y++) {
+            if ((y % symbolInfo.matrixHeight) == 0) {
+                logic.startRow();
+                for (int x = 0; x < symbolInfo.getSymbolWidth(); x++) {
+                    logic.addBar((x % 2) == 0, 1);
+                }
+                logic.endRow();
             }
-            logic.addBar((y % 2) == 0, 1); //right finder edge
+            logic.startRow();
+            for (int x = 0; x < symbolWidth; x++) {
+                if ((x % symbolInfo.matrixWidth) == 0) {
+                    logic.addBar(true, 1); //left finder edge
+                }
+                logic.addBar(placement.getBit(x, y), 1);
+                if ((x % symbolInfo.matrixWidth) == symbolInfo.matrixWidth - 1) {
+                    logic.addBar((y % 2) == 0, 1); //right finder edge
+                }
+            }
             logic.endRow();
+            if ((y % symbolInfo.matrixHeight) == symbolInfo.matrixHeight - 1) {
+                logic.startRow();
+                for (int x = 0; x < symbolInfo.getSymbolWidth(); x++) {
+                    logic.addBar(true, 1);
+                }
+                logic.endRow();
+            }
         }
-        logic.startRow();
-        for (int x = 0; x < symbolInfo.matrixWidth + 2; x++) {
-            logic.addBar(true, 1);
-        }
-        logic.endRow();
     }
     
 }

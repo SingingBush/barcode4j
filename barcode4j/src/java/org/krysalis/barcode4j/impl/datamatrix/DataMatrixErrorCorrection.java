@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixErrorCorrection.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $ */
+/* $Id: DataMatrixErrorCorrection.java,v 1.2 2006-12-22 15:58:27 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
 /**
  * Error Correction Code for ECC200.
  * 
- * @version $Id: DataMatrixErrorCorrection.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $
+ * @version $Id: DataMatrixErrorCorrection.java,v 1.2 2006-12-22 15:58:27 jmaerki Exp $
  */
 public class DataMatrixErrorCorrection implements DataMatrixReedSolomonFactors {
 
@@ -46,7 +46,57 @@ public class DataMatrixErrorCorrection implements DataMatrixReedSolomonFactors {
         }
     }
     
-    public static String encodeECC200(String codewords, int numECWords) {
+    /**
+     * Creates the ECC200 error correction for an encoded message.
+     * @param codewords the codewords
+     * @param symbolInfo information about the symbol to be encoded
+     * @return the codewords with interleaved error correction.
+     */
+    public static String encodeECC200(String codewords, DataMatrixSymbolInfo symbolInfo) {
+        if (codewords.length() != symbolInfo.dataCapacity) {
+            throw new IllegalArgumentException(
+                    "The number of codewords does not match the selected symbol");
+        }
+        StringBuffer sb = new StringBuffer(symbolInfo.dataCapacity + symbolInfo.errorCodewords);
+        sb.append(codewords);
+        int blockCount = symbolInfo.getInterleavedBlockCount();
+        if (blockCount == 1) {
+            String ecc = createECCBlock(codewords, symbolInfo.errorCodewords);
+            sb.append(ecc);
+        } else {
+            sb.setLength(sb.capacity());
+            int[] dataSizes = new int[blockCount];
+            int[] errorSizes = new int[blockCount];
+            int[] startPos = new int[blockCount];
+            for (int i = 0; i < blockCount; i++) {
+                dataSizes[i] = symbolInfo.getDataLengthForInterleavedBlock(i + 1);
+                errorSizes[i] = symbolInfo.getErrorLengthForInterleavedBlock(i + 1);
+                startPos[i] = 0;
+                if (i > 0) {
+                    startPos[i] = startPos[i - 1] + dataSizes[i];
+                }
+            }
+            for (int block = 0; block < blockCount; block++) {
+                StringBuffer temp = new StringBuffer(dataSizes[block]);
+                for (int d = block; d < symbolInfo.dataCapacity; d += blockCount) {
+                    temp.append(codewords.charAt(d));
+                }
+                String ecc = createECCBlock(temp.toString(), errorSizes[block]);
+                int pos = 0;
+                for (int e = block; e < errorSizes[block] * blockCount; e += blockCount) {
+                    sb.setCharAt(symbolInfo.dataCapacity + e, ecc.charAt(pos++));
+                }
+            }
+        }
+        return sb.toString();
+        
+    }
+
+    private static String createECCBlock(String codewords, int numECWords) {
+        return createECCBlock(codewords, 0, codewords.length(), numECWords);
+    }
+    
+    private static String createECCBlock(String codewords, int start, int len, int numECWords) {
         int table = -1;
         for (int i = 0; i < FACTOR_SETS.length; i++) {
             if (FACTOR_SETS[i] == numECWords) {
@@ -63,7 +113,7 @@ public class DataMatrixErrorCorrection implements DataMatrixReedSolomonFactors {
         for (int i = 0; i < numECWords; i++) {
             ecc[i] = 0;
         }
-        for (int i = 0, c = codewords.length(); i < c; i++) {
+        for (int i = start; i < start + len; i++) {
             int m = ecc[numECWords - 1] ^ codewords.charAt(i);
             for (int k = numECWords - 1; k > 0; k--) {
                 if (m != 0 && poly[k] != 0) {
@@ -83,7 +133,6 @@ public class DataMatrixErrorCorrection implements DataMatrixReedSolomonFactors {
             eccReversed[i] = ecc[numECWords - i - 1]; 
         }
         return String.valueOf(eccReversed);
-        
     }
     
 }

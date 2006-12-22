@@ -26,12 +26,12 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * This class is an implementation of DataMatrix (ISO 16022:2000(E)).
  * 
- * @version $Id: DataMatrixBean.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $
+ * @version $Id: DataMatrixBean.java,v 1.2 2006-12-22 15:58:27 jmaerki Exp $
  */
 public class DataMatrixBean extends AbstractBarcodeBean {
 
     /** The default module width (dot size) for DataMatrix. */
-    protected static final double DEFAULT_MODULE_WIDTH = UnitConv.in2mm(2.0 / 72); //2px at 72dpi
+    protected static final double DEFAULT_MODULE_WIDTH = UnitConv.in2mm(1.0 / 72); //2px at 72dpi
 
     /** Create a new instance. */
     public DataMatrixBean() {
@@ -63,8 +63,8 @@ public class DataMatrixBean extends AbstractBarcodeBean {
         String encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg);
         DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length());
         
-        double width = (symbolInfo.matrixWidth + 2) * getModuleWidth();
-        double height = (symbolInfo.matrixHeight + 2) * getBarHeight(); 
+        double width = symbolInfo.getSymbolWidth() * getModuleWidth();
+        double height = symbolInfo.getSymbolHeight() * getBarHeight(); 
         double qzh = (hasQuietZone() ? getQuietZone() : 0);        
         double qzv = (hasQuietZone() ? getVerticalQuietZone() : 0);        
         return new BarcodeDimension(width, height, 
