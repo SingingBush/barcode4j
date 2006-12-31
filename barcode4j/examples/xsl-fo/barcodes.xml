@@ -21,13 +21,13 @@
       <msg>0123456789</msg>
       <code128/>
     </barcode>
-    <!--barcode>
-      <description>EAN 128</description>
+    <barcode>
+      <description>EAN-128</description>
       <msg>010123456789012&#xF0;100123456789&#xF1;15041220</msg>
       <ean128>
         <quiet-zone>1cm</quiet-zone>
       </ean128>
-    </barcode-->
+    </barcode>
     <barcode>
       <description>Codabar</description>
       <msg>0123456789</msg>
@@ -157,7 +157,7 @@
         <quiet-zone>1cm</quiet-zone>
       </ean-13>
     </barcode>
-    <!--barcode>
+    <barcode>
       <description>Ean 128 (with extention for USPS Confirmation Service. 
       I do not realy know what this is good for but according to the specification 
       it should be usable)</description>
@@ -171,7 +171,7 @@
 	              <omit-brackets>true</omit-brackets>
 	          </human-readable>
       </ean128>
-    </barcode-->
+    </barcode>
     <barcode>
       <description>Code 39 (default)</description>
       <msg>0123456789</msg>

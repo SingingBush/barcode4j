@@ -21,7 +21,7 @@ import java.util.Map;
  * This is a simple implementation of a BarcodeClassResolver.
  * 
  * @author Jeremias Maerki
- * @version $Id: DefaultBarcodeClassResolver.java,v 1.8 2006-11-27 09:00:45 jmaerki Exp $
+ * @version $Id: DefaultBarcodeClassResolver.java,v 1.9 2006-12-31 16:48:18 buerkle Exp $
  */
 public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
 
@@ -36,6 +36,8 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
         registerBarcodeClass("codabar", "org.krysalis.barcode4j.impl.codabar.Codabar");
         registerBarcodeClass("code39", "org.krysalis.barcode4j.impl.code39.Code39");
         registerBarcodeClass("code128", "org.krysalis.barcode4j.impl.code128.Code128");
+        registerBarcodeClass("ean-128", "org.krysalis.barcode4j.impl.code128.EAN128");
+        registerBarcodeClass("ean128", "org.krysalis.barcode4j.impl.code128.EAN128");
         registerBarcodeClass("2of5", "org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5");
         registerBarcodeClass("intl2of5", "org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5");
         registerBarcodeClass("interleaved2of5", 

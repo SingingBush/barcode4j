@@ -102,7 +102,7 @@
             <p>
               <select name="type">
                 <%
-                final String[] BARCODES = new String[] {"code128", "code39", "codabar", "ean-13", "ean-8", "intl2of5", "upc-a", "upc-e", "postnet", "pdf417"};
+                final String[] BARCODES = new String[] {"code128", "ean-128", "code39", "codabar", "ean-13", "ean-8", "intl2of5", "upc-a", "upc-e", "postnet", "pdf417"};
                 for (int i = 0; i < BARCODES.length; i++) {
                     out.print("<option");
                     if (BARCODES[i].equals(bcrequest.getType())) {

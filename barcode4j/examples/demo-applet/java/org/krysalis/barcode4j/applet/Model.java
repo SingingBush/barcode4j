@@ -59,6 +59,7 @@ public class Model {
         if (msg == null) {
             throw new NullPointerException("Parameter msg must not be null");
         }
+        msg = EscapeHandler.parseEscapes(msg);
         if (!this.msg.equals(msg)) {
             this.msg = msg;
             fireValueChanged();

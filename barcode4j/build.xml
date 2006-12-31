@@ -210,6 +210,11 @@
     <javac srcdir="${src.java.dir}" destdir="${build.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
       <classpath refid="project.classpath"/>
     </javac>
+	<copy todir="${build.dest}" >
+		<fileset dir="${src.java.dir}" casesensitive="yes">
+		  <include name="org/krysalis/barcode4j/impl/code128/*.properties"/>
+		</fileset>
+	</copy>
   </target>
   <target name="compile-jdk14" depends="prepare" if="jdk14.present">
     <echo message="Compiling the JDK-1.4-dependant sources"/>

@@ -44,7 +44,7 @@ public class DemoApplet extends Applet
             BarcodeErrorListener {
 
     private static final String[] BARCODE_TYPES = 
-        {"codabar", "code39", "code128", "2of5", "postnet", 
+        {"codabar", "code39", "code128", "2of5", "postnet", "ean-128", 
             "ean-13", "ean-8", "upc-a", "upc-e", "royal-mail-cbc", "pdf417", "datamatrix"};
 
     //Controller part
