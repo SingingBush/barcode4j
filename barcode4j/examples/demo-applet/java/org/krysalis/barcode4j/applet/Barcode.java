@@ -25,6 +25,8 @@ import java.awt.Graphics2D;
  */
 public class Barcode extends AbstractBarcode {
 
+    private static final boolean DEBUG = false;
+    
     private static final Color boundingRectCol = new Color(240, 240, 240);
     private static final Color contentRectCol = new Color(255, 220, 220);
     
@@ -44,12 +46,14 @@ public class Barcode extends AbstractBarcode {
             }
             g2d.scale(scale, scale); //scale for mm to screen pixels
             g2d.translate(dx, dy); //center
-            Color bakCol = g2d.getColor();
-            g2d.setColor(boundingRectCol);
-            g2d.fill(getBarcodeDimension().getBoundingRect());
-            g2d.setColor(contentRectCol);
-            g2d.fill(getBarcodeDimension().getContentRect());
-            g2d.setColor(bakCol);
+            if (DEBUG) {
+                Color bakCol = g2d.getColor();
+                g2d.setColor(boundingRectCol);
+                g2d.fill(getBarcodeDimension().getBoundingRect());
+                g2d.setColor(contentRectCol);
+                g2d.fill(getBarcodeDimension().getContentRect());
+                g2d.setColor(bakCol);
+            }
         }
     }
     
