@@ -130,7 +130,13 @@ public class EAN128Bean extends Code128Bean {
 
     /**
      * Sets the message template with the fields for the EAN message.
-     * @param string
+     * <p>
+     * The format of the templates here is a repeating set of AI number (in brackets)
+     * followed by a field description. The allowed data types are "n" (numeric), 
+     * "an" (alpha-numeric), "d" (date) and "cd" (check digit). Examples: "n13" defines a numeric
+     * field with exactly 13 digits. "n13+cd" defines a numeric field with exactly 13 digits plus
+     * a check digit. "an1-9" defines an alpha-numeric field with 1 to 9 characters.
+     * @param string a template like "(01)n13+cd(421)n3+an1-9(10)an1-20"
      */
     public void setTemplate(String string) {
         template = string;
@@ -138,14 +144,15 @@ public class EAN128Bean extends Code128Bean {
     }
 
     /**
-     * @return
+     * @return the character used as the check digit marker.
      */
     public char getCheckDigitMarker() {
         return checkDigitMarker;
     }
 
     /**
-     * @param c
+     * Sets the character that will be used as the check digit marker.
+     * @param c the character for the check digit marker
      */
     public void setCheckDigitMarker(char c) {
         checkDigitMarker = c;
@@ -160,6 +167,7 @@ public class EAN128Bean extends Code128Bean {
     }
 
     /**
+     * Indicates whether brackets should be used in the human-readable part around the AIs.
      * @param b true if the brackets in the human-readable part should be omitted
      */
     public void setOmitBrackets(boolean b) {
