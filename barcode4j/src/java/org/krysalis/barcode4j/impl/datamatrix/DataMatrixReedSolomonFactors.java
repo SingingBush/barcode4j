@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixReedSolomonFactors.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $ */
+/* $Id: DataMatrixReedSolomonFactors.java,v 1.2 2007-01-04 08:06:56 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
 /**
  * Precomputed factor tables for all the different variants in ECC200. 
  *
- * @version $Id: DataMatrixReedSolomonFactors.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $
+ * @version $Id: DataMatrixReedSolomonFactors.java,v 1.2 2007-01-04 08:06:56 jmaerki Exp $
  */
 public interface DataMatrixReedSolomonFactors {
 
@@ -29,13 +29,13 @@ public interface DataMatrixReedSolomonFactors {
      * Lookup table which factors to use for which number of error correction codewords.
      * See FACTORS.
      */
-    public static final int[] FACTOR_SETS
+    int[] FACTOR_SETS
                    = new int[] {5, 7, 10, 11, 12, 14, 18, 20, 24, 28, 36, 42, 48, 56, 62, 68}; 
     
     /**
      * Precomputed polynomial factors for ECC 200.
      */
-    public static final int[][] FACTORS = new int[][] {
+    int[][] FACTORS = new int[][] {
     {228, 48, 15, 111, 62},
 
     {23, 68, 144, 134, 240, 92, 254},

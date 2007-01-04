@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Jeremias Maerki.
+ * Copyright 2006 Jeremias Maerki
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixSymbolInfo.java,v 1.2 2006-12-22 15:58:27 jmaerki Exp $ */
+/* $Id: DataMatrixSymbolInfo.java,v 1.3 2007-01-04 08:06:56 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
 /**
  * Symbol info table for DataMatrix. 
  *
- * @version $Id: DataMatrixSymbolInfo.java,v 1.2 2006-12-22 15:58:27 jmaerki Exp $
+ * @version $Id: DataMatrixSymbolInfo.java,v 1.3 2007-01-04 08:06:56 jmaerki Exp $
  */
 public class DataMatrixSymbolInfo {
 

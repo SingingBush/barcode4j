@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixLogicImpl.java,v 1.5 2006-12-22 15:58:27 jmaerki Exp $ */
+/* $Id: DataMatrixLogicImpl.java,v 1.6 2007-01-04 08:06:56 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 /**
  * Top-level class for the logic part of the DataMatrix implementation.
  * 
- * @version $Id: DataMatrixLogicImpl.java,v 1.5 2006-12-22 15:58:27 jmaerki Exp $
+ * @version $Id: DataMatrixLogicImpl.java,v 1.6 2007-01-04 08:06:56 jmaerki Exp $
  */
 public class DataMatrixLogicImpl {
 
@@ -33,7 +33,6 @@ public class DataMatrixLogicImpl {
      * Generates the barcode logic.
      * @param logic the logic handler to receive generated events
      * @param msg the message to encode
-     * @param cols the number of columns
      */
     public void generateBarcodeLogic(TwoDimBarcodeLogicHandler logic, String msg) {
 

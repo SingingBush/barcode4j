@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.7 2006-12-22 15:58:27 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.8 2007-01-04 08:06:56 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import java.util.Arrays;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  * 
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.7 2006-12-22 15:58:27 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.8 2007-01-04 08:06:56 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
@@ -911,29 +911,29 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         }
     }
     
-    private static final boolean isExtendedASCII(char ch) {
+    private static boolean isExtendedASCII(char ch) {
         return (EXTENDED_ASCII.indexOf(ch) >= 0); 
     }
     
-    private static final boolean isASCII7(char ch) {
-        return (ch >= 0 && ch <=127);
+    private static boolean isASCII7(char ch) {
+        return (ch >= 0 && ch <= 127);
     }
     
-    private static final boolean isNativeC40(char ch) {
+    private static boolean isNativeC40(char ch) {
         //return isASCII7(ch);
         return (ch == 32)
                 || (ch >= 48 && ch <= 57) //0..9
                 || (ch >= 65 && ch <= 90); //A..Z
     }
     
-    private static final boolean isNativeText(char ch) {
+    private static boolean isNativeText(char ch) {
         //return isASCII7(ch);
         return (ch == 32)
         || (ch >= 48 && ch <= 57) //0..9
         || (ch >= 97 && ch <= 122); //a..z
     }
     
-    private static final boolean isNativeX12(char ch) {
+    private static boolean isNativeX12(char ch) {
         return isX12TermSep(ch)
                 || (ch == 32) //SPACE
                 || (ch >= 48 && ch <= 57)
@@ -946,11 +946,11 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 || (ch == 62); //">"
     }
 
-    private static final boolean isNativeEDIFACT(char ch) {
+    private static boolean isNativeEDIFACT(char ch) {
         return (ch >= 32 && ch <= 94);
     }
     
-    private static final boolean isSpecialB256(char ch) {
+    private static boolean isSpecialB256(char ch) {
         return false; //TODO NOT IMPLEMENTED YET!!!
     }
     
