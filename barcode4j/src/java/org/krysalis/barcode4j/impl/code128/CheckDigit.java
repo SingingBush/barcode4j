@@ -18,41 +18,41 @@ package org.krysalis.barcode4j.impl.code128;
 
 public class CheckDigit {
 
-	public final static byte CDNone = 0;
-	public final static byte CD31 = 1;
-	public final static byte CD11 = 2;
+    public final static byte CDNone = 0;
+    public final static byte CD31 = 1;
+    public final static byte CD11 = 2;
 
-	public static char calcCheckdigit(String msg, int start, int end, byte type) {
-		switch (type) {
-			case CD31 :	return calcCheckdigit(3, 1, msg, start, end);
-			case CD11 :	return calcCheckdigit(1, 1, msg, start, end);
-			default : return '0';
-		}
-	}
+    public static char calcCheckdigit(String msg, int start, int end, byte type) {
+        switch (type) {
+            case CD31 :    return calcCheckdigit(3, 1, msg, start, end);
+            case CD11 :    return calcCheckdigit(1, 1, msg, start, end);
+            default : return '0';
+        }
+    }
 
-	public static char calcCheckdigit31(String msg, int start, int end) {
-		return calcCheckdigit(3, 1, msg, start, end);
-	}
+    public static char calcCheckdigit31(String msg, int start, int end) {
+        return calcCheckdigit(3, 1, msg, start, end);
+    }
 
-	public static char calcCheckdigit11(String msg, int start, int end) {
-		return calcCheckdigit(1, 1, msg, start, end);
-	}
-	
-	public static char calcCheckdigit(int oddMult, int evenMult, String msg, int start, int end) {
-		int oddSum = 0;
-		int evenSum = 0;
-		boolean even = false; 
-		for (int i = end - 1 ; i >= start; i--) {
-			if (even) {
-				evenSum += Character.digit(msg.charAt(i), 10);
-			} else {
-				oddSum += Character.digit(msg.charAt(i), 10);
-			}
-			even = !even;
-		}
-		int check = 10 - ((evenMult * evenSum + oddMult * oddSum) % 10);
-		if (check >= 10) check = 0;
-		return Character.forDigit(check, 10);
-	}
+    public static char calcCheckdigit11(String msg, int start, int end) {
+        return calcCheckdigit(1, 1, msg, start, end);
+    }
+    
+    public static char calcCheckdigit(int oddMult, int evenMult, String msg, int start, int end) {
+        int oddSum = 0;
+        int evenSum = 0;
+        boolean even = false; 
+        for (int i = end - 1; i >= start; i--) {
+            if (even) {
+                evenSum += Character.digit(msg.charAt(i), 10);
+            } else {
+                oddSum += Character.digit(msg.charAt(i), 10);
+            }
+            even = !even;
+        }
+        int check = 10 - ((evenMult * evenSum + oddMult * oddSum) % 10);
+        if (check >= 10) check = 0;
+        return Character.forDigit(check, 10);
+    }
 
 }

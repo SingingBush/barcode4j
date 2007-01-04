@@ -55,20 +55,29 @@ public class EAN128 extends Code128
         //Checksum mode        
         getEAN128Bean().setChecksumMode(ChecksumMode.byName(
             cfg.getChild("checksum").getValue(ChecksumMode.CP_AUTO.getName())));
-		//Checkdigit place holder
-		getEAN128Bean().setCheckDigitMarker(cfg.getChild("check-digit-marker").getValue("\u00f0"));
-		//Template
-		getEAN128Bean().setTemplate(cfg.getChild("template").getValue(""));
-		//group seperator aka FNC_1 
-		getEAN128Bean().setGroupSeparator(cfg.getChild("group-separator").getValue("\u00f1"));
+        //Checkdigit place holder
+        getEAN128Bean().setCheckDigitMarker(getFirstChar(
+                cfg.getChild("check-digit-marker").getValue("\u00f0")));
+        //Template
+        getEAN128Bean().setTemplate(cfg.getChild("template").getValue(""));
+        //group seperator aka FNC_1 
+        getEAN128Bean().setGroupSeparator(getFirstChar(
+                cfg.getChild("group-separator").getValue("\u00f1")));
 
-		Configuration hr = cfg.getChild("human-readable", false);
-		if (hr != null) {
-			//omit Brackets for AI
-			getEAN128Bean().setOmitBrackets(
-					hr.getChild("omit-brackets").getValueAsBoolean(false));
-		}
+        Configuration hr = cfg.getChild("human-readable", false);
+        if (hr != null) {
+            //omit Brackets for AI
+            getEAN128Bean().setOmitBrackets(
+                    hr.getChild("omit-brackets").getValueAsBoolean(false));
+        }
     }
     
-    
+    private char getFirstChar(String s) {
+        s = s.trim();
+        if (s != null && s.length() > 0) {
+            return s.charAt(0);
+        } else {
+            throw new IllegalArgumentException("Value must have at least one character");
+        }
+    }
 }

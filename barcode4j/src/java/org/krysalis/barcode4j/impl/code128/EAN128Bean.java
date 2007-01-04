@@ -16,7 +16,6 @@
  */
 package org.krysalis.barcode4j.impl.code128;
 
-
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -31,19 +30,23 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  */
 public class EAN128Bean extends Code128Bean {
 
-	private EAN128LogicImpl impl;
+    /** Defines the default group separator character */
+    public static final char DEFAULT_GROUP_SEPARATOR = '\u001D'; //ASCII: GS
+    /** Defines the default character for the check digit marker */
+    public static final char DEFAULT_CHECK_DIGIT_MARKER = '\u00F0';
+
+    private EAN128LogicImpl impl;
+
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
-	private String template = null;
-	public final static char defaultGroupSeparator = '\u001D';
-	private char groupSeparator = defaultGroupSeparator; //GroupSeperator not Code128LogicImpl.FNC_1; 
-	public final static char defaultCheckDigitMarker = '\u00F0';
-	private char checkDigitMarker = defaultCheckDigitMarker; 
-	private boolean omitBrackets = false;
+    private String template = null;
+    private char groupSeparator = DEFAULT_GROUP_SEPARATOR; //GroupSeperator not Code128LogicImpl.FNC_1; 
+    private char checkDigitMarker = DEFAULT_CHECK_DIGIT_MARKER; 
+    private boolean omitBrackets = false;
 
     /** Create a new instance. */
     public EAN128Bean() {
         this.moduleWidth = DEFAULT_MODULE_WIDTH;
-		impl = new EAN128LogicImpl(checksumMode, template, groupSeparator);//TODO ???? checkDigitMarker, omitBrackets  
+        impl = new EAN128LogicImpl(checksumMode, template, groupSeparator);
     }
     
     /**
@@ -74,6 +77,7 @@ public class EAN128Bean extends Code128Bean {
         
         impl.generateBarcodeLogic(handler, msg);
     }
+    
     /**
      * Sets the checksum mode
      * @param mode the checksum mode
@@ -92,93 +96,74 @@ public class EAN128Bean extends Code128Bean {
     }
 
 
-	/**
-	 * @return
-	 */
-	public char getGroupSeparator() {
-		return groupSeparator;
-	}
+    /**
+     * @return the group separator character
+     */
+    public char getGroupSeparator() {
+        return groupSeparator;
+    }
 
-	/**
-	 * @return
-	 */
-	public EAN128LogicImpl getImpl() {
-		return impl;
-	}
+    /**
+     * Sets the group separator character. Normally, either ASCII GS or 0xF1 is used.
+     * @param c the group separator character.
+     */
+    public void setGroupSeparator(char c) {
+        groupSeparator = c;
+        impl.setGroupSeparator(c);
+    }
+    
+    /*
+    public EAN128LogicImpl getImpl() {
+        return impl;
+    }
 
-	/**
-	 * @return
-	 */
-	public String getTemplate() {
-		return template;
-	}
+    public void setImpl(EAN128LogicImpl impl) {
+        this.impl = impl;
+    }*/
 
-	/**
-	 * @param c
-	 */
-	public void setGroupSeparator(char c) {
-		groupSeparator = c;
-		impl.setGroupSeparator(c);
-	}
-	public void setGroupSeparator(String s) {
-		if (s != null && s.length()>0){
-			if (s.length() > 1)
-				s = s.trim();
-			setGroupSeparator(s.charAt(0));
-		}
-		//TODO Error if not as single char
-	}
+    /**
+     * @return the message template with the fields for the EAN message
+     */
+    public String getTemplate() {
+        return template;
+    }
 
-	/**
-	 * @param impl
-	 */
-	public void setImpl(EAN128LogicImpl impl) {
-		this.impl = impl;
-	}
+    /**
+     * Sets the message template with the fields for the EAN message.
+     * @param string
+     */
+    public void setTemplate(String string) {
+        template = string;
+        impl.setTemplate(string);
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setTemplate(String string) {
-		template = string;
-		impl.setTemplate(string);
-	}
+    /**
+     * @return
+     */
+    public char getCheckDigitMarker() {
+        return checkDigitMarker;
+    }
 
-	/**
-	 * @return
-	 */
-	public char getCheckDigitMarker() {
-		return checkDigitMarker;
-	}
+    /**
+     * @param c
+     */
+    public void setCheckDigitMarker(char c) {
+        checkDigitMarker = c;
+        impl.setCheckDigitMarker(c); 
+    }
+    
+    /**
+     * @return true if the brackets in the human-readable part should be omitted
+     */
+    public boolean isOmitBrackets() {
+        return omitBrackets;
+    }
 
-	/**
-	 * @param c
-	 */
-	public void setCheckDigitMarker(char c) {
-		checkDigitMarker = c;
-		impl.setCheckDigitMarker(c); 
-	}
-	public void setCheckDigitMarker(String s) {
-		if (s != null && s.length()>0){
-			if (s.length() > 1)
-				s = s.trim();
-			setCheckDigitMarker(s.charAt(0));
-		}
-		//TODO Error if not as single char
-	}
-
-	/**
-	 * @return
-	 */
-	public boolean isOmitBrackets() {
-		return omitBrackets;
-	}
-
-	/**
-	 * @param b
-	 */
-	public void setOmitBrackets(boolean b) {
-		omitBrackets = b;
-		impl.setOmitBrackets(b);
-	}
+    /**
+     * @param b true if the brackets in the human-readable part should be omitted
+     */
+    public void setOmitBrackets(boolean b) {
+        omitBrackets = b;
+        impl.setOmitBrackets(b);
+    }
 }
