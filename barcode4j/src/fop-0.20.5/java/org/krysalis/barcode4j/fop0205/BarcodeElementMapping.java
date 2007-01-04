@@ -28,13 +28,13 @@ import org.krysalis.barcode4j.BarcodeConstants;
  * Registers the elements covered by Barcode4J's namespace.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeElementMapping.java,v 1.5 2006-12-31 16:48:18 buerkle Exp $
+ * @version $Id: BarcodeElementMapping.java,v 1.6 2007-01-04 08:07:50 jmaerki Exp $
  */
 public class BarcodeElementMapping implements ElementMapping {
 
     private static final String[] BARCODE_ELEMENTS =
         {"intl2of5", "code39", "codabar", "code128", 
-	     "ean128", "template", "group-separator", "check-digit-marker", "omit-brackets",
+         "ean128", "template", "group-separator", "check-digit-marker", "omit-brackets",
          "upc-a", "upc-e", "ean-13", "ean-8",
          "postnet",
          "height", "module-width", "wide-factor", "quiet-zone",
@@ -74,7 +74,7 @@ public class BarcodeElementMapping implements ElementMapping {
         
         //for compatibility (Krysalis Barcode)
         builder.addMapping(BarcodeConstants.OLD_NAMESPACE, foObjs);
-		builder.addPropertyListBuilder(BarcodeConstants.OLD_NAMESPACE, new DirectPropertyListBuilder());
+        builder.addPropertyListBuilder(BarcodeConstants.OLD_NAMESPACE, new DirectPropertyListBuilder());
     }
 }
 
