@@ -1,0 +1,11 @@
+org.krysalis.barcode4j.output.svg.JDOMSVGCanvasProvider
+org.krysalis.barcode4j.output.bitmap.SunJPEGBitmapEncoder
+org.krysalis.barcode4j.servlet.*
+org.krysalis.barcode4j.saxon8.*
+org.krysalis.barcode4j.saxon.*
+org.krysalis.barcode4j.xalan.*
+org.apache.avalon.framework.logger.LogKit2AvalonLoggerAdapter
+org.apache.avalon.framework.logger.AvalonFormatter
+org.apache.log4j.*
+org.apache.log.*
+org.apache.commons.lang.*

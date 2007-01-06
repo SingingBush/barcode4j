@@ -2,6 +2,8 @@
   Barcode4J
 *************************************
 
+Barcode4J is a flexible generator for barcodes written in Java.
+
 Website: http://barcode4j.sourceforge.net
 
 For instructions on how to get started please read the documentation on the

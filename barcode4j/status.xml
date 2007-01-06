@@ -2,9 +2,10 @@
 <status>
 
   <developers>
-    <person name="Jeremias Maerki"         email="jmaerki@users.sourceforge.net"        id="jmaerki" />
+    <person name="Jeremias Märki"          email="jmaerki@users.sourceforge.net"        id="jmaerki" />
     <person name="Web Maestro Clay Leeds"  email="the_webmaestro@users.sourceforge.net" id="the_webmaestro" />
     <person name="Nicola Ken Barozzi"      email="nicolaken@krysalis.org"               id="nicolaken" />
+    <person name="Dietmar Bürkle"          email="buerkle@users.sourceforge.net"        id="buerkle" />
     <!-- Add more people here -->
   </developers>
 
@@ -16,13 +17,10 @@
     </actions>
     <actions priority="medium">
       <action context="code" dev="open">
-        Process EAN128 patch.
-      </action>
-      <action context="code" dev="open">
         Escape special characters in Code 128 messages.
       </action>
       <action context="code" dev="open">
-        Implement Australian Post Customer Barcode based on FourState bsae implementation.
+        Implement Australian Post Customer Barcode based on FourState base implementation.
       </action>
     </actions>
     <actions priority="low">
@@ -60,6 +58,13 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="buerkle" type="add" context="code">
+        Added an initial version of a EAN-128 implementation.
+      </action>      
+      <action dev="jmaerki" type="fix" context="code">
+        Bugfix: Skip generating metadata using ImageIO if it's not writable (as for image/bmp 
+        in JDK 1.5)
+      </action>      
       <action dev="jmaerki" type="add" context="code">
         Added an initial version of a DataMatrix implementation.
       </action>      
