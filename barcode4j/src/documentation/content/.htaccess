@@ -1,0 +1,25 @@
+# redirect moved files
+RedirectMatch Permanent ^/documentation(.*) http://barcode4j.sourceforge.net/1.0/index$1
+
+RedirectMatch Permanent ^/barcode-xml(.*) http://barcode4j.sourceforge.net/1.0/barcode-xml$1
+RedirectMatch Permanent ^/building(.*) http://barcode4j.sourceforge.net/1.0/building$1
+RedirectMatch Permanent ^/cli(.*) http://barcode4j.sourceforge.net/1.0/cli$1
+RedirectMatch Permanent ^/design(.*) http://barcode4j.sourceforge.net/1.0/design$1
+RedirectMatch Permanent ^/embedding-bean(.*) http://barcode4j.sourceforge.net/1.0/embedding-bean$1
+RedirectMatch Permanent ^/embedding(.*) http://barcode4j.sourceforge.net/1.0/embedding$1
+RedirectMatch Permanent ^/fop-ext(.*) http://barcode4j.sourceforge.net/1.0/fop-ext$1
+RedirectMatch Permanent ^/output-formats(.*) http://barcode4j.sourceforge.net/1.0/output-formats$1
+RedirectMatch Permanent ^/running(.*) http://barcode4j.sourceforge.net/1.0/running$1
+RedirectMatch Permanent ^/saxon-ext(.*) http://barcode4j.sourceforge.net/1.0/saxon-ext$1
+RedirectMatch Permanent ^/servlet(.*) http://barcode4j.sourceforge.net/1.0/servlet$1
+RedirectMatch Permanent ^/svg-dom(.*) http://barcode4j.sourceforge.net/1.0/svg-dom$1
+RedirectMatch Permanent ^/xalan-ext(.*) http://barcode4j.sourceforge.net/1.0/xalan-ext$1
+RedirectMatch Permanent ^/xsl-fo(.*) http://barcode4j.sourceforge.net/1.0/xsl-fo$1
+
+# redirect to versioned documentation
+Redirect Temp /stable http://barcode4j.sourceforge.net/1.0
+Redirect Temp /current http://barcode4j.sourceforge.net/1.0
+Redirect Temp /unstable http://barcode4j.sourceforge.net/2.0
+Redirect Temp /latest http://barcode4j.sourceforge.net/1.0
+Redirect Temp /previous http://barcode4j.sourceforge.net/1.0
+

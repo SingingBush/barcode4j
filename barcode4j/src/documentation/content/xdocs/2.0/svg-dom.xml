@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Use case: Generating an SVG DOM Document</title>
+    <authors>
+      <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+      <title>Introduction</title>
+      <p>This page describes the generation of an <jump href="ext:svg">SVG</jump> barcode in Java.</p>
+    </section>
+    <section>
+      <title>Preparing the barcode generator configuration</title>
+      <p><strong>Barcode4J</strong> depends on the <jump href="ext:avalon">Apache Avalon Framework</jump>
+        for configuration. So the first step is to prepare an 
+        <code>org.apache.avalon.framework.configuration.Configuration</code> object. There are several ways to obtain it:</p>
+      <ul>
+        <li>In an Avalon-based system you will probably already have <code>Configuration</code> objects around.</li>
+        <li>You can build it from an XML file:</li>
+      </ul>
+      <source><![CDATA[
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+
+[..]
+            
+    DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+    File cfgFile = new File("C:\Temp\barcode.cfg");
+    Configuration cfg = builder.buildFromFile(cfgFile);]]>
+      </source>
+      <ul>
+        <li>
+          You can build it from other XML sources such as DOM and SAX events. For more information see the Javadocs from 
+          <jump href="ext:avalon">Apache Avalon Framework</jump> (look for DefaultConfigurationBuilder and 
+          SAXConfigurationHandler).
+        </li>
+        <li>You can build the Configuration object tree by hand using 
+          <code>org.apache.avalon.framework.configuration.DefaultConfiguration</code>.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Using the BarcodeUtil class to generate a DOM DocumentFragment</title>
+      <p>The easiest way to obtain the barcode in SVG as a DocumentFragment is to use 
+        <code>org.krysalis.barcode4j.BarcodeUtil</code>. See the following example:</p>
+      <source><![CDATA[
+import org.w3c.dom.DocumentFragment;
+
+[..]
+
+    String myMessage = "012345679";
+    DocumentFragment frag = BarcodeUtil.getInstance()
+          .generateBarcode(cfg, myMessage);]]>
+      </source>
+    </section>
+    <section id="serialize-dom">
+      <title>Serializing the barcode</title>
+      <p>Obviously, you can do everything you want with the SVG graphic in that DocumentFragment we got. One thing 
+      you might want to do is serializing it to an SVG file, for example.</p>
+      <source><![CDATA[
+    TransformerFactory factory = TransformerFactory.newInstance();
+    Transformer trans = factory.newTransformer();
+    Source src = new DOMSource(frag);
+    Result res = new StreamResult(new File("C:\Temp\myBarcode.svg"));
+    trans.transform(src, res);]]>
+      </source>
+    </section>
+  </body>
+</document>

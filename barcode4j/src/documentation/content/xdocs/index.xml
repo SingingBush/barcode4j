@@ -25,7 +25,7 @@
     <section>
       <title>Features</title>
       <ul>
-        <li>1D barcode implementations [<link href="examples.html">examples</link>] [<link href="barcode-xml.html">xml-format</link>]:
+        <li>1D barcode implementations [<link href="examples.html">examples</link>] [<link href="2.0/barcode-xml.html">xml-format</link>]:
           <ul>
             <li>Interleaved 2 of 5 </li>
             <li>Code 39</li>
@@ -36,7 +36,7 @@
             <li>POSTNET</li>
           </ul>
         </li>
-        <li>Support for multiple output formats [<link href="output-formats.html">output-formats</link>]:
+        <li>Support for multiple output formats [<link href="2.0/output-formats.html">output-formats</link>]:
           <ul>
             <li>SVG</li>
             <li>EPS (Encapsulated PostScript)</li>
@@ -45,18 +45,18 @@
             <li>Text (for testing and debugging only)</li>
           </ul>
         </li>
-        <li>Servlet with support for SVG, EPS and bitmap output [<link href="servlet.html">more info</link>]</li>
-        <li>Command-line interface [<link href="cli.html">more info</link>]</li>
+        <li>Servlet with support for SVG, EPS and bitmap output [<link href="2.0/servlet.html">more info</link>]</li>
+        <li>Command-line interface [<link href="2.0/cli.html">more info</link>]</li>
         <li>Plug-ins/extensions for third-party products:
           <ul>
             <li>
-              Apache Xalan: SVG-generating XSLT extension [<link href="xalan-ext.html">more info</link>]
+              Apache Xalan: SVG-generating XSLT extension [<link href="2.0/xalan-ext.html">more info</link>]
             </li>
             <li>
-              SAXON XSLT Processor from Michael Kay: SVG-generating XSLT extension [<link href="saxon-ext.html">more info</link>]
+              SAXON XSLT Processor from Michael Kay: SVG-generating XSLT extension [<link href="2.0/saxon-ext.html">more info</link>]
             </li>
             <li>
-              Apache FOP: support as fo:instream-foreign-object [<link href="fop-ext.html">more info</link>]
+              Apache FOP: support as fo:instream-foreign-object [<link href="2.0/fop-ext.html">more info</link>]
             </li>
           </ul>
         </li>

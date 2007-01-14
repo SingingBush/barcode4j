@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>DataMatrix</title>
+  </header>
+  <body>
+    <p>also known as: ISO/IEC 16022:2000(E)</p>
+    <section id="example">
+      <title>Example</title>
+      <figure src="../images/example-datamatrix-square.png" alt="Example DataMatrix symbol (square)"/>
+      <figure src="../images/example-datamatrix-rect.png" alt="Example DataMatrix symbol (rectangular)"/>
+    </section>
+    <section id="structure">
+      <title>Structure</title>
+      <p>The configuration for the default implementation is:</p>
+      <source>&#60;barcode&#62;
+  &#60;<strong>datamatrix</strong>&#62;
+      &#60;module-width&#62;{<link href="barcode-xml.html#length">length</link>:0.352777mm}&#60;/module-width&#62; &#60;!-- 1 pixel at 72dpi --&#62;
+      &#60;quiet-zone enabled="{<link href="barcode-xml.html#boolean">boolean</link>:true}"&#62;{<link href="barcode-xml.html#length">length</link>:1mw}&#60;/quiet-zone&#62;
+  &#60;/<strong>datamatrix</strong>&#62;
+&#60;/barcode&#62;</source>
+    </section>
+    <section>
+      <title>Notes</title>
+      <ul>
+        <li>This symbology has no human-readable part!</li>
+        <li>The algorithm always chooses the smallest possible symbol arrangement.</li>
+        <li>Rectangular symbols are enabled by default. They currently cannot be disabled.</li>
+        <li>Structured append functionality is not implemented, yet.</li>
+        <li>Macro functionality is not implemented, yet.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Message format</title>
+      <ul>
+        <li>All ISO-8859-1 characters are valid message characters.</li>
+        <li>Using only numeric characters allows for smaller symbol sizes.</li>
+        <li>Currently, no ECI functionality is available. All characters are interpreted in "ISO-8859-1" encoding.</li>
+        <li>Currently, the FNC1 and reader programming signal cannot be encoded.</li>
+      </ul>
+    </section>
+  </body>
+</document>
+

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  Copyright 2002-2004 The Apache Software Foundation
+  Copyright 2002-2004,2007 The Apache Software Foundation
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ which will be used to configure the chosen Forrest skin.
     no search box. @domain will enable sitesearch for the specific domain with google.
     In other words google will search the @domain for the query string.
   -->
-  <search name="Barcode4J" domain="barcode4j.krysalis.org" provider="google"/>
+  <search name="Barcode4J" domain="barcode4j.sourceforge.net" provider="google"/>
 
   <!-- Disable the print link? If enabled, invalid HTML 4.0.1 -->
   <disable-print-link>true</disable-print-link>  
@@ -54,7 +54,7 @@ which will be used to configure the chosen Forrest skin.
     Use e.g. align="center" to move the compliance links logos to 
     an alternate location default is left.
     (if the skin supports it) -->
-  <disable-compliance-links>false</disable-compliance-links>
+  <disable-compliance-links>true</disable-compliance-links>
 
   <!-- Render mailto: links unrecognisable by spam harvesters? -->
   <obfuscate-mail-links>true</obfuscate-mail-links>
@@ -65,19 +65,19 @@ which will be used to configure the chosen Forrest skin.
 
   <!-- mandatory project logo
        default skin: renders it at the top -->
-  <project-name>Barcode4J</project-name>
-  <project-description>A free barcode generator written in Java</project-description>
-  <project-url>http://barcode4j.krysalis.org/</project-url>
-  <project-logo>resources/images/barcode4j-logo.gif</project-logo>
+  <project-name></project-name>
+  <project-description></project-description>
+  <project-url>http://barcode4j.sourceforge.net/</project-url>
+  <project-logo>skin/images/spacer.gif</project-logo>
   <!-- Alternative static image:
   <project-logo>images/project-logo.gif</project-logo> -->
 
   <!-- optional group logo
        default skin: renders it at the top-left corner -->
-  <group-name>Krysalis</group-name>
-  <group-description>The Krysalis Community Project</group-description>
-  <group-url>http://www.krysalis.org</group-url>
-  <group-logo>images/group-logo.gif</group-logo>
+  <group-name>Barcode4J</group-name>
+  <group-description>A free barcode generator written in Java</group-description>
+  <group-url>http://barcode4j.sourceforge.net/</group-url>
+  <group-logo>resources/images/barcode4j-logo.gif</group-logo>
   <!-- Alternative static image:
   <group-logo>images/group-logo.gif</group-logo> -->
 
@@ -87,11 +87,11 @@ which will be used to configure the chosen Forrest skin.
   <host-logo>http://sourceforge.net/sflogo.php?&amp;group_id=36516&amp;type=1</host-logo>
 
   <!-- relative url of a favicon file, normally favicon.ico -->
-  <favicon-url>favicon.ico</favicon-url>
+  <favicon-url>images/favicon.ico</favicon-url>
 
   <!-- The following are used to construct a copyright statement -->
-  <year>2003-2004</year>
-  <vendor>The Krysalis Community Project.</vendor>
+  <year>2003-2007</year>
+  <vendor>The Barcode4J Project.</vendor>
   <!-- The optional copyright-link URL will be used as a link in the
     copyright statement
   <copyright-link>http://www.apache.org/licenses/</copyright-link>
@@ -104,9 +104,9 @@ which will be used to configure the chosen Forrest skin.
 	  Use location="none" to not display the trail (if the skin supports it).
     For some skins just set the attributes to blank.
   -->
-  <trail>
-    <link1 name="barcode4j at sf.net" href="http://www.sf.net/projects/barcode4j/"/>
-    <link2 name="krysalis" href="http://www.krysalis.org/"/>
+  <trail location="alt">
+    <link1 name="SourceForge Project Page" href="http://www.sf.net/projects/barcode4j/"/>
+    <link2 name="" href=""/>
     <link3 name="" href=""/>
   </trail>
 
@@ -185,104 +185,6 @@ which will be used to configure the chosen Forrest skin.
         
     <color name="footer" value="#a5b6c6"/>
   
-  <!-- Forrest -->
-<!--
-    <color name="header"    value="#294563"/>
-
-    <color name="tab-selected" value="#4a6d8c" link="#0F3660" vlink="#0F3660" hlink="#000066"/>
-    <color name="tab-unselected" value="#b5c7e7" link="#0F3660" vlink="#0F3660" hlink="#000066"/>
-    <color name="subtab-selected" value="#4a6d8c" link="#0F3660" vlink="#0F3660" hlink="#000066"/>
-    <color name="subtab-unselected" value="#4a6d8c" link="#0F3660" vlink="#0F3660" hlink="#000066"/>
-
-    <color name="heading" value="#294563"/>
-    <color name="subheading" value="#4a6d8c"/>
-        
-    <color name="navstrip" value="#cedfef" font="#0F3660" link="#0F3660" vlink="#0F3660" hlink="#000066"/>
-    <color name="toolbox" value="#4a6d8c"/>
-    <color name="border" value="#294563"/>
-    
-    <color name="menu" value="#4a6d8c" font="#cedfef" link="#ffffff" vlink="#ffffff" hlink="#ffcf00"/>    
-    <color name="dialog" value="#4a6d8c"/>
-            
-    <color name="body" value="#ffffff"  link="#0F3660" vlink="#009999" hlink="#000066"/>
-    
-    <color name="table" value="#7099C5"/>    
-    <color name="table-cell" value="#f0f0ff"/>    
-    <color name="highlight" value="#ffff00"/>
-    <color name="fixme" value="#cc6600"/>
-    <color name="note" value="#006699"/>
-    <color name="warning" value="#990000"/>
-    <color name="code" value="#CFDCED"/>
-        
-    <color name="footer" value="#cedfef"/>
--->
-
-  <!-- Collabnet --> 
-<!--
-    <color name="header"    value="#003366"/>
-
-    <color name="tab-selected" value="#dddddd" link="#555555" vlink="#555555" hlink="#555555"/>
-    <color name="tab-unselected" value="#999999" link="#ffffff" vlink="#ffffff" hlink="#ffffff"/>
-    <color name="subtab-selected" value="#cccccc" link="#000000" vlink="#000000" hlink="#000000"/>
-    <color name="subtab-unselected" value="#cccccc" link="#555555" vlink="#555555" hlink="#555555"/>
-
-    <color name="heading" value="#003366"/>
-    <color name="subheading" value="#888888"/>
-    
-    <color name="navstrip" value="#dddddd" font="#555555"/>
-    <color name="toolbox" value="#dddddd" font="#555555"/>
-    <color name="border" value="#999999"/>
-    
-    <color name="menu" value="#ffffff"/>    
-    <color name="dialog" value="#eeeeee"/>
-            
-    <color name="body"      value="#ffffff"/>
-    
-    <color name="table" value="#ccc"/>    
-    <color name="table-cell" value="#ffffff"/>   
-    <color name="highlight" value="#ffff00"/>
-    <color name="fixme" value="#cc6600"/>
-    <color name="note" value="#006699"/>
-    <color name="warning" value="#990000"/>
-    <color name="code" value="#003366"/>
-        
-    <color name="footer" value="#ffffff"/>
--->
- <!-- Lenya using pelt-->
-<!--
-    <color name="header" value="#ffffff"/>
-
-    <color name="tab-selected" value="#4C6C8F" link="#ffffff" vlink="#ffffff" hlink="#ffffff"/>
-    <color name="tab-unselected" value="#E5E4D9" link="#000000" vlink="#000000" hlink="#000000"/>
-    <color name="subtab-selected" value="#000000" link="#000000" vlink="#000000" hlink="#000000"/>
-    <color name="subtab-unselected" value="#E5E4D9" link="#000000" vlink="#000000" hlink="#000000"/>
-
-    <color name="heading" value="#E5E4D9"/>
-    <color name="subheading" value="#000000"/>
-    <color name="published" value="#4C6C8F" font="#FFFFFF"/>
-    <color name="feedback" value="#4C6C8F" font="#FFFFFF" align="center"/>
-    <color name="navstrip" value="#E5E4D9" font="#000000"/>
-
-    <color name="toolbox" value="#CFDCED" font="#000000"/>
-
-    <color name="border" value="#999999"/>
-    <color name="menu" value="#4C6C8F" font="#ffffff" link="#ffffff" vlink="#ffffff" hlink="#ffffff" current="#FFCC33" />    
-    <color name="menuheading" value="#cfdced" font="#000000" />
-    <color name="searchbox" value="#E5E4D9" font="#000000"/>
-    
-    <color name="dialog" value="#CFDCED"/>
-    <color name="body" value="#ffffff" />            
-    
-    <color name="table" value="#ccc"/>    
-    <color name="table-cell" value="#ffffff"/>   
-    <color name="highlight" value="#ffff00"/>
-    <color name="fixme" value="#cc6600"/>
-    <color name="note" value="#006699"/>
-    <color name="warning" value="#990000"/>
-    <color name="code" value="#003366"/>
-        
-    <color name="footer" value="#E5E4D9"/>
--->
   </colors>
  
   <!-- Settings specific to PDF output. -->

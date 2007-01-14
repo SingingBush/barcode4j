@@ -21,14 +21,17 @@
           you wanted to scan is even supported.
         </li>
         <li>
-          Check your <link href="barcode-xml.html#General+structure">barcode settings</link>. Make sure the module widths, for example, are 
+          Check your <link href="2.0/barcode-xml.html#General+structure">barcode settings</link>. 
+          Make sure the module widths, for example, are 
           within the specs. Barcode4J can not always detect in advance that
           a barcode will be unreadable.
         </li>
         <li>
-          Depending on your printer you might need to adjust the <link href="barcode-xml.html#General+structure">barcode settings</link> 
+          Depending on your printer you might need to adjust the 
+          <link href="2.0/barcode-xml.html#General+structure">barcode settings</link> 
           (<em>e.g.</em>, wide factor or module width) to get a better result.
-          If the printer resolution compared to the barcode size is poor (<em>e.g.</em>, laser printers generally output higher resolution than inkjet printers), you will
+          If the printer resolution compared to the barcode size is poor (<em>e.g.</em>, 
+          laser printers generally output higher resolution than inkjet printers), you will
           run into problems.
         </li>
         <li>
@@ -37,7 +40,8 @@
           resolution and use HTML to scale down the bitmap or ...(see next point)
         </li>
         <li>
-          Avoid JPEG as target format for your barcodes (<em>e.g.</em> GIF, PNG or TIFF are better). JPEG is a lossy compression
+          Avoid JPEG as target format for your barcodes (<em>e.g.</em> GIF, PNG or TIFF are better). 
+          JPEG is a lossy compression
           format and contrast will suffer and thus degrading the readability of the 
           generated barcode. 
         </li>
