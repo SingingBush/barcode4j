@@ -24,7 +24,7 @@ import org.krysalis.barcode4j.tools.Length;
 /**
  * This class is an implementation of the PDF417 barcode.
  * 
- * @version $Id: PDF417.java,v 1.1 2006-06-22 09:01:16 jmaerki Exp $
+ * @version $Id: PDF417.java,v 1.2 2007-01-14 11:50:48 jmaerki Exp $
  */
 public class PDF417 extends ConfigurableBarcodeGenerator 
             implements Configurable {
@@ -50,7 +50,7 @@ public class PDF417 extends ConfigurableBarcodeGenerator
         getPDF417Bean().setColumns(cfg.getChild("columns").getValueAsInteger(
                 PDF417Bean.DEFAULT_COLUMN_COUNT));
         
-        getPDF417Bean().setErrorCorrectionLevel(cfg.getChild("columns").getValueAsInteger(
+        getPDF417Bean().setErrorCorrectionLevel(cfg.getChild("ec-level").getValueAsInteger(
                 PDF417Bean.DEFAULT_ERROR_CORRECTION_LEVEL));
         
         //Vertical quiet zone
