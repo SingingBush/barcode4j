@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: HighLevelEncoderTest.java,v 1.2 2006-11-27 08:12:11 jmaerki Exp $ */
+/* $Id: HighLevelEncoderTest.java,v 1.3 2007-01-14 11:50:14 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -85,8 +85,10 @@ public class HighLevelEncoderTest extends TestCase {
     }
 
     private void log(String expected, String actual) {
+        /*
         System.out.println("expected: " + expected);
         System.out.println("actual: " + actual);
+        */
     }
     
     public void testEncodeBinary() throws Exception {
@@ -139,13 +141,13 @@ public class HighLevelEncoderTest extends TestCase {
 
         msg = "TestTest‰‰‰‰‰‰‰‰‰‰‰‰"; //12 binary characters = 2x6
         result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
-        System.out.println(result);
+        //System.out.println(result);
         expected = "597 138 597 574 559 924 222 69 238 51 792 222 69 238 51 792";
         assertEquals(expected, result);
 
         msg = "TestTest‰‰‰‰‰‰‰‰‰‰"; //10 binary characters = 1x6 + 4
         result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
-        System.out.println(result);
+        //System.out.println(result);
         expected = "597 138 597 574 559 901 222 69 238 51 792 132 132 132 132";
         log(expected, result);
         assertEquals(expected, result);
