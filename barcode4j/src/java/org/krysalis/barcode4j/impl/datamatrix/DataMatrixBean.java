@@ -26,12 +26,12 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * This class is an implementation of DataMatrix (ISO 16022:2000(E)).
  * 
- * @version $Id: DataMatrixBean.java,v 1.2 2006-12-22 15:58:27 jmaerki Exp $
+ * @version $Id: DataMatrixBean.java,v 1.3 2007-01-14 11:51:44 jmaerki Exp $
  */
 public class DataMatrixBean extends AbstractBarcodeBean {
 
     /** The default module width (dot size) for DataMatrix. */
-    protected static final double DEFAULT_MODULE_WIDTH = UnitConv.in2mm(1.0 / 72); //2px at 72dpi
+    protected static final double DEFAULT_MODULE_WIDTH = UnitConv.in2mm(1.0 / 72); //1px at 72dpi
 
     /** Create a new instance. */
     public DataMatrixBean() {
