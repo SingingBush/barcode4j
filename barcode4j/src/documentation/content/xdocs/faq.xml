@@ -105,11 +105,11 @@
         </p>
         <source><![CDATA[
 Windows:
-java -cp lib\avalon-framework-4.1.5.jar;lib\commons-cli-1.0.jar;build\barcode4j.jar 
+java -cp lib\avalon-framework-4.2.0.jar;lib\commons-cli-1.0.jar;build\barcode4j.jar 
     org.krysalis.barcode4j.cli.Main
 
 Unix:
-java -cp lib\avalon-framework-4.1.5.jar:lib\commons-cli-1.0.jar:build\barcode4j.jar 
+java -cp lib\avalon-framework-4.2.0.jar:lib\commons-cli-1.0.jar:build\barcode4j.jar 
     org.krysalis.barcode4j.cli.Main]]>
         </source>
         <note>

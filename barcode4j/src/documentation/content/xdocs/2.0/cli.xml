@@ -36,7 +36,7 @@
       <p>Required libraries are:</p>
       <ul>
         <li><code>barcode4j.jar</code> (from the <code>build/</code> directory)</li>
-        <li><code>avalon-framework-4.1.5.jar</code> (<fork href="ext:avalon">Apache Avalon Framework</fork>, from the <code>lib/</code> directory)</li>
+        <li><code>avalon-framework-4.2.0.jar</code> (<fork href="ext:avalon">Apache Avalon Framework</fork>, from the <code>lib/</code> directory)</li>
         <li><code>commons-cli-1.0.jar</code> (<fork href="ext:commons-cli">Apache Jakarta Commons CLI</fork>, from the <code>lib/</code> directory)</li>
       </ul>
       <p>An example:</p>
@@ -53,8 +53,7 @@ java -cp build/barcode4j.jar:lib/avalon-framework-4.1.5.jar:lib/commons-cli-1.0.
       <title>Parameters</title>
       <p>Calling the Command Line Interface without parameters brings up the help screen:</p>
       <source><![CDATA[
-Barcode4J command-line application, Version 1.0
-Copyright (c) 2000-2003 The Krysalis Community Project. All rights reserved.
+Barcode4J command-line application, Version 2.0
 
 usage: java -jar barcode4j.jar [-v] [[-s <symbology>]|[-c <cfg-file>]] [-f
             <format>] [-d <dpi>] [-bw] [-o <file>] <message>
