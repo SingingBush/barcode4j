@@ -7,15 +7,16 @@
   <!-- FORREST_HOME must be set as an environment variable -->
   <property environment="env"/>
   <property name="forrest.home" value="${env.FORREST_HOME}"/>
-  <import file="${env.FORREST_HOME}/forrest.build.xml"/>
+  <property name="forrest.plugins-dir" value="${forrest.home}/plugins"/>
+  <import file="${env.FORREST_HOME}/main/forrest.build.xml"/>
   
   <!-- =================================================================== -->
   <!-- Website                                                             -->
   <!-- =================================================================== -->
   <target name="website" depends="package, javadocs, site" description="Creates the whole Barcode4J website in one run">
     <mkdir dir="${build.dir}/site"/>
-    <mkdir dir="${build.dir}/site/javadocs"/>
-    <copy todir="${build.dir}/site/javadocs">
+    <mkdir dir="${build.dir}/site/2.0/javadocs"/>
+    <copy todir="${build.dir}/site/2.0/javadocs">
       <fileset dir="${docs.dir}"/>
     </copy>
     <subant target="all">
