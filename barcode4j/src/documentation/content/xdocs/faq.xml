@@ -174,7 +174,7 @@ java -cp lib\avalon-framework-4.2.0.jar:lib\commons-cli-1.0.jar:build\barcode4j.
             Install a toolkit which emulates AWT without the need for an underlying X 
             server. One example is the 
             <fork href="http://www.eteks.com/pja/en/">PJA toolkit</fork>, which is 
-            free and comes with detailed installation instructions.
+            free (GPL license) and comes with detailed installation instructions.
           </li>
         </ul>
       </answer>
