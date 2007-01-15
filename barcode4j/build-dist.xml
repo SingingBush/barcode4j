@@ -1,18 +1,26 @@
 <?xml version="1.0"?>
-<project default="all" basedir=".">
+<project default="website" basedir=".">
   <import file="${basedir}/build.xml"/>
   
   <property name="docs.dir" value="${build.dir}/javadocs"/>
 
-  <!-- FORREST_HOME must be set as an environment variable -->
   <property environment="env"/>
-  <property name="forrest.home" value="${env.FORREST_HOME}"/>
-  <property name="forrest.plugins-dir" value="${forrest.home}/plugins"/>
-  <import file="${env.FORREST_HOME}/main/forrest.build.xml"/>
   
   <!-- =================================================================== -->
   <!-- Website                                                             -->
   <!-- =================================================================== -->
+  <target name="site">
+    <!--
+    <echo message="Make sure that you have installed Apache Forrest and"/>
+    <echo message="the FORREST_HOME environment variable is set (see http://forrest.apache.org/)"/>
+    <echo message="FORREST_HOME = ${forrest.home}"/>
+    -->
+    <echo message="Make sure you have a proper Forrest 0.7 branch installation (see http://forrest.apache.org/)"/>
+	<condition property="forrest.call" value="forrest.bat" else="forrest">
+	  <os family="windows"/>
+	</condition>
+	<exec executable="${forrest.call}"/>
+  </target>
   <target name="website" depends="package, javadocs, site" description="Creates the whole Barcode4J website in one run">
     <mkdir dir="${build.dir}/site"/>
     <mkdir dir="${build.dir}/site/2.0/javadocs"/>
@@ -64,6 +72,7 @@
         <include name="build/*.jar"/>
         <include name="build/*.war"/>
         <include name="README*"/>
+		<include name="LICENSE*"/>
         <include name="NOTICE*"/>
         <include name="barcode.bat"/>
         <include name="barcode.cfg"/>
@@ -82,6 +91,7 @@
     <copy todir="${dist.dir}/work/src/${rel-name}">
       <fileset dir="${basedir}/">
         <include name="README*"/>
+        <include name="LICENSE*"/>
         <include name="NOTICE*"/>
         <include name="status.xml"/>
         <include name="forrest.properties"/>
@@ -90,6 +100,9 @@
         <include name="barcode.cfg"/>
         <include name="build*.xml"/>
         <include name="build.properties"/>
+        <include name="ivy*.xml"/>
+		<include name="ikvm*.txt"/>
+		<include name="checkstyle*"/>
         <include name="examples/**"/>
         <include name="lib/*.jar"/>
         <include name="legal/**"/>
