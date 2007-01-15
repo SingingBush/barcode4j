@@ -422,15 +422,15 @@
   <target name="package-base" depends="compile">
     <echo message="Creating the jar file ${build.dir}/${name}.jar"/>
     
-    <pathconvert property="manifest-classpath" dirsep="/" pathsep=" " refid="project.classpath">
+    <!--pathconvert property="manifest-classpath" dirsep="/" pathsep=" " refid="project.classpath">
       <map from="${basedir}${file.separator}lib${file.separator}" to=""/>
       <map from="${basedir}${file.separator}build${file.separator}barcode4j.jar" to=""/>
-    </pathconvert>
+    </pathconvert-->
 
     <jar jarfile="${build.dir}/${name}.jar">
       <manifest>
         <attribute name="Main-Class" value="org.krysalis.barcode4j.cli.Main"/>
-        <attribute name="Class-Path" value="${manifest-classpath}"/>
+        <!--attribute name="Class-Path" value="${manifest-classpath}"/-->
         <attribute name="Implementation-Title" value="${Name}"/>
         <attribute name="Implementation-Version" value="${version}"/>
         <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
