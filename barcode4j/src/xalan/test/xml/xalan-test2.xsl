@@ -9,7 +9,7 @@
     </results>
   </xsl:template>
   <xsl:template match="barcode">
-    <bc:barcode message="{msg}">
+    <bc:barcode message="{msg}" orientation="90">
       <bc:code128>
         <bc:module-width>2mm<!--a comment for testing--></bc:module-width>
       </bc:code128>

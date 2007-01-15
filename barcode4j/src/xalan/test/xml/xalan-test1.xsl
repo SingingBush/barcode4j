@@ -10,11 +10,11 @@
   </xsl:template>
   <xsl:template match="barcode">
     <xsl:variable name="barcode-cfg">
-      <!--barcode-->
+      <barcode orientation="90">
         <code128>
           <module-width>3mm</module-width>
         </code128>
-      <!--/barcode-->
+      </barcode>
     </xsl:variable>
     <xsl:copy-of select="bc:generate($barcode-cfg, msg)"/>
   </xsl:template>
