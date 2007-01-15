@@ -13,11 +13,20 @@
     if (bcrequest.isSVG()) {
     %>
     <p>The generated barcode in SVG format (only displayed if SVG is supported in your browser):</p>
+    <%
+        if (bcrequest.isSvgEmbed()) {
+    %>
     <p>
-      <!--object type="image/svg+xml" data="http://localhost:8080/barcode4j/gensvg?type=code128&msg=123&ext=.svg" name="DynamicBarcode" width="400" height="150"/-->
       <embed src="<%=genbc%>&ext=.svg" pluginspage="http://www.adobe.com/svg/viewer/install/" width="100%" height="100"/>
     </p>
     <%
+        } else {
+    %>
+    <p>
+      <object type="image/svg+xml" data="<%=genbc%>&ext=.svg" name="DynamicBarcode" width="100%" height="100"/>
+    </p>
+    <%
+        }
     } else if (bcrequest.isBitmap()) {
     %>
     <p>The generated barcode in <%=bcrequest.getFormat()%> format (only displayed if <%=bcrequest.getFormat()%> is supported on the server and in your browser):</p>
@@ -72,6 +81,17 @@
         </tr>
         <tr>
           <td>
+            <p>SVG display style:</p>
+          </td>
+          <td>
+            <p>
+              <input type="checkbox" name="svgEmbed" <%= (bcrequest.isSvgEmbed() ? " checked=\"checked\"" : "") %>/>
+            </p>
+          </td>
+          <td>Checked uses &lt;EMBED&gt; (better for Internet Explorer), unchecked uses &lt;OBJECT&gt; (better for Firefox).</td>
+        </tr>
+        <tr>
+          <td>
             <p>Grayscale:</p>
           </td>
           <td>
@@ -102,7 +122,7 @@
             <p>
               <select name="type">
                 <%
-                final String[] BARCODES = new String[] {"code128", "ean-128", "code39", "codabar", "ean-13", "ean-8", "intl2of5", "upc-a", "upc-e", "postnet", "pdf417"};
+                final String[] BARCODES = new String[] {"code128", "ean-128", "code39", "codabar", "ean-13", "ean-8", "intl2of5", "upc-a", "upc-e", "postnet", "royal-mail-cbc", "pdf417", "datamatrix"};
                 for (int i = 0; i < BARCODES.length; i++) {
                     out.print("<option");
                     if (BARCODES[i].equals(bcrequest.getType())) {
@@ -243,7 +263,7 @@
       </table>
     </form>
     <p>
-      For the documention on <b>Barcode4J</b>, please visit <a href="http://barcode4j.krysalis.org" target="_blank">http://barcode4j.krysalis.org</a>.
+      For the documention on <b>Barcode4J</b>, please visit <a href="http://barcode4j.sourceforge.net" target="_blank">http://barcode4j.sourceforge.net</a>.
     </p>
   </body>
 </html>

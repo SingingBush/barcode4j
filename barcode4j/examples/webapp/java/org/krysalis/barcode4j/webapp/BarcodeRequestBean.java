@@ -22,7 +22,7 @@ import org.krysalis.barcode4j.tools.MimeTypes;
  * This is just a little helper bean for the JSP page.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeRequestBean.java,v 1.2 2004-09-04 20:25:57 jmaerki Exp $
+ * @version $Id: BarcodeRequestBean.java,v 1.3 2007-01-15 15:39:25 jmaerki Exp $
  */
 public class BarcodeRequestBean {
 
@@ -36,6 +36,7 @@ public class BarcodeRequestBean {
     private String humanReadableSize;
     private String humanReadableFont;
     private String format;
+    private boolean svgEmbed;
     private String resolution;
     private boolean gray;
 
@@ -123,6 +124,14 @@ public class BarcodeRequestBean {
         return MimeTypes.MIME_SVG.equals(MimeTypes.expandFormat(getFormat()))
             || (getFormat() == null) 
             || (getFormat().length() == 0);
+    }
+
+    public boolean isSvgEmbed() {
+        return this.svgEmbed;
+    }
+
+    public void setSvgEmbed(boolean value) {
+        this.svgEmbed = value;
     }
 
     public boolean isBitmap() {
