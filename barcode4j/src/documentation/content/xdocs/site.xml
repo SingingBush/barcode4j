@@ -139,7 +139,7 @@ See http://xml.apache.org/forrest/linking.html for more info
       <commons-cli href="commons/cli"/>
     </jakarta.apache.org>
     <java href="http://java.sun.com/"/>
-    <avalon href="http://avalon.apache.org/"/>
+    <avalon href="http://excalibur.apache.org/framework/"/>
     <w3.org href="http://www.w3.org/">
       <xsl-fo href="TR/xsl/"/>
       <svg href="Graphics/SVG"/>

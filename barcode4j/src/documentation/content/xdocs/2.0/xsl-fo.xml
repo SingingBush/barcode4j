@@ -40,7 +40,6 @@
 			</li>
 		  </ul> 
       </ol>
-      <note>A <link href="fop-ext.html#The+special+FOP+extension+%28for+experienced+developers+only%29">special FOP extension</link> is also available which does not generate the barcode using the intermediate SVG format. It is only available through CVS. It is not included in the distribution.</note>
       <p>
         If you don't find a matching solution for your environment, drop us a mail on the 
         <link href="ext:mailing-lists">barcode4j-users mailing list</link>.

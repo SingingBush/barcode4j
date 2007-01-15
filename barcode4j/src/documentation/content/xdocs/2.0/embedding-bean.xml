@@ -95,7 +95,7 @@ OutputStream out = new FileOutputStream(outputFile);
 try {
     //Set up the canvas provider for monochrome PNG output 
     BitmapCanvasProvider canvas = new BitmapCanvasProvider(
-            out, "image/x-png", dpi, BufferedImage.TYPE_BYTE_BINARY, false);
+            out, "image/x-png", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
 
     //Generate the barcode
     bean.generateBarcode(canvas, "123456");

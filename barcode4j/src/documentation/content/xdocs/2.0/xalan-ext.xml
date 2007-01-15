@@ -78,7 +78,7 @@
       <source><![CDATA[
   <fo:block>
     <fo:instream-foreign-object>
-      <barcode:barcode message="0123456789">
+      <barcode:barcode message="0123456789" orientation="90">
         <barcode:code128>
           <barcode:height>8mm</barcode:height>
         </barcode:code128>
@@ -87,6 +87,11 @@
   </fo:block>]]></source>
       <p>
         The XML syntax used within the barcode element is the <link href="barcode-xml.html">Barcode XML</link>.
+      </p>
+      <p>
+        The attribute "orientation" specifies the orientation of the barcode in degrees. The 
+        attribute is optional and if set must be one of the following values:
+        0, 90, -90, 180, -180, 270, -270.
       </p>
     </section>
   </body>

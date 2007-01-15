@@ -16,30 +16,51 @@
       </p>
     </section>
     <section>
-      <title>Using the barcode extension for Apache FOP</title>
-      <p>This package contains an extension for <jump href="ext:fop">Apache FOP</jump> for
-        generating barcodes.
-      </p>
+      <title>Setting up the barcode extension with Apache FOP 0.20.5</title>
       <p>To setup the barcode extension, do the following:</p>
       <ul>
-        <li>Make sure you have FOP version 0.20.5 or later.</li>
         <li>
           Add <code>barcode4j.jar</code> and <code>barcode4j-fop-ext-0.20.5.jar</code> to the
-          <link href="../faq.html#classpath">classpath</link>. (Alternatively,
-          you can use the combined JAR:
+          <link href="../faq.html#classpath">classpath</link>.
+        </li>
+        <li>
+         Alternatively, you can use the combined JAR:
           <code>barcode4j-fop-ext-0.20.5-complete.jar</code> which combines both
-          <strong>Barcode4J</strong> and the FOP extension.)</li>
+          <strong>Barcode4J</strong> and the FOP extension.
+        </li>
         <li>
           <strong>Important:</strong> When you use FOP 0.20.5 together with
           <strong>Barcode4J</strong>, make sure you use the version of Avalon Framework that comes with
           <strong>Barcode4J</strong> (or the latest release of
-          <fork href="ext:avalon">Avalon Framework</fork>). The version from FOP
+          <fork href="ext:avalon">Avalon Framework</fork>). The version from FOP 0.20.5
           is slightly out-of-date.
         </li>
-        <li>The barcode extension is tied to the follwing namespace:
-          <strong><code>http://barcode4j.krysalis.org/ns</code></strong>
+      </ul>
+    </section>
+    <section>
+      <title>Setting up the barcode extension with Apache FOP 0.93 or later</title>
+      <p>To setup the barcode extension, do the following:</p>
+      <ul>
+        <li>
+          Add <code>barcode4j.jar</code> and <code>barcode4j-fop-ext.jar</code> to the
+          <link href="../faq.html#classpath">classpath</link>.
+        </li>
+        <li>
+          Alternatively, you can use the combined JAR:
+          <code>barcode4j-fop-ext-complete.jar</code> which combines both
+          <strong>Barcode4J</strong> and the FOP extension.
         </li>
       </ul>
+    </section>
+    <section>
+      <title>Using the barcode extension for Apache FOP</title>
+      <p>This package contains an extension for <jump href="ext:fop">Apache FOP</jump> for
+        generating barcodes.
+      </p>
+      <p>
+        The barcode extension is tied to the follwing namespace:
+        <strong><code>http://barcode4j.krysalis.org/ns</code></strong>
+      </p>
       <p>
         To create a barcode the <link href="barcode-xml.html">Barcode XML</link> can be used within fo:instream-foreign-object elements.
       </p>
@@ -49,7 +70,7 @@
   <fo:instream-foreign-object>
     <barcode:barcode
           xmlns:barcode="http://barcode4j.krysalis.org/ns"
-          message="my message">
+          message="my message" orientation="90">
       <barcode:code128>
         <barcode:height>8mm</barcode:height>
       </barcode:code128>
@@ -57,11 +78,11 @@
   </fo:instream-foreign-object>
 </fo:block>]]>
       </source>
-      <warning>
-        Due to a mistake in 1.0beta the above is incorrect. Please use <strong>"msg"</strong>
-        instead of "message" for the message attribute above. This will be
-        fixed in the final version.
-      </warning>
+      <p>
+        The attribute "orientation" specifies the orientation of the barcode in degrees. The 
+        attribute is optional and if set must be one of the following values:
+        0, 90, -90, 180, -180, 270, -270.
+      </p>
     </section>
     <section>
       <title>Including FOP&#039;s <code>page-number</code> in Barcode Output</title>
@@ -113,11 +134,16 @@
       </p>
       <p>
         The normal FOP extension described above internally creates the barcode in SVG format.
-        The generated SVG image is then converted by <fork href="ext:batik">Batik</fork> to the target format
-        (PDF, PostScript or whatever).
+        The generated SVG image is then converted by <fork href="ext:batik">Batik</fork> to the 
+        target format (PDF, PostScript or whatever).
+      </p>
+      <p>
+        The latest FOP versions even allow Barcode4J to generate the barcode in the native 
+        output format.For example, when PostScript output is selected in FOP, Barcode4J creates 
+        the barcode as an EPS graphic which is generally much faster than taking a detour via SVG.
       </p>
     </section>
-    <section>
+    <!--section> No longer supported since the functionality has been integrated into 0.93
       <title>The special FOP extension (for experienced developers only)</title>
       <note>This extension is only available through CVS. It is not included in the distribution.</note>
       <p>
@@ -142,6 +168,6 @@
         a FOP version 0.20.6 before a 1.0 release we will make sure this extension is released. FOP
         1.0 will also contain this functionality but the code hasn't been written, yet.
       </p>
-    </section>
+    </section-->
   </body>
 </document>

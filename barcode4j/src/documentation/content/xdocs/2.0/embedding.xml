@@ -87,6 +87,11 @@ BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator( cfg );]
         them to the target format. Depending on the desired output format 
         you need to instantiate a different class.
       </p>
+      <p>
+        All CanvasProvider classes support an orientation value as the last parameter. 
+        Normally, you will just specify "0", but you can rotate the barcode in steps 
+        of 90 degrees. Valid values are 0, 90, -90, 180, -180, 270 and -270.
+      </p>
       <section>
         <title>SVG</title>
         <p>
@@ -94,12 +99,12 @@ BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator( cfg );]
           implementation (W3C DOM or JDOM).
         </p>
         <source><![CDATA[
-SVGCanvasProvider provider = new SVGCanvasProvider(false);
+SVGCanvasProvider provider = new SVGCanvasProvider(false, 0);
 gen.generateBarcode(provider, msg);
 org.w3c.dom.DocumentFragment frag = provider.getDOMFragment();]]></source>
         <p>..or..</p>
         <source><![CDATA[
-JDOMSVGCanvasProvider provider = new JDOMSVGCanvasProvider(false);
+JDOMSVGCanvasProvider provider = new JDOMSVGCanvasProvider(false, 0);
 gen.generateBarcode(provider, msg);
 org.jdom.Document doc = provider.getDocument();]]></source>
         <p>
@@ -121,7 +126,7 @@ org.jdom.Document doc = provider.getDocument();]]></source>
         </p>
         <source><![CDATA[
 OutputStream out = new java.io.FileOutputStream(new File("output.eps"));
-EPSCanvasProvider provider = new EPSCanvasProvider(out);
+EPSCanvasProvider provider = new EPSCanvasProvider(out, 0);
 gen.generateBarcode(provider, msg);
 provider.finish();]]></source>
       </section>
@@ -138,7 +143,7 @@ provider.finish();]]></source>
         <source><![CDATA[
 OutputStream out = new java.io.FileOutputStream(new File("output.png"));
 BitmapCanvasProvider provider = new BitmapCanvasProvider(
-    out, "image/x-png", 300, BufferedImage.TYPE_BYTE_GRAY, true);
+    out, "image/x-png", 300, BufferedImage.TYPE_BYTE_GRAY, true, 0);
 gen.generateBarcode(provider, msg);
 provider.finish();]]></source>
         <p>
@@ -155,7 +160,7 @@ provider.finish();]]></source>
         </p>
         <source><![CDATA[
 BitmapCanvasProvider provider = new BitmapCanvasProvider(
-    300, BufferedImage.TYPE_BYTE_GRAY, true);
+    300, BufferedImage.TYPE_BYTE_GRAY, true, 0);
 gen.generateBarcode(provider, msg);
 provider.finish();
 BufferedImage barcodeImage = provider.getBufferedImage();]]></source>
@@ -177,7 +182,7 @@ BufferedImage barcodeImage = provider.getBufferedImage();]]></source>
         </p>
         <source><![CDATA[
 Graphics2D g2d = <something>
-Java2DCanvasProvider provider = new Java2DCanvasProvider( g2d );
+Java2DCanvasProvider provider = new Java2DCanvasProvider(g2d, 0);
 gen.generateBarcode(provider, msg);]]></source>
       </section>
     </section>

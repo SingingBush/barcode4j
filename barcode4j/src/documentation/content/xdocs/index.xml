@@ -3,9 +3,6 @@
 <document>
   <header>
     <title>Welcome to Barcode4J</title>
-    <authors>
-      <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
-    </authors>
   </header>
   <body>
     <section>
@@ -16,13 +13,6 @@
       </p>
     </section>
     <section>
-      <title>Important Krysalis Barcode News</title>
-      <p>
-      	Krysalis Barcode has been renamed to <strong>Barcode4J</strong> and moved 
-      	to its own SourceForge project. <link href="krysalis-barcode.html">More...</link>
-      </p>
-    </section>
-    <section>
       <title>Features</title>
       <ul>
         <li>1D barcode implementations [<link href="examples.html">examples</link>] [<link href="2.0/barcode-xml.html">xml-format</link>]:
@@ -30,10 +20,18 @@
             <li>Interleaved 2 of 5 </li>
             <li>Code 39</li>
             <li>Code 128</li>
+            <li>EAN-128, GS1-128 (based on Code 128)</li>
             <li>Codabar</li>
             <li>UPC-A and UPC-E (with supplementals)</li>
             <li>EAN-13 and EAN-8 (with supplementals)</li>
             <li>POSTNET</li>
+            <li>Royal Mail Customer Barcode (Four State)</li>
+          </ul>
+        </li>
+        <li>2D barcode implementations [<link href="examples.html">examples</link>] [<link href="2.0/barcode-xml.html">xml-format</link>]:
+          <ul>
+            <li>PDF 417 (ISO/IEC 15438:2001(E))</li>
+            <li>DataMatrix (ISO/IEC 16022:2000(E))</li>
           </ul>
         </li>
         <li>Support for multiple output formats [<link href="2.0/output-formats.html">output-formats</link>]:
@@ -63,12 +61,11 @@
       </ul>
     </section>
     <section>
-      <title>Planned features</title>
-      <ul>
-        <li>Additional 1D barcode implementations</li>
-        <li>Support for 2D barcodes such as Data Matrix or Aztec Code</li>
-      </ul>
-      <note>Help wanted!</note>
+      <title>Important Krysalis Barcode News</title>
+      <p>
+        Krysalis Barcode has been renamed to <strong>Barcode4J</strong> and moved 
+        to its own SourceForge project. <link href="krysalis-barcode.html">More...</link>
+      </p>
     </section>
   </body>
 </document>

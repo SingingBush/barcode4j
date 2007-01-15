@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "document-v20.dtd">
 <document>
   <header>
     <title>Hall of Fame</title>
-    <authors>
-      <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
-    </authors>
   </header>
   <body>
     <section>
@@ -22,9 +19,23 @@
         <li>Chris Dolphy (POSTNET implementation)</li>
         <li>Bruno Marçal Dias (bug fixes)</li>
         <li>Andrew Nelson (servlet improvements)</li>
+        <li>Robert Deeken (update of the Saxon extension)</li>
       </ul>
       <p>
         Special thanks to Nicola Ken Barozzi, Nick Chalko and Adam Jack.
+      </p>
+    </section>
+    <section>
+      <title>Sponsors</title>
+      <p>
+        Thanks to <a href="http://www.outline.ch">Outline AG</a> for allowing me to open-source
+        the barcode package I wrote during my employment there.
+        Jeremias Märki
+      </p>
+      <p>
+        Thanks to <a href="http://www.thunderhead.com">Thunderhead Ltd</a> for sponsoring the
+        development of the PDF417, Royal Mail Customer Barcode and DataMatrix symbologies. 
+        Jeremias Märki
       </p>
     </section>
   </body>

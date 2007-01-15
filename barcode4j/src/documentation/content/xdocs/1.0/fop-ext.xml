@@ -117,7 +117,7 @@
         (PDF, PostScript or whatever).
       </p>
     </section>
-    <section>
+    <!--section> No longer supported since the functionality has been integrated into 0.93
       <title>The special FOP extension (for experienced developers only)</title>
       <note>This extension is only available through CVS. It is not included in the distribution.</note>
       <p>
@@ -142,6 +142,6 @@
         a FOP version 0.20.6 before a 1.0 release we will make sure this extension is released. FOP
         1.0 will also contain this functionality but the code hasn't been written, yet.
       </p>
-    </section>
+    </section-->
   </body>
 </document>
