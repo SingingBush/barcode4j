@@ -8,6 +8,8 @@
   <property name="Name" value="Barcode4J Library"/>
   <property name="name" value="barcode4j"/>
   <property name="version" value="${barcode4j-version}"/>
+  <property name="impl.vendor" value="The Barcode4J Project"/>
+  <property name="impl.url" value="http://barcode4j.sourceforge.net"/>
   <property name="year" value="2000-2007"/>
   <property name="build.compiler" value="classic"/>
   <!--property name="debug" value="on"/>
@@ -405,8 +407,8 @@
         <attribute name="Class-Path" value="${manifest-classpath}"/>
         <attribute name="Implementation-Title" value="${Name}"/>
         <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
-        <attribute name="Implementation-URL" value="http://barcode4j.krysalis.org"/>
+        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+        <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
       <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
@@ -418,7 +420,8 @@
       <manifest>
         <attribute name="Implementation-Title" value="${Name}"/>
         <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
+        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+        <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
       <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
@@ -454,8 +457,8 @@
       <manifest>
         <attribute name="Implementation-Title" value="${Name}"/>
         <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
-        <attribute name="Implementation-URL" value="http://barcode4j.krysalis.org"/>
+        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+        <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
       <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
@@ -472,8 +475,8 @@
         <attribute name="Class-Path" value="${manifest-classpath}"/>
         <attribute name="Implementation-Title" value="${Name}"/>
         <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
-        <attribute name="Implementation-URL" value="http://barcode4j.krysalis.org"/>
+        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+        <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
       <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
@@ -494,8 +497,8 @@
       <manifest>
         <attribute name="Implementation-Title" value="${Name}"/>
         <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
-        <attribute name="Implementation-URL" value="http://barcode4j.krysalis.org"/>
+        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+        <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
       <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
@@ -512,7 +515,8 @@
         <attribute name="Class-Path" value="${manifest-classpath}"/>
         <attribute name="Implementation-Title" value="${Name}"/>
         <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
+        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+        <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
       <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
@@ -528,13 +532,13 @@
     </jar>
   </target>
   <target name="package-fop-trunk" depends="compile" if="fop-trunk.present">
-    <echo message="Creating the jar file ${build.dir}/${name}-fop-ext-trunk.jar"/>
-    <jar jarfile="${build.dir}/${name}-fop-ext-trunk.jar">
+    <echo message="Creating the jar file ${build.dir}/${name}-fop-ext.jar"/>
+    <jar jarfile="${build.dir}/${name}-fop-ext.jar">
       <manifest>
         <attribute name="Implementation-Title" value="${Name}"/>
         <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
-        <attribute name="Implementation-URL" value="http://barcode4j.krysalis.org"/>
+        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+        <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
       <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
@@ -545,14 +549,14 @@
         <include name="org/krysalis/**"/>
       </fileset>
     </jar>
-    <jar jarfile="${build.dir}/${name}-fop-ext-trunk-complete.jar">
+    <jar jarfile="${build.dir}/${name}-fop-ext-complete.jar">
       <manifest>
         <attribute name="Main-Class" value="org.krysalis.barcode4j.cli.Main"/>
         <attribute name="Class-Path" value="${manifest-classpath}"/>
         <attribute name="Implementation-Title" value="${Name}"/>
         <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Implementation-Vendor" value="Krysalis Community Project (http://www.krysalis.org)"/>
-        <attribute name="Implementation-URL" value="http://barcode4j.krysalis.org"/>
+        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+        <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
       <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
@@ -585,7 +589,7 @@
       <arg value="-target:exe"/>
       <arg value="-out:${build.dir}\${name}.exe"/>
       <arg value="${build.dir}\${name}.jar"/>
-      <arg value="${lib.dir}\avalon-framework-4.1.5.jar"/>
+      <arg value="${lib.dir}\avalon-framework-4.2.0.jar"/>
       <arg value="${lib.dir}\commons-cli-1.0.jar"/>
     </exec>
   </target>
