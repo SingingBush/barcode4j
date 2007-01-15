@@ -53,7 +53,7 @@
   <!-- =================================================================== -->
   <!-- Distribution                                                        -->
   <!-- =================================================================== -->
-  <target name="dist-clean">
+  <target name="dist-clean" depends="clean">
     <delete dir="${dist.dir}"/>
   </target>
   <target name="dist" depends="dist-clean, package, webapp, website" description="Creates the distribution files">
@@ -121,13 +121,13 @@
     <zip destfile="${dist.dir}/${rel-name}-bin.zip">
       <fileset dir="${dist.dir}/work/bin"/>
     </zip>
-    <tar destfile="${dist.dir}/${rel-name}-bin.tar.gz" compression="gzip">
+    <tar destfile="${dist.dir}/${rel-name}-bin.tar.gz" compression="gzip" longfile="gnu">
       <tarfileset dir="${dist.dir}/work/bin"/>
     </tar>
     <zip destfile="${dist.dir}/${rel-name}-src.zip">
       <fileset dir="${dist.dir}/work/src"/>
     </zip>
-    <tar destfile="${dist.dir}/${rel-name}-src.tar.gz" compression="gzip">
+    <tar destfile="${dist.dir}/${rel-name}-src.tar.gz" compression="gzip" longfile="gnu">
       <tarfileset dir="${dist.dir}/work/src"/>
     </tar>
   </target>
