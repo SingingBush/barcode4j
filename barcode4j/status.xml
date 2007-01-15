@@ -58,6 +58,10 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="jmaerki" type="update" context="code" due-to="Robert Deeken" due-to-email="rdeeken.at.users.sourceforge.net">
+        Adjusted SAXON 8 extension to versions 8.7.1 and later. This was necessary because of
+        backwards-incompatible changes in the extensions API after the 8.0 release.
+      </action>      
       <action dev="buerkle" type="add" context="code">
         Added an initial version of a EAN-128 implementation.
       </action>      
