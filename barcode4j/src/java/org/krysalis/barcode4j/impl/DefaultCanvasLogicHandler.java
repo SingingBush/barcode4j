@@ -1,12 +1,12 @@
 /*
- * Copyright 2002-2005 Jeremias Maerki.
- * 
+ * Copyright 2002-2005,2007 Jeremias Maerki
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,21 +20,21 @@ import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.output.Canvas;
+import org.krysalis.barcode4j.tools.MessagePatternUtil;
 
 /**
  * Default Logic Handler implementation for painting on a Canvas.
- * 
- * @author Jeremias Maerki
- * @version $Id: DefaultCanvasLogicHandler.java,v 1.6 2005-05-05 08:06:35 jmaerki Exp $
+ *
+ * @version $Id: DefaultCanvasLogicHandler.java,v 1.7 2007-01-19 12:26:55 jmaerki Exp $
  */
 public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
-    
+
     private AbstractBarcodeBean bcBean;
     private Canvas canvas;
     private double x = 0.0;
     private String formattedMsg;
     private String lastgroup;
-    
+
     /**
      * Main constructor.
      * @param bcBean the barcode implementation class
@@ -44,21 +44,23 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
         this.bcBean = bcBean;
         this.canvas = canvas;
     }
-    
+
     private double getStartX() {
         if (bcBean.hasQuietZone()) {
             return bcBean.getQuietZone();
         } else {
             return 0.0;
         }
-    }            
+    }
 
     /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
     public void startBarcode(String msg, String formattedMsg) {
-        this.formattedMsg = formattedMsg;
+        this.formattedMsg = MessagePatternUtil.applyCustomMessagePattern(
+                formattedMsg, bcBean.getPattern());
+        
         //Calculate extents
         BarcodeDimension dim = bcBean.calcDimensions(msg);
-        
+
         canvas.establishDimensions(dim);
         x = getStartX();
     }
@@ -96,14 +98,14 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
             if (bcBean.hasFontDescender()) {
                 ty -= bcBean.getHumanReadableHeight() / 13 * 3;
             }
-            DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg, 
+            DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg,
                     getStartX(), x, ty);
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
             double ty = bcBean.getHeight();
             if (bcBean.hasFontDescender()) {
                 ty -= bcBean.getHumanReadableHeight() / 13 * 3;
             }
-            DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg, 
+            DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg,
                     getStartX(), x, ty);
         }
     }

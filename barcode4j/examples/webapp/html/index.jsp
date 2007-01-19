@@ -253,6 +253,19 @@
           </td>
         </tr>
         <tr>
+          <td>
+            <p>Human Readable Pattern</p>
+          </td>
+          <td>
+            <p>
+              <input type="text" name="humanReadablePattern" value="<%= (bcrequest.getHumanReadablePattern() != null ? bcrequest.getHumanReadablePattern() : "") %>"/>
+            </p>
+          </td>
+          <td>
+            <p>Example: "\_patterned\_:__/__/____" (Any '_' is placeholder for the next message symbol, all other pattern symbols will be inserted between. The '\' is escape char. If the patterned message is too long you can increase the quite zone lenght to make it visible)</p>
+          </td>
+        </tr>
+        <tr>
           <td/>
           <td>
             <p>

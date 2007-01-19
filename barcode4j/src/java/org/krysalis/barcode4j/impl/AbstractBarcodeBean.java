@@ -1,12 +1,12 @@
 /*
- * Copyright 2002-2005 Jeremias Maerki.
- * 
+ * Copyright 2002-2007 Jeremias Maerki or contributors to Barcode4J, as applicable
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,11 +23,10 @@ import org.krysalis.barcode4j.tools.UnitConv;
 
 /**
  * Base class for most barcode implementations.
- * 
- * @author Jeremias Maerki
- * @version $Id: AbstractBarcodeBean.java,v 1.5 2006-11-07 16:43:37 jmaerki Exp $
+ *
+ * @version $Id: AbstractBarcodeBean.java,v 1.6 2007-01-19 12:26:55 jmaerki Exp $
  */
-public abstract class AbstractBarcodeBean 
+public abstract class AbstractBarcodeBean
             implements BarcodeGenerator {
 
     /** Net height of bars in mm */
@@ -44,8 +43,25 @@ public abstract class AbstractBarcodeBean
     protected boolean doQuietZone    = true;
     /** Width of the quiet zone left and right of the barcode in mm */
     protected double quietZone;
+    /** pattern to be applied over the human readable message */
+    protected String pattern;
 
-    
+    /**
+     * returns the pattern to be applied over the human readable message
+     * @return String
+     */
+    public String getPattern() {
+      return this.pattern;
+    }
+
+    /**
+     * Sets the pattern to be applied over the human readable message
+     * @param v String
+     */
+    public void setPattern(String v) {
+      this.pattern = v;
+    }
+
     /**
      * Indicates whether the barcode height calculation should take a font descender
      * into account. This is necessary for barcodes that support lower-case
@@ -55,7 +71,7 @@ public abstract class AbstractBarcodeBean
     protected boolean hasFontDescender() {
         return false;
     }
-    
+
     /**
      * Returns the height of the human-readable part.
      * @return the height of the human-readable part (in mm)
@@ -64,7 +80,7 @@ public abstract class AbstractBarcodeBean
         double textHeight = this.fontSize;
         if (hasFontDescender()) {
             return 1.3 * textHeight;
-            //1.3 is the factor for the font descender 
+            //1.3 is the factor for the font descender
             //(just an approximation due to the lack of a font engine)
         } else {
             return textHeight;
@@ -118,7 +134,7 @@ public abstract class AbstractBarcodeBean
     public void setModuleWidth(double width) {
         this.moduleWidth = width;
     }
-    
+
     /**
      * Returns the effective width of a bar with a given logical width.
      * @param width the logical width (1=narrow, 2=wide)
@@ -159,7 +175,7 @@ public abstract class AbstractBarcodeBean
     public void setQuietZone(double width) {
         this.quietZone = width;
     }
-    
+
     /**
      * Returns the placement of the human-readable part.
      * @return the placement of the human-readable part
@@ -175,7 +191,7 @@ public abstract class AbstractBarcodeBean
     public void setMsgPosition(HumanReadablePlacement placement) {
         this.msgPos = placement;
     }
-    
+
     /**
      * Returns the font size of the human-readable part.
      * @return the font size
@@ -183,7 +199,7 @@ public abstract class AbstractBarcodeBean
     public double getFontSize() {
         return this.fontSize;
     }
-    
+
     /**
      * Sets the font size of the human-readable part.
      * @param size the font size
@@ -199,7 +215,7 @@ public abstract class AbstractBarcodeBean
     public String getFontName() {
         return this.fontName;
     }
-    
+
     /**
      * Sets the font name of the human-readable part.
      * @param name the font name
@@ -207,10 +223,10 @@ public abstract class AbstractBarcodeBean
     public void setFontName(String name) {
         this.fontName = name;
     }
-    
+
     /** @see org.krysalis.barcode4j.BarcodeGenerator */
     public abstract void generateBarcode(CanvasProvider canvas, String msg);
-    
+
     /** @see org.krysalis.barcode4j.BarcodeGenerator */
     public BarcodeDimension calcDimensions(String msg) {
         throw new UnsupportedOperationException("NYI");

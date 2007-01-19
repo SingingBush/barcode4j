@@ -1,12 +1,12 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
- * 
+ * Copyright 2002-2004,2007 Jeremias Maerki or contributors to Barcode4J, as applicable
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,8 +21,7 @@ import org.krysalis.barcode4j.tools.MimeTypes;
 /**
  * This is just a little helper bean for the JSP page.
  * 
- * @author Jeremias Maerki
- * @version $Id: BarcodeRequestBean.java,v 1.3 2007-01-15 15:39:25 jmaerki Exp $
+ * @version $Id: BarcodeRequestBean.java,v 1.4 2007-01-19 12:26:55 jmaerki Exp $
  */
 public class BarcodeRequestBean {
 
@@ -35,6 +34,7 @@ public class BarcodeRequestBean {
     private String humanReadable;
     private String humanReadableSize;
     private String humanReadableFont;
+    private String humanReadablePattern;
     private String format;
     private boolean svgEmbed;
     private String resolution;
@@ -114,6 +114,14 @@ public class BarcodeRequestBean {
 
     public void setHumanReadableFont(String humanReadableFont) {
         this.humanReadableFont = humanReadableFont;
+    }
+
+    public String getHumanReadablePattern(){
+        return this.humanReadablePattern;
+    }
+
+    public void sethumanReadablePattern(String pattern){
+        this.humanReadablePattern = pattern;
     }
 
     public String getFormat() {
@@ -252,6 +260,14 @@ public class BarcodeRequestBean {
             sb.append(java.net.URLEncoder.encode(humanReadableFont));
         }
 
+        String hrPattern = getHumanReadablePattern();
+        if (hrPattern != null) {
+            sb.append("&");
+            sb.append(BarcodeServlet.BARCODE_HUMAN_READABLE_PATTERN);
+            sb.append("=");
+            sb.append(hrPattern);
+        }
+        
         //Output Format
         String res = getResolution();
         if (res != null && isBitmap()) {

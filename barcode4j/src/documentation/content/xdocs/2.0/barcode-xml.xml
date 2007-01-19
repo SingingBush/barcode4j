@@ -3,9 +3,6 @@
 <document>
   <header>
     <title>The Barcode XML format</title>
-    <authors>
-      <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
-    </authors>
   </header>
   <body>
     <section>
@@ -135,11 +132,59 @@
       &#60;placement&#62;<link href="#human-readable-placement">bottom</link>&#60;/placement&#62;
       &#60;font-name&#62;<link href="#font-name">Helvetica</link>&#60;/font-name&#62;
       &#60;font-size&#62;<link href="#length">8pt</link>&#60;/font-size&#62;
+      &#60;pattern&#62;<link href="#string">{string}</link>&#60;/pattern&#62; &#60;!-- see <link href="#pattern">below</link> for details --&#62;
       &#60;display-start-stop&#62;<link href="#boolean">false</link>&#60;/display-start-stop&#62;
       &#60;display-checksum&#62;<link href="#boolean">false</link>&#60;/display-checksum&#62;
     &#60;/human-readable&#62;
   &#60;/<link href="#Code39">code39</link>&#62;
 &#60;/barcode&#62;</source>
+    </section>
+    <section id="pattern">
+      <title> Human-readable message pattern </title>
+      <p>
+        General 1D symbologies have no inner structure. That's why they are used where custom 
+        messages should be encoded - most often some very big numbers with a lot of digits.
+        These are very hard to read if there is no grouping. Or you can have a date and time 
+        encoded as contiguous set of digits. In order to make it easy for people to read complicated 
+        long messages a pattern is required. There is a facility to add custom patterns to a 
+        human-readable message. However, it only applies to Interleaves 2 of 5, Code 39, 
+        Code 128 and Codabar. Other symbologies either have no human-readable part or require
+        special formatting of the message (like UPC/EAN).
+      </p>
+      <source>
+&#60;human-readable&#62;
+  &#60;pattern&#62;<link href="#string">{string}</link>&#60;/pattern&#62;
+&#60;/human-readable&#62;</source>
+      <p>
+        In the pattern the underscore "_" is used as placeholder for the next message character. 
+        The other characters within the pattern are inserted between the message symbols. The 
+        backslash "\" is escape symbol. Combination of '\?' will include '?' in the 
+        human-readable message, where '?' can be any character including underscore '_' and 
+        backslash '\'.
+      </p>
+      <p>
+        <strong>Examples:</strong>
+      </p>
+      <table>
+       <tr>
+         <td><strong>Barcode message</strong></td>
+         <td><pre>1234567890</pre></td>
+         <td><pre>01012001103854</pre></td>
+         <td><pre>1234567890</pre></td>
+       </tr>
+       <tr>
+         <td><strong>Human-readable pattern</strong></td>
+         <td><pre>____ ____ __</pre></td>
+         <td><pre>__/__/____ __:__:__ UTC</pre></td>
+         <td><pre>____\\___\____</pre></td>
+       </tr>
+       <tr>
+         <td><strong>Human-readable message</strong></td>
+         <td><pre>1234 5678 90</pre></td>
+         <td><pre>01/01/2001 10:38:54 UTC</pre></td>
+         <td><pre>1234\567_890</pre></td>
+       </tr>
+      </table>
     </section>
     <section id="supported">
       <title>Configuration details for all supported symbologies</title>

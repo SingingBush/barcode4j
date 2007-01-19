@@ -58,6 +58,10 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="jmaerki" type="add" context="code" due-to="Dimitar Vlasev" due-to-email="vlasevdr.at.yahoo.com">
+        Added a feature for applying a formatting pattern to the human-readable message (for
+        Interleaved 2 of 5, Code 39, Code 128 and Codabar).
+      </action>      
       <action dev="jmaerki" type="update" context="code" due-to="Robert Deeken" due-to-email="rdeeken.at.users.sourceforge.net">
         Adjusted SAXON 8 extension to versions 8.7.1 and later. This was necessary because of
         backwards-incompatible changes in the extensions API after the 8.0 release.

@@ -1,12 +1,12 @@
 /*
- * Copyright 2003-2004 Jeremias Maerki.
- * 
+ * Copyright 2003-2004,2007 Jeremias Maerki or contributors to Barcode4J, as applicable
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,8 +27,7 @@ import org.krysalis.barcode4j.BarcodeConstants;
 /**
  * Registers the elements covered by Barcode4J's namespace.
  * 
- * @author Jeremias Maerki
- * @version $Id: BarcodeElementMapping.java,v 1.6 2007-01-04 08:07:50 jmaerki Exp $
+ * @version $Id: BarcodeElementMapping.java,v 1.7 2007-01-19 12:26:55 jmaerki Exp $
  */
 public class BarcodeElementMapping implements ElementMapping {
 
@@ -40,7 +39,7 @@ public class BarcodeElementMapping implements ElementMapping {
          "height", "module-width", "wide-factor", "quiet-zone",
          "checksum", "human-readable",
          "human-readable-font", "human-readable-size",
-         "font-name", "font-size", "placement", 
+         "font-name", "font-size", "placement", "pattern",
          "display-start-stop", "display-checksum",
          "interchar-gap-width",
          "tall-bar-height", "short-bar-height", "baseline-alignment"

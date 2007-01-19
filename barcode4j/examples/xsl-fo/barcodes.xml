@@ -108,11 +108,22 @@
     <barcode>
       <description>Swiss Post: PostPac Priority marker (Code 128)</description>
       <msg>0509</msg>
-      <code128>
+      <code128 orientation="90">
         <module-width>0.5mm</module-width>
         <height>8mm</height>
+        <quiet-zone enabled="true">2mw</quiet-zone>
         <human-readable>
           <placement>none</placement>
+        </human-readable>
+      </code128>
+    </barcode>
+    <barcode>
+      <description>Swiss Post: PostPac tracking number (Code 128)</description>
+      <msg>990080530005275708</msg>
+      <code128>
+        <module-width>0.3mm</module-width>
+        <human-readable>
+          <pattern>__.__.______.________</pattern>
         </human-readable>
       </code128>
     </barcode>

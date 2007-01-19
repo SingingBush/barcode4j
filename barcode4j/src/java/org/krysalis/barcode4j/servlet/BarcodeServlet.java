@@ -1,12 +1,12 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
- * 
+ * Copyright 2002-2007 Jeremias Maerki or contributors to Barcode4J, as applicable
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,9 +40,8 @@ import org.krysalis.barcode4j.tools.MimeTypes;
 
 /**
  * Simple barcode servlet.
- * 
- * @author Jeremias Maerki
- * @version $Id: BarcodeServlet.java,v 1.5 2006-11-07 16:43:37 jmaerki Exp $
+ *
+ * @version $Id: BarcodeServlet.java,v 1.6 2007-01-19 12:26:55 jmaerki Exp $
  */
 public class BarcodeServlet extends HttpServlet {
 
@@ -70,6 +69,9 @@ public class BarcodeServlet extends HttpServlet {
     public static final String BARCODE_HUMAN_READABLE_SIZE = "hrsize";
     /** Parameter name for the font name of the human readable display */
     public static final String BARCODE_HUMAN_READABLE_FONT = "hrfont";
+    /** Parameter name for the pattern to format the human readable message */
+    public static final String BARCODE_HUMAN_READABLE_PATTERN = "hrpattern";
+
 
     private Logger log = new ConsoleLogger(ConsoleLogger.LEVEL_INFO);
 
@@ -82,15 +84,15 @@ public class BarcodeServlet extends HttpServlet {
         try {
             String format = determineFormat(request);
             int orientation = 0;
-            
+
             Configuration cfg = buildCfg(request);
 
             String msg = request.getParameter(BARCODE_MSG);
             if (msg == null) msg = "0123456789";
-            
+
             BarcodeUtil util = BarcodeUtil.getInstance();
             BarcodeGenerator gen = util.createBarcodeGenerator(cfg);
-            
+
             ByteArrayOutputStream bout = new ByteArrayOutputStream(4096);
             try {
                 if (format.equals(MimeTypes.MIME_SVG)) {
@@ -98,7 +100,7 @@ public class BarcodeServlet extends HttpServlet {
                     SVGCanvasProvider svg = new SVGCanvasProvider(false, orientation);
                     gen.generateBarcode(svg, msg);
                     org.w3c.dom.DocumentFragment frag = svg.getDOMFragment();
-                     
+
                     //Serialize SVG barcode
                     TransformerFactory factory = TransformerFactory.newInstance();
                     Transformer trans = factory.newTransformer();
@@ -113,7 +115,7 @@ public class BarcodeServlet extends HttpServlet {
                     String resText = request.getParameter(BARCODE_IMAGE_RESOLUTION);
                     int resolution = 300; //dpi
                     if (resText != null) {
-                        resolution = Integer.parseInt(resText); 
+                        resolution = Integer.parseInt(resText);
                     }
                     if (resolution > 2400) {
                         throw new IllegalArgumentException(
@@ -126,10 +128,10 @@ public class BarcodeServlet extends HttpServlet {
                     String gray = request.getParameter(BARCODE_IMAGE_GRAYSCALE);
                     BitmapCanvasProvider bitmap = ("true".equalsIgnoreCase(gray)
                         ? new BitmapCanvasProvider(
-                                bout, format, resolution, 
+                                bout, format, resolution,
                                 BufferedImage.TYPE_BYTE_GRAY, true, orientation)
                         : new BitmapCanvasProvider(
-                                bout, format, resolution, 
+                                bout, format, resolution,
                                 BufferedImage.TYPE_BYTE_BINARY, false, orientation));
                     gen.generateBarcode(bitmap, msg);
                     bitmap.finish();
@@ -149,7 +151,7 @@ public class BarcodeServlet extends HttpServlet {
             throw new ServletException(t);
         }
     }
-    
+
     /**
      * Check the request for the desired output format.
      * @param request the request to use
@@ -161,7 +163,7 @@ public class BarcodeServlet extends HttpServlet {
         if (format == null) format = MimeTypes.MIME_SVG;
         return format;
     }
-    
+
     /**
      * Build an Avalon Configuration object from the request.
      * @param request the request to use
@@ -205,24 +207,46 @@ public class BarcodeServlet extends HttpServlet {
             }
             child.addChild(attr);
         }
-        String humanReadable = request.getParameter(BARCODE_HUMAN_READABLE_POS);
-        if (humanReadable != null) {
-            attr = new DefaultConfiguration("human-readable");
-            attr.setValue(humanReadable);
-            child.addChild(attr);
-        }
+
+        // creating human readable configuration according to the new Barcode Element Mappings
+        // where the human-readable has children for font name, font size, placement and
+        // custom pattern.
+        String humanReadablePosition = request.getParameter(BARCODE_HUMAN_READABLE_POS);
+        String pattern = request.getParameter(BARCODE_HUMAN_READABLE_PATTERN);
         String humanReadableSize = request.getParameter(BARCODE_HUMAN_READABLE_SIZE);
-        if (humanReadableSize != null) {
-            attr = new DefaultConfiguration("human-readable-size");
-            attr.setValue(humanReadableSize);
-            child.addChild(attr);
-        }
         String humanReadableFont = request.getParameter(BARCODE_HUMAN_READABLE_FONT);
-        if (humanReadableFont != null) {
-            attr = new DefaultConfiguration("human-readable-font");
-            attr.setValue(humanReadableFont);
+
+        if (!((humanReadablePosition == null)
+                && (pattern == null)
+                && (humanReadableSize == null)
+                && (humanReadableFont == null))) {
+            attr = new DefaultConfiguration("human-readable");
+
+            DefaultConfiguration subAttr;
+            if (pattern != null) {
+                subAttr = new DefaultConfiguration("pattern");
+                subAttr.setValue(pattern);
+                attr.addChild(subAttr);
+            }
+            if (humanReadableSize != null) {
+                subAttr = new DefaultConfiguration("font-size");
+                subAttr.setValue(humanReadableSize);
+                attr.addChild(subAttr);
+            }
+            if (humanReadableFont != null) {
+                subAttr = new DefaultConfiguration("font-name");
+                subAttr.setValue(humanReadableFont);
+                attr.addChild(subAttr);
+            }
+            if (humanReadablePosition != null) {
+              subAttr = new DefaultConfiguration("placement");
+              subAttr.setValue(humanReadablePosition);
+              attr.addChild(subAttr);
+            }
+
             child.addChild(attr);
         }
+
         return cfg;
     }
 
