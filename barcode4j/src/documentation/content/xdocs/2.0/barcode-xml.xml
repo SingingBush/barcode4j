@@ -168,21 +168,21 @@
       <table>
        <tr>
          <td><strong>Barcode message</strong></td>
-         <td><pre>1234567890</pre></td>
-         <td><pre>01012001103854</pre></td>
-         <td><pre>1234567890</pre></td>
+         <td><br/><code>1234567890</code><br/>&#160;</td>
+         <td><br/><code>01012001103854</code><br/>&#160;</td>
+         <td><br/><code>1234567890</code><br/>&#160;</td>
        </tr>
        <tr>
          <td><strong>Human-readable pattern</strong></td>
-         <td><pre>____ ____ __</pre></td>
-         <td><pre>__/__/____ __:__:__ UTC</pre></td>
-         <td><pre>____\\___\____</pre></td>
+         <td><br/><code>____ ____ __</code><br/>&#160;</td>
+         <td><br/><code>__/__/____ __:__:__ UTC</code><br/>&#160;</td>
+         <td><br/><code>____\\___\____</code><br/>&#160;</td>
        </tr>
        <tr>
          <td><strong>Human-readable message</strong></td>
-         <td><pre>1234 5678 90</pre></td>
-         <td><pre>01/01/2001 10:38:54 UTC</pre></td>
-         <td><pre>1234\567_890</pre></td>
+         <td><br/><code>1234 5678 90</code><br/>&#160;</td>
+         <td><br/><code>01/01/2001 10:38:54 UTC</code><br/>&#160;</td>
+         <td><br/><code>1234\567_890</code><br/>&#160;</td>
        </tr>
       </table>
     </section>
