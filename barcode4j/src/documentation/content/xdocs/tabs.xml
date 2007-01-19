@@ -18,7 +18,7 @@
   <tab label="XML Site" dir="xml-site/"/>
   -->
   <tab id="previous-version" label="Version 1.0" dir="1.0/" indexfile="index.html"/>
-  <tab id="current-version" label="Version 2.0 DEV" dir="2.0/" indexfile="index.html"/>
+  <tab id="current-version" label="Version 2.0 alpha 1" dir="2.0/" indexfile="index.html"/>
   <!-- alternate method
   <tab id="doc" label="Documentation" dir="" indexfile="documentation.html">
     <tab id="build-it" label="Building" dir="" indexfile="building.html"/>
