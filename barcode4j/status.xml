@@ -57,7 +57,9 @@
 
   <changes>
     <!-- Add new releases here -->
-    <release version="dev">
+    <!--release version="dev">
+    </release-->
+    <release version="2.0 alpha 1" date="2007-01-19">
       <action dev="jmaerki" type="add" context="code" due-to="Dimitar Vlasev" due-to-email="vlasevdr.at.yahoo.com">
         Added a feature for applying a formatting pattern to the human-readable message (for
         Interleaved 2 of 5, Code 39, Code 128 and Codabar).
