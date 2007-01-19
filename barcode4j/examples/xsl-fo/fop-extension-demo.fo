@@ -333,12 +333,20 @@
           </bc:barcode>
         </fo:instream-foreign-object>
       </fo:block>
+      <fo:block break-before="page">a third page</fo:block>
+      <fo:block font-weight="bold">Playing with the human-readable part:</fo:block>
+      <fo:block>
+        <fo:instream-foreign-object>
+          <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="990080530005275708">
+            <bc:code128/>
+          </bc:barcode>
+        </fo:instream-foreign-object>
+      </fo:block>
       <fo:block font-weight="bold">Custom message pattern (990080530005275708 --> 99.00.805300.05275708)</fo:block>
       <fo:block>
         <fo:instream-foreign-object>
           <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="990080530005275708">
             <bc:code128>
-              <bc:module-width>0.3mm</bc:module-width>
               <bc:human-readable>
                 <bc:pattern>__.__.______.________</bc:pattern>
               </bc:human-readable>
@@ -346,7 +354,19 @@
           </bc:barcode>
         </fo:instream-foreign-object>
       </fo:block>
-      <fo:block break-before="page">a third page</fo:block>
+      <fo:block font-weight="bold">Different font:</fo:block>
+      <fo:block>
+        <fo:instream-foreign-object>
+          <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="990080530005275708">
+            <bc:code128>
+              <bc:human-readable>
+                <bc:font-name>serif</bc:font-name>
+                <bc:font-size>6pt</bc:font-size>
+              </bc:human-readable>
+            </bc:code128>
+          </bc:barcode>
+        </fo:instream-foreign-object>
+      </fo:block>
       <fo:block break-before="page">This is the last page.</fo:block>
     </fo:flow>
   </fo:page-sequence>
