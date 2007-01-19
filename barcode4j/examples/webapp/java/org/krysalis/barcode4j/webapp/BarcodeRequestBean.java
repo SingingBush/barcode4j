@@ -21,7 +21,7 @@ import org.krysalis.barcode4j.tools.MimeTypes;
 /**
  * This is just a little helper bean for the JSP page.
  * 
- * @version $Id: BarcodeRequestBean.java,v 1.4 2007-01-19 12:26:55 jmaerki Exp $
+ * @version $Id: BarcodeRequestBean.java,v 1.5 2007-01-19 12:47:43 jmaerki Exp $
  */
 public class BarcodeRequestBean {
 
@@ -253,7 +253,7 @@ public class BarcodeRequestBean {
         }
 
         String humanReadableFont = getHumanReadableFont();
-        if (humanReadableSize != null) {
+        if (humanReadableFont != null) {
             sb.append("&");
             sb.append(BarcodeServlet.BARCODE_HUMAN_READABLE_FONT);
             sb.append("=");
