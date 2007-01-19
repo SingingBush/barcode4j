@@ -16,6 +16,21 @@
       </p>
     </section>
     <section>
+      <title>Setting up the barcode extension with Apache FOP 0.93 or later</title>
+      <p>To setup the barcode extension, do the following:</p>
+      <ul>
+        <li>
+          Add <code>barcode4j.jar</code> and <code>barcode4j-fop-ext.jar</code> to the
+          <link href="../faq.html#classpath">classpath</link>.
+        </li>
+        <li>
+          Alternatively, you can use the combined JAR:
+          <code>barcode4j-fop-ext-complete.jar</code> which combines both
+          <strong>Barcode4J</strong> and the FOP extension.
+        </li>
+      </ul>
+    </section>
+    <section>
       <title>Setting up the barcode extension with Apache FOP 0.20.5</title>
       <p>To setup the barcode extension, do the following:</p>
       <ul>
@@ -34,21 +49,6 @@
           <strong>Barcode4J</strong> (or the latest release of
           <fork href="ext:avalon">Avalon Framework</fork>). The version from FOP 0.20.5
           is slightly out-of-date.
-        </li>
-      </ul>
-    </section>
-    <section>
-      <title>Setting up the barcode extension with Apache FOP 0.93 or later</title>
-      <p>To setup the barcode extension, do the following:</p>
-      <ul>
-        <li>
-          Add <code>barcode4j.jar</code> and <code>barcode4j-fop-ext.jar</code> to the
-          <link href="../faq.html#classpath">classpath</link>.
-        </li>
-        <li>
-          Alternatively, you can use the combined JAR:
-          <code>barcode4j-fop-ext-complete.jar</code> which combines both
-          <strong>Barcode4J</strong> and the FOP extension.
         </li>
       </ul>
     </section>
