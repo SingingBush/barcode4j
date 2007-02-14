@@ -15,12 +15,14 @@
  */
  package org.krysalis.barcode4j;
 
+import java.util.Collection;
+
 /**
  * This interface is used to resolve arbitrary string to classnames of Barcode
  * implementations.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeClassResolver.java,v 1.3 2004-09-12 17:57:54 jmaerki Exp $
+ * @version $Id: BarcodeClassResolver.java,v 1.4 2007-02-14 10:19:07 jmaerki Exp $
  */
 public interface BarcodeClassResolver {
 
@@ -41,4 +43,11 @@ public interface BarcodeClassResolver {
      * @throws ClassNotFoundException If the class could not be resolved
      */
     Class resolveBean(String name) throws ClassNotFoundException;
+    
+    /**
+     * Return the names of all registered barcode types.
+     * @return the names as a Collection of java.lang.String instances.
+     */
+    Collection getBarcodeNames();
+    
 }

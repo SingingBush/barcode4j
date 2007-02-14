@@ -23,27 +23,14 @@ import org.apache.fop.fo.TreeBuilder;
 import org.apache.fop.fo.FObj;
 
 import org.krysalis.barcode4j.BarcodeConstants;
+import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
 
 /**
  * Registers the elements covered by Barcode4J's namespace.
  * 
- * @version $Id: BarcodeElementMapping.java,v 1.7 2007-01-19 12:26:55 jmaerki Exp $
+ * @version $Id: BarcodeElementMapping.java,v 1.8 2007-02-14 10:19:07 jmaerki Exp $
  */
 public class BarcodeElementMapping implements ElementMapping {
-
-    private static final String[] BARCODE_ELEMENTS =
-        {"intl2of5", "code39", "codabar", "code128", 
-         "ean128", "template", "group-separator", "check-digit-marker", "omit-brackets",
-         "upc-a", "upc-e", "ean-13", "ean-8",
-         "postnet",
-         "height", "module-width", "wide-factor", "quiet-zone",
-         "checksum", "human-readable",
-         "human-readable-font", "human-readable-size",
-         "font-name", "font-size", "placement", "pattern",
-         "display-start-stop", "display-checksum",
-         "interchar-gap-width",
-         "tall-bar-height", "short-bar-height", "baseline-alignment"
-         };
 
     private static HashMap foObjs = null;    
     
@@ -58,9 +45,10 @@ public class BarcodeElementMapping implements ElementMapping {
     private synchronized void setupBarcodeElements() {
         if (foObjs == null) {
             foObjs = new HashMap();
+            String[] elements = ConfigurableBarcodeGenerator.BARCODE_ELEMENTS;
             foObjs.put("barcode", getBarcodeElementMaker());
-            for (int i = 0; i < BARCODE_ELEMENTS.length; i++) {
-                foObjs.put(BARCODE_ELEMENTS[i], getBarcodeObjMaker(BARCODE_ELEMENTS[i]));
+            for (int i = 0; i < elements.length; i++) {
+                foObjs.put(elements[i], getBarcodeObjMaker(elements[i]));
             }
         }
     }
@@ -73,7 +61,8 @@ public class BarcodeElementMapping implements ElementMapping {
         
         //for compatibility (Krysalis Barcode)
         builder.addMapping(BarcodeConstants.OLD_NAMESPACE, foObjs);
-        builder.addPropertyListBuilder(BarcodeConstants.OLD_NAMESPACE, new DirectPropertyListBuilder());
+        builder.addPropertyListBuilder(BarcodeConstants.OLD_NAMESPACE, 
+                new DirectPropertyListBuilder());
     }
 }
 

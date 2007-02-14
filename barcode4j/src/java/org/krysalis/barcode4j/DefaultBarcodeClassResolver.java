@@ -15,13 +15,15 @@
  */
 package org.krysalis.barcode4j;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 /**
  * This is a simple implementation of a BarcodeClassResolver.
  * 
  * @author Jeremias Maerki
- * @version $Id: DefaultBarcodeClassResolver.java,v 1.9 2006-12-31 16:48:18 buerkle Exp $
+ * @version $Id: DefaultBarcodeClassResolver.java,v 1.10 2007-02-14 10:19:07 jmaerki Exp $
  */
 public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
 
@@ -97,5 +99,12 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
         }
         Class cl = Class.forName(clazz + "Bean");
         return cl;
+    }
+    
+    /**
+     * @see org.krysalis.barcode4j.BarcodeClassResolver#getBarcodeNames()
+     */
+    public Collection getBarcodeNames() {
+        return Collections.unmodifiableCollection(this.classes.keySet());
     }
 }

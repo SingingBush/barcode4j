@@ -28,7 +28,7 @@ import org.w3c.dom.DocumentFragment;
  * BarcodeClassResolver.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeUtil.java,v 1.4 2006-11-07 16:43:37 jmaerki Exp $
+ * @version $Id: BarcodeUtil.java,v 1.5 2007-02-14 10:19:07 jmaerki Exp $
  */
 public class BarcodeUtil {
     
@@ -54,6 +54,14 @@ public class BarcodeUtil {
             instance = new BarcodeUtil();
         }
         return instance;
+    }
+    
+    /**
+     * Returns the class resolver used by this class.
+     * @return a BarcodeClassResolver instance
+     */
+    public BarcodeClassResolver getClassResolver() {
+        return this.classResolver;
     }
     
     /**

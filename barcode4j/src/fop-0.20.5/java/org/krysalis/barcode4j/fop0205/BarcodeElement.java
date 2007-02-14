@@ -47,7 +47,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * Class representing bc:barcode pseudo flow object.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeElement.java,v 1.5 2004-10-02 14:54:11 jmaerki Exp $
+ * @version $Id: BarcodeElement.java,v 1.6 2007-02-14 10:19:07 jmaerki Exp $
  */
 public class BarcodeElement extends BarcodeObj {
 
@@ -196,6 +196,8 @@ public class BarcodeElement extends BarcodeObj {
                     throw ce;
                 }
             }
+            int orientation = cfg.getAttributeAsInteger("orientation", 0);
+            
             //MessageHandler.logln("Barcode message: " + msg);
             final String renderMode = cfg.getAttribute("render-mode", "native");
             //MessageHandler.logln("Render mode: " + renderMode);
@@ -204,14 +206,14 @@ public class BarcodeElement extends BarcodeObj {
                     createBarcodeGenerator(cfg);
             String expandedMsg = VariableUtil.getExpandedMessage(foa.getPage(), msg);
             BarcodeDimension bardim = bargen.calcDimensions(expandedMsg);
-            final float w = (float)UnitConv.mm2pt(bardim.getWidthPlusQuiet()) * 1000;
-            final float h = (float)UnitConv.mm2pt(bardim.getHeightPlusQuiet()) * 1000;
+            final float w = (float)UnitConv.mm2pt(bardim.getWidthPlusQuiet(orientation)) * 1000;
+            final float h = (float)UnitConv.mm2pt(bardim.getHeightPlusQuiet(orientation)) * 1000;
             
             
             BarcodeArea barcodeArea = createArea(fs, w, h);
             barcodeArea.setParent(foa);
             barcodeArea.setPage(foa.getPage());
-            barcodeArea.setBarcode(bargen, expandedMsg, renderMode);
+            barcodeArea.setBarcode(bargen, expandedMsg, renderMode, orientation);
             barcodeArea.start();
             barcodeArea.end();
             

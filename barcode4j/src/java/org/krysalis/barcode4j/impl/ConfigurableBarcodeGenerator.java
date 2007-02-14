@@ -15,11 +15,15 @@
  */
 package org.krysalis.barcode4j.impl;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeGenerator;
+import org.krysalis.barcode4j.BarcodeUtil;
 import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.output.CanvasProvider;
 import org.krysalis.barcode4j.tools.Length;
@@ -27,11 +31,46 @@ import org.krysalis.barcode4j.tools.Length;
 /**
  * Base class for most Avalon-Configurable barcode implementation proxies.
  *
- * @version $Id: ConfigurableBarcodeGenerator.java,v 1.5 2007-01-19 12:26:55 jmaerki Exp $
+ * @version $Id: ConfigurableBarcodeGenerator.java,v 1.6 2007-02-14 10:19:08 jmaerki Exp $
  */
 public abstract class ConfigurableBarcodeGenerator
             implements BarcodeGenerator, Configurable {
 
+    /**
+     * Contains all possible element names that may appear in barcode XML.
+     */
+    public static final String[] BARCODE_ELEMENTS;
+    
+    static {
+        List elements = new java.util.ArrayList();
+        //All barcode names
+        elements.addAll(BarcodeUtil.getInstance().getClassResolver().getBarcodeNames());
+        //All configuration element names
+        elements.add("height");
+        elements.add("module-width");
+        elements.add("wide-factor");
+        elements.add("quiet-zone");
+        elements.add("checksum");
+        elements.add("human-readable");
+        elements.add("human-readable-font");
+        elements.add("human-readable-size");
+        elements.add("font-name");
+        elements.add("font-size");
+        elements.add("placement");
+        elements.add("pattern");
+        elements.add("display-start-stop");
+        elements.add("display-checksum");
+        elements.add("interchar-gap-width");
+        elements.add("tall-bar-height");
+        elements.add("short-bar-height");
+        elements.add("baseline-alignment");
+        elements.add("template");
+        elements.add("group-separator");
+        elements.add("check-digit-marker");
+        elements.add("omit-brackets");
+        BARCODE_ELEMENTS = (String[])elements.toArray(new String[elements.size()]);
+    }
+    
     /** Proxy target. Barcode bean to configure. */
     protected AbstractBarcodeBean bean;
 

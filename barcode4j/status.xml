@@ -59,6 +59,15 @@
     <!-- Add new releases here -->
     <!--release version="dev">
     </release-->
+    <release version="2.0 alpha 2" date="2007-02-14">
+      <action dev="jmaerki" type="fix" context="code">
+        Fixed the registration of all barcode types in the FOP 0.20.5 extension. PDF417 and 
+        DataMatrix didn't work in 2.0 alpha 1.  
+      </action>      
+      <action dev="jmaerki" type="add" context="code">
+        Added support for orientation in the FOP 0.20.5 extension.
+      </action>      
+    </release>
     <release version="2.0 alpha 1" date="2007-01-19">
       <action dev="jmaerki" type="add" context="code" due-to="Dimitar Vlasev" due-to-email="vlasevdr.at.yahoo.com">
         Added a feature for applying a formatting pattern to the human-readable message (for
