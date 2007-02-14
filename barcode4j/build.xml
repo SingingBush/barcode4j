@@ -409,7 +409,7 @@
       <fileset dir="${jdom.dir}/java" defaultexcludes="yes"/>
       <tag name="todo" scope="all" description="TODO:" />
       <link href="http://avalon.apache.org/framework/api/"/>
-      <link href="http://www.saxonica.com/documentation/javadoc/"/>
+      <!--link href="http://www.saxonica.com/documentation/javadoc/"/ doesn't work anymore-->
       <doctitle>${name} ${version} API</doctitle>
       <bottom>&lt;i&gt;Copyright &#169; ${year} Jeremias Maerki. All rights reserved.&lt;i&gt;</bottom>
       <header><![CDATA[${name} ${version}]]></header>
