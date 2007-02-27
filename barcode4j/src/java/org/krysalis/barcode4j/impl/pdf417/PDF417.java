@@ -24,7 +24,7 @@ import org.krysalis.barcode4j.tools.Length;
 /**
  * This class is an implementation of the PDF417 barcode.
  * 
- * @version $Id: PDF417.java,v 1.2 2007-01-14 11:50:48 jmaerki Exp $
+ * @version $Id: PDF417.java,v 1.3 2007-02-27 20:55:29 jmaerki Exp $
  */
 public class PDF417 extends ConfigurableBarcodeGenerator 
             implements Configurable {
@@ -72,6 +72,8 @@ public class PDF417 extends ConfigurableBarcodeGenerator
             } else {
                 getPDF417Bean().setBarHeight(rh.getValueAsMillimeter());
             }
+        } else {
+            getPDF417Bean().setBarHeight(PDF417Bean.DEFAULT_X_TO_Y_FACTOR * getBean().getModuleWidth());
         }
     }
    

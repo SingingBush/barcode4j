@@ -26,7 +26,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * This class is an implementation of the PDF417 barcode.
  * 
- * @version $Id: PDF417Bean.java,v 1.1 2006-06-22 09:01:15 jmaerki Exp $
+ * @version $Id: PDF417Bean.java,v 1.2 2007-02-27 20:55:29 jmaerki Exp $
  */
 public class PDF417Bean extends AbstractBarcodeBean {
 
@@ -44,13 +44,11 @@ public class PDF417Bean extends AbstractBarcodeBean {
     private int errorCorrectionLevel = DEFAULT_ERROR_CORRECTION_LEVEL;
     private int cols = DEFAULT_COLUMN_COUNT;
     private Double quietZoneVertical;
-    private double rowHeight;
     
     /** Create a new instance. */
     public PDF417Bean() {
-        this.height = 0.0; //not used by PDF417
         this.moduleWidth = DEFAULT_MODULE_WIDTH;
-        this.rowHeight = DEFAULT_X_TO_Y_FACTOR * moduleWidth; 
+        this.height = DEFAULT_X_TO_Y_FACTOR * moduleWidth;
         this.quietZone = 2 * moduleWidth;
     }
     
@@ -144,7 +142,7 @@ public class PDF417Bean extends AbstractBarcodeBean {
     
     /** @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarHeight() */
     public double getBarHeight() {
-        return rowHeight;
+        return this.height;
     }
     
 }

@@ -57,8 +57,11 @@
 
   <changes>
     <!-- Add new releases here -->
-    <!--release version="dev">
-    </release-->
+    <release version="dev">
+      <action dev="jmaerki" type="fix" context="code">
+        Fixed row-height setting for PDF417 which was completely ignored.  
+      </action>      
+    </release>
     <release version="2.0 alpha 2" date="2007-02-14">
       <action dev="jmaerki" type="fix" context="code">
         Fixed the registration of all barcode types in the FOP 0.20.5 extension. PDF417 and 
