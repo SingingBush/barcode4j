@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Jeremias Maerki.
+ * Copyright 2006-2007 Jeremias Maerki.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.8 2007-01-04 08:06:56 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.9 2007-03-07 14:15:49 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import java.util.Arrays;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  * 
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.8 2007-01-04 08:06:56 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.9 2007-03-07 14:15:49 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
@@ -142,6 +142,10 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             this.msg = msg;
             this.encodedMsg = encodeMsg(msg);
             this.codewords = new StringBuffer(msg.length());
+        }
+        
+        public String getMessage() {
+            return this.msg;
         }
         
         public char getCurrentChar() {
@@ -563,17 +567,19 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             while (context.hasMoreCharacters()) {
                 char c = context.getCurrentChar();
                 encodeChar(c, buffer);
+                context.pos++;
+
                 int count = buffer.length(); 
                 if (count >= 4) {
                     context.writeCodewords(encodeToCodewords(buffer, 0));
                     buffer.delete(0, 4);
-                    
+
                     int newMode = lookAheadTest(context.msg, context.pos, getEncodingMode());
                     if (newMode != getEncodingMode()) {
-                        context.signalEncoderChange(newMode);
+                        context.signalEncoderChange(ASCII_ENCODATION);
+                        break;
                     }
                 }
-                context.pos++;
             }
             buffer.append((char)31); //Unlatch
             handleEOD(context, buffer);
@@ -602,17 +608,27 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 if (count > 4) {
                     throw new IllegalStateException("Count must not exceed 4");
                 }
-                int restChars = buffer.length() - 1;
-                context.updateSymbolInfo();
-                int available = context.symbolInfo.dataCapacity - context.getCodewordCount();
-                if (available == 0) {
-                    context.updateSymbolInfo(context.getCodewordCount() + 1);
+                int restChars = count - 1;
+                String encoded = encodeToCodewords(buffer, 0);
+                boolean endOfSymbolReached = !context.hasMoreCharacters();
+                boolean restInAscii = endOfSymbolReached && restChars <= 2;
+                
+                int available;
+                if (restChars <= 2) {
+                    context.updateSymbolInfo(context.getCodewordCount() + restChars);
                     available = context.symbolInfo.dataCapacity - context.getCodewordCount();
+                    if (available >= 3) {
+                        restInAscii = false;
+                        context.updateSymbolInfo(context.getCodewordCount() + encoded.length());
+                        available = context.symbolInfo.dataCapacity - context.getCodewordCount();
+                    }
                 }
-                if (restChars <= available && available <= 2) {
-                    context.pos -= buffer.length() - 1;
+                
+                if (restInAscii) {
+                    context.resetSymbolInfo();
+                    context.pos -= restChars;
                 } else {
-                    context.writeCodewords(encodeToCodewords(buffer, 0));
+                    context.writeCodewords(encoded);
                 }
             } finally {
                 context.signalEncoderChange(ASCII_ENCODATION);
@@ -729,7 +745,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         int charsProcessed = 0;
         while (true) {
             //step K
-            if ((startpos + charsProcessed) == msg.length() - 1) {
+            if ((startpos + charsProcessed) == msg.length()) {
                 int min = Integer.MAX_VALUE;
                 byte[] mins = new byte[6];
                 int[] intCharCounts = new int[6];

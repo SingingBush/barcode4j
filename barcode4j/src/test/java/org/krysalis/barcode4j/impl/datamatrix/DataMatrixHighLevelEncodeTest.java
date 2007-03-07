@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncodeTest.java,v 1.6 2006-12-22 15:58:27 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncodeTest.java,v 1.7 2007-03-07 14:15:50 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 /**
  * Tests for the high-level encoder.
  * 
- * @version $Id: DataMatrixHighLevelEncodeTest.java,v 1.6 2006-12-22 15:58:27 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncodeTest.java,v 1.7 2007-03-07 14:15:50 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncodeTest extends TestCase {
 
@@ -80,12 +80,16 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         //"else" case: "B" is encoded as ASCII
         
         visualized = encodeHighLevel("AIMAIAb");
-        assertEquals("230 91 11 90 255 254 99 129", visualized);
+        assertEquals("66 74 78 66 74 66 99 129", visualized); //Encoded as ASCII
+        //Alternative solution:
+        //assertEquals("230 91 11 90 255 254 99 129", visualized);
         //"b" is normally encoded as "Shift 3, 2" (two C40 values)
         //"else" case: "b" is encoded as ASCII
 
         visualized = encodeHighLevel("AIMAIMAIMË");
-        assertEquals("230 91 11 91 11 91 11 11 9 254", visualized);
+        assertEquals("230 91 11 91 11 91 11 254 235 76", visualized);
+        //Alternative solution:
+        //assertEquals("230 91 11 91 11 91 11 11 9 254", visualized);
         //Expl: 230 = shift to C40, "91 11" = "AIM",
         //"11 9" = "Ë" = "Shift 2, UpperShift, <char>
         //"else" case
@@ -190,7 +194,8 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         //240 shifts to EDIFACT encodation
 
         visualized = encodeHighLevel(".A.C1.3.DATA.123DATA.123DATA");
-        assertEquals("240 184 27 131 198 236 238 16 21 1 187 28 179 16 21 1 187 28 179 16 21 1", visualized);
+        assertEquals("240 184 27 131 198 236 238 16 21 1 187 28 179 16 21 1 187 28 179 16 21 1", 
+                visualized);
 
         visualized = encodeHighLevel(".A.C1.3.X.X2..");
         assertEquals("240 184 27 131 198 236 238 98 230 50 47 47", visualized);
@@ -210,6 +215,12 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         visualized = encodeHighLevel(".A.C1.3.X");
         assertEquals("240 184 27 131 198 236 238 89", visualized);
 
+        //Checking temporary unlatch from EDIFACT
+        visualized = encodeHighLevel(".XXX.XXX.XXX.XXX.XXX.XXX.üXX.XXX.XXX.XXX.XXX.XXX.XXX");
+        assertEquals("240 185 134 24 185 134 24 185 134 24 185 134 24 185 134 24 185 134 24"
+                + " 124 47 235 125 240" //<-- this is the temporary unlatch
+                + " 97 139 152 97 139 152 97 139 152 97 139 152 97 139 152 97 139 152 89 89", 
+                    visualized);
     }
 
     public void testBase256Encodation() throws Exception {
@@ -225,9 +236,9 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         visualized = encodeHighLevel(" 23£"); //ASCII only (for reference)
         assertEquals("33 153 235 36 129", visualized);
         
-        visualized = encodeHighLevel("«äöüé» 23£"); //Mixed Base256 + ASCII
-        assertEquals("231 50 108 59 226 126 1 104 33 153 235 36", visualized);
-
+        visualized = encodeHighLevel("«äöüé» 234"); //Mixed Base256 + ASCII
+        assertEquals("231 51 108 59 226 126 1 104 99 153 53 129", visualized);
+        
         visualized = encodeHighLevel("«äöüé» 23£ 1234567890123456789");
         assertEquals("231 55 108 59 226 126 1 104 99 10 161 167 185 142 164 186 208 220 142 164 186 208 58 129 59 209 104 254 150 45", visualized);
     }
@@ -253,6 +264,22 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         assertEquals("73 239 116 130 175 123 148 64 158 233 254 34", visualized);
     }
 
+    public void testBug1664266() throws Exception {
+        String visualized;
+        //There was an exception and the encoder did not handle the unlatching from 
+        //EDIFACT encoding correctly
+        
+        visualized = encodeHighLevel("CREX-TAN:h");
+        assertEquals("240 13 33 88 181 64 78 124 59 105", visualized);
+
+        visualized = encodeHighLevel("CREX-TAN:hh");
+        assertEquals("240 13 33 88 181 64 78 124 59 105 105 129", visualized);
+
+        visualized = encodeHighLevel("CREX-TAN:hhh");
+        assertEquals("240 13 33 88 181 64 78 124 59 105 105 105", visualized);
+
+    }
+    
     private String encodeHighLevel(String msg) {
         String encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg);
         String visualized = TestHelper.visualize(encoded);

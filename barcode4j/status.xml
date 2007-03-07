@@ -58,6 +58,12 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="jmaerki" type="fix" context="code" fixes-bug="1664266">
+        Fixed a bug in DataMatrix (more specifically with EDIFACT encodation).  
+      </action>      
+      <action dev="jmaerki" type="fix" context="code">
+        Fixed a bug in the DataMatrix look-ahead test for high-level encoding.  
+      </action>      
       <action dev="jmaerki" type="fix" context="code">
         Fixed row-height setting for PDF417 which was completely ignored.  
       </action>      
