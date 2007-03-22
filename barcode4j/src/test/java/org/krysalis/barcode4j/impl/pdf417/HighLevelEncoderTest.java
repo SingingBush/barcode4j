@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-/* $Id: HighLevelEncoderTest.java,v 1.3 2007-01-14 11:50:14 jmaerki Exp $ */
+/* $Id: HighLevelEncoderTest.java,v 1.4 2007-03-22 21:05:55 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
-import org.krysalis.barcode4j.impl.pdf417.PDF417HighLevelEncoder;
 import org.krysalis.barcode4j.tools.TestHelper;
 
 import junit.framework.TestCase;
@@ -70,12 +69,43 @@ public class HighLevelEncoderTest extends TestCase {
         String expected = "\u01c5\u00b2\u0079\u00ef";
         assertEquals(expected, sb.toString());
 
+        String result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        expected = "453 178 121 239";
+        assertEquals(expected, result);
+
+        msg = "PDF PDF";
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        expected = "453 176 453 179";
+        assertEquals(expected, result);
+
         msg = "PDF417 Symbology Standard";
         sb.setLength(0);
         PDF417HighLevelEncoder.encodeText(msg, 0, msg.length(), sb);
         //There was a bug with an endless loop here, just check that it doesn't hang.
     }
     
+    public void testEncodeTextLatching() throws Exception {
+        String msg = "417'<x>";
+        String result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        String expected = "844 37 778 58 833 872";
+        assertEquals(expected, result);
+        
+        msg = "417'417";
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        expected = "844 37 898 121 239";
+        assertEquals(expected, result);
+
+        msg = "417abc417";
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        expected = "844 37 810 32 844 37";
+        assertEquals(expected, result);
+
+        msg = "PDF@417";
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        expected = "453 179 118 121 239";
+        assertEquals(expected, result);
+    }
+
     public void testEncodeNumeric() throws Exception {
         String msg = "000213298174000";
         StringBuffer sb = new StringBuffer();
