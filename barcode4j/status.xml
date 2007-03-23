@@ -59,8 +59,7 @@
     <!-- Add new releases here -->
     <release version="dev">
       <action dev="jmaerki" type="fix" context="code">
-        Fixed a bug in PDF417 (ArrayIndexOutOfBoundsException in text encoding with the 
-        Punctuation table).  
+        Fixed several problems in PDF417 (high-level encoding).  
       </action>      
       <action dev="jmaerki" type="fix" context="code" fixes-bug="1664266">
         Fixed a bug in DataMatrix (more specifically with EDIFACT encodation).  

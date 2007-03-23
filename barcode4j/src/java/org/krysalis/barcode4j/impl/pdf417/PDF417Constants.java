@@ -14,16 +14,32 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417Constants.java,v 1.1 2006-06-22 09:01:16 jmaerki Exp $ */
+/* $Id: PDF417Constants.java,v 1.2 2007-03-23 21:16:16 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
 /**
  * Constants for PDF417 barcodes.
  * 
- * @version $Id: PDF417Constants.java,v 1.1 2006-06-22 09:01:16 jmaerki Exp $
+ * @version $Id: PDF417Constants.java,v 1.2 2007-03-23 21:16:16 jmaerki Exp $
  */
 public interface PDF417Constants {
+
+    /** code for Text compaction */
+    int TEXT_COMPACTION = 0;
+    /** code for Byte compaction */
+    int BYTE_COMPACTION = 1;
+    /** code for Numeric compaction */
+    int NUMERIC_COMPACTION = 2;
+    
+    /** Text compaction submode Alpha */
+    int SUBMODE_ALPHA = 0;
+    /** Text compaction submode Lower */
+    int SUBMODE_LOWER = 1;
+    /** Text compaction submode Mixed */
+    int SUBMODE_MIXED = 2;
+    /** Text compaction submode Punctuation */
+    int SUBMODE_PUNCTUATION = 3;
 
     /** mode latch to Text Compaction mode */
     int LATCH_TO_TEXT = 900;

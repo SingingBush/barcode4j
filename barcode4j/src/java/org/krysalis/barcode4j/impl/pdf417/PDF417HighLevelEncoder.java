@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417HighLevelEncoder.java,v 1.3 2007-03-22 21:05:55 jmaerki Exp $ */
+/* $Id: PDF417HighLevelEncoder.java,v 1.4 2007-03-23 21:16:16 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -26,19 +26,10 @@ import java.util.Arrays;
  * PDF417 high-level encoder following the algorithm described in ISO/IEC 15438:2001(E) in
  * annex P.
  * 
- * @version $Id: PDF417HighLevelEncoder.java,v 1.3 2007-03-22 21:05:55 jmaerki Exp $
+ * @version $Id: PDF417HighLevelEncoder.java,v 1.4 2007-03-23 21:16:16 jmaerki Exp $
  */
 public class PDF417HighLevelEncoder implements PDF417Constants {
 
-    private static final int TEXT_COMPACTION = 0;
-    private static final int BYTE_COMPACTION = 1;
-    private static final int NUMERIC_COMPACTION = 2;
-    
-    private static final int SUBMODE_ALPHA = 0;
-    private static final int SUBMODE_LOWER = 1;
-    private static final int SUBMODE_MIXED = 2;
-    private static final int SUBMODE_PUNCTUATION = 3;
-    
     private static final byte[] MIXED = new byte[128];
     private static final byte[] PUNCTUATION = new byte[128];
     
@@ -112,12 +103,15 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
                         bytes = getBytesForMessage(msg);
                     }
                     int b = determineConsecutiveBinaryCount(msg, bytes, p);
+                    if (b == 0) {
+                        b = 1;
+                    }
                     if (b == 1 && encodingMode == TEXT_COMPACTION) {
-                        encodeBinary(msg, bytes, p, b, sb);
+                        encodeBinary(msg, bytes, p, b, encodingMode, sb);
                     } else {
                         //Mode latch performed by encodeBinary()
+                        encodeBinary(msg, bytes, p, b, encodingMode, sb);
                         encodingMode = BYTE_COMPACTION;
-                        encodeBinary(msg, bytes, p, b, sb);
                     }
                     p += b;
                 }
@@ -255,8 +249,8 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
      * @param count the number of bytes to encode
      * @param sb receives the encoded codewords
      */
-    public static void encodeBinary(String msg, byte[] bytes, int startpos, int count, StringBuffer sb) {
-        if (count == 1) {
+    public static void encodeBinary(String msg, byte[] bytes, int startpos, int count, int startmode, StringBuffer sb) {
+        if (count == 1 && startmode == TEXT_COMPACTION) {
             sb.append((char)SHIFT_TO_BYTE);
         } else {
             boolean sixpack = ((count % 6) == 0); 
@@ -292,14 +286,14 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
     }
     
     public static void encodeNumeric(String msg, int startpos, int count, StringBuffer sb) {
-        int idx = startpos;
+        int idx = 0;
         StringBuffer tmp = new StringBuffer(count / 3 + 1);
         final BigInteger num900 = BigInteger.valueOf(900);
         final BigInteger num0 = BigInteger.valueOf(0);
-        while (idx < startpos + count) {
+        while (idx < count - 1) {
             tmp.setLength(0);
             int len = Math.min(44, count - idx);
-            String part = "1" + msg.substring(idx, idx + len);
+            String part = "1" + msg.substring(startpos + idx, startpos + idx + len);
             BigInteger bigint = new BigInteger(part);
             do {
                 BigInteger c = bigint.mod(num900);
@@ -428,32 +422,33 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
             char ch = msg.charAt(idx); 
             int numericCount = 0;
             int textCount = 0;
-            while (numericCount < 13 && isDigit(ch) && idx < len) {
+            
+            while (numericCount < 13 && isDigit(ch)) {
                 numericCount++;
-                textCount++;
-                idx++;
-                if (idx < len) {
-                    ch = msg.charAt(idx);
+                //textCount++;
+                int i = idx + numericCount;
+                if (i < len) {
+                    ch = msg.charAt(i);
+                } else {
+                    break;
                 }
             }
             if (numericCount >= 13) {
-                return idx - startpos - numericCount;
+                return idx - startpos;
             }
-            while (textCount < 5 && isText(ch) && idx < len) {
+            while (textCount < 5 && isText(ch)) {
                 textCount++;
-                idx++;
-                if (idx < len) {
-                    ch = msg.charAt(idx);
+                int i = idx + textCount;
+                if (i < len) {
+                    ch = msg.charAt(i);
+                } else {
+                    break;
                 }
             }
             if (textCount >= 5) {
-                return idx - startpos - textCount;
+                return idx - startpos;
             }
-            if (textCount > 0) {
-                //Heuristic: All text-encodable chars or digits are binary encodable
-                continue;  
-            }
-            ch  = msg.charAt(idx);
+            ch = msg.charAt(idx);
             
             //Check if character is encodable
             //Sun returns a ASCII 63 (?) for a character that cannot be mapped. Let's hope all
