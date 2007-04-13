@@ -58,6 +58,9 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="jmaerki" type="fix" context="code" fixes-bug="1698523" due-to="Dan Anderson" due-to-email="mordrid52.at.users.sourceforge.net">
+        Fixed default values for POSTNETBean (so they match the values defined in DMM 708).  
+      </action>      
       <action dev="jmaerki" type="fix" context="code">
         Fixed several problems in PDF417 (high-level encoding).  
       </action>      

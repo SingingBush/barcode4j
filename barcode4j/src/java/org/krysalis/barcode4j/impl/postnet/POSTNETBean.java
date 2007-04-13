@@ -28,7 +28,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * Implements the United States Postal Service POSTNET barcode.
  * 
  * @author Chris Dolphy
- * @version $Id: POSTNETBean.java,v 1.7 2006-11-27 09:02:37 jmaerki Exp $
+ * @version $Id: POSTNETBean.java,v 1.8 2007-04-13 19:17:51 jmaerki Exp $
  */
 public class POSTNETBean extends HeightVariableBarcodeBean {
 
@@ -39,7 +39,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
 
     private double intercharGapWidth;
     private BaselineAlignment baselinePosition = BaselineAlignment.ALIGN_BOTTOM;
-    private double shortBarHeight = 1.25f;
+    private double shortBarHeight = UnitConv.in2mm(0.050f);
     private boolean displayChecksum = false;
     private Double quietZoneVertical;
     
@@ -51,6 +51,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
         this.intercharGapWidth = this.moduleWidth;
         this.quietZone = 10 * this.moduleWidth;
         this.quietZoneVertical = new Double(UnitConv.in2mm(1.0 / 8)); //1/8inch
+        setBarHeight(UnitConv.in2mm(0.125f));
     }
     
     /**
