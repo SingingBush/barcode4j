@@ -26,7 +26,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * This class is an implementation of the PDF417 barcode.
  * 
- * @version $Id: PDF417Bean.java,v 1.2 2007-02-27 20:55:29 jmaerki Exp $
+ * @version $Id: PDF417Bean.java,v 1.3 2007-04-13 18:35:14 jmaerki Exp $
  */
 public class PDF417Bean extends AbstractBarcodeBean {
 
@@ -140,9 +140,20 @@ public class PDF417Bean extends AbstractBarcodeBean {
         return width * moduleWidth;
     }
     
-    /** @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarHeight() */
-    public double getBarHeight() {
-        return this.height;
+    /**
+     * Returns the height of the rows.
+     * @return the row height (in mm)
+     */
+    public double getRowHeight() {
+        return getBarHeight();
+    }
+    
+    /**
+     * Sets the height of the rows.
+     * @param height the height of the rows (in mm)
+     */
+    public void setRowHeight(double height) {
+        setBarHeight(height);
     }
     
 }
