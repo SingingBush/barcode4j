@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixLogicImpl.java,v 1.7 2007-01-14 11:51:11 jmaerki Exp $ */
+/* $Id: DataMatrixLogicImpl.java,v 1.8 2007-04-18 12:00:41 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 /**
  * Top-level class for the logic part of the DataMatrix implementation.
  * 
- * @version $Id: DataMatrixLogicImpl.java,v 1.7 2007-01-14 11:51:11 jmaerki Exp $
+ * @version $Id: DataMatrixLogicImpl.java,v 1.8 2007-04-18 12:00:41 jmaerki Exp $
  */
 public class DataMatrixLogicImpl {
 
@@ -34,13 +34,14 @@ public class DataMatrixLogicImpl {
      * @param logic the logic handler to receive generated events
      * @param msg the message to encode
      */
-    public void generateBarcodeLogic(TwoDimBarcodeLogicHandler logic, String msg) {
+    public void generateBarcodeLogic(TwoDimBarcodeLogicHandler logic, String msg, 
+            SymbolShapeHint shape) {
 
         //ECC 200
         //1. step: Data encodation
-        String encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg);
+        String encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg, shape);
         
-        DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length());
+        DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length(), shape);
         if (DEBUG) System.out.println(symbolInfo);
         
         //2. step: ECC generation

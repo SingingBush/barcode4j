@@ -24,7 +24,7 @@ import org.krysalis.barcode4j.tools.Length;
 /**
  * This class is an implementation of the DataMatrix barcode.
  * 
- * @version $Id: DataMatrix.java,v 1.1 2006-11-27 08:10:58 jmaerki Exp $
+ * @version $Id: DataMatrix.java,v 1.2 2007-04-18 12:00:42 jmaerki Exp $
  */
 public class DataMatrix extends ConfigurableBarcodeGenerator 
             implements Configurable {
@@ -46,6 +46,11 @@ public class DataMatrix extends ConfigurableBarcodeGenerator
         }
 
         super.configure(cfg);
+        
+        String shape = cfg.getChild("shape").getValue(null);
+        if (shape != null) {
+            getDataMatrixBean().setShape(SymbolShapeHint.byName(shape));
+        }
     }
    
     /**

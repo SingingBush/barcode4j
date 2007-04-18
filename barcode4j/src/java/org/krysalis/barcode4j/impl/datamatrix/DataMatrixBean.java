@@ -26,18 +26,42 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * This class is an implementation of DataMatrix (ISO 16022:2000(E)).
  * 
- * @version $Id: DataMatrixBean.java,v 1.3 2007-01-14 11:51:44 jmaerki Exp $
+ * @version $Id: DataMatrixBean.java,v 1.4 2007-04-18 12:00:41 jmaerki Exp $
  */
 public class DataMatrixBean extends AbstractBarcodeBean {
 
     /** The default module width (dot size) for DataMatrix. */
     protected static final double DEFAULT_MODULE_WIDTH = UnitConv.in2mm(1.0 / 72); //1px at 72dpi
 
+    /**
+     * The requested shape. May be <code>FORCE_NONE</code>,
+     * <code>FORCE_SQUARE</code> or <code>FORCE_RECTANGLE</code>.
+     */
+    private SymbolShapeHint shape;
+
     /** Create a new instance. */
     public DataMatrixBean() {
         this.height = 0.0; //not used by DataMatrix
         this.moduleWidth = DEFAULT_MODULE_WIDTH;
         this.quietZone = 1 * moduleWidth;
+        this.shape = SymbolShapeHint.FORCE_NONE;
+    }
+
+    /**
+     * Sets the requested shape for the generated barcodes.
+     * @param shape requested shape. May be <code>SymbolShapeHint.FORCE_NONE</code>,
+     * <code>SymbolShapeHint.FORCE_SQUARE</code> or <code>SymbolShapeHint.FORCE_RECTANGLE</code>.
+     */
+    public void setShape(SymbolShapeHint shape) {
+        this.shape = shape;
+    }
+
+    /**
+     * Gets the requested shape for the generated barcodes.
+     * @return the requested shape (one of SymbolShapeHint.*).
+     */
+    public SymbolShapeHint getShape() {
+        return shape;
     }
     
     /**
@@ -53,15 +77,15 @@ public class DataMatrixBean extends AbstractBarcodeBean {
                 new DefaultTwoDimCanvasLogicHandler(this, new Canvas(canvas));
 
         DataMatrixLogicImpl impl = new DataMatrixLogicImpl();
-        impl.generateBarcodeLogic(handler, msg);
+        impl.generateBarcodeLogic(handler, msg, shape);
     }
     
     /**
      * @see org.krysalis.barcode4j.BarcodeGenerator#calcDimensions(String)
      */
     public BarcodeDimension calcDimensions(String msg) {
-        String encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg);
-        DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length());
+        String encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg, shape);
+        DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length(), shape);
         
         double width = symbolInfo.getSymbolWidth() * getModuleWidth();
         double height = symbolInfo.getSymbolHeight() * getBarHeight(); 

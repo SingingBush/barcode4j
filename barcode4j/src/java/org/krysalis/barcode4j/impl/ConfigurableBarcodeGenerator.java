@@ -15,7 +15,6 @@
  */
 package org.krysalis.barcode4j.impl;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.avalon.framework.configuration.Configurable;
@@ -31,7 +30,7 @@ import org.krysalis.barcode4j.tools.Length;
 /**
  * Base class for most Avalon-Configurable barcode implementation proxies.
  *
- * @version $Id: ConfigurableBarcodeGenerator.java,v 1.6 2007-02-14 10:19:08 jmaerki Exp $
+ * @version $Id: ConfigurableBarcodeGenerator.java,v 1.7 2007-04-18 12:00:42 jmaerki Exp $
  */
 public abstract class ConfigurableBarcodeGenerator
             implements BarcodeGenerator, Configurable {
@@ -68,6 +67,7 @@ public abstract class ConfigurableBarcodeGenerator
         elements.add("group-separator");
         elements.add("check-digit-marker");
         elements.add("omit-brackets");
+        elements.add("shape");
         BARCODE_ELEMENTS = (String[])elements.toArray(new String[elements.size()]);
     }
     

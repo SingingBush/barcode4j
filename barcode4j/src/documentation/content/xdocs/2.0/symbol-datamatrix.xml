@@ -18,6 +18,7 @@
   &#60;<strong>datamatrix</strong>&#62;
       &#60;module-width&#62;{<link href="barcode-xml.html#length">length</link>:0.352777mm}&#60;/module-width&#62; &#60;!-- 1 pixel at 72dpi --&#62;
       &#60;quiet-zone enabled="{<link href="barcode-xml.html#boolean">boolean</link>:true}"&#62;{<link href="barcode-xml.html#length">length</link>:1mw}&#60;/quiet-zone&#62;
+      &#60;shape&#62;{<link href="barcode-xml.html#shape">shape</link>:force-none}&#60;/shape&#62;
   &#60;/<strong>datamatrix</strong>&#62;
 &#60;/barcode&#62;</source>
     </section>
@@ -26,7 +27,6 @@
       <ul>
         <li>This symbology has no human-readable part!</li>
         <li>The algorithm always chooses the smallest possible symbol arrangement.</li>
-        <li>Rectangular symbols are enabled by default. They currently cannot be disabled.</li>
         <li>Structured append functionality is not implemented, yet.</li>
         <li>Macro functionality is not implemented, yet.</li>
       </ul>

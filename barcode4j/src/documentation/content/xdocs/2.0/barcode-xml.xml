@@ -100,6 +100,14 @@
           </ul>
         </li>
         <li id="font-name">{font-name}: As the name says, a font name used in outputting <code>&#60;font-name/&#62;</code>. Note that not all fonts are available for all output formats.</li>
+        <li id="shape">{shape}: This enumeration determines the choice of symbol settings for 
+          DataMatrix barcodes.
+          <ul>
+            <li>force-none: Both square and rectangular symbols are allowed.</li>
+            <li>force-square: Force the use of square symbols.</li>
+            <li>force-rectangle: Force the use of rectangular symbols.</li>
+          </ul>
+        </li>
       </ul>
       <p>
         Datatypes below are often given in the format "{<link href="#length">length</link>:15mm}". The value after the datatype indicates 

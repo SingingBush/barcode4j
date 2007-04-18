@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.9 2007-03-07 14:15:49 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.10 2007-04-18 12:00:41 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import java.util.Arrays;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  * 
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.9 2007-03-07 14:15:49 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.10 2007-04-18 12:00:41 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
@@ -86,13 +86,25 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
      * @return the encoded message (the char values range from 0 to 255)
      */
     public static String encodeHighLevel(String msg) {
+        return encodeHighLevel(msg, SymbolShapeHint.FORCE_NONE);
+    }
+
+    /**
+     * Performs message encoding of a DataMatrix message using the algorithm described in annex P
+     * of ISO/IEC 16022:2000(E).
+     * @param msg the message
+     * @param shape requested shape. May be <code>SymbolShapeHint.FORCE_NONE</code>,
+     * <code>SymbolShapeHint.FORCE_SQUARE</code> or <code>SymbolShapeHint.FORCE_RECTANGLE</code>.
+     * @return the encoded message (the char values range from 0 to 255)
+     */
+    public static String encodeHighLevel(String msg, SymbolShapeHint shape) {
         //the codewords 0..255 are encoded as Unicode characters
         Encoder[] encoders = new Encoder[] {new ASCIIEncoder(), 
                 new C40Encoder(), new TextEncoder(), new X12Encoder(), new EdifactEncoder(),
                 new Base256Encoder()}; 
         
         int encodingMode = ASCII_ENCODATION; //Default mode
-        EncoderContext context = new EncoderContext(msg);
+        EncoderContext context = new EncoderContext(msg, shape);
         while (context.hasMoreCharacters()) {
             encoders[encodingMode].encode(context);
             if (context.newEncoding >= 0) {
@@ -132,14 +144,16 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
     private static class EncoderContext {
 
         private String msg;
+        private SymbolShapeHint shape;
         private byte[] encodedMsg;
         private StringBuffer codewords;
         private int pos = 0;
         private int newEncoding = -1;
         private DataMatrixSymbolInfo symbolInfo;
         
-        public EncoderContext(String msg) {
+        public EncoderContext(String msg, SymbolShapeHint shape) {
             this.msg = msg;
+            this.shape = shape;
             this.encodedMsg = encodeMsg(msg);
             this.codewords = new StringBuffer(msg.length());
         }
@@ -194,7 +208,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
         public void updateSymbolInfo(int len) {
             if (this.symbolInfo == null || len > this.symbolInfo.dataCapacity) {
-                this.symbolInfo = DataMatrixSymbolInfo.lookup(len);
+                this.symbolInfo = DataMatrixSymbolInfo.lookup(len, shape);
             }
         }
 
