@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MessagePatternUtil.java,v 1.1 2007-01-19 12:26:55 jmaerki Exp $ */
+/* $Id: MessagePatternUtil.java,v 1.2 2007-05-05 13:42:10 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.tools;
 
@@ -22,7 +22,7 @@ package org.krysalis.barcode4j.tools;
  * Helper class to apply custom message pattern (i.e. message characters grouping) to barcode
  * messages.
  * @author Dimitar Vlasev
- * @version $Id: MessagePatternUtil.java,v 1.1 2007-01-19 12:26:55 jmaerki Exp $
+ * @version $Id: MessagePatternUtil.java,v 1.2 2007-05-05 13:42:10 jmaerki Exp $
  */
 public class MessagePatternUtil {
 
@@ -58,6 +58,7 @@ public class MessagePatternUtil {
         boolean escapeCharEncountered = false;
 
         // iterate trough pattern chars
+        boolean msgFinished = false;
         for (int patternIndex = 0; patternIndex < patternBytes.length; patternIndex++) {
 
             currentPatternChar = (char) patternBytes[patternIndex];
@@ -77,14 +78,18 @@ public class MessagePatternUtil {
             // else
             // append the currentPatternChar to the result and set the
             // escapeCharEncountered flag down
-            if ((!escapeCharEncountered) && isPlaceholder(currentPatternChar)) {
+            if ((!msgFinished) 
+                    && (!escapeCharEncountered) 
+                    && isPlaceholder(currentPatternChar)) {
                 result.append((char) msgBytes[msgIndex]);
                 msgIndex++;
                 if (msgIndex == msgBytes.length) {
-                    break;
+                    msgFinished = true;
                 }
             } else {
-                result.append(currentPatternChar);
+                if (escapeCharEncountered || !isPlaceholder(currentPatternChar)) {
+                    result.append(currentPatternChar);
+                }
                 escapeCharEncountered = false;
             }
         }

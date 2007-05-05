@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MessagePatternUtilTest.java,v 1.1 2007-01-19 12:26:55 jmaerki Exp $ */
+/* $Id: MessagePatternUtilTest.java,v 1.2 2007-05-05 13:42:10 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.tools;
 
@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 
 /**
  * Tests the class MessagePatternUtil.
- * @version $Id: MessagePatternUtilTest.java,v 1.1 2007-01-19 12:26:55 jmaerki Exp $
+ * @version $Id: MessagePatternUtilTest.java,v 1.2 2007-05-05 13:42:10 jmaerki Exp $
  */
 public class MessagePatternUtilTest extends TestCase {
 
@@ -66,6 +66,18 @@ public class MessagePatternUtilTest extends TestCase {
         pattern = "_\\__"; //with escape
         result = MessagePatternUtil.applyCustomMessagePattern("AB", pattern);
         assertEquals("A_B", result);
+
+        pattern = "____>>>>"; //additional chars at the end
+        result = MessagePatternUtil.applyCustomMessagePattern("ABCD", pattern);
+        assertEquals("ABCD>>>>", result);
+
+        pattern = "____>>>>"; //underfull message
+        result = MessagePatternUtil.applyCustomMessagePattern("AB", pattern);
+        assertEquals("AB>>>>", result);
+
+        pattern = "____>>>>\\_"; //underfull message with escape
+        result = MessagePatternUtil.applyCustomMessagePattern("AB", pattern);
+        assertEquals("AB>>>>_", result);
     }
     
 }

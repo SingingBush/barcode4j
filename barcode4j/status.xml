@@ -58,6 +58,9 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="jmaerki" type="fix" context="code">
+        Fixed pattern handling: Trailing pattern text was omitted.  
+      </action>      
       <action dev="jmaerki" type="add" context="code" due-to="Trevor Spiteri" due-to-email="tspiteri.at.falmalta.com">
         Added the possibility to restrict the generation of DataMatrix to square or rectangular
         symbols.  
