@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.11 2007-06-03 08:24:10 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.12 2007-06-03 08:30:36 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import java.util.Arrays;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  * 
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.11 2007-06-03 08:24:10 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.12 2007-06-03 08:30:36 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
@@ -106,7 +106,6 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         int encodingMode = ASCII_ENCODATION; //Default mode
         EncoderContext context = new EncoderContext(msg, shape);
         
-        /*
         if (msg.startsWith(MACRO_05_HEADER) && msg.endsWith(MACRO_TRAILER)) {
             context.writeCodeword(MACRO_05);
             context.setSkipAtEnd(2);
@@ -115,7 +114,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             context.writeCodeword(MACRO_06);
             context.setSkipAtEnd(2);
             context.pos += MACRO_06_HEADER.length();
-        }*/
+        }
         
         while (context.hasMoreCharacters()) {
             encoders[encodingMode].encode(context);
