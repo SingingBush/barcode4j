@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixConstants.java,v 1.3 2006-12-22 15:58:27 jmaerki Exp $ */
+/* $Id: DataMatrixConstants.java,v 1.4 2007-06-03 08:24:10 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
 /**
  * Constants for DataMatrix.
  * 
- * @version $Id: DataMatrixConstants.java,v 1.3 2006-12-22 15:58:27 jmaerki Exp $
+ * @version $Id: DataMatrixConstants.java,v 1.4 2007-06-03 08:24:10 jmaerki Exp $
  */
 public interface DataMatrixConstants {
 
@@ -56,4 +56,11 @@ public interface DataMatrixConstants {
     char C40_UNLATCH = 254;
     /** Unlatch from X12 encodation */
     char X12_UNLATCH = 254;
+    
+    /** 05 Macro header */
+    String MACRO_05_HEADER = "[)>\u001E05\u001D";
+    /** 06 Macro header */
+    String MACRO_06_HEADER = "[)>\u001E06\u001D";
+    /** Macro trailer */
+    String MACRO_TRAILER = "\u001E\u0004";
 }

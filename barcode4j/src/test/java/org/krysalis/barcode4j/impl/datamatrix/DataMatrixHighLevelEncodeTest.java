@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncodeTest.java,v 1.7 2007-03-07 14:15:50 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncodeTest.java,v 1.8 2007-06-03 08:24:10 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 /**
  * Tests for the high-level encoder.
  * 
- * @version $Id: DataMatrixHighLevelEncodeTest.java,v 1.7 2007-03-07 14:15:50 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncodeTest.java,v 1.8 2007-06-03 08:24:10 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncodeTest extends TestCase {
 
@@ -280,6 +280,14 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
 
     }
     
+    public void testMacroCharacters() throws Exception {
+        String visualized;
+
+        visualized = encodeHighLevel("[)>\u001E05\u001D5555\u001C6666\u001E\u0004");
+        //assertEquals("92 42 63 31 135 30 185 185 29 196 196 31 5 129 87 237", visualized);
+        assertEquals("236 185 185 29 196 196 129 56", visualized);
+    }
+
     private String encodeHighLevel(String msg) {
         String encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg);
         String visualized = TestHelper.visualize(encoded);

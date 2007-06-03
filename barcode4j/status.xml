@@ -58,6 +58,9 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="jmaerki" type="add" context="code">
+        Added support for Macro 05/06 character abbreviation (DataMatrix).
+      </action>
       <action dev="jmaerki" type="fix" context="code">
         Fixed pattern handling: Trailing pattern text was omitted.  
       </action>      
@@ -79,7 +82,7 @@
       </action>      
       <action dev="jmaerki" type="fix" context="code">
         Fixed row-height setting for PDF417 which was completely ignored.  
-      </action>      
+      </action>
     </release>
     <release version="2.0 alpha 2" date="2007-02-14">
       <action dev="jmaerki" type="fix" context="code">
