@@ -28,7 +28,6 @@
         <li>This symbology has no human-readable part!</li>
         <li>The algorithm always chooses the smallest possible symbol arrangement.</li>
         <li>Structured append functionality is not implemented, yet.</li>
-        <li>Macro functionality is not implemented, yet.</li>
       </ul>
     </section>
     <section>
@@ -36,8 +35,15 @@
       <ul>
         <li>All ISO-8859-1 characters are valid message characters.</li>
         <li>Using only numeric characters allows for smaller symbol sizes.</li>
-        <li>Currently, no ECI functionality is available. All characters are interpreted in "ISO-8859-1" encoding.</li>
+        <li>Currently, no ECI functionality is available. Only characters in the "ISO-8859-1" encoding can be used.</li>
         <li>Currently, the FNC1 and reader programming signal cannot be encoded.</li>
+        <li>
+          Some applications use special ASCII characters like &lt;GS&gt; (group separator) or
+          &lt;RS&gt; (record separator). Just send them as is to Barcode4J. In Java a preamble of
+          such an application ("[)&gt;<sup>R</sup><sub>S</sub>05<sup>G</sup><sub>S</sub>") can be
+          expressed as "[)>\u001E05\u001D". The same encoded as part of an URL (when using the
+          barcode servlet) will be "%5B%29%3E%1E05%1D".
+        </li>
       </ul>
     </section>
   </body>
