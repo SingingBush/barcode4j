@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.12 2007-06-03 08:30:36 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.13 2007-06-29 09:02:22 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,7 +25,7 @@ import java.util.Arrays;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  * 
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.12 2007-06-03 08:30:36 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.13 2007-06-29 09:02:22 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
@@ -507,7 +507,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 return 2;
             } else if (c >= '{' && c <= '\u007f') {
                 sb.append('\2'); //Shift 3 Set
-                sb.append((char)(c - 123 + 26));
+                sb.append((char)(c - 123 + 27));
                 return 2;
             } else if (c >= '\u0080') {
                 sb.append("\1\u001e"); //Shift 2, Upper Shift
