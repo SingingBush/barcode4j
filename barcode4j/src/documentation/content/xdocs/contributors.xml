@@ -21,6 +21,7 @@
         <li>Andrew Nelson (servlet improvements)</li>
         <li>Robert Deeken (update of the Saxon extension)</li>
         <li>Dimitar Vlasev (custom message patterns)</li>
+        <li>Branko van Abel (various improvements and bugfixes for the barcode implementations)</li>
       </ul>
       <p>
         Special thanks to Nicola Ken Barozzi, Nick Chalko and Adam Jack.
