@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2007 Jeremias Maerki.
+ * Copyright 2006-2007 Jeremias Maerki or contributors to Barcode4J, as applicable.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * This class is an implementation of the PDF417 barcode.
  * 
- * @version $Id: PDF417Bean.java,v 1.4 2007-07-11 07:35:52 jmaerki Exp $
+ * @version $Id: PDF417Bean.java,v 1.5 2007-07-11 08:22:41 jmaerki Exp $
  */
 public class PDF417Bean extends AbstractBarcodeBean {
 

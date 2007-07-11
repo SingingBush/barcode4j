@@ -30,7 +30,7 @@ import org.krysalis.barcode4j.tools.Length;
 /**
  * Base class for most Avalon-Configurable barcode implementation proxies.
  *
- * @version $Id: ConfigurableBarcodeGenerator.java,v 1.7 2007-04-18 12:00:42 jmaerki Exp $
+ * @version $Id: ConfigurableBarcodeGenerator.java,v 1.8 2007-07-11 08:22:40 jmaerki Exp $
  */
 public abstract class ConfigurableBarcodeGenerator
             implements BarcodeGenerator, Configurable {
@@ -49,6 +49,7 @@ public abstract class ConfigurableBarcodeGenerator
         elements.add("module-width");
         elements.add("wide-factor");
         elements.add("quiet-zone");
+        elements.add("vertical-quiet-zone");
         elements.add("checksum");
         elements.add("human-readable");
         elements.add("human-readable-font");
@@ -68,6 +69,13 @@ public abstract class ConfigurableBarcodeGenerator
         elements.add("check-digit-marker");
         elements.add("omit-brackets");
         elements.add("shape");
+        elements.add("row-height");
+        elements.add("columns");
+        elements.add("min-columns");
+        elements.add("max-columns");
+        elements.add("min-rows");
+        elements.add("max-rows");
+        elements.add("width-to-height-ratio");
         BARCODE_ELEMENTS = (String[])elements.toArray(new String[elements.size()]);
     }
     

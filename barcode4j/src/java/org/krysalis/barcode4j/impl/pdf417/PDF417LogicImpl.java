@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2007 Jeremias Maerki.
+ * Copyright 2006-2007 Jeremias Maerki or contributors to Barcode4J, as applicable.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417LogicImpl.java,v 1.3 2007-07-11 07:35:53 jmaerki Exp $ */
+/* $Id: PDF417LogicImpl.java,v 1.4 2007-07-11 08:22:41 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 /**
  * Top-level class for the logic part of the PDF417 implementation.
  * 
- * @version $Id: PDF417LogicImpl.java,v 1.3 2007-07-11 07:35:53 jmaerki Exp $
+ * @version $Id: PDF417LogicImpl.java,v 1.4 2007-07-11 08:22:41 jmaerki Exp $
  */
 public class PDF417LogicImpl {
 
