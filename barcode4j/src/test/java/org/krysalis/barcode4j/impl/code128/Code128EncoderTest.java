@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2004,2007 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.krysalis.barcode4j.impl;
-
-import org.krysalis.barcode4j.impl.code128.Code128Encoder;
-import org.krysalis.barcode4j.impl.code128.DefaultCode128Encoder;
+package org.krysalis.barcode4j.impl.code128;
 
 import junit.framework.TestCase;
 
 /**
  * Test class for the Code128 message encoder implementations.
  * 
- * @author Jeremias Maerki
- * @version $Id: Code128EncoderTest.java,v 1.5 2004-09-12 17:57:52 jmaerki Exp $
+ * @version $Id: Code128EncoderTest.java,v 1.1 2007-07-11 06:41:00 jmaerki Exp $
  */
 public class Code128EncoderTest extends TestCase {
 
-    public static final String[] CHAR_NAMES =
+    private static final String[] CHAR_NAMES =
         {"NUL", "SOH", "STX", "ETX", "EOT", "ENQ", "ACK", "BEL", "BS", "HT",
          "LF", "VT", "FF", "CR", "SO", "SI", "DLE", "DC1", "DC2", "DC3",
          "DC4", "NAK", "SYN", "ETB", "CAN", "EM", "SUB", "ESC", "FS", "GS",
@@ -50,9 +46,9 @@ public class Code128EncoderTest extends TestCase {
 
     private void visualizeCodesetA(StringBuffer sb, int idx) {
         if (idx < 64) {
-            sb.append(visualizeChar((char)(idx + 32)));
+            sb.append(visualizeChar((char) (idx + 32)));
         } else if ((idx >= 64) && (idx <= 95)) {
-            sb.append(visualizeChar((char)(idx - 64)));
+            sb.append(visualizeChar((char) (idx - 64)));
         } else if (idx == 96) {
             sb.append("<FNC3>");
         } else if (idx == 97) {
@@ -66,7 +62,7 @@ public class Code128EncoderTest extends TestCase {
 
     private void visualizeCodesetB(StringBuffer sb, int idx) {
         if (idx <= 95) {
-            sb.append(visualizeChar((char)(idx + 32)));
+            sb.append(visualizeChar((char) (idx + 32)));
         } else if (idx == 96) {
             sb.append("<FNC3>");
         } else if (idx == 97) {
@@ -153,14 +149,14 @@ public class Code128EncoderTest extends TestCase {
         //System.out.println(s); 
         return s;
     }
-    
+
     private void testEncoderSpecialChars(Code128Encoder encoder) {
         assertEquals("->BCode<SHIFT-A><HT>128", encodeToDebug("Code\t128", encoder));
         assertEquals("->BCode->A<HT><HT>128", encodeToDebug("Code\t\t128", encoder));
         assertEquals("->C<FNC1>[12][34][56]", encodeToDebug("\u00f1123456", encoder));
         assertEquals("->B<FNC2>->C[12][34][56]", encodeToDebug("\u00f2123456", encoder));
         assertEquals("->Bbefore<FNC3>after", encodeToDebug("before\u00f3after", encoder));
-        assertEquals("->Bbefore<FNC4>after<DEL>", 
+        assertEquals("->Bbefore<FNC4>after<DEL>",
                 encodeToDebug("before\u00f4after\u007f", encoder));
     }
 
@@ -169,7 +165,8 @@ public class Code128EncoderTest extends TestCase {
         assertEquals("->C[12]", encodeToDebug("12", encoder));
         assertEquals("->B123", encodeToDebug("123", encoder));
         assertEquals("->C[12][34]", encodeToDebug("1234", encoder));
-        assertEquals("->C[12][34]->B5", encodeToDebug("12345", encoder));
+        String eff = encodeToDebug("12345", encoder);
+        assertTrue("->C[12][34]->B5".equals(eff) || "->B1->C[23][45]".equals(eff));
         assertEquals("->C[12][34][56]", encodeToDebug("123456", encoder));
 
         assertEquals("->B1Code", encodeToDebug("1Code", encoder));
@@ -183,24 +180,18 @@ public class Code128EncoderTest extends TestCase {
         assertEquals("->BCode128", encodeToDebug("Code128", encoder));
         assertEquals("->BCode->C[56][78]->Ba", encodeToDebug("Code5678a", encoder));
         String res = encodeToDebug("Code56789a", encoder);
-        assertTrue(res.equals("->BCode->C[56][78]->B9a") 
-            || res.equals("->BCode5->C[67][89]->Ba")
-            || res.equals("->BCode5->C[67][89]<SHIFT-B>a"));
+        assertTrue(res.equals("->BCode->C[56][78]->B9a")
+                || res.equals("->BCode5->C[67][89]->Ba")
+                || res.equals("->BCode5->C[67][89]<SHIFT-B>a"));
         assertEquals("->BCode->C[56][78][90]->Bab", encodeToDebug("Code567890ab", encoder));
         assertEquals("->BCode5->C[67][89]", encodeToDebug("Code56789", encoder));
     }
-
-    /*
-    public void testNaiveEncoder() throws Exception {
-        Code128Encoder encoder = new NaiveCode128Encoder();
-        testEncoder(encoder);
-    }*/
 
     public void testDefaultEncoder() throws Exception {
         Code128Encoder encoder = new DefaultCode128Encoder();
         testEncoder(encoder);
         testEncoderSpecialChars(encoder);
-        
+
         try {
             encodeToDebug("before\u00f5after", encoder);
             fail("Expected IllegalArgumentException because of illegal char 0xF5");
@@ -208,17 +199,19 @@ public class Code128EncoderTest extends TestCase {
             //expected
         }
     }
-    
+
     public void testBug942246() throws Exception {
         Code128Encoder encoder = new DefaultCode128Encoder();
+        String eff = encodeToDebug("37100\u00f13101000200", encoder);
+        assertTrue(
+            "->C[37][10]->B0<FNC1>->C[31][1][0][2][0]".equals(eff)
+            || "->C[37][10]->B0->C<FNC1>[31][1][0][2][0]".equals(eff));
+        eff = encodeToDebug("\u00f1020456789012341837100\u00f13101000200", encoder); 
+        assertTrue(
+            "->C<FNC1>[2][4][56][78][90][12][34][18][37][10]->B0<FNC1>->C[31][1][0][2][0]".equals(eff)
+            || "->C<FNC1>[2][4][56][78][90][12][34][18][37][10]->B0->C<FNC1>[31][1][0][2][0]".equals(eff));
         assertEquals(
-            "->C[37][10]->B0<FNC1>->C[31][1][0][2][0]",
-            encodeToDebug("37100\u00f13101000200", encoder));
-        assertEquals(
-            "->C<FNC1>[2][4][56][78][90][12][34][18][37][10]->B0<FNC1>->C[31][1][0][2][0]",
-            encodeToDebug("\u00f1020456789012341837100\u00f13101000200", encoder));
-        assertEquals(
-            "->C<FNC1>[2][4][56][78][90][12][34][18][37][10]<FNC1>[31][1][0][2][0]",
-            encodeToDebug("\u00f102045678901234183710\u00f13101000200", encoder));
+                "->C<FNC1>[2][4][56][78][90][12][34][18][37][10]<FNC1>[31][1][0][2][0]",
+                encodeToDebug("\u00f102045678901234183710\u00f13101000200", encoder));
     }
 }

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.krysalis.barcode4j.impl;
+package org.krysalis.barcode4j.impl.code128;
 
-import org.krysalis.barcode4j.impl.code128.Code128;
-import org.krysalis.barcode4j.impl.code128.Code128LogicImpl;
+import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
+import org.krysalis.barcode4j.impl.NullClassicBarcodeLogicHandler;
 
 import junit.framework.TestCase;
 
@@ -24,7 +24,7 @@ import junit.framework.TestCase;
  * Test class for the Code128 implementation.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code128Test.java,v 1.5 2004-09-12 17:57:52 jmaerki Exp $
+ * @version $Id: Code128Test.java,v 1.1 2007-07-11 06:41:00 jmaerki Exp $
  */
 public class Code128Test extends TestCase {
 

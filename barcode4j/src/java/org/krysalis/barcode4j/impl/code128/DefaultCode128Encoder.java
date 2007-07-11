@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2004,2007 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,99 +18,35 @@ package org.krysalis.barcode4j.impl.code128;
 /**
  * Default encoder algorithm for Code128 barcode messages.
  *  
- * @author Jeremias Maerki
- * @version $Id: DefaultCode128Encoder.java,v 1.2 2004-09-12 18:02:02 jmaerki Exp $
+ * @version $Id: DefaultCode128Encoder.java,v 1.3 2007-07-11 06:41:00 jmaerki Exp $
  */
 public class DefaultCode128Encoder implements Code128Encoder {
 
-    private static final int CODESET_A              = 1;
-    private static final int CODESET_B              = 2;
-    private static final int CODESET_C              = 4;
+    private static final int CODESET_A = 1;
+    private static final int CODESET_B = 2;
+    private static final int CODESET_C = 4;
 
     private static final int START_A = 103;
     private static final int START_B = 104;
     private static final int START_C = 105;
-    private static final int GOTO_A  = 101;
-    private static final int GOTO_B  = 100;
-    private static final int GOTO_C  = 99;
-    private static final int FNC_1   = 102;
-    private static final int FNC_2   = 97;
-    private static final int FNC_3   = 96;
-    private static final int SHIFT   = 98;
-    
+    private static final int GOTO_A = 101;
+    private static final int GOTO_B = 100;
+    private static final int GOTO_C = 99;
+    private static final int FNC_1 = 102;
+    private static final int FNC_2 = 97;
+    private static final int FNC_3 = 96;
+    private static final int SHIFT = 98;
 
-    /**
-     * Determine whether a character is in a particular codeset.
-     * @param c character to test
-     * @param codeset codeset to check
-     * @param second For codeset C only: true if we're checking for the second 
-     *   position in a duo.
-     * @return true if the character is in the codeset
-     */
-    private boolean inCodeset(char c, int codeset, boolean second) {
-        switch (codeset) {
-            case CODESET_A: return Code128LogicImpl.isInCodeSetA(c);
-            case CODESET_B: return Code128LogicImpl.isInCodeSetB(c);
-            case CODESET_C: return Code128LogicImpl.canBeInCodeSetC(c, second);
-            default: throw new IllegalArgumentException("Invalid codeset");
-        }
-    }
-    
     private boolean needA(char c) {
         //Character can't be encoded in B
         return (c < 32);
     }
-    
+
     private boolean needB(char c) {
         //Character can't be encoded in A
         return (c >= 96) && (c < 128);
     }
-    
-    private int determineAorB(char c) {
-        if (needA(c)) {
-            return CODESET_A;
-        } else if (Code128LogicImpl.isInCodeSetB(c)) {
-            return CODESET_B;
-        }
-        return 0;
-    }
-    
-    private int getStartControl(int codeset) {
-        switch (codeset) {
-            case CODESET_A: return START_A;
-            case CODESET_B: return START_B;
-            case CODESET_C: return START_C;
-            default: throw new IllegalArgumentException("Invalid codeset");
-        }
-    }
 
-    private boolean nextLotInCodeset(String msg, int startpos, int codeset, int count) {
-        if (startpos + count > msg.length()) {
-            //Prevent ArrayOutOfBoundsException
-            return false;
-        }
-        for (int i = 0; i < count; i++) {
-            char c = msg.charAt(startpos + i);
-            boolean second = (codeset == CODESET_C) && ((i % 2) != 0);
-            if (!inCodeset(c, codeset, second)) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    private int countCharsInSameCodeset(String msg, int startpos, int codeset) {
-        int count = 0;
-        while (startpos + count < msg.length()) {
-            boolean second = (codeset == CODESET_C) && ((count % 2) != 0);
-            if (!inCodeset(msg.charAt(startpos + count), codeset, second)) {
-                break;
-            }
-            count++;
-        }
-        return count;
-    }
-    
     private int encodeAorB(char c, int codeset) {
         //Function chars
         if (c == Code128LogicImpl.FNC_1) {
@@ -149,125 +85,220 @@ public class DefaultCode128Encoder implements Code128Encoder {
         }
     }
 
-    /** @see org.krysalis.barcode4j.impl.code128.Code128Encoder */
-    public int[] encode(String msg) {
-        //Allocate enough space
-        int[] encoded = new int[msg.length() * 2 + 5];
-        int currentCodeset;
-        int respos = 0;
-        int msgpos = 0;
-        //Determine start control
-        if ((msg.length() == 2) 
-                && nextLotInCodeset(msg, 0, CODESET_C, 2)) {
-            currentCodeset = CODESET_C;
-        } else if ((msg.length() >= 4)
-                && nextLotInCodeset(msg, 0, CODESET_C, 4)) {
-            currentCodeset = CODESET_C;
-        } else {
-            currentCodeset = determineAorB(msg.charAt(0));
-            if (currentCodeset == 0) {
-                currentCodeset = CODESET_B; //default
+    /**
+     * Encodes message using code set A, B and C. Tries to use as few characters
+     * as possibe 
+     * @param message to encoded
+     * @return array of code set caracters
+     * @see org.krysalis.barcode4j.impl.code128.Code128Encoder#encode(java.lang.String)
+     */
+    public int[] encode(String message) {
+
+        // Allocate enough space
+        int[] encoded = new int[message.length() * 2];
+        int encodedPos = 0;
+        int startAorBPos = 0;
+        int messageLength = message.length();
+        int messagePos = 0;
+
+        // iterate over all characters in message
+        while (messagePos < messageLength) {
+
+            // count number of C characters starting from current character
+            int countC = 0;
+
+            // determine number of characters saved by using codeset C
+            int saveChar = 0;
+
+            boolean extraDigitAtEnd = false;
+            while (messagePos + countC < messageLength) {
+                char character = message.charAt(messagePos + countC);
+                if (character >= '0' && character <= '9') {
+
+                    // check for uneven number of digits
+                    if (messagePos + countC + 1 == messageLength) {
+                        extraDigitAtEnd = true;
+                        break;
+                    }
+
+                    // check if next character is digit as well
+                    character = message.charAt(messagePos + countC + 1);
+                    if ((character < '0' || character > '9')) {
+                        break;
+                    }
+
+                    saveChar++;
+                    countC += 2;
+                } else if (character == Code128LogicImpl.FNC_1) {
+                    countC += 1;
+                } else {
+                    break;
+                }
             }
+
+            // at least 2 characters should be saved to switch to codeset C
+            // or whole message is in code set C
+            if (saveChar >= 2 || countC == messageLength) {
+
+                // if extra digit at end then skip first digit
+                if (extraDigitAtEnd) {
+                    messagePos++;
+                }
+
+                // write A or B section preceeding this C section
+                encodedPos += encodeAordB(message, startAorBPos, messagePos,
+                        encoded, encodedPos);
+
+                // set new start to end of C section
+                startAorBPos = messagePos + countC;
+
+                // write codeset C section
+                encodedPos += encodeC(message, messagePos, startAorBPos,
+                        encoded, encodedPos);
+            }
+
+            // skip the current codeset C section and the character following it
+            messagePos += countC + 1;
+
         }
-        encoded[respos] = getStartControl(currentCodeset);
-        respos++;
-        
-        //Start encoding
-        while (msgpos < msg.length()) {
-            switch (currentCodeset) {
-                case CODESET_C:
-                    if (msg.charAt(msgpos) == Code128LogicImpl.FNC_1) {
-                        //FNC_1 is the only valid function in Codeset C
-                        encoded[respos] = FNC_1;
-                        respos++;
-                        msgpos++;
-                    } else if (nextLotInCodeset(msg, msgpos, CODESET_C, 2)) {
-                        //Encode the next two digits
-                        encoded[respos] = 
-                            Character.digit(msg.charAt(msgpos), 10) * 10 
-                            + Character.digit(msg.charAt(msgpos + 1), 10);
-                        respos++;
-                        msgpos += 2;
-                    } else {
-                        //Need to change codeset
-                        currentCodeset = determineAorB(msg.charAt(msgpos));
-                        if (currentCodeset == 0) {
-                            currentCodeset = CODESET_B;
-                        }
-                        if (currentCodeset == CODESET_A) {
-                            encoded[respos] = GOTO_A;  
-                        } else {
-                            encoded[respos] = GOTO_B;
-                        }
-                        respos++;
-                    }
-                    break;
-                case CODESET_B:
-                case CODESET_A:
-                    int c = countCharsInSameCodeset(msg, msgpos, CODESET_C);
-                    if (c >= 4) {
-                        //Change to Codeset C
-                        if ((c % 2) != 0) {
-                            //Odd number of digits in next passage
-                            //Encode the first digit in the old codeset
-                            //encoded[respos] = Character.digit(msg.charAt(msgpos), 10) + 16;
-                            encoded[respos] = encodeAorB(msg.charAt(msgpos), currentCodeset);
-                            respos++;
-                            msgpos++;
-                        }
-                        encoded[respos] = GOTO_C;
-                        respos++;
-                        currentCodeset = CODESET_C;
-                    } else if ((currentCodeset == CODESET_A) && needB(msg.charAt(msgpos))) {
-                        //SHIFT or GOTO?
-                        if (msgpos + 1 < msg.length()) {
-                            int preview = determineAorB(msg.charAt(msgpos + 1));
-                            if (preview == CODESET_B) {
-                                //More than one B character
-                                encoded[respos] = GOTO_B;
-                                respos++;
-                                currentCodeset = CODESET_B;
-                            }
-                        }
-                        if (currentCodeset == CODESET_A) {
-                            //No GOTO issued, we encode with SHIFT
-                            encoded[respos] = SHIFT;
-                            respos++;
-                            encoded[respos] = encodeAorB(msg.charAt(msgpos), CODESET_B);
-                            respos++;
-                            msgpos++;
-                        }
-                    } else if ((currentCodeset == CODESET_B) && needA(msg.charAt(msgpos))) {
-                        //SHIFT or GOTO?
-                        if (msgpos + 1 < msg.length()) {
-                            int preview = determineAorB(msg.charAt(msgpos + 1));
-                            if (preview == CODESET_A) {
-                                //More than one A character
-                                encoded[respos] = GOTO_A;
-                                respos++;
-                                currentCodeset = CODESET_A;
-                            }
-                        }
-                        if (currentCodeset == CODESET_B) {
-                            //No GOTO issued, we encode with SHIFT
-                            encoded[respos] = SHIFT;
-                            respos++;
-                            encoded[respos] = encodeAorB(msg.charAt(msgpos), CODESET_A);
-                            respos++;
-                            msgpos++;
-                        }
-                    } else {
-                        encoded[respos] = encodeAorB(msg.charAt(msgpos), currentCodeset);
-                        respos++;
-                        msgpos++;
-                    }
-                    break;
-            } /*switch*/
-        }
-        int[] result = new int[respos];
+
+        // write A or B section after the (optional) C section
+        encodedPos += encodeAordB(message, startAorBPos, messageLength,
+                encoded, encodedPos);
+
+        int[] result = new int[encodedPos];
         System.arraycopy(encoded, 0, result, 0, result.length);
+
         return result;
     }
 
+    /**
+     * Encodes section of message in codeset C
+     * @param message to encode
+     * @param start position of section in message
+     * @param finish first position after section in message
+     * @param encoded int array to hold encoded message
+     * @param startEncodedPos start index in encoded array
+     * @return number of integers added to encoding
+     */
+    private int encodeC(String message, int start, int finish, int[] encoded,
+            int startEncodedPos) {
 
+        if (start == finish) {
+            return 0;
+        }
+
+        int encodedPos = startEncodedPos;
+
+        // start or switch to code set C
+        encoded[encodedPos++] = start == 0 ? START_C : GOTO_C;
+
+        int messagePos = start;
+
+        while (messagePos < finish) {
+            char character = message.charAt(messagePos);
+
+            if (character == Code128LogicImpl.FNC_1) {
+                encoded[encodedPos++] = FNC_1;
+                messagePos++;
+            } else {
+                //Encode the next two digits
+                encoded[encodedPos++] = Character.digit(character, 10) * 10
+                        + Character.digit(message.charAt(messagePos + 1), 10);
+                messagePos += 2;
+            }
+        }
+
+        // number of characters added
+        return encodedPos - startEncodedPos;
+
+    }
+
+    /**
+     * Encodes section of message in codeset A or B
+     * @param message to encode
+     * @param start position of section in message
+     * @param finish first position after section in message
+     * @param encoded int array to hold encoded message
+     * @param startEncodedPos start index in encoded array
+     * @return number of integers added to encoding
+     */
+    private int encodeAordB(String message, int start, int finish,
+            int[] encoded, int startEncodedPos) {
+
+        if (start == finish) {
+            return 0;
+        }
+
+        int encodedPos = startEncodedPos;
+
+        // determine to start with codeset A or B
+        boolean inB = true;
+        for (int messagePos = start; messagePos < finish; messagePos++) {
+
+            char character = message.charAt(messagePos);
+
+            if (needA(character)) {
+                inB = false;
+                break;
+            } else if (needB(character)) {
+                inB = true;
+                break;
+            }
+        }
+
+        // start or switch to correct code set
+        if (inB) {
+            encoded[encodedPos++] = (start == 0) ? START_B : GOTO_B;
+        } else {
+            encoded[encodedPos++] = (start == 0) ? START_A : GOTO_A;
+        }
+
+        // iterate over characters in message
+        for (int messagePos = start; messagePos < finish; messagePos++) {
+
+            char character = message.charAt(messagePos);
+
+            if (inB) {
+                // check if current character is not in code set B
+                if (needA(character)) {
+
+                    // check for switch or shift
+                    if (messagePos + 1 < finish
+                            && needA(message.charAt(messagePos + 1))) {
+                        encoded[encodedPos++] = GOTO_A;
+                        inB = false;
+                    } else {
+                        encoded[encodedPos++] = SHIFT;
+                    }
+
+                    encoded[encodedPos++] = encodeAorB(character, CODESET_A);
+                } else {
+                    encoded[encodedPos++] = encodeAorB(character, CODESET_B);
+                }
+
+            } else {
+                // check if current character is not in code set A
+                if (needB(character)) {
+
+                    // check for switch or shift
+                    if (messagePos + 1 < finish
+                            && needB(message.charAt(messagePos + 1))) {
+                        encoded[encodedPos++] = GOTO_B;
+                        inB = true;
+                    } else {
+                        encoded[encodedPos++] = SHIFT;
+                    }
+
+                    encoded[encodedPos++] = encodeAorB(character, CODESET_B);
+                } else {
+                    encoded[encodedPos++] = encodeAorB(character, CODESET_A);
+                }
+            }
+        }
+
+        // number of characters added
+        return encodedPos - startEncodedPos;
+
+    }
 }

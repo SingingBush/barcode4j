@@ -58,6 +58,9 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="jmaerki" type="fix" context="code" due-to="Branko van Abel" due-to-email="branko@edmond.nl">
+        Improved Code128 encoding results in smaller barcodes in some cases.  
+      </action>      
       <action dev="jmaerki" type="add" context="code">
         Added support for Macro 05/06 character abbreviation (DataMatrix).
       </action>
