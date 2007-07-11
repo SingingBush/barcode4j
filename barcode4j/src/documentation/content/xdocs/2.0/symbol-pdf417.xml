@@ -25,7 +25,7 @@
       &#60;ec-level&#62;{<link href="barcode-xml.html#number">number</link>:0}&#60;/ec-level&#62;
       &#60;quiet-zone enabled="{<link href="barcode-xml.html#boolean">boolean</link>:true}"&#62;{<link href="barcode-xml.html#length">length</link>:2mw}&#60;/quiet-zone&#62;
       &#60;vertical-quiet-zone&#62;{<link href="barcode-xml.html#length">length</link>:default is same as quiet-zone}&#60;/vertical-quiet-zone&#62;
-        &#60;width-to-height-ratio&#62;{<link href="barcode-xml.html#number">number</link>:3.0}&#60;/width-to-height-ratio&#62;
+      &#60;width-to-height-ratio&#62;{<link href="barcode-xml.html#number">number</link>:3.0}&#60;/width-to-height-ratio&#62;
   &#60;/<strong>pdf417</strong>&#62;
 &#60;/barcode&#62;</source>
     </section>
@@ -44,7 +44,8 @@
           between 1 and 30)
         </li>
         <li>
-          Using the "columns" setting overrides the "min/max-columns" and "min/max-rows" setting!
+          Using the "columns" setting overrides the "min/max-columns" setting! Or in other words:
+          Setting "columns" sets "min-columns" and "max-columns" to the same value.
         </li>
         <li>Macro PDF417 functionality is not implemented, yet.</li>
         <li>Compact PDF417 functionality is not implemented, yet.</li>
