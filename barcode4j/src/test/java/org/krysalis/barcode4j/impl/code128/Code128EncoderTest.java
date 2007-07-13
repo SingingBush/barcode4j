@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 /**
  * Test class for the Code128 message encoder implementations.
  * 
- * @version $Id: Code128EncoderTest.java,v 1.1 2007-07-11 06:41:00 jmaerki Exp $
+ * @version $Id: Code128EncoderTest.java,v 1.2 2007-07-13 11:14:29 jmaerki Exp $
  */
 public class Code128EncoderTest extends TestCase {
 
@@ -185,6 +185,8 @@ public class Code128EncoderTest extends TestCase {
                 || res.equals("->BCode5->C[67][89]<SHIFT-B>a"));
         assertEquals("->BCode->C[56][78][90]->Bab", encodeToDebug("Code567890ab", encoder));
         assertEquals("->BCode5->C[67][89]", encodeToDebug("Code56789", encoder));
+        assertEquals("->BCode<FNC1>5->C[67][89]", encodeToDebug("Code\u00f156789", encoder));
+        assertEquals("->BCode->C[56]<FNC1>[78]->B9", encodeToDebug("Code56\u00f1789", encoder));
     }
 
     public void testDefaultEncoder() throws Exception {

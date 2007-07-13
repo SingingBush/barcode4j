@@ -18,7 +18,7 @@ package org.krysalis.barcode4j.impl.code128;
 /**
  * Default encoder algorithm for Code128 barcode messages.
  *  
- * @version $Id: DefaultCode128Encoder.java,v 1.3 2007-07-11 06:41:00 jmaerki Exp $
+ * @version $Id: DefaultCode128Encoder.java,v 1.4 2007-07-13 11:14:29 jmaerki Exp $
  */
 public class DefaultCode128Encoder implements Code128Encoder {
 
@@ -129,7 +129,10 @@ public class DefaultCode128Encoder implements Code128Encoder {
 
                     saveChar++;
                     countC += 2;
-                } else if (character == Code128LogicImpl.FNC_1) {
+                } else if (character == Code128LogicImpl.FNC_1
+                        && (messagePos == 0 || countC > 0)) {
+                    // only include FNC_1 if it is the first character or if it is
+                    // preceeded by other codeset C characters
                     countC += 1;
                 } else {
                     break;
@@ -142,7 +145,12 @@ public class DefaultCode128Encoder implements Code128Encoder {
 
                 // if extra digit at end then skip first digit
                 if (extraDigitAtEnd) {
-                    messagePos++;
+
+                    // section should not contain FNC_1
+                    int fnc1Pos = message.indexOf(Code128LogicImpl.FNC_1, messagePos);
+                    if (fnc1Pos < 0 || fnc1Pos > messagePos + countC) {
+                        messagePos++;
+                    }
                 }
 
                 // write A or B section preceeding this C section
