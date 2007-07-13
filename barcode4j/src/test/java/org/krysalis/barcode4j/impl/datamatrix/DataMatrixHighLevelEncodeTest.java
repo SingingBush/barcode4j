@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncodeTest.java,v 1.9 2007-06-29 09:02:22 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncodeTest.java,v 1.10 2007-07-13 09:57:05 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
 import org.krysalis.barcode4j.tools.TestHelper;
 
+import junit.framework.ComparisonFailure;
 import junit.framework.TestCase;
 
 /**
  * Tests for the high-level encoder.
  * 
- * @version $Id: DataMatrixHighLevelEncodeTest.java,v 1.9 2007-06-29 09:02:22 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncodeTest.java,v 1.10 2007-07-13 09:57:05 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncodeTest extends TestCase {
 
@@ -234,7 +235,9 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         visualized = encodeHighLevel("«הצüי»");
         assertEquals("231 44 108 59 226 126 1 104", visualized);
         visualized = encodeHighLevel("«הצüיא»");
-        assertEquals("231 51 108 59 226 126 1 141 254 254", visualized);
+        assertEquals("231 51 108 59 226 126 1 141 254 129", visualized);
+        visualized = encodeHighLevel("«הצüיאב»");
+        assertEquals("231 44 108 59 226 126 1 141 36 147", visualized);
 
         visualized = encodeHighLevel(" 23£"); //ASCII only (for reference)
         assertEquals("33 153 235 36 129", visualized);
@@ -243,7 +246,46 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         assertEquals("231 51 108 59 226 126 1 104 99 153 53 129", visualized);
         
         visualized = encodeHighLevel("«הצüי» 23£ 1234567890123456789");
-        assertEquals("231 55 108 59 226 126 1 104 99 10 161 167 185 142 164 186 208 220 142 164 186 208 58 129 59 209 104 254 150 45", visualized);
+        assertEquals("231 55 108 59 226 126 1 104 99 10 161 167 185 142 164 186 208"
+                + " 220 142 164 186 208 58 129 59 209 104 254 150 45", visualized);
+        
+        visualized = encodeHighLevel(createBinaryMessage(20));
+        assertEquals("231 44 108 59 226 126 1 141 36 5 37 187 80 230 123 17 166 60 210 103 253 150",
+                visualized);
+        visualized = encodeHighLevel(createBinaryMessage(19)); //padding necessary at the end
+        assertEquals("231 63 108 59 226 126 1 141 36 5 37 187 80 230 123 17 166 60 210 103 1 129",
+                visualized);
+
+        visualized = encodeHighLevel(createBinaryMessage(276));
+        assertStartsWith("231 38 219 2 208 120 20 150 35", visualized);
+        assertEndsWith("146 40 194 129", visualized);
+
+        visualized = encodeHighLevel(createBinaryMessage(277));
+        assertStartsWith("231 38 220 2 208 120 20 150 35", visualized);
+        assertEndsWith("146 40 190 87", visualized);
+    }
+
+    private static String createBinaryMessage(int len) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("«הצüיאב-");
+        for (int i = 0; i < len - 9; i++) {
+            sb.append("\u00B7");
+        }
+        sb.append("»");
+        return sb.toString();
+    }
+    
+    private void assertStartsWith(String expected, String actual) {
+        if (!actual.startsWith(expected)) {
+            throw new ComparisonFailure(null, expected, actual.substring(0, expected.length()));
+        }
+    }
+    
+    private void assertEndsWith(String expected, String actual) {
+        if (!actual.endsWith(expected)) {
+            throw new ComparisonFailure(null, 
+                    expected, actual.substring(actual.length() - expected.length()));
+        }
     }
     
     public void testUnlatchingFromC40() throws Exception {

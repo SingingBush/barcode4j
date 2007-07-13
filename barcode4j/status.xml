@@ -58,6 +58,9 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="jmaerki" type="fix" context="code">
+        Fixed two bugs concerning Base 256 encoding (DataMatrix).  
+      </action>      
       <action dev="jmaerki" type="add" context="code" due-to="Branko van Abel" due-to-email="branko@edmond.nl">
         Added auto-sizing feature for PDF417 with an option to specify the width-to-height ration
         for the symbol.

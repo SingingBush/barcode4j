@@ -19,7 +19,7 @@ package org.krysalis.barcode4j.impl.datamatrix;
  * Enumeration for DataMatrix symbol shape hint. It can be used to force square or rectangular
  * symbols.
  * 
- * @version $Id: SymbolShapeHint.java,v 1.1 2007-04-18 12:00:42 jmaerki Exp $
+ * @version $Id: SymbolShapeHint.java,v 1.2 2007-07-13 09:57:05 jmaerki Exp $
  */
 public class SymbolShapeHint {
 
@@ -68,5 +68,8 @@ public class SymbolShapeHint {
         }
     }
     
-
+    /** @see java.lang.Object#toString() */
+    public String toString() {
+        return getName();
+    }
 }

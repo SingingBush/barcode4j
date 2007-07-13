@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Jeremias Maerki.
+ * Copyright 2006-2007 Jeremias Maerki.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.13 2007-06-29 09:02:22 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.14 2007-07-13 09:57:05 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -25,11 +25,11 @@ import java.util.Arrays;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  * 
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.13 2007-06-29 09:02:22 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.14 2007-07-13 09:57:05 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     
     private static final int ASCII_ENCODATION = 0;
     private static final int C40_ENCODATION = 1;
@@ -127,8 +127,10 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         context.updateSymbolInfo();
         int capacity = context.symbolInfo.dataCapacity;
         if (len < capacity) {
-            if (encodingMode != ASCII_ENCODATION) {
-                //TODO Only do this when the symbol is not filled up
+            if (encodingMode != ASCII_ENCODATION && encodingMode != BASE256_ENCODATION) {
+                if (DEBUG) {
+                    System.out.println("Unlatch because symbol isn't filled up");
+                }
                 context.writeCodeword('\u00fe'); //Unlatch (254)
             }
         }
@@ -729,12 +731,15 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             }
             int dataCount = buffer.length() - 1;
             int lengthFieldSize = 1;
-            if (dataCount > 249) {
-                lengthFieldSize++;
-            }
+            boolean longLengthField = (dataCount > 249);
             int currentSize = (context.getCodewordCount() + dataCount + lengthFieldSize);
             context.updateSymbolInfo(currentSize);
             boolean mustPad = ((context.symbolInfo.dataCapacity - currentSize) > 0);
+            if (longLengthField && mustPad) {
+                //more than
+                lengthFieldSize++;
+                currentSize++; 
+            }
             if (context.hasMoreCharacters() || mustPad) {
                 if (dataCount <= 249) {
                     buffer.setCharAt(0, (char)dataCount);
