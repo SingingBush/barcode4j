@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: EAN128Test.java,v 1.1 2007-01-04 08:04:09 jmaerki Exp $ */
+/* $Id: EAN128Test.java,v 1.2 2007-07-15 16:09:38 buerkle Exp $ */
 
 package org.krysalis.barcode4j.impl.code128;
 
@@ -48,6 +48,36 @@ public class EAN128Test extends TestCase {
         impl.setMessage("42012345" + FNC1 + "910112345678912345678" + CD);
         assertEquals("(420)12345(91)01123456789123456780", impl.getHumanReadableMsg());
         assertEquals(FNC1 + "42012345" + FNC1 + "9101123456789123456780", impl.getCode128Msg());
+
+        //Test check digit generation in the middle of a field
+        impl = new EAN128LogicImpl(ChecksumMode.CP_AUTO, null);
+        impl.setMessage("80031234567890123" + CD + "123" + GS + "1001234");
+        assertEquals("(8003)12345678901231123(10)01234", impl.getHumanReadableMsg());
+        assertEquals(FNC1 + "800312345678901231123" + FNC1 + "1001234", impl.getCode128Msg());
+
+        //Test if trailing FNC1 is removed.
+        impl = new EAN128LogicImpl(ChecksumMode.CP_AUTO, null);
+        impl.setMessage("011234567890123" + CD + "1001234" + GS);
+        assertEquals("(01)12345678901231(10)01234", impl.getHumanReadableMsg());
+        assertEquals(FNC1 + "0112345678901231" + "1001234", impl.getCode128Msg());
+
+        //Test if GS is optional after real fixed length field (FNC1 is not added)
+        impl = new EAN128LogicImpl(ChecksumMode.CP_AUTO, null);
+        impl.setMessage("0112345678901231" + GS + "1001234");
+        assertEquals("(01)12345678901231(10)01234", impl.getHumanReadableMsg());
+        assertEquals(FNC1 + "0112345678901231" + "1001234", impl.getCode128Msg());
+        impl.setMessage("0112345678901231" + "1001234");
+        assertEquals("(01)12345678901231(10)01234", impl.getHumanReadableMsg());
+        assertEquals(FNC1 + "0112345678901231" + "1001234", impl.getCode128Msg());
+
+        //Same like before, with automatic check digit generation at the most interesting point
+        impl = new EAN128LogicImpl(ChecksumMode.CP_AUTO, null);
+        impl.setMessage("011234567890123" + GS + "1001234");
+        assertEquals("(01)12345678901231(10)01234", impl.getHumanReadableMsg());
+        assertEquals(FNC1 + "0112345678901231" + "1001234", impl.getCode128Msg());
+        impl.setMessage("011234567890123" + CD + "1001234");
+        assertEquals("(01)12345678901231(10)01234", impl.getHumanReadableMsg());
+        assertEquals(FNC1 + "0112345678901231" + "1001234", impl.getCode128Msg());
     }
     
 }
