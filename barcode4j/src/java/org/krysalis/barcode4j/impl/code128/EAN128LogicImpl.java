@@ -393,23 +393,19 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
      * @param string
      */
     public void setTemplate(String string) {
-        ais = null;
+    	EAN128AI[] newTemplates = null;
         if (string == null || string.trim().length() == 0) return;
         StringTokenizer st = new StringTokenizer(string, "()", false);
         int count = st.countTokens();
-        if (count % 2 != 0) return; //TODO ERROR!
+        if (count % 2 != 0) 
+            throw new IllegalArgumentException("Cannot parse template: \"" + string);
         count /= 2;
-        ais = new EAN128AI[count];
-        try {
-            for (int i = 0; i < count; i++) {
-                ais[i] = EAN128AI.parseSpec(st.nextToken(), st.nextToken());
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-            ais = null;
+        newTemplates = new EAN128AI[count];
+        for (int i = 0; i < count; i++) {
+            newTemplates[i] = EAN128AI.parseSpec(st.nextToken(), st.nextToken());
         }
+        ais = newTemplates; 
     }
-
     /**
      * @return
      */

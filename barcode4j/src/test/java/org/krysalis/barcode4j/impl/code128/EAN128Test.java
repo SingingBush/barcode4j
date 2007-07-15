@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: EAN128Test.java,v 1.2 2007-07-15 16:09:38 buerkle Exp $ */
+/* $Id: EAN128Test.java,v 1.3 2007-07-15 16:21:20 buerkle Exp $ */
 
 package org.krysalis.barcode4j.impl.code128;
 
@@ -78,6 +78,12 @@ public class EAN128Test extends TestCase {
         impl.setMessage("011234567890123" + CD + "1001234");
         assertEquals("(01)12345678901231(10)01234", impl.getHumanReadableMsg());
         assertEquals(FNC1 + "0112345678901231" + "1001234", impl.getCode128Msg());
-    }
+ 
+        //Test length redefinition of fixed length field not allowed
+        try {
+        	impl = new EAN128LogicImpl(ChecksumMode.CP_AUTO, "(00)n19");
+        	assertTrue("Exception expected", false);
+        } catch (Exception e) {};
+}
     
 }

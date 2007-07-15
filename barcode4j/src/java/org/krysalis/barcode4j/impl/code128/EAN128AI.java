@@ -183,7 +183,7 @@ public class EAN128AI {
             if (aiNew.lenMaxAll != aiNew.lenMinAll
                     || aiNew.lenID + aiNew.lenMinAll != aiOld.lenID + aiOld.lenMinAll) {
                 throw new IllegalArgumentException("AI \"" + aiNew.toString()
-                        + "\" must have fixed len: " + aiOld.lenID + "+" + aiOld.lenMin);
+                        + "\" must have fixed len: " + aiOld.lenID + "+" + aiOld.lenMinAll);
             }
             aiNew.fixed = true;
         }
@@ -230,7 +230,7 @@ public class EAN128AI {
         }
     }
 
-    public static EAN128AI parseSpec(String ai, String spec) throws Exception {
+    public static EAN128AI parseSpec(String ai, String spec) {
         EAN128AI  ret = parseSpecPrivate(ai, spec);
         checkAI(ret);
         return ret;
@@ -304,7 +304,7 @@ public class EAN128AI {
         }
     }
 
-    public static boolean checkAI(EAN128AI ai) throws Exception {
+    public static boolean checkAI(EAN128AI ai) {
         EAN128AI aiCompare = getAIPrivate(ai.id + "0000", 0);
         checkFixed(ai, aiCompare);
         return true;
@@ -315,7 +315,7 @@ public class EAN128AI {
         return getAIPrivate(msg, msgStart);
     }
     
-    private static EAN128AI getAIPrivate(String msg, int msgStart) throws Exception {
+    private static EAN128AI getAIPrivate(String msg, int msgStart) {
         EAN128AI ret = dft;
         Object o = aiTable;
         int c;
