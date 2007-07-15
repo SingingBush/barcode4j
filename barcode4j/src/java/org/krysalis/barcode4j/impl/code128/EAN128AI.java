@@ -17,7 +17,9 @@ package org.krysalis.barcode4j.impl.code128;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
 /**
@@ -97,24 +99,45 @@ public class EAN128AI {
 //        loadProperties();
     }
     
-    public static synchronized void loadProperties(){
+    public static synchronized void loadProperties() throws Exception {
         if (propertiesLoaded) return;
 
-        final String filename = "EAN128AIs.properties"; 
+        final String bundlename = "EAN128AIs"; 
+        final String filename = bundlename + ".properties"; 
         Properties p = new AIProperties();
         try {
             InputStream is = EAN128AI.class.getResourceAsStream(filename);
             if (is == null) {
-                throw new FileNotFoundException(filename + " could not be loaded!");
+//               System.err.println(filename + " could not be loaded with class.getResourceAsStream()");
+               is = EAN128AI.class.getClassLoader().getResourceAsStream(filename);
             }
-            try {
-                p.load(is);
-            } finally {
-                is.close();
+            if (is != null) {
+            	try {
+	                p.load(is);
+	            } finally {
+	                is.close();
+	            }
+            } else {
+//                System.err.println(filename + " could not be loaded with getClassLoader().getResourceAsStream()");
+                // The getResourceAsStream variants do not work if an applet is loading 
+                // several jars from different directories (as in examples\demo-applet\html\index.html)!
+                // ResourceBundle does this job. It seems to have more privileges. 
+            	// It is not the best choice (as we never want to translate EAN128AIs.properties),
+            	// but it works.
+            	String rbName = EAN128AI.class.getPackage().getName() + "." + bundlename;
+            	ResourceBundle rb = ResourceBundle.getBundle(rbName);
+	        	Enumeration keys = rb.getKeys();
+	        	while (keys.hasMoreElements()){
+	        		String key = (String) keys.nextElement();
+	        		p.put(key, rb.getObject(key));
+	        	}
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            System.err.println(filename + " could not be loaded!");
             e.printStackTrace();
+            // Not loading EAN128AIs.properties is a severe error. 
+            // But the code is still usable, if you use templates or do not rely on checkdigits.
+            // Maybe it would be better to throw this exception and find out how this cold happen.
         }
         propertiesLoaded = true;
     }    
