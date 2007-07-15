@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: EAN128Test.java,v 1.3 2007-07-15 16:21:20 buerkle Exp $ */
+/* $Id: EAN128Test.java,v 1.4 2007-07-15 16:30:25 buerkle Exp $ */
 
 package org.krysalis.barcode4j.impl.code128;
 
@@ -61,7 +61,17 @@ public class EAN128Test extends TestCase {
         assertEquals("(01)12345678901231(10)01234", impl.getHumanReadableMsg());
         assertEquals(FNC1 + "0112345678901231" + "1001234", impl.getCode128Msg());
 
-        //Test if GS is optional after real fixed length field (FNC1 is not added)
+        //Test if GS is optional after a variable length field which 
+        // is redefined to fixed length in a template (FNC1 is added)
+        impl = new EAN128LogicImpl(ChecksumMode.CP_AUTO, "(10)n2(420)n5");
+        impl.setMessage("1012" + "42012345");
+        assertEquals("(10)12(420)12345", impl.getHumanReadableMsg());
+        assertEquals(FNC1 + "1012" + FNC1 + "42012345", impl.getCode128Msg());
+        impl.setMessage("1012" + GS + "42012345");
+        assertEquals("(10)12(420)12345", impl.getHumanReadableMsg());
+        assertEquals(FNC1 + "1012" + FNC1 + "42012345", impl.getCode128Msg());
+
+       //Test if GS is optional after real fixed length field (FNC1 is not added)
         impl = new EAN128LogicImpl(ChecksumMode.CP_AUTO, null);
         impl.setMessage("0112345678901231" + GS + "1001234");
         assertEquals("(01)12345678901231(10)01234", impl.getHumanReadableMsg());

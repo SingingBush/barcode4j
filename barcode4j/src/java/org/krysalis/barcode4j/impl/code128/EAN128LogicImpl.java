@@ -48,7 +48,6 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
     
     private boolean checksumADD = true;
     private boolean checksumCHECK = true;
-    private boolean strictFixedLen = true;
 
     public EAN128LogicImpl(ChecksumMode mode, String template, char fnc1) {
         setChecksumMode(mode);
@@ -186,7 +185,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
             if (checksumADD && ai.canDoChecksumADD 
                     && newOffset == offset + lenID + lenMin - 1) {
                 doChecksumADD = true;
-            } else if (ai.fixed && newOffset < msg.length()) {
+            } else if ((ai.fixed || lenMin == lenMax) && newOffset < msg.length()) {
                 throw getException("FNC1 not allowed in fixed length field: \"" 
                     + msg.substring(offset + lenID, 
                             Math.min(msg.length(), offset + lenID + lenMax)) + "\"!");
@@ -197,7 +196,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
             
         }
         if (newOffset > offset + lenID + lenMax) {
-            if (ai.fixed || !strictFixedLen) {
+            if (ai.fixed || lenMin == lenMax ) {
                 newOffset = offset + lenID + lenMax;
             } else {
                 throw getException(
