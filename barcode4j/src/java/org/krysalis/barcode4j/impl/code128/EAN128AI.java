@@ -15,7 +15,6 @@
  */
 package org.krysalis.barcode4j.impl.code128;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -240,6 +239,7 @@ public class EAN128AI {
             byte[] type, byte[] lenMin, byte[] lenMax, byte[] checkDigitStart) {
         int startLen = 0; 
         checkDigitStart[i] = 1;
+        lenMin[i] = lenMax[i] = -1;
         if (spec.startsWith("an")) {
             type[i] = TYPEAlphaNum;
             startLen = 2;
@@ -258,6 +258,7 @@ public class EAN128AI {
             startLen = 1;
         } else if (spec.startsWith("d")) {
             type[i] = TYPENumDate;
+            lenMin[i] = lenMax[i] = 6;
             startLen = 1;
         } else if (spec.startsWith("e")) {
             type[i] = TYPEError;
@@ -269,20 +270,29 @@ public class EAN128AI {
 
         int hyphenIdx = spec.indexOf('-', startLen);
         if (hyphenIdx < 0) {
-            lenMin[i] = lenMax[i] = Byte.parseByte(spec.substring(startLen));
+            lenMin[i] = lenMax[i] = parseByte(spec.substring(startLen), lenMin[i], spec);
         } else if (hyphenIdx == startLen) {
             lenMin[i] = 1;
-            lenMax[i] = Byte.parseByte(spec.substring(startLen + 1));
+            lenMax[i] = parseByte(spec.substring(startLen + 1), lenMax[i], spec);
         } else { // hyphenIdx > startLen
-            lenMin[i] = Byte.parseByte(spec.substring(startLen, hyphenIdx));
-            lenMax[i] = Byte.parseByte(spec.substring(hyphenIdx + 1));
+            lenMin[i] = parseByte(spec.substring(startLen, hyphenIdx), lenMin[i], spec);
+            lenMax[i] = parseByte(spec.substring(hyphenIdx + 1), lenMax[i], spec);
         }
 
         if (type[i] == TYPENumDate) {
             if (lenMin[i] != 6 || lenMax[i] != 6) { 
-                throw new IllegalArgumentException("Date Field must have length 6");
+                throw new IllegalArgumentException("Date field (" + spec +") must have length 6!");
             }
         }
+    }
+    private static byte parseByte(String val, byte dft, String spec){
+    	try {
+    		return Byte.parseByte(val);
+		} catch (Exception e) {
+			if (dft == -1) 
+				throw new IllegalArgumentException("Can't read field length from \"" + spec +"\"");
+			return dft;
+		}
     }
     private static EAN128AI parseSpecPrivate(String ai, String spec) {
         try {
@@ -298,6 +308,8 @@ public class EAN128AI {
                 parseSpecPrivate(i, st.nextToken(), type, lenMin, lenMax, checkDigitStart);
             }
             return new EAN128AI(ai, lenID, type, lenMin, lenMax, checkDigitStart);
+        } catch (IllegalArgumentException iae) {
+            throw iae;
         } catch (Exception e) {
             throw new IllegalArgumentException(
                     "Cannot Parse AI: \"" + ai + "\" spec: \"" + spec + "\" ");
