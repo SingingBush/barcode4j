@@ -73,7 +73,6 @@ public class EAN128 extends Code128
     }
     
     private char getFirstChar(String s) {
-        s = s.trim();
         if (s != null && s.length() > 0) {
             return s.charAt(0);
         } else {
