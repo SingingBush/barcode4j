@@ -401,12 +401,12 @@
           windowtitle="${name} ${version} API"
           stylesheetfile="${src.dir}/documentation/resources/stylesheets/javadoc.css">
       <classpath refid="project.classpath"/>
-      <fileset dir="${src.java.dir}" defaultexcludes="yes"/>
-      <fileset dir="${src.java14.dir}" defaultexcludes="yes"/>
-      <fileset dir="${xalan.dir}/java" defaultexcludes="yes"/>
-      <fileset dir="${saxon6.dir}/java" defaultexcludes="yes"/>
-      <fileset dir="${saxon8.dir}/java" defaultexcludes="yes"/>
-      <fileset dir="${jdom.dir}/java" defaultexcludes="yes"/>
+      <packageset dir="${src.java.dir}" defaultexcludes="yes"/>
+      <packageset dir="${src.java14.dir}" defaultexcludes="yes"/>
+      <packageset dir="${xalan.dir}/java" defaultexcludes="yes"/>
+      <packageset dir="${saxon6.dir}/java" defaultexcludes="yes"/>
+      <packageset dir="${saxon8.dir}/java" defaultexcludes="yes"/>
+      <packageset dir="${jdom.dir}/java" defaultexcludes="yes"/>
       <tag name="todo" scope="all" description="TODO:" />
       <link href="http://avalon.apache.org/framework/api/"/>
       <!--link href="http://www.saxonica.com/documentation/javadoc/"/ doesn't work anymore-->
