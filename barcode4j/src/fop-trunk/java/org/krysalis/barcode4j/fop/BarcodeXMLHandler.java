@@ -22,22 +22,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.batik.dom.svg.SVGDOMImplementation;
-import org.apache.fop.area.PageViewport;
-import org.apache.fop.render.Graphics2DAdapter;
-import org.apache.fop.render.AbstractRenderer;
-import org.apache.fop.render.Graphics2DImagePainter;
-import org.apache.fop.render.ImageAdapter;
-import org.apache.fop.render.Renderer;
-import org.apache.fop.render.RendererContext;
-import org.apache.fop.render.XMLHandler;
-import org.apache.fop.render.ps.PSImageUtils;
-import org.apache.fop.render.ps.PSRenderer;
-import org.apache.fop.render.ps.PSRendererContextConstants;
-import org.apache.xmlgraphics.ps.PSGenerator;
-
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
@@ -48,16 +32,32 @@ import org.krysalis.barcode4j.output.java2d.Java2DCanvasProvider;
 import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
 import org.krysalis.barcode4j.tools.ConfigurationUtil;
 import org.krysalis.barcode4j.tools.UnitConv;
-
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.batik.dom.svg.SVGDOMImplementation;
+import org.apache.xmlgraphics.ps.PSGenerator;
+
+import org.apache.fop.area.PageViewport;
+import org.apache.fop.render.AbstractRenderer;
+import org.apache.fop.render.Graphics2DAdapter;
+import org.apache.fop.render.Graphics2DImagePainter;
+import org.apache.fop.render.ImageAdapter;
+import org.apache.fop.render.Renderer;
+import org.apache.fop.render.RendererContext;
+import org.apache.fop.render.XMLHandler;
+import org.apache.fop.render.ps.PSImageUtils;
+import org.apache.fop.render.ps.PSRenderer;
+import org.apache.fop.render.ps.PSRendererContextConstants;
 
 /**
  * XMLHandler for Apache FOP that handles the Barcode XML by converting it to
  * SVG or by rendering it directly to the output format.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeXMLHandler.java,v 1.7 2006-11-07 16:45:08 jmaerki Exp $
+ * @version $Id: BarcodeXMLHandler.java,v 1.8 2008-03-04 20:08:18 jmaerki Exp $
  */
 public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants {
 
@@ -125,6 +125,10 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
         bargen.generateBarcode(canvas, msg);
         canvas.finish();
         
+        final BarcodeDimension barDim = bargen.calcDimensions(msg);
+        float bw = (float)UnitConv.mm2pt(barDim.getWidthPlusQuiet(orientation));
+        float bh = (float)UnitConv.mm2pt(barDim.getHeightPlusQuiet(orientation));
+
         float width = ((Integer)context.getProperty(WIDTH)).intValue() / 1000f;
         float height = ((Integer)context.getProperty(HEIGHT)).intValue() / 1000f;
         float x = ((Integer)context.getProperty(XPOS)).intValue() / 1000f;
@@ -132,7 +136,7 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
         
         if (DEBUG) System.out.println(" --> EPS");
         PSImageUtils.renderEPS(baout.toByteArray(), "Barcode:" + msg, 
-                x, y, width, height, 0, 0, width, height, gen);
+                x, y, width, height, 0, 0, bw, bh, gen);
     }
     
     private boolean renderUsingGraphics2D(RendererContext context, 
@@ -223,7 +227,7 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
                 svg, SVGDOMImplementation.SVG_NAMESPACE_URI);
     }
 
-    /** @see org.apache.fop.render.XMLHandler#getMimeType() */
+    /** @see org.apache.fop.render.XMLHandler#getDescription() */
     public String getMimeType() {
         return XMLHandler.HANDLE_ALL;
     }
