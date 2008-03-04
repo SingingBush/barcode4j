@@ -18,6 +18,7 @@ package org.krysalis.barcode4j.servlet;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,10 +28,6 @@ import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.Logger;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
@@ -38,10 +35,15 @@ import org.krysalis.barcode4j.output.eps.EPSCanvasProvider;
 import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
 import org.krysalis.barcode4j.tools.MimeTypes;
 
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.logger.Logger;
+
 /**
  * Simple barcode servlet.
  *
- * @version $Id: BarcodeServlet.java,v 1.6 2007-01-19 12:26:55 jmaerki Exp $
+ * @version $Id: BarcodeServlet.java,v 1.7 2008-03-04 20:07:23 jmaerki Exp $
  */
 public class BarcodeServlet extends HttpServlet {
 
@@ -73,7 +75,7 @@ public class BarcodeServlet extends HttpServlet {
     public static final String BARCODE_HUMAN_READABLE_PATTERN = "hrpattern";
 
 
-    private Logger log = new ConsoleLogger(ConsoleLogger.LEVEL_INFO);
+    private transient Logger log = new ConsoleLogger(ConsoleLogger.LEVEL_INFO);
 
     /**
      * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest, HttpServletResponse)
