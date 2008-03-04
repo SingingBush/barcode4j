@@ -111,25 +111,25 @@ public class EAN128AI {
                is = EAN128AI.class.getClassLoader().getResourceAsStream(filename);
             }
             if (is != null) {
-            	try {
-	                p.load(is);
-	            } finally {
-	                is.close();
-	            }
+                try {
+                    p.load(is);
+                } finally {
+                    is.close();
+                }
             } else {
 //                System.err.println(filename + " could not be loaded with getClassLoader().getResourceAsStream()");
                 // The getResourceAsStream variants do not work if an applet is loading 
                 // several jars from different directories (as in examples\demo-applet\html\index.html)!
                 // ResourceBundle does this job. It seems to have more privileges. 
-            	// It is not the best choice (as we never want to translate EAN128AIs.properties),
-            	// but it works.
-            	String rbName = EAN128AI.class.getPackage().getName() + "." + bundlename;
-            	ResourceBundle rb = ResourceBundle.getBundle(rbName);
-	        	Enumeration keys = rb.getKeys();
-	        	while (keys.hasMoreElements()){
-	        		String key = (String) keys.nextElement();
-	        		p.put(key, rb.getObject(key));
-	        	}
+                // It is not the best choice (as we never want to translate EAN128AIs.properties),
+                // but it works.
+                String rbName = EAN128AI.class.getPackage().getName() + "." + bundlename;
+                ResourceBundle rb = ResourceBundle.getBundle(rbName);
+                Enumeration keys = rb.getKeys();
+                while (keys.hasMoreElements()){
+                    String key = (String) keys.nextElement();
+                    p.put(key, rb.getObject(key));
+                }
             }
         } catch (Exception e) {
             System.err.println(filename + " could not be loaded!");
@@ -281,18 +281,19 @@ public class EAN128AI {
 
         if (type[i] == TYPENumDate) {
             if (lenMin[i] != 6 || lenMax[i] != 6) { 
-                throw new IllegalArgumentException("Date field (" + spec +") must have length 6!");
+                throw new IllegalArgumentException("Date field (" + spec + ") must have length 6!");
             }
         }
     }
-    private static byte parseByte(String val, byte dft, String spec){
-    	try {
-    		return Byte.parseByte(val);
-		} catch (Exception e) {
-			if (dft == -1) 
-				throw new IllegalArgumentException("Can't read field length from \"" + spec +"\"");
-			return dft;
-		}
+    private static byte parseByte(String val, byte dft, String spec) {
+        try {
+            return Byte.parseByte(val);
+        } catch (Exception e) {
+            if (dft == -1) {
+                throw new IllegalArgumentException("Can't read field length from \"" + spec + "\"");
+            }
+            return dft;
+        }
     }
     private static EAN128AI parseSpecPrivate(String ai, String spec) {
         try {
@@ -334,7 +335,9 @@ public class EAN128AI {
         for (int i = 0; i < msg.length() - msgStart; i++) {
             c = getIDChar(msg, msgStart + i) - '0';
             o = ((Object[])o)[c];
-            if (o == null) return dft;
+            if (o == null) {
+                return dft;
+            }
             if (o instanceof EAN128AI) {
                 ret = (EAN128AI)o;
                 break;
@@ -367,23 +370,28 @@ public class EAN128AI {
         String ret = "?";
         try {
             ret = typeToString[type];
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            //ignore
+        }
         return ret;
     }
     
-    /** @see java.lang.Object#toString() */
+    /** {@inheritDoc} */
     public String toString() {
         StringBuffer ret = new StringBuffer();
         ret.append('(').append(id).append(")");
         for (int i = 0; i < lenMin.length; i++) {
-            if (i != 0) ret.append('+');
+            if (i != 0) {
+                ret.append('+');
+            }
             ret.append(getType(type[i]));
 //            if (checkDigit[i] == CheckDigit.CD11)
 //                ret.append("w1");
             if (type[i] < TYPEError) {
                 ret.append(lenMin[i]);
-                if (lenMin[i] != lenMax[i]) 
-                    ret.append('-').append(lenMax[i]);                
+                if (lenMin[i] != lenMax[i]) {
+                    ret.append('-').append(lenMax[i]);
+                }
             } 
         }
         ret.append((fixed) ? " (fixed)" : ""); 
