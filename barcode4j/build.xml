@@ -294,7 +294,7 @@
     <echo message="Compiling the core sources"/>
     <javac srcdir="${src.java.dir}" destdir="${build.dest}"
       	debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="project.classpath"/>
     </javac>
 	<copy todir="${build.dest}" >
@@ -307,7 +307,7 @@
     <echo message="Compiling the JDK-1.4-dependant sources"/>
     <javac srcdir="${src.java14.dir}" destdir="${build.dest}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="project.classpath"/>
     </javac>
   </target>
@@ -315,7 +315,7 @@
     <echo message="Compiling the Apache Xalan-J extension"/>
     <javac srcdir="${xalan.dir}/java" destdir="${build.dest}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="project.classpath"/>
     </javac>
   </target>
@@ -323,7 +323,7 @@
     <echo message="Compiling the SAXON 6.5.x extension"/>
     <javac srcdir="${saxon6.dir}/java" destdir="${build.dest}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="project.classpath"/>
     </javac>
   </target>
@@ -331,7 +331,7 @@
     <echo message="Compiling the SAXON 8.x extension"/>
     <javac srcdir="${saxon8.dir}/java" destdir="${build.dest}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="project.classpath"/>
     </javac>
   </target>
@@ -339,7 +339,7 @@
     <echo message="Compiling the JDOM-related classes"/>
     <javac srcdir="${jdom.dir}/java" destdir="${build.dest}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="project.classpath"/>
     </javac>
   </target>
@@ -348,7 +348,7 @@
     <mkdir dir="${build.dest.fop-0.20.5}"/>
     <javac srcdir="${src.fop-0.20.5.dir}" destdir="${build.dest.fop-0.20.5}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath>
         <path refid="fop-0.20.5.classpath"/>
         <pathelement location="${build.dest}"/>
@@ -361,7 +361,7 @@
     <!-- the post 0.20.5 extension is based on the 0.20.5 one. -->
     <javac srcdir="${src.fop-0.20.5.dir}" destdir="${build.dest.fop-post-0.20.5}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath>
         <path refid="fop-post-0.20.5.classpath"/>
         <pathelement location="${build.dest}"/>
@@ -369,7 +369,7 @@
     </javac>
     <javac srcdir="${src.fop-post-0.20.5.dir}" destdir="${build.dest.fop-post-0.20.5}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath>
         <path refid="fop-post-0.20.5.classpath"/>
         <pathelement location="${build.dest}"/>
@@ -381,7 +381,7 @@
     <mkdir dir="${build.dest.fop-trunk}"/>
     <javac srcdir="${src.fop-trunk.dir}" destdir="${build.dest.fop-trunk}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath>
         <path refid="fop-trunk.classpath"/>
         <pathelement location="${build.dest}"/>
@@ -633,7 +633,7 @@
       </fileset>
       <path refid="project.classpath"/>
     </path>
-    <javac srcdir="${webapp.dir}/java" destdir="${build.webapp.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}">
+    <javac srcdir="${webapp.dir}/java" destdir="${build.webapp.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}" encoding="${encoding}">
       <classpath refid="webapp.classpath"/>
     </javac>
     <war warfile="${build.dir}/${name}.war" webxml="${webapp.dir}/conf/web.xml">
@@ -659,35 +659,35 @@
   <target name="test-compile-core" depends="test-init" if="junit.present">
     <javac srcdir="${src.test.java.dir}" destdir="${build.test}/classes"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="test.classpath"/>
     </javac>
   </target>
   <target name="test-compile-xalan" if="xalan.present">
     <javac srcdir="${xalan.dir}/test/java" destdir="${build.test}/classes"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="test.classpath"/>
     </javac>
   </target>
   <target name="test-compile-saxon6" if="saxon6.present">
     <javac srcdir="${saxon6.dir}/test/java" destdir="${build.test}/classes"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="test.classpath"/>
     </javac>
   </target>
   <target name="test-compile-saxon8" if="saxon8.present">
     <javac srcdir="${saxon8.dir}/test/java" destdir="${build.test}/classes"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="test.classpath"/>
     </javac>
   </target>
   <target name="test-compile-jdom" if="jdom.present">
     <javac srcdir="${jdom.dir}/test/java" destdir="${build.test}/classes"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}">
+        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="test.classpath"/>
     </javac>
   </target>
