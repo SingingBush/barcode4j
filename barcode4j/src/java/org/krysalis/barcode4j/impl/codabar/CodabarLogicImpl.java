@@ -24,7 +24,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * 
  * @author Jeremias Maerki
  * @todo Complete the implementation (checksum, automatic start/stops chars...)
- * @version $Id: CodabarLogicImpl.java,v 1.2 2004-10-24 11:45:54 jmaerki Exp $
+ * @version $Id: CodabarLogicImpl.java,v 1.3 2008-03-31 12:14:54 jmaerki Exp $
  */
 public class CodabarLogicImpl {
 
@@ -34,7 +34,7 @@ public class CodabarLogicImpl {
                              '-', '$', ':', '/', '.', '+', '*'};
 
     /** Defines the Codabar character set. */
-    protected static final byte[][] CHARSET = 
+    static final byte[][] CHARSET = 
                                             {{0, 0, 0, 0, 0, 1, 1},  //0
                                              {0, 0, 0, 0, 1, 1, 0},  //1
                                              {0, 0, 0, 1, 0, 0, 1},  //2
@@ -99,7 +99,7 @@ public class CodabarLogicImpl {
      * @return true if it is a valid character, false otherwise
      */
     protected static boolean isValidChar(char ch) {
-        return (getCharIndex(ch) >= 0);
+        return (getCharIndex(Character.toLowerCase(ch)) >= 0);
     }
     
     /**
@@ -108,6 +108,7 @@ public class CodabarLogicImpl {
      * @return true if it is a start/stop character
      */
     protected static boolean isStartStopChar(char ch) {
+        ch = Character.toLowerCase(ch);
         return ((ch == 'a') || (ch == 'b') 
              || (ch == 'c') || (ch == 'd') 
              || (ch == 'e') || (ch == '*') 
@@ -115,6 +116,7 @@ public class CodabarLogicImpl {
     }
 
     private int widthAt(char ch, int index) throws IllegalArgumentException {
+        ch = Character.toLowerCase(ch);
         int chidx = getCharIndex(ch);
         if (chidx >= 0) {
             int binary = CHARSET[chidx][index];
@@ -127,12 +129,13 @@ public class CodabarLogicImpl {
     /**
      * Encodes a character to a logic handler.
      * @param logic the logic handler to send events to
-     * @param c the character to encode
+     * @param ch the character to encode
      */
-    protected void encodeChar(ClassicBarcodeLogicHandler logic, char c) {
-        logic.startBarGroup(BarGroup.MSG_CHARACTER, new Character(c).toString());
+    protected void encodeChar(ClassicBarcodeLogicHandler logic, char ch) {
+        ch = Character.toLowerCase(ch);
+        logic.startBarGroup(BarGroup.MSG_CHARACTER, new Character(ch).toString());
         for (byte i = 0; i < 7; i++) {
-            final int width = widthAt(c, i);
+            final int width = widthAt(ch, i);
             final boolean black = ((i % 2) == 0);
             logic.addBar(black, width);
         }
@@ -170,7 +173,9 @@ public class CodabarLogicImpl {
                 logic.addBar(false, 1);
             }
             final char ch = sb.charAt(i);
-            if (!isValidChar(ch)) throw new IllegalArgumentException("Invalid character: " + ch);
+            if (!isValidChar(ch)) {
+                throw new IllegalArgumentException("Invalid character: " + ch);
+            }
             encodeChar(logic, ch);
         }
 
