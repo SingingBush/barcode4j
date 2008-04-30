@@ -31,7 +31,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * Helper class for bitmap generation.
  * 
  * @author Jeremias Maerki
- * @version $Id: BitmapBuilder.java,v 1.3 2006-11-07 16:43:36 jmaerki Exp $
+ * @version $Id: BitmapBuilder.java,v 1.4 2008-04-30 16:37:05 jmaerki Exp $
  */
 public class BitmapBuilder {
 
@@ -90,9 +90,9 @@ public class BitmapBuilder {
         if (antiAlias) {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
                 RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         }
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
-            RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, 
             RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g2d.setBackground(Color.white);

@@ -59,6 +59,9 @@
     <!-- Add new releases here -->
     <release version="dev">
       <action dev="jmaerki" type="fix" context="code">
+        Bugfix for text painting at small text sized when anti-aliasing is disabled.
+      </action>      
+      <action dev="jmaerki" type="fix" context="code">
         Fixed two bugs concerning Base 256 encoding (DataMatrix).  
       </action>      
       <action dev="jmaerki" type="add" context="code" due-to="Branko van Abel" due-to-email="branko@edmond.nl">
