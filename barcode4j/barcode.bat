@@ -1,6 +1,6 @@
 @ECHO OFF
 
-REM $Id: barcode.bat,v 1.2 2007-01-14 11:52:34 jmaerki Exp $
+REM $Id: barcode.bat,v 1.3 2008-05-01 08:21:32 jmaerki Exp $
 
 if "%JAVA_HOME%" == "" goto noJavaHome
 
@@ -19,6 +19,7 @@ set TMP_CLASSPATH=%TMP_BARCODE4J_HOME%build\barcode4j.jar
 set TMP_CLASSPATH=%TMP_CLASSPATH%;%TMP_LIBDIR%\xml-apis-1.3.04.jar
 set TMP_CLASSPATH=%TMP_CLASSPATH%;%TMP_LIBDIR%\xercesImpl-2.9.0.jar
 set TMP_CLASSPATH=%TMP_CLASSPATH%;%TMP_LIBDIR%\xalan-2.7.0.jar
+set TMP_CLASSPATH=%TMP_CLASSPATH%;%TMP_LIBDIR%\serializer-2.7.0.jar
 set TMP_CLASSPATH=%TMP_CLASSPATH%;%TMP_LIBDIR%\avalon-framework-4.2.0.jar
 set TMP_CLASSPATH=%TMP_CLASSPATH%;%TMP_LIBDIR%\commons-cli-1.0.jar
 REM ECHO %TMP_CLASSPATH%
