@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: EAN128Test.java,v 1.6 2008-03-04 20:08:43 jmaerki Exp $ */
+/* $Id: EAN128Test.java,v 1.7 2008-05-01 08:10:30 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.code128;
 
@@ -106,6 +106,26 @@ public class EAN128Test extends TestCase {
             impl = new EAN128LogicImpl(ChecksumMode.CP_AUTO, "(10)n1-");
             assertTrue("Exception expected", false);
         } catch (Exception e) {};
+    }
+
+    public void testSupportRequests() throws Exception {
+        final char FNC1 = Code128LogicImpl.FNC_1;
+        final char GS = EAN128Bean.DEFAULT_GROUP_SEPARATOR;
+        final char CD = EAN128Bean.DEFAULT_CHECK_DIGIT_MARKER;
+        EAN128LogicImpl impl;
+        
+        impl = new EAN128LogicImpl(ChecksumMode.CP_AUTO, "(415)n12+cd(8020)n-24(3900)n-14(96)n8");
+        impl.setMessage("415770105500005" + CD + FNC1
+                + "80209115675110080555" + FNC1
+                + "390000021170" + FNC1
+                + "9620080402");
+        //impl.setMessage("42012345" + FNC1 + "910112345678912345678" + CD);
+        assertEquals("(415)7701055000054(8020)9115675110080555(3900)00021170(96)20080402",
+                impl.getHumanReadableMsg());
+        assertEquals(FNC1 + "4157701055000054" 
+                + "80209115675110080555" + FNC1 
+                + "390000021170" + FNC1 
+                + "9620080402", impl.getCode128Msg());
     }
     
 }
