@@ -38,7 +38,9 @@ import org.w3c.dom.Document;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.batik.dom.svg.SVGDOMImplementation;
+
 import org.apache.xmlgraphics.ps.PSGenerator;
+import org.apache.xmlgraphics.ps.PSImageUtils;
 
 import org.apache.fop.area.PageViewport;
 import org.apache.fop.render.AbstractRenderer;
@@ -48,7 +50,6 @@ import org.apache.fop.render.ImageAdapter;
 import org.apache.fop.render.Renderer;
 import org.apache.fop.render.RendererContext;
 import org.apache.fop.render.XMLHandler;
-import org.apache.fop.render.ps.PSImageUtils;
 import org.apache.fop.render.ps.PSRenderer;
 import org.apache.fop.render.ps.PSRendererContextConstants;
 
@@ -57,7 +58,7 @@ import org.apache.fop.render.ps.PSRendererContextConstants;
  * SVG or by rendering it directly to the output format.
  * 
  * @author Jeremias Maerki
- * @version $Id: BarcodeXMLHandler.java,v 1.8 2008-03-04 20:08:18 jmaerki Exp $
+ * @version $Id: BarcodeXMLHandler.java,v 1.9 2008-05-01 08:09:00 jmaerki Exp $
  */
 public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants {
 
