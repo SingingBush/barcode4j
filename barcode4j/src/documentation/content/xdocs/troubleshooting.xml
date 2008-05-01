@@ -51,7 +51,8 @@
         <dl>
           <dt><strong>Example:</strong></dt>
           <dd>The minimum <em>module width</em> 
-          can be computed by 1 / [resolution]. Example: 1 / 300dpi = 0.0033333333in. 
+            can be computed by 1&#160;/&#160;[resolution].
+            Example: 1&#160;/&#160;300dpi&#160;=&#160;0.0033333333in. 
           This results in narrow bars being exactly one pixel in width. For 
           barcodes with a wide-factor parameter (like Codabar) you need to choose 
           a non-fractional value in this case (2 or 3, not 2.5), because there is 
