@@ -58,7 +58,10 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
-      <action dev="jmaerki" type="fix" context="code">
+      <action dev="buerkle" type="fix" context="code">
+        Various improvements and bugfixes for EAN-128.  
+      </action>      
+      <action dev="jmaerki" type="fix" context="code" fixes-bug="1945793">
         Bugfix for text painting at small text sized when anti-aliasing is disabled.
       </action>      
       <action dev="jmaerki" type="fix" context="code">
