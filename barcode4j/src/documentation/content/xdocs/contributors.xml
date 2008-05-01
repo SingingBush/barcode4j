@@ -22,6 +22,8 @@
         <li>Robert Deeken (update of the Saxon extension)</li>
         <li>Dimitar Vlasev (custom message patterns)</li>
         <li>Branko van Abel (various improvements and bugfixes for the barcode implementations)</li>
+        <li>Dan Anderson (POSTNET bugfix)</li>
+        <li>Trevor Spiteri (DataMatrix enhancements)</li>
       </ul>
       <p>
         Special thanks to Nicola Ken Barozzi, Nick Chalko and Adam Jack.

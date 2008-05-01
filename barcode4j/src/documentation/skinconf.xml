@@ -90,7 +90,7 @@ which will be used to configure the chosen Forrest skin.
   <favicon-url>images/favicon.ico</favicon-url>
 
   <!-- The following are used to construct a copyright statement -->
-  <year>2003-2007</year>
+  <year>2003-2008</year>
   <vendor>The Barcode4J Project.</vendor>
   <!-- The optional copyright-link URL will be used as a link in the
     copyright statement
@@ -207,10 +207,10 @@ which will be used to configure the chosen Forrest skin.
        Specified below are the default settings.
     -->
     <margins double-sided="false">
-      <top>1in</top>
-      <bottom>1in</bottom>
-      <inner>1.25in</inner>
-      <outer>1in</outer>
+      <top>0.5in</top>
+      <bottom>0.5in</bottom>
+      <inner>1.0in</inner>
+      <outer>0.5in</outer>
     </margins>
 
     <!--

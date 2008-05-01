@@ -18,7 +18,7 @@
          You may also view the complete histories of any file in the repository.</p>
       
       <ul>
-       <li><link href="http://cvs.sourceforge.net/viewcvs.py/barcode4j">Browse CVS Repository</link>.</li>
+        <li><link href="http://barcode4j.cvs.sourceforge.net/barcode4j/barcode4j/">Browse CVS Repository</link>.</li>
       </ul>
        
       
@@ -32,9 +32,9 @@
          When prompted for a password for anonymous, simply press the Enter key.</p>
       
       <source>
-           cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/barcode4j login 
+        cvs -d:pserver:anonymous@barcode4j.cvs.sourceforge.net:/cvsroot/barcode4j login 
            
-           cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/barcode4j co modulename 
+        cvs -z3 -d:pserver:anonymous@barcode4j.cvs.sourceforge.net:/cvsroot/barcode4j co modulename 
       </source>
        
        <p>Updates from within the module's directory do not need the -d parameter.</p>
@@ -50,7 +50,7 @@
       <source>
         export CVS_RSH=ssh
  
-        cvs -z3 -d:ext:developername@cvs.sourceforge.net:/cvsroot/barcode4j co modulename 
+        cvs -z3 -d:ext:developername@barcode4j.cvs.sourceforge.net:/cvsroot/barcode4j co modulename 
       </source>
       <note>The module name for the main module of Barcode4J is <code>barcode4j</code>.</note>
     </section>    

@@ -65,8 +65,7 @@
         To create a barcode the <link href="barcode-xml.html">Barcode XML</link> can be used within fo:instream-foreign-object elements.
       </p>
       <p>Here's an example (XSL-FO snippet):</p>
-      <source><![CDATA[
-<fo:block>
+      <source><![CDATA[<fo:block>
   <fo:instream-foreign-object>
     <barcode:barcode
           xmlns:barcode="http://barcode4j.krysalis.org/ns"
@@ -76,8 +75,7 @@
       </barcode:code128>
     </barcode:barcode>
   </fo:instream-foreign-object>
-</fo:block>]]>
-      </source>
+</fo:block>]]></source>
       <p>
         The attribute "orientation" specifies the orientation of the barcode in degrees. The 
         attribute is optional and if set must be one of the following values:

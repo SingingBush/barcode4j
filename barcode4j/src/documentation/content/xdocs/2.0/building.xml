@@ -34,8 +34,6 @@
       <ul>
         <li><code>barcode4j.jar</code>: The barcode package</li>
         <li><code>barcode4j-light.jar</code>: A reduced barcode package without dependency on Avalon Framework.</li>
-        <li><code>barcode4j-fop-ext-0.20.5.jar</code>: The FOP barcode extension</li>
-        <li><code>barcode4j-fop-ext-0.20.5-complete.jar</code>: Combines barcode4j.jar and the FOP extension in a single JAR.</li>
         <li><code>barcode4j.war</code>: The sample web application with the sample servlet</li>
         <li>the "<code>docs</code>" directory: This directory contains the generated Javadocs</li>
       </ul>
