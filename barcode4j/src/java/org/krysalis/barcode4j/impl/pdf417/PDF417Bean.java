@@ -28,7 +28,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * This class is an implementation of the PDF417 barcode.
  * 
- * @version $Id: PDF417Bean.java,v 1.5 2007-07-11 08:22:41 jmaerki Exp $
+ * @version $Id: PDF417Bean.java,v 1.6 2008-05-13 13:00:43 jmaerki Exp $
  */
 public class PDF417Bean extends AbstractBarcodeBean {
 
@@ -57,13 +57,11 @@ public class PDF417Bean extends AbstractBarcodeBean {
     private double widthToHeightRatio = DEFAULT_WIDTH_TO_HEIGHT_RATIO;
     private int errorCorrectionLevel = DEFAULT_ERROR_CORRECTION_LEVEL;
 
-    private Double quietZoneVertical;
-
     /** Create a new instance. */
     public PDF417Bean() {
         this.moduleWidth = DEFAULT_MODULE_WIDTH;
         this.height = DEFAULT_X_TO_Y_FACTOR * moduleWidth;
-        this.quietZone = 2 * moduleWidth;
+        setQuietZone(2 * moduleWidth);
 
         setColumns(DEFAULT_COLUMN_COUNT);
     }
@@ -159,15 +157,6 @@ public class PDF417Bean extends AbstractBarcodeBean {
         return getBarHeight();
     }
 
-    /** @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getVerticalQuietZone() */
-    public double getVerticalQuietZone() {
-        if (this.quietZoneVertical != null) {
-            return this.quietZoneVertical.doubleValue();
-        } else {
-            return getQuietZone();
-        }
-    }
-
     /**
      * Gets the ratio of the barcode width to the height.
      * e.g. a ratio of 5 means the width is 5 times the height
@@ -255,15 +244,6 @@ public class PDF417Bean extends AbstractBarcodeBean {
      */
     public void setRowHeight(double height) {
         setBarHeight(height);
-    }
-
-    /**
-     * Sets the height of the vertical quiet zone. If this value is not explicitely set the
-     * vertical quiet zone has the same width as the horizontal quiet zone.
-     * @param height the height of the vertical quiet zone (in mm)
-     */
-    public void setVerticalQuietZone(double height) {
-        this.quietZoneVertical = new Double(height);
     }
 
     /**

@@ -19,13 +19,14 @@ import org.krysalis.barcode4j.BarGroup;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.HumanReadablePlacement;
+import org.krysalis.barcode4j.TextAlignment;
 import org.krysalis.barcode4j.output.Canvas;
 import org.krysalis.barcode4j.tools.MessagePatternUtil;
 
 /**
  * Default Logic Handler implementation for painting on a Canvas.
  *
- * @version $Id: DefaultCanvasLogicHandler.java,v 1.7 2007-01-19 12:26:55 jmaerki Exp $
+ * @version $Id: DefaultCanvasLogicHandler.java,v 1.8 2008-05-13 13:00:45 jmaerki Exp $
  */
 public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
 
@@ -98,15 +99,15 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
             if (bcBean.hasFontDescender()) {
                 ty -= bcBean.getHumanReadableHeight() / 13 * 3;
             }
-            DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg,
-                    getStartX(), x, ty);
+            DrawingUtil.drawText(canvas, bcBean, formattedMsg,
+                    getStartX(), x, ty, TextAlignment.TA_CENTER);
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
             double ty = bcBean.getHeight();
             if (bcBean.hasFontDescender()) {
                 ty -= bcBean.getHumanReadableHeight() / 13 * 3;
             }
-            DrawingUtil.drawCenteredText(canvas, bcBean, formattedMsg,
-                    getStartX(), x, ty);
+            DrawingUtil.drawText(canvas, bcBean, formattedMsg,
+                    getStartX(), x, ty, TextAlignment.TA_CENTER);
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2004,2006,2008 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import org.krysalis.barcode4j.BarcodeDimension;
+import org.krysalis.barcode4j.TextAlignment;
 import org.krysalis.barcode4j.output.AbstractCanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
 
@@ -31,7 +32,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * CanvasProvider implementation that renders to Java2D (AWT).
  * 
  * @author Jeremias Maerki
- * @version $Id: Java2DCanvasProvider.java,v 1.6 2006-11-07 16:43:37 jmaerki Exp $
+ * @version $Id: Java2DCanvasProvider.java,v 1.7 2008-05-13 13:00:46 jmaerki Exp $
  */
 public class Java2DCanvasProvider extends AbstractCanvasProvider {
 
@@ -77,10 +78,7 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
         return this.g2d;
     }
     
-    /**
-     * @see org.krysalis.barcode4j.output.AbstractCanvasProvider#establishDimensions(
-     *          org.krysalis.barcode4j.BarcodeDimension)
-     */
+    /** {@inheritDoc} */
     public void establishDimensions(BarcodeDimension dim) {
         super.establishDimensions(dim);
         int orientation = BarcodeDimension.normalizeOrientation(getOrientation());
@@ -105,46 +103,25 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
         }
     }
 
-    /** @see org.krysalis.barcode4j.output.CanvasProvider */
+    /** {@inheritDoc} */
     public void deviceFillRect(double x, double y, double w, double h) {
         g2d.fill(new Rectangle2D.Double(x, y, w, h));
     }
 
-    /** @see org.krysalis.barcode4j.output.CanvasProvider */
+    /** {@inheritDoc} */
     public void deviceDrawRect(double x, double y, double w, double h) {
         g2d.draw(new Rectangle2D.Double(x, y, w, h));
     }
 
-    /** @see org.krysalis.barcode4j.output.CanvasProvider */
-    public void deviceJustifiedText(String text, double x1, double x2, double y1,
-                            String fontName, double fontSize) {
-        deviceCenteredText(text, x1, x2, y1, fontName, fontSize, true);
-    }
-                            
-    /** @see org.krysalis.barcode4j.output.CanvasProvider */
-    public void deviceCenteredText(String text, double x1, double x2, double y1,
-                            String fontName, double fontSize) {
-        deviceCenteredText(text, x1, x2, y1, fontName, fontSize, false);
-    }
-                            
-    /**
-     * Draws centered text.
-     * @param text the text to draw
-     * @param x1 the left boundary
-     * @param x2 the right boundary
-     * @param y1 the y coordinate
-     * @param fontName the name of the font
-     * @param fontSize the size of the font
-     * @param justify true if the text should be justified instead of centered
-     */
-    public void deviceCenteredText(
+    /** {@inheritDoc} */
+    public void deviceText(
             String text,
             double x1,
             double x2,
             double y1,
             String fontName,
             double fontSize,
-            boolean justify) {
+            TextAlignment textAlign) {
         if (DEBUG) {
             System.out.println("deviceText " + x1 + " " + x2 + " " 
                     + (x2 - x1) + " " + y1 + " " + text);
@@ -172,14 +149,22 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
             System.out.println("intercharSpace=" + intercharSpace);
         }
         final float indent;
-        if (justify && text.length() > 1) {
-            indent = 0.0f;
-        } else {
+        if (textAlign == TextAlignment.TA_JUSTIFY) {
+            if (text.length() > 1) {
+                indent = 0.0f;
+            } else {
+                indent = distributableSpace / 2; //Center if only one character
+            }
+        } else if (textAlign == TextAlignment.TA_CENTER) {
             indent = distributableSpace / 2;
+        } else if (textAlign == TextAlignment.TA_RIGHT) {
+            indent = distributableSpace;
+        } else {
+            indent = 0.0f;
         }
         Font oldFont = g2d.getFont();
         g2d.setFont(font);
-        if (justify) {
+        if (textAlign == TextAlignment.TA_JUSTIFY) {
             //move the individual glyphs
             for (int i = 0; i < gv.getNumGlyphs(); i++) {
                 Point2D point = gv.getGlyphPosition(i);

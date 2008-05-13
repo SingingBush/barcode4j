@@ -17,9 +17,6 @@ package org.krysalis.barcode4j.impl;
 
 import java.util.List;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
@@ -27,10 +24,14 @@ import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.output.CanvasProvider;
 import org.krysalis.barcode4j.tools.Length;
 
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+
 /**
  * Base class for most Avalon-Configurable barcode implementation proxies.
  *
- * @version $Id: ConfigurableBarcodeGenerator.java,v 1.8 2007-07-11 08:22:40 jmaerki Exp $
+ * @version $Id: ConfigurableBarcodeGenerator.java,v 1.9 2008-05-13 13:00:45 jmaerki Exp $
  */
 public abstract class ConfigurableBarcodeGenerator
             implements BarcodeGenerator, Configurable {
@@ -63,6 +64,8 @@ public abstract class ConfigurableBarcodeGenerator
         elements.add("interchar-gap-width");
         elements.add("tall-bar-height");
         elements.add("short-bar-height");
+        elements.add("track-height");
+        elements.add("ascender-height");
         elements.add("baseline-alignment");
         elements.add("template");
         elements.add("group-separator");
@@ -92,18 +95,36 @@ public abstract class ConfigurableBarcodeGenerator
 
         //Quiet zone
         getBean().doQuietZone(cfg.getChild("quiet-zone").getAttributeAsBoolean("enabled", true));
-        Length qz = new Length(cfg.getChild("quiet-zone").getValue(getDefaultQuietZone()), "mw");
-        if (qz.getUnit().equalsIgnoreCase("mw")) {
-            getBean().setQuietZone(qz.getValue() * getBean().getModuleWidth());
-        } else {
-            getBean().setQuietZone(qz.getValueAsMillimeter());
+        String qzs = cfg.getChild("quiet-zone").getValue(null);
+        if (qzs != null) {
+            Length qz = new Length(qzs, "mw");
+            if (qz.getUnit().equalsIgnoreCase("mw")) {
+                getBean().setQuietZone(qz.getValue() * getBean().getModuleWidth());
+            } else {
+                getBean().setQuietZone(qz.getValueAsMillimeter());
+            }
+        }
+
+        //Vertical quiet zone
+        String qzvs = cfg.getChild("vertical-quiet-zone").getValue(null);
+        if (qzvs != null) {
+            Length qz = new Length(qzvs, Length.INCH);
+            if (qz.getUnit().equalsIgnoreCase("mw")) {
+                getBean().setVerticalQuietZone(
+                        qz.getValue() * getBean().getModuleWidth());
+            } else {
+                getBean().setVerticalQuietZone(
+                        qz.getValueAsMillimeter());
+            }
         }
 
         Configuration hr = cfg.getChild("human-readable", false);
         if ((hr != null) && (hr.getChildren().length > 0)) {
             //Human-readable placement
-            getBean().setMsgPosition(HumanReadablePlacement.byName(
-                hr.getChild("placement").getValue(HumanReadablePlacement.HRP_BOTTOM.getName())));
+            String v = hr.getChild("placement").getValue(null);
+            if (v != null) {
+                getBean().setMsgPosition(HumanReadablePlacement.byName(v));
+            }
 
             Length fs = new Length(hr.getChild("font-size").getValue("8pt"));
             getBean().setFontSize(fs.getValueAsMillimeter());
@@ -115,40 +136,34 @@ public abstract class ConfigurableBarcodeGenerator
             //Legacy code for compatibility
 
             //Human-readable placement
-            getBean().setMsgPosition(HumanReadablePlacement.byName(
-                cfg.getChild("human-readable").getValue(
-                        HumanReadablePlacement.HRP_BOTTOM.getName())));
+            String v = cfg.getChild("human-readable").getValue(null);
+            if (v != null) {
+                getBean().setMsgPosition(HumanReadablePlacement.byName(v));
+            }
 
             Length fs = new Length(cfg.getChild("human-readable-size").getValue("8pt"));
             getBean().setFontSize(fs.getValueAsMillimeter());
 
             getBean().setFontName(cfg.getChild("human-readable-font").getValue("Helvetica"));
         }
-
-
     }
 
     /**
-     * Provides access to the prodxa target.
+     * Provides access to the underlying barcode bean.
      * @return the underlying barcode bean
      */
     public AbstractBarcodeBean getBean() {
         return this.bean;
     }
 
-    /** @see org.krysalis.barcode4j.BarcodeGenerator */
+    /** {@inheritDoc} */
     public void generateBarcode(CanvasProvider canvas, String msg) {
         getBean().generateBarcode(canvas, msg);
     }
 
-    /** @see org.krysalis.barcode4j.BarcodeGenerator */
+    /** {@inheritDoc} */
     public BarcodeDimension calcDimensions(String msg) {
         return getBean().calcDimensions(msg);
-    }
-
-    /** @return the default quiet zone */
-    protected String getDefaultQuietZone() {
-        return "10mw";
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2004,2006,2008 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,14 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.Namespace;
 import org.krysalis.barcode4j.BarcodeDimension;
+import org.krysalis.barcode4j.TextAlignment;
 import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
 
 /**
  * SVG generating implementation that outputs to a JDOM.
  * 
  * @author Jeremias Maerki
- * @version $Id: JDOMSVGCanvasProvider.java,v 1.4 2006-11-07 16:44:25 jmaerki Exp $
+ * @version $Id: JDOMSVGCanvasProvider.java,v 1.5 2008-05-13 13:00:44 jmaerki Exp $
  */
 public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
 
@@ -120,7 +121,7 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
         return frag;
     }
 
-    /** @see org.krysalis.barcode4j.output.CanvasProvider */
+    /** {@inheritDoc} */
     public void establishDimensions(BarcodeDimension dim) {
         super.establishDimensions(dim);
         Element svg = doc.getRootElement();
@@ -131,7 +132,7 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
                 + getDecimalFormat().format(dim.getHeightPlusQuiet()));
     }
 
-    /** @see org.krysalis.barcode4j.output.CanvasProvider */
+    /** {@inheritDoc} */
     public void deviceFillRect(double x, double y, double w, double h) {
         Element el = new Element("rect", ns);
         el.setAttribute("x", getDecimalFormat().format(x));
@@ -141,41 +142,31 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
         detailGroup.addContent(el);
     }
 
-    /** @see org.krysalis.barcode4j.output.CanvasProvider */
-    public void deviceJustifiedText(String text, double x1, double x2, double y1,
-                            String fontName, double fontSize) {
-        deviceCenteredText(text, x1, x2, y1, fontName, fontSize, true);
-    }
-                            
-    /** @see org.krysalis.barcode4j.output.CanvasProvider */
-    public void deviceCenteredText(String text, double x1, double x2, double y1,
-                            String fontName, double fontSize) {
-        deviceCenteredText(text, x1, x2, y1, fontName, fontSize, false);
-    }
-                            
-    /**
-     * Draws centered text.
-     * @param text the text to draw
-     * @param x1 the left boundary
-     * @param x2 the right boundary
-     * @param y1 the y coordinate
-     * @param fontName the name of the font
-     * @param fontSize the size of the font
-     * @param justify true if the text should be justified instead of centered
-     */
-    public void deviceCenteredText(String text, double x1, double x2, double y1,
-                            String fontName, double fontSize, boolean justify) {
+    /** {@inheritDoc} */
+    public void deviceText(String text, double x1, double x2, double y1,
+                            String fontName, double fontSize, TextAlignment textAlign) {
         Element el = new Element("text", ns);
+        String anchor;
+        double tx;
+        if (textAlign == TextAlignment.TA_LEFT) {
+            anchor = "start";
+            tx = x1;
+        } else if (textAlign == TextAlignment.TA_RIGHT) {
+            anchor = "end";
+            tx = x2;
+        } else {
+            anchor = "middle";
+            tx = x1 + (x2 - x1) / 2;
+        }
         el.setAttribute("style", "font-family:" + fontName + "; font-size:" 
-                    + getDecimalFormat().format(fontSize) + "; text-anchor:middle");
-        el.setAttribute("x", getDecimalFormat().format(x1 + (x2 - x1) / 2));
+                    + getDecimalFormat().format(fontSize) + "; text-anchor:" + anchor);
+        el.setAttribute("x", getDecimalFormat().format(tx));
         el.setAttribute("y", getDecimalFormat().format(y1));
-        if (justify) {
+        if (textAlign == TextAlignment.TA_JUSTIFY) {
             el.setAttribute("textLength", getDecimalFormat().format(x2 - x1));
         }
         el.addContent(text);
         detailGroup.addContent(el);
-
     }
 
 }

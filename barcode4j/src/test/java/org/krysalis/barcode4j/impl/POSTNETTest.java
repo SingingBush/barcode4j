@@ -15,17 +15,20 @@
  */
 package org.krysalis.barcode4j.impl;
 
+import junit.framework.TestCase;
+
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.postnet.POSTNET;
+import org.krysalis.barcode4j.impl.postnet.POSTNETBean;
 import org.krysalis.barcode4j.impl.postnet.POSTNETLogicImpl;
 
-import junit.framework.TestCase;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 /**
  * Test class for the POSTNET implementation.
  * 
  * @author Chris Dolphy
- * @version $Id: POSTNETTest.java,v 1.4 2004-10-24 11:45:55 jmaerki Exp $
+ * @version $Id: POSTNETTest.java,v 1.5 2008-05-13 13:00:43 jmaerki Exp $
  */
 public class POSTNETTest extends TestCase {
 
@@ -130,4 +133,29 @@ public class POSTNETTest extends TestCase {
         }
     }
 
+    public void testDefaultsInXML() throws Exception {
+        POSTNETBean refBean = new POSTNETBean();
+        
+        POSTNET gen = new POSTNET();
+        DefaultConfiguration cfg = new DefaultConfiguration("postnet");
+        gen.configure(cfg);
+        POSTNETBean xmlBean = gen.getPOSTNETBean();
+        assertEquals(refBean.getBarHeight(), xmlBean.getBarHeight(), 0.01);
+        assertEquals(refBean.getBaselinePosition(), xmlBean.getBaselinePosition());
+        assertEquals(refBean.getChecksumMode(), xmlBean.getChecksumMode());
+        assertEquals(refBean.isDisplayChecksum(), xmlBean.isDisplayChecksum());
+        assertEquals(refBean.getFontSize(), xmlBean.getFontSize(), 0.01);
+        assertEquals(refBean.getHeight(), xmlBean.getHeight(), 0.01);
+        assertEquals(refBean.getHumanReadableHeight(), xmlBean.getHumanReadableHeight(), 0.01);
+        assertEquals(refBean.getIntercharGapWidth(), xmlBean.getIntercharGapWidth(), 0.01);
+        assertEquals(refBean.getModuleWidth(), xmlBean.getModuleWidth(), 0.01);
+        assertEquals(refBean.getQuietZone(), xmlBean.getQuietZone(), 0.01);
+        assertEquals(refBean.getShortBarHeight(), xmlBean.getShortBarHeight(), 0.01);
+        assertEquals(refBean.getVerticalQuietZone(), xmlBean.getVerticalQuietZone(), 0.01);
+        assertEquals(refBean.hasQuietZone(), xmlBean.hasQuietZone());
+        assertEquals(refBean.getChecksumMode(), xmlBean.getChecksumMode());
+        assertEquals(refBean.getMsgPosition(), xmlBean.getMsgPosition());
+        assertEquals(refBean.getPattern(), xmlBean.getPattern());
+    }
+    
 }

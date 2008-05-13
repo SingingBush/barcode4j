@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2004,2006,2008 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package org.krysalis.barcode4j.output;
 
 import org.krysalis.barcode4j.BarcodeDimension;
+import org.krysalis.barcode4j.TextAlignment;
 
 /**
  * This class is used by barcode rendering classes that paint a barcode using 
@@ -23,7 +24,7 @@ import org.krysalis.barcode4j.BarcodeDimension;
  * provides some convenience methods.
  * 
  * @author Jeremias Maerki
- * @version $Id: Canvas.java,v 1.3 2006-11-07 16:43:37 jmaerki Exp $
+ * @version $Id: Canvas.java,v 1.4 2008-05-13 13:00:45 jmaerki Exp $
  */
 public class Canvas {
 
@@ -93,7 +94,7 @@ public class Canvas {
      */
     public void drawCenteredChar(char ch, double x1, double x2, double y1, 
                 String fontName, double fontSize) {
-        getCanvasImp().deviceCenteredText(new Character(ch).toString(), 
+        drawCenteredText(new Character(ch).toString(), 
                 x1, x2, y1, 
                 fontName, fontSize);
     }
@@ -106,12 +107,11 @@ public class Canvas {
      * @param y1 the y coordinate
      * @param fontName the name of the font
      * @param fontSize the size of the font
+     * @deprecated Use {@link #drawText(String, double, double, double, String, double, TextAlignment)} instead.
      */
     public void drawJustifiedText(String text, double x1, double x2, double y1, 
                 String fontName, double fontSize) {
-        getCanvasImp().deviceJustifiedText(text, 
-                x1, x2, y1, 
-                fontName, fontSize);
+        drawText(text, x1, x2, y1, fontName, fontSize, TextAlignment.TA_JUSTIFY);
     }
 
     /**
@@ -122,12 +122,28 @@ public class Canvas {
      * @param y1 the y coordinate
      * @param fontName the name of the font
      * @param fontSize the size of the font
+     * @deprecated Use {@link #drawText(String, double, double, double, String, double, TextAlignment)} instead.
      */
     public void drawCenteredText(String text, double x1, double x2, double y1, 
                 String fontName, double fontSize) {
-        getCanvasImp().deviceCenteredText(text, 
+        drawText(text, x1, x2, y1, fontName, fontSize, TextAlignment.TA_CENTER);
+    }
+
+    /**
+     * Draws text.
+     * @param text the text to draw
+     * @param x1 the left boundary
+     * @param x2 the right boundary
+     * @param y1 the y coordinate
+     * @param fontName the name of the font
+     * @param fontSize the size of the font
+     * @param textAlign the text alignment
+     */
+    public void drawText(String text, double x1, double x2, double y1, 
+                String fontName, double fontSize, TextAlignment textAlign) {
+        getCanvasImp().deviceText(text, 
                 x1, x2, y1, 
-                fontName, fontSize);
+                fontName, fontSize, textAlign);
     }
 
 }

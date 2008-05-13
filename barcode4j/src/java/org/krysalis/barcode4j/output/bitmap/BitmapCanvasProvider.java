@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.krysalis.barcode4j.BarcodeDimension;
+import org.krysalis.barcode4j.TextAlignment;
 import org.krysalis.barcode4j.output.AbstractCanvasProvider;
 import org.krysalis.barcode4j.output.java2d.Java2DCanvasProvider;
 
@@ -28,7 +29,7 @@ import org.krysalis.barcode4j.output.java2d.Java2DCanvasProvider;
  * Java2DCanvasProvider to do the actual rendering.
  * 
  * @author Jeremias Maerki
- * @version $Id: BitmapCanvasProvider.java,v 1.3 2006-11-07 16:43:36 jmaerki Exp $
+ * @version $Id: BitmapCanvasProvider.java,v 1.4 2008-05-13 13:00:46 jmaerki Exp $
  */
 public class BitmapCanvasProvider extends AbstractCanvasProvider {
 
@@ -107,17 +108,10 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
     }
 
     /** {@inheritDoc} */
-    public void deviceJustifiedText(String text,
+    public void deviceText(String text,
             double x1, double x2, double y1,
-            String fontName, double fontSize) {
-        this.delegate.deviceJustifiedText(text, x1, x2, y1, fontName, fontSize);
-    }
-
-    /** {@inheritDoc} */
-    public void deviceCenteredText(String text,
-            double x1, double x2, double y1,
-            String fontName, double fontSize) {
-        this.delegate.deviceCenteredText(text, x1, x2, y1, fontName, fontSize);
+            String fontName, double fontSize, TextAlignment textAlign) {
+        this.delegate.deviceText(text, x1, x2, y1, fontName, fontSize, textAlign);
     }
 
 }

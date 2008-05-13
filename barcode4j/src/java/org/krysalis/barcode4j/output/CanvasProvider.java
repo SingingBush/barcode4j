@@ -16,13 +16,14 @@
 package org.krysalis.barcode4j.output;
 
 import org.krysalis.barcode4j.BarcodeDimension;
+import org.krysalis.barcode4j.TextAlignment;
 
 /**
  * This interface is implemented to provide an output format that is using
  * a coordinate system.
  * 
  * @author Jeremias Maerki
- * @version $Id: CanvasProvider.java,v 1.3 2006-11-07 16:43:37 jmaerki Exp $
+ * @version $Id: CanvasProvider.java,v 1.4 2008-05-13 13:00:45 jmaerki Exp $
  */
 public interface CanvasProvider {
 
@@ -38,6 +39,10 @@ public interface CanvasProvider {
      */
     BarcodeDimension getDimensions();
 
+    /**
+     * Returns the orientation of the barcode.
+     * @return the orientation (0, 90, 180 or 270)
+     */
     int getOrientation();
     
     /**
@@ -72,5 +77,18 @@ public interface CanvasProvider {
      */
     void deviceCenteredText(String text, double x1, double x2, double y1, 
             String fontName, double fontSize);
+
+    /**
+     * Draws text.
+     * @param text the text to draw
+     * @param x1 the left boundary
+     * @param x2 the right boundary
+     * @param y1 the y coordinate
+     * @param fontName the name of the font
+     * @param fontSize the size of the font
+     * @param textAlign the text alignment
+     */
+    void deviceText(String text, double x1, double x2, double y1, 
+            String fontName, double fontSize, TextAlignment textAlign);
 
 }

@@ -54,7 +54,7 @@
       <ean-8/>
     </barcode>
     <barcode>
-      <description>Postnet</description>
+      <description>POSTNET</description>
       <msg>0123456789</msg>
       <postnet/>
     </barcode>
@@ -62,6 +62,11 @@
       <description>Royal Mail Customer Barcode</description>
       <msg>SN34RD1A</msg>
       <royal-mail-cbc/>
+    </barcode>
+    <barcode>
+      <description>USPS Intelligent Mail Barcode (4-State Customer Barcode)</description>
+      <msg>01234567094987654321012345678</msg>
+      <usps4cb/>
     </barcode>
     <barcode>
       <description>PDF417</description>

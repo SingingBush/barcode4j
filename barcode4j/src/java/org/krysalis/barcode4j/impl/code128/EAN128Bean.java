@@ -45,7 +45,7 @@ public class EAN128Bean extends Code128Bean {
 
     /** Create a new instance. */
     public EAN128Bean() {
-        this.moduleWidth = DEFAULT_MODULE_WIDTH;
+        super();
         impl = new EAN128LogicImpl(checksumMode, template, groupSeparator);
     }
     

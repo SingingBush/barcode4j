@@ -24,7 +24,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * Base class for most barcode implementations.
  *
- * @version $Id: AbstractBarcodeBean.java,v 1.6 2007-01-19 12:26:55 jmaerki Exp $
+ * @version $Id: AbstractBarcodeBean.java,v 1.7 2008-05-13 13:00:45 jmaerki Exp $
  */
 public abstract class AbstractBarcodeBean
             implements BarcodeGenerator {
@@ -43,6 +43,8 @@ public abstract class AbstractBarcodeBean
     protected boolean doQuietZone    = true;
     /** Width of the quiet zone left and right of the barcode in mm */
     protected double quietZone;
+    /** Height of the vertical quiet zone above and below the barcode in mm */
+    protected Double quietZoneVertical;
     /** pattern to be applied over the human readable message */
     protected String pattern;
 
@@ -77,13 +79,17 @@ public abstract class AbstractBarcodeBean
      * @return the height of the human-readable part (in mm)
      */
     public double getHumanReadableHeight() {
-        double textHeight = this.fontSize;
-        if (hasFontDescender()) {
-            return 1.3 * textHeight;
-            //1.3 is the factor for the font descender
-            //(just an approximation due to the lack of a font engine)
+        if (getMsgPosition() != HumanReadablePlacement.HRP_NONE) {
+            double textHeight = this.fontSize;
+            if (hasFontDescender()) {
+                return 1.3 * textHeight;
+                //1.3 is the factor for the font descender
+                //(just an approximation due to the lack of a font engine)
+            } else {
+                return textHeight;
+            }
         } else {
-            return textHeight;
+            return 0.0;
         }
     }
 
@@ -163,9 +169,17 @@ public abstract class AbstractBarcodeBean
         return this.quietZone;
     }
 
-    /** @return the height of the vertical quiet zone (in mm) */
+    /**
+     * Returns the vertical quiet zone. If no vertical quiet zone is set explicitely, the value
+     * if {@link #getQuietZone()} is returned.
+     * @return the height of the vertical quiet zone (in mm)
+     */
     public double getVerticalQuietZone() {
-        return 0.0; //zero for 1D barcodes
+        if (this.quietZoneVertical != null) {
+            return this.quietZoneVertical.doubleValue();
+        } else {
+            return getQuietZone();
+        }
     }
 
     /**
@@ -174,6 +188,15 @@ public abstract class AbstractBarcodeBean
      */
     public void setQuietZone(double width) {
         this.quietZone = width;
+    }
+
+    /**
+     * Sets the height of the vertical quiet zone. If this value is not explicitely set the
+     * vertical quiet zone has the same width as the horizontal quiet zone.
+     * @param height the height of the vertical quiet zone (in mm)
+     */
+    public void setVerticalQuietZone(double height) {
+        this.quietZoneVertical = new Double(height);
     }
 
     /**
@@ -224,10 +247,10 @@ public abstract class AbstractBarcodeBean
         this.fontName = name;
     }
 
-    /** @see org.krysalis.barcode4j.BarcodeGenerator */
+    /** {@inheritDoc} */
     public abstract void generateBarcode(CanvasProvider canvas, String msg);
 
-    /** @see org.krysalis.barcode4j.BarcodeGenerator */
+    /** {@inheritDoc} */
     public BarcodeDimension calcDimensions(String msg) {
         throw new UnsupportedOperationException("NYI");
     }

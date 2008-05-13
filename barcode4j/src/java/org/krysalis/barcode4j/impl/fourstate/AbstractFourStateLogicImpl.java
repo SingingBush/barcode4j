@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * Provides a base class for "four-state" barcodes.
  * 
  * @author Jeremias Maerki
- * @version $Id: AbstractFourStateLogicImpl.java,v 1.1 2006-11-07 16:50:36 jmaerki Exp $
+ * @version $Id: AbstractFourStateLogicImpl.java,v 1.2 2008-05-13 13:00:43 jmaerki Exp $
  */
 public abstract class AbstractFourStateLogicImpl {
 
@@ -75,7 +75,19 @@ public abstract class AbstractFourStateLogicImpl {
         return false;
     }
     
+    /**
+     * Turns the given message into a normalize representation. Some subclasses may update/add
+     * parentheses around the message and/or handle the checksum as necessary.
+     * @param msg the message
+     * @return the normalized message to be encoded
+     */
     protected abstract String normalizeMessage(String msg);
+    
+    /**
+     * Does the high-level encoding of the message into codewords.
+     * @param msg the message
+     * @return an array of Strings with codewords
+     */
     protected abstract String[] encodeHighLevel(String msg);
     
     /**
@@ -112,6 +124,5 @@ public abstract class AbstractFourStateLogicImpl {
 
         logic.endBarcode();
     }
-
 
 }

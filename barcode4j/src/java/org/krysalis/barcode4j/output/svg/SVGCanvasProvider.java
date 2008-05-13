@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2004,2006,2008 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,19 +19,19 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.krysalis.barcode4j.BarcodeDimension;
+import org.krysalis.barcode4j.TextAlignment;
+import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 
-import org.krysalis.barcode4j.BarcodeDimension;
-import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
-
 /**
  * Implementation that outputs to a W3C DOM.
  * 
  * @author Jeremias Maerki
- * @version $Id: SVGCanvasProvider.java,v 1.4 2006-11-07 16:43:36 jmaerki Exp $
+ * @version $Id: SVGCanvasProvider.java,v 1.5 2008-05-13 13:00:45 jmaerki Exp $
  */
 public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
 
@@ -42,6 +42,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     /**
      * Creates a new SVGCanvasProvider with namespaces enabled.
      * @param namespacePrefix the namespace prefix to use, null for no prefix
+     * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
     public SVGCanvasProvider(String namespacePrefix, int orientation) 
@@ -54,6 +55,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param domImpl DOMImplementation to use (JAXP default is used when
      *     this is null)
      * @param namespacePrefix the namespace prefix to use, null for no prefix
+     * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
     public SVGCanvasProvider(DOMImplementation domImpl, String namespacePrefix, 
@@ -67,6 +69,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     /**
      * Creates a new SVGCanvasProvider.
      * @param useNamespace Controls whether namespaces should be used
+     * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
     public SVGCanvasProvider(boolean useNamespace, int orientation) 
@@ -79,6 +82,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param domImpl DOMImplementation to use (JAXP default is used when
      *     this is null)
      * @param useNamespace Controls whether namespaces should be used
+     * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
     public SVGCanvasProvider(DOMImplementation domImpl, boolean useNamespace, int orientation) 
@@ -91,6 +95,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     /**
      * Creates a new SVGCanvasProvider with default settings (with namespaces, 
      * but without namespace prefix).
+     * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
     public SVGCanvasProvider(int orientation) throws BarcodeCanvasSetupException {
@@ -167,7 +172,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
         return frag;
     }
 
-    /** @see org.krysalis.barcode4j.output.CanvasProvider */
+    /** {@inheritDoc} */
     public void establishDimensions(BarcodeDimension dim) {
         super.establishDimensions(dim);
         int orientation = BarcodeDimension.normalizeOrientation(getOrientation());
@@ -196,7 +201,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
         }
     }
 
-    /** @see org.krysalis.barcode4j.output.CanvasProvider */
+    /** {@inheritDoc} */
     public void deviceFillRect(double x, double y, double w, double h) {
         Element el = createElement("rect");
         el.setAttribute("x", getDecimalFormat().format(x));
@@ -206,36 +211,27 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
         detailGroup.appendChild(el);
     }
 
-    /** @see org.krysalis.barcode4j.output.CanvasProvider */
-    public void deviceJustifiedText(String text, double x1, double x2, double y1,
-                            String fontName, double fontSize) {
-        deviceCenteredText(text, x1, x2, y1, fontName, fontSize, true);
-    }
-                            
-    /** @see org.krysalis.barcode4j.output.CanvasProvider */
-    public void deviceCenteredText(String text, double x1, double x2, double y1,
-                            String fontName, double fontSize) {
-        deviceCenteredText(text, x1, x2, y1, fontName, fontSize, false);
-    }
-                            
-    /**
-     * Draws centered text.
-     * @param text the text to draw
-     * @param x1 the left boundary
-     * @param x2 the right boundary
-     * @param y1 the y coordinate
-     * @param fontName the name of the font
-     * @param fontSize the size of the font
-     * @param justify true if the text should be justified instead of centered
-     */
-    public void deviceCenteredText(String text, double x1, double x2, double y1,
-                            String fontName, double fontSize, boolean justify) {
+    /** {@inheritDoc} */
+    public void deviceText(String text, double x1, double x2, double y1,
+                            String fontName, double fontSize, TextAlignment textAlign) {
         Element el = createElement("text");
+        String anchor;
+        double tx;
+        if (textAlign == TextAlignment.TA_LEFT) {
+            anchor = "start";
+            tx = x1;
+        } else if (textAlign == TextAlignment.TA_RIGHT) {
+            anchor = "end";
+            tx = x2;
+        } else {
+            anchor = "middle";
+            tx = x1 + (x2 - x1) / 2;
+        }
         el.setAttribute("style", "font-family:" + fontName + "; font-size:" 
-                    + getDecimalFormat().format(fontSize) + "; text-anchor:middle");
-        el.setAttribute("x", getDecimalFormat().format(x1 + (x2 - x1) / 2));
+                    + getDecimalFormat().format(fontSize) + "; text-anchor:" + anchor);
+        el.setAttribute("x", getDecimalFormat().format(tx));
         el.setAttribute("y", getDecimalFormat().format(y1));
-        if (justify) {
+        if (textAlign == TextAlignment.TA_JUSTIFY) {
             el.setAttribute("textLength", getDecimalFormat().format(x2 - x1));
         }
         el.appendChild(doc.createTextNode(text));

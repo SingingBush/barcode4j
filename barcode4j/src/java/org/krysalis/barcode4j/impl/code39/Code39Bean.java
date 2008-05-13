@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Code39 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code39Bean.java,v 1.6 2006-11-27 09:02:37 jmaerki Exp $
+ * @version $Id: Code39Bean.java,v 1.7 2008-05-13 13:00:44 jmaerki Exp $
  */
 public class Code39Bean extends AbstractBarcodeBean {
 
@@ -47,7 +47,8 @@ public class Code39Bean extends AbstractBarcodeBean {
     public Code39Bean() {
         this.moduleWidth = DEFAULT_MODULE_WIDTH;
         this.intercharGapWidth = this.moduleWidth;
-        this.quietZone = 10 * this.moduleWidth;
+        setQuietZone(10 * this.moduleWidth);
+        setVerticalQuietZone(0); //1D barcodes don't have vertical quiet zones
     }
     
     /**

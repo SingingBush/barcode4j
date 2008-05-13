@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Interleaved 2 of 5 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Interleaved2Of5Bean.java,v 1.4 2006-11-27 09:02:37 jmaerki Exp $
+ * @version $Id: Interleaved2Of5Bean.java,v 1.5 2008-05-13 13:00:46 jmaerki Exp $
  */
 public class Interleaved2Of5Bean extends AbstractBarcodeBean {
 
@@ -44,7 +44,8 @@ public class Interleaved2Of5Bean extends AbstractBarcodeBean {
     /** Create a new instance. */
     public Interleaved2Of5Bean() {
         this.moduleWidth = DEFAULT_MODULE_WIDTH;
-        this.quietZone = 10 * this.moduleWidth;
+        setQuietZone(10 * this.moduleWidth);
+        setVerticalQuietZone(0); //1D barcodes don't have vertical quiet zones
     }
     
     /**

@@ -15,19 +15,20 @@
  */
 package org.krysalis.barcode4j.impl.postnet;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.krysalis.barcode4j.BaselineAlignment;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
 import org.krysalis.barcode4j.tools.Length;
 
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+
 /**
  * Implements the United States Postal Service POSTNET barcode.
  * 
  * @author Chris Dolphy
- * @version $Id: POSTNET.java,v 1.2 2004-10-24 11:45:53 jmaerki Exp $
+ * @version $Id: POSTNET.java,v 1.3 2008-05-13 13:00:44 jmaerki Exp $
  */
 public class POSTNET extends ConfigurableBarcodeGenerator 
             implements Configurable {
@@ -37,12 +38,11 @@ public class POSTNET extends ConfigurableBarcodeGenerator
         this.bean = new POSTNETBean();
     }
     
-    /**
-     * @see org.apache.avalon.framework.configuration.Configurable#configure(Configuration)
-     */
+    /** {@inheritDoc} */
     public void configure(Configuration cfg) throws ConfigurationException {
         //Module width (MUST ALWAYS BE FIRST BECAUSE QUIET ZONE MAY DEPEND ON IT)
-        Length mw = new Length(cfg.getChild("module-width").getValue("0.020in"), "mm");
+        Length mw = new Length(cfg.getChild("module-width").getValue(
+                POSTNETBean.DEFAULT_MODULE_WIDTH + Length.INCH), Length.MM);
         getPOSTNETBean().setModuleWidth(mw.getValueAsMillimeter());
 
         super.configure(cfg);
@@ -52,13 +52,16 @@ public class POSTNET extends ConfigurableBarcodeGenerator
             cfg.getChild("checksum").getValue(ChecksumMode.CP_AUTO.getName())));
     
         //Inter-character gap width    
-        Length igw = new Length(cfg.getChild("interchar-gap-width").getValue("0.026in"), "mm");
+        Length igw = new Length(cfg.getChild("interchar-gap-width").getValue(
+                POSTNETBean.DEFAULT_MODULE_WIDTH + Length.INCH), Length.MM);
         getPOSTNETBean().setIntercharGapWidth(igw.getValueAsMillimeter());
 
-        Length h = new Length(cfg.getChild("tall-bar-height").getValue("0.125in"), "mm");
+        Length h = new Length(cfg.getChild("tall-bar-height").getValue(
+                POSTNETBean.DEFAULT_TALL_BAR_HEIGHT + Length.INCH), Length.MM);
         getPOSTNETBean().setBarHeight(h.getValueAsMillimeter());
         
-        Length hbh = new Length(cfg.getChild("short-bar-height").getValue("0.050in"), "mm");
+        Length hbh = new Length(cfg.getChild("short-bar-height").getValue(
+                POSTNETBean.DEFAULT_SHORT_BAR_HEIGHT + Length.INCH), Length.MM);
         getPOSTNETBean().setShortBarHeight(hbh.getValueAsMillimeter());
 
         getPOSTNETBean().setBaselinePosition(BaselineAlignment.byName(

@@ -1,5 +1,5 @@
 /*
- * Copyright 2003,2004 Jeremias Maerki.
+ * Copyright 2003-2004,2008 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,13 @@
 package org.krysalis.barcode4j.output;
 
 import org.krysalis.barcode4j.BarcodeDimension;
+import org.krysalis.barcode4j.TextAlignment;
 
 /**
  * Abstract base class for most CanvasProvider implementations.
  * 
  * @author Jeremias Maerki
- * @version $Id: AbstractCanvasProvider.java,v 1.3 2006-11-07 16:43:37 jmaerki Exp $
+ * @version $Id: AbstractCanvasProvider.java,v 1.4 2008-05-13 13:00:45 jmaerki Exp $
  */
 public abstract class AbstractCanvasProvider implements CanvasProvider {
 
@@ -29,33 +30,43 @@ public abstract class AbstractCanvasProvider implements CanvasProvider {
     protected BarcodeDimension bardim;
 
     /** the barcode orientation (0, 90, 180, 270) */
-    int orientation;
+    private int orientation;
     
-    public AbstractCanvasProvider() {
-        this(0);
-    }
-
+    /**
+     * Main constructor.
+     * @param orientation the orientation of the barcode
+     */
     public AbstractCanvasProvider(int orientation) {
         this.orientation = BarcodeDimension.normalizeOrientation(orientation);
     }
     
-    /**
-     * @see org.krysalis.barcode4j.output.CanvasProvider
-     */
+    /** {@inheritDoc} */
     public void establishDimensions(BarcodeDimension dim) {
         this.bardim = dim;
     }
 
-    /**
-     * @see org.krysalis.barcode4j.output.CanvasProvider#getDimensions()
-     */
+    /** {@inheritDoc} */
     public BarcodeDimension getDimensions() {
         return this.bardim;
     }
     
-    /** @see org.krysalis.barcode4j.output.CanvasProvider#getOrientation() */
+    /** {@inheritDoc} */
     public int getOrientation() {
         return this.orientation;
+    }
+
+    /** {@inheritDoc} */
+    public void deviceJustifiedText(String text,
+            double x1, double x2, double y1,
+            String fontName, double fontSize) {
+        deviceText(text, x1, x2, y1, fontName, fontSize, TextAlignment.TA_JUSTIFY);
+    }
+
+    /** {@inheritDoc} */
+    public void deviceCenteredText(String text,
+            double x1, double x2, double y1,
+            String fontName, double fontSize) {
+        deviceText(text, x1, x2, y1, fontName, fontSize, TextAlignment.TA_CENTER);
     }
 
 }

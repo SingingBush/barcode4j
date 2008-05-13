@@ -58,6 +58,12 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="jmaerki" type="add" context="code">
+        Added support for left, right, center and justify alignment of the human-readable part.
+      </action>      
+      <action dev="jmaerki" type="add" context="code">
+        Added an implementation for USPS Intelligent Mail (4-State Customer Barcode).
+      </action>      
       <action dev="buerkle" type="fix" context="code">
         Various improvements and bugfixes for EAN-128.  
       </action>      

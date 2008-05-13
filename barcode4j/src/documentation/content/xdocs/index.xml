@@ -26,6 +26,7 @@
             <li>EAN-13 and EAN-8 (with supplementals)</li>
             <li>POSTNET</li>
             <li>Royal Mail Customer Barcode (Four State)</li>
+            <li>USPS Intelligent Mail (4-State Customer Barcode)</li>
           </ul>
         </li>
         <li>2D barcode implementations [<link href="examples.html">examples</link>] [<link href="2.0/barcode-xml.html">xml-format</link>]:

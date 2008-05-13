@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Jeremias Maerki.
+ * Copyright 2006,2008 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j.impl.fourstate;
 
+import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.impl.AbstractVariableHeightLogicHandler;
 import org.krysalis.barcode4j.impl.HeightVariableBarcodeBean;
 import org.krysalis.barcode4j.output.Canvas;
@@ -24,7 +25,7 @@ import org.krysalis.barcode4j.output.Canvas;
  * for painting on a Canvas.
  * 
  * @author Jeremias Maerki
- * @version $Id: FourStateLogicHandler.java,v 1.1 2006-11-07 16:50:36 jmaerki Exp $
+ * @version $Id: FourStateLogicHandler.java,v 1.2 2008-05-13 13:00:43 jmaerki Exp $
  */
 public class FourStateLogicHandler 
             extends AbstractVariableHeightLogicHandler {
@@ -39,16 +40,17 @@ public class FourStateLogicHandler
     }
 
     private double getStartY() {
+        double y = 0.0;
         if (bcBean.hasQuietZone()) {
-            return bcBean.getVerticalQuietZone();
-        } else {
-            return 0.0;
+            y += bcBean.getVerticalQuietZone();
         }
+        if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
+            y += bcBean.getHumanReadableHeight();
+        }
+        return y;
     }            
 
-    /**
-     * @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler#addBar(boolean, int)
-     */
+    /** {@inheritDoc} */
     public void addBar(boolean black, int height) {
         final double w = bcBean.getBarWidth(1);
         final double h = bcBean.getBarHeight(height);

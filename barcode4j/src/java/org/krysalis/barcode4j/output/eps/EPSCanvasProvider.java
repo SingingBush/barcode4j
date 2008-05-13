@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004,2006 Jeremias Maerki.
+ * Copyright 2002-2004,2006,2008 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,13 +24,14 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 
 import org.krysalis.barcode4j.BarcodeDimension;
+import org.krysalis.barcode4j.TextAlignment;
 import org.krysalis.barcode4j.output.AbstractCanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
 
 /**
  * CanvasProvider implementation for EPS output (Encapsulated PostScript).
  * @author Jeremias Maerki
- * @version $Id: EPSCanvasProvider.java,v 1.5 2006-11-07 16:43:37 jmaerki Exp $
+ * @version $Id: EPSCanvasProvider.java,v 1.6 2008-05-13 13:00:46 jmaerki Exp $
  */
 public class EPSCanvasProvider extends AbstractCanvasProvider {
 
@@ -96,7 +97,7 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
         writer.write("%%LanguageLevel: 1\n");
         writer.write("%%EndComments\n");
         writer.write("%%BeginProlog\n");
-        writer.write("%%BeginProcSet: barcode4j-procset 1.0\n");
+        writer.write("%%BeginProcSet: barcode4j-procset 1.1\n");
         writer.write("/rf {\n"); //rect fill: x y w h rf
         writer.write("newpath\n");
         writer.write("4 -2 roll moveto\n");
@@ -105,11 +106,26 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
         writer.write("0 neg exch rlineto\n");
         writer.write("closepath fill\n");
         writer.write("} def\n");
+        
         writer.write("/ct {\n"); //centered text: (text) middle-x y ct
         writer.write("moveto dup stringwidth\n");
         writer.write("2 div neg exch 2 div neg exch\n");
         writer.write("rmoveto show\n");
         writer.write("} def\n");
+        
+        writer.write("/rt {\n"); //right-aligned text: (text) x1 x2 y rt
+        //Calc string width
+        writer.write("4 -1 roll dup stringwidth pop\n");
+        //Calc available width (x2-x1) 
+        writer.write("5 -2 roll 1 index sub\n");
+        //Calc (text-width - avail-width) = diffx
+        writer.write("3 -1 roll sub\n");
+        //Calc x = (x1 + diffx) 
+        writer.write("add\n");
+        //moveto and finally show
+        writer.write("3 -1 roll moveto show\n");
+        writer.write("} def\n");
+        
         writer.write("/jt {\n"); //justified: (text) x1 x2 y jt
         //Calc string width
         writer.write("4 -1 roll dup stringwidth pop\n");
@@ -125,6 +141,7 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
         writer.write("0 4 -1 roll 4 -1 roll 5 -1 roll\n");
         writer.write("moveto ashow\n");
         writer.write("} def\n");
+        
         writer.write("%%EndProcSet: barcode4j-procset 1.0\n");
         writer.write("%%EndProlog\n");
     }
@@ -179,10 +196,6 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
             return;
         }
         try {
-            /*
-            writer.write(formatmm(w) + " " + formatmm(h) + " " 
-                       + formatmm(x) + " " + formatmm(y) + " rf\n");
-            */
             writer.write(formatmm(x, y) + " " 
                        + formatmm(w) + " " + formatmm(h) + " rf\n");
         } catch (IOException ioe) {
@@ -191,45 +204,36 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
     }
 
     /** {@inheritDoc} */
-    public void deviceJustifiedText(
+    public void deviceText(
                 String text,
                 double x1,
                 double x2,
                 double y1,
                 String fontName,
-                double fontSize) {
+                double fontSize,
+                TextAlignment textAlign) {
         if (firstError != null) {
             return;
         }
         try {
             writer.write("/" + fontName + " findfont " 
                     + UnitConv.mm2pt(fontSize) + " scalefont setfont\n");
-
-            writer.write("(" + text + ") " 
-                    + formatmm(x1) + " " 
-                    + formatmm(x2) + " "
-                    + formatmm(this.height - y1) + " jt\n");
-        } catch (IOException ioe) {
-            firstError = ioe;
-        }
-    }
-
-    /** {@inheritDoc} */
-    public void deviceCenteredText(
-                String text,
-                double x1,
-                double x2,
-                double y1,
-                String fontName,
-                double fontSize) {
-        if (firstError != null) {
-            return;
-        }
-        try {
-            writer.write("/" + fontName + " findfont " 
-                    + UnitConv.mm2pt(fontSize) + " scalefont setfont\n");
-            writer.write("(" + text + ") " 
-                    + formatmm((x1 + x2) / 2, y1) + " ct\n");
+            if (textAlign == TextAlignment.TA_LEFT) {
+                writer.write(formatmm(x1, y1) + " moveto (" + text + ") show\n"); 
+            } else if (textAlign == TextAlignment.TA_RIGHT) {
+                writer.write("(" + text + ") " 
+                        + formatmm(x1) + " " 
+                        + formatmm(x2) + " "
+                        + formatmm(this.height - y1) + " rt\n");
+            } else if (textAlign == TextAlignment.TA_CENTER) {
+                writer.write("(" + text + ") " 
+                        + formatmm((x1 + x2) / 2, y1) + " ct\n");
+            } else if (textAlign == TextAlignment.TA_JUSTIFY) {
+                writer.write("(" + text + ") " 
+                        + formatmm(x1) + " " 
+                        + formatmm(x2) + " "
+                        + formatmm(this.height - y1) + " jt\n");
+            }
         } catch (IOException ioe) {
             firstError = ioe;
         }

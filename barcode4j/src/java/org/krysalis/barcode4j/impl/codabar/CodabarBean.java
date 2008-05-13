@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Codabar barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: CodabarBean.java,v 1.5 2006-11-27 09:02:37 jmaerki Exp $
+ * @version $Id: CodabarBean.java,v 1.6 2008-05-13 13:00:46 jmaerki Exp $
  */
 public class CodabarBean extends AbstractBarcodeBean {
 
@@ -43,7 +43,8 @@ public class CodabarBean extends AbstractBarcodeBean {
     /** Create a new instance. */
     public CodabarBean() {
         this.moduleWidth = DEFAULT_MODULE_WIDTH;
-        this.quietZone = 10 * this.moduleWidth;
+        setQuietZone(10 * this.moduleWidth);
+        setVerticalQuietZone(0); //1D barcodes don't have vertical quiet zones
     }
     
     /**
@@ -89,7 +90,9 @@ public class CodabarBean extends AbstractBarcodeBean {
             return moduleWidth;
         } else if (width == 2) {
             return moduleWidth * wideFactor;
-        } else throw new IllegalArgumentException("Only widths 1 and 2 allowed");
+        } else {
+            throw new IllegalArgumentException("Only widths 1 and 2 allowed");
+        }
     }
     
     /**

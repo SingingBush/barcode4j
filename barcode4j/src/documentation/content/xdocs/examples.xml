@@ -93,6 +93,11 @@
           <!--td><fork href="images/example-royal-mail-cbc.svg">view SVG version</fork></td-->
         </tr>
         <tr>
+          <td id="usps4cb">USPS Intelligent Mail</td>
+          <td><img src="images/example-usps4cb.png" alt="Sample USPS Intelligent Mail barcode (PNG)"/></td>
+          <!--td><fork href="images/example-royal-mail-cbc.svg">view SVG version</fork></td-->
+        </tr>
+        <tr>
           <td id="pdf417">PDF417</td>
           <td><img src="images/example-pdf417.png" alt="Sample PDF417 symbol (PNG)"/></td>
           <!--td><fork href="images/example-pdf417.svg">view SVG version</fork></td-->

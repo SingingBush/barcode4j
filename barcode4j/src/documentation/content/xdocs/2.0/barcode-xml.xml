@@ -218,6 +218,7 @@
           <ul>
             <li><link href="symbol-postnet.html">POSTNET</link></li>
             <li><link href="symbol-royal-mail-cbc.html">Royal Mail Customer Barcode (4-State)</link></li>
+            <li><link href="symbol-usps4cb.html">USPS Intelligent Mail (4-State Customer Barcode)</link></li>
           </ul>
         </li>
         <li>2D symbologies:

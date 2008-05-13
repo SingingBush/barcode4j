@@ -15,16 +15,17 @@
  */
 package org.krysalis.barcode4j.impl.datamatrix;
 
+import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
+import org.krysalis.barcode4j.tools.Length;
+
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
-import org.krysalis.barcode4j.tools.Length;
 
 /**
  * This class is an implementation of the DataMatrix barcode.
  * 
- * @version $Id: DataMatrix.java,v 1.2 2007-04-18 12:00:42 jmaerki Exp $
+ * @version $Id: DataMatrix.java,v 1.3 2008-05-13 13:00:43 jmaerki Exp $
  */
 public class DataMatrix extends ConfigurableBarcodeGenerator 
             implements Configurable {
@@ -60,11 +61,4 @@ public class DataMatrix extends ConfigurableBarcodeGenerator
         return (DataMatrixBean)getBean();
     }
 
-    /**
-     * @see org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator#getDefaultQuietZone()
-     */
-    protected String getDefaultQuietZone() {
-        return "1mw";
-    }
-    
 }

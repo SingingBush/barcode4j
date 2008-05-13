@@ -28,18 +28,23 @@ import org.krysalis.barcode4j.tools.UnitConv;
  * Implements the United States Postal Service POSTNET barcode.
  * 
  * @author Chris Dolphy
- * @version $Id: POSTNETBean.java,v 1.8 2007-04-13 19:17:51 jmaerki Exp $
+ * @version $Id: POSTNETBean.java,v 1.9 2008-05-13 13:00:44 jmaerki Exp $
  */
 public class POSTNETBean extends HeightVariableBarcodeBean {
 
     /** The default module width for POSTNET. */
-    protected static final double DEFAULT_MODULE_WIDTH = UnitConv.in2mm(0.020f);
+    static final double DEFAULT_MODULE_WIDTH = 0.020f; //inch
+    static final double DEFAULT_TALL_BAR_HEIGHT = 0.125f; //inch
+    static final double DEFAULT_SHORT_BAR_HEIGHT = 0.050f; //inch
+    
+    static final double DEFAULT_HORZ_QUIET_ZONE_INCH = 1.0 / 8; // 1/8 inch
+    static final double DEFAULT_VERT_QUIET_ZONE_INCH = 1.0 / 25; // 1/25 inch
 
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
 
     private double intercharGapWidth;
     private BaselineAlignment baselinePosition = BaselineAlignment.ALIGN_BOTTOM;
-    private double shortBarHeight = UnitConv.in2mm(0.050f);
+    private double shortBarHeight = UnitConv.in2mm(DEFAULT_SHORT_BAR_HEIGHT);
     private boolean displayChecksum = false;
     private Double quietZoneVertical;
     
@@ -47,11 +52,11 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
     public POSTNETBean() {
         super();
         this.msgPos = HumanReadablePlacement.HRP_NONE; //Different default than normal
-        this.moduleWidth = DEFAULT_MODULE_WIDTH;
+        this.moduleWidth = UnitConv.in2mm(DEFAULT_MODULE_WIDTH);
         this.intercharGapWidth = this.moduleWidth;
-        this.quietZone = 10 * this.moduleWidth;
-        this.quietZoneVertical = new Double(UnitConv.in2mm(1.0 / 8)); //1/8inch
-        setBarHeight(UnitConv.in2mm(0.125f));
+        setQuietZone(UnitConv.in2mm(DEFAULT_HORZ_QUIET_ZONE_INCH));
+        setVerticalQuietZone(UnitConv.in2mm(DEFAULT_VERT_QUIET_ZONE_INCH));
+        setBarHeight(UnitConv.in2mm(DEFAULT_TALL_BAR_HEIGHT));
     }
     
     /**
@@ -63,7 +68,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
         this.quietZoneVertical = new Double(height);
     }
     
-    /** @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getVerticalQuietZone() */
+    /** {@inheritDoc} */
     public double getVerticalQuietZone() {
         if (this.quietZoneVertical != null) {
             return this.quietZoneVertical.doubleValue();
@@ -120,20 +125,18 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
         this.shortBarHeight = height;
     }
     
-    /**
-     * @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarWidth(int)
-     */
+    /** {@inheritDoc} */
     public double getBarWidth(int width) {
         if (width == 1) {
             return moduleWidth;
         } else if (width == -1) {
             return this.intercharGapWidth;
-        } else throw new IllegalArgumentException("Only width 1 allowed");
+        } else {
+            throw new IllegalArgumentException("Only width 1 allowed");
+        }
     }
     
-    /**
-     * @see org.krysalis.barcode4j.impl.HeightVariableBarcodeBean#getBarHeight(int)
-     */
+    /** {@inheritDoc} */
     public double getBarHeight(int height) {
         if (height == 2) {
             return getBarHeight();
@@ -141,7 +144,9 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
             return shortBarHeight;
         } else if (height == -1) {
             return getBarHeight();  // doesn't matter since it's blank
-        } else throw new IllegalArgumentException("Only height 0 or 1 allowed");
+        } else {
+            throw new IllegalArgumentException("Only height 0 or 1 allowed");
+        }
     }
     
     /**
@@ -163,9 +168,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
         this.displayChecksum = value;
     }
     
-    /**
-     * @see org.krysalis.barcode4j.BarcodeGenerator#generateBarcode(CanvasProvider, String)
-     */
+    /** {@inheritDoc} */
     public void generateBarcode(CanvasProvider canvas, String msg) {
         if ((msg == null) 
                 || (msg.length() == 0)) {
@@ -180,9 +183,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
         impl.generateBarcodeLogic(handler, msg);
     }
 
-    /**
-     * @see org.krysalis.barcode4j.BarcodeGenerator#calcDimensions(String)
-     */
+    /** {@inheritDoc} */
     public BarcodeDimension calcDimensions(String msg) {
         String modMsg = POSTNETLogicImpl.removeIgnoredCharacters(msg);
         final double width = (((modMsg.length() * 5) + 2) * moduleWidth) 
@@ -199,14 +200,16 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
     }
 
     /**
-     * @see org.krysalis.barcode4j.impl.HeightVariableBarcodeBean#getBaselinePosition()
+     * Returns the baseline position. Indicates whether the bars are top-align or bottom-aligned.
+     * @return the baseline position
      */
     public BaselineAlignment getBaselinePosition() {
         return baselinePosition;
     }
 
     /**
-     * @see org.krysalis.barcode4j.impl.HeightVariableBarcodeBean#setBaselinePosition(BaselineAlignment)
+     * Sets the baseline position. Indicates whether the bars are top-align or bottom-aligned.
+     * @param baselinePosition the baseline position
      */
     public void setBaselinePosition(BaselineAlignment baselinePosition) {
         this.baselinePosition = baselinePosition;

@@ -83,6 +83,7 @@ See http://xml.apache.org/forrest/linking.html for more info
      <ean128 label="EAN-128" href="symbol-ean-128.html"/>
      <postnet label="POSTNET" href="symbol-postnet.html"/>
      <royal-mail-cbc label="Royal Mail CBC" href="symbol-royal-mail-cbc.html"/>
+     <usps4cb label="USPS Intelligent Mail" href="symbol-usps4cb.html"/>
      <pdf417 label="PDF417" href="symbol-pdf417.html"/>
      <datamatrix label="DataMatrix" href="symbol-datamatrix.html"/>
    </barcode-xml>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2004,2008 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,18 @@ package org.krysalis.barcode4j.tools;
  * expressions like "0.21mm".
  * 
  * @author Jeremias Maerki
- * @version $Id: Length.java,v 1.2 2004-09-04 20:25:56 jmaerki Exp $
+ * @version $Id: Length.java,v 1.3 2008-05-13 13:00:46 jmaerki Exp $
  */
 public class Length {
+    
+    /** String constant for inches. */
+    public static final String INCH = "in";
+    /** String constant for points. */
+    public static final String POINT = "pt";
+    /** String constant for centimeters. */
+    public static final String CM = "cm";
+    /** String constant for millimeters. */
+    public static final String MM = "mm";
     
     private double value;
     private String unit;
@@ -138,13 +147,13 @@ public class Length {
      * @return the value (in mm)
      */
     public double getValueAsMillimeter() {
-        if (this.unit.equals("mm")) {
+        if (this.unit.equals(MM)) {
             return this.value;
-        } else if (this.unit.equals("cm")) {
+        } else if (this.unit.equals(CM)) {
             return this.value * 10;
-        } else if (this.unit.equals("pt")) {
+        } else if (this.unit.equals(POINT)) {
             return UnitConv.pt2mm(this.value);
-        } else if (this.unit.equals("in")) {
+        } else if (this.unit.equals(INCH)) {
             return UnitConv.in2mm(this.value);
         } else {
             throw new IllegalStateException("Don't know how to convert " 

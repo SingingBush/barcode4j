@@ -15,18 +15,19 @@
  */
 package org.krysalis.barcode4j.impl.fourstate;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
 import org.krysalis.barcode4j.tools.Length;
+
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
  * Implements the Royal Mail Customer Barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: RoyalMailCBC.java,v 1.2 2006-12-22 15:55:45 jmaerki Exp $
+ * @version $Id: RoyalMailCBC.java,v 1.3 2008-05-13 13:00:43 jmaerki Exp $
  */
 public class RoyalMailCBC extends ConfigurableBarcodeGenerator 
             implements Configurable {
@@ -36,9 +37,7 @@ public class RoyalMailCBC extends ConfigurableBarcodeGenerator
         this.bean = new RoyalMailCBCBean();
     }
     
-    /**
-     * @see org.apache.avalon.framework.configuration.Configurable#configure(Configuration)
-     */
+    /** {@inheritDoc} */
     public void configure(Configuration cfg) throws ConfigurationException {
         //Module width (MUST ALWAYS BE FIRST BECAUSE QUIET ZONE MAY DEPEND ON IT)
         Length mw = new Length(cfg.getChild("module-width").getValue("0.53mm"), "mm");
@@ -68,17 +67,11 @@ public class RoyalMailCBC extends ConfigurableBarcodeGenerator
     }
    
     /**
+     * Returns the underlying RoyalMailCBCBean.
      * @return the underlying RoyalMailCBCBean
      */
     public RoyalMailCBCBean getRoyalMailCBCBean() {
         return (RoyalMailCBCBean)getBean();
-    }
-
-    /**
-     * @see org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator#getDefaultQuietZone()
-     */
-    protected String getDefaultQuietZone() {
-        return "2mm";
     }
 
 }

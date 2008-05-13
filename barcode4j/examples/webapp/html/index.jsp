@@ -1,6 +1,9 @@
 <%@ page contentType="text/html" %>
 <jsp:useBean id="bcrequest" class="org.krysalis.barcode4j.webapp.BarcodeRequestBean" scope="request"/>
 <jsp:setProperty name="bcrequest" property="*"/>
+<%@page import="java.util.Collection"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="org.krysalis.barcode4j.BarcodeUtil"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>Barcode4J Servlet</title>
@@ -122,14 +125,16 @@
             <p>
               <select name="type">
                 <%
-                final String[] BARCODES = new String[] {"code128", "ean-128", "code39", "codabar", "ean-13", "ean-8", "intl2of5", "upc-a", "upc-e", "postnet", "royal-mail-cbc", "pdf417", "datamatrix"};
-                for (int i = 0; i < BARCODES.length; i++) {
+                Collection names = BarcodeUtil.getInstance().getClassResolver().getBarcodeNames();
+                Iterator iter = names.iterator();
+                while (iter.hasNext()) {
+                    String name = (String)iter.next();
                     out.print("<option");
-                    if (BARCODES[i].equals(bcrequest.getType())) {
+                    if (name.equals(bcrequest.getType())) {
                         out.print(" selected=\"selected\"");
                     }
                     out.print(">");
-                    out.print(BARCODES[i]);
+                    out.print(name);
                     out.println("</option>");
                 }
                 %>

@@ -25,6 +25,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -34,6 +35,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import org.krysalis.barcode4j.BarcodeUtil;
+
 /**
  * Demo Applet class
  * 
@@ -42,10 +45,6 @@ import javax.swing.text.PlainDocument;
 public class DemoApplet extends Applet 
         implements BarcodeModelListener, ActionListener, DocumentListener,
             BarcodeErrorListener {
-
-    private static final String[] BARCODE_TYPES = 
-        {"codabar", "code39", "code128", "2of5", "postnet", "ean-128", 
-            "ean-13", "ean-8", "upc-a", "upc-e", "royal-mail-cbc", "pdf417", "datamatrix"};
 
     //Controller part
     private Model model = new Model();
@@ -57,7 +56,9 @@ public class DemoApplet extends Applet
     
     public void initComponents() {
         msgField = new JTextField();
-        symbology = new JComboBox(BARCODE_TYPES);
+        Collection names = BarcodeUtil.getInstance().getClassResolver().getBarcodeNames();
+        symbology = new JComboBox(names.toArray());
+        symbology.getModel().setSelectedItem("code128");
     }
 
     public JPanel buildControlPanel() {

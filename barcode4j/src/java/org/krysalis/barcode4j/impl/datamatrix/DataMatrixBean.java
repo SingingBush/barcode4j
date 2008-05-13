@@ -26,7 +26,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * This class is an implementation of DataMatrix (ISO 16022:2000(E)).
  * 
- * @version $Id: DataMatrixBean.java,v 1.4 2007-04-18 12:00:41 jmaerki Exp $
+ * @version $Id: DataMatrixBean.java,v 1.5 2008-05-13 13:00:43 jmaerki Exp $
  */
 public class DataMatrixBean extends AbstractBarcodeBean {
 
@@ -43,7 +43,7 @@ public class DataMatrixBean extends AbstractBarcodeBean {
     public DataMatrixBean() {
         this.height = 0.0; //not used by DataMatrix
         this.moduleWidth = DEFAULT_MODULE_WIDTH;
-        this.quietZone = 1 * moduleWidth;
+        setQuietZone(1 * moduleWidth);
         this.shape = SymbolShapeHint.FORCE_NONE;
     }
 
