@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Jeremias Maerki.
+ * Copyright 2004,2008 Jeremias Maerki.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-import org.krysalis.barcode4j.BarcodeUtil;
+import org.krysalis.barcode4j.BarcodeClassResolver;
+import org.krysalis.barcode4j.DefaultBarcodeClassResolver;
 
 /**
  * Demo Applet class
@@ -56,7 +57,8 @@ public class DemoApplet extends Applet
     
     public void initComponents() {
         msgField = new JTextField();
-        Collection names = BarcodeUtil.getInstance().getClassResolver().getBarcodeNames();
+        BarcodeClassResolver classResolver = new DefaultBarcodeClassResolver();
+        Collection names = classResolver.getBarcodeNames();
         symbology = new JComboBox(names.toArray());
         symbology.getModel().setSelectedItem("code128");
     }
