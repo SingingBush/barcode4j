@@ -24,7 +24,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * 
  * @author Jeremias Maerki
  * @todo Add ASCII-7bit encoding table
- * @version $Id: Code39LogicImpl.java,v 1.3 2008-05-14 08:05:08 jmaerki Exp $
+ * @version $Id: Code39LogicImpl.java,v 1.4 2008-05-14 09:28:26 jmaerki Exp $
  */
 public class Code39LogicImpl {
 
@@ -126,10 +126,21 @@ public class Code39LogicImpl {
         if (this.extendedCharSet) {
             return escapeExtended(msg, null);
         } else {
-            return new StringBuffer(msg);
+            //Remove start/stop in standard mode if present
+            if (msg.startsWith("*") && msg.endsWith("*")) {
+                return new StringBuffer(msg.substring(1, msg.length() - 1));
+            } else {
+                return new StringBuffer(msg);
+            }
         }
     }
     
+    /**
+     * Escapes US-ASCII characters as required for the extended character set for Code 39. 
+     * @param msg the original message
+     * @param sb the StringBuffer to write the escaped message to (or null)
+     * @return a StringBuffer containing the escaped message
+     */
     public static StringBuffer escapeExtended(String msg, StringBuffer sb) {
         if (sb == null) {
             sb = new StringBuffer(msg.length());
@@ -219,7 +230,9 @@ public class Code39LogicImpl {
     }
 
     private static boolean isValidChar(char ch) {
-        if (ch == STARTSTOP) return false;
+        if (ch == STARTSTOP) {
+            return false;
+        }
         return (getCharIndex(ch) >= 0);
     }
 
@@ -295,12 +308,17 @@ public class Code39LogicImpl {
         
         //Checksum handling as requested
         String formattedMsg = handleChecksum(sb);
-
-        if (displayStartStop) {
-            logic.startBarcode(sb.toString(), STARTSTOP + formattedMsg + STARTSTOP);
+        String displayMsg;
+        if (extendedCharSet) {
+            displayMsg = msg;
         } else {
-            logic.startBarcode(sb.toString(), formattedMsg);
+            displayMsg = formattedMsg;
+            if (displayStartStop) {
+                displayMsg = STARTSTOP + displayMsg + STARTSTOP;
+            }
         }
+
+        logic.startBarcode(sb.toString(), displayMsg);
 
         //Start character
         logic.startBarGroup(BarGroup.START_CHARACTER, new Character(STARTSTOP).toString());
@@ -311,7 +329,9 @@ public class Code39LogicImpl {
             addIntercharacterGap(logic);
             
             final char ch = sb.charAt(i);
-            if (!isValidChar(ch)) throw new IllegalArgumentException("Invalid character: " + ch);
+            if (!isValidChar(ch)) {
+                throw new IllegalArgumentException("Invalid character: " + ch);
+            }
             encodeChar(logic, ch);
         }
 

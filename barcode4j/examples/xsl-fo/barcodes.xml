@@ -204,7 +204,7 @@
       <code39/>
     </barcode>
     <barcode>
-      <description>Code 39 (with start/stop characters displayed in the human-readable message)</description>
+      <description>Code 39 (with start/stop characters displayed in the human-readable message, plus added check character)</description>
       <msg>0123456789</msg>
       <code39>
         <checksum>add</checksum>
@@ -233,6 +233,13 @@
       <msg>0123456789</msg>
       <code39>
         <interchar-gap-width>8mw</interchar-gap-width>
+      </code39>
+    </barcode>
+    <barcode>
+      <description>Code 39 (with the extended character set enabled)</description>
+      <msg>Hello *World*!</msg>
+      <code39>
+        <extended-charset>true</extended-charset>
       </code39>
     </barcode>
     <barcode>

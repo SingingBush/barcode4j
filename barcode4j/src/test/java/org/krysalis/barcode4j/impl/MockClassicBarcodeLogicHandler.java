@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2004,2008 Jeremias Maerki.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,20 +23,33 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * easy verification in tests.
  * 
  * @author Jeremias Maerki
- * @version $Id: MockClassicBarcodeLogicHandler.java,v 1.3 2004-10-24 11:45:55 jmaerki Exp $
+ * @version $Id: MockClassicBarcodeLogicHandler.java,v 1.4 2008-05-14 09:28:29 jmaerki Exp $
  */
 public class MockClassicBarcodeLogicHandler
             implements ClassicBarcodeLogicHandler {
 
     private StringBuffer sb;
+    private boolean dumpHumanReadable;
 
+    /**
+     * Creates a new instance.
+     * @param sb the StringBuffer receiving the serialized events.
+     */
     public MockClassicBarcodeLogicHandler(StringBuffer sb) {
-        this.sb = sb;
+        this(sb, false);
     }
 
     /**
-     * @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler#startBarGroup(BarGroup, String)
+     * Creates a new instance.
+     * @param sb the StringBuffer receiving the serialized events.
+     * @param dumpHumanReadable true if the human-readable message should be included in the output
      */
+    public MockClassicBarcodeLogicHandler(StringBuffer sb, boolean dumpHumanReadable) {
+        this.sb = sb;
+        this.dumpHumanReadable = dumpHumanReadable;
+    }
+
+    /** {@inheritDoc} */
     public void startBarGroup(BarGroup type, String submsg) {
         sb.append("<SBG:");
         sb.append(type.getName());
@@ -45,9 +58,7 @@ public class MockClassicBarcodeLogicHandler
         sb.append(">");
     }
 
-    /**
-     * @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler#addBar(boolean, int)
-     */
+    /** {@inheritDoc} */
     public void addBar(boolean black, int weight) {
         if (black) {
             sb.append("B");
@@ -57,23 +68,21 @@ public class MockClassicBarcodeLogicHandler
         sb.append(weight);
     }
 
-    /**
-     * @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler#endBarGroup()
-     */
+    /** {@inheritDoc} */
     public void endBarGroup() {
         sb.append("</SBG>");
     }
 
-    /**
-     * @see org.krysalis.barcode4j.BarcodeLogicHandler#startBarcode(String, String)
-     */
+    /** {@inheritDoc} */
     public void startBarcode(String msg, String formattedMsg) {
-        sb.append("<BC>");
+        if (this.dumpHumanReadable) {
+            sb.append("<BC:").append(formattedMsg).append(">");
+        } else {
+            sb.append("<BC>");
+        }
     }
 
-    /**
-     * @see org.krysalis.barcode4j.BarcodeLogicHandler#endBarcode()
-     */
+    /** {@inheritDoc} */
     public void endBarcode() {
         sb.append("</BC>");
     }

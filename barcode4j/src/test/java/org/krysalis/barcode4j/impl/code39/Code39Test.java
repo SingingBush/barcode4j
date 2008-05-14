@@ -15,19 +15,17 @@
  */
 package org.krysalis.barcode4j.impl.code39;
 
+import junit.framework.TestCase;
+
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.NullClassicBarcodeLogicHandler;
-import org.krysalis.barcode4j.impl.code39.Code39;
-import org.krysalis.barcode4j.impl.code39.Code39LogicImpl;
-
-import junit.framework.TestCase;
 
 /**
  * Test class for the Code39 implementation.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code39Test.java,v 1.1 2008-05-14 08:05:08 jmaerki Exp $
+ * @version $Id: Code39Test.java,v 1.2 2008-05-14 09:28:29 jmaerki Exp $
  */
 public class Code39Test extends TestCase {
 
@@ -52,10 +50,8 @@ public class Code39Test extends TestCase {
         }
     }
     
-    public void testLogic() throws Exception {
-        StringBuffer sb = new StringBuffer();
+    public void testIllegalChars() throws Exception {
         Code39LogicImpl logic;
-        String expected;
         
         try {
             logic = new Code39LogicImpl(ChecksumMode.CP_AUTO, false, false, false);
@@ -65,9 +61,94 @@ public class Code39Test extends TestCase {
             //must fail
         }
         
+        //In standard charset, the * is legal in the message if it is used as start/stop chars
+        try {
+            StringBuffer sb = new StringBuffer();
+            logic = new Code39LogicImpl(ChecksumMode.CP_AUTO, false, false, false);
+            logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb, true), "*1*");
+            String expected = "<BC:1>"
+                + "<SBG:start-char:*>"
+                + "<SBG:msg-char:*>B1W2B1W1B2W1B2W1B1</SBG>"
+                + "</SBG>"
+                + "W-1"
+                + "<SBG:msg-char:1>B2W1B1W2B1W1B1W1B2</SBG>"
+                + "W-1"
+                + "<SBG:stop-char:*>"
+                + "<SBG:msg-char:*>B1W2B1W1B2W1B2W1B1</SBG>"
+                + "</SBG>"
+                + "</BC>";
+            //System.out.println(expected);
+            //System.out.println(sb.toString());
+            assertEquals(expected, sb.toString());
+        } catch (IllegalArgumentException iae) {
+            fail("Must not complain about '*' if used properly in stadard mode!");
+        }
+
+        //In standard charset, the * is illegal inside the message
+        try {
+            logic = new Code39LogicImpl(ChecksumMode.CP_AUTO, false, false, false);
+            logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "*1");
+            fail("Expected an exception complaining about illegal characters");
+        } catch (IllegalArgumentException iae) {
+            //must fail
+        }
+        try {
+            logic = new Code39LogicImpl(ChecksumMode.CP_AUTO, false, false, false);
+            logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "1*");
+            fail("Expected an exception complaining about illegal characters");
+        } catch (IllegalArgumentException iae) {
+            //must fail
+        }
+
+        //In standard charset, the * is illegal inside the message
+        try {
+            logic = new Code39LogicImpl(ChecksumMode.CP_AUTO, false, false, false);
+            logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "*1*2*");
+            fail("Expected an exception complaining about illegal characters");
+        } catch (IllegalArgumentException iae) {
+            //must fail
+        }
+
+        //...but with extended charset enabled, this is valid
+        try {
+            StringBuffer sb = new StringBuffer();
+            logic = new Code39LogicImpl(ChecksumMode.CP_AUTO, false, false, true);
+            logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb, true), "*1*");
+            String expected = "<BC:*1*>"
+                + "<SBG:start-char:*>"
+                + "<SBG:msg-char:*>B1W2B1W1B2W1B2W1B1</SBG>"
+                + "</SBG>"
+                + "W-1"
+                + "<SBG:msg-char:/>B1W2B1W2B1W1B1W2B1</SBG>"
+                + "W-1"
+                + "<SBG:msg-char:J>B1W1B1W1B2W2B2W1B1</SBG>"
+                + "W-1"
+                + "<SBG:msg-char:1>B2W1B1W2B1W1B1W1B2</SBG>"
+                + "W-1"
+                + "<SBG:msg-char:/>B1W2B1W2B1W1B1W2B1</SBG>"
+                + "W-1"
+                + "<SBG:msg-char:J>B1W1B1W1B2W2B2W1B1</SBG>"
+                + "W-1"
+                + "<SBG:stop-char:*>"
+                + "<SBG:msg-char:*>B1W2B1W1B2W1B2W1B1</SBG>"
+                + "</SBG>"
+                + "</BC>";
+            //System.out.println(expected);
+            //System.out.println(sb.toString());
+            assertEquals(expected, sb.toString());
+        } catch (IllegalArgumentException iae) {
+            fail("Must not complain about '*' with extended charset enabled!");
+        }
+    }
+        
+    public void testLogic() throws Exception {
+        StringBuffer sb = new StringBuffer();
+        Code39LogicImpl logic;
+        String expected;
+        
         logic = new Code39LogicImpl(ChecksumMode.CP_AUTO, false, false, false);
-        logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "123ABC");
-        expected = "<BC>"
+        logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb, true), "123ABC");
+        expected = "<BC:123ABC>"
             + "<SBG:start-char:*>"
             + "<SBG:msg-char:*>B1W2B1W1B2W1B2W1B1</SBG>"
             + "</SBG>"
@@ -151,6 +232,62 @@ public class Code39Test extends TestCase {
         } catch (IllegalArgumentException iae) {
             //must fail
         }
+    }
+    
+    public void testDisplayStartStop() throws Exception {
+        StringBuffer sb = new StringBuffer();
+        Code39LogicImpl logic;
+        String expected;
+        
+        logic = new Code39LogicImpl(ChecksumMode.CP_IGNORE, true, false, false);
+        logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb, true), "123");
+        expected = "<BC:*123*>"
+            + "<SBG:start-char:*>"
+            + "<SBG:msg-char:*>B1W2B1W1B2W1B2W1B1</SBG>"
+            + "</SBG>"
+            + "W-1"
+            + "<SBG:msg-char:1>B2W1B1W2B1W1B1W1B2</SBG>"
+            + "W-1"
+            + "<SBG:msg-char:2>B1W1B2W2B1W1B1W1B2</SBG>"
+            + "W-1"
+            + "<SBG:msg-char:3>B2W1B2W2B1W1B1W1B1</SBG>"
+            + "W-1"
+            + "<SBG:stop-char:*>"
+            + "<SBG:msg-char:*>B1W2B1W1B2W1B2W1B1</SBG>"
+            + "</SBG>"
+            + "</BC>";
+        //System.out.println(expected);
+        //System.out.println(sb.toString());
+        assertEquals(expected, sb.toString());
+    }
+    
+    public void testDisplayChecksum() throws Exception {
+        StringBuffer sb = new StringBuffer();
+        Code39LogicImpl logic;
+        String expected;
+        
+        logic = new Code39LogicImpl(ChecksumMode.CP_ADD, false, true, false);
+        logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb, true), "123");
+        expected = "<BC:1236>"
+            + "<SBG:start-char:*>"
+            + "<SBG:msg-char:*>B1W2B1W1B2W1B2W1B1</SBG>"
+            + "</SBG>"
+            + "W-1"
+            + "<SBG:msg-char:1>B2W1B1W2B1W1B1W1B2</SBG>"
+            + "W-1"
+            + "<SBG:msg-char:2>B1W1B2W2B1W1B1W1B2</SBG>"
+            + "W-1"
+            + "<SBG:msg-char:3>B2W1B2W2B1W1B1W1B1</SBG>"
+            + "W-1"
+            + "<SBG:msg-char:6>B1W1B2W2B2W1B1W1B1</SBG>"
+            + "W-1"
+            + "<SBG:stop-char:*>"
+            + "<SBG:msg-char:*>B1W2B1W1B2W1B2W1B1</SBG>"
+            + "</SBG>"
+            + "</BC>";
+        //System.out.println(expected);
+        //System.out.println(sb.toString());
+        assertEquals(expected, sb.toString());
     }
     
     public void testExtendedCharSet() throws Exception {

@@ -21,6 +21,7 @@
       &#60;interchar-gap-width&#62;{<link href="barcode-xml.html#length">length</link>:1mw}&#60;/interchar-gap-width&#62;
       &#60;quiet-zone enabled="{<link href="barcode-xml.html#boolean">boolean</link>:true}"&#62;{<link href="barcode-xml.html#length">length</link>:10mw}&#60;/quiet-zone&#62;
       &#60;checksum&#62;{<link href="barcode-xml.html#checksum-mode">checksum-mode</link>:auto=ignore}&#60;/checksum&#62;
+      &#60;extended-charset&#62;{<link href="barcode-xml.html#boolean">boolean</link>:false}&#60;/extended-charset&#62;
       &#60;human-readable&#62;
         &#60;placement&#62;{<link href="barcode-xml.html#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
         &#60;font-name&#62;{<link href="barcode-xml.html#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
@@ -56,10 +57,13 @@
       <title>Message format</title>
       <ul>
         <li>Valid characters are 0-9, A-Z and the characters: - . $ / + % SPACE</li>
-        <li>The implementation currently doesn't support the extended character set.</li>
+        <li>
+          To enable support for all US-ASCII (7-bit) characters, set "extended-charset" to "true".
+        </li>
         <li>
           The character '*' is only used as start and stop character and may not be used 
-          in the message. The '*' character is automatically added before and after the
+          in the message (unless the extended character set is enabled).
+          The '*' character is automatically added before and after the
           message even though you may not see it in the human-readable part. (See also
           "display-start-stop" and "display-checksum" values)
         </li>
@@ -67,8 +71,13 @@
           display-start-stop controls whether the start and stop characters should be included 
           in the human-readable part. Setting display-start-stop to true, automatically sets 
           display-checksum to true, too.
+          Note: this option is ignored if the extended character set is enabled!
         </li>
-        <li>display-checksum controls whether the calculated checksum should be included in the human-readable part.</li>
+        <li>
+          display-checksum controls whether the calculated checksum should be included in the
+          human-readable part.
+          Note: this option is ignored if the extended character set is enabled!
+        </li>
       </ul>
     </section>
   </body>
