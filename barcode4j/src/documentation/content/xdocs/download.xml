@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "document-v20.dtd">
 <document>
   <header>
     <title>Download Barcode4J</title>
@@ -18,8 +18,8 @@
         </tr>
         <tr>
           <td><strong>Current release</strong></td>
-          <td><strong>2.0 alpha 2</strong></td>
-          <td><strong>2007-02-14</strong></td>
+          <td><strong>2.0</strong></td>
+          <td><strong>2008-05-14</strong></td>
         </tr>
         <tr>
           <td>Previous release (stable)</td>
@@ -29,18 +29,18 @@
       </table>
       <p>
         Releases can be downloaded from the
-        <fork href="ext:project-files">Barcode4J project's files page</fork>.
+        <a class="fork" href="ext:project-files">Barcode4J project's files page</a>.
       </p>
       <p>
         Old releases (before the name changed from Krysalis Barcode to Barcode4J) 
         can be downloaded from the
-        <fork href="ext:krysalis-project-files">Krysalis project's files page</fork>.
+        <a class="fork" href="ext:krysalis-project-files">Krysalis project's files page</a>.
       </p>
     </section>
     <section>
       <title>Latest code</title>
       <p>
-        The latest code is available through <link href="viewcvs.html">CVS</link>.
+        The latest code is available through <a href="viewcvs.html">CVS</a>.
       </p>
       <!--p>
         Since public CVS access can be problematic at SourceForge, we provide 

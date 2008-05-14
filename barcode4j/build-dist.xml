@@ -15,21 +15,23 @@
     <echo message="the FORREST_HOME environment variable is set (see http://forrest.apache.org/)"/>
     <echo message="FORREST_HOME = ${forrest.home}"/>
     -->
-    <echo message="Make sure you have a proper Forrest 0.7 branch installation (see http://forrest.apache.org/)"/>
+    <echo message="Make sure you have a proper Forrest Trunk installation (see http://forrest.apache.org/)"/>
 	<condition property="forrest.call" value="forrest.bat" else="forrest">
 	  <os family="windows"/>
 	</condition>
 	<exec executable="${forrest.call}"/>
   </target>
-  <target name="website" depends="package, javadocs, site" description="Creates the whole Barcode4J website in one run">
+  <target name="applet">
+    <subant target="all">
+      <dirset dir="${basedir}" includes="examples/demo-applet"/> 
+    </subant>
+  </target>
+  <target name="website" depends="package, javadocs, applet, site" description="Creates the whole Barcode4J website in one run">
     <mkdir dir="${build.dir}/site"/>
     <mkdir dir="${build.dir}/site/2.0/javadocs"/>
     <copy todir="${build.dir}/site/2.0/javadocs">
       <fileset dir="${docs.dir}"/>
     </copy>
-    <subant target="all">
-      <dirset dir="${basedir}" includes="examples/demo-applet"/> 
-    </subant>
     <copy todir="${build.dir}/site">
       <fileset dir="${basedir}/examples/demo-applet/build">
         <include name="barcode4j-demo-applet.jar"/>

@@ -123,13 +123,13 @@
         The Barcode XML format can be "abbreviated" (thereby accepting all default values) as in this Code 39 example:
       </p>
       <source>&#60;barcode message="123456789"&#62;
-  &#60;<link href="#Code39">code39</link>/&#62;
+  &#60;<link href="symbol-code39.html">code39</link>/&#62;
 &#60;/barcode&#62;</source>
       <p>
         In this case, the defaults are assumed, and the result is effectively:
       </p>
       <source>&#60;barcode message="<link href="#string">123456789</link>"&#62;
-  &#60;<link href="#Code39">code39</link>&#62;
+  &#60;<link href="symbol-code39.html">code39</link>&#62;
     &#60;height&#62;<link href="#length">15mm</link>&#60;/height&#62;
     &#60;module-width&#62;<link href="#length">0.19mm</link>&#60;/module-width&#62;
     &#60;wide-factor&#62;<link href="#number">2.5</link>&#60;/wide-factor&#62;
@@ -144,7 +144,7 @@
       &#60;display-start-stop&#62;<link href="#boolean">false</link>&#60;/display-start-stop&#62;
       &#60;display-checksum&#62;<link href="#boolean">false</link>&#60;/display-checksum&#62;
     &#60;/human-readable&#62;
-  &#60;/<link href="#Code39">code39</link>&#62;
+  &#60;/<link href="symbol-code39.html">code39</link>&#62;
 &#60;/barcode&#62;</source>
     </section>
     <section id="pattern">

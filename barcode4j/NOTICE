@@ -4,17 +4,15 @@
 =========================================================================
 
 Barcode4J
-Copyright 2002-2007 Jeremias Märki
+Copyright 2002-2008 Jeremias Märki
 Copyright 2005-2006 Dietmar Bürkle
 
 Portions of this software were contributed under section 5 of the 
-Apache License by:
-  - Chris Dolphy
-  - Bruno Marçal Dias
-  - Andrew Nelson
+Apache License. Contributors are listed under:
+http://barcode4j.sourceforge.net/contributors.html
 
 This product includes software developed for project
-Krysalis (http://www.krysalis.org/)."
+Krysalis (http://www.krysalis.org/).
 
 This product includes software developed by
 The Apache Software Foundation (http://www.apache.org/).
