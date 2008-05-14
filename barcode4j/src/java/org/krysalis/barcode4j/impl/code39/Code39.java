@@ -26,7 +26,7 @@ import org.krysalis.barcode4j.tools.Length;
  * This class is an implementation of the Code39 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code39.java,v 1.2 2004-10-24 11:45:55 jmaerki Exp $
+ * @version $Id: Code39.java,v 1.3 2008-05-14 08:05:08 jmaerki Exp $
  */
 public class Code39 extends ConfigurableBarcodeGenerator 
             implements Configurable {
@@ -61,6 +61,11 @@ public class Code39 extends ConfigurableBarcodeGenerator
                     igw.getValue() * getCode39Bean().getModuleWidth());
         } else {
             getCode39Bean().setIntercharGapWidth(igw.getValueAsMillimeter());
+        }
+        
+        if (cfg.getChild("extended-charset", false) != null) {
+            getCode39Bean().setExtendedCharSetEnabled(
+                    cfg.getChild("extended-charset").getValueAsBoolean());
         }
         
         Configuration hr = cfg.getChild("human-readable", false);

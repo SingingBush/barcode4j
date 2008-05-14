@@ -19,7 +19,7 @@ package org.krysalis.barcode4j;
  * Some constants for Barcode4J.
  *
  * @author Jeremias Maerki
- * @version $Id: BarcodeConstants.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: BarcodeConstants.java,v 1.3 2008-05-14 08:05:08 jmaerki Exp $
  */
 public interface BarcodeConstants {
 
@@ -34,4 +34,7 @@ public interface BarcodeConstants {
      * was renamed.
      */
     String OLD_NAMESPACE = "http://www.krysalis.org/barcode/ns";
+    
+    /** URL to the Barcode4J website */
+    String WEBSITE = "http://barcode4j.sourceforge.net";
 }

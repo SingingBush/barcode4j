@@ -27,7 +27,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
  * This class is an implementation of the Code39 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: Code39Bean.java,v 1.7 2008-05-13 13:00:44 jmaerki Exp $
+ * @version $Id: Code39Bean.java,v 1.8 2008-05-14 08:05:08 jmaerki Exp $
  */
 public class Code39Bean extends AbstractBarcodeBean {
 
@@ -42,6 +42,7 @@ public class Code39Bean extends AbstractBarcodeBean {
     private double wideFactor = DEFAULT_WIDE_FACTOR; //Width of binary one
     private boolean displayStartStop = false;
     private boolean displayChecksum = false;
+    private boolean extendedCharSet = false;
 
     /** Create a new instance. */
     public Code39Bean() {
@@ -147,6 +148,23 @@ public class Code39Bean extends AbstractBarcodeBean {
     }
     
     /**
+     * Indicates whether the extended character set is enabled.
+     * @return true if the extended character set is enabled
+     */
+    public boolean isExtendedCharSetEnabled() {
+        return this.extendedCharSet;
+    }
+    
+    /**
+     * Enables or disables the extended character set. The extended character set enables
+     * the whole ASCII 7-bit character set for Code39.
+     * @param value true to enable the extended character set
+     */
+    public void setExtendedCharSetEnabled(boolean value) {
+        this.extendedCharSet = value;
+    }
+    
+    /**
      * @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarWidth(int)
      */
     public double getBarWidth(int width) {
@@ -173,7 +191,7 @@ public class Code39Bean extends AbstractBarcodeBean {
                 new DefaultCanvasLogicHandler(this, new Canvas(canvas));
 
         Code39LogicImpl impl = new Code39LogicImpl(getChecksumMode(), 
-                isDisplayStartStop(), isDisplayChecksum());
+                isDisplayStartStop(), isDisplayChecksum(), isExtendedCharSetEnabled());
         impl.generateBarcodeLogic(handler, msg);
     }
 

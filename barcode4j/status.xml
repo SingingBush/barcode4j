@@ -59,6 +59,9 @@
     <!-- Add new releases here -->
     <release version="dev">
       <action dev="jmaerki" type="add" context="code">
+        Added support for the Code 39 extended character set.
+      </action>      
+      <action dev="jmaerki" type="add" context="code">
         Added support for left, right, center and justify alignment of the human-readable part.
       </action>      
       <action dev="jmaerki" type="add" context="code">

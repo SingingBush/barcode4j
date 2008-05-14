@@ -24,7 +24,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * 
  * @author Jeremias Maerki
  * @todo Add ASCII-7bit encoding table
- * @version $Id: Code39LogicImpl.java,v 1.2 2004-10-24 11:45:55 jmaerki Exp $
+ * @version $Id: Code39LogicImpl.java,v 1.3 2008-05-14 08:05:08 jmaerki Exp $
  */
 public class Code39LogicImpl {
 
@@ -86,6 +86,7 @@ public class Code39LogicImpl {
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
     private boolean displayStartStop = false;
     private boolean displayChecksum = false;
+    private boolean extendedCharSet = false;
 
     /**
      * Main constructor
@@ -96,10 +97,11 @@ public class Code39LogicImpl {
      *   in the human-readable message
      */
     public Code39LogicImpl(ChecksumMode mode, boolean displayStartStop, 
-                boolean displayChecksum) {
+                boolean displayChecksum, boolean extendedCharSet) {
         this.checksumMode = mode;
         this.displayStartStop = displayStartStop;
         this.displayChecksum = displayChecksum;
+        this.extendedCharSet = extendedCharSet;
     }
 
     /**
@@ -118,6 +120,56 @@ public class Code39LogicImpl {
                     + "part of the message. This start/stop character is "
                     + "automatically added before and after the message.");
         }
+    }
+    
+    private StringBuffer prepareMessage(String msg) {
+        if (this.extendedCharSet) {
+            return escapeExtended(msg, null);
+        } else {
+            return new StringBuffer(msg);
+        }
+    }
+    
+    public static StringBuffer escapeExtended(String msg, StringBuffer sb) {
+        if (sb == null) {
+            sb = new StringBuffer(msg.length());
+        }
+        for (int i = 0, c = msg.length(); i < c; i++) {
+            char ch = msg.charAt(i);
+            if (ch == 0) {
+                sb.append("%U");
+            } else if (ch >= 1 && ch <= 26) {
+                sb.append('$').append((char)('A' + ch - 1));
+            } else if (ch >= 27 && ch <= 31) {
+                sb.append('%').append((char)('A' + ch - 27));
+            } else if (ch == 32) {
+                sb.append(ch);
+            } else if (ch >= 33 && ch <= 47) {
+                sb.append('/').append((char)('A' + ch - 33));
+            } else if (ch >= 48 && ch <= 57) {
+                sb.append(ch);
+            } else if (ch == 58) {
+                sb.append("/Z");
+            } else if (ch >= 59 && ch <= 63) {
+                sb.append('%').append((char)('F' + ch - 59));
+            } else if (ch == 64) {
+                sb.append("%V");
+            } else if (ch >= 65 && ch <= 90) {
+                sb.append(ch);
+            } else if (ch >= 91 && ch <= 95) {
+                sb.append('%').append((char)('K' + ch - 91));
+            } else if (ch == 96) {
+                sb.append("%W");
+            } else if (ch >= 97 && ch <= 122) {
+                sb.append('+').append((char)('A' + ch - 97));
+            } else if (ch >= 123 && ch <= 127) {
+                sb.append('%').append((char)('P' + ch - 123));
+            } else {
+                throw new IllegalArgumentException("Character 0x" + Integer.toHexString(ch)
+                        + " is not supported by Extended Code 39!");
+            }
+        }
+        return sb;
     }
     
     /**
@@ -239,7 +291,7 @@ public class Code39LogicImpl {
      * @param msg the message to encode
      */
     public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
-        StringBuffer sb = new StringBuffer(msg);
+        StringBuffer sb = prepareMessage(msg);
         
         //Checksum handling as requested
         String formattedMsg = handleChecksum(sb);
