@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417HighLevelEncoder.java,v 1.4 2007-03-23 21:16:16 jmaerki Exp $ */
+/* $Id: PDF417HighLevelEncoder.java,v 1.5 2008-05-29 12:30:49 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -26,7 +26,7 @@ import java.util.Arrays;
  * PDF417 high-level encoder following the algorithm described in ISO/IEC 15438:2001(E) in
  * annex P.
  * 
- * @version $Id: PDF417HighLevelEncoder.java,v 1.4 2007-03-23 21:16:16 jmaerki Exp $
+ * @version $Id: PDF417HighLevelEncoder.java,v 1.5 2008-05-29 12:30:49 jmaerki Exp $
  */
 public class PDF417HighLevelEncoder implements PDF417Constants {
 
@@ -214,7 +214,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
                     tmp.append((char)PUNCTUATION[ch]);
                 } else {
                     submode = SUBMODE_ALPHA;
-                    tmp.append((char)28); //al
+                    tmp.append((char)29); //al
                     continue;
                 }
             }

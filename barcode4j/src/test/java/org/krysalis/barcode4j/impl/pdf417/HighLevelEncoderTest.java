@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-/* $Id: HighLevelEncoderTest.java,v 1.5 2007-03-23 21:16:16 jmaerki Exp $ */
+/* $Id: HighLevelEncoderTest.java,v 1.6 2008-05-29 12:30:49 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
-import org.krysalis.barcode4j.tools.TestHelper;
-
 import junit.framework.TestCase;
+
+import org.krysalis.barcode4j.tools.TestHelper;
 
 public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
 
@@ -102,7 +102,7 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
     public void testEncodeTextLatching() throws Exception {
         String msg = "417'<x>";
         String result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
-        String expected = "844 37 778 58 833 872";
+        String expected = "844 37 778 59 833 872";
         assertEquals(expected, result);
         
         msg = "417'417";
@@ -214,4 +214,12 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         assertEquals(expected, result);
     }
     
+    public void testBug1970483() throws Exception {
+        String msg = "<FIELDS><FIELD NAME=\"DEALER #\">550";
+        //The bug was an invalid value for switching back from Punctuation to Alpha in
+        //Text Compaction Mode (right before "550" in the example above)
+        String result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        String expected = "871 158 131 108 872 871 158 131 116 390 364 863 890 843 120 334 536 855 770 89 845 150";
+        assertEquals(expected, result);
+    }
 }
