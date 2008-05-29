@@ -43,12 +43,24 @@
         </li>
         <li>Quiet zones must be at least 10 times the module width or at least 0.25 inches.</li>
         <li>display-checksum controls whether the calculated checksum should be included in the human-readable part.</li>
+        <li>
+          Since this symbology interleaves two characters (one character in the bars, the next
+          in the spaces), the message returned by the scanner always has an even number of digits.
+          A zero digit is added in front if necessary.
+        </li>
       </ul>
     </section>
     <section>
       <title>Message format</title>
       <ul>
         <li>Valid characters are 0-9.</li>
+      </ul>
+    </section>
+    <section id="links">
+      <title>Links</title>
+      <ul>
+        <li><link href="http://www.adams1.com/pub/russadam/i25code.html">Russ Adams' page on Interleaved 2 of 5</link></li>
+        <li><link href="http://www.barcodeman.com/info/c2of5.php">Altek Instruments' page  on Interleaved 2 of 5</link></li>
       </ul>
     </section>
   </body>
