@@ -1,6 +1,6 @@
 @ECHO OFF
 
-REM $Id: barcode.bat,v 1.3 2008-05-01 08:21:32 jmaerki Exp $
+REM $Id: barcode.bat,v 1.4 2008-06-16 06:41:51 jmaerki Exp $
 
 if "%JAVA_HOME%" == "" goto noJavaHome
 
@@ -27,11 +27,11 @@ REM ECHO %TMP_CLASSPATH%
 if "%OS%"=="Windows_NT" goto WinNT
 
 :Win98
-%JAVA_HOME%\bin\java -cp %TMP_CLASSPATH% org.krysalis.barcode4j.cli.Main %1 %2 %3 %4 %5 %6 %7 %8 %9
+"%JAVA_HOME%\bin\java" -cp %TMP_CLASSPATH% org.krysalis.barcode4j.cli.Main %1 %2 %3 %4 %5 %6 %7 %8 %9
 GOTO exit
 
 :WinNT
-%JAVA_HOME%\bin\java -cp %TMP_CLASSPATH% org.krysalis.barcode4j.cli.Main %*
+"%JAVA_HOME%\bin\java" -cp %TMP_CLASSPATH% org.krysalis.barcode4j.cli.Main %*
 GOTO exit
 
 
