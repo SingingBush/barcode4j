@@ -60,6 +60,10 @@
     <!--
     -->
     <release version="dev">
+      <action dev="jmaerki" type="add" context="code">
+        DataMatrix: Added support for referencing binary data through URLs
+        (RFC 2397 data URLs, too).
+      </action>      
       <action dev="jmaerki" type="fix" context="code" fixes-bug="1970483">
         Bugfix for sub-mode switch from Punctuation to Alpha in PDF417.
       </action>      

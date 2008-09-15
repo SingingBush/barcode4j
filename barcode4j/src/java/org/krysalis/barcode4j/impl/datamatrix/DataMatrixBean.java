@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package org.krysalis.barcode4j.impl.datamatrix;
+
+import java.io.IOException;
 
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
@@ -25,8 +27,8 @@ import org.krysalis.barcode4j.tools.UnitConv;
 
 /**
  * This class is an implementation of DataMatrix (ISO 16022:2000(E)).
- * 
- * @version $Id: DataMatrixBean.java,v 1.5 2008-05-13 13:00:43 jmaerki Exp $
+ *
+ * @version $Id: DataMatrixBean.java,v 1.6 2008-09-15 07:10:28 jmaerki Exp $
  */
 public class DataMatrixBean extends AbstractBarcodeBean {
 
@@ -63,36 +65,41 @@ public class DataMatrixBean extends AbstractBarcodeBean {
     public SymbolShapeHint getShape() {
         return shape;
     }
-    
+
     /**
      * @see org.krysalis.barcode4j.BarcodeGenerator#generateBarcode(CanvasProvider, String)
      */
     public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null) 
+        if ((msg == null)
                 || (msg.length() == 0)) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        TwoDimBarcodeLogicHandler handler = 
+        TwoDimBarcodeLogicHandler handler =
                 new DefaultTwoDimCanvasLogicHandler(this, new Canvas(canvas));
 
         DataMatrixLogicImpl impl = new DataMatrixLogicImpl();
         impl.generateBarcodeLogic(handler, msg, shape);
     }
-    
+
     /**
      * @see org.krysalis.barcode4j.BarcodeGenerator#calcDimensions(String)
      */
     public BarcodeDimension calcDimensions(String msg) {
-        String encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg, shape);
+        String encoded;
+        try {
+            encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg, shape);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Cannot fetch data: " + e.getLocalizedMessage());
+        }
         DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length(), shape);
-        
+
         double width = symbolInfo.getSymbolWidth() * getModuleWidth();
-        double height = symbolInfo.getSymbolHeight() * getBarHeight(); 
-        double qzh = (hasQuietZone() ? getQuietZone() : 0);        
-        double qzv = (hasQuietZone() ? getVerticalQuietZone() : 0);        
-        return new BarcodeDimension(width, height, 
-                width + (2 * qzh), height + (2 * qzv), 
+        double height = symbolInfo.getSymbolHeight() * getBarHeight();
+        double qzh = (hasQuietZone() ? getQuietZone() : 0);
+        double qzv = (hasQuietZone() ? getVerticalQuietZone() : 0);
+        return new BarcodeDimension(width, height,
+                width + (2 * qzh), height + (2 * qzv),
                 qzh, qzv);
     }
 
@@ -105,10 +112,10 @@ public class DataMatrixBean extends AbstractBarcodeBean {
     public double getBarWidth(int width) {
         return moduleWidth;
     }
-    
+
     /** @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarHeight() */
     public double getBarHeight() {
         return moduleWidth;
     }
-    
+
 }

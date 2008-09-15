@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DecodeHighLevel.java,v 1.1 2008-05-13 13:00:43 jmaerki Exp $ */
+/* $Id: DecodeHighLevel.java,v 1.2 2008-09-15 07:10:31 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -46,15 +46,16 @@ public class DecodeHighLevel {
                 return;
             default:
                 if (ch >= 1 && ch <= 128) {
-                    System.out.println("char: " + (char)(ch - 1) + " - " + (int)(ch - 1));
+                    System.out.println("char: " + (char)(ch - 1) + " - " + (int)(ch - 1)
+                            + " (" + (int)ch + ")");
                 } else if (ch >= 130 && ch <= 229) {
                     int num = ch - 130;
-                    System.out.println("number: " + num);
+                    System.out.println("number: " + num + " (" + (int)ch + ")");
                 } else {
                     System.out.println("unknown: " + ch + " - " + (int)ch);
                 }
             }
-            
+
             idx++;
         }
     }
@@ -64,44 +65,48 @@ public class DecodeHighLevel {
         int idx = start;
         int sectionLen;
         char d1 = codewords.charAt(idx);
-        d1 = unrandomize255State(d1, idx + 1);
-        idx++;
+        d1 = unrandomize255State(d1, ++idx);
         if (d1 == 0) {
             System.out.println("<Base 256 for the remainder of the symbol>");
             sectionLen = len - start - 1;
         } else if (d1 >= 1 && d1 <= 249) {
             sectionLen = d1;
-            System.out.println("<" + sectionLen + " bytes skipped>");
         } else {
             char d2 = codewords.charAt(idx);
             d2 = unrandomize255State(d2, idx + 1);
             sectionLen = 250 * (d1 - 249) + d2;
-            System.out.println("<" + sectionLen + " bytes skipped>");
             idx++;
         }
-        //System.out.println(codewords.substring(idx, idx + sectionLen));
-        idx += sectionLen;
+        for (int i = 0; i < sectionLen; i++) {
+            char cw = codewords.charAt(idx);
+            char urcw = unrandomize255State(cw, ++idx);
+            System.out.println("byte: " + urcw + " - " + (int)urcw
+                    + " (0x" + Integer.toHexString(urcw) + ")"
+                    + ", org: " + cw + " - " + (int)cw
+                    + " (0x" + Integer.toHexString(cw) + ")");
+        }
         return idx;
     }
-    
+
     private static int decodeText(String codewords, int start) {
         int len = codewords.length();
         int idx = start;
-        
+
         StringBuffer sb = new StringBuffer();
         int mode = 0;
-        
+
         while (idx < len) {
             int ch = codewords.charAt(idx);
             if (ch == DataMatrixConstants.C40_UNLATCH) {
-                System.out.println("<unlatch>");
+                System.out.println("<unlatch> (" + ch + ")");
                 idx++;
                 break;
             }
+            int ch1 = ch;
             int pair = ch * 256;
             pair += codewords.charAt(++idx);
-            System.out.print("pair: " + pair);
-            
+            System.out.print("pair: " + pair + " (" + ch1 + "/" + ch + ")");
+
             pair--;
             int c1 = pair / 1600;
             pair -= (c1 * 1600);
@@ -110,14 +115,14 @@ public class DecodeHighLevel {
             int c3 = pair;
             System.out.println(" --> " + c1 + " " + c2 + " " + c3);
             sb.append((char)c1).append((char)c2).append((char)c3);
-            
-            
+
+
             idx++;
         }
-        
+
         return idx;
     }
-    
+
     private static char unrandomize255State(char ch, int codewordPosition) {
         int pseudoRandom = ((149 * codewordPosition) % 255) + 1;
         int tempVariable = ch - pseudoRandom;
@@ -127,5 +132,5 @@ public class DecodeHighLevel {
             return (char)(tempVariable + 256);
         }
     }
-    
+
 }
