@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Instructions for the SAXON extension</title>
+    <authors>
+      <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+      <title>Introduction</title>
+      <p>
+        This page describes how to generate barcodes in 
+        <jump href="ext:svg">SVG format</jump> within an XSLT stylesheet that is 
+        processed with the <fork href="ext:saxon">SAXON XSLT Processor from Michael Kay</fork>.
+      </p>
+    </section>
+    <section>
+      <title>Using the barcode extension for SAXON</title>
+      <p>This package contains an extension for <jump href="ext:saxon">SAXON</jump> for 
+        generating barcodes in SVG format. It has been tested with SAXON 8.8 but should work with
+        version 8.7.1 and later. The extension is found under "src/saxon8".
+      </p>
+      <p>To make to barcode extension available in your XSLT stylesheets, do the following:</p>
+      <ul>
+        <li>Add <code>barcode4j.jar</code> to the classpath. (Barcode4J must have been compiled
+          with SAXON support in the first place.)</li>
+        <li>Add the following namespace declaration to the root element of your XSLT stylesheet: 
+          <strong><code>
+xmlns:barcode="java:/org.krysalis.barcode4j.saxon8.BarcodeExtensionElementFactory"</code></strong>
+        </li>
+        <li>Add the barcode namespace prefix to the extension element prefixes:
+          <strong><code>
+extension-element-prefixes="barcode"</code></strong>
+        </li>
+      </ul>
+      <p>Here's an example:</p>
+      <source><![CDATA[
+<xsl:stylesheet version="1.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+    xmlns:fo="http://www.w3.org/1999/XSL/Format" 
+    xmlns:barcode=
+      "java:/org.krysalis.barcode4j.saxon8.BarcodeExtensionElementFactory"
+    extension-element-prefixes="barcode">]]>
+      </source>
+      <p>To generate a barcode use simply use the "barcode" element in your template as indicated in the example:</p>
+      <source><![CDATA[
+  <fo:block>
+    <fo:instream-foreign-object>
+      <barcode:barcode message="{msg}" orientation="90">
+        <barcode:code128>
+          <barcode:height>8mm</barcode:height>
+        </barcode:code128>
+      </barcode:barcode>
+    </fo:instream-foreign-object>
+  </fo:block>]]>
+      </source>
+      <p>
+        The XML syntax used within the barcode element is the <link href="barcode-xml.html">Barcode XML</link>.
+      </p>
+      <p>
+        The attribute "orientation" specifies the orientation of the barcode in degrees. The 
+        attribute is optional and if set must be one of the following values:
+        0, 90, -90, 180, -180, 270, -270.
+      </p>
+    </section>
+    <section>
+      <title>Extension for SAXON 6.5.x</title>
+      <p>
+        Barcode4J contains an extension for SAXON 6.5.x but it is no longer maintained and not part
+        of the binary distribution anymore. The extension is found under "src/saxon".
+      </p>
+      <p>
+        The usage of the old SAXON extension is similar to the one above with the following
+        differences:
+      </p>
+      <ul>
+        <li>The "orientation" attribute is not supported.</li>
+        <li>
+          The URI for the barcode extension is 
+          "http://barcode4j.krysalis.org/org.krysalis.barcode4j.saxon.BarcodeExtensionElementFactory"
+          instead of
+          "java:/org.krysalis.barcode4j.saxon8.BarcodeExtensionElementFactory".
+        </li>
+      </ul>
+    </section>
+  </body>
+</document>

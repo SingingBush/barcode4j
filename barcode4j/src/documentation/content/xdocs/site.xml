@@ -105,6 +105,47 @@ See http://xml.apache.org/forrest/linking.html for more info
    </running>
   </v2_0>
 
+  <trunk label="In Development" href="trunk/" tab="trunk" wholesite="false">
+    <docs-overview label="Overview" href="index.html"/>
+    <start label="Getting started">
+      <building label="Build&#160;Barcode4J" href="building.html"/>
+      <running label="Run&#160;Barcode4J" href="running.html"/>
+    </start>  
+    <barcode-xml label="The Barcode XML Format">
+      <general label="General information" href="barcode-xml.html"/>
+      <intl2of5 label="Interleaved 2 of 5" href="symbol-interleaved2of5.html"/>
+      <codabar label="Codabar" href="symbol-codabar.html"/>
+      <code39 label="Code 39" href="symbol-code39.html"/>
+      <code128 label="Code 128" href="symbol-code128.html"/>
+      <upca label="UPC-A" href="symbol-upc-a.html"/>
+      <upce label="UPC-E" href="symbol-upc-e.html"/>
+      <ean13 label="EAN-13" href="symbol-ean-13.html"/>
+      <ean8 label="EAN-8" href="symbol-ean-8.html"/>
+      <ean128 label="EAN-128" href="symbol-ean-128.html"/>
+      <postnet label="POSTNET" href="symbol-postnet.html"/>
+      <royal-mail-cbc label="Royal Mail CBC" href="symbol-royal-mail-cbc.html"/>
+      <usps4cb label="USPS Intelligent Mail" href="symbol-usps4cb.html"/>
+      <pdf417 label="PDF417" href="symbol-pdf417.html"/>
+      <datamatrix label="DataMatrix" href="symbol-datamatrix.html"/>
+    </barcode-xml>
+    <output-formats label="Output Formats" href="output-formats.html"/>
+    <design label="Design" href="design.html"/>
+    <!--javadocs label="Javadocs" href="ext:javadocs_2_0"/-->>
+    <scenarios label="Scenarios">
+      <xsl-fo label="XSL-FO" href="xsl-fo.html"/>
+      <svg-dom label="SVG DOM" href="svg-dom.html"/>
+    </scenarios>
+    <running label="Creating&#160;Barcodes">
+      <fop-ext label="...with FOP" href="fop-ext.html"/>
+      <xalan-ext label="...with Xalan-J" href="xalan-ext.html"/>
+      <saxon-ext label="...with SAXON" href="saxon-ext.html"/>
+      <servlet label="...with a Servlet" href="servlet.html"/>
+      <cli label="...from the Command Line" href="cli.html"/>
+      <embedding label="...embedding in Java (XML API)" href="embedding.html"/>
+      <embedding-bean label="...embedding in Java (Bean API)" href="embedding-bean.html"/>
+    </running>
+  </trunk>
+  
   <!-- Uncomment this if we want aggregate HTML/PDFs for this site 
   -->
   <!--pdfs label="PDFs">

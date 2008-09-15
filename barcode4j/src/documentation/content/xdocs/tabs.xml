@@ -19,6 +19,7 @@
   -->
   <tab id="previous-version" label="Version 1.0" dir="1.0/" indexfile="index.html"/>
   <tab id="current-version" label="Version 2.0" dir="2.0/" indexfile="index.html"/>
+  <tab id="trunk" label="In Development" dir="trunk/" indexfile="index.html"/>
   <!-- alternate method
   <tab id="doc" label="Documentation" dir="" indexfile="documentation.html">
     <tab id="build-it" label="Building" dir="" indexfile="building.html"/>

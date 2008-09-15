@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Use case: XSL-FO</title>
+    <authors>
+      <person id="jmaerki" name="Jeremias Märki" email="jmaerki@users.sourceforge.net"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+      <title>Introduction</title>
+      <p>A common use case for <strong>Barcode4J</strong> is generating barcodes in 
+        <jump href="ext:svg">SVG</jump> format 
+        for <jump href="ext:xsl-fo">XSL-FO</jump> documents.</p>
+    </section>
+    <section>
+      <title>Several possibilities</title>
+      <p>
+        There are two main possibilities for generating barcode in an XSL-FO environment 
+        using <strong>Barcode4J</strong>.
+      </p>
+      <ol>
+        <li>generate a barcode in SVG format during the XSLT stage</li>
+		  <ul>
+			<li>
+			  If you're using the <fork href="ext:xalan">Apache Xalan-J XSLT Processor</fork> you
+			  can use the <link href="xalan-ext.html">Xalan extension</link>.
+			</li>
+			<li>
+			  If you're using the <fork href="ext:saxon">SAXON XSLT Processor from Michael Kay</fork> you
+			  can use the <link href="saxon-ext.html">SAXON extension</link>.
+			</li>
+		  </ul> 
+        <li>generate a barcode during XSL-FO processing</li>
+		  <ul>
+			<li>
+			  If you work with <fork href="ext:fop">Apache FOP</fork>, using the 
+			  <link href="fop-ext.html">FOP extension</link> will be the most attractive option.
+			</li>
+		  </ul> 
+      </ol>
+      <p>
+        If you don't find a matching solution for your environment, drop us a mail on the 
+        <link href="ext:mailing-lists">barcode4j-users mailing list</link>.
+      </p>
+    </section>
+  </body>
+</document>
