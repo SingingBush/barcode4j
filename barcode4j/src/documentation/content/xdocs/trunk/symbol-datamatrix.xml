@@ -19,6 +19,8 @@
       &#60;module-width&#62;{<a href="barcode-xml.html#length">length</a>:0.352777mm}&#60;/module-width&#62; &#60;!-- 1 pixel at 72dpi --&#62;
       &#60;quiet-zone enabled="{<a href="barcode-xml.html#boolean">boolean</a>:true}"&#62;{<a href="barcode-xml.html#length">length</a>:1mw}&#60;/quiet-zone&#62;
       &#60;shape&#62;{<a href="barcode-xml.html#shape">shape</a>:force-none}&#60;/shape&#62;
+      &#60;min-symbol-size&#62;{<a href="barcode-xml.html#dimension">dimension</a>}&#60;/min-symbol-size&#62;
+      &#60;max-symbol-size&#62;{<a href="barcode-xml.html#dimension">dimension</a>}&#60;/max-symbol-size&#62;
   &#60;/<strong>datamatrix</strong>&#62;
 &#60;/barcode&#62;</source>
     </section>
@@ -28,6 +30,20 @@
         <li>This symbology has no human-readable part!</li>
         <li>The algorithm always chooses the smallest possible symbol arrangement.</li>
         <li>Structured append functionality is not implemented, yet.</li>
+        <li>
+          "min-symbol-size" and "max-symbol-size" are both optional and can be used to restrict
+          the size of the generated DataMatrix symbols. If you omit either one, there's no
+          constraint for either bigger or smaller symbols. This feature is particularly useful
+          if you want to generate DataMatrix symbols for the German Post. They require the symbols
+          to be either 22x22 or 26x26, depending on the message size. Since Barcode4J usually
+          tries to always generate the smallest possible symbol, you might actually end up with
+          a 24x24 symbol if the message can be encoded very efficiently. Specifying "26x26"
+          for both "min-symbol-size" and "max-symbol-size" ensures that the symbol is always
+          the right size. If the message doesn't fit inside a symbol that matches these constraints,
+          an error will be generated. If the symbol is much larger than necessary to encode the
+          message, padding codewords are automatically added. These padding codewords don't affect
+          the decoded message.
+        </li>
       </ul>
     </section>
     <section>

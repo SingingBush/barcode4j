@@ -108,6 +108,12 @@
             <li>force-rectangle: Force the use of rectangular symbols.</li>
           </ul>
         </li>
+        <li id="dimension">
+          {dimension}: Specifies a dimension (in pixels/units) in x- and y-direction.
+          Example: "12x8" defines a size of 12 units horizontally and 8 units vertically. If
+          you specify just one number, it is used for both directions,
+          i.e. "12" is the same as "12x12".
+        </li>
       </ul>
       <p>
         Datatypes below are often given in the format "{<link href="#length">length</link>:15mm}". The value after the datatype indicates 

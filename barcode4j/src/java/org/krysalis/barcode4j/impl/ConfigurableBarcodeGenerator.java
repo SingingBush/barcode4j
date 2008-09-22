@@ -31,7 +31,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 /**
  * Base class for most Avalon-Configurable barcode implementation proxies.
  *
- * @version $Id: ConfigurableBarcodeGenerator.java,v 1.9 2008-05-13 13:00:45 jmaerki Exp $
+ * @version $Id: ConfigurableBarcodeGenerator.java,v 1.10 2008-09-22 09:03:07 jmaerki Exp $
  */
 public abstract class ConfigurableBarcodeGenerator
             implements BarcodeGenerator, Configurable {
@@ -40,7 +40,7 @@ public abstract class ConfigurableBarcodeGenerator
      * Contains all possible element names that may appear in barcode XML.
      */
     public static final String[] BARCODE_ELEMENTS;
-    
+
     static {
         List elements = new java.util.ArrayList();
         //All barcode names
@@ -79,9 +79,11 @@ public abstract class ConfigurableBarcodeGenerator
         elements.add("min-rows");
         elements.add("max-rows");
         elements.add("width-to-height-ratio");
+        elements.add("min-symbol-size");
+        elements.add("max-symbol-size");
         BARCODE_ELEMENTS = (String[])elements.toArray(new String[elements.size()]);
     }
-    
+
     /** Proxy target. Barcode bean to configure. */
     protected AbstractBarcodeBean bean;
 

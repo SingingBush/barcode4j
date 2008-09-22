@@ -61,6 +61,9 @@
     -->
     <release version="dev">
       <action dev="jmaerki" type="add" context="code">
+        DataMatrix: Added support restricting the desired symbol sizes.
+      </action>      
+      <action dev="jmaerki" type="add" context="code">
         DataMatrix: Added support for referencing binary data through URLs
         (RFC 2397 data URLs, too).
       </action>      

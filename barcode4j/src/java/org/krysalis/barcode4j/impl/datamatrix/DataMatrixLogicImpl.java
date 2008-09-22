@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixLogicImpl.java,v 1.9 2008-09-15 07:10:28 jmaerki Exp $ */
+/* $Id: DataMatrixLogicImpl.java,v 1.10 2008-09-22 08:59:07 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
+import java.awt.Dimension;
 import java.io.IOException;
 
 import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
@@ -25,7 +26,7 @@ import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 /**
  * Top-level class for the logic part of the DataMatrix implementation.
  *
- * @version $Id: DataMatrixLogicImpl.java,v 1.9 2008-09-15 07:10:28 jmaerki Exp $
+ * @version $Id: DataMatrixLogicImpl.java,v 1.10 2008-09-22 08:59:07 jmaerki Exp $
  */
 public class DataMatrixLogicImpl {
 
@@ -35,20 +36,24 @@ public class DataMatrixLogicImpl {
      * Generates the barcode logic.
      * @param logic the logic handler to receive generated events
      * @param msg the message to encode
+     * @param shape the symbol shape constraint
+     * @param minSize the minimum symbol size constraint or null for no constraint
+     * @param maxSize the maximum symbol size constraint or null for no constraint
      */
     public void generateBarcodeLogic(TwoDimBarcodeLogicHandler logic, String msg,
-            SymbolShapeHint shape) {
+            SymbolShapeHint shape, Dimension minSize, Dimension maxSize) {
 
         //ECC 200
         //1. step: Data encodation
         String encoded;
         try {
-            encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg, shape);
+            encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg, shape, minSize, maxSize);
         } catch (IOException e) {
             throw new IllegalArgumentException("Cannot fetch data: " + e.getLocalizedMessage());
         }
 
-        DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length(), shape);
+        DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length(),
+                shape, minSize, maxSize, true);
         if (DEBUG) {
             System.out.println(symbolInfo);
         }

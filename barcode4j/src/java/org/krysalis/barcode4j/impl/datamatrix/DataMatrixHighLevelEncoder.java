@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.15 2008-09-15 07:10:28 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.16 2008-09-22 08:59:07 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
+import java.awt.Dimension;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
@@ -28,7 +29,7 @@ import org.krysalis.barcode4j.tools.URLUtil;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  *
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.15 2008-09-15 07:10:28 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.16 2008-09-22 08:59:07 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
@@ -93,7 +94,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
      * @throws IOException if an I/O error occurs while fetching external data
      */
     public static String encodeHighLevel(String msg) throws IOException {
-        return encodeHighLevel(msg, SymbolShapeHint.FORCE_NONE);
+        return encodeHighLevel(msg, SymbolShapeHint.FORCE_NONE, null, null);
     }
 
     /**
@@ -102,10 +103,13 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
      * @param msg the message
      * @param shape requested shape. May be <code>SymbolShapeHint.FORCE_NONE</code>,
      * <code>SymbolShapeHint.FORCE_SQUARE</code> or <code>SymbolShapeHint.FORCE_RECTANGLE</code>.
+     * @param minSize the minimum symbol size constraint or null for no constraint
+     * @param maxSize the maximum symbol size constraint or null for no constraint
      * @return the encoded message (the char values range from 0 to 255)
      * @throws IOException if an I/O error occurs while fetching external data
      */
-    public static String encodeHighLevel(String msg, SymbolShapeHint shape) throws IOException {
+    public static String encodeHighLevel(String msg,
+            SymbolShapeHint shape, Dimension minSize, Dimension maxSize) throws IOException {
         //the codewords 0..255 are encoded as Unicode characters
         Encoder[] encoders = new Encoder[] {new ASCIIEncoder(),
                 new C40Encoder(), new TextEncoder(), new X12Encoder(), new EdifactEncoder(),
@@ -114,6 +118,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         int encodingMode = ASCII_ENCODATION; //Default mode
         EncoderContext context = createEncoderContext(msg);
         context.setSymbolShape(shape);
+        context.setSizeConstraints(minSize, maxSize);
 
         if (msg.startsWith(MACRO_05_HEADER) && msg.endsWith(MACRO_TRAILER)) {
             context.writeCodeword(MACRO_05);
@@ -171,6 +176,8 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
         private String msg;
         private SymbolShapeHint shape = SymbolShapeHint.FORCE_NONE;
+        private Dimension minSize;
+        private Dimension maxSize;
         private StringBuffer codewords;
         private int pos = 0;
         private int newEncoding = -1;
@@ -195,7 +202,6 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 sb.append(ch);
             }
             this.msg = sb.toString(); //Not Unicode here!
-            this.shape = shape;
             this.codewords = new StringBuffer(msg.length());
         }
 
@@ -212,6 +218,11 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
         public void setSymbolShape(SymbolShapeHint shape) {
             this.shape = shape;
+        }
+
+        public void setSizeConstraints(Dimension minSize, Dimension maxSize) {
+            this.minSize = minSize;
+            this.maxSize = maxSize;
         }
 
         public String getMessage() {
@@ -268,7 +279,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
         public void updateSymbolInfo(int len) {
             if (this.symbolInfo == null || len > this.symbolInfo.dataCapacity) {
-                this.symbolInfo = DataMatrixSymbolInfo.lookup(len, shape);
+                this.symbolInfo = DataMatrixSymbolInfo.lookup(len, shape, minSize, maxSize, true);
             }
         }
 

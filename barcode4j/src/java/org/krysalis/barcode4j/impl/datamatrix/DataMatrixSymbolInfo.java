@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixSymbolInfo.java,v 1.4 2007-04-18 12:00:42 jmaerki Exp $ */
+/* $Id: DataMatrixSymbolInfo.java,v 1.5 2008-09-22 08:59:08 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
+import java.awt.Dimension;
+
 /**
- * Symbol info table for DataMatrix. 
+ * Symbol info table for DataMatrix.
  *
- * @version $Id: DataMatrixSymbolInfo.java,v 1.4 2007-04-18 12:00:42 jmaerki Exp $
+ * @version $Id: DataMatrixSymbolInfo.java,v 1.5 2008-09-22 08:59:08 jmaerki Exp $
  */
 public class DataMatrixSymbolInfo {
 
@@ -33,7 +35,7 @@ public class DataMatrixSymbolInfo {
         /*rect*/new DataMatrixSymbolInfo(true, 10, 11, 14, 6, 2),
         new DataMatrixSymbolInfo(false, 12, 12, 14, 14, 1),
         /*rect*/new DataMatrixSymbolInfo(true, 16, 14, 24, 10, 1),
-        
+
         new DataMatrixSymbolInfo(false, 18, 14, 16, 16, 1),
         new DataMatrixSymbolInfo(false, 22, 18, 18, 18, 1),
         /*rect*/new DataMatrixSymbolInfo(true, 22, 18, 16, 10, 2),
@@ -62,7 +64,7 @@ public class DataMatrixSymbolInfo {
     };
 
     private static DataMatrixSymbolInfo[] symbols = PROD_SYMBOLS;
-    
+
     /**
      * Overrides the symbol info set used by this class. Used for testing purposes.
      * @param override the symbol info set to use
@@ -70,7 +72,7 @@ public class DataMatrixSymbolInfo {
     public static void overrideSymbolSet(DataMatrixSymbolInfo[] override) {
         symbols = override;
     }
-    
+
     public boolean rectangular;
     public int dataCapacity;
     public int errorCodewords;
@@ -79,15 +81,15 @@ public class DataMatrixSymbolInfo {
     public int dataRegions;
     public int rsBlockData;
     public int rsBlockError;
-    
-    public DataMatrixSymbolInfo(boolean rectangular, int dataCapacity, int errorCodewords, 
+
+    public DataMatrixSymbolInfo(boolean rectangular, int dataCapacity, int errorCodewords,
             int matrixWidth, int matrixHeight, int dataRegions) {
-        this(rectangular, dataCapacity, errorCodewords, matrixWidth, matrixHeight, dataRegions, 
+        this(rectangular, dataCapacity, errorCodewords, matrixWidth, matrixHeight, dataRegions,
                 dataCapacity, errorCodewords);
     }
 
-    public DataMatrixSymbolInfo(boolean rectangular, int dataCapacity, int errorCodewords, 
-            int matrixWidth, int matrixHeight, int dataRegions, 
+    public DataMatrixSymbolInfo(boolean rectangular, int dataCapacity, int errorCodewords,
+            int matrixWidth, int matrixHeight, int dataRegions,
             int rsBlockData, int rsBlockError) {
         this.rectangular = rectangular;
         this.dataCapacity = dataCapacity;
@@ -98,7 +100,7 @@ public class DataMatrixSymbolInfo {
         this.rsBlockData = rsBlockData;
         this.rsBlockError = rsBlockError;
     }
-    
+
     public static DataMatrixSymbolInfo lookup(int dataCodewords) {
         return lookup(dataCodewords, SymbolShapeHint.FORCE_NONE, true);
     }
@@ -106,35 +108,51 @@ public class DataMatrixSymbolInfo {
     public static DataMatrixSymbolInfo lookup(int dataCodewords, SymbolShapeHint shape) {
         return lookup(dataCodewords, shape, true);
     }
-    
-    public static DataMatrixSymbolInfo lookup(int dataCodewords, 
+
+    public static DataMatrixSymbolInfo lookup(int dataCodewords,
                 boolean allowRectangular, boolean fail) {
-        SymbolShapeHint shape = allowRectangular 
+        SymbolShapeHint shape = allowRectangular
                 ? SymbolShapeHint.FORCE_NONE : SymbolShapeHint.FORCE_SQUARE;
         return lookup(dataCodewords, shape, fail);
     }
 
     public static DataMatrixSymbolInfo lookup(int dataCodewords,
             SymbolShapeHint shape, boolean fail) {
+        return lookup(dataCodewords, shape, null, null, fail);
+    }
+
+    public static DataMatrixSymbolInfo lookup(int dataCodewords,
+            SymbolShapeHint shape, Dimension minSize, Dimension maxSize, boolean fail) {
         for (int i = 0, c = symbols.length; i < c; i++) {
-            if (shape == SymbolShapeHint.FORCE_SQUARE && symbols[i].rectangular) {
+            DataMatrixSymbolInfo symbol = symbols[i];
+            if (shape == SymbolShapeHint.FORCE_SQUARE && symbol.rectangular) {
                 continue;
             }
-            if (shape == SymbolShapeHint.FORCE_RECTANGLE && !symbols[i].rectangular) {
+            if (shape == SymbolShapeHint.FORCE_RECTANGLE && !symbol.rectangular) {
                 continue;
             }
-            if (dataCodewords <= symbols[i].dataCapacity) {
-                return symbols[i];
+            if (minSize != null
+                    && (symbol.getSymbolWidth() < minSize.width
+                            || symbol.getSymbolHeight() < minSize.height)) {
+                continue;
+            }
+            if (maxSize != null
+                    && (symbol.getSymbolWidth() > maxSize.width
+                            || symbol.getSymbolHeight() > maxSize.height)) {
+                continue;
+            }
+            if (dataCodewords <= symbol.dataCapacity) {
+                return symbol;
             }
         }
         if (fail) {
             throw new IllegalArgumentException(
-                "Can't find a symbol arrangement that matches the message. Data codewords: " 
+                "Can't find a symbol arrangement that matches the message. Data codewords: "
                     + dataCodewords);
         }
         return null;
     }
-    
+
     public int getHorzDataRegions() {
         switch (dataRegions) {
         case 1: return 1;
@@ -146,7 +164,7 @@ public class DataMatrixSymbolInfo {
             throw new IllegalStateException("Cannot handle this number of data regions");
         }
     }
-    
+
     public int getVertDataRegions() {
         switch (dataRegions) {
         case 1: return 1;
@@ -158,7 +176,7 @@ public class DataMatrixSymbolInfo {
             throw new IllegalStateException("Cannot handle this number of data regions");
         }
     }
-    
+
     public int getSymbolDataWidth() {
         return getHorzDataRegions() * matrixWidth;
     }
@@ -178,19 +196,19 @@ public class DataMatrixSymbolInfo {
     public int getCodewordCount() {
         return dataCapacity + errorCodewords;
     }
-    
+
     public int getInterleavedBlockCount() {
         return dataCapacity / rsBlockData;
     }
-    
+
     public int getDataLengthForInterleavedBlock(int index) {
         return rsBlockData;
     }
-    
+
     public int getErrorLengthForInterleavedBlock(int index) {
         return rsBlockError;
     }
-    
+
     /** @see java.lang.Object#toString() */
     public String toString() {
         StringBuffer sb = new StringBuffer();
@@ -201,9 +219,9 @@ public class DataMatrixSymbolInfo {
         sb.append(", codewords " + dataCapacity + "+" + errorCodewords);
         return sb.toString();
     }
-    
+
     private static class DataMatrixSymbolInfo144 extends DataMatrixSymbolInfo {
-        
+
         public DataMatrixSymbolInfo144() {
             super(false, 1558, 620, 22, 22, 36);
             this.rsBlockData = -1; //special! see below
@@ -213,11 +231,11 @@ public class DataMatrixSymbolInfo {
         public int getInterleavedBlockCount() {
             return 10;
         }
-        
+
         public int getDataLengthForInterleavedBlock(int index) {
             return (index <= 8) ? 156 : 155;
         }
-        
+
     }
-    
+
 }

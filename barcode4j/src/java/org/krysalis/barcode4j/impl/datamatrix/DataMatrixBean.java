@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j.impl.datamatrix;
 
+import java.awt.Dimension;
 import java.io.IOException;
 
 import org.krysalis.barcode4j.BarcodeDimension;
@@ -28,7 +29,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * This class is an implementation of DataMatrix (ISO 16022:2000(E)).
  *
- * @version $Id: DataMatrixBean.java,v 1.6 2008-09-15 07:10:28 jmaerki Exp $
+ * @version $Id: DataMatrixBean.java,v 1.7 2008-09-22 08:59:07 jmaerki Exp $
  */
 public class DataMatrixBean extends AbstractBarcodeBean {
 
@@ -40,6 +41,11 @@ public class DataMatrixBean extends AbstractBarcodeBean {
      * <code>FORCE_SQUARE</code> or <code>FORCE_RECTANGLE</code>.
      */
     private SymbolShapeHint shape;
+
+    /** Optional: the minimum size of the symbol. */
+    private Dimension minSize;
+    /** Optional: the maximum size of the symbol. */
+    private Dimension maxSize;
 
     /** Create a new instance. */
     public DataMatrixBean() {
@@ -67,8 +73,48 @@ public class DataMatrixBean extends AbstractBarcodeBean {
     }
 
     /**
-     * @see org.krysalis.barcode4j.BarcodeGenerator#generateBarcode(CanvasProvider, String)
+     * Sets the minimum symbol size that is to be produced.
+     * @param minSize the minimum size (in pixels), or null for no constraint
      */
+    public void setMinSize(Dimension minSize) {
+        this.minSize = new Dimension(minSize);
+    }
+
+    /**
+     * Returns the minimum symbol size that is to be produced. If the method returns null,
+     * there's no constraint on the symbol size.
+     * @return the minimum symbol size (in pixels), or null if there's no size constraint
+     */
+    public Dimension getMinSize() {
+        if (this.minSize != null) {
+            return new Dimension(this.minSize);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Sets the maximum symbol size that is to be produced.
+     * @param maxSize the maximum size (in pixels), or null for no constraint
+     */
+    public void setMaxSize(Dimension maxSize) {
+        this.maxSize = new Dimension(maxSize);
+    }
+
+    /**
+     * Returns the maximum symbol size that is to be produced. If the method returns null,
+     * there's no constraint on the symbol size.
+     * @return the maximum symbol size (in pixels), or null if there's no size constraint
+     */
+    public Dimension getMaxSize() {
+        if (this.maxSize != null) {
+            return new Dimension(this.maxSize);
+        } else {
+            return null;
+        }
+    }
+
+    /** {@inheritDoc} */
     public void generateBarcode(CanvasProvider canvas, String msg) {
         if ((msg == null)
                 || (msg.length() == 0)) {
@@ -79,16 +125,15 @@ public class DataMatrixBean extends AbstractBarcodeBean {
                 new DefaultTwoDimCanvasLogicHandler(this, new Canvas(canvas));
 
         DataMatrixLogicImpl impl = new DataMatrixLogicImpl();
-        impl.generateBarcodeLogic(handler, msg, shape);
+        impl.generateBarcodeLogic(handler, msg, getShape(), getMinSize(), getMaxSize());
     }
 
-    /**
-     * @see org.krysalis.barcode4j.BarcodeGenerator#calcDimensions(String)
-     */
+    /** {@inheritDoc} */
     public BarcodeDimension calcDimensions(String msg) {
         String encoded;
         try {
-            encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg, shape);
+            encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg,
+                    shape, getMinSize(), getMaxSize());
         } catch (IOException e) {
             throw new IllegalArgumentException("Cannot fetch data: " + e.getLocalizedMessage());
         }
@@ -103,17 +148,17 @@ public class DataMatrixBean extends AbstractBarcodeBean {
                 qzh, qzv);
     }
 
-    /** @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getVerticalQuietZone() */
+    /** {@inheritDoc} */
     public double getVerticalQuietZone() {
         return getQuietZone();
     }
 
-    /** @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarWidth(int) */
+    /** {@inheritDoc} */
     public double getBarWidth(int width) {
         return moduleWidth;
     }
 
-    /** @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarHeight() */
+    /** {@inheritDoc} */
     public double getBarHeight() {
         return moduleWidth;
     }
