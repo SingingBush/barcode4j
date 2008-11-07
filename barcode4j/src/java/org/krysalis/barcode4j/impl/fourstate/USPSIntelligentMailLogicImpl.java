@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: USPSIntelligentMailLogicImpl.java,v 1.1 2008-05-13 13:00:43 jmaerki Exp $ */
+/* $Id: USPSIntelligentMailLogicImpl.java,v 1.2 2008-11-07 13:08:26 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.fourstate;
 
@@ -37,20 +37,20 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
     static final char[] TABLE5OF13 = new char[1287];
     static final char[] TABLE2OF13 = new char[78];
     static final BarToCharacterMapping[] TABLE_BAR_TO_CHARACTER = new BarToCharacterMapping[65];
-    
+
     static {
         initializeNof13Table(TABLE5OF13, 5, TABLE5OF13.length);
         initializeNof13Table(TABLE2OF13, 2, TABLE2OF13.length);
         initializeBarToCharacterTable();
     }
-    
+
     /**
      * Main constructor.
      */
     public USPSIntelligentMailLogicImpl() {
         super(ChecksumMode.CP_AUTO); //Special check mechanism!
     }
-    
+
     private static int reverseUnsignedShort(int input) {
         int reverse = 0;
         for (int i = 0; i < 16; i++) {
@@ -60,12 +60,12 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
         }
         return reverse;
     }
-    
+
     private static void initializeNof13Table(char[] tableNof13, int n, int tableLength) {
         //Count up to 2^13 - 1 and find all those value that have N bits on
         int lutLowerIndex = 0;
         int lutUpperIndex = tableLength - 1;
-        
+
         for (int count = 0; count < 8192; count++) {
             int bitCount = 0;
             for (int bitIndex = 0; bitIndex < 13; bitIndex++) {
@@ -73,22 +73,22 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
                     bitCount++;
                 }
             }
-            
+
             //if we don't have the right number of bits on, go on to the next value
             if (bitCount != n) {
                 continue;
             }
-            
+
             //if the reverse is less than count, we have already visited this pair before
             int reverse = reverseUnsignedShort(count) >> 3;
             if (reverse < count) {
                 continue;
             }
-            
+
             //if count is symmetric, place it at the first free slot from the end of the
             //list. Otherwise, place it at the first free slot from the beginning of the
             //list AND place reverse at the next free slot from the beginning of the list.
-            
+
             if (count == reverse) {
                 tableNof13[lutUpperIndex] = (char)count;
                 lutUpperIndex--;
@@ -99,7 +99,7 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
                 lutLowerIndex++;
             }
         }
-        
+
         //make sure the lower and upper parts of the table meet properly
         if (lutLowerIndex != lutUpperIndex + 1) {
             throw new IllegalStateException("lookup table indices didn't meet properly!");
@@ -108,7 +108,7 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
 
     private static final String BAR_TO_CHARACTER_TABLE_FILENAME
                 = "usps-4bc-bar-to-character-table.csv";
-    
+
     private static void initializeBarToCharacterTable() {
         InputStream in = USPSIntelligentMailLogicImpl.class.getResourceAsStream(
                 BAR_TO_CHARACTER_TABLE_FILENAME);
@@ -134,16 +134,16 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
                 //ignore
             }
         }
-        
+
     }
 
     private static final class BarToCharacterMapping {
-        
+
         private int descChar;
         private int descBitMap;
         private int ascChar;
         private int ascBitMap;
-        
+
         private BarToCharacterMapping(int index, String line) {
             StringTokenizer tokenizer = new StringTokenizer(line, ";");
             if (Integer.parseInt(tokenizer.nextToken()) != (index + 1)) {
@@ -155,15 +155,20 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
             this.ascBitMap = 1 << Integer.parseInt(tokenizer.nextToken());
         }
     }
-    
+
     /** {@inheritDoc} */
     public char calcChecksum(String msg) {
         return 0; //Not used
     }
 
     static BigInteger convertToBinary(String msg) {
+        if (msg.length() < 20) {
+            throw new IllegalArgumentException(
+                    "Message is too short. It must have at least 20 digits");
+        }
         if (msg.length() > 31) {
-            throw new IllegalArgumentException("Message must not be longer than 31 digits");
+            throw new IllegalArgumentException(
+                    "Message must not be longer than 31 digits");
         }
         String routingCode = msg.substring(20);
         int routingLength = routingCode.length();
@@ -190,43 +195,43 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
                         + routingLength);
         }
         BigInteger binary = routingBig; //Set the rightmost 37 bits
-        
+
         final BigInteger five = BigInteger.valueOf(5);
         final BigInteger ten = BigInteger.valueOf(10);
         String trackingCode = msg.substring(0, 20);
-        
+
         //First tracking code digit
         binary = binary.multiply(ten);
         binary = binary.add(new BigInteger(trackingCode.substring(0, 1)));
-        
+
         //Second tracking code digit
         binary = binary.multiply(five);
         binary = binary.add(new BigInteger(trackingCode.substring(1, 2)));
-        
+
         //Remaining tracking code digits
         for (int i = 2; i < 20; i++) {
             binary = binary.multiply(ten);
             binary = binary.add(new BigInteger(trackingCode.substring(i, i + 1)));
         }
-        
+
         return binary;
     }
-    
+
     static byte[] to13ByteArray(BigInteger binary) {
         byte[] result = new byte[13];
         byte[] bin = binary.toByteArray();
         System.arraycopy(bin, 0, result, 13 - bin.length, bin.length);
         return result;
     }
-    
+
     private static final int GENERATOR_POLYNOMIAL = 0x0F35;
     private static final int ELEVEN_BITS = 0x07FF;
-    
+
     static int calcFCS(byte[] binary) {
         int frameCheckSequence = ELEVEN_BITS;
         int data;
         int startBit;
-        
+
         for (int byteIndex = 0; byteIndex < 13; byteIndex++) {
             if (byteIndex == 0) {
                 //For the most significant byte skipping the 2 most significant bits
@@ -253,11 +258,11 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
     static int[] convertToCodewords(BigInteger binary) {
         int[] codewords = new int[10];
         BigInteger[] quotRem;
-        
+
         quotRem = binary.divideAndRemainder(BigInteger.valueOf(636));
         codewords[9] = quotRem[1].intValue();
         binary = quotRem[0];
-        
+
         final BigInteger const1365 = BigInteger.valueOf(1365);
         for (int i = 8; i >= 1; i--) {
             quotRem = binary.divideAndRemainder(const1365);
@@ -266,7 +271,7 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
         }
 
         codewords[0] = binary.intValue();
-        
+
         return codewords;
     }
 
@@ -274,9 +279,9 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
         int[] modified = new int[10];
         //Codeword J is doubled (orientation information)
         modified[9] = codewords[9] * 2;
-        
+
         System.arraycopy(codewords, 1, modified, 1, 8);
-        
+
         //Codeword A: process FCS
         if ((fcs & 0x0400) != 0) {
             modified[0] = codewords[0] + 659;
@@ -285,16 +290,16 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
         }
         return modified;
     }
-    
+
     static char[] convertToCharacters(int[] codewords, int fcs) {
         int c = codewords.length;
         char[] chars = new char[c];
         for (int i = 0; i < c; i++) {
             int codeword = codewords[i];
             if (codeword < TABLE5OF13.length) {
-                chars[i] = TABLE5OF13[codeword]; 
+                chars[i] = TABLE5OF13[codeword];
             } else {
-                chars[i] = TABLE2OF13[codeword - TABLE5OF13.length]; 
+                chars[i] = TABLE2OF13[codeword - TABLE5OF13.length];
             }
             if ((fcs & (1 << i)) != 0) {
                 chars[i] = (char)(~chars[i] & 0x1FFF); //bitwise negation
@@ -302,7 +307,7 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
         }
         return chars;
     }
-    
+
     static String convertToBars(char[] chars) {
         StringBuffer bars = new StringBuffer(65);
         bars.setLength(65);
@@ -310,7 +315,7 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
             BarToCharacterMapping mapping = TABLE_BAR_TO_CHARACTER[i];
             int resultBits = 0;
             char c;
-            
+
             c = chars[mapping.ascChar];
             if ((c & mapping.ascBitMap) != 0) {
                 resultBits |= 1;
@@ -320,7 +325,7 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
             if ((c & mapping.descBitMap) != 0) {
                 resultBits |= 2;
             }
-            
+
             bars.setCharAt(i, (char)(resultBits + '0'));
         }
         return bars.toString();
@@ -341,7 +346,7 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
     protected String normalizeMessage(String msg) {
         StringBuffer sb = new StringBuffer(msg.length());
         for (int i = 0, c = msg.length(); i < c; i++) {
-            char ch = msg.charAt(i); 
+            char ch = msg.charAt(i);
             if (Character.isDigit(ch)) {
                 sb.append(ch);
             }
@@ -358,7 +363,7 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
         //encodedMsg.length will always be 1
 
         logic.startBarcode(msg, normalizedMsg);
-        
+
         // encode message
         String codeword = encodedMsg[0];
         for (int i = 0, count = codeword.length(); i < count; i++) {
