@@ -60,6 +60,10 @@
     <!--
     -->
     <release version="dev">
+      <action dev="jmaerki" type="add" context="code" fixes-bug="2207427" due-to="ToM" due-to-email="tom_1st@users.sourceforge.net">
+        Codabar: Option to suppress/display the start/stop characters in the human-readable part
+        like for Code39.
+      </action>      
       <action dev="jmaerki" type="add" context="code">
         DataMatrix: Added support restricting the desired symbol sizes.
       </action>      

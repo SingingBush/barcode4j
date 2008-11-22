@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,20 +21,20 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 
 /**
  * This class is an implementation of the Codabar barcode.
- * 
+ *
  * @author Jeremias Maerki
  * @todo Complete the implementation (checksum, automatic start/stops chars...)
- * @version $Id: CodabarLogicImpl.java,v 1.3 2008-03-31 12:14:54 jmaerki Exp $
+ * @version $Id: CodabarLogicImpl.java,v 1.4 2008-11-22 09:57:10 jmaerki Exp $
  */
 public class CodabarLogicImpl {
 
-    private static final char[] CHARACTERS = 
-                            {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
-                             'a', 'b', 'c', 'd', 'e', 'n', 't', 
+    private static final char[] CHARACTERS =
+                            {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                             'a', 'b', 'c', 'd', 'e', 'n', 't',
                              '-', '$', ':', '/', '.', '+', '*'};
 
     /** Defines the Codabar character set. */
-    static final byte[][] CHARSET = 
+    static final byte[][] CHARSET =
                                             {{0, 0, 0, 0, 0, 1, 1},  //0
                                              {0, 0, 0, 0, 1, 1, 0},  //1
                                              {0, 0, 0, 1, 0, 0, 1},  //2
@@ -61,14 +61,26 @@ public class CodabarLogicImpl {
                                              {0, 0, 0, 1, 0, 1, 1}}; //*
 
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
+    private boolean displayStartStop = false;
 
-    
+
     /**
      * Main constructor
      * @param mode Determines how checksums are to be treated.
      */
     public CodabarLogicImpl(ChecksumMode mode) {
         this.checksumMode = mode;
+    }
+
+    /**
+     * Main constructor
+     * @param mode Determines how checksums are to be treated.
+     * @param displayStartStop enables or disables suppressing the start/stop characters from
+     *          the human-readable part
+     */
+    public CodabarLogicImpl(ChecksumMode mode, boolean displayStartStop) {
+        this.checksumMode = mode;
+        this.displayStartStop = displayStartStop;
     }
 
     /**
@@ -101,7 +113,7 @@ public class CodabarLogicImpl {
     protected static boolean isValidChar(char ch) {
         return (getCharIndex(Character.toLowerCase(ch)) >= 0);
     }
-    
+
     /**
      * Determines whether a character is on of the start/stop characters.
      * @param ch the character to check
@@ -109,9 +121,9 @@ public class CodabarLogicImpl {
      */
     protected static boolean isStartStopChar(char ch) {
         ch = Character.toLowerCase(ch);
-        return ((ch == 'a') || (ch == 'b') 
-             || (ch == 'c') || (ch == 'd') 
-             || (ch == 'e') || (ch == '*') 
+        return ((ch == 'a') || (ch == 'b')
+             || (ch == 'c') || (ch == 'd')
+             || (ch == 'e') || (ch == '*')
              || (ch == 'n') || (ch == 't'));
     }
 
@@ -153,7 +165,16 @@ public class CodabarLogicImpl {
             return; //equals ignore
         }
     }
-    
+
+    private StringBuffer prepareMessage(String msg) {
+        //Remove start/stop in standard mode if present
+        if (isStartStopChar(msg.charAt(0)) && isStartStopChar(msg.charAt(msg.length() - 1))) {
+            return new StringBuffer(msg.substring(1, msg.length() - 1));
+        } else {
+            return new StringBuffer(msg);
+        }
+    }
+
     /**
      * Generates the barcode logic.
      * @param logic the logic handler to send generated events to
@@ -161,11 +182,20 @@ public class CodabarLogicImpl {
      */
     public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
         StringBuffer sb = new StringBuffer(msg);
-        
+
         handleChecksum(sb);
-        
+
+        //Checksum handling as requested
         String effMsg = sb.toString();
-        logic.startBarcode(effMsg, effMsg);
+        String displayMsg;
+
+        if (displayStartStop) {
+            displayMsg = sb.toString();
+        } else {
+            displayMsg = prepareMessage(msg).toString();
+        }
+
+        logic.startBarcode(effMsg, displayMsg);
 
         for (int i = 0; i < sb.length(); i++) {
             if (i > 0) {
