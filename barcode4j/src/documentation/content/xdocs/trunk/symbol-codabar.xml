@@ -23,6 +23,7 @@
         &#60;placement&#62;{<link href="barcode-xml.html#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
         &#60;font-name&#62;{<link href="barcode-xml.html#font-name">font-name</link>:Helvetica}&#60;/font-name&#62;
         &#60;font-size&#62;{<link href="barcode-xml.html#length">length</link>:8pt}&#60;/font-size&#62;
+        &#60;display-start-stop&#62;{<link href="barcode-xml.html#boolean">boolean</link>:false}&#60;/display-start-stop&#62;
       &#60;/human-readable&#62;
   &#60;/<strong>codabar</strong>&#62;
 &#60;/barcode&#62;</source>
@@ -38,6 +39,10 @@
       <ul>
         <li>Valid characters are 0-9, the characters: - $ : / . +</li>
         <li>Start and stop characters are: a b c d e * n t</li>
+        <li>
+          display-start-stop controls whether the start and stop characters should be included 
+          in the human-readable part.
+        </li>
       </ul>
     </section>
   </body>
