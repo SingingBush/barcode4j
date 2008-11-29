@@ -174,7 +174,7 @@
         The other characters within the pattern are inserted between the message symbols. The 
         backslash "\" is escape symbol. Combination of '\?' will include '?' in the 
         human-readable message, where '?' can be any character including underscore '_' and 
-        backslash '\'.
+        backslash '\'. '#' can be used to skip (delete) a character from the original message.
       </p>
       <p>
         <strong>Examples:</strong>
@@ -185,18 +185,21 @@
          <td><br/><code>1234567890</code><br/>&#160;</td>
          <td><br/><code>01012001103854</code><br/>&#160;</td>
          <td><br/><code>1234567890</code><br/>&#160;</td>
+         <td><br/><code>2008-11-28</code><br/>&#160;</td>
        </tr>
        <tr>
          <td><strong>Human-readable pattern</strong></td>
          <td><br/><code>____ ____ __</code><br/>&#160;</td>
          <td><br/><code>__/__/____ __:__:__ UTC</code><br/>&#160;</td>
          <td><br/><code>____\\___\____</code><br/>&#160;</td>
+         <td><br/><code>____#/__#/__</code><br/>&#160;</td>
        </tr>
        <tr>
          <td><strong>Human-readable message</strong></td>
          <td><br/><code>1234 5678 90</code><br/>&#160;</td>
          <td><br/><code>01/01/2001 10:38:54 UTC</code><br/>&#160;</td>
          <td><br/><code>1234\567_890</code><br/>&#160;</td>
+         <td><br/><code>2008/11/28</code><br/>&#160;</td>
        </tr>
       </table>
     </section>
