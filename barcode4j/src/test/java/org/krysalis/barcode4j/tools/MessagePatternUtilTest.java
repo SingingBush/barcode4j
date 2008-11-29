@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Jeremias Maerki.
+ * Copyright 2007-2008 Jeremias Maerki.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: MessagePatternUtilTest.java,v 1.2 2007-05-05 13:42:10 jmaerki Exp $ */
+/* $Id: MessagePatternUtilTest.java,v 1.3 2008-11-29 16:27:25 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.tools;
 
@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 
 /**
  * Tests the class MessagePatternUtil.
- * @version $Id: MessagePatternUtilTest.java,v 1.2 2007-05-05 13:42:10 jmaerki Exp $
+ * @version $Id: MessagePatternUtilTest.java,v 1.3 2008-11-29 16:27:25 jmaerki Exp $
  */
 public class MessagePatternUtilTest extends TestCase {
 
@@ -33,7 +33,7 @@ public class MessagePatternUtilTest extends TestCase {
     public void testMessagePattern() throws Exception {
         String msg, pattern;
         String result;
-        
+
         pattern = "__:____/__/__";
 
         msg = "0120070119";
@@ -54,15 +54,15 @@ public class MessagePatternUtilTest extends TestCase {
         msg = "123";
         result = MessagePatternUtil.applyCustomMessagePattern(msg, "");
         assertEquals("123", result);
-        
+
         //Test with no message, message should not be changed
         result = MessagePatternUtil.applyCustomMessagePattern(null, pattern);
         assertNull(result);
-        
+
         //Test with no message, message should not be changed
         result = MessagePatternUtil.applyCustomMessagePattern("", pattern);
         assertEquals("", result);
-        
+
         pattern = "_\\__"; //with escape
         result = MessagePatternUtil.applyCustomMessagePattern("AB", pattern);
         assertEquals("A_B", result);
@@ -79,5 +79,20 @@ public class MessagePatternUtilTest extends TestCase {
         result = MessagePatternUtil.applyCustomMessagePattern("AB", pattern);
         assertEquals("AB>>>>_", result);
     }
-    
+
+    /**
+     * Tests the deletion placeholder (#).
+     * @throws Exception if an error occurs
+     */
+    public void testDeletion() throws Exception {
+        String msg;
+        String result;
+
+        String pattern = "____#/__#/__";
+
+        msg = "2008-11-28";
+        result = MessagePatternUtil.applyCustomMessagePattern(msg, pattern);
+        assertEquals("2008/11/28", result);
+    }
+
 }
