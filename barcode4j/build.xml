@@ -28,6 +28,7 @@
   <property name="build.dir" value="${basedir}/build"/>
   <property name="build.test" value="${build.dir}/test"/>
   <property name="build.dest" value="${build.dir}/classes"/>
+  <property name="resource-jar.dir" value="${build.dir}/resource-jars"/>
   <property name="dist.dir" value="${basedir}/dist"/>
   <property name="docs.dir" value="${build.dir}/javadocs"/>
   <property name="fop-0.20.5.ext.dir" value="${src.dir}/fop-0.20.5"/>
@@ -256,6 +257,7 @@
     <echo message="Preparing the build directories"/>
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.dest}"/>
+    <mkdir dir="${resource-jar.dir}"/>
     <!-- echo options -->
     <antcall target="echo-jdk14"/>
   </target>
@@ -507,6 +509,19 @@
       <fileset dir="${build.dest}">
         <include name="org/krysalis/**"/>
       </fileset>
+    </jar>
+    <jar jarfile="${resource-jar.dir}/${name}-fop-ext-resources.jar">
+      <manifest>
+        <attribute name="Implementation-Title" value="${Name}"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+        <attribute name="Implementation-URL" value="${impl.url}"/>
+        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
+      </manifest>
+      <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
+      <metainf dir="${fop-trunk.ext.dir}/resources">
+        <include name="**"/>
+      </metainf>
     </jar>
   </target>
   <target name="package" depends="package-base, package-fop-0.20.5, package-fop-trunk" description="Creates the Barcode JAR package(s)"/>
