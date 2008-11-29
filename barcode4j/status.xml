@@ -60,6 +60,10 @@
     <!--
     -->
     <release version="dev">
+      <action dev="jmaerki" type="add" context="code" fixes-bug="2353982" due-to="Kalle Sandberg" due-to-email="ks.at.viaduct.se">
+        Support in FOP extensions for escaping characters that are not encodable in XML,
+        such as RS or GS. Java Unicode escaping syntax is used: \u001e
+      </action>      
       <action dev="jmaerki" type="add" context="code" fixes-bug="2353976" due-to="Kalle Sandberg" due-to-email="ks.at.viaduct.se">
         Support added for a deletion placeholder when formatting the human-readable part.
       </action>      

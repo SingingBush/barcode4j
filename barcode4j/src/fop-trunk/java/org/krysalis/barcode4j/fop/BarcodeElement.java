@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,27 +17,29 @@ package org.krysalis.barcode4j.fop;
 
 import java.awt.geom.Point2D;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
-
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.fop.apps.FOPException;
-import org.apache.fop.fo.FONode;
-import org.apache.fop.fo.PropertyList;
-
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 import org.krysalis.barcode4j.tools.ConfigurationUtil;
+import org.krysalis.barcode4j.tools.MessageUtil;
 import org.krysalis.barcode4j.tools.UnitConv;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
+
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+
+import org.apache.fop.apps.FOPException;
+import org.apache.fop.fo.FONode;
+import org.apache.fop.fo.PropertyList;
 
 /**
  * Class representing bc:barcode extension element object.
- * 
+ *
  * @author Jeremias Maerki
- * @version $Id: BarcodeElement.java,v 1.4 2006-11-07 16:45:08 jmaerki Exp $
+ * @version $Id: BarcodeElement.java,v 1.5 2008-11-29 16:41:49 jmaerki Exp $
  */
 public class BarcodeElement extends BarcodeObj {
 
@@ -49,9 +51,9 @@ public class BarcodeElement extends BarcodeObj {
     /**
      * @see org.apache.fop.fo.FONode#processNode
      */
-    public void processNode(String elementName, 
-                            Locator locator, 
-                            Attributes attlist, 
+    public void processNode(String elementName,
+                            Locator locator,
+                            Attributes attlist,
                             PropertyList propertyList) throws FOPException {
         super.processNode(elementName, locator, attlist, propertyList);
         init();
@@ -74,6 +76,8 @@ public class BarcodeElement extends BarcodeObj {
                     throw ce;
                 }
             }
+            msg = MessageUtil.unescapeUnicode(msg);
+
             int orientation = cfg.getAttributeAsInteger("orientation", 0);
             orientation = BarcodeDimension.normalizeOrientation(orientation);
 

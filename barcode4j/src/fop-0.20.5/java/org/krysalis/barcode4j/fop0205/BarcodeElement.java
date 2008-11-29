@@ -1,12 +1,12 @@
 /*
  * Copyright 2003,2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,36 +18,38 @@ package org.krysalis.barcode4j.fop0205;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.xml.sax.Attributes;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import org.apache.avalon.framework.CascadingRuntimeException;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.fop.apps.FOPException;
-import org.apache.fop.fo.FObj;
-import org.apache.fop.fo.PropertyList;
-import org.apache.fop.fo.Status;
-import org.apache.fop.fo.DirectPropertyListBuilder;
-import org.apache.fop.layout.Area;
-import org.apache.fop.layout.FontState;
-import org.apache.fop.layout.inline.ForeignObjectArea;
-import org.apache.fop.messaging.MessageHandler;
-
 import org.krysalis.barcode4j.BarcodeConstants;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 import org.krysalis.barcode4j.tools.ConfigurationUtil;
+import org.krysalis.barcode4j.tools.MessageUtil;
 import org.krysalis.barcode4j.tools.UnitConv;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import org.xml.sax.Attributes;
+
+import org.apache.avalon.framework.CascadingRuntimeException;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+
+import org.apache.fop.apps.FOPException;
+import org.apache.fop.fo.DirectPropertyListBuilder;
+import org.apache.fop.fo.FObj;
+import org.apache.fop.fo.PropertyList;
+import org.apache.fop.fo.Status;
+import org.apache.fop.layout.Area;
+import org.apache.fop.layout.FontState;
+import org.apache.fop.layout.inline.ForeignObjectArea;
+import org.apache.fop.messaging.MessageHandler;
 
 /**
  * Class representing bc:barcode pseudo flow object.
- * 
+ *
  * @author Jeremias Maerki
- * @version $Id: BarcodeElement.java,v 1.6 2007-02-14 10:19:07 jmaerki Exp $
+ * @version $Id: BarcodeElement.java,v 1.7 2008-11-29 16:41:49 jmaerki Exp $
  */
 public class BarcodeElement extends BarcodeObj {
 
@@ -196,32 +198,34 @@ public class BarcodeElement extends BarcodeObj {
                     throw ce;
                 }
             }
+            msg = MessageUtil.unescapeUnicode(msg);
+
             int orientation = cfg.getAttributeAsInteger("orientation", 0);
-            
+
             //MessageHandler.logln("Barcode message: " + msg);
             final String renderMode = cfg.getAttribute("render-mode", "native");
             //MessageHandler.logln("Render mode: " + renderMode);
-            
+
             BarcodeGenerator bargen = BarcodeUtil.getInstance().
                     createBarcodeGenerator(cfg);
             String expandedMsg = VariableUtil.getExpandedMessage(foa.getPage(), msg);
             BarcodeDimension bardim = bargen.calcDimensions(expandedMsg);
             final float w = (float)UnitConv.mm2pt(bardim.getWidthPlusQuiet(orientation)) * 1000;
             final float h = (float)UnitConv.mm2pt(bardim.getHeightPlusQuiet(orientation)) * 1000;
-            
-            
+
+
             BarcodeArea barcodeArea = createArea(fs, w, h);
             barcodeArea.setParent(foa);
             barcodeArea.setPage(foa.getPage());
             barcodeArea.setBarcode(bargen, expandedMsg, renderMode, orientation);
             barcodeArea.start();
             barcodeArea.end();
-            
+
             /* add the SVG area to the containing area */
             foa.setObject(barcodeArea);
             foa.setIntrinsicWidth(barcodeArea.getWidth());
             foa.setIntrinsicHeight(barcodeArea.getHeight());
-            
+
             /* return status */
             return Status.OK;
         } catch (ConfigurationException ce) {
@@ -232,6 +236,5 @@ public class BarcodeElement extends BarcodeObj {
             throw new FOPException("Error generating barcode", be);
         }
     }
-
 
 }
