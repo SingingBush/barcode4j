@@ -60,6 +60,9 @@
     <!--
     -->
     <release version="dev">
+      <action dev="jmaerki" type="add" context="code" fixes-bug="2294201" due-to="Didier Donsez" due-to-email="donsez.at.users.sourceforge.net">
+        Added a Apache Ant task for generating barcodes inside Ant scripts.
+      </action>      
       <action dev="jmaerki" type="add" context="code" fixes-bug="2353982" due-to="Kalle Sandberg" due-to-email="ks.at.viaduct.se">
         Support in FOP extensions for escaping characters that are not encodable in XML,
         such as RS or GS. Java Unicode escaping syntax is used: \u001e

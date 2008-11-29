@@ -1,0 +1,69 @@
+<project name="BarCode4JTask Demo" default="run" basedir=".">
+
+  <!-- set global properties for this build -->
+  <property name="message" value="http://barcode4j.sourceforge.net"/>
+  <property name="number" value="123456789012"/>
+  <property name="pathPrefix" value="generated/img"/>
+  <property name="dpi" value="600"/>
+  <property name="format" value="png"/>
+
+  <property name="barcode4j-root" value="{$basedir}/../../../"/>
+
+  <path id="task.classpath">
+    <pathelement location="${barcode4j-root}/build/barcode4j.jar"/>
+    <pathelement location="${barcode4j-root}/lib/avalon-framework-4.2.0.jar"/>
+  </path>
+
+  <taskdef name="barcode" classname="org.krysalis.barcode4j.ant.BarcodeTask"
+    classpathref="task.classpath"/>
+
+  <macrodef name="bc">
+    <attribute name="symbol"/>
+    <attribute name="message"/>
+    <sequential>
+      <barcode output="${pathPrefix}.@{symbol}.${format}" symbol="@{symbol}" format="${format}"
+        dpi="${dpi}" message="@{message}"/>
+    </sequential>
+  </macrodef>
+
+  <target name="init">
+    <mkdir dir="generated"/>
+  </target>
+
+  <target name="withmacro" depends="init">
+    <bc symbol="pdf417" message="${message}"/>
+    <bc symbol="datamatrix" message="${message}"/>
+
+    <bc symbol="codabar" message="${number}"/>
+    <bc symbol="intl2of5" message="${number}"/>
+    <bc symbol="code39" message="${number}"/>
+    <bc symbol="code128" message="${number}"/>
+
+    <bc symbol="ean13" message="${number}"/>
+    <bc symbol="ean128" message="${number}"/>
+    <bc symbol="ean8" message="1234567"/>
+
+    <bc symbol="postnet" message="${number}"/>
+    <bc symbol="royal-mail-cbc" message="${number}"/>
+  </target>
+
+  <target name="withoutmacro" depends="init">
+    <barcode output="${pathPrefix}.pdf417.${format}" symbol="pdf417" format="${format}" dpi="${dpi}"
+      message="${message}"/>
+    <barcode output="${pathPrefix}.datamatrix.${format}" symbol="datamatrix" format="${format}"
+      dpi="${dpi}" message="${message}"/>
+    <barcode output="${pathPrefix}.postnet.${format}" symbol="postnet" format="${format}"
+      dpi="${dpi}" message="${number}"/>
+    <barcode output="${pathPrefix}.ean13.${format}" symbol="ean13" format="${format}" dpi="${dpi}"
+      message="${number}"/>
+
+    <barcode output="${pathPrefix}.upca.svg" symbol="upce" format="svg">1234567</barcode>
+      
+  </target>
+
+  <target name="run" depends="withmacro, withoutmacro"/>
+
+  <target name="clean">
+    <delete dir="generated"/>
+  </target>
+</project>

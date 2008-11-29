@@ -408,6 +408,7 @@
       <fileset dir="${build.dest}">
         <include name="org/krysalis/**"/>
         <exclude name="org/krysalis/barcode4j/cli/**"/>
+        <exclude name="org/krysalis/barcode4j/ant/**"/>
         <exclude name="org/krysalis/barcode4j/servlet/**"/>
         <exclude name="org/krysalis/barcode4j/xalan/**"/>
         <exclude name="org/krysalis/barcode4j/saxon*/**"/>
@@ -420,6 +421,7 @@
         <exclude name="org/krysalis/barcode4j/impl/int2of5/Interleaved2Of5.class"/>
         <exclude name="org/krysalis/barcode4j/impl/postnet/POSTNET.class"/>
         <exclude name="org/krysalis/barcode4j/impl/fourstate/RoyalMailCBC.class"/>
+        <exclude name="org/krysalis/barcode4j/impl/fourstate/USPSIntelligentMail.class"/>
         <exclude name="org/krysalis/barcode4j/impl/upcean/EAN13.class"/>
         <exclude name="org/krysalis/barcode4j/impl/upcean/EAN8.class"/>
         <exclude name="org/krysalis/barcode4j/impl/upcean/UPCA.class"/>
