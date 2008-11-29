@@ -60,7 +60,10 @@
     <!--
     -->
     <release version="dev">
-      <action dev="jmaerki" type="add" context="code" fixes-bug="2207427" due-to="ToM" due-to-email="tom_1st@users.sourceforge.net">
+      <action dev="jmaerki" type="add" context="code" fixes-bug="2353976" due-to="Kalle Sandberg" due-to-email="ks.at.viaduct.se">
+        Support added for a deletion placeholder when formatting the human-readable part.
+      </action>      
+      <action dev="jmaerki" type="add" context="code" fixes-bug="2207427" due-to="ToM" due-to-email="tom_1st.at.users.sourceforge.net">
         Codabar: Option to suppress/display the start/stop characters in the human-readable part
         like for Code39.
       </action>      
@@ -94,11 +97,11 @@
       <action dev="jmaerki" type="fix" context="code">
         Fixed two bugs concerning Base 256 encoding (DataMatrix).  
       </action>      
-      <action dev="jmaerki" type="add" context="code" due-to="Branko van Abel" due-to-email="branko@edmond.nl">
+      <action dev="jmaerki" type="add" context="code" due-to="Branko van Abel" due-to-email="branko.at.edmond.nl">
         Added auto-sizing feature for PDF417 with an option to specify the width-to-height ration
         for the symbol.
       </action>      
-      <action dev="jmaerki" type="fix" context="code" due-to="Branko van Abel" due-to-email="branko@edmond.nl">
+      <action dev="jmaerki" type="fix" context="code" due-to="Branko van Abel" due-to-email="branko.at.edmond.nl">
         Improved Code128 encoding results in smaller barcodes in some cases.  
       </action>      
       <action dev="jmaerki" type="add" context="code">
