@@ -17,9 +17,9 @@ RedirectMatch Permanent ^/xalan-ext(.*) http://barcode4j.sourceforge.net/1.0/xal
 RedirectMatch Permanent ^/xsl-fo(.*) http://barcode4j.sourceforge.net/1.0/xsl-fo$1
 
 # redirect to versioned documentation
-Redirect Temp /stable http://barcode4j.sourceforge.net/1.0
-Redirect Temp /current http://barcode4j.sourceforge.net/1.0
+Redirect Temp /stable http://barcode4j.sourceforge.net/2.0
+Redirect Temp /current http://barcode4j.sourceforge.net/2.0
 Redirect Temp /unstable http://barcode4j.sourceforge.net/2.0
-Redirect Temp /latest http://barcode4j.sourceforge.net/1.0
+Redirect Temp /latest http://barcode4j.sourceforge.net/2.0
 Redirect Temp /previous http://barcode4j.sourceforge.net/1.0
 
