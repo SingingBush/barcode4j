@@ -81,6 +81,16 @@
         attribute is optional and if set must be one of the following values:
         0, 90, -90, 180, -180, 270, -270.
       </p>
+      <p>
+        Some characters like RS (record separator) and GS (group separator) are sometimes required
+        for certain applications but these characters are not valid XML characters and cannot be
+        encoded. You can escape them by using Java's Unicode escaping syntax. To escape RS, you
+        can write "\u001E". GS would be encoded as "\u001D" and so forth. If for some reason,
+        you need to encode a string containing "\u" in your message, you will have to escape that
+        using "\\u", i.e. the double backslash will be converted to a single backslash and the
+        subsequent "u" is treated as a normal message character. It is an error to specify an
+        incomplete escape sequence, i.e. "00\u012xsomething" will result in an error.
+      </p>
     </section>
     <section>
       <title>Including FOP&#039;s <code>page-number</code> in Barcode Output</title>
