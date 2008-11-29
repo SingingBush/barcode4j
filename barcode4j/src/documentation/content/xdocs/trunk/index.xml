@@ -50,6 +50,8 @@
           <dd>describes how to integrate <strong>Barcode4J</strong> in a Java application using the XML API.</dd>
           <dt><link href="site:embedding-bean">...embedding in Java (Bean API)</link></dt>
           <dd>describes how to integrate <strong>Barcode4J</strong> in a Java application using the JavaBeans API.</dd>
+          <dt><link href="site:ant">...with Apache Ant</link></dt>
+          <dd>describes how to generate barcodes within an <jump href="http://ant.apache.org">Ant</jump> script.</dd>
         </dl>
       </section>
     </section>

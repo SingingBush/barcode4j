@@ -24,6 +24,9 @@
         <li>Branko van Abel (various improvements and bugfixes for the barcode implementations)</li>
         <li>Dan Anderson (POSTNET bugfix)</li>
         <li>Trevor Spiteri (DataMatrix enhancements)</li>
+        <li>ToM (Codabar enhancements)</li>
+        <li>Kalle Sandberg (improvements for message handling)</li>
+        <li>Didier Donsez (Ant task)</li>
       </ul>
       <p>
         Special thanks to Nicola Ken Barozzi, Nick Chalko and Adam Jack.

@@ -143,6 +143,7 @@ See http://xml.apache.org/forrest/linking.html for more info
       <cli label="...from the Command Line" href="cli.html"/>
       <embedding label="...embedding in Java (XML API)" href="embedding.html"/>
       <embedding-bean label="...embedding in Java (Bean API)" href="embedding-bean.html"/>
+      <ant label="...with Ant" href="ant.html"/>
     </running>
   </trunk>
   
