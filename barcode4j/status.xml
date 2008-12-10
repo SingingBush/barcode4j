@@ -60,6 +60,11 @@
     <!--
     -->
     <release version="dev">
+      <action dev="jmaerki" type="add" context="code">
+        Added plug-ins for the image loading framework in Apache XML Graphics Commons. This
+        enables, among other things, barcodes in Apache FOP for RTF output and for the new
+        intermediate format being developed. 
+      </action>      
       <action dev="jmaerki" type="add" context="code" fixes-bug="2294201" due-to="Didier Donsez" due-to-email="donsez.at.users.sourceforge.net">
         Added a Apache Ant task for generating barcodes inside Ant scripts.
       </action>      

@@ -39,7 +39,7 @@ import org.apache.fop.fo.PropertyList;
  * Class representing bc:barcode extension element object.
  *
  * @author Jeremias Maerki
- * @version $Id: BarcodeElement.java,v 1.5 2008-11-29 16:41:49 jmaerki Exp $
+ * @version $Id: BarcodeElement.java,v 1.6 2008-12-10 15:52:37 jmaerki Exp $
  */
 public class BarcodeElement extends BarcodeObj {
 
@@ -66,16 +66,7 @@ public class BarcodeElement extends BarcodeObj {
     public Point2D getDimension(Point2D view) {
         Configuration cfg = ConfigurationUtil.buildConfiguration(this.doc);
         try {
-            String msg;
-            try {
-                msg = cfg.getAttribute("message");
-            } catch (ConfigurationException ce) {
-                try {
-                    msg = cfg.getAttribute("msg"); //for compatibility
-                } catch (ConfigurationException ce1) {
-                    throw ce;
-                }
-            }
+            String msg = ConfigurationUtil.getMessage(cfg);
             msg = MessageUtil.unescapeUnicode(msg);
 
             int orientation = cfg.getAttributeAsInteger("orientation", 0);
