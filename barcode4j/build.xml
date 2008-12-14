@@ -633,6 +633,7 @@
       <!--jvmarg value="-verbose:class"/-->
       <sysproperty key="java.awt.headless" value="true"/>
       <formatter type="brief" usefile="false"/> 
+      <formatter type="xml" usefile="true"/>
       <classpath refid="test.classpath"/>
       <batchtest todir="${build.test}">
         <fileset dir="${build.test}/classes">
