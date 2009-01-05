@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417HighLevelEncoder.java,v 1.5 2008-05-29 12:30:49 jmaerki Exp $ */
+/* $Id: PDF417HighLevelEncoder.java,v 1.6 2009-01-05 17:24:06 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -25,14 +25,14 @@ import java.util.Arrays;
 /**
  * PDF417 high-level encoder following the algorithm described in ISO/IEC 15438:2001(E) in
  * annex P.
- * 
- * @version $Id: PDF417HighLevelEncoder.java,v 1.5 2008-05-29 12:30:49 jmaerki Exp $
+ *
+ * @version $Id: PDF417HighLevelEncoder.java,v 1.6 2009-01-05 17:24:06 jmaerki Exp $
  */
 public class PDF417HighLevelEncoder implements PDF417Constants {
 
     private static final byte[] MIXED = new byte[128];
     private static final byte[] PUNCTUATION = new byte[128];
-    
+
     static {
         //Construct inverse lookups
         Arrays.fill(MIXED, (byte)-1);
@@ -50,7 +50,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
             }
         }
     }
-    
+
     /**
      * Converts the message to a byte array using the default encoding (cp437) as defined by the
      * specification
@@ -66,7 +66,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
                     "Incompatible JVM! The '" + charset + "' charset is not available!");
         }
     }
-    
+
     /**
      * Performs high-level encoding of a PDF417 message using the algorithm described in annex P
      * of ISO/IEC 15438:2001(E).
@@ -74,11 +74,11 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
      * @return the encoded message (the char values range from 0 to 928)
      */
     public static String encodeHighLevel(String msg) {
-        byte[] bytes = null; //Fill later and only if needed 
-        
+        byte[] bytes = null; //Fill later and only if needed
+
         //the codewords 0..928 are encoded as Unicode characters
         StringBuffer sb = new StringBuffer(msg.length());
-        
+
         int len = msg.length();
         int p = 0;
         int encodingMode = TEXT_COMPACTION; //Default mode, see 4.4.2.1
@@ -117,12 +117,12 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
                 }
             }
         }
-        
+
         return sb.toString();
     }
 
     /**
-     * Encode parts of the message using Text Compaction as described in ISO/IEC 15438:2001(E), 
+     * Encode parts of the message using Text Compaction as described in ISO/IEC 15438:2001(E),
      * chapter 4.4.2.
      * @param msg the message
      * @param startpos the start position within the message
@@ -196,16 +196,16 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
                         tmp.append((char)27); //ll
                         continue;
                     } else {
-                        char next = msg.charAt(startpos + idx + 1);
-                        if (isPunctuation(next)) {
-                            submode = SUBMODE_PUNCTUATION;
-                            tmp.append((char)25); //pl
-                            continue;
-                        } else {
-                            tmp.append((char)29); //ps
-                            tmp.append((char)PUNCTUATION[ch]);
-                            break;
+                        if (startpos + idx + 1 < count) {
+                            char next = msg.charAt(startpos + idx + 1);
+                            if (isPunctuation(next)) {
+                                submode = SUBMODE_PUNCTUATION;
+                                tmp.append((char)25); //pl
+                                continue;
+                            }
                         }
+                        tmp.append((char)29); //ps
+                        tmp.append((char)PUNCTUATION[ch]);
                     }
                 }
                 break;
@@ -240,8 +240,8 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
     }
 
     /**
-     * Encode parts of the message using Byte Compaction as described in ISO/IEC 15438:2001(E), 
-     * chapter 4.4.3. The Unicode characters will be converted to to binary using the cp437 
+     * Encode parts of the message using Byte Compaction as described in ISO/IEC 15438:2001(E),
+     * chapter 4.4.3. The Unicode characters will be converted to to binary using the cp437
      * codepage.
      * @param msg the message
      * @param bytes the message converted to a byte array
@@ -253,14 +253,14 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
         if (count == 1 && startmode == TEXT_COMPACTION) {
             sb.append((char)SHIFT_TO_BYTE);
         } else {
-            boolean sixpack = ((count % 6) == 0); 
+            boolean sixpack = ((count % 6) == 0);
             if (sixpack) {
                 sb.append((char)LATCH_TO_BYTE);
             } else {
                 sb.append((char)LATCH_TO_BYTE_PADDED);
             }
         }
-        
+
         char[] chars = new char[5];
         int idx = startpos;
         while ((startpos + count - idx) >= 6) {
@@ -284,7 +284,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
             sb.append((char)ch);
         }
     }
-    
+
     public static void encodeNumeric(String msg, int startpos, int count, StringBuffer sb) {
         int idx = 0;
         StringBuffer tmp = new StringBuffer(count / 3 + 1);
@@ -300,7 +300,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
                 tmp.append((char)(c.intValue()));
                 bigint = bigint.divide(num900);
             } while (!bigint.equals(num0));
-            
+
             //Reverse temporary string
             for (int i = tmp.length() - 1; i >= 0; i--) {
                 sb.append(tmp.charAt(i));
@@ -312,28 +312,28 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
     private static boolean isDigit(char ch) {
         return ch >= '0' && ch <= '9';
     }
-    
+
     private static boolean isAlphaUpper(char ch) {
         return (ch == ' ' || (ch >= 'A' && ch <= 'Z'));
     }
-    
+
     private static boolean isAlphaLower(char ch) {
         return (ch == ' ' || (ch >= 'a' && ch <= 'z'));
     }
-    
+
     private static boolean isMixed(char ch) {
         return (MIXED[ch] != -1);
     }
-    
+
     private static boolean isPunctuation(char ch) {
         return (PUNCTUATION[ch] != -1);
     }
-    
+
     private static boolean isText(char ch) {
         return (ch == 9 //TAB
                 || ch == 10 //LF
                 || ch == 13 //CR
-                || (ch >= 32 && ch <= 126)); 
+                || (ch >= 32 && ch <= 126));
     }
     /*
     private boolean isByte(int pos) {
@@ -342,12 +342,12 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
         //other VMs do the same
         return (byteMap[pos] != 31 || ch == '?');
     }
-    
+
     private boolean isEncodableCharacter(int pos) {
         char ch = msg.charAt(pos);
         return isText(ch) || isByte(pos);
     }*/
-    
+
     /**
      * Determines the number of consecutive characters that are encodable using numeric compaction.
      * @param msg the message
@@ -359,7 +359,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
         int len = msg.length();
         int idx = startpos;
         if (idx < len) {
-            char ch = msg.charAt(idx); 
+            char ch = msg.charAt(idx);
             while (isDigit(ch) && idx < len) {
                 count++;
                 idx++;
@@ -381,7 +381,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
         int len = msg.length();
         int idx = startpos;
         while (idx < len) {
-            char ch = msg.charAt(idx); 
+            char ch = msg.charAt(idx);
             int numericCount = 0;
             while (numericCount < 13 && isDigit(ch) && idx < len) {
                 numericCount++;
@@ -395,10 +395,10 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
             }
             if (numericCount > 0) {
                 //Heuristic: All text-encodable chars or digits are binary encodable
-                continue;  
+                continue;
             }
             ch  = msg.charAt(idx);
-            
+
             //Check if character is encodable
             if (!isText(ch)) {
                 break;
@@ -419,10 +419,10 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
         int len = msg.length();
         int idx = startpos;
         while (idx < len) {
-            char ch = msg.charAt(idx); 
+            char ch = msg.charAt(idx);
             int numericCount = 0;
             int textCount = 0;
-            
+
             while (numericCount < 13 && isDigit(ch)) {
                 numericCount++;
                 //textCount++;
@@ -449,12 +449,12 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
                 return idx - startpos;
             }
             ch = msg.charAt(idx);
-            
+
             //Check if character is encodable
             //Sun returns a ASCII 63 (?) for a character that cannot be mapped. Let's hope all
             //other VMs do the same
             if (bytes[idx] == 63 && ch != '?') {
-                throw new IllegalArgumentException("Non-encodable character detected: " 
+                throw new IllegalArgumentException("Non-encodable character detected: "
                         + ch + " (Unicode: " + (int)ch + ")");
             }
             idx++;
@@ -462,5 +462,5 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
         return idx - startpos;
     }
 
-    
+
 }

@@ -60,6 +60,10 @@
     <!--
     -->
     <release version="dev">
+      <action dev="jmaerki" type="fix" context="code" fixes-bug="2482570">
+        Bugfix for an StringIndexOutOfBoundsException with PDF417 (single trailing punctuation
+        character in mixed sub-mode). 
+      </action>      
       <action dev="jmaerki" type="add" context="code">
         Added plug-ins for the image loading framework in Apache XML Graphics Commons. This
         enables, among other things, barcodes in Apache FOP for RTF output and for the new
