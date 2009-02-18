@@ -17,6 +17,7 @@
   &#60;<strong>code128</strong>&#62;
       &#60;height&#62;{<link href="barcode-xml.html#length">length</link>:15mm}&#60;/height&#62;
       &#60;module-width&#62;{<link href="barcode-xml.html#length">length</link>:0.21mm}&#60;/module-width&#62;
+      &#60;codesets&#62;{<link href="barcode-xml.html#string">string</link>:ABC}&#60;/codesets&#62;
       &#60;quiet-zone enabled="{<link href="barcode-xml.html#boolean">boolean</link>:true}"&#62;{<link href="barcode-xml.html#length">length</link>:10mw}&#60;/quiet-zone&#62;
       &#60;human-readable&#62;
         &#60;placement&#62;{<link href="barcode-xml.html#human-readable-placement">human-readable-placement</link>:bottom}&#60;/placement&#62;
@@ -30,6 +31,11 @@
       <title>Notes</title>
       <ul>
         <li>The height should be at least 0.15 times the barcode's length or 0.25 inches.</li>
+        <li>
+          Code 128 codesets can be restricted to A, B, C or a combination of the three. Example:
+          "AB" enables A and B. "C" just enables C and therefore only allows an even number of
+          digits.
+        </li>
       </ul>
     </section>
     <section>
