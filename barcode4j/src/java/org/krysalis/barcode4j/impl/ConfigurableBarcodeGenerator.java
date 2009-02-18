@@ -31,7 +31,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 /**
  * Base class for most Avalon-Configurable barcode implementation proxies.
  *
- * @version $Id: ConfigurableBarcodeGenerator.java,v 1.11 2008-11-11 13:34:25 jmaerki Exp $
+ * @version $Id: ConfigurableBarcodeGenerator.java,v 1.12 2009-02-18 16:22:24 jmaerki Exp $
  */
 public abstract class ConfigurableBarcodeGenerator
             implements BarcodeGenerator, Configurable {
@@ -71,30 +71,32 @@ public abstract class ConfigurableBarcodeGenerator
         elements.add("group-separator");
         elements.add("check-digit-marker");
         elements.add("omit-brackets");
-        elements.add("shape");
-        elements.add("row-height");
-        elements.add("columns");
-        elements.add("min-columns");
-        elements.add("max-columns");
-        elements.add("min-rows");
-        elements.add("max-rows");
-        elements.add("ec-level");
+        elements.add("shape"); //DataMatrix
+        elements.add("row-height"); //PDF417
+        elements.add("columns"); //PDF417
+        elements.add("min-columns"); //PDF417
+        elements.add("max-columns"); //PDF417
+        elements.add("min-rows"); //PDF417
+        elements.add("max-rows"); //PDF417
+        elements.add("ec-level"); //PDF417
         elements.add("width-to-height-ratio");
-        elements.add("min-symbol-size");
-        elements.add("max-symbol-size");
+        elements.add("min-symbol-size"); //DataMatrix
+        elements.add("max-symbol-size"); //DataMatrix
+        elements.add("codesets"); //Code128
         BARCODE_ELEMENTS = (String[])elements.toArray(new String[elements.size()]);
     }
 
     /** Proxy target. Barcode bean to configure. */
     protected AbstractBarcodeBean bean;
 
-    /**
-     * @see org.apache.avalon.framework.configuration.Configurable#configure(Configuration)
-     */
+    /** {@inheritDoc} */
     public void configure(Configuration cfg) throws ConfigurationException {
         //Height (must be evaluated after the font size because of setHeight())
-        Length h = new Length(cfg.getChild("height").getValue("15mm"), "mm");
-        getBean().setHeight(h.getValueAsMillimeter());
+        Configuration c = cfg.getChild("height", false);
+        if (c != null) {
+            Length h = new Length(c.getValue(), "mm");
+            getBean().setHeight(h.getValueAsMillimeter());
+        }
 
         //Quiet zone
         getBean().doQuietZone(cfg.getChild("quiet-zone").getAttributeAsBoolean("enabled", true));
@@ -129,8 +131,11 @@ public abstract class ConfigurableBarcodeGenerator
                 getBean().setMsgPosition(HumanReadablePlacement.byName(v));
             }
 
-            Length fs = new Length(hr.getChild("font-size").getValue("8pt"));
-            getBean().setFontSize(fs.getValueAsMillimeter());
+            c = hr.getChild("font-size", false);
+            if (c != null) {
+                Length fs = new Length(c.getValue());
+                getBean().setFontSize(fs.getValueAsMillimeter());
+            }
 
             getBean().setFontName(hr.getChild("font-name").getValue("Helvetica"));
 
@@ -144,8 +149,11 @@ public abstract class ConfigurableBarcodeGenerator
                 getBean().setMsgPosition(HumanReadablePlacement.byName(v));
             }
 
-            Length fs = new Length(cfg.getChild("human-readable-size").getValue("8pt"));
-            getBean().setFontSize(fs.getValueAsMillimeter());
+            c = cfg.getChild("human-readable-size", false);
+            if (c != null) {
+                Length fs = new Length(c.getValue());
+                getBean().setFontSize(fs.getValueAsMillimeter());
+            }
 
             getBean().setFontName(cfg.getChild("human-readable-font").getValue("Helvetica"));
         }

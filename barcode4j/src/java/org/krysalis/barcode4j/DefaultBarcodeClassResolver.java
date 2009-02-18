@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004,2006 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,9 +22,9 @@ import java.util.Set;
 
 /**
  * This is a simple implementation of a BarcodeClassResolver.
- * 
+ *
  * @author Jeremias Maerki
- * @version $Id: DefaultBarcodeClassResolver.java,v 1.11 2008-05-13 13:00:45 jmaerki Exp $
+ * @version $Id: DefaultBarcodeClassResolver.java,v 1.12 2009-02-18 16:22:24 jmaerki Exp $
  */
 public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
 
@@ -41,12 +41,14 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
         registerBarcodeClass("code39", "org.krysalis.barcode4j.impl.code39.Code39", true);
         registerBarcodeClass("code128", "org.krysalis.barcode4j.impl.code128.Code128", true);
         registerBarcodeClass("ean-128", "org.krysalis.barcode4j.impl.code128.EAN128", true);
-        registerBarcodeClass("ean128", "org.krysalis.barcode4j.impl.code128.EAN128", true);
+        registerBarcodeClass("ean128", "org.krysalis.barcode4j.impl.code128.EAN128");
         registerBarcodeClass("2of5", "org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5");
         registerBarcodeClass("intl2of5",
                 "org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5", true);
-        registerBarcodeClass("interleaved2of5", 
+        registerBarcodeClass("interleaved2of5",
                 "org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5");
+        registerBarcodeClass("itf-14", "org.krysalis.barcode4j.impl.int2of5.ITF14", true);
+        registerBarcodeClass("itf14", "org.krysalis.barcode4j.impl.int2of5.ITF14");
         registerBarcodeClass("ean-13", "org.krysalis.barcode4j.impl.upcean.EAN13", true);
         registerBarcodeClass("ean13", "org.krysalis.barcode4j.impl.upcean.EAN13");
         registerBarcodeClass("ean-8", "org.krysalis.barcode4j.impl.upcean.EAN8", true);
@@ -56,9 +58,9 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
         registerBarcodeClass("upc-e", "org.krysalis.barcode4j.impl.upcean.UPCE", true);
         registerBarcodeClass("upce", "org.krysalis.barcode4j.impl.upcean.UPCE");
         registerBarcodeClass("postnet", "org.krysalis.barcode4j.impl.postnet.POSTNET", true);
-        registerBarcodeClass("royal-mail-cbc", 
+        registerBarcodeClass("royal-mail-cbc",
                 "org.krysalis.barcode4j.impl.fourstate.RoyalMailCBC", true);
-        registerBarcodeClass("usps4cb", 
+        registerBarcodeClass("usps4cb",
         "org.krysalis.barcode4j.impl.fourstate.USPSIntelligentMail", true);
         registerBarcodeClass("pdf417", "org.krysalis.barcode4j.impl.pdf417.PDF417", true);
         registerBarcodeClass("datamatrix",
@@ -73,7 +75,7 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
     public void registerBarcodeClass(String id, String classname) {
         registerBarcodeClass(id, classname, false);
     }
-    
+
     /**
      * Registers a barcode implementation.
      * @param id short name to use as a key
@@ -120,7 +122,7 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
         Class cl = Class.forName(clazz + "Bean");
         return cl;
     }
-    
+
     /**
      * @see org.krysalis.barcode4j.BarcodeClassResolver#getBarcodeNames()
      */
