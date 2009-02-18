@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004,2007 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,8 +19,8 @@ import junit.framework.TestCase;
 
 /**
  * Test class for the Code128 message encoder implementations.
- * 
- * @version $Id: Code128EncoderTest.java,v 1.2 2007-07-13 11:14:29 jmaerki Exp $
+ *
+ * @version $Id: Code128EncoderTest.java,v 1.3 2009-02-18 16:09:03 jmaerki Exp $
  */
 public class Code128EncoderTest extends TestCase {
 
@@ -146,7 +146,7 @@ public class Code128EncoderTest extends TestCase {
 
     private String encodeToDebug(String msg, Code128Encoder encoder) {
         String s = visualize(encoder.encode(msg));
-        //System.out.println(s); 
+        //System.out.println(s);
         return s;
     }
 
@@ -208,12 +208,85 @@ public class Code128EncoderTest extends TestCase {
         assertTrue(
             "->C[37][10]->B0<FNC1>->C[31][1][0][2][0]".equals(eff)
             || "->C[37][10]->B0->C<FNC1>[31][1][0][2][0]".equals(eff));
-        eff = encodeToDebug("\u00f1020456789012341837100\u00f13101000200", encoder); 
+        eff = encodeToDebug("\u00f1020456789012341837100\u00f13101000200", encoder);
         assertTrue(
             "->C<FNC1>[2][4][56][78][90][12][34][18][37][10]->B0<FNC1>->C[31][1][0][2][0]".equals(eff)
             || "->C<FNC1>[2][4][56][78][90][12][34][18][37][10]->B0->C<FNC1>[31][1][0][2][0]".equals(eff));
         assertEquals(
                 "->C<FNC1>[2][4][56][78][90][12][34][18][37][10]<FNC1>[31][1][0][2][0]",
                 encodeToDebug("\u00f102045678901234183710\u00f13101000200", encoder));
+    }
+
+    public void testCodesets() throws Exception {
+        Code128Encoder encoder;
+
+        /*
+         * Testing codeset A
+         */
+        encoder = new DefaultCode128Encoder(Code128Constants.CODESET_A);
+        assertEquals("->AA*B*C*D", encodeToDebug("A*B*C*D", encoder));
+        assertEquals("->A1234567890", encodeToDebug("1234567890", encoder));
+        assertEquals("->AARTHUR<HT>DENT", encodeToDebug("ARTHUR\tDENT", encoder));
+        try {
+            encodeToDebug("ABCDEf", encoder);
+            fail("Expected to fail on characters from Codeset B");
+        } catch (IllegalArgumentException iae) {
+            //expected
+        }
+        try {
+            encodeToDebug("f1234567890", encoder);
+            fail("Expected to fail on characters from Codeset B");
+        } catch (IllegalArgumentException iae) {
+            //expected
+        }
+
+        /*
+         * Testing codeset B
+         */
+        encoder = new DefaultCode128Encoder(Code128Constants.CODESET_B);
+        assertEquals("->BA*B*C*D", encodeToDebug("A*B*C*D", encoder));
+        assertEquals("->Ba*b*c*d", encodeToDebug("a*b*c*d", encoder));
+        assertEquals("->B1234567890", encodeToDebug("1234567890", encoder));
+        try {
+            encodeToDebug("arthur\tDENT", encoder);
+            fail("Expected to fail on characters from Codeset A");
+        } catch (IllegalArgumentException iae) {
+            //expected
+        }
+
+        /*
+         * Testing codeset A + B
+         */
+        encoder = new DefaultCode128Encoder(
+                Code128Constants.CODESET_A | Code128Constants.CODESET_B);
+        assertEquals("->Barthur<SHIFT-A><HT>DENT", encodeToDebug("arthur\tDENT", encoder));
+        assertEquals("->B1234567890", encodeToDebug("1234567890", encoder));
+
+        /*
+         * Testing codeset C
+         */
+        encoder = new DefaultCode128Encoder(Code128Constants.CODESET_C);
+        try {
+            encodeToDebug("7483927d584f301g83755", encoder);
+            fail("Expected IllegalArgumentException for the Codeset B characters");
+        } catch (IllegalArgumentException iae) {
+            //expected
+        }
+        assertEquals("->C[74][83][92][75][84][30][18][37][55]",
+                encodeToDebug("748392758430183755", encoder));
+        try {
+            encodeToDebug("74839275843018375", encoder);
+            fail("Expected IllegalArgumentException for the odd number of digits");
+        } catch (IllegalArgumentException iae) {
+            //expected
+        }
+        encoder = new DefaultCode128Encoder(
+                Code128Constants.CODESET_A | Code128Constants.CODESET_C);
+        assertEquals("->A7->C[48][39][27][58][43][1][83][75]",
+                encodeToDebug("74839275843018375", encoder));
+        encoder = new DefaultCode128Encoder(
+                Code128Constants.CODESET_B | Code128Constants.CODESET_C);
+        assertEquals("->B7->C[48][39][27][58][43][1][83][75]",
+                encodeToDebug("74839275843018375", encoder));
     }
 }

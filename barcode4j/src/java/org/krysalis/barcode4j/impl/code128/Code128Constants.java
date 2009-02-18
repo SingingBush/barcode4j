@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2008 Jeremias Maerki.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,17 @@
 package org.krysalis.barcode4j.impl.code128;
 
 /**
- * This interface is implemented by classes that encode a Code128 message into
- * an integer array representing character set indexes.
- *
- * @author Jeremias Maerki
- * @version $Id: Code128Encoder.java,v 1.2 2009-02-18 16:09:05 jmaerki Exp $
+ * Constants for Code128.
  */
-public interface Code128Encoder {
+public interface Code128Constants {
 
-    /**
-     * Encodes a valid Code 128 message to an array of character set indexes.
-     * @param msg the message to encode
-     * @return the requested array of indexes
-     */
-    int[] encode(String msg);
+    /** Enables the codeset A */
+    int CODESET_A = 1;
+    /** Enables the codeset B */
+    int CODESET_B = 2;
+    /** Enables the codeset C */
+    int CODESET_C = 4;
+    /** Enables all codesets */
+    int CODESET_ALL = CODESET_A | CODESET_B | CODESET_C;
 
 }

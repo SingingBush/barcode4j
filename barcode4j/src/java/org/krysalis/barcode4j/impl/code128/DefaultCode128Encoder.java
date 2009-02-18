@@ -1,12 +1,12 @@
 /*
- * Copyright 2002-2004,2007 Jeremias Maerki.
- * 
+ * Copyright 2002-2004,2007-2009 Jeremias Maerki.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,14 +17,10 @@ package org.krysalis.barcode4j.impl.code128;
 
 /**
  * Default encoder algorithm for Code128 barcode messages.
- *  
- * @version $Id: DefaultCode128Encoder.java,v 1.4 2007-07-13 11:14:29 jmaerki Exp $
+ *
+ * @version $Id: DefaultCode128Encoder.java,v 1.5 2009-02-18 16:09:05 jmaerki Exp $
  */
-public class DefaultCode128Encoder implements Code128Encoder {
-
-    private static final int CODESET_A = 1;
-    private static final int CODESET_B = 2;
-    private static final int CODESET_C = 4;
+public class DefaultCode128Encoder implements Code128Encoder, Code128Constants {
 
     private static final int START_A = 103;
     private static final int START_B = 104;
@@ -35,7 +31,25 @@ public class DefaultCode128Encoder implements Code128Encoder {
     private static final int FNC_1 = 102;
     private static final int FNC_2 = 97;
     private static final int FNC_3 = 96;
+    private static final int FNC_4 = 0xF4;
     private static final int SHIFT = 98;
+
+    private int codesets;
+
+    /**
+     * Create a new encoder
+     * @param codesets the allowed codesets
+     */
+    public DefaultCode128Encoder(int codesets) {
+        this.codesets = codesets;
+    }
+
+    /**
+     * Default constructor allowing all codesets.
+     */
+    public DefaultCode128Encoder() {
+        this(Code128Constants.CODESET_ALL);
+    }
 
     private boolean needA(char c) {
         //Character can't be encoded in B
@@ -65,7 +79,7 @@ public class DefaultCode128Encoder implements Code128Encoder {
                 return 100;
             }
         }
-        //Convert normal characters 
+        //Convert normal characters
         if (codeset == CODESET_A) {
             if ((c >= 0) && (c < 32)) {
                 return c + 64;
@@ -85,9 +99,25 @@ public class DefaultCode128Encoder implements Code128Encoder {
         }
     }
 
+    private boolean isAllowed(int codeset) {
+        return ((this.codesets & codeset) != 0);
+    }
+
+    private boolean isAAllowed() {
+        return isAllowed(CODESET_A);
+    }
+
+    private boolean isBAllowed() {
+        return isAllowed(CODESET_B);
+    }
+
+    private boolean isCAllowed() {
+        return isAllowed(CODESET_C);
+    }
+
     /**
      * Encodes message using code set A, B and C. Tries to use as few characters
-     * as possibe 
+     * as possible.
      * @param message to encoded
      * @return array of code set caracters
      * @see org.krysalis.barcode4j.impl.code128.Code128Encoder#encode(java.lang.String)
@@ -111,7 +141,7 @@ public class DefaultCode128Encoder implements Code128Encoder {
             int saveChar = 0;
 
             boolean extraDigitAtEnd = false;
-            while (messagePos + countC < messageLength) {
+            while (isCAllowed() && messagePos + countC < messageLength) {
                 char character = message.charAt(messagePos + countC);
                 if (character >= '0' && character <= '9') {
 
@@ -239,27 +269,42 @@ public class DefaultCode128Encoder implements Code128Encoder {
         }
 
         int encodedPos = startEncodedPos;
+        boolean aUsed = false;
+        boolean bUsed = false;
 
         // determine to start with codeset A or B
-        boolean inB = true;
-        for (int messagePos = start; messagePos < finish; messagePos++) {
+        boolean inB = false;
+        if (isBAllowed()) {
+            inB = true;
+            for (int messagePos = start; messagePos < finish; messagePos++) {
 
-            char character = message.charAt(messagePos);
+                char character = message.charAt(messagePos);
 
-            if (needA(character)) {
-                inB = false;
-                break;
-            } else if (needB(character)) {
-                inB = true;
-                break;
+                if (needA(character)) {
+                    inB = false;
+                    break;
+                } else if (needB(character)) {
+                    inB = true;
+                    break;
+                }
+            }
+        } else if (!isAAllowed()) {
+            if (finish - start == 1) {
+                throw new IllegalArgumentException("The message has an odd number of digits."
+                        + " The number of digits must be even for Codeset C.");
+            } else {
+                throw new IllegalArgumentException(
+                    "Invalid characters found for Code 128 Codeset A or B which are disabled.");
             }
         }
 
         // start or switch to correct code set
         if (inB) {
             encoded[encodedPos++] = (start == 0) ? START_B : GOTO_B;
+            bUsed = true;
         } else {
             encoded[encodedPos++] = (start == 0) ? START_A : GOTO_A;
+            aUsed = true;
         }
 
         // iterate over characters in message
@@ -279,6 +324,7 @@ public class DefaultCode128Encoder implements Code128Encoder {
                     } else {
                         encoded[encodedPos++] = SHIFT;
                     }
+                    aUsed = true;
 
                     encoded[encodedPos++] = encodeAorB(character, CODESET_A);
                 } else {
@@ -297,6 +343,7 @@ public class DefaultCode128Encoder implements Code128Encoder {
                     } else {
                         encoded[encodedPos++] = SHIFT;
                     }
+                    bUsed = true;
 
                     encoded[encodedPos++] = encodeAorB(character, CODESET_B);
                 } else {
@@ -305,8 +352,17 @@ public class DefaultCode128Encoder implements Code128Encoder {
             }
         }
 
+        if (aUsed && !isAAllowed()) {
+            throw new IllegalArgumentException(
+                    "Invalid characters found for Code 128 Codeset A which is disabled.");
+        }
+        if (bUsed && !isBAllowed()) {
+            throw new IllegalArgumentException(
+                    "Invalid characters found for Code 128 Codeset B which is disabled.");
+        }
+
         // number of characters added
         return encodedPos - startEncodedPos;
-
     }
+
 }
