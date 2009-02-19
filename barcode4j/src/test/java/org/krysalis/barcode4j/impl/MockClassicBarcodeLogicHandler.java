@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004,2008 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,14 +21,15 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 /**
  * ClassicBarcodeHandler generating a String representation of the barcode for
  * easy verification in tests.
- * 
+ *
  * @author Jeremias Maerki
- * @version $Id: MockClassicBarcodeLogicHandler.java,v 1.4 2008-05-14 09:28:29 jmaerki Exp $
+ * @version $Id: MockClassicBarcodeLogicHandler.java,v 1.5 2009-02-19 10:14:54 jmaerki Exp $
  */
 public class MockClassicBarcodeLogicHandler
             implements ClassicBarcodeLogicHandler {
 
     private StringBuffer sb;
+    private boolean dumpBars = true;
     private boolean dumpHumanReadable;
 
     /**
@@ -36,7 +37,7 @@ public class MockClassicBarcodeLogicHandler
      * @param sb the StringBuffer receiving the serialized events.
      */
     public MockClassicBarcodeLogicHandler(StringBuffer sb) {
-        this(sb, false);
+        this(sb, true, false);
     }
 
     /**
@@ -45,7 +46,19 @@ public class MockClassicBarcodeLogicHandler
      * @param dumpHumanReadable true if the human-readable message should be included in the output
      */
     public MockClassicBarcodeLogicHandler(StringBuffer sb, boolean dumpHumanReadable) {
+        this(sb, true, dumpHumanReadable);
+    }
+
+    /**
+     * Creates a new instance.
+     * @param sb the StringBuffer receiving the serialized events.
+     * @param dumpBars true if the bars should be included in the output
+     * @param dumpHumanReadable true if the human-readable message should be included in the output
+     */
+    public MockClassicBarcodeLogicHandler(StringBuffer sb,
+            boolean dumpBars, boolean dumpHumanReadable) {
         this.sb = sb;
+        this.dumpBars = dumpBars;
         this.dumpHumanReadable = dumpHumanReadable;
     }
 
@@ -60,12 +73,14 @@ public class MockClassicBarcodeLogicHandler
 
     /** {@inheritDoc} */
     public void addBar(boolean black, int weight) {
-        if (black) {
-            sb.append("B");
-        } else {
-            sb.append("W");
+        if (dumpBars) {
+            if (black) {
+                sb.append("B");
+            } else {
+                sb.append("W");
+            }
+            sb.append(weight);
         }
-        sb.append(weight);
     }
 
     /** {@inheritDoc} */

@@ -1,12 +1,12 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
- * 
+ * Copyright 2002-2004,2009 Jeremias Maerki.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,26 +21,25 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 
 /**
  * This class is an implementation of the Interleaved 2 of 5 barcode.
- * 
- * @author Jeremias Maerki
- * @version $Id: Interleaved2Of5LogicImpl.java,v 1.2 2004-10-24 11:45:37 jmaerki Exp $
+ *
+ * @version $Id: Interleaved2Of5LogicImpl.java,v 1.3 2009-02-19 10:14:54 jmaerki Exp $
  */
 public class Interleaved2Of5LogicImpl {
 
-    private static final byte[][] CHARSET = {{1, 1, 2, 2, 1}, 
-                                             {2, 1, 1, 1, 2}, 
-                                             {1, 2, 1, 1, 2}, 
-                                             {2, 2, 1, 1, 1}, 
-                                             {1, 1, 2, 1, 2}, 
-                                             {2, 1, 2, 1, 1}, 
-                                             {1, 2, 2, 1, 1}, 
-                                             {1, 1, 1, 2, 2}, 
-                                             {2, 1, 1, 2, 1}, 
+    private static final byte[][] CHARSET = {{1, 1, 2, 2, 1},
+                                             {2, 1, 1, 1, 2},
+                                             {1, 2, 1, 1, 2},
+                                             {2, 2, 1, 1, 1},
+                                             {1, 1, 2, 1, 2},
+                                             {2, 1, 2, 1, 1},
+                                             {1, 2, 2, 1, 1},
+                                             {1, 1, 1, 2, 2},
+                                             {2, 1, 1, 2, 1},
                                              {1, 2, 1, 2, 1}};
 
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
     private boolean displayChecksum = false;
-    
+
     /**
      * Main constructor.
      * @param mode the checksum mode
@@ -61,7 +60,7 @@ public class Interleaved2Of5LogicImpl {
     }
 
     /**
-     * Calculates the checksum for a message to be encoded as an 
+     * Calculates the checksum for a message to be encoded as an
      * Interleaved 2 of 5 barcode. The algorithm is a weighted modulo 10 scheme.
      * @param msg message to calculate the check digit for
      * @param oddMultiplier multiplier to be used for odd positions (usually 3 or 4)
@@ -79,14 +78,16 @@ public class Interleaved2Of5LogicImpl {
             }
         }
         int check = 10 - ((evensum * oddMultiplier + oddsum * evenMultiplier) % 10);
-        if (check >= 10) check = 0;
+        if (check >= 10) {
+            check = 0;
+        }
         return Character.forDigit(check, 10);
     }
 
     /**
-     * Calculates the checksum for a message to be encoded as an 
+     * Calculates the checksum for a message to be encoded as an
      * Interleaved 2 of 5 barcode. The algorithm is a weighted modulo 10 scheme.
-     * This method uses the default specification 
+     * This method uses the default specification
      * (ITF-14, EAN-14, SSC-14, DUN14 and USPS).
      * @param msg message to calculate the check digit for
      * @return char the check digit
@@ -112,8 +113,8 @@ public class Interleaved2Of5LogicImpl {
             int width = CHARSET[digit][index];
             return width;
         } else {
-            throw new IllegalArgumentException("Invalid character '" + ch 
-                    + " (" + Character.getNumericValue(ch) 
+            throw new IllegalArgumentException("Invalid character '" + ch
+                    + " (" + Character.getNumericValue(ch)
                     + ")'. Expected a digit.");
         }
     }
@@ -122,7 +123,7 @@ public class Interleaved2Of5LogicImpl {
         if (group.length() != 2) {
             throw new IllegalArgumentException("Parameter group must have two characters");
         }
-        
+
         logic.startBarGroup(BarGroup.MSG_CHARACTER, group);
         for (int index = 0; index < 5; index++) {
             logic.addBar(true, widthAt(group.charAt(0), index));
@@ -130,9 +131,16 @@ public class Interleaved2Of5LogicImpl {
         }
         logic.endBarGroup();
     }
-    
-    private String handleChecksum(StringBuffer sb) {
-        if (getChecksumMode() == ChecksumMode.CP_ADD) {
+
+    /**
+     * Handles the checksum based on the given checksum mode. The checksum is either checked,
+     * ignored or attached to the given string buffer.
+     * @param sb the string buffer containing the message
+     * @param mode the checksum mode
+     * @return the updated string after checksum processing (for the human-readable part)
+     */
+    protected String doHandleChecksum(StringBuffer sb, ChecksumMode mode) {
+        if (mode == ChecksumMode.CP_ADD) {
             if (displayChecksum) {
                 sb.append(calcChecksum(sb.toString()));
                 return sb.toString();
@@ -141,11 +149,11 @@ public class Interleaved2Of5LogicImpl {
                 sb.append(calcChecksum(msg));
                 return msg;
             }
-        } else if (getChecksumMode() == ChecksumMode.CP_CHECK) {
+        } else if (mode == ChecksumMode.CP_CHECK) {
             if (!validateChecksum(sb.toString())) {
-                throw new IllegalArgumentException("Message '" 
+                throw new IllegalArgumentException("Message '"
                     + sb.toString()
-                    + "' has a bad checksum. Expected: " 
+                    + "' has a bad checksum. Expected: "
                     + calcChecksum(sb.substring(0, sb.length() - 1)));
             }
             if (displayChecksum) {
@@ -153,16 +161,29 @@ public class Interleaved2Of5LogicImpl {
             } else {
                 return sb.substring(0, sb.length() - 1);
             }
-        } else if (getChecksumMode() == ChecksumMode.CP_IGNORE) {
+        } else if (mode == ChecksumMode.CP_IGNORE) {
             return sb.toString();
-        } else if (getChecksumMode() == ChecksumMode.CP_AUTO) {
-            return sb.toString(); //equals ignore
         } else {
             throw new UnsupportedOperationException(
-                "Unknown checksum mode: " + getChecksumMode());
+                "Invalid checksum mode: " + getChecksumMode());
         }
     }
-    
+
+    /**
+     * Handles the checksum based on the checksum mode. The checksum is either checked, ignored
+     * or attached to the given string buffer.
+     * @param sb the string buffer containing the message
+     * @return the updated string after checksum processing (for the human-readable part)
+     */
+    protected String handleChecksum(StringBuffer sb) {
+        if (getChecksumMode() == ChecksumMode.CP_AUTO) {
+            //auto = ignore
+            return doHandleChecksum(sb, ChecksumMode.CP_IGNORE);
+        } else {
+            return doHandleChecksum(sb, getChecksumMode());
+        }
+    }
+
     /**
      * Generates the barcode logic.
      * @param logic the logic handler to receive generated events
@@ -172,7 +193,7 @@ public class Interleaved2Of5LogicImpl {
         //Checksum handling as requested
         StringBuffer sb = new StringBuffer(msg);
         String formattedMsg = handleChecksum(sb);
-        
+
         //Length must be even
         if ((sb.length() % 2) != 0) {
             sb.insert(0, '0');

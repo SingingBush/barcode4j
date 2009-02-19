@@ -31,7 +31,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 /**
  * Base class for most Avalon-Configurable barcode implementation proxies.
  *
- * @version $Id: ConfigurableBarcodeGenerator.java,v 1.12 2009-02-18 16:22:24 jmaerki Exp $
+ * @version $Id: ConfigurableBarcodeGenerator.java,v 1.13 2009-02-19 10:14:54 jmaerki Exp $
  */
 public abstract class ConfigurableBarcodeGenerator
             implements BarcodeGenerator, Configurable {
@@ -83,6 +83,8 @@ public abstract class ConfigurableBarcodeGenerator
         elements.add("min-symbol-size"); //DataMatrix
         elements.add("max-symbol-size"); //DataMatrix
         elements.add("codesets"); //Code128
+        elements.add("bearer-bar-width"); //ITF-14
+        elements.add("bearer-box"); //ITF-14
         BARCODE_ELEMENTS = (String[])elements.toArray(new String[elements.size()]);
     }
 

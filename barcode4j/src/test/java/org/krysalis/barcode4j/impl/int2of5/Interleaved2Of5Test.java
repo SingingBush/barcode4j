@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.krysalis.barcode4j.impl;
+package org.krysalis.barcode4j.impl.int2of5;
 
 import org.krysalis.barcode4j.ChecksumMode;
+import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5LogicImpl;
 
 import junit.framework.TestCase;
@@ -24,7 +25,7 @@ import junit.framework.TestCase;
  * Test class for the Interleaved 2 of 5 implementation.
  * 
  * @author Jeremias Maerki
- * @version $Id: Interleaved2Of5Test.java,v 1.5 2004-10-24 11:45:55 jmaerki Exp $
+ * @version $Id: Interleaved2Of5Test.java,v 1.1 2009-02-19 10:14:54 jmaerki Exp $
  */
 public class Interleaved2Of5Test extends TestCase {
 

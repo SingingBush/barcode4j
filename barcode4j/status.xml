@@ -60,6 +60,9 @@
     <!--
     -->
     <release version="dev">
+      <action dev="jmaerki" type="add" context="code" fixes-bug="1679185">
+        Added support for ITF-14.
+      </action>
       <action dev="jmaerki" type="add" context="code" fixes-bug="2113589" due-to="Thomas Jost" due-to-email="joscht.at.users.sourceforge.net">
         Added support for restricting Code128 codesets to A, B, C or a combination.
       </action>      

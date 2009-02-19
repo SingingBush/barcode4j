@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2005,2007 Jeremias Maerki
+ * Copyright 2002-2005,2007-2008 Jeremias Maerki.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,15 +26,18 @@ import org.krysalis.barcode4j.tools.MessagePatternUtil;
 /**
  * Default Logic Handler implementation for painting on a Canvas.
  *
- * @version $Id: DefaultCanvasLogicHandler.java,v 1.8 2008-05-13 13:00:45 jmaerki Exp $
+ * @version $Id: DefaultCanvasLogicHandler.java,v 1.9 2009-02-19 10:14:54 jmaerki Exp $
  */
 public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
 
-    private AbstractBarcodeBean bcBean;
-    private Canvas canvas;
+    /** the barcode bean */
+    protected AbstractBarcodeBean bcBean;
+    /** the canvas to paint on */
+    protected Canvas canvas;
+    /** the barcode dimensions */
+    protected BarcodeDimension dimensions;
     private double x = 0.0;
     private String formattedMsg;
-    private String lastgroup;
 
     /**
      * Main constructor.
@@ -46,7 +49,11 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
         this.canvas = canvas;
     }
 
-    private double getStartX() {
+    /**
+     * Returns the start X position of the bars.
+     * @return the start X position of the bars.
+     */
+    protected double getStartX() {
         if (bcBean.hasQuietZone()) {
             return bcBean.getQuietZone();
         } else {
@@ -54,60 +61,74 @@ public class DefaultCanvasLogicHandler implements ClassicBarcodeLogicHandler {
         }
     }
 
-    /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
+    /** {@inheritDoc} */
     public void startBarcode(String msg, String formattedMsg) {
         this.formattedMsg = MessagePatternUtil.applyCustomMessagePattern(
                 formattedMsg, bcBean.getPattern());
-        
-        //Calculate extents
-        BarcodeDimension dim = bcBean.calcDimensions(msg);
 
-        canvas.establishDimensions(dim);
+        //Calculate extents
+        this.dimensions = bcBean.calcDimensions(msg);
+
+        canvas.establishDimensions(dimensions);
         x = getStartX();
     }
 
-    /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
+    /** {@inheritDoc} */
     public void startBarGroup(BarGroup type, String submsg) {
-        this.lastgroup = submsg;
+        //nop
     }
 
-    /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
+    /**
+     * Returns the top position of the vertical bars.
+     * @return the top position of the vertical bars.
+     */
+    protected double getBarTopPosition() {
+        return 0;
+    }
+
+    /** {@inheritDoc} */
     public void addBar(boolean black, int width) {
         final double w = bcBean.getBarWidth(width);
         if (black) {
-            if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
-                canvas.drawRectWH(x, 0, w, bcBean.getHeight());
-            } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
-                canvas.drawRectWH(x, bcBean.getHumanReadableHeight(), w, bcBean.getBarHeight());
-            } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
-                canvas.drawRectWH(x, 0, w, bcBean.getBarHeight());
-            }
+            canvas.drawRectWH(x, getBarTopPosition(), w, bcBean.getBarHeight());
         }
         x += w;
     }
 
-    /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
+    /** {@inheritDoc} */
     public void endBarGroup() {
     }
 
-    /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
+    /** {@inheritDoc} */
     public void endBarcode() {
         if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
             //nop
-        } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
+        } else {
+            double ty = getTextBaselinePosition();
+            DrawingUtil.drawText(canvas, bcBean, formattedMsg,
+                    getStartX(), x, ty, TextAlignment.TA_CENTER);
+        }
+    }
+
+    /**
+     * Returns the vertical text baseline position.
+     * @return the vertical text baseline position
+     */
+    protected double getTextBaselinePosition() {
+        if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
             double ty = bcBean.getHumanReadableHeight();
             if (bcBean.hasFontDescender()) {
                 ty -= bcBean.getHumanReadableHeight() / 13 * 3;
             }
-            DrawingUtil.drawText(canvas, bcBean, formattedMsg,
-                    getStartX(), x, ty, TextAlignment.TA_CENTER);
+            return ty;
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
             double ty = bcBean.getHeight();
             if (bcBean.hasFontDescender()) {
                 ty -= bcBean.getHumanReadableHeight() / 13 * 3;
             }
-            DrawingUtil.drawText(canvas, bcBean, formattedMsg,
-                    getStartX(), x, ty, TextAlignment.TA_CENTER);
+            return ty;
+        } else {
+            throw new IllegalStateException("not applicable");
         }
     }
 
