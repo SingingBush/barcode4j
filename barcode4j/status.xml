@@ -61,6 +61,10 @@
     -->
     <release version="dev">
       <action dev="jmaerki" type="fix" context="code">
+        Adding a filter for non-printable ASCII characters for the human-readable part of Code128
+        so these characters don't mess it up.
+      </action>
+      <action dev="jmaerki" type="fix" context="code">
         Fixed a bug concerning size calculation for Code39.
       </action>
       <action dev="jmaerki" type="add" context="code" fixes-bug="1679185">

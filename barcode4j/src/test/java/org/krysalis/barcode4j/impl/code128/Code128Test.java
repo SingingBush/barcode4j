@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,16 +15,16 @@
  */
 package org.krysalis.barcode4j.impl.code128;
 
+import junit.framework.TestCase;
+
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.NullClassicBarcodeLogicHandler;
 
-import junit.framework.TestCase;
-
 /**
  * Test class for the Code128 implementation.
- * 
+ *
  * @author Jeremias Maerki
- * @version $Id: Code128Test.java,v 1.1 2007-07-11 06:41:00 jmaerki Exp $
+ * @version $Id: Code128Test.java,v 1.2 2009-02-20 13:07:20 jmaerki Exp $
  */
 public class Code128Test extends TestCase {
 
@@ -46,7 +46,7 @@ public class Code128Test extends TestCase {
         StringBuffer sb = new StringBuffer();
         Code128LogicImpl logic;
         String expected;
-        
+
         try {
             logic = new Code128LogicImpl();
             logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "123èöö2");
@@ -54,7 +54,7 @@ public class Code128Test extends TestCase {
         } catch (IllegalArgumentException iae) {
             //must fail
         }
-        
+
         logic = new Code128LogicImpl();
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "123");
         expected = "<BC>"
@@ -70,9 +70,31 @@ public class Code128Test extends TestCase {
         assertEquals(expected, sb.toString());
     }
 
+    public void testNonPrintableAscii() throws Exception {
+        StringBuffer sb = new StringBuffer();
+        String expected;
+        Code128LogicImpl logic = new Code128LogicImpl();
+        logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb, false, true),
+                "AA\rBB\tCC");
+        expected = "<BC:AA BB CC>"
+            + "<SBG:msg-char:StartA></SBG>"
+            + "<SBG:msg-char:idx33></SBG>"
+            + "<SBG:msg-char:idx33></SBG>"
+            + "<SBG:msg-char:idx77></SBG>"
+            + "<SBG:msg-char:idx34></SBG>"
+            + "<SBG:msg-char:idx34></SBG>"
+            + "<SBG:msg-char:idx73></SBG>"
+            + "<SBG:msg-char:idx35></SBG>"
+            + "<SBG:msg-char:idx35></SBG>"
+            + "<SBG:msg-char:idx54></SBG>"
+            + "<SBG:stop-char:null></SBG>"
+            + "</BC>";
+        assertEquals(expected, sb.toString());
+    }
+
     public void testBug942246() throws Exception {
         Code128LogicImpl logic = new Code128LogicImpl();
-        logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), 
+        logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(),
             "\u00f1020456789012341837100\u00f13101000200");
         //expect no failure
     }

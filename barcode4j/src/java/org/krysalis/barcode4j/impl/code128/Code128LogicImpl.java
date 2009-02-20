@@ -17,11 +17,12 @@ package org.krysalis.barcode4j.impl.code128;
 
 import org.krysalis.barcode4j.BarGroup;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
+import org.krysalis.barcode4j.tools.MessageUtil;
 
 /**
  * This class is an implementation of the Code 128 barcode.
  *
- * @version $Id: Code128LogicImpl.java,v 1.4 2009-02-18 16:09:05 jmaerki Exp $
+ * @version $Id: Code128LogicImpl.java,v 1.5 2009-02-20 13:07:21 jmaerki Exp $
  */
 public class Code128LogicImpl {
 
@@ -301,7 +302,7 @@ public class Code128LogicImpl {
      * @param msg the message to encode
      */
     public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
-        logic.startBarcode(msg, msg);
+        logic.startBarcode(msg, MessageUtil.filterNonPrintableCharacters(msg));
 
         int[] encodedMsg = createEncodedMessage(msg);
         for (int i = 0; i < encodedMsg.length; i++) {
