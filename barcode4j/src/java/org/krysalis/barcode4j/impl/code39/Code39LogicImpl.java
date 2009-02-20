@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,23 +21,23 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 
 /**
  * This class is an implementation of the Code39 barcode.
- * 
+ *
  * @author Jeremias Maerki
  * @todo Add ASCII-7bit encoding table
- * @version $Id: Code39LogicImpl.java,v 1.4 2008-05-14 09:28:26 jmaerki Exp $
+ * @version $Id: Code39LogicImpl.java,v 1.5 2009-02-20 09:33:43 jmaerki Exp $
  */
 public class Code39LogicImpl {
 
-    private static final char[] CHARACTERS = 
-                        {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
-                         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 
-                         'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 
-                         'U', 'V', 'W', 'X', 'Y', 'Z', 
+    private static final char[] CHARACTERS =
+                        {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                         'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+                         'U', 'V', 'W', 'X', 'Y', 'Z',
                          '-', '.', ' ', '$', '/', '+', '%', '*'};
 
     private static final char STARTSTOP = '*'; //Not used as normal character
 
-    private static final byte[][] CHARSET = 
+    private static final byte[][] CHARSET =
                         {{0, 0, 0, 1, 1, 0, 1, 0, 0}, //0
                          {1, 0, 0, 1, 0, 0, 0, 0, 1}, //1
                          {0, 0, 1, 1, 0, 0, 0, 0, 1}, //2
@@ -96,7 +96,7 @@ public class Code39LogicImpl {
      * @param displayChecksum Controls whether to display checksum
      *   in the human-readable message
      */
-    public Code39LogicImpl(ChecksumMode mode, boolean displayStartStop, 
+    public Code39LogicImpl(ChecksumMode mode, boolean displayStartStop,
                 boolean displayChecksum, boolean extendedCharSet) {
         this.checksumMode = mode;
         this.displayStartStop = displayStartStop;
@@ -121,8 +121,8 @@ public class Code39LogicImpl {
                     + "automatically added before and after the message.");
         }
     }
-    
-    private StringBuffer prepareMessage(String msg) {
+
+    StringBuffer prepareMessage(String msg) {
         if (this.extendedCharSet) {
             return escapeExtended(msg, null);
         } else {
@@ -134,9 +134,9 @@ public class Code39LogicImpl {
             }
         }
     }
-    
+
     /**
-     * Escapes US-ASCII characters as required for the extended character set for Code 39. 
+     * Escapes US-ASCII characters as required for the extended character set for Code 39.
      * @param msg the original message
      * @param sb the StringBuffer to write the escaped message to (or null)
      * @return a StringBuffer containing the escaped message
@@ -182,9 +182,9 @@ public class Code39LogicImpl {
         }
         return sb;
     }
-    
+
     /**
-     * Calculates the checksum for a message to be encoded as an 
+     * Calculates the checksum for a message to be encoded as an
      * Code39 barcode.
      * @param msg message to calculate the check digit for
      * @return char the check digit
@@ -266,7 +266,7 @@ public class Code39LogicImpl {
         //Add intercharacter gap (currently assumed to be narrow width)
         logic.addBar(false, -1); //-1 is special
     }
-        
+
     private String handleChecksum(StringBuffer sb) {
         if (getChecksumMode() == ChecksumMode.CP_ADD) {
             if (displayChecksum) {
@@ -279,9 +279,9 @@ public class Code39LogicImpl {
             }
         } else if (getChecksumMode() == ChecksumMode.CP_CHECK) {
             if (!validateChecksum(sb.toString())) {
-                throw new IllegalArgumentException("Message '" 
+                throw new IllegalArgumentException("Message '"
                     + sb.toString()
-                    + "' has a bad checksum. Expected: " 
+                    + "' has a bad checksum. Expected: "
                     + calcChecksum(sb.toString()));
             }
             if (displayChecksum) {
@@ -305,7 +305,7 @@ public class Code39LogicImpl {
      */
     public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
         StringBuffer sb = prepareMessage(msg);
-        
+
         //Checksum handling as requested
         String formattedMsg = handleChecksum(sb);
         String displayMsg;
@@ -327,7 +327,7 @@ public class Code39LogicImpl {
 
         for (int i = 0; i < sb.length(); i++) {
             addIntercharacterGap(logic);
-            
+
             final char ch = sb.charAt(i);
             if (!isValidChar(ch)) {
                 throw new IllegalArgumentException("Invalid character: " + ch);

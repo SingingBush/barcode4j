@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,9 +25,9 @@ import org.krysalis.barcode4j.output.CanvasProvider;
 
 /**
  * This class is an implementation of the Code39 barcode.
- * 
+ *
  * @author Jeremias Maerki
- * @version $Id: Code39Bean.java,v 1.8 2008-05-14 08:05:08 jmaerki Exp $
+ * @version $Id: Code39Bean.java,v 1.9 2009-02-20 09:33:43 jmaerki Exp $
  */
 public class Code39Bean extends AbstractBarcodeBean {
 
@@ -51,7 +51,7 @@ public class Code39Bean extends AbstractBarcodeBean {
         setQuietZone(10 * this.moduleWidth);
         setVerticalQuietZone(0); //1D barcodes don't have vertical quiet zones
     }
-    
+
     /**
      * Sets the checksum mode
      * @param mode the checksum mode
@@ -75,7 +75,7 @@ public class Code39Bean extends AbstractBarcodeBean {
     public double getIntercharGapWidth() {
         return this.intercharGapWidth;
     }
-    
+
     /**
      * Sets the width between encoded characters.
      * @param width the interchar gap width
@@ -83,7 +83,7 @@ public class Code39Bean extends AbstractBarcodeBean {
     public void setIntercharGapWidth(double width) {
         this.intercharGapWidth = width;
     }
-    
+
     /**
      * Returns the factor by which wide bars are broader than narrow bars.
      * @return the wide factor
@@ -91,7 +91,7 @@ public class Code39Bean extends AbstractBarcodeBean {
     public double getWideFactor() {
         return this.wideFactor;
     }
-    
+
     /**
      * Sets the factor by which wide bars are broader than narrow bars.
      * @param value the wide factory (should be > 1.0)
@@ -111,7 +111,7 @@ public class Code39Bean extends AbstractBarcodeBean {
     public boolean isDisplayStartStop() {
         return this.displayStartStop;
     }
-    
+
     /**
      * Enables or disables the use of the start and stop characters in the
      * human-readable message.
@@ -124,7 +124,7 @@ public class Code39Bean extends AbstractBarcodeBean {
             setDisplayChecksum(true);
         }
     }
-    
+
     /**
      * Indicates whether the checksum will be displayed as
      * part of the human-readable message.
@@ -133,11 +133,11 @@ public class Code39Bean extends AbstractBarcodeBean {
     public boolean isDisplayChecksum() {
         return this.displayChecksum;
     }
-    
+
     /**
      * Enables or disables the use of the checksum in the
      * human-readable message.
-     * @param value true to include the checksum in the human-readable message, 
+     * @param value true to include the checksum in the human-readable message,
      *   false to ignore
      */
     public void setDisplayChecksum(boolean value) {
@@ -146,7 +146,7 @@ public class Code39Bean extends AbstractBarcodeBean {
         }
         this.displayChecksum = value;
     }
-    
+
     /**
      * Indicates whether the extended character set is enabled.
      * @return true if the extended character set is enabled
@@ -154,7 +154,7 @@ public class Code39Bean extends AbstractBarcodeBean {
     public boolean isExtendedCharSetEnabled() {
         return this.extendedCharSet;
     }
-    
+
     /**
      * Enables or disables the extended character set. The extended character set enables
      * the whole ASCII 7-bit character set for Code39.
@@ -163,10 +163,8 @@ public class Code39Bean extends AbstractBarcodeBean {
     public void setExtendedCharSetEnabled(boolean value) {
         this.extendedCharSet = value;
     }
-    
-    /**
-     * @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarWidth(int)
-     */
+
+    /** {@inheritDoc} */
     public double getBarWidth(int width) {
         if (width == 1) {
             return moduleWidth;
@@ -174,38 +172,39 @@ public class Code39Bean extends AbstractBarcodeBean {
             return moduleWidth * wideFactor;
         } else if (width == -1) {
             return this.intercharGapWidth;
-        } else throw new IllegalArgumentException("Only widths 1 and 2 allowed");
+        } else {
+            throw new IllegalArgumentException("Only widths 1 and 2 allowed");
+        }
     }
-    
-    
-    /**
-     * @see org.krysalis.barcode4j.BarcodeGenerator#generateBarcode(CanvasProvider, String)
-     */
+
+    /** {@inheritDoc} */
     public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null) 
+        if ((msg == null)
                 || (msg.length() == 0)) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        ClassicBarcodeLogicHandler handler = 
+        ClassicBarcodeLogicHandler handler =
                 new DefaultCanvasLogicHandler(this, new Canvas(canvas));
 
-        Code39LogicImpl impl = new Code39LogicImpl(getChecksumMode(), 
-                isDisplayStartStop(), isDisplayChecksum(), isExtendedCharSetEnabled());
+        Code39LogicImpl impl = createLogicImpl();
         impl.generateBarcodeLogic(handler, msg);
     }
 
+    private Code39LogicImpl createLogicImpl() {
+        return new Code39LogicImpl(getChecksumMode(),
+                isDisplayStartStop(), isDisplayChecksum(), isExtendedCharSetEnabled());
+    }
 
-    /**
-     * @see org.krysalis.barcode4j.BarcodeGenerator#calcDimensions(String)
-     */
+    /** {@inheritDoc} */
     public BarcodeDimension calcDimensions(String msg) {
-        int msglen = msg.length();
-        final double width = ((msglen + 2) * (3 * wideFactor + 6) * moduleWidth) 
+        Code39LogicImpl impl = createLogicImpl();
+        int msglen = impl.prepareMessage(msg).length();
+        final double width = ((msglen + 2) * (3 * wideFactor + 6) * moduleWidth)
                 + ((msglen + 1) * intercharGapWidth);
         final double qz = (hasQuietZone() ? quietZone : 0);
-        return new BarcodeDimension(width, getHeight(), 
-                width + (2 * qz), getHeight(), 
+        return new BarcodeDimension(width, getHeight(),
+                width + (2 * qz), getHeight(),
                 quietZone, 0.0);
     }
 
