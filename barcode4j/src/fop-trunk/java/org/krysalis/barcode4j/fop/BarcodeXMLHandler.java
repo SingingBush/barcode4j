@@ -57,7 +57,7 @@ import org.apache.fop.render.ps.PSRendererContextConstants;
  * SVG or by rendering it directly to the output format.
  *
  * @author Jeremias Maerki
- * @version $Id: BarcodeXMLHandler.java,v 1.10 2008-12-10 15:52:37 jmaerki Exp $
+ * @version $Id: BarcodeXMLHandler.java,v 1.11 2009-02-20 09:34:26 jmaerki Exp $
  */
 public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants {
 
@@ -121,7 +121,7 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
         bargen.generateBarcode(canvas, msg);
         canvas.finish();
 
-        final BarcodeDimension barDim = bargen.calcDimensions(msg);
+        final BarcodeDimension barDim = canvas.getDimensions();
         float bw = (float)UnitConv.mm2pt(barDim.getWidthPlusQuiet(orientation));
         float bh = (float)UnitConv.mm2pt(barDim.getHeightPlusQuiet(orientation));
 
