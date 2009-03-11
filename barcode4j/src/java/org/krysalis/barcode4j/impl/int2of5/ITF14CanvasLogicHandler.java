@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ITF14CanvasLogicHandler.java,v 1.1 2009-02-19 10:14:54 jmaerki Exp $ */
+/* $Id: ITF14CanvasLogicHandler.java,v 1.2 2009-03-11 10:42:15 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.int2of5;
 
@@ -25,7 +25,7 @@ import org.krysalis.barcode4j.output.Canvas;
 /**
  * Specialized logic handler for ITF-14 (to paint the bearer bar).
  *
- * @version $Id: ITF14CanvasLogicHandler.java,v 1.1 2009-02-19 10:14:54 jmaerki Exp $
+ * @version $Id: ITF14CanvasLogicHandler.java,v 1.2 2009-03-11 10:42:15 jmaerki Exp $
  */
 public class ITF14CanvasLogicHandler extends DefaultCanvasLogicHandler {
 
@@ -69,12 +69,9 @@ public class ITF14CanvasLogicHandler extends DefaultCanvasLogicHandler {
     }
 
     /** {@inheritDoc} */
-    protected double getBarTopPosition() {
-        if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
-            return bcBean.getHumanReadableHeight() + getITF14Bean().getBearerBarWidth();
-        } else {
-            return getITF14Bean().getBearerBarWidth();
-        }
+    protected double getStartY() {
+        double y = super.getStartY() + getITF14Bean().getBearerBarWidth();
+        return y;
     }
 
     /** {@inheritDoc} */
