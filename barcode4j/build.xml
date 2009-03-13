@@ -10,7 +10,7 @@
   <property name="version" value="${barcode4j-version}"/>
   <property name="impl.vendor" value="The Barcode4J Project"/>
   <property name="impl.url" value="http://barcode4j.sourceforge.net"/>
-  <property name="year" value="2000-2008"/>
+  <property name="year" value="2000-2009"/>
   <property name="build.compiler" value="classic"/>
   <!--property name="debug" value="on"/>
   <property name="optimize" value="off"/>
