@@ -16,6 +16,8 @@ RedirectMatch Permanent ^/svg-dom(.*) http://barcode4j.sourceforge.net/1.0/svg-d
 RedirectMatch Permanent ^/xalan-ext(.*) http://barcode4j.sourceforge.net/1.0/xalan-ext$1
 RedirectMatch Permanent ^/xsl-fo(.*) http://barcode4j.sourceforge.net/1.0/xsl-fo$1
 
+Redirect Permanent /javadocs http://barcode4j.sourceforge.net/trunk/javadocs
+
 # redirect to versioned documentation
 Redirect Temp /stable http://barcode4j.sourceforge.net/2.0
 Redirect Temp /current http://barcode4j.sourceforge.net/2.0

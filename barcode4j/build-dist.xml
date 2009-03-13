@@ -28,8 +28,8 @@
   </target>
   <target name="website" depends="package, javadocs, applet, site" description="Creates the whole Barcode4J website in one run">
     <mkdir dir="${build.dir}/site"/>
-    <mkdir dir="${build.dir}/site/2.0/javadocs"/>
-    <copy todir="${build.dir}/site/2.0/javadocs">
+    <mkdir dir="${build.dir}/site/trunk/javadocs"/>
+    <copy todir="${build.dir}/site/trunk/javadocs">
       <fileset dir="${docs.dir}"/>
     </copy>
     <copy todir="${build.dir}/site">
@@ -48,9 +48,14 @@
     <sshexec host="shell.sourceforge.net" trust="yes" username="${ssh.uid}" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" command="echo 'Hello World'"/>
   </target>
   <target name="deploy-site" description="Deploys the website to SourceForge"><!-- depends="website"-->
+    <scp todir="${ssh.uid},barcode4j@web.sourceforge.net:htdocs" trust="yes" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" verbose="true">
+      <fileset dir="${build.dir}/site"/>
+    </scp>
+    <!-- old SF
     <scp file="${build.dir}/barcode4j-site.tar.gz" todir="${ssh.uid}@shell.sourceforge.net:/home/groups/b/ba/barcode4j/htdocs" trust="yes" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" verbose="true"/>
     <sshexec host="shell.sourceforge.net" trust="yes" username="${ssh.uid}" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" 
         command="cd /home/groups/b/ba/barcode4j/htdocs;gunzip barcode4j-site.tar.gz;tar xUvf barcode4j-site.tar;chgrp -R barcode4j *;chmod -R g+rwX *;rm barcode4j-site.tar"/>
+        -->
   </target>
   <!-- =================================================================== -->
   <!-- Distribution                                                        -->

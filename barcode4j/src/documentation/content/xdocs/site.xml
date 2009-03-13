@@ -131,7 +131,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     </barcode-xml>
     <output-formats label="Output Formats" href="output-formats.html"/>
     <design label="Design" href="design.html"/>
-    <!--javadocs label="Javadocs" href="ext:javadocs_2_0"/-->>
+    <javadocs label="Javadocs" href="ext:javadocs_trunk"/>
     <scenarios label="Scenarios">
       <xsl-fo label="XSL-FO" href="xsl-fo.html"/>
       <svg-dom label="SVG DOM" href="svg-dom.html"/>
@@ -162,9 +162,10 @@ See http://xml.apache.org/forrest/linking.html for more info
 
   <external-refs>
   	<mailing-lists href="http://sourceforge.net/mail/?group_id=96670"/>
-  	<javadocs_1_0 href="http://barcode4j.sourceforge.net/javadocs/index.html"/>
+  	<javadocs_1_0 href="http://barcode4j.sourceforge.net/1.0/javadocs/index.html"/>
     <javadocs_2_0 href="http://barcode4j.sourceforge.net/2.0/javadocs/index.html"/>
-  	<project-files href="http://sourceforge.net/project/showfiles.php?group_id=96670"/>
+    <javadocs_trunk href="http://barcode4j.sourceforge.net/trunk/javadocs/index.html"/>
+    <project-files href="http://sourceforge.net/project/showfiles.php?group_id=96670"/>
   	<krysalis-project-files href="http://sourceforge.net/project/showfiles.php?group_id=36516"/>
     <forrest href="http://forrest.apache.org/">
       <validation href="validation.html"/>
