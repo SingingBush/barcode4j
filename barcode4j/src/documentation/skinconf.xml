@@ -83,14 +83,14 @@ which will be used to configure the chosen Forrest skin.
 
   <!-- optional host logo (e.g. sourceforge logo)
        default skin: renders it at the bottom-left corner -->
-  <host-url>http://sourceforge.net</host-url>
-  <host-logo>http://sourceforge.net/sflogo.php?&amp;group_id=36516&amp;type=1</host-logo>
+  <host-url>http://sourceforge.net/projects/barcode4j</host-url>
+  <host-logo>http://sflogo.sourceforge.net/sflogo.php?group_id=96670&amp;type=12</host-logo>
 
   <!-- relative url of a favicon file, normally favicon.ico -->
   <favicon-url>images/favicon.ico</favicon-url>
 
   <!-- The following are used to construct a copyright statement -->
-  <year>2003-2008</year>
+  <year>2003-2009</year>
   <vendor>The Barcode4J Project.</vendor>
   <!-- The optional copyright-link URL will be used as a link in the
     copyright statement
@@ -105,7 +105,7 @@ which will be used to configure the chosen Forrest skin.
     For some skins just set the attributes to blank.
   -->
   <trail location="alt">
-    <link1 name="SourceForge Project Page" href="http://www.sf.net/projects/barcode4j/"/>
+    <link1 name="SourceForge Project Page" href="http://sourceforge.net/projects/barcode4j/"/>
     <link2 name="" href=""/>
     <link3 name="" href=""/>
   </trail>
@@ -240,6 +240,7 @@ which will be used to configure the chosen Forrest skin.
       <width>88</width>
       <height>31</height>
     </credit>
+    
     <!-- A credit with @role="pdf" will be used to compose a footer
      for each page in the PDF, using either "name" or "url" or both.
     -->
