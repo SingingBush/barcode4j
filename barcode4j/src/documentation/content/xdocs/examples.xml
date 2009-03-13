@@ -48,6 +48,11 @@
           <!--td><fork href="images/example-intl2of5.svg">view SVG version</fork></td-->
         </tr>
         <tr>
+          <td id="itf-14">ITF-14 (new)</td>
+          <td><img src="images/example-itf-14.png" alt="Sample ITF-14 (PNG)" width="20%"/></td>
+          <!--td><fork href="images/example-intl2of5.svg">view SVG version</fork></td-->
+        </tr>
+        <tr>
           <td id="code39">Code 39</td>
           <td><img src="images/example-code39.png" alt="Sample Code 39 barcode (PNG)"/></td>
           <!--td><fork href="images/example-code39.svg">view SVG version</fork></td-->
