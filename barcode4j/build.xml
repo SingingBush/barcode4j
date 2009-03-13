@@ -192,6 +192,7 @@
       <fileset dir="${fop.home}/lib">
         <include name="xmlgraphics-commons*.jar"/>
         <include name="batik*.jar"/>
+        <include name="commons-*.jar"/>
       </fileset>
       <fileset dir="${fop.home}/build">
         <include name="fop*.jar"/>
