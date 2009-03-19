@@ -60,6 +60,9 @@
     <!--
     -->
     <release version="dev">
+      <action dev="jmaerki" type="fix" context="code" fixes-bug="2688716" due-to="Chris Bowditch" due-to-email="cbowditch.at.users.sourceforge.net">
+        Fixed a NullPointerException in PreloaderBarcode.
+      </action>
       <action dev="jmaerki" type="fix" context="code">
         Adding a filter for non-printable ASCII characters for the human-readable part of Code128
         so these characters don't mess it up.
