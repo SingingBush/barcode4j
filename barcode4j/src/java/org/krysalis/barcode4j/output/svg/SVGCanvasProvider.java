@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004,2006,2008 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,9 +29,9 @@ import org.w3c.dom.Element;
 
 /**
  * Implementation that outputs to a W3C DOM.
- * 
+ *
  * @author Jeremias Maerki
- * @version $Id: SVGCanvasProvider.java,v 1.5 2008-05-13 13:00:45 jmaerki Exp $
+ * @version $Id: SVGCanvasProvider.java,v 1.6 2009-04-21 15:33:46 jmaerki Exp $
  */
 public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
 
@@ -45,7 +45,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public SVGCanvasProvider(String namespacePrefix, int orientation) 
+    public SVGCanvasProvider(String namespacePrefix, int orientation)
                 throws BarcodeCanvasSetupException {
         this(null, namespacePrefix, orientation);
     }
@@ -58,8 +58,8 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public SVGCanvasProvider(DOMImplementation domImpl, String namespacePrefix, 
-                    int orientation) 
+    public SVGCanvasProvider(DOMImplementation domImpl, String namespacePrefix,
+                    int orientation)
                 throws BarcodeCanvasSetupException {
         super(namespacePrefix, orientation);
         this.domImpl = domImpl;
@@ -72,7 +72,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public SVGCanvasProvider(boolean useNamespace, int orientation) 
+    public SVGCanvasProvider(boolean useNamespace, int orientation)
                 throws BarcodeCanvasSetupException {
         this(null, useNamespace, orientation);
     }
@@ -85,7 +85,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public SVGCanvasProvider(DOMImplementation domImpl, boolean useNamespace, int orientation) 
+    public SVGCanvasProvider(DOMImplementation domImpl, boolean useNamespace, int orientation)
                 throws BarcodeCanvasSetupException {
         super(useNamespace, orientation);
         this.domImpl = domImpl;
@@ -93,7 +93,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     }
 
     /**
-     * Creates a new SVGCanvasProvider with default settings (with namespaces, 
+     * Creates a new SVGCanvasProvider with default settings (with namespaces,
      * but without namespace prefix).
      * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
@@ -109,7 +109,8 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
 
         detailGroup = createElement("g");
         svg.appendChild(detailGroup);
-        detailGroup.setAttribute("style", "fill:black; stroke:none");
+        detailGroup.setAttribute("fill", "black");
+        detailGroup.setAttribute("stroke", "none");
     }
 
 
@@ -227,8 +228,9 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
             anchor = "middle";
             tx = x1 + (x2 - x1) / 2;
         }
-        el.setAttribute("style", "font-family:" + fontName + "; font-size:" 
-                    + getDecimalFormat().format(fontSize) + "; text-anchor:" + anchor);
+        el.setAttribute("font-family", fontName);
+        el.setAttribute("font-size", getDecimalFormat().format(fontSize));
+        el.setAttribute("text-anchor", anchor);
         el.setAttribute("x", getDecimalFormat().format(tx));
         el.setAttribute("y", getDecimalFormat().format(y1));
         if (textAlign == TextAlignment.TA_JUSTIFY) {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004,2006,2008 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,9 +25,9 @@ import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
 
 /**
  * SVG generating implementation that outputs to a JDOM.
- * 
+ *
  * @author Jeremias Maerki
- * @version $Id: JDOMSVGCanvasProvider.java,v 1.5 2008-05-13 13:00:44 jmaerki Exp $
+ * @version $Id: JDOMSVGCanvasProvider.java,v 1.6 2009-04-21 15:33:46 jmaerki Exp $
  */
 public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
 
@@ -59,7 +59,7 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     }
 
     /**
-     * Creates a new JDOMSVGCanvasProvider with default settings (with namespaces, 
+     * Creates a new JDOMSVGCanvasProvider with default settings (with namespaces,
      * but without namespace prefix).
      * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
@@ -85,7 +85,8 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
 
         detailGroup = new Element("g", ns);
         svg.addContent(detailGroup);
-        detailGroup.setAttribute("style", "fill:black; stroke:none");
+        detailGroup.setAttribute("fill", "black");
+        detailGroup.setAttribute("stroke", "none");
     }
 
     /**
@@ -127,8 +128,8 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
         Element svg = doc.getRootElement();
         svg.setAttribute("width", getDecimalFormat().format(dim.getWidthPlusQuiet()));
         svg.setAttribute("height", getDecimalFormat().format(dim.getHeightPlusQuiet()));
-        svg.setAttribute("viewBox", "0 0 " 
-                + getDecimalFormat().format(dim.getWidthPlusQuiet()) + " " 
+        svg.setAttribute("viewBox", "0 0 "
+                + getDecimalFormat().format(dim.getWidthPlusQuiet()) + " "
                 + getDecimalFormat().format(dim.getHeightPlusQuiet()));
     }
 
@@ -158,8 +159,9 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
             anchor = "middle";
             tx = x1 + (x2 - x1) / 2;
         }
-        el.setAttribute("style", "font-family:" + fontName + "; font-size:" 
-                    + getDecimalFormat().format(fontSize) + "; text-anchor:" + anchor);
+        el.setAttribute("font-family", fontName);
+        el.setAttribute("font-size", getDecimalFormat().format(fontSize));
+        el.setAttribute("text-anchor", anchor);
         el.setAttribute("x", getDecimalFormat().format(tx));
         el.setAttribute("y", getDecimalFormat().format(y1));
         if (textAlign == TextAlignment.TA_JUSTIFY) {

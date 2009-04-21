@@ -60,6 +60,9 @@
     <!--
     -->
     <release version="dev">
+      <action dev="jmaerki" type="fix" context="code">
+        Changed SVG production to make it compatible with Firefox (no use of CSS style attributes).
+      </action>
       <action dev="jmaerki" type="fix" context="code" fixes-bug="2688716" due-to="Chris Bowditch" due-to-email="cbowditch.at.users.sourceforge.net">
         Fixed a NullPointerException in PreloaderBarcode.
       </action>
