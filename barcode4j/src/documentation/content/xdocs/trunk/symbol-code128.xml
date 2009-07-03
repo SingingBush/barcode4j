@@ -46,6 +46,10 @@
           Functions 1 to 4 may be used. They are encoded as ASCII characters 
           0xF1 (241), 0xF2 (242), 0xF3 (243) and 0xF4 (244) in the message.
         </li>
+        <li>
+          Unlike with barcode fonts, the start, stop and checksum character shall NOT be part of
+          the message as they are added automatically.
+        </li>
       </ul>
     </section>
   </body>
