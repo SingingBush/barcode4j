@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * This class is an implementation of the EAN-13 barcode.
  * 
  * @author Jeremias Maerki
- * @version $Id: EAN13LogicImpl.java,v 1.2 2004-10-24 11:45:53 jmaerki Exp $
+ * @version $Id: EAN13LogicImpl.java,v 1.3 2009-07-03 06:23:49 jmaerki Exp $
  */
 public class EAN13LogicImpl extends UPCEANLogicImpl {
 
@@ -58,7 +58,7 @@ public class EAN13LogicImpl extends UPCEANLogicImpl {
         UPCEANLogicImpl.validateMessage(msg);
         if ((msg.length() < 12) || (msg.length() > 13)) {
             throw new IllegalArgumentException(
-                "Message must be 11 or 12 characters long. Message: " + msg);
+                "Message must be 12 or 13 characters long. Message: " + msg);
         }
     }
     

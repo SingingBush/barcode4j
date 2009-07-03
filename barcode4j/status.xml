@@ -60,6 +60,9 @@
     <!--
     -->
     <release version="dev">
+      <action dev="jmaerki" type="fix" context="code" fixes-bug="2815887" due-to="Chris Bowditch" due-to-email="cbowditch.at.users.sourceforge.net">
+        Fixed mistake in an error message of the EAN-13 implementation.
+      </action>
       <action dev="jmaerki" type="fix" context="code">
         Changed SVG production to make it compatible with Firefox (no use of CSS style attributes).
       </action>
