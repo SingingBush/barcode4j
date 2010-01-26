@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-/* $Id: PreloaderBarcode.java,v 1.2 2009-03-19 15:00:24 jmaerki Exp $ */
+/* $Id: PreloaderBarcode.java,v 1.3 2010-01-26 16:44:12 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.image.loader;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.transform.ErrorListener;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import org.krysalis.barcode4j.BarcodeConstants;
 import org.krysalis.barcode4j.BarcodeDimension;
@@ -39,6 +36,10 @@ import org.krysalis.barcode4j.fop.VariableUtil;
 import org.krysalis.barcode4j.tools.ConfigurationUtil;
 import org.krysalis.barcode4j.tools.MessageUtil;
 import org.w3c.dom.Document;
+
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -102,9 +103,12 @@ public class PreloaderBarcode extends AbstractImagePreloader {
             }
 
             return info;
-        } catch (TransformerException te) {
+        } catch (SAXException se) {
             resetInputStream(in);
             return null;
+        } catch (ParserConfigurationException pce) {
+            //Parser not available, propagate exception
+            throw new RuntimeException(pce);
         }
     }
 
@@ -160,32 +164,28 @@ public class PreloaderBarcode extends AbstractImagePreloader {
         }
     }
 
-    private Document getDocument(InputStream in) throws TransformerException {
-        TransformerFactory tFactory = TransformerFactory.newInstance();
-        //Custom error listener to minimize output to console
-        ErrorListener errorListener = new ErrorListener() {
+    private Document getDocument(InputStream in)
+            throws IOException, SAXException, ParserConfigurationException {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setNamespaceAware(true);
+        dbf.setValidating(false);
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        db.setErrorHandler(new ErrorHandler() {
 
-            public void error(TransformerException exception) throws TransformerException {
+            public void error(SAXParseException exception) throws SAXException {
                 throw exception;
             }
 
-            public void fatalError(TransformerException exception) throws TransformerException {
+            public void fatalError(SAXParseException exception) throws SAXException {
                 throw exception;
             }
 
-            public void warning(TransformerException exception) throws TransformerException {
-                //ignore
+            public void warning(SAXParseException exception) throws SAXException {
+                throw exception;
             }
 
-        };
-        tFactory.setErrorListener(errorListener);
-        Transformer transformer = tFactory.newTransformer();
-        transformer.setErrorListener(errorListener);
-        Source source = new StreamSource(in);
-        DOMResult res = new DOMResult();
-        transformer.transform(source, res);
-
-        Document doc = (Document)res.getNode();
+        });
+        Document doc = db.parse(in);
         return doc;
     }
 

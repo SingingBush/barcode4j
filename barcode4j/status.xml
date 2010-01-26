@@ -60,6 +60,10 @@
     <!--
     -->
     <release version="dev">
+      <action dev="jmaerki" type="fix" context="code">
+        Fixed stray "Content is not allowed in prolog" message caused by the PreloaderBarcode's
+        underlying XML parser by switching from Transformer to DocumentBuilder for XML loading.
+      </action>
       <action dev="jmaerki" type="fix" context="code" fixes-bug="2815887" due-to="Chris Bowditch" due-to-email="cbowditch.at.users.sourceforge.net">
         Fixed mistake in an error message of the EAN-13 implementation.
       </action>
