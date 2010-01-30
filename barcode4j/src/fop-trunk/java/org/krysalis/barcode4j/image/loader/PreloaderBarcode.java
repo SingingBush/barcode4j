@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: PreloaderBarcode.java,v 1.3 2010-01-26 16:44:12 jmaerki Exp $ */
+/* $Id: PreloaderBarcode.java,v 1.4 2010-01-30 21:25:50 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.image.loader;
 
@@ -83,7 +83,12 @@ public class PreloaderBarcode extends AbstractImagePreloader {
                 in = ImageUtil.needInputStream(src);
                 int length = in.available();
                 in.mark(length + 1);
-                doc = getDocument(new SubInputStream(in, Long.MAX_VALUE, false));
+                try {
+                    doc = getDocument(new SubInputStream(in, Long.MAX_VALUE, false));
+                } catch (IOException ioe) {
+                    resetInputStream(in);
+                    return null;
+                }
             }
             if (!BarcodeConstants.NAMESPACE.equals(
                     doc.getDocumentElement().getNamespaceURI())) {
