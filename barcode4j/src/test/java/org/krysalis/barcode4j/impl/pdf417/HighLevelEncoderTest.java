@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: HighLevelEncoderTest.java,v 1.7 2009-01-05 17:24:06 jmaerki Exp $ */
+/* $Id: HighLevelEncoderTest.java,v 1.8 2010-02-06 16:47:49 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -80,7 +80,7 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
     public void testEncodeText() throws Exception {
         String msg = "PDF417";
         StringBuffer sb = new StringBuffer();
-        PDF417HighLevelEncoder.encodeText(msg, 0, msg.length(), sb);
+        PDF417HighLevelEncoder.encodeText(msg, 0, msg.length(), sb, SUBMODE_ALPHA);
         String expected = "\u01c5\u00b2\u0079\u00ef";
         assertEquals(expected, sb.toString());
 
@@ -95,7 +95,7 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
 
         msg = "PDF417 Symbology Standard";
         sb.setLength(0);
-        PDF417HighLevelEncoder.encodeText(msg, 0, msg.length(), sb);
+        PDF417HighLevelEncoder.encodeText(msg, 0, msg.length(), sb, SUBMODE_ALPHA);
         //There was a bug with an endless loop here, just check that it doesn't hang.
     }
 
@@ -227,6 +227,26 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         String msg = "UNT+11+123'";
         String result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
         String expected = "613 598 601 50 32 119 869";
+        assertEquals(expected, result);
+    }
+
+    /**
+     * Tests bug https://sourceforge.net/tracker/?func=detail&atid=615504&aid=2804024&group_id=96670
+     * @throws Exception if an error occurs
+     */
+    public void testBug2804024() throws Exception {
+        String msg, result, expected;
+        msg = "5789\u001dB0KLT3215\u001e\u0004"; //good
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        expected = "901 53 55 56 57 29 900 58 28 311 598 92 35 901 30 4";
+        //latch to byte, 5 bytes, latch to text, 9 bytes, latch to byte, 2 bytes
+        assertEquals(expected, result);
+
+        msg = "45789\u001dB0KLT3215\u001e\u0004"; //bad
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        expected = "844 157 249 913 29 841 840 850 349 843 61 179 901 30 4";
+        //5 bytes in text, shift to byte, 1 byte, 9 bytes in text, latch to byte, 2 bytes
+        //Problem here was: shift to byte (913) does not reset text sub-mode!
         assertEquals(expected, result);
     }
 }

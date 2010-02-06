@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417HighLevelEncoder.java,v 1.6 2009-01-05 17:24:06 jmaerki Exp $ */
+/* $Id: PDF417HighLevelEncoder.java,v 1.7 2010-02-06 16:47:49 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -26,7 +26,7 @@ import java.util.Arrays;
  * PDF417 high-level encoder following the algorithm described in ISO/IEC 15438:2001(E) in
  * annex P.
  *
- * @version $Id: PDF417HighLevelEncoder.java,v 1.6 2009-01-05 17:24:06 jmaerki Exp $
+ * @version $Id: PDF417HighLevelEncoder.java,v 1.7 2010-02-06 16:47:49 jmaerki Exp $
  */
 public class PDF417HighLevelEncoder implements PDF417Constants {
 
@@ -82,11 +82,13 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
         int len = msg.length();
         int p = 0;
         int encodingMode = TEXT_COMPACTION; //Default mode, see 4.4.2.1
+        int textSubMode = SUBMODE_ALPHA;
         while (p < len) {
             int n = determineConsecutiveDigitCount(msg, p);
             if (n >= 13) {
                 sb.append((char)LATCH_TO_NUMERIC);
                 encodingMode = NUMERIC_COMPACTION;
+                textSubMode = SUBMODE_ALPHA; //Reset after latch
                 encodeNumeric(msg, p, n, sb);
                 p += n;
             } else {
@@ -94,9 +96,10 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
                 if (t >= 5 || n == len) {
                     if (encodingMode != TEXT_COMPACTION) {
                         sb.append((char)LATCH_TO_TEXT);
+                        encodingMode = TEXT_COMPACTION;
+                        textSubMode = SUBMODE_ALPHA; //start with submode alpha after latch
                     }
-                    encodingMode = TEXT_COMPACTION;
-                    encodeText(msg, p, t, sb);
+                    textSubMode = encodeText(msg, p, t, sb, textSubMode);
                     p += t;
                 } else {
                     if (bytes == null) {
@@ -107,11 +110,13 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
                         b = 1;
                     }
                     if (b == 1 && encodingMode == TEXT_COMPACTION) {
+                        //Switch for one byte (instead of latch)
                         encodeBinary(msg, bytes, p, b, encodingMode, sb);
                     } else {
                         //Mode latch performed by encodeBinary()
                         encodeBinary(msg, bytes, p, b, encodingMode, sb);
                         encodingMode = BYTE_COMPACTION;
+                        textSubMode = SUBMODE_ALPHA; //Reset after latch
                     }
                     p += b;
                 }
@@ -128,10 +133,13 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
      * @param startpos the start position within the message
      * @param count the number of characters to encode
      * @param sb receives the encoded codewords
+     * @param initialSubmode should normally be SUBMODE_ALPHA
+     * @return the text submode in which this method ends
      */
-    public static void encodeText(String msg, int startpos, int count, StringBuffer sb) {
+    public static int encodeText(String msg, int startpos, int count, StringBuffer sb,
+            int initialSubmode) {
         StringBuffer tmp = new StringBuffer(count);
-        int submode = SUBMODE_ALPHA;
+        int submode = initialSubmode;
         int idx = 0;
         while (true) {
             char ch = msg.charAt(startpos + idx);
@@ -237,6 +245,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
         if ((len % 2) != 0) {
             sb.append((char)((h * 30) + 29)); //ps
         }
+        return submode;
     }
 
     /**
@@ -247,9 +256,11 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
      * @param bytes the message converted to a byte array
      * @param startpos the start position within the message
      * @param count the number of bytes to encode
+     * @param startmode the mode from which this method starts
      * @param sb receives the encoded codewords
      */
-    public static void encodeBinary(String msg, byte[] bytes, int startpos, int count, int startmode, StringBuffer sb) {
+    public static void encodeBinary(String msg, byte[] bytes, int startpos, int count,
+            int startmode, StringBuffer sb) {
         if (count == 1 && startmode == TEXT_COMPACTION) {
             sb.append((char)SHIFT_TO_BYTE);
         } else {
