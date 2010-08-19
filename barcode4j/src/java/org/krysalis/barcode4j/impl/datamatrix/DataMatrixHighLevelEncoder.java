@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.16 2008-09-22 08:59:07 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.17 2010-08-19 13:49:30 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -29,7 +29,7 @@ import org.krysalis.barcode4j.tools.URLUtil;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  *
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.16 2008-09-22 08:59:07 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.17 2010-08-19 13:49:30 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
@@ -490,7 +490,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 sb.append('\1'); //Shift 2 Set
                 sb.append((char)(c - 91 + 22));
                 return 2;
-            } else if (c >= '\'' && c <= '\u007f') {
+            } else if (c >= '\u0060' && c <= '\u007f') {
                 sb.append('\2'); //Shift 3 Set
                 sb.append((char)(c - 96));
                 return 2;
@@ -548,7 +548,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 sb.append('\1'); //Shift 2 Set
                 sb.append((char)(c - 91 + 22));
                 return 2;
-            } else if (c == '\'') {
+            } else if (c == '\u0060') {
                 sb.append('\2'); //Shift 3 Set
                 sb.append((char)(c - 96));
                 return 2;
@@ -566,7 +566,8 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 len += encodeChar((char)(c - 128), sb);
                 return len;
             } else {
-                throw new IllegalArgumentException("Illegal character: " + c);
+                illegalCharacter(c);
+                return -1;
             }
         }
 
@@ -615,7 +616,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             } else if (c >= 'A' && c <= 'Z') {
                 sb.append((char)(c - 65 + 14));
             } else {
-                throw new IllegalArgumentException("Illegal character: " + c);
+                illegalCharacter(c);
             }
             return 1;
         }
@@ -726,7 +727,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             } else if (c >= '@' && c <= '^') {
                 sb.append((char)(c - 64));
             } else {
-                throw new IllegalArgumentException("Illegal character: " + c);
+                illegalCharacter(c);
             }
         }
 
@@ -1077,6 +1078,14 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             }
         }
         return count;
+    }
+
+    private static void illegalCharacter(char c) {
+        String hex = Integer.toHexString(c);
+        final String padding = "0000";
+        hex = padding.substring(0, 4 - hex.length()) + hex;
+        throw new IllegalArgumentException("Illegal character: " + c
+                + " (0x" + hex + ")");
     }
 
 }

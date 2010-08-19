@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncodeTest.java,v 1.11 2008-09-15 07:10:31 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncodeTest.java,v 1.12 2010-08-19 13:49:29 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -28,7 +28,7 @@ import org.krysalis.barcode4j.tools.TestHelper;
 /**
  * Tests for the high-level encoder.
  *
- * @version $Id: DataMatrixHighLevelEncodeTest.java,v 1.11 2008-09-15 07:10:31 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncodeTest.java,v 1.12 2010-08-19 13:49:29 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncodeTest extends TestCase {
 
@@ -324,6 +324,16 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
 
         visualized = encodeHighLevel("CREX-TAN:hhh");
         assertEquals("240 13 33 88 181 64 78 124 59 105 105 105", visualized);
+    }
+
+    public void testBug3048549() throws Exception {
+        String visualized;
+        //There was an IllegalArgumentException for an illegal character here because
+        //of an encoding problem of the character 0x0060 in Java source code.
+
+        visualized = encodeHighLevel("fiykmj*Rh2`,e6");
+        assertEquals("239 122 87 154 40 7 171 115 207 12 130 71 155 254 129 237", visualized);
+
     }
 
     public void testMacroCharacters() throws Exception {

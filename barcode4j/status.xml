@@ -60,6 +60,9 @@
     <!--
     -->
     <release version="dev">
+      <action dev="jmaerki" type="fix" context="code" fixes-bug="3048549">
+        Bugfix for DataMatrix when character 0x0060 (&#x0060;) is encountered. 
+      </action>
       <action dev="jmaerki" type="fix" context="code" fixes-bug="2804024">
         Fixed PDF417 high-level encoding: shift to byte must not reset text encoding's sub-mode.
       </action>
