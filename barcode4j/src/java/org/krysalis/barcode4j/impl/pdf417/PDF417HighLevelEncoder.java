@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417HighLevelEncoder.java,v 1.7 2010-02-06 16:47:49 jmaerki Exp $ */
+/* $Id: PDF417HighLevelEncoder.java,v 1.8 2010-08-19 13:52:22 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -26,7 +26,7 @@ import java.util.Arrays;
  * PDF417 high-level encoder following the algorithm described in ISO/IEC 15438:2001(E) in
  * annex P.
  *
- * @version $Id: PDF417HighLevelEncoder.java,v 1.7 2010-02-06 16:47:49 jmaerki Exp $
+ * @version $Id: PDF417HighLevelEncoder.java,v 1.8 2010-08-19 13:52:22 jmaerki Exp $
  */
 public class PDF417HighLevelEncoder implements PDF417Constants {
 
@@ -250,7 +250,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
 
     /**
      * Encode parts of the message using Byte Compaction as described in ISO/IEC 15438:2001(E),
-     * chapter 4.4.3. The Unicode characters will be converted to to binary using the cp437
+     * chapter 4.4.3. The Unicode characters will be converted to binary using the cp437
      * codepage.
      * @param msg the message
      * @param bytes the message converted to a byte array
