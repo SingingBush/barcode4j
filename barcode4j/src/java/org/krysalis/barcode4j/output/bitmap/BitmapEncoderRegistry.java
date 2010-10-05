@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,17 +20,17 @@ import java.util.Set;
 
 /**
  * Registry class for BitmapEncoders.
- * 
+ *
  * @author Jeremias Maerki
- * @version $Id: BitmapEncoderRegistry.java,v 1.2 2004-09-04 20:25:54 jmaerki Exp $
+ * @version $Id: BitmapEncoderRegistry.java,v 1.3 2010-10-05 06:57:44 jmaerki Exp $
  */
 public class BitmapEncoderRegistry {
 
     private static Set encoders = new java.util.TreeSet();
 
     static {
-        register("org.krysalis.barcode4j.output.bitmap.SunJPEGBitmapEncoder", 0,  false);
-        register("org.krysalis.barcode4j.output.bitmap.ImageIOBitmapEncoder", 50, false);
+        register(org.krysalis.barcode4j.output.bitmap.ImageIOBitmapEncoder.class.getName(),
+                0, false);
     }
 
     /**
@@ -39,26 +39,25 @@ public class BitmapEncoderRegistry {
     protected BitmapEncoderRegistry() {
         throw new UnsupportedOperationException();
     }
-    
+
     private static class Entry implements Comparable {
         private BitmapEncoder encoder;
         private int priority;
-        
+
         public Entry(BitmapEncoder encoder, int priority) {
             this.encoder = encoder;
             this.priority = priority;
         }
-        
-        /**
-         * @see java.lang.Comparable#compareTo(java.lang.Object)
-         */
+
+        /** {@inheritDoc} */
         public int compareTo(Object o) {
             Entry e = (Entry)o;
             return e.priority - this.priority; //highest priority first
         }
+
     }
-    
-    private static void register(String classname, int priority, boolean complain) {
+
+    private static synchronized void register(String classname, int priority, boolean complain) {
         boolean failed = false;
         try {
             Class clazz = Class.forName(classname);
@@ -82,10 +81,10 @@ public class BitmapEncoderRegistry {
 
     /**
      * Register a new BitmapEncoder implementation.
-     * @param classname fully qualified classname of the BitmapEncoder 
+     * @param classname fully qualified classname of the BitmapEncoder
      *      implementation
      * @param priority lets you define a priority for an encoder. If you want
-     *      to give an encoder a high priority, assign a value of 100 or higher. 
+     *      to give an encoder a high priority, assign a value of 100 or higher.
      */
     public static void register(String classname, int priority) {
         register(classname, priority, true);
