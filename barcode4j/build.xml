@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<project default="all" basedir="."
- 		xmlns:ivy="antlib:fr.jayasoft.ivy.ant">
+<project default="all" basedir=".">
   <property file="build.properties"/>
   <property file="build-local.properties"/>
   <property environment="env"/>
@@ -10,16 +9,10 @@
   <property name="version" value="${barcode4j-version}"/>
   <property name="impl.vendor" value="The Barcode4J Project"/>
   <property name="impl.url" value="http://barcode4j.sourceforge.net"/>
-  <property name="year" value="2000-2009"/>
+  <property name="year" value="2000-2010"/>
   <property name="build.compiler" value="classic"/>
-  <!--property name="debug" value="on"/>
-  <property name="optimize" value="off"/>
-  <property name="deprecation" value="on"/-->
-  <property name="javac.source" value="1.3"/>
-  <property name="javac.target" value="1.3"/>
   <property name="src.dir" value="${basedir}/src"/>
   <property name="src.java.dir" value="${src.dir}/java"/>
-  <property name="src.java14.dir" value="${src.dir}/java-1.4"/>
   <property name="src.test.java.dir" value="${src.dir}/test/java"/>
   <property name="src.conf.dir" value="${src.dir}/conf"/>
   <property name="src.test" value="${basedir}/src/test"/>
@@ -37,6 +30,7 @@
   <property name="src.fop-trunk.dir" value="${fop-trunk.ext.dir}/java"/>
   <property name="build.dest.fop-0.20.5" value="${build.dir}/fop-0.20.5/classes"/>
   <property name="build.dest.fop-trunk" value="${build.dir}/fop-trunk/classes"/>
+  <property name="build.dotnet.dir" value="${build.dir}/dotnet"/>
   <property name="xalan.dir" value="${src.dir}/xalan"/>
   <property name="saxon6.dir" value="${src.dir}/saxon"/>
   <property name="saxon8.dir" value="${src.dir}/saxon8"/>
@@ -47,14 +41,11 @@
   <property name="ikvm.dir" value="."/>
   <property name="ikvmc" value="${ikvm.dir}/bin/ikvmc.exe"/>
 	
-  <property name="ivy.install.version" value="1.4.1" />
-  <condition property="ivy.home" value="${env.IVY_HOME}">
-    <isset property="env.IVY_HOME" />
-  </condition>
-  <property name="ivy.home" value="${user.home}/.ivy" />
-  <property name="ivy.jar.dir" value="${ivy.home}/jars" />
-  <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
-
+  <presetdef name="javac">
+    <javac debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
+      source="${javac.source}" target="${javac.target}" encoding="${encoding}"/>
+  </presetdef>
+  
   <!-- jars -->
   <path id="project.classpath">
     <fileset dir="${lib.dir}">
@@ -78,29 +69,6 @@
   </path>
 
   <!-- =================================================================== -->
-  <!-- Ivy setup                                                           -->
-  <!-- =================================================================== -->
-  <target name="download-ivy" unless="offline">
-    <mkdir dir="${ivy.jar.dir}"/>
-    <!-- download Ivy from web site so that it can be used even without any special installation -->
-    <get src="http://www.jayasoft.org/downloads/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar"
-        dest="${ivy.jar.file}" usetimestamp="true"/>
-  </target>
-
-  <target name="init-ivy" depends="download-ivy">
-  <!-- try to load ivy here from ivy home, in case the user has not already dropped
-            it into ant's lib dir (note that the latter copy will always take precedence).
-            We will not fail as long as local lib dir exists (it may be empty) and
-            ivy is in at least one of ant's lib dir or the local lib dir. -->
-    <path id="ivy.lib.path">
-      <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
-    </path>
-    <taskdef resource="fr/jayasoft/ivy/ant/antlib.xml"
-            uri="antlib:fr.jayasoft.ivy.ant" classpathref="ivy.lib.path"/>
-    <ivy:resolve/>
-  </target>	
-  
-  <!-- =================================================================== -->
   <!-- Initialization target                                               -->
   <!-- =================================================================== -->
   <target name="pre-init">
@@ -114,11 +82,6 @@
       <format property="ts" pattern="yyyyMMdd-HHmmss-z"/>
     </tstamp>
   </target>    
-  <target name="ivy-fop" depends="pre-init, init-ivy">
-    <property name="build.fop0205.lib" value="${build.dir}/ext/fop-0.20.5/lib"/>
-	<mkdir dir="${build.fop0205.lib}"/>
-    <ivy:retrieve pattern="${build.fop0205.lib}/[artifact].[ext]" conf="fop-0.20.5-extension"/>
-  </target>
   <target name="init" depends="pre-init">
     <available property="junit.present" classname="junit.framework.TestCase"
         classpathref="project.classpath"/>
@@ -148,7 +111,7 @@
     <condition property="init.fop-trunk">
       <isset property="fop.home"/>
     </condition>
-  	
+
     <condition property="IKVM.present">
       <and>
         <available file="${ikvmc}"/>
@@ -205,6 +168,11 @@
       </and>
     </condition>
   </target>
+  <target name="info.jdk14" unless="jdk14.present">
+    <echo message="===================================================================="/>
+    <echo message="Barcode4J requires at least Java 1.4"/>
+    <echo message="===================================================================="/>
+  </target>
   <target name="info.xalan" depends="init" unless="xalan.present">
     <echo message="===================================================================="/>
     <echo message="You can enable compilation of the Xalan-J XSLT extension by adding"/>
@@ -250,26 +218,19 @@
   <!-- =================================================================== -->
   <!-- Prepares the build directory                                        -->
   <!-- =================================================================== -->
-  <target name="echo-jdk14" if="jdk14.present">
-    <echo message="JDK 1.4 present."/>
-  </target>
-  <target name="prepare" depends="init, init.fop-0.20.5, info.fop-0.20.5, init.fop-trunk, info.fop-trunk, info.xalan, info.saxon6, info.saxon8, info.jdom, info.ikvm">
+  <target name="prepare" depends="init, info.jdk14, init.fop-0.20.5, info.fop-0.20.5, init.fop-trunk, info.fop-trunk, info.xalan, info.saxon6, info.saxon8, info.jdom, info.ikvm">
     <!-- create directories -->
     <echo message="Preparing the build directories"/>
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.dest}"/>
     <mkdir dir="${resource-jar.dir}"/>
-    <!-- echo options -->
-    <antcall target="echo-jdk14"/>
   </target>
   <!-- =================================================================== -->
   <!-- Compiles the source directory                                       -->
   <!-- =================================================================== -->
-  <target name="compile-jdk13" depends="prepare">
+  <target name="compile" depends="prepare">
     <echo message="Compiling the core sources"/>
-    <javac srcdir="${src.java.dir}" destdir="${build.dest}"
-      	debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
+    <javac srcdir="${src.java.dir}" destdir="${build.dest}">
       <classpath refid="project.classpath"/>
     </javac>
   <copy todir="${build.dest}" >
@@ -279,15 +240,7 @@
     </fileset>
   </copy>
   </target>
-  <target name="compile-jdk14" depends="prepare" if="jdk14.present">
-    <echo message="Compiling the JDK-1.4-dependant sources"/>
-    <javac srcdir="${src.java14.dir}" destdir="${build.dest}"
-        debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
-      <classpath refid="project.classpath"/>
-    </javac>
-  </target>
-  <target name="compile-xalan" depends="compile-jdk13" if="xalan.present">
+  <target name="compile-xalan" depends="compile" if="xalan.present">
     <echo message="Compiling the Apache Xalan-J extension"/>
     <javac srcdir="${xalan.dir}/java" destdir="${build.dest}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
@@ -295,7 +248,7 @@
       <classpath refid="project.classpath"/>
     </javac>
   </target>
-  <target name="compile-saxon6" depends="compile-jdk13" if="saxon6.present">
+  <target name="compile-saxon6" depends="compile" if="saxon6.present">
     <echo message="Compiling the SAXON 6.5.x extension"/>
     <javac srcdir="${saxon6.dir}/java" destdir="${build.dest}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
@@ -303,7 +256,7 @@
       <classpath refid="project.classpath"/>
     </javac>
   </target>
-  <target name="compile-saxon8" depends="compile-jdk13" if="saxon8.present">
+  <target name="compile-saxon8" depends="compile" if="saxon8.present">
     <echo message="Compiling the SAXON 8.x extension"/>
     <javac srcdir="${saxon8.dir}/java" destdir="${build.dest}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
@@ -311,7 +264,7 @@
       <classpath refid="project.classpath"/>
     </javac>
   </target>
-  <target name="compile-jdom" depends="compile-jdk13" if="jdom.present">
+  <target name="compile-jdom" depends="compile" if="jdom.present">
     <echo message="Compiling the JDOM-related classes"/>
     <javac srcdir="${jdom.dir}/java" destdir="${build.dest}"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
@@ -319,7 +272,7 @@
       <classpath refid="project.classpath"/>
     </javac>
   </target>
-  <target name="compile-fop-0.20.5" depends="compile-jdk13" if="fop-0.20.5.present">
+  <target name="compile-fop-0.20.5" depends="compile" if="fop-0.20.5.present">
     <echo message="Compiling the Apache FOP 0.20.5 extension"/>
     <mkdir dir="${build.dest.fop-0.20.5}"/>
     <javac srcdir="${src.fop-0.20.5.dir}" destdir="${build.dest.fop-0.20.5}"
@@ -331,7 +284,7 @@
       </classpath>
     </javac>
   </target>
-  <target name="compile-fop-trunk" depends="compile-jdk13" if="fop-trunk.present">
+  <target name="compile-fop-trunk" depends="compile" if="fop-trunk.present">
     <echo message="Compiling the Apache FOP Trunk extension"/>
     <mkdir dir="${build.dest.fop-trunk}"/>
     <javac srcdir="${src.fop-trunk.dir}" destdir="${build.dest.fop-trunk}"
@@ -343,7 +296,7 @@
       </classpath>
     </javac>
   </target>
-  <target name="compile" depends="compile-jdk13, compile-jdk14, compile-xalan, compile-saxon6, compile-saxon8, compile-jdom, compile-fop-0.20.5, compile-fop-trunk" description="Compiles the sources"/>
+  <target name="compile-all" depends="compile, compile-xalan, compile-saxon6, compile-saxon8, compile-jdom, compile-fop-0.20.5, compile-fop-trunk" description="Compiles the sources"/>
   <!-- =================================================================== -->
   <!-- Creates Java docs                                                   -->
   <!-- =================================================================== -->
@@ -374,7 +327,7 @@
   <!-- =================================================================== -->
   <!-- Creates the class package                                           -->
   <!-- =================================================================== -->
-  <target name="package-base" depends="compile">
+  <target name="package-base" depends="compile-all">
     <echo message="Creating the jar file ${build.dir}/${name}.jar"/>
     
     <!--pathconvert property="manifest-classpath" dirsep="/" pathsep=" " refid="project.classpath">
@@ -434,7 +387,7 @@
       </fileset>
     </jar>
   </target>
-  <target name="package-fop-0.20.5" depends="compile" if="fop-0.20.5.present">
+  <target name="package-fop-0.20.5" depends="compile-all" if="fop-0.20.5.present">
     <echo message="Creating the jar file ${build.dir}/${name}-fop-ext-0.20.5.jar"/>
     <jar jarfile="${build.dir}/${name}-fop-ext-0.20.5.jar">
       <manifest>
@@ -474,7 +427,7 @@
       </fileset>
     </jar>
   </target>
-  <target name="package-fop-trunk" depends="compile" if="fop-trunk.present">
+  <target name="package-fop-trunk" depends="compile-all" if="fop-trunk.present">
     <echo message="Creating the jar file ${build.dir}/${name}-fop-ext.jar"/>
     <jar jarfile="${build.dir}/${name}-fop-ext.jar">
       <manifest>
@@ -527,27 +480,81 @@
       </metainf>
     </jar>
   </target>
-  <target name="package" depends="package-base, package-fop-0.20.5, package-fop-trunk" description="Creates the Barcode JAR package(s)"/>
+  <target name="package" depends="package-base, package-fop-0.20.5, package-fop-trunk, package.NET" description="Creates the Barcode JAR package(s)"/>
   <!-- =================================================================== -->
   <!-- Creates .NET binaries using IKVM                                    -->
   <!-- =================================================================== -->
+  
+  <macrodef name="ikvm-compile">
+    <element name="args"/>
+    
+    <sequential>
+      <exec executable="${ikvmc}">
+        <arg value="-exclude:ikvm-excludes.txt"/>
+        <arg value="-debug"/>
+        <arg value="-reference:${build.dotnet.dir}/IKVM.*.dll"/>
+        <args/>
+      </exec>
+    </sequential>
+  </macrodef>
+  
   <target name="package.NET" depends="package-base" if="IKVM.present" description="Generates the .NET DLL using IKVM">
-    <exec executable="${ikvmc}">
-      <arg value="-reference:${ikvm.dir}/bin/IKVM.GNU.Classpath.dll"/>
-      <arg value="-exclude:ikvm-excludes.txt"/>
-      <arg value="-target:library"/>
-      <arg value="-out:${build.dir}\${name}-light-${version}.dll"/>
-      <arg value="${build.dir}\${name}-light.jar"/>
-    </exec>
-    <exec executable="${ikvmc}">
-      <arg value="-reference:${ikvm.dir}/bin/IKVM.GNU.Classpath.dll"/>
-      <arg value="-exclude:ikvm-excludes.txt"/>
-      <arg value="-target:exe"/>
-      <arg value="-out:${build.dir}\${name}.exe"/>
-      <arg value="${build.dir}\${name}.jar"/>
-      <arg value="${lib.dir}\avalon-framework-4.2.0.jar"/>
-      <arg value="${lib.dir}\commons-cli-1.0.jar"/>
-    </exec>
+    <property name="avalon.name" value="avalon-framework-4.2.0"/>
+    <property name="cli.name" value="commons-cli-1.0"/>
+    
+    <mkdir dir="${build.dotnet.dir}"/>
+    <copy todir="${build.dotnet.dir}">
+      <fileset dir="${ikvm.dir}/bin">
+        <include name="IKVM.Runtime*.dll"/>
+        <include name="IKVM.OpenJDK*.dll"/>
+        <include name="IKVM.AWT*.dll"/>
+      </fileset>
+    </copy>
+    
+    <echo message="=== Avalon DLL ==="/>
+    <ikvm-compile>
+      <args>
+        <arg value="-target:library"/>
+        <arg value="-version:4.2.0.0"/>
+        <arg value="-out:${build.dotnet.dir}\${avalon.name}.dll"/>
+        <arg value="${lib.dir}\${avalon.name}.jar"/>
+      </args>
+    </ikvm-compile>
+    <echo message="=== Commons CLI DLL ==="/>
+    <ikvm-compile>
+      <args>
+        <arg value="-target:library"/>
+        <arg value="-version:1.0.0.0"/>
+        <arg value="-out:${build.dotnet.dir}\${cli.name}.dll"/>
+        <arg value="${lib.dir}\${cli.name}.jar"/>
+      </args>
+    </ikvm-compile>
+    <echo message="=== Barcode4J DLL ==="/>
+    <ikvm-compile>
+      <args>
+        <arg value="-reference:${build.dotnet.dir}\${avalon.name}.dll"/>
+        <arg value="-reference:${build.dotnet.dir}\${cli.name}.dll"/>
+        <arg value="-target:library"/>
+        <arg value="-version:${barcode4j-version.net}"/>
+        <arg value="-fileversion:${barcode4j-version}"/>
+        <arg value="-out:${build.dotnet.dir}\${name}-${version}.dll"/>
+        <arg value="${build.dir}\${name}.jar"/>
+      </args>
+    </ikvm-compile>
+    <echo message="=== Barcode4J EXE ==="/>
+    
+    <ikvm-compile>
+      <args>
+        <arg value="-reference:${build.dotnet.dir}\${name}-${version}.dll"/>
+        <arg value="-reference:${build.dotnet.dir}\${avalon.name}.dll"/>
+        <arg value="-reference:${build.dotnet.dir}\${cli.name}.dll"/>
+        <arg value="-target:exe"/>
+        <arg value="-version:${barcode4j-version.net}"/>
+        <arg value="-fileversion:${barcode4j-version}"/>
+        <arg value="-out:${build.dotnet.dir}\${name}.exe"/>
+        <arg value="-main:org.krysalis.barcode4j.cli.Main"/>
+      </args>
+    </ikvm-compile>
   </target>
   <!-- =================================================================== -->
   <!-- Sample web application                                             -->
@@ -583,7 +590,7 @@
   <!-- =================================================================== -->
   <!-- Tests                                                               -->
   <!-- =================================================================== -->
-  <target name="test-init" depends="compile">
+  <target name="test-init" depends="compile-all">
     <mkdir dir="${build.test}/classes"/>
   </target>
   <target name="test-compile-core" depends="test-init" if="junit.present">
@@ -630,7 +637,7 @@
   </target>
   <target name="test" depends="compile,test-compile" if="junit.present">
     <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
-    <junit printsummary="yes" haltonfailure="yes" fork="yes">
+    <junit printsummary="yes" haltonfailure="yes">
       <!--jvmarg value="-verbose:class"/-->
       <sysproperty key="java.awt.headless" value="true"/>
       <formatter type="brief" usefile="false"/> 
