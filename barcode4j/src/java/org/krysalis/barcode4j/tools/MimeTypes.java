@@ -19,7 +19,7 @@ package org.krysalis.barcode4j.tools;
  * Defines MIME types used in Barcode4J.
  *
  * @author Jeremias Maerki
- * @version $Id: MimeTypes.java,v 1.3 2010-10-05 06:54:57 jmaerki Exp $
+ * @version $Id: MimeTypes.java,v 1.4 2010-10-05 08:49:10 jmaerki Exp $
  */
 public class MimeTypes {
 
@@ -36,7 +36,7 @@ public class MimeTypes {
     /** GIF MIME type: image/gif */
     public static final String MIME_GIF  = "image/gif";
     /** BMP MIME type: image/bmp*/
-    public static final String MIME_BMP  = "image/x-bmp";
+    public static final String MIME_BMP  = "image/bmp";
 
     private static final String[][] FORMAT_MAPPINGS =
             {{"svg", MIME_SVG},
@@ -49,6 +49,7 @@ public class MimeTypes {
              {"png", MIME_PNG},
              {"image/png", MIME_PNG},
              {"gif", MIME_GIF},
+             {"image/x-bmp", MIME_BMP},
              {"bmp", MIME_BMP}};
 
     /**
