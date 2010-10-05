@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,9 +17,9 @@ package org.krysalis.barcode4j.tools;
 
 /**
  * Defines MIME types used in Barcode4J.
- * 
+ *
  * @author Jeremias Maerki
- * @version $Id: MimeTypes.java,v 1.2 2004-09-04 20:25:56 jmaerki Exp $
+ * @version $Id: MimeTypes.java,v 1.3 2010-10-05 06:54:57 jmaerki Exp $
  */
 public class MimeTypes {
 
@@ -35,6 +35,8 @@ public class MimeTypes {
     public static final String MIME_PNG  = "image/x-png";
     /** GIF MIME type: image/gif */
     public static final String MIME_GIF  = "image/gif";
+    /** BMP MIME type: image/bmp*/
+    public static final String MIME_BMP  = "image/x-bmp";
 
     private static final String[][] FORMAT_MAPPINGS =
             {{"svg", MIME_SVG},
@@ -46,7 +48,8 @@ public class MimeTypes {
              {"jpeg", MIME_JPEG},
              {"png", MIME_PNG},
              {"image/png", MIME_PNG},
-             {"gif", MIME_GIF}};
+             {"gif", MIME_GIF},
+             {"bmp", MIME_BMP}};
 
     /**
      * Utility class: Constructor prevents instantiating when subclassed.
@@ -54,7 +57,7 @@ public class MimeTypes {
     protected MimeTypes() {
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Converts a short format name, such as "svg" or "eps", to its MIME type,
      * if necessary. Known and unknown MIME types are passed through.
@@ -87,7 +90,8 @@ public class MimeTypes {
         return (fmt.equals(MIME_JPEG)
             || fmt.equals(MIME_TIFF)
             || fmt.equals(MIME_PNG)
-            || fmt.equals(MIME_GIF));
+            || fmt.equals(MIME_GIF)
+            || fmt.equals(MIME_BMP));
     }
 
 }
