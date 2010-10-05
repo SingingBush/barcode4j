@@ -43,9 +43,11 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * Simple barcode servlet.
  *
- * @version $Id: BarcodeServlet.java,v 1.7 2008-03-04 20:07:23 jmaerki Exp $
+ * @version $Id: BarcodeServlet.java,v 1.8 2010-10-05 06:53:56 jmaerki Exp $
  */
 public class BarcodeServlet extends HttpServlet {
+
+    private static final long serialVersionUID = -1612710758060435089L;
 
     /** Parameter name for the message */
     public static final String BARCODE_MSG                 = "msg";
@@ -90,7 +92,9 @@ public class BarcodeServlet extends HttpServlet {
             Configuration cfg = buildCfg(request);
 
             String msg = request.getParameter(BARCODE_MSG);
-            if (msg == null) msg = "0123456789";
+            if (msg == null) {
+                msg = "0123456789";
+            }
 
             BarcodeUtil util = BarcodeUtil.getInstance();
             BarcodeGenerator gen = util.createBarcodeGenerator(cfg);
@@ -162,7 +166,9 @@ public class BarcodeServlet extends HttpServlet {
     protected String determineFormat(HttpServletRequest request) {
         String format = request.getParameter(BARCODE_FORMAT);
         format = MimeTypes.expandFormat(format);
-        if (format == null) format = MimeTypes.MIME_SVG;
+        if (format == null) {
+            format = MimeTypes.MIME_SVG;
+        }
         return format;
     }
 
@@ -176,7 +182,9 @@ public class BarcodeServlet extends HttpServlet {
         DefaultConfiguration cfg = new DefaultConfiguration("barcode");
         //Get type
         String type = request.getParameter(BARCODE_TYPE);
-        if (type == null) type = "code128";
+        if (type == null) {
+            type = "code128";
+        }
         DefaultConfiguration child = new DefaultConfiguration(type);
         cfg.addChild(child);
         //Get additional attributes
