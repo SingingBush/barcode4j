@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: IOUtil.java,v 1.1 2008-09-15 07:10:28 jmaerki Exp $ */
+/* $Id: IOUtil.java,v 1.2 2010-10-05 06:54:31 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.tools;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
 
 /**
  * Utility functions for I/O operations.
@@ -42,13 +43,26 @@ public class IOUtil {
     }
 
     /**
-     * Closes an {@code InputStream}. It ignores any exceptions happening while closing the
+     * Closes an {@link InputStream}. It ignores any exceptions happening while closing the
      * stream.
      * @param in the input stream
      */
     public static void closeQuietly(InputStream in) {
         try {
             in.close();
+        } catch (IOException ioe) {
+            //ignore
+        }
+    }
+
+    /**
+     * Closes a {@link Reader}. It ignores any exceptions happening while closing the
+     * stream.
+     * @param reader the reader
+     */
+    public static void closeQuietly(Reader reader) {
+        try {
+            reader.close();
         } catch (IOException ioe) {
             //ignore
         }
