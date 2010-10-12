@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ImageLoaderFactoryBarcode.java,v 1.1 2008-12-10 15:52:37 jmaerki Exp $ */
+/* $Id: ImageLoaderFactoryBarcode.java,v 1.2 2010-10-12 08:18:26 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.image.loader;
 
@@ -43,11 +43,6 @@ public class ImageLoaderFactoryBarcode extends AbstractImageLoaderFactory {
     /** {@inheritDoc} */
     public ImageLoader newImageLoader(ImageFlavor targetFlavor) {
         return new ImageLoaderBarcode(targetFlavor);
-    }
-
-    /** {@inheritDoc} */
-    public int getUsagePenalty(String mime, ImageFlavor flavor) {
-        return 0;
     }
 
     /** {@inheritDoc} */
