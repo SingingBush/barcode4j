@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-/* $Id: ImageConverterBarcode2EPS.java,v 1.1 2008-12-10 15:52:37 jmaerki Exp $ */
+/* $Id: ImageConverterBarcode2EPS.java,v 1.2 2010-10-12 08:21:44 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.image.loader;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
@@ -30,7 +31,6 @@ import org.krysalis.barcode4j.output.eps.EPSCanvasProvider;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import org.apache.xmlgraphics.image.loader.Image;
 import org.apache.xmlgraphics.image.loader.ImageException;
