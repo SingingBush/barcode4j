@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: USPSIntelligentMailLogicImpl.java,v 1.2 2008-11-07 13:08:26 jmaerki Exp $ */
+/* $Id: USPSIntelligentMailLogicImpl.java,v 1.3 2010-10-12 08:20:04 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.fourstate;
 
@@ -27,6 +27,7 @@ import java.util.StringTokenizer;
 
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
+import org.krysalis.barcode4j.tools.IOUtil;
 
 /**
  * This class is a logic implementation for the USPS Intelligent Mail Barcode (aka 4-State Customer
@@ -116,8 +117,8 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
             throw new MissingResourceException(
                     "Resource " + BAR_TO_CHARACTER_TABLE_FILENAME + " not found!", null, null);
         }
+        BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(in));
         try {
-            BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(in));
             int idx = 0;
             String line;
             while ((line = reader.readLine()) != null) {
@@ -128,11 +129,8 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
             throw new RuntimeException("Could not initialize constant due to I/O error: "
                     + ioe.getMessage());
         } finally {
-            try {
-                in.close();
-            } catch (IOException ioe) {
-                //ignore
-            }
+            IOUtil.closeQuietly(reader);
+            IOUtil.closeQuietly(in);
         }
 
     }
