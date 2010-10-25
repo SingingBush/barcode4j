@@ -15,13 +15,15 @@
  */
 package org.krysalis.barcode4j.webapp;
 
+import java.io.UnsupportedEncodingException;
+
 import org.krysalis.barcode4j.servlet.BarcodeServlet;
 import org.krysalis.barcode4j.tools.MimeTypes;
 
 /**
  * This is just a little helper bean for the JSP page.
- * 
- * @version $Id: BarcodeRequestBean.java,v 1.5 2007-01-19 12:47:43 jmaerki Exp $
+ *
+ * @version $Id: BarcodeRequestBean.java,v 1.6 2010-10-25 09:28:47 jmaerki Exp $
  */
 public class BarcodeRequestBean {
 
@@ -130,7 +132,7 @@ public class BarcodeRequestBean {
 
     public boolean isSVG() {
         return MimeTypes.MIME_SVG.equals(MimeTypes.expandFormat(getFormat()))
-            || (getFormat() == null) 
+            || (getFormat() == null)
             || (getFormat().length() == 0);
     }
 
@@ -145,7 +147,7 @@ public class BarcodeRequestBean {
     public boolean isBitmap() {
         return MimeTypes.isBitmapFormat(getFormat());
     }
-    
+
     public void setFormat(String string) {
         this.format = string;
     }
@@ -169,7 +171,7 @@ public class BarcodeRequestBean {
     public String toURL() {
         StringBuffer sb = new StringBuffer(64);
         sb.append("genbc?");
-    
+
         //Type
         String type = getType();
         if (type == null) {
@@ -178,7 +180,7 @@ public class BarcodeRequestBean {
         sb.append(BarcodeServlet.BARCODE_TYPE);
         sb.append("=");
         sb.append(type);
-    
+
         //Message
         String msg = getMsg();
         if (msg == null) {
@@ -187,9 +189,8 @@ public class BarcodeRequestBean {
         sb.append("&");
         sb.append(BarcodeServlet.BARCODE_MSG);
         sb.append("=");
-        sb.append(java.net.URLEncoder.encode(msg));
-        //sb.append(java.net.URLEncoder.encode(msg, "UTF-8")); //works for JDK 1.4 only
-    
+        sb.append(encode(msg));
+
         //Height
         String height = getHeight();
         if (height != null) {
@@ -234,7 +235,7 @@ public class BarcodeRequestBean {
             sb.append("=");
             sb.append(humanReadable);
         }
-        
+
         //Output Format
         String fmt = getFormat();
         if (fmt != null && !isSVG()) {
@@ -243,7 +244,7 @@ public class BarcodeRequestBean {
             sb.append("=");
             sb.append(fmt);
         }
-    
+
         String humanReadableSize = getHumanReadableSize();
         if (humanReadableSize != null) {
             sb.append("&");
@@ -257,7 +258,7 @@ public class BarcodeRequestBean {
             sb.append("&");
             sb.append(BarcodeServlet.BARCODE_HUMAN_READABLE_FONT);
             sb.append("=");
-            sb.append(java.net.URLEncoder.encode(humanReadableFont));
+            sb.append(encode(humanReadableFont));
         }
 
         String hrPattern = getHumanReadablePattern();
@@ -267,7 +268,7 @@ public class BarcodeRequestBean {
             sb.append("=");
             sb.append(hrPattern);
         }
-        
+
         //Output Format
         String res = getResolution();
         if (res != null && isBitmap()) {
@@ -276,7 +277,7 @@ public class BarcodeRequestBean {
             sb.append("=");
             sb.append(res);
         }
-        
+
         //Output Format
         boolean gray = isGray();
         if (gray && isBitmap()) {
@@ -285,8 +286,16 @@ public class BarcodeRequestBean {
             sb.append("=");
             sb.append((isGray() ? "true" : "false"));
         }
-        
+
         return sb.toString();
+    }
+
+    private String encode(String text) {
+        try {
+            return java.net.URLEncoder.encode(humanReadableFont, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Incompatible JVM: " + e.getMessage(), e);
+        }
     }
 
 }

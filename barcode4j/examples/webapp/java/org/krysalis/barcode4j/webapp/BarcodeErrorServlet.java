@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,13 +39,15 @@ import org.apache.avalon.framework.logger.Logger;
 
 /**
  * Error handler servlet for Barcode exceptions.
- * 
+ *
  * @author Jeremias Maerki
- * @version $Id: BarcodeErrorServlet.java,v 1.2 2004-09-04 20:25:57 jmaerki Exp $
+ * @version $Id: BarcodeErrorServlet.java,v 1.3 2010-10-25 09:28:47 jmaerki Exp $
  */
 public class BarcodeErrorServlet extends HttpServlet {
 
-    private Logger log = new ConsoleLogger(ConsoleLogger.LEVEL_INFO);
+    private static final long serialVersionUID = 6515981491896593768L;
+
+    private transient Logger log = new ConsoleLogger(ConsoleLogger.LEVEL_INFO);
 
     /**
      * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest, HttpServletResponse)
@@ -77,7 +79,7 @@ public class BarcodeErrorServlet extends HttpServlet {
             } finally {
                 bout.close();
             }
-    
+
             response.setContentLength(bout.size());
             response.getOutputStream().write(bout.toByteArray());
             response.getOutputStream().flush();
@@ -94,13 +96,13 @@ public class BarcodeErrorServlet extends HttpServlet {
         if (handler == null) {
             throw new NullPointerException("ContentHandler not set");
         }
-    
+
         handler.startDocument();
         generateSAXForException(t, handler, "exception");
         handler.endDocument();
     }
-    
-    private void generateSAXForException(Throwable t, 
+
+    private void generateSAXForException(Throwable t,
                 ContentHandler handler, String elName) throws SAXException {
         AttributesImpl attr = new AttributesImpl();
         attr.addAttribute(null, "classname", "classname", "CDATA", t.getClass().getName());
@@ -110,12 +112,12 @@ public class BarcodeErrorServlet extends HttpServlet {
         char[] chars = t.getMessage().toCharArray();
         handler.characters(chars, 0, chars.length);
         handler.endElement(null, "msg", "msg");
-        
+
         if (t instanceof CascadingException) {
             Throwable nested = ((CascadingException)t).getCause();
             generateSAXForException(nested, handler, "nested");
         }
-        
+
         handler.endElement(null, elName, elName);
     }
 }
