@@ -36,12 +36,32 @@ public class VariableUtil {
         buf.append(text.substring(start));
         return buf.toString();
     }
-    
-    private static final String PAGE_NUMBER = "#page-number#"; 
-    private static final String PAGE_NUMBER_WITH_FORMAT = "#page-number:"; 
-    private static final String FORMATTED_PAGE_NUMBER = "#formatted-page-number#"; 
-    
+
+    private static final String PAGE_NUMBER = "#page-number#";
+    private static final String PAGE_NUMBER_WITH_FORMAT = "#page-number:";
+    private static final String FORMATTED_PAGE_NUMBER = "#formatted-page-number#";
+
+    /**
+     * Legacy method to replace page number variables in the message.
+     * @param page the FOP page
+     * @param msg the message
+     * @return the message after the variable processing
+     */
     public static String getExpandedMessage(PageViewport page, String msg) {
+        PageInfo pageInfo = null;
+        if (page != null) {
+            pageInfo = new PageInfo(page.getPageNumber(), page.getPageNumberString());
+        }
+        return getExpandedMessage(pageInfo, msg);
+    }
+
+    /**
+     * Method to replace page number variables in the message.
+     * @param page the page information object
+     * @param msg the message
+     * @return the message after the variable processing
+     */
+    public static String getExpandedMessage(PageInfo page, String msg) {
         String s = msg;
         int idx;
         while ((idx = s.indexOf(PAGE_NUMBER_WITH_FORMAT)) >= 0) {
@@ -75,5 +95,5 @@ public class VariableUtil {
         }
         return s;
     }
-    
+
 }

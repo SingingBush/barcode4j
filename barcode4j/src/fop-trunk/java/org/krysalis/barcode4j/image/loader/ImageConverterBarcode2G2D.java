@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ImageConverterBarcode2G2D.java,v 1.1 2008-12-10 15:52:37 jmaerki Exp $ */
+/* $Id: ImageConverterBarcode2G2D.java,v 1.2 2010-10-25 08:51:03 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.image.loader;
 
@@ -28,6 +28,7 @@ import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
+import org.krysalis.barcode4j.fop.PageInfo;
 import org.krysalis.barcode4j.fop.VariableUtil;
 import org.krysalis.barcode4j.output.java2d.Java2DCanvasProvider;
 
@@ -57,8 +58,8 @@ public class ImageConverterBarcode2G2D extends AbstractImageConverter {
 
         try {
             String msg = barcodeImage.getMessage();
-            //TODO Replace null by some information on the page
-            String expandedMsg = VariableUtil.getExpandedMessage(null, msg);
+            PageInfo pageInfo = PageInfo.fromProcessingHints(hints);
+            String expandedMsg = VariableUtil.getExpandedMessage(pageInfo, msg);
 
             final BarcodeGenerator bargen = BarcodeUtil.getInstance().
                         createBarcodeGenerator(cfg);

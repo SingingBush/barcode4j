@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: PreloaderBarcode.java,v 1.4 2010-01-30 21:25:50 jmaerki Exp $ */
+/* $Id: PreloaderBarcode.java,v 1.5 2010-10-25 08:51:03 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.image.loader;
 
@@ -32,6 +32,7 @@ import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
+import org.krysalis.barcode4j.fop.PageInfo;
 import org.krysalis.barcode4j.fop.VariableUtil;
 import org.krysalis.barcode4j.tools.ConfigurationUtil;
 import org.krysalis.barcode4j.tools.MessageUtil;
@@ -139,7 +140,7 @@ public class PreloaderBarcode extends AbstractImagePreloader {
         BarcodeGenerator bargen = BarcodeUtil.getInstance().
                 createBarcodeGenerator(cfg);
         //Expand with null information and hope the size will match the actual barcode
-        String expandedMsg = VariableUtil.getExpandedMessage(null, msg);
+        String expandedMsg = VariableUtil.getExpandedMessage((PageInfo)null, msg);
         BarcodeDimension bardim = bargen.calcDimensions(expandedMsg);
         int widthMpt = (int)Math.ceil(UnitConv.mm2mpt(bardim.getWidthPlusQuiet(orientation)));
         int heightMpt = (int)Math.ceil(UnitConv.mm2mpt(bardim.getHeightPlusQuiet(orientation)));

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: ImageConverterBarcodeXML2Barcode.java,v 1.1 2008-12-10 15:52:37 jmaerki Exp $ */
+/* $Id: ImageConverterBarcodeXML2Barcode.java,v 1.2 2010-10-25 08:51:02 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.image.loader;
 
@@ -26,6 +26,7 @@ import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
+import org.krysalis.barcode4j.fop.PageInfo;
 import org.krysalis.barcode4j.fop.VariableUtil;
 import org.krysalis.barcode4j.tools.ConfigurationUtil;
 import org.w3c.dom.Document;
@@ -68,7 +69,8 @@ public class ImageConverterBarcodeXML2Barcode extends AbstractImageConverter {
 
             BarcodeGenerator bargen = BarcodeUtil.getInstance().
                     createBarcodeGenerator(cfg);
-            String expandedMsg = VariableUtil.getExpandedMessage(null, msg);
+            PageInfo pageInfo = PageInfo.fromProcessingHints(hints);
+            String expandedMsg = VariableUtil.getExpandedMessage(pageInfo, msg);
             BarcodeDimension bardim = bargen.calcDimensions(expandedMsg);
 
             ImageBarcode imageBarcode = new ImageBarcode(src.getInfo(), cfg, bardim);

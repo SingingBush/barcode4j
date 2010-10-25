@@ -39,7 +39,7 @@ import org.apache.fop.fo.PropertyList;
  * Class representing bc:barcode extension element object.
  *
  * @author Jeremias Maerki
- * @version $Id: BarcodeElement.java,v 1.6 2008-12-10 15:52:37 jmaerki Exp $
+ * @version $Id: BarcodeElement.java,v 1.7 2010-10-25 08:51:03 jmaerki Exp $
  */
 public class BarcodeElement extends BarcodeObj {
 
@@ -74,7 +74,7 @@ public class BarcodeElement extends BarcodeObj {
 
             BarcodeGenerator bargen = BarcodeUtil.getInstance().
                     createBarcodeGenerator(cfg);
-            String expandedMsg = VariableUtil.getExpandedMessage(null, msg);
+            String expandedMsg = VariableUtil.getExpandedMessage((PageInfo)null, msg);
             BarcodeDimension bardim = bargen.calcDimensions(expandedMsg);
             float w = (float)UnitConv.mm2pt(bardim.getWidthPlusQuiet(orientation));
             float h = (float)UnitConv.mm2pt(bardim.getHeightPlusQuiet(orientation));
