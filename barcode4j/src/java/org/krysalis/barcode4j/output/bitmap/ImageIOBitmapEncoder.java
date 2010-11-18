@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2004 Jeremias Maerki.
+ * Copyright 2002-2004,2010 Jeremias Maerki.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,9 +78,13 @@ public class ImageIOBitmapEncoder implements BitmapEncoder {
 
     private IIOMetadata setupMetadata(BufferedImage image, ImageWriter writer,
                 String mime, int resolution) throws IOException {
-        IIOMetadata iiometa = writer.getDefaultImageMetadata(
-                new ImageTypeSpecifier(image),
+        IIOMetadata iiometa;
+        try {
+            iiometa = writer.getDefaultImageMetadata(new ImageTypeSpecifier(image),
                 writer.getDefaultWriteParam());
+        } catch (Exception e) {
+            return null; //ImageIO has problems with metadata
+        }
         if (iiometa == null) {
             return null; //Some JAI-codecs don't support metadata
         }
