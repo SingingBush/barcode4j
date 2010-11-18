@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Jeremias Maerki.
+ * Copyright 2005,2010 Jeremias Maerki.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 import org.krysalis.barcode4j.tools.ConfigurationUtil;
 import org.krysalis.barcode4j.tools.MessageUtil;
+import org.krysalis.barcode4j.tools.PageInfo;
 import org.krysalis.barcode4j.tools.UnitConv;
 
 import org.xml.sax.Attributes;
@@ -39,7 +40,7 @@ import org.apache.fop.fo.PropertyList;
  * Class representing bc:barcode extension element object.
  *
  * @author Jeremias Maerki
- * @version $Id: BarcodeElement.java,v 1.7 2010-10-25 08:51:03 jmaerki Exp $
+ * @version $Id: BarcodeElement.java,v 1.8 2010-11-18 09:30:45 jmaerki Exp $
  */
 public class BarcodeElement extends BarcodeObj {
 

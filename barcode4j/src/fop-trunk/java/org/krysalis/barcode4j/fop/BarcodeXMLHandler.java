@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 Jeremias Maerki.
+ * Copyright 2005-2006,2010 Jeremias Maerki.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,30 +38,31 @@ import org.w3c.dom.Document;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.batik.dom.svg.SVGDOMImplementation;
 
+import org.apache.xmlgraphics.java2d.Graphics2DImagePainter;
 import org.apache.xmlgraphics.ps.PSGenerator;
 import org.apache.xmlgraphics.ps.PSImageUtils;
 
 import org.apache.fop.area.PageViewport;
-import org.apache.fop.render.AbstractRenderer;
 import org.apache.fop.render.Graphics2DAdapter;
-import org.apache.fop.render.Graphics2DImagePainter;
 import org.apache.fop.render.ImageAdapter;
 import org.apache.fop.render.Renderer;
 import org.apache.fop.render.RendererContext;
+import org.apache.fop.render.RendererContextConstants;
 import org.apache.fop.render.XMLHandler;
-import org.apache.fop.render.ps.PSRenderer;
-import org.apache.fop.render.ps.PSRendererContextConstants;
 
 /**
  * XMLHandler for Apache FOP that handles the Barcode XML by converting it to
  * SVG or by rendering it directly to the output format.
  *
  * @author Jeremias Maerki
- * @version $Id: BarcodeXMLHandler.java,v 1.11 2009-02-20 09:34:26 jmaerki Exp $
+ * @version $Id: BarcodeXMLHandler.java,v 1.12 2010-11-18 09:30:45 jmaerki Exp $
  */
-public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants {
+public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
 
     private static final boolean DEBUG = false;
+
+    /** The context constant for the PostScript generator that is being used to drawn into. */
+    private static final String PS_GENERATOR = "psGenerator";
 
     /** {@inheritDoc} */
     public void handleXML(RendererContext context,
@@ -85,8 +86,7 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
         boolean handled = false;
         String effRenderMode = renderMode;
         if ("native".equals(renderMode)) {
-            AbstractRenderer renderer = context.getRenderer();
-            if (renderer instanceof PSRenderer) {
+            if (context.getProperty(PS_GENERATOR) != null) {
                 renderUsingEPS(context, bargen, expandedMsg, orientation);
                 effRenderMode = "native";
                 handled = true;
@@ -133,8 +133,11 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
         if (DEBUG) {
             System.out.println(" --> EPS");
         }
-        PSImageUtils.renderEPS(baout.toByteArray(), "Barcode:" + msg,
-                x, y, width, height, 0, 0, bw, bh, gen);
+        PSImageUtils.renderEPS(new java.io.ByteArrayInputStream(baout.toByteArray()),
+                "Barcode:" + msg,
+                new Rectangle2D.Float(x, y, width, height),
+                new Rectangle2D.Float(0, 0, bw, bh),
+                gen);
     }
 
     private boolean renderUsingGraphics2D(RendererContext context,
@@ -243,8 +246,7 @@ public class BarcodeXMLHandler implements XMLHandler, PSRendererContextConstants
 
     /** {@inheritDoc} */
     public boolean supportsRenderer(Renderer renderer) {
-        return (renderer instanceof PSRenderer)
-                || (renderer.getGraphics2DAdapter() != null);
+        return (renderer.getGraphics2DAdapter() != null);
     }
 
 }
