@@ -26,16 +26,20 @@
   <property name="docs.dir" value="${build.dir}/javadocs"/>
   <property name="fop-0.20.5.ext.dir" value="${src.dir}/fop-0.20.5"/>
   <property name="fop-trunk.ext.dir" value="${src.dir}/fop-trunk"/>
+  <property name="xgc.ext.dir" value="${src.dir}/xmlgraphics-commons"/>
   <property name="src.fop-0.20.5.dir" value="${fop-0.20.5.ext.dir}/java"/>
   <property name="src.fop-trunk.dir" value="${fop-trunk.ext.dir}/java"/>
+  <property name="src.xgc.dir" value="${xgc.ext.dir}/java"/>
   <property name="build.dest.fop-0.20.5" value="${build.dir}/fop-0.20.5/classes"/>
   <property name="build.dest.fop-trunk" value="${build.dir}/fop-trunk/classes"/>
+  <property name="build.dest.xgc" value="${build.dir}/xgc/classes"/>
   <property name="build.dotnet.dir" value="${build.dir}/dotnet"/>
   <property name="xalan.dir" value="${src.dir}/xalan"/>
   <property name="saxon6.dir" value="${src.dir}/saxon"/>
   <property name="saxon8.dir" value="${src.dir}/saxon8"/>
   <property name="jdom.dir" value="${src.dir}/jdom"/>
   <property name="checkstyle.home" value=""/>
+  <property name="main.class" value="org.krysalis.barcode4j.cli.Main"/>
   
   <!-- .NET support (using IKVM) -->
   <property name="ikvm.dir" value="."/>
@@ -81,7 +85,16 @@
     <tstamp>
       <format property="ts" pattern="yyyyMMdd-HHmmss-z"/>
     </tstamp>
-  </target>    
+    
+    <path id="bundle-util.classpath">
+      <fileset dir="${lib.dir}/build">
+        <include name="**/*.jar"/>
+      </fileset>
+    </path>
+    <taskdef resource="ch/jm/osgi/util/bundle/ant/antlib.xml"
+      classpathref="bundle-util.classpath" onerror="fail"/>
+  </target>
+  
   <target name="init" depends="pre-init">
     <available property="junit.present" classname="junit.framework.TestCase"
         classpathref="project.classpath"/>
@@ -96,6 +109,7 @@
     <echo message="${junit.message}"/>
 
     <available property="jdk14.present" classname="java.lang.CharSequence"/>
+    <available property="jdk15.present" classname="java.lang.StringBuilder"/>
     <available property="xalan.present" classname="org.apache.xalan.xslt.Process" classpathref="project.classpath"/>
     <available property="saxon6.present" classname="com.icl.saxon.TransformerFactoryImpl" classpathref="project.classpath"/>
     <condition property="saxon8.present">
@@ -105,12 +119,8 @@
       </and>
     </condition>
     <available property="jdom.present" classname="org.jdom.Document" classpathref="project.classpath"/>
-    <condition property="init.fop-0.20.5">
-      <isset property="fop-0.20.5.home"/>
-    </condition>
-    <condition property="init.fop-trunk">
-      <isset property="fop.home"/>
-    </condition>
+    <property name="init.fop-0.20.5" value="true"/>
+    <property name="init.fop-trunk" value="true"/>
 
     <condition property="IKVM.present">
       <and>
@@ -130,43 +140,29 @@
   </target>
   <target name="init.fop-0.20.5" depends="init" if="init.fop-0.20.5">
     <echo message="Home directory for Apache FOP 0.20.5 is set. Will try to compile FOP extension."/>
-    <property name="src.fop-0.20.5.dir" value="${fop-0.20.5.ext.dir}/java"/>
     <path id="fop-0.20.5.classpath">
       <path refid="project.classpath"/>
-      <fileset dir="${fop-0.20.5.home}/lib">
-        <include name="batik*.jar"/>
-      </fileset>
-      <fileset dir="${fop-0.20.5.home}/build">
-        <include name="fop*.jar"/>
+      <fileset dir="${lib.dir}/fop-0.20.5">
+        <include name="*.jar"/>
       </fileset>
     </path>
-    <condition property="fop-0.20.5.present">
-      <and>
-        <available classname="org.apache.fop.apps.Driver" classpathref="fop-0.20.5.classpath"/>
-        <available classname="org.apache.batik.dom.svg.SVGDOMImplementation" classpathref="fop-0.20.5.classpath"/>
-      </and>
-    </condition>
   </target>
   <target name="init.fop-trunk" depends="init" if="init.fop-trunk">
     <echo message="Home directory for Apache FOP Trunk is set. Will try to compile FOP extension."/>
-    <property name="src.fop-trunk.dir" value="${fop-trunk.ext.dir}/java"/>
     <path id="fop-trunk.classpath">
       <path refid="project.classpath"/>
-      <fileset dir="${fop.home}/lib">
-        <include name="xmlgraphics-commons*.jar"/>
-        <include name="batik*.jar"/>
-        <include name="commons-*.jar"/>
-      </fileset>
-      <fileset dir="${fop.home}/build">
-        <include name="fop*.jar"/>
+      <fileset dir="${lib.dir}/fop">
+        <include name="*.jar"/>
       </fileset>
     </path>
-    <condition property="fop-trunk.present">
-      <and>
-        <available classname="org.apache.fop.apps.Fop" classpathref="fop-trunk.classpath"/>
-        <available classname="org.apache.batik.dom.svg.SVGDOMImplementation" classpathref="fop-trunk.classpath"/>
-      </and>
-    </condition>
+  </target>
+  <target name="init.xgc" depends="init">
+    <path id="xgc.classpath">
+      <path refid="project.classpath"/>
+      <fileset dir="${lib.dir}/fop">
+        <include name="*.jar"/>
+      </fileset>
+    </path>
   </target>
   <target name="info.jdk14" unless="jdk14.present">
     <echo message="===================================================================="/>
@@ -197,18 +193,6 @@
     <echo message="jdom.jar to the lib directory."/>
     <echo message="===================================================================="/>
   </target>
-  <target name="info.fop-0.20.5" depends="init" unless="init.fop-0.20.5">
-    <echo message="===================================================================="/>
-    <echo message="You can enable compilation of the FOP 0.20.5 barcode extension"/>
-    <echo message="by specifying the 'fop-0.20.5.home' value in build-local.properties."/>
-    <echo message="===================================================================="/>
-  </target>
-  <target name="info.fop-trunk" depends="init" unless="init.fop-trunk">
-    <echo message="===================================================================="/>
-    <echo message="You can enable compilation of the FOP Trunk barcode extension"/>
-    <echo message="by specifying the 'fop-trunk.home' value in build-local.properties."/>
-    <echo message="===================================================================="/>
-  </target>
   <target name="info.ikvm" depends="init" unless="IKVM.present">
     <echo message="===================================================================="/>
     <echo message="You can enable compilation of .NET binaries by installing IKVM and"/>
@@ -218,7 +202,7 @@
   <!-- =================================================================== -->
   <!-- Prepares the build directory                                        -->
   <!-- =================================================================== -->
-  <target name="prepare" depends="init, info.jdk14, init.fop-0.20.5, info.fop-0.20.5, init.fop-trunk, info.fop-trunk, info.xalan, info.saxon6, info.saxon8, info.jdom, info.ikvm">
+  <target name="prepare" depends="init, info.jdk14, init.fop-0.20.5, init.fop-trunk, init.xgc, info.xalan, info.saxon6, info.saxon8, info.jdom, info.ikvm">
     <!-- create directories -->
     <echo message="Preparing the build directories"/>
     <mkdir dir="${build.dir}"/>
@@ -242,61 +226,59 @@
   </target>
   <target name="compile-xalan" depends="compile" if="xalan.present">
     <echo message="Compiling the Apache Xalan-J extension"/>
-    <javac srcdir="${xalan.dir}/java" destdir="${build.dest}"
-        debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
+    <javac srcdir="${xalan.dir}/java" destdir="${build.dest}">
       <classpath refid="project.classpath"/>
     </javac>
   </target>
   <target name="compile-saxon6" depends="compile" if="saxon6.present">
     <echo message="Compiling the SAXON 6.5.x extension"/>
-    <javac srcdir="${saxon6.dir}/java" destdir="${build.dest}"
-        debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
+    <javac srcdir="${saxon6.dir}/java" destdir="${build.dest}">
       <classpath refid="project.classpath"/>
     </javac>
   </target>
   <target name="compile-saxon8" depends="compile" if="saxon8.present">
     <echo message="Compiling the SAXON 8.x extension"/>
-    <javac srcdir="${saxon8.dir}/java" destdir="${build.dest}"
-        debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
+    <javac srcdir="${saxon8.dir}/java" destdir="${build.dest}">
       <classpath refid="project.classpath"/>
     </javac>
   </target>
   <target name="compile-jdom" depends="compile" if="jdom.present">
     <echo message="Compiling the JDOM-related classes"/>
-    <javac srcdir="${jdom.dir}/java" destdir="${build.dest}"
-        debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
+    <javac srcdir="${jdom.dir}/java" destdir="${build.dest}">
       <classpath refid="project.classpath"/>
     </javac>
   </target>
-  <target name="compile-fop-0.20.5" depends="compile" if="fop-0.20.5.present">
+  <target name="compile-fop-0.20.5" depends="compile">
     <echo message="Compiling the Apache FOP 0.20.5 extension"/>
     <mkdir dir="${build.dest.fop-0.20.5}"/>
-    <javac srcdir="${src.fop-0.20.5.dir}" destdir="${build.dest.fop-0.20.5}"
-        debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
+    <javac srcdir="${src.fop-0.20.5.dir}" destdir="${build.dest.fop-0.20.5}">
       <classpath>
         <path refid="fop-0.20.5.classpath"/>
         <pathelement location="${build.dest}"/>
       </classpath>
     </javac>
   </target>
-  <target name="compile-fop-trunk" depends="compile" if="fop-trunk.present">
+  <target name="compile-fop-trunk" depends="compile">
     <echo message="Compiling the Apache FOP Trunk extension"/>
     <mkdir dir="${build.dest.fop-trunk}"/>
-    <javac srcdir="${src.fop-trunk.dir}" destdir="${build.dest.fop-trunk}"
-        debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
+    <javac srcdir="${src.fop-trunk.dir}" destdir="${build.dest.fop-trunk}">
       <classpath>
         <path refid="fop-trunk.classpath"/>
         <pathelement location="${build.dest}"/>
       </classpath>
     </javac>
   </target>
-  <target name="compile-all" depends="compile, compile-xalan, compile-saxon6, compile-saxon8, compile-jdom, compile-fop-0.20.5, compile-fop-trunk" description="Compiles the sources"/>
+  <target name="compile-xgc" depends="compile">
+    <echo message="Compiling the image loader extension for Apache XML Graphics Commons"/>
+    <mkdir dir="${build.dest.xgc}"/>
+    <javac srcdir="${src.xgc.dir}" destdir="${build.dest.xgc}">
+      <classpath>
+        <path refid="xgc.classpath"/>
+        <pathelement location="${build.dest}"/>
+      </classpath>
+    </javac>
+  </target>
+  <target name="compile-all" depends="compile, compile-xalan, compile-saxon6, compile-saxon8, compile-jdom, compile-fop-0.20.5, compile-fop-trunk, compile-xgc" description="Compiles the sources"/>
   <!-- =================================================================== -->
   <!-- Creates Java docs                                                   -->
   <!-- =================================================================== -->
@@ -315,6 +297,7 @@
       <packageset dir="${saxon6.dir}/java" defaultexcludes="yes"/>
       <packageset dir="${saxon8.dir}/java" defaultexcludes="yes"/>
       <packageset dir="${jdom.dir}/java" defaultexcludes="yes"/>
+      <packageset dir="${src.xgc.dir}" defaultexcludes="yes"/>
       <tag name="todo" scope="all" description="TODO:" />
       <link href="http://avalon.apache.org/framework/api/"/>
       <!--link href="http://www.saxonica.com/documentation/javadoc/"/ doesn't work anymore-->
@@ -330,15 +313,9 @@
   <target name="package-base" depends="compile-all">
     <echo message="Creating the jar file ${build.dir}/${name}.jar"/>
     
-    <!--pathconvert property="manifest-classpath" dirsep="/" pathsep=" " refid="project.classpath">
-      <map from="${basedir}${file.separator}lib${file.separator}" to=""/>
-      <map from="${basedir}${file.separator}build${file.separator}barcode4j.jar" to=""/>
-    </pathconvert-->
-
     <jar jarfile="${build.dir}/${name}.jar">
       <manifest>
-        <attribute name="Main-Class" value="org.krysalis.barcode4j.cli.Main"/>
-        <!--attribute name="Class-Path" value="${manifest-classpath}"/-->
+        <attribute name="Main-Class" value="${main.class}"/>
         <attribute name="Implementation-Title" value="${Name}"/>
         <attribute name="Implementation-Version" value="${version}"/>
         <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
@@ -350,6 +327,7 @@
         <include name="org/krysalis/**"/>
       </fileset>
     </jar>
+    
     <jar jarfile="${build.dir}/${name}-light.jar">
       <manifest>
         <attribute name="Implementation-Title" value="${Name}"/>
@@ -387,7 +365,24 @@
       </fileset>
     </jar>
   </target>
-  <target name="package-fop-0.20.5" depends="compile-all" if="fop-0.20.5.present">
+  
+  <target name="osgi" depends="package-base" if="jdk15.present">
+    <echo message="Adding OSGi metadata..."/>
+    <convert-jar-to-bundle file="${build.dir}/${name}-light.jar"
+      descriptor="${basedir}/bundle.xml">
+      <attribute name="Bundle-Version" value="${barcode4j-version}"/>
+      <attribute name="Bundle-Vendor" value="${impl.vendor}"/>
+      <attribute name="Bundle-DocURL" value="${impl.url}"/>
+    </convert-jar-to-bundle>
+    <convert-jar-to-bundle file="${build.dir}/${name}.jar"
+      descriptor="${basedir}/bundle.xml">
+      <attribute name="Bundle-Version" value="${barcode4j-version}"/>
+      <attribute name="Bundle-Vendor" value="${impl.vendor}"/>
+      <attribute name="Bundle-DocURL" value="${impl.url}"/>
+    </convert-jar-to-bundle>
+  </target>
+  
+  <target name="package-fop-0.20.5" depends="compile-all">
     <echo message="Creating the jar file ${build.dir}/${name}-fop-ext-0.20.5.jar"/>
     <jar jarfile="${build.dir}/${name}-fop-ext-0.20.5.jar">
       <manifest>
@@ -407,8 +402,7 @@
     </jar>
     <jar jarfile="${build.dir}/${name}-fop-ext-0.20.5-complete.jar">
       <manifest>
-        <attribute name="Main-Class" value="org.krysalis.barcode4j.cli.Main"/>
-        <attribute name="Class-Path" value="${manifest-classpath}"/>
+        <attribute name="Main-Class" value="${main.class}"/>
         <attribute name="Implementation-Title" value="${Name}"/>
         <attribute name="Implementation-Version" value="${version}"/>
         <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
@@ -427,7 +421,8 @@
       </fileset>
     </jar>
   </target>
-  <target name="package-fop-trunk" depends="compile-all" if="fop-trunk.present">
+  
+  <target name="package-fop-trunk" depends="compile-all">
     <echo message="Creating the jar file ${build.dir}/${name}-fop-ext.jar"/>
     <jar jarfile="${build.dir}/${name}-fop-ext.jar">
       <manifest>
@@ -441,14 +436,19 @@
       <metainf dir="${fop-trunk.ext.dir}/resources">
         <include name="**"/>
       </metainf>
+      <metainf dir="${xgc.ext.dir}/resources">
+        <include name="**"/>
+      </metainf>
       <fileset dir="${build.dest.fop-trunk}">
+        <include name="org/krysalis/**"/>
+      </fileset>
+      <fileset dir="${build.dest.xgc}">
         <include name="org/krysalis/**"/>
       </fileset>
     </jar>
     <jar jarfile="${build.dir}/${name}-fop-ext-complete.jar">
       <manifest>
-        <attribute name="Main-Class" value="org.krysalis.barcode4j.cli.Main"/>
-        <attribute name="Class-Path" value="${manifest-classpath}"/>
+        <attribute name="Main-Class" value="${main.class}"/>
         <attribute name="Implementation-Title" value="${Name}"/>
         <attribute name="Implementation-Version" value="${version}"/>
         <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
@@ -459,7 +459,13 @@
       <metainf dir="${fop-trunk.ext.dir}/resources">
         <include name="**"/>
       </metainf>
+      <metainf dir="${xgc.ext.dir}/resources">
+        <include name="**"/>
+      </metainf>
       <fileset dir="${build.dest.fop-trunk}">
+        <include name="org/krysalis/**"/>
+      </fileset>
+      <fileset dir="${build.dest.xgc}">
         <include name="org/krysalis/**"/>
       </fileset>
       <fileset dir="${build.dest}">
@@ -480,7 +486,42 @@
       </metainf>
     </jar>
   </target>
-  <target name="package" depends="package-base, package-fop-0.20.5, package-fop-trunk, package.NET" description="Creates the Barcode JAR package(s)"/>
+  
+  <target name="package-xgc" depends="compile-all">
+    <echo message="Creating the jar file ${build.dir}/${name}-xgc.jar"/>
+    <jar jarfile="${build.dir}/${name}-xgc.jar">
+      <manifest>
+        <attribute name="Implementation-Title" value="${Name}"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+        <attribute name="Implementation-URL" value="${impl.url}"/>
+        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
+      </manifest>
+      <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
+      <metainf dir="${xgc.ext.dir}/resources">
+        <include name="**"/>
+      </metainf>
+      <fileset dir="${build.dest.xgc}">
+        <include name="org/krysalis/**"/>
+      </fileset>
+    </jar>
+    <jar jarfile="${resource-jar.dir}/${name}-xgc-resources.jar">
+      <manifest>
+        <attribute name="Implementation-Title" value="${Name}"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
+        <attribute name="Implementation-URL" value="${impl.url}"/>
+        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
+      </manifest>
+      <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
+      <metainf dir="${xgc.ext.dir}/resources">
+        <include name="**"/>
+      </metainf>
+    </jar>
+  </target>
+  
+  <target name="package" depends="package-base, package-fop-0.20.5, package-fop-trunk, package-xgc, osgi, package.NET" description="Creates the Barcode JAR packages"/>
+  
   <!-- =================================================================== -->
   <!-- Creates .NET binaries using IKVM                                    -->
   <!-- =================================================================== -->
@@ -552,7 +593,7 @@
         <arg value="-version:${barcode4j-version.net}"/>
         <arg value="-fileversion:${barcode4j-version}"/>
         <arg value="-out:${build.dotnet.dir}\${name}.exe"/>
-        <arg value="-main:org.krysalis.barcode4j.cli.Main"/>
+        <arg value="-main:${main.class}"/>
       </args>
     </ikvm-compile>
   </target>

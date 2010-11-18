@@ -1,0 +1,28 @@
+<bundle xmlns="http://www.jeremias-maerki.ch/ns/osgi-bundle">
+  <name>Barcode4J</name>
+  <symbolic-name>org.krysalis.barcode4j</symbolic-name>
+  <exports>
+    <export>org.krysalis.barcode4j</export>
+    <export>org.krysalis.barcode4j.impl*</export>
+    <export>org.krysalis.barcode4j.output*</export>
+    <export>org.krysalis.barcode4j.servlet*</export>
+    <export>org.krysalis.barcode4j.tools*</export>
+  </exports>
+  <imports>
+    <import match="javax.servlet">
+      <directive name="resolution">optional</directive> 
+    </import>
+    <import match="org.jdom*">
+      <directive name="resolution">optional</directive> 
+    </import>
+    <import match="org.apache.tools.ant">
+      <directive name="resolution">optional</directive> 
+    </import>
+    <import match="org.apache.commons.cli">
+      <directive name="resolution">optional</directive> 
+    </import>
+    <import match="org.apache.xalan*">
+      <directive name="resolution">optional</directive> 
+    </import>
+  </imports>
+</bundle>
