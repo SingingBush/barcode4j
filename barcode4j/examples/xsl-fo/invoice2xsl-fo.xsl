@@ -20,13 +20,11 @@
               <fo:table-body>
                 <fo:table-row>
                   <fo:table-cell text-align="start">
-                    <fo:block>
-                      <fo:external-graphic src="url(http://barcode4j.krysalis.org/images/group-logo.gif)" width="4cm"/>
-                    </fo:block>
+                    <fo:block/>
                   </fo:table-cell>
                   <fo:table-cell text-align="end">
                     <fo:block>
-                      <fo:external-graphic src="url(http://barcode4j.krysalis.org/resources/images/barcode4j-logo.gif)" width="3.5cm"/>
+                      <fo:external-graphic src="url(http://barcode4j.sourceforge.net/resources/images/barcode4j-logo.gif)" width="3.5cm"/>
                     </fo:block>
                   </fo:table-cell>
                 </fo:table-row>
@@ -39,13 +37,17 @@
               <fo:table-body>
                 <fo:table-row height="3.0cm">
                   <!-- should have: height="3.0cm" -->
-                  <fo:table-cell padding-top="1cm"/>
-                  <fo:table-cell/>
+                  <fo:table-cell padding-top="1cm"><fo:block></fo:block></fo:table-cell>
+                  <fo:table-cell padding-top="1cm"><fo:block></fo:block></fo:table-cell>
                   <fo:table-cell padding-top="1cm">
                     <xsl:apply-templates select="/invoice/header/client"/>
                   </fo:table-cell>
                 </fo:table-row>
-                <fo:table-row height="1.5cm"/>
+                <fo:table-row height="1.5cm">
+                  <fo:table-cell>
+                    <fo:block/>
+                  </fo:table-cell>
+                </fo:table-row>
                 <fo:table-row>
                   <fo:table-cell>
                     <fo:block>Invoice date:</fo:block>
@@ -81,7 +83,7 @@
                   </fo:table-cell>
                 </fo:table-row>
                 <fo:table-row>
-                  <fo:table-cell/>
+                  <fo:table-cell><fo:block></fo:block></fo:table-cell>
                   <fo:table-cell>
                     <fo:block>
                       <fo:instream-foreign-object>
@@ -92,7 +94,7 @@
                           <barcode>
                             <code128>
                               <human-readable>none</human-readable>
-                              <height>5mm</height>
+                              <height>8mm</height>
                               <quiet-zone enabled="false"/>
                             </code128>
                           </barcode>
@@ -137,7 +139,11 @@
       </fo:table-header>
       <fo:table-body>
         <xsl:apply-templates/>
-        <fo:table-row height="1mm"/>
+        <fo:table-row height="1mm">
+          <fo:table-cell>
+            <fo:block/>
+          </fo:table-cell>
+        </fo:table-row>
         <fo:table-row border-top-style="solid" border-top-width="0.5pt" border-bottom-style="solid" border-bottom-width="1.5pt">
           <fo:table-cell border-top="solid 0.5pt" border-bottom="solid 1.5pt" padding-top="1mm">
             <fo:block font-weight="bold">Total</fo:block>
