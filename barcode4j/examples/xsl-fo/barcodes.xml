@@ -12,6 +12,20 @@
       <intl2of5/>
     </barcode>
     <barcode>
+      <description>ITF-14</description>
+      <msg>15400141288763</msg>
+      <itf-14>
+        <module-width>0.5mm</module-width>
+        <height>20mm</height>
+        <bearer-bar-width>4mw</bearer-bar-width>
+        <quiet-zone enabled="true">10mw</quiet-zone>
+        <human-readable>
+          <font-size>8pt</font-size>
+          <pattern>_ __ _____ _____ _</pattern>
+        </human-readable>
+      </itf-14>
+    </barcode>
+    <barcode>
       <description>Code 39</description>
       <msg>0123456789</msg>
       <code39/>
