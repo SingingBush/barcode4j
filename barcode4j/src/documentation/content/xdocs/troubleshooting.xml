@@ -21,14 +21,14 @@
           you wanted to scan is even supported.
         </li>
         <li>
-          Check your <link href="2.0/barcode-xml.html#General+structure">barcode settings</link>. 
+          Check your <link href="site:current/barcode-xml/general/structure">barcode settings</link>. 
           Make sure the module widths, for example, are 
           within the specs. Barcode4J can not always detect in advance that
           a barcode will be unreadable.
         </li>
         <li>
           Depending on your printer you might need to adjust the 
-          <link href="2.0/barcode-xml.html#General+structure">barcode settings</link> 
+          <link href="site:current/barcode-xml/general/structure">barcode settings</link> 
           (<em>e.g.</em>, wide factor or module width) to get a better result.
           If the printer resolution compared to the barcode size is poor (<em>e.g.</em>, 
           laser printers generally output higher resolution than inkjet printers), you will
