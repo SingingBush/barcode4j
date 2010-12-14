@@ -291,8 +291,8 @@
           windowtitle="${name} ${version} API"
           stylesheetfile="${src.dir}/documentation/resources/stylesheets/javadoc.css">
       <classpath refid="project.classpath"/>
+      <classpath refid="fop-trunk.classpath"/>
       <packageset dir="${src.java.dir}" defaultexcludes="yes"/>
-      <packageset dir="${src.java14.dir}" defaultexcludes="yes"/>
       <packageset dir="${xalan.dir}/java" defaultexcludes="yes"/>
       <packageset dir="${saxon6.dir}/java" defaultexcludes="yes"/>
       <packageset dir="${saxon8.dir}/java" defaultexcludes="yes"/>
