@@ -1,6 +1,6 @@
-REM @ECHO OFF
+@ECHO OFF
 
-REM $Id: barcode.bat,v 1.5 2010-12-14 14:13:27 jmaerki Exp $
+REM $Id: barcode.bat,v 1.6 2010-12-14 14:16:41 jmaerki Exp $
 
 if "%JAVA_HOME%" == "" goto noJavaHome
 
