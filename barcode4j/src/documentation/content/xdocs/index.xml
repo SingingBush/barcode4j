@@ -9,7 +9,7 @@
       <title>Introduction</title>
       <p>
         <strong>Barcode4J</strong> is a flexible generator for barcodes written 
-        in Java. It's free, available under the Apache License, version 2.0.
+        in Java. It's free, available under the <fork href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0</fork>.
       </p>
     </section>
     <section>
@@ -18,6 +18,7 @@
         <li>1D barcode implementations [<link href="examples.html">examples</link>] [<link href="2.0/barcode-xml.html">xml-format</link>]:
           <ul>
             <li>Interleaved 2 of 5 </li>
+            <li>ITF-14</li>
             <li>Code 39</li>
             <li>Code 128</li>
             <li>EAN-128, GS1-128 (based on Code 128)</li>

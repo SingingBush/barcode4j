@@ -58,8 +58,13 @@
   <changes>
     <!-- Add new releases here -->
     <!--
-    -->
     <release version="dev">
+    </release>
+    -->
+    <release version="2.1" date="2010-12-15">
+      <action dev="jmaerki" type="add" context="code">
+        Added OSGi metadata to barcode4j.jar and barcode4j-light.jar. 
+      </action>
       <action dev="jmaerki" type="fix" context="code" fixes-bug="3048549">
         Bugfix for DataMatrix when character 0x0060 (&#x0060;) is encountered. 
       </action>

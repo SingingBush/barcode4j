@@ -3,6 +3,33 @@
 
 <faqs title="Frequently Asked Questions">
 
+  <part id="barcode4j">
+    <title>Questions on Barcode4J in general</title>
+    <faq id="license">
+      <question>
+        Under which license is Barcode4J published?
+      </question>
+      <answer>
+        <p>
+          It is published under the <fork href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0</fork>.
+          That means it is free and you can even use it in commercial software.
+          However, we encourage you to read the Apache License to learn about all details.
+        </p>
+      </answer>
+    </faq>
+    <faq id="recognition">
+      <question>
+        Does Barcode4J support barcode recognition?
+      </question>
+      <answer>
+        <p>
+          No, Barcode4J is a barcode <strong>generator</strong> and does not support barcode recognition.
+          If you're looking for a similarly licensed barcode recognition software written in Java,
+          have a look at <fork href="http://code.google.com/p/zxing/">Zxing at Google Code</fork>.
+        </p>
+      </answer>
+    </faq>
+  </part>
   <part id="problems">
     <title>Problems</title>
     <faq id="printing-quality">

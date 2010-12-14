@@ -16,9 +16,9 @@
   <!-- Add new tabs here, eg:
   <tab label="How-Tos" dir="community/howto/"/>
   <tab label="XML Site" dir="xml-site/"/>
-  -->
   <tab id="previous-version" label="Version 1.0" dir="1.0/" indexfile="index.html"/>
-  <tab id="current-version" label="Version 2.0" dir="2.0/" indexfile="index.html"/>
+  -->
+  <tab id="current-version" label="Version 2.1" dir="2.1/" indexfile="index.html"/>
   <tab id="trunk" label="In Development" dir="trunk/" indexfile="index.html"/>
   <!-- alternate method
   <tab id="doc" label="Documentation" dir="" indexfile="documentation.html">
