@@ -15,7 +15,7 @@
     <section>
       <title>Barcode4J Documentation Links</title>
       <dl>
-        <dt><link href="site:barcode-xml">The Barcode XML Format</link></dt>
+        <dt><link href="site:general">The Barcode XML Format</link></dt>
         <dd>describes the XML format used by <strong>Barcode4J</strong> to define barcodes. It also contains notes about the message format supported by each symbology.</dd>
         <dt><link href="site:output-formats">Output Formats</link></dt>
         <dd>gives information about the various output formats supported by <strong>Barcode4J</strong> and tells you how to implement additional output formats.</dd>
