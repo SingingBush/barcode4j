@@ -87,7 +87,7 @@
     </tstamp>
     
     <path id="bundle-util.classpath">
-      <fileset dir="${lib.dir}/build">
+      <fileset dir="${lib.dir}/build-tools">
         <include name="**/*.jar"/>
       </fileset>
     </path>

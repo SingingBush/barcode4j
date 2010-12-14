@@ -16,10 +16,10 @@
     <echo message="FORREST_HOME = ${forrest.home}"/>
     -->
     <echo message="Make sure you have a proper Forrest Trunk installation (see http://forrest.apache.org/)"/>
-	<condition property="forrest.call" value="forrest.bat" else="forrest">
-	  <os family="windows"/>
-	</condition>
-	<exec executable="${forrest.call}"/>
+    <condition property="forrest.call" value="forrest.bat" else="forrest">
+      <os family="windows"/>
+    </condition>
+    <exec executable="${forrest.call}"/>
   </target>
   <target name="applet">
     <subant target="all">
@@ -44,18 +44,10 @@
     </copy>
     <tar destfile="${build.dir}/barcode4j-site.tar.gz" basedir="${build.dir}/site" compression="gzip"/>
   </target>
-  <target name="ssh-test" description="With this target you can verify if the SSH connection works">
-    <sshexec host="shell.sourceforge.net" trust="yes" username="${ssh.uid}" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" command="echo 'Hello World'"/>
-  </target>
   <target name="deploy-site" description="Deploys the website to SourceForge"><!-- depends="website"-->
-    <scp todir="${ssh.uid},barcode4j@web.sourceforge.net:htdocs" trust="yes" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" verbose="true">
+    <scp todir="${ssh.uid},barcode4j@web.sourceforge.net:/home/groups/b/ba/barcode4j/htdocs " trust="yes" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" verbose="true" sftp="true">
       <fileset dir="${build.dir}/site"/>
     </scp>
-    <!-- old SF
-    <scp file="${build.dir}/barcode4j-site.tar.gz" todir="${ssh.uid}@shell.sourceforge.net:/home/groups/b/ba/barcode4j/htdocs" trust="yes" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" verbose="true"/>
-    <sshexec host="shell.sourceforge.net" trust="yes" username="${ssh.uid}" keyfile="${ssh.key}" passphrase="${ssh.key.passphrase}" 
-        command="cd /home/groups/b/ba/barcode4j/htdocs;gunzip barcode4j-site.tar.gz;tar xUvf barcode4j-site.tar;chgrp -R barcode4j *;chmod -R g+rwX *;rm barcode4j-site.tar"/>
-        -->
   </target>
   <!-- =================================================================== -->
   <!-- Distribution                                                        -->
@@ -79,7 +71,7 @@
         <include name="build/*.jar"/>
         <include name="build/*.war"/>
         <include name="README*"/>
-		<include name="LICENSE*"/>
+        <include name="LICENSE*"/>
         <include name="NOTICE*"/>
         <include name="barcode.bat"/>
         <include name="barcode.cfg"/>
@@ -107,11 +99,12 @@
         <include name="barcode.cfg"/>
         <include name="build*.xml"/>
         <include name="build.properties"/>
+        <include name="bundle.xml"/>
         <include name="ivy*.xml"/>
-		<include name="ikvm*.txt"/>
-		<include name="checkstyle*"/>
+        <include name="ikvm*.txt"/>
+        <include name="checkstyle*"/>
         <include name="examples/**"/>
-        <include name="lib/*.jar"/>
+        <include name="lib/**/*.jar"/>
         <include name="legal/**"/>
         <include name="src/**"/>
         <exclude name="WARNING*"/>
