@@ -16,6 +16,8 @@
 package org.krysalis.barcode4j.webapp;
 
 import java.io.UnsupportedEncodingException;
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 
 import org.krysalis.barcode4j.servlet.BarcodeServlet;
 import org.krysalis.barcode4j.tools.MimeTypes;
@@ -23,7 +25,7 @@ import org.krysalis.barcode4j.tools.MimeTypes;
 /**
  * This is just a little helper bean for the JSP page.
  *
- * @version $Id: BarcodeRequestBean.java,v 1.6 2010-10-25 09:28:47 jmaerki Exp $
+ * @version $Id: BarcodeRequestBean.java,v 1.7 2011-05-04 08:18:48 jmaerki Exp $
  */
 public class BarcodeRequestBean {
 
@@ -290,12 +292,40 @@ public class BarcodeRequestBean {
         return sb.toString();
     }
 
-    private String encode(String text) {
+    public String toXMLSafeURL() {
+        return escapeForXML(toURL());
+    }
+
+    private static String encode(String text) {
         try {
-            return java.net.URLEncoder.encode(humanReadableFont, "UTF-8");
+            return java.net.URLEncoder.encode(text, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("Incompatible JVM: " + e.getMessage(), e);
         }
     }
 
+    public static String escapeForXML(String text) {
+        final StringBuilder result = new StringBuilder();
+        final StringCharacterIterator iterator = new StringCharacterIterator(text);
+        char character = iterator.current();
+        while (character != CharacterIterator.DONE) {
+            if (character == '<') {
+                result.append("&lt;");
+            } else if (character == '>') {
+                result.append("&gt;");
+            } else if (character == '\"') {
+                result.append("&quot;");
+            } else if (character == '\'') {
+                result.append("&#039;");
+            } else if (character == '&') {
+                result.append("&amp;");
+            } else {
+                // the char is not a special one
+                // add it to the result as is
+                result.append(character);
+            }
+            character = iterator.next();
+        }
+        return result.toString();
+    }
 }
