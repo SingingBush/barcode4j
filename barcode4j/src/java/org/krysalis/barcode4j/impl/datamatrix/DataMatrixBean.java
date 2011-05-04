@@ -29,7 +29,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 /**
  * This class is an implementation of DataMatrix (ISO 16022:2000(E)).
  *
- * @version $Id: DataMatrixBean.java,v 1.7 2008-09-22 08:59:07 jmaerki Exp $
+ * @version $Id: DataMatrixBean.java,v 1.8 2011-05-04 08:29:03 jmaerki Exp $
  */
 public class DataMatrixBean extends AbstractBarcodeBean {
 
@@ -77,7 +77,7 @@ public class DataMatrixBean extends AbstractBarcodeBean {
      * @param minSize the minimum size (in pixels), or null for no constraint
      */
     public void setMinSize(Dimension minSize) {
-        this.minSize = new Dimension(minSize);
+        this.minSize = (minSize != null ? new Dimension(minSize) : null);
     }
 
     /**
@@ -98,7 +98,7 @@ public class DataMatrixBean extends AbstractBarcodeBean {
      * @param maxSize the maximum size (in pixels), or null for no constraint
      */
     public void setMaxSize(Dimension maxSize) {
-        this.maxSize = new Dimension(maxSize);
+        this.maxSize = (maxSize != null ? new Dimension(maxSize) : null);
     }
 
     /**
