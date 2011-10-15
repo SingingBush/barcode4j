@@ -14,22 +14,26 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417HighLevelEncoder.java,v 1.8 2010-08-19 13:52:22 jmaerki Exp $ */
+/* $Id: PDF417HighLevelEncoder.java,v 1.9 2011-10-15 13:37:18 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.Arrays;
+
+import org.krysalis.barcode4j.tools.URLUtil;
 
 /**
  * PDF417 high-level encoder following the algorithm described in ISO/IEC 15438:2001(E) in
  * annex P.
  *
- * @version $Id: PDF417HighLevelEncoder.java,v 1.8 2010-08-19 13:52:22 jmaerki Exp $
+ * @version $Id: PDF417HighLevelEncoder.java,v 1.9 2011-10-15 13:37:18 jmaerki Exp $
  */
 public class PDF417HighLevelEncoder implements PDF417Constants {
 
+    private static final String CP437 = "cp437";
     private static final byte[] MIXED = new byte[128];
     private static final byte[] PUNCTUATION = new byte[128];
 
@@ -58,7 +62,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
      * @return the byte array of the message
      */
     public static byte[] getBytesForMessage(String msg) {
-        final String charset = "cp437"; //See 4.4.3 and annex B of ISO/IEC 15438:2001(E)
+        final String charset = CP437; //See 4.4.3 and annex B of ISO/IEC 15438:2001(E)
         try {
             return msg.getBytes(charset);
         } catch (UnsupportedEncodingException e) {
@@ -68,12 +72,35 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
     }
 
     /**
+     * Performs high-level encoding of a PDF417 message (binary data).
+     * @param data the binary data stream
+     * @return the encoded message (the char values range from 0 to 928)
+     */
+    public static String encodeHighLevel(byte[] data) {
+        StringBuffer sb = new StringBuffer(data.length);
+        encodeBinary(null, data, 0, data.length, TEXT_COMPACTION, sb);
+        return sb.toString();
+    }
+
+    /**
      * Performs high-level encoding of a PDF417 message using the algorithm described in annex P
      * of ISO/IEC 15438:2001(E).
      * @param msg the message
      * @return the encoded message (the char values range from 0 to 928)
      */
     public static String encodeHighLevel(String msg) {
+        String url = URLUtil.getURL(msg);
+        if (url != null) {
+            byte[] data;
+            try {
+                data = URLUtil.getData(url, CP437);
+            } catch (IOException ioe) {
+                throw new IllegalArgumentException(
+                        "Could not get binary content from URL: " + url, ioe);
+            }
+            return encodeHighLevel(data);
+        }
+
         byte[] bytes = null; //Fill later and only if needed
 
         //the codewords 0..928 are encoded as Unicode characters

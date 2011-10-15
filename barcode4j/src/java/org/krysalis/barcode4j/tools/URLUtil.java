@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: URLUtil.java,v 1.1 2008-09-15 07:10:28 jmaerki Exp $ */
+/* $Id: URLUtil.java,v 1.2 2011-10-15 13:37:17 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.tools;
 
@@ -28,6 +28,9 @@ import java.net.URLDecoder;
  * Utility functions for handling URLs.
  */
 public class URLUtil {
+
+    public static final String URL_START = "url(";
+    public static final String URL_END = ")";
 
     private static final String DATA_PROTOCOL = "data:";
 
@@ -79,6 +82,20 @@ public class URLUtil {
             final String unescapedString = URLDecoder.decode(data, urlEncoding);
             byte[] bytes = unescapedString.getBytes(encoding);
             return bytes;
+        }
+    }
+
+    public static boolean isURL(String message) {
+        return message.startsWith(URLUtil.URL_START) && message.endsWith(URLUtil.URL_END);
+    }
+
+    public static String getURL(String message) {
+        if (URLUtil.isURL(message)) {
+            String url = message.substring(URLUtil.URL_START.length(),
+                    message.length() - URLUtil.URL_END.length());
+            return url;
+        } else {
+            return null;
         }
     }
 

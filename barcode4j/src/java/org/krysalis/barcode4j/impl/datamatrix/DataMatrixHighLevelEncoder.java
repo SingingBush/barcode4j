@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: DataMatrixHighLevelEncoder.java,v 1.17 2010-08-19 13:49:30 jmaerki Exp $ */
+/* $Id: DataMatrixHighLevelEncoder.java,v 1.18 2011-10-15 13:37:18 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
@@ -29,7 +29,7 @@ import org.krysalis.barcode4j.tools.URLUtil;
  * DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
  * annex S.
  *
- * @version $Id: DataMatrixHighLevelEncoder.java,v 1.17 2010-08-19 13:49:30 jmaerki Exp $
+ * @version $Id: DataMatrixHighLevelEncoder.java,v 1.18 2011-10-15 13:37:18 jmaerki Exp $
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
@@ -46,9 +46,6 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         = new String[] {"ASCII", "C40", "Text", "ANSI X12", "EDIFACT", "Base 256"};
 
     private static final String DEFAULT_ASCII_ENCODING = "ISO-8859-1";
-
-    private static final String URL_START = "url(";
-    private static final String URL_END = ")";
 
     /**
      * Converts the message to a byte array using the default encoding (cp437) as defined by the
@@ -161,11 +158,10 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
     }
 
     private static EncoderContext createEncoderContext(String msg) throws IOException {
-        if (msg.startsWith(URL_START) && msg.endsWith(URL_END)) {
+        String url = URLUtil.getURL(msg);
+        if (url != null) {
             //URL processing
-            String url = msg.substring(URL_START.length(), msg.length() - URL_END.length());
-            byte[] data;
-            data = URLUtil.getData(url, DEFAULT_ASCII_ENCODING);
+            byte[] data = URLUtil.getData(url, DEFAULT_ASCII_ENCODING);
             return new EncoderContext(data);
         } else {
             return new EncoderContext(msg);

@@ -58,6 +58,9 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="jmaerki" type="add" context="code">
+        Added URL-support for binary data encoding to PDF417 (same pattern as for DataMatrix). 
+      </action>
       <action dev="jmaerki" type="fix" context="code" fixes-bug="3294287">
         Fixed a NullPointerException when setting minSize or maxSize to null in DataMatrixBean. 
       </action>

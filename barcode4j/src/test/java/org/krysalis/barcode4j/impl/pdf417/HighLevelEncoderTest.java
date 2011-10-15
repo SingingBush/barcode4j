@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: HighLevelEncoderTest.java,v 1.8 2010-02-06 16:47:49 jmaerki Exp $ */
+/* $Id: HighLevelEncoderTest.java,v 1.9 2011-10-15 13:37:18 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -247,6 +247,15 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         expected = "844 157 249 913 29 841 840 850 349 843 61 179 901 30 4";
         //5 bytes in text, shift to byte, 1 byte, 9 bytes in text, latch to byte, 2 bytes
         //Problem here was: shift to byte (913) does not reset text sub-mode!
+        assertEquals(expected, result);
+    }
+
+    public void testBinaryData() throws Exception {
+        String msg, result, expected;
+        msg = "url(data:;base64,flRlc3R+)"; //~Test~
+        //System.out.println(new String(URLUtil.getData(URLUtil.getURL(msg), "UTF-8")));
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        expected = "924 211 636 247 386 518";
         assertEquals(expected, result);
     }
 }
