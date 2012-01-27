@@ -102,6 +102,11 @@
       <msg>Barcode4J is a flexible generator for barcodes written in Java. It's free, available under the Apache License, version 2.0.</msg>
       <datamatrix/>
     </barcode>
+    <barcode>
+      <description>QR Code</description>
+      <msg>http://barcode4j.sourceforge.net</msg>
+      <qr/>
+    </barcode>
   </section>
   <section title="Real-life examples">
     <barcode>

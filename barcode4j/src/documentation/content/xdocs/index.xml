@@ -34,6 +34,7 @@
           <ul>
             <li>PDF 417 (ISO/IEC 15438:2001(E))</li>
             <li>DataMatrix (ISO/IEC 16022:2000(E))</li>
+            <li>QR Code (ISO/IEC 18004:2006(E)) (requires <a href="http://code.google.com/p/zxing/">ZXing</a>, available from CVS HEAD only)</li>
           </ul>
         </li>
         <li>Support for multiple output formats [<link href="site:output-formats">output-formats</link>]:

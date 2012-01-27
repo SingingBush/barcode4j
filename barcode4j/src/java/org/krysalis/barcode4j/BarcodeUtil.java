@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,28 +15,29 @@
  */
 package org.krysalis.barcode4j;
 
+import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
+import org.w3c.dom.DocumentFragment;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.container.ContainerUtil;
-import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
-import org.w3c.dom.DocumentFragment;
 
 /**
  * This is a convenience class to generate barcodes. It is implemented as
  * Singleton to cache the BarcodeClassResolver. However, the class also
  * contains a set of static methods which you can use of you manage your own
  * BarcodeClassResolver.
- * 
+ *
  * @author Jeremias Maerki
- * @version $Id: BarcodeUtil.java,v 1.5 2007-02-14 10:19:07 jmaerki Exp $
+ * @version $Id: BarcodeUtil.java,v 1.6 2012-01-27 14:36:35 jmaerki Exp $
  */
 public class BarcodeUtil {
-    
+
     private static BarcodeUtil instance = null;
-    
+
     private BarcodeClassResolver classResolver = new DefaultBarcodeClassResolver();
-    
-    
+
+
     /**
      * Creates a new BarcodeUtil object. This constructor is protected because
      * this class is designed as a singleton.
@@ -44,7 +45,7 @@ public class BarcodeUtil {
     protected BarcodeUtil() {
         //nop
     }
-    
+
     /**
      * Returns the default instance of this class.
      * @return the singleton
@@ -55,7 +56,7 @@ public class BarcodeUtil {
         }
         return instance;
     }
-    
+
     /**
      * Returns the class resolver used by this class.
      * @return a BarcodeClassResolver instance
@@ -63,7 +64,7 @@ public class BarcodeUtil {
     public BarcodeClassResolver getClassResolver() {
         return this.classResolver;
     }
-    
+
     /**
      * Creates a BarcoderGenerator.
      * @param cfg Configuration object that specifies the barcode to produce.
@@ -73,8 +74,8 @@ public class BarcodeUtil {
      * @throws BarcodeException if setting up a BarcodeGenerator fails
      * @throws ConfigurationException if something's wrong wth the configuration
      */
-    public static BarcodeGenerator createBarcodeGenerator(Configuration cfg, 
-                                    BarcodeClassResolver classResolver) 
+    public static BarcodeGenerator createBarcodeGenerator(Configuration cfg,
+                                    BarcodeClassResolver classResolver)
             throws BarcodeException, ConfigurationException {
         Class cl = null;
         try {
@@ -93,7 +94,7 @@ public class BarcodeUtil {
                     throw new BarcodeException("Barcode configuration element expected");
                 }
 
-                //Find barcode config element            
+                //Find barcode config element
                 for (int i = 0; i < children.length; i++) {
                     child = children[i];
                     type = child.getName();
@@ -108,10 +109,10 @@ public class BarcodeUtil {
 
             if (cl == null) {
                 throw new BarcodeException(
-                    "No barcode configuration element not found");
+                    "No known barcode configuration element found");
             }
 
-            //Instantiate the BarcodeGenerator            
+            //Instantiate the BarcodeGenerator
             BarcodeGenerator gen = (BarcodeGenerator)cl.newInstance();
             try {
                 ContainerUtil.configure(gen, (child != null ? child : cfg));
@@ -121,7 +122,7 @@ public class BarcodeUtil {
             try {
                 ContainerUtil.initialize(gen);
             } catch (Exception e) {
-                throw new RuntimeException("Cannot initialize barcode generator. " 
+                throw new RuntimeException("Cannot initialize barcode generator. "
                         + e.getMessage());
             }
             return gen;
@@ -133,7 +134,7 @@ public class BarcodeUtil {
                     + cl.getName());
         }
     }
-            
+
     /**
      * Creates a BarcoderGenerator.
      * @param cfg Configuration object that specifies the barcode to produce.
@@ -141,11 +142,11 @@ public class BarcodeUtil {
      * @throws BarcodeException if setting up a BarcodeGenerator fails
      * @throws ConfigurationException if something's wrong wth the configuration
      */
-    public BarcodeGenerator createBarcodeGenerator(Configuration cfg) 
+    public BarcodeGenerator createBarcodeGenerator(Configuration cfg)
             throws ConfigurationException, BarcodeException {
         return createBarcodeGenerator(cfg, this.classResolver);
     }
-    
+
     /**
      * Convenience method to create an SVG barocde as a DOM fragment.
      * @param cfg Configuration object that specifies the barcode to produce.
@@ -155,7 +156,7 @@ public class BarcodeUtil {
      * @throws ConfigurationException if something's wrong wth the configuration
      */
     public DocumentFragment generateSVGBarcode(Configuration cfg,
-                                               String msg) 
+                                               String msg)
                     throws ConfigurationException, BarcodeException {
         BarcodeGenerator gen = createBarcodeGenerator(cfg);
         SVGCanvasProvider svg = new SVGCanvasProvider(false, 0);
@@ -165,5 +166,5 @@ public class BarcodeUtil {
 
         return svg.getDOMFragment();
     }
-    
+
 }

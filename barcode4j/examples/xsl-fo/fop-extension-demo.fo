@@ -321,6 +321,11 @@
             <bc:pdf417/>
           </bc:barcode>
         </fo:instream-foreign-object>
+        <fo:instream-foreign-object>
+          <bc:barcode xmlns:bc="http://barcode4j.krysalis.org/ns" message="http://barcode4j.sourceforge.net">
+            <bc:qr/>
+          </bc:barcode>
+        </fo:instream-foreign-object>
       </fo:block>
       <fo:block break-before="page" font-weight="bold" space-before="2cm">Using the current page number as part of the message: xxx#page-number#xxx</fo:block>
       <fo:block>

@@ -58,6 +58,9 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="jmaerki" type="add" context="code" fixes-bug="2294265">
+        Added initial support for QR Code (requires ZXing in the classpath!). 
+      </action>
       <action dev="jmaerki" type="add" context="code">
         Added URL-support for binary data encoding to PDF417 (same pattern as for DataMatrix). 
       </action>

@@ -48,7 +48,7 @@
           <!--td><fork href="images/example-intl2of5.svg">view SVG version</fork></td-->
         </tr>
         <tr>
-          <td id="itf-14">ITF-14 (new)</td>
+          <td id="itf-14">ITF-14</td>
           <td><img src="images/example-itf-14.png" alt="Sample ITF-14 (PNG)" width="20%"/></td>
           <!--td><fork href="images/example-intl2of5.svg">view SVG version</fork></td-->
         </tr>
@@ -115,6 +115,11 @@
         <tr>
           <td id="datamatrix-rect">DataMatrix (rectangular)</td>
           <td><img src="images/example-datamatrix-rect.png" alt="Sample DataMatrix symbol (PNG)"/></td>
+          <!--td><fork href="svg/example-datamatrix-rect.svg">view SVG version</fork></td-->
+        </tr>
+        <tr>
+          <td id="qr-rect">QR Code</td>
+          <td><img src="images/example-qr.png" alt="Sample QR Code symbol (PNG)"/></td>
           <!--td><fork href="svg/example-datamatrix-rect.svg">view SVG version</fork></td-->
         </tr>
       </table>

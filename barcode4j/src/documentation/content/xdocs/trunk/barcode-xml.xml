@@ -234,6 +234,7 @@
           <ul>
             <li><link href="symbol-pdf417.html">PDF417</link></li>
             <li><link href="symbol-datamatrix.html">DataMatrix</link></li>
+            <li><link href="symbol-qr.html">QR Code (requires ZXing!)</link></li>
           </ul>
         </li>
       </ul>
