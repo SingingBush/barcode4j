@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: QRLogicImpl.java,v 1.1 2012-01-27 14:36:35 jmaerki Exp $ */
+/* $Id: QRLogicImpl.java,v 1.2 2012-02-06 20:22:46 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.qr;
 
@@ -33,7 +33,7 @@ import com.google.zxing.qrcode.encoder.QRCode;
 /**
  * Top-level class for the logic part of the DataMatrix implementation.
  *
- * @version $Id: QRLogicImpl.java,v 1.1 2012-01-27 14:36:35 jmaerki Exp $
+ * @version $Id: QRLogicImpl.java,v 1.2 2012-02-06 20:22:46 jmaerki Exp $
  */
 public class QRLogicImpl implements QRConstants {
 
@@ -53,24 +53,7 @@ public class QRLogicImpl implements QRConstants {
 
         //TODO ZXing doesn't allow to set minSize/maxSize through its API
 
-        ErrorCorrectionLevel zxingErrLevel;
-        switch (errorCorrectionLevel) {
-        case ERROR_CORRECTION_LEVEL_L:
-            zxingErrLevel = ErrorCorrectionLevel.L;
-            break;
-        case ERROR_CORRECTION_LEVEL_M:
-            zxingErrLevel = ErrorCorrectionLevel.M;
-            break;
-        case ERROR_CORRECTION_LEVEL_Q:
-            zxingErrLevel = ErrorCorrectionLevel.Q;
-            break;
-        case ERROR_CORRECTION_LEVEL_H:
-            zxingErrLevel = ErrorCorrectionLevel.H;
-            break;
-        default:
-            throw new IllegalArgumentException(
-                    "Invalid error correction level: " + errorCorrectionLevel);
-        }
+        ErrorCorrectionLevel zxingErrLevel = getZXingErrorLevel(errorCorrectionLevel);
         Hashtable hints = null;
         if (!"ISO-8859-1".equals(encoding)) {
             hints = new Hashtable();
@@ -89,6 +72,28 @@ public class QRLogicImpl implements QRConstants {
         logic.startBarcode(msg, msg);
         encodeLowLevel(logic, matrix);
         logic.endBarcode();
+    }
+
+    static ErrorCorrectionLevel getZXingErrorLevel(char errorCorrectionLevel) {
+        ErrorCorrectionLevel zxingErrLevel;
+        switch (errorCorrectionLevel) {
+        case ERROR_CORRECTION_LEVEL_L:
+            zxingErrLevel = ErrorCorrectionLevel.L;
+            break;
+        case ERROR_CORRECTION_LEVEL_M:
+            zxingErrLevel = ErrorCorrectionLevel.M;
+            break;
+        case ERROR_CORRECTION_LEVEL_Q:
+            zxingErrLevel = ErrorCorrectionLevel.Q;
+            break;
+        case ERROR_CORRECTION_LEVEL_H:
+            zxingErrLevel = ErrorCorrectionLevel.H;
+            break;
+        default:
+            throw new IllegalArgumentException(
+                    "Invalid error correction level: " + errorCorrectionLevel);
+        }
+        return zxingErrLevel;
     }
 
     private void encodeLowLevel(TwoDimBarcodeLogicHandler logic, ByteMatrix matrix) {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: QRCodeBean.java,v 1.1 2012-01-27 14:36:35 jmaerki Exp $ */
+/* $Id: QRCodeBean.java,v 1.2 2012-02-06 20:22:46 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.qr;
 
@@ -30,7 +30,6 @@ import org.krysalis.barcode4j.tools.ECIUtil;
 import org.krysalis.barcode4j.tools.UnitConv;
 
 import com.google.zxing.WriterException;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.encoder.ByteMatrix;
 import com.google.zxing.qrcode.encoder.Encoder;
 import com.google.zxing.qrcode.encoder.QRCode;
@@ -38,7 +37,7 @@ import com.google.zxing.qrcode.encoder.QRCode;
 /**
  * This class is an implementation of QR Code (ISO 18004:2006(E)).
  *
- * @version $Id: QRCodeBean.java,v 1.1 2012-01-27 14:36:35 jmaerki Exp $
+ * @version $Id: QRCodeBean.java,v 1.2 2012-02-06 20:22:46 jmaerki Exp $
  */
 public class QRCodeBean extends AbstractBarcodeBean {
 
@@ -166,10 +165,9 @@ public class QRCodeBean extends AbstractBarcodeBean {
 
     /** {@inheritDoc} */
     public BarcodeDimension calcDimensions(String msg) {
-        ErrorCorrectionLevel errorCorrectionLevel = ErrorCorrectionLevel.L;
         QRCode code = new QRCode();
         try {
-            Encoder.encode(msg, errorCorrectionLevel, null, code);
+            Encoder.encode(msg, QRLogicImpl.getZXingErrorLevel(errorCorrectionLevel), null, code);
         } catch (WriterException e) {
             throw new RuntimeException(e.getMessage());
         }
