@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: QRLogicImpl.java,v 1.2 2012-02-06 20:22:46 jmaerki Exp $ */
+/* $Id: QRLogicImpl.java,v 1.3 2012-02-08 12:59:41 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.qr;
 
@@ -33,7 +33,7 @@ import com.google.zxing.qrcode.encoder.QRCode;
 /**
  * Top-level class for the logic part of the DataMatrix implementation.
  *
- * @version $Id: QRLogicImpl.java,v 1.2 2012-02-06 20:22:46 jmaerki Exp $
+ * @version $Id: QRLogicImpl.java,v 1.3 2012-02-08 12:59:41 jmaerki Exp $
  */
 public class QRLogicImpl implements QRConstants {
 
@@ -54,11 +54,7 @@ public class QRLogicImpl implements QRConstants {
         //TODO ZXing doesn't allow to set minSize/maxSize through its API
 
         ErrorCorrectionLevel zxingErrLevel = getZXingErrorLevel(errorCorrectionLevel);
-        Hashtable hints = null;
-        if (!"ISO-8859-1".equals(encoding)) {
-            hints = new Hashtable();
-            hints.put(EncodeHintType.CHARACTER_SET, encoding);
-        }
+        Hashtable hints = createHints(encoding);
 
         QRCode code = new QRCode();
         try {
@@ -72,6 +68,15 @@ public class QRLogicImpl implements QRConstants {
         logic.startBarcode(msg, msg);
         encodeLowLevel(logic, matrix);
         logic.endBarcode();
+    }
+
+    static Hashtable createHints(String encoding) {
+        Hashtable hints = null;
+        if (!"ISO-8859-1".equals(encoding)) {
+            hints = new Hashtable();
+            hints.put(EncodeHintType.CHARACTER_SET, encoding);
+        }
+        return hints;
     }
 
     static ErrorCorrectionLevel getZXingErrorLevel(char errorCorrectionLevel) {

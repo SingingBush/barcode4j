@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: QRCodeBean.java,v 1.2 2012-02-06 20:22:46 jmaerki Exp $ */
+/* $Id: QRCodeBean.java,v 1.3 2012-02-08 12:59:41 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.qr;
 
@@ -37,7 +37,7 @@ import com.google.zxing.qrcode.encoder.QRCode;
 /**
  * This class is an implementation of QR Code (ISO 18004:2006(E)).
  *
- * @version $Id: QRCodeBean.java,v 1.2 2012-02-06 20:22:46 jmaerki Exp $
+ * @version $Id: QRCodeBean.java,v 1.3 2012-02-08 12:59:41 jmaerki Exp $
  */
 public class QRCodeBean extends AbstractBarcodeBean {
 
@@ -167,7 +167,9 @@ public class QRCodeBean extends AbstractBarcodeBean {
     public BarcodeDimension calcDimensions(String msg) {
         QRCode code = new QRCode();
         try {
-            Encoder.encode(msg, QRLogicImpl.getZXingErrorLevel(errorCorrectionLevel), null, code);
+            Encoder.encode(msg,
+                    QRLogicImpl.getZXingErrorLevel(errorCorrectionLevel),
+                    QRLogicImpl.createHints(encoding), code);
         } catch (WriterException e) {
             throw new RuntimeException(e.getMessage());
         }
