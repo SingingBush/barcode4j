@@ -617,6 +617,7 @@
     <war warfile="${build.dir}/${name}.war" webxml="${webapp.dir}/conf/web.xml">
       <lib dir="${lib.dir}">
         <include name="avalon-framework*.jar"/>
+        <include name="zxing*.jar"/>
       </lib>
       <lib dir="${build.dir}">
         <include name="${name}.jar"/>
