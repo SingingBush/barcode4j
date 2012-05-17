@@ -58,6 +58,12 @@
   <changes>
     <!-- Add new releases here -->
     <release version="dev">
+      <action dev="jmaerki" type="add" context="code">
+        Added minimal ECI support for PDF417 (character set indication). 
+      </action>
+      <action dev="jmaerki" type="add" context="code" fixes-bug="3511408" due-to="Arpit Gautam" due-to-email="arpit.gautam.at.gmail.com">
+        Added support for specifying non-standard encodings on PDF417 symbols. 
+      </action>
       <action dev="jmaerki" type="add" context="code" fixes-bug="2294265">
         Added initial support for QR Code (requires ZXing in the classpath!). 
       </action>

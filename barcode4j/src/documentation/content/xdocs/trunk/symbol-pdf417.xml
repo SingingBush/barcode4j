@@ -26,6 +26,7 @@
       &#60;quiet-zone enabled="{<link href="barcode-xml.html#boolean">boolean</link>:true}"&#62;{<link href="barcode-xml.html#length">length</link>:2mw}&#60;/quiet-zone&#62;
       &#60;vertical-quiet-zone&#62;{<link href="barcode-xml.html#length">length</link>:default is same as quiet-zone}&#60;/vertical-quiet-zone&#62;
       &#60;width-to-height-ratio&#62;{<link href="barcode-xml.html#number">number</link>:3.0}&#60;/width-to-height-ratio&#62;
+      &#60;encoding enable-eci="{<link href="barcode-xml.html#boolean">boolean</link>:false}"&#62;{<link href="barcode-xml.html#string">string</link>:cp437}&#60;/encoding&#62;
   &#60;/<strong>pdf417</strong>&#62;
 &#60;/barcode&#62;</source>
     </section>
@@ -47,8 +48,24 @@
           Using the "columns" setting overrides the "min/max-columns" setting! Or in other words:
           Setting "columns" sets "min-columns" and "max-columns" to the same value.
         </li>
+        <li>
+          Using "encoding", you can control how the message is encoded in terms of character
+          set. PDF417's default character set is "cp437" (PC437) as per ISO-15438:2001. By setting
+          this value, you can deviate from the default using all possible encodings supported by
+          Java. This is a non-standard operation unless you also set "enable-eci" to "true" in
+          which case the codewords to indicate a particular ECI are inserted at the beginning.
+          Conforming readers can then properly interpret the data. However, it appears that ECI is
+          often not implemented by barcode readers.
+        </li>
         <li>Macro PDF417 functionality is not implemented, yet.</li>
         <li>Compact PDF417 functionality is not implemented, yet.</li>
+        <li>
+          This implementation relies on
+          <a href="http://www.iso.org/iso/iso_catalogue/catalogue_ics/catalogue_detail_ics.htm?csnumber=27681">ISO/IEC 15438:2001(E)</a>.
+          It is currently unknown if changes introduced by
+          <a href="http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=43816">ISO/IEC 15438:2006</a>
+          have an influence on this implementation.
+        </li>
       </ul>
     </section>
     <section>
@@ -57,7 +74,11 @@
         <li>All printable ASCII characters are valid characters.</li>
         <li>Byte compaction mode permits all 256 possible 8-bit byte values to be encoded.</li>
         <li>Using only numeric characters allows for smaller symbol sizes.</li>
-        <li>Currently, no ECI functionality is available. All characters are interpreted in "cp437" (PC437) encoding.</li>
+        <li>
+          Currently, ECI functionality is limited to setting the character set for the whole
+          message without the possibility to add custom ECIs or changing the character set inside
+          the message.
+        </li>
         <li>
           Binary data can be supplied through URLs if they are enclosed in "url()".
           <a href="http://www.faqs.org/rfcs/rfc2397.html">RFC 2397</a> data URLs can be used to

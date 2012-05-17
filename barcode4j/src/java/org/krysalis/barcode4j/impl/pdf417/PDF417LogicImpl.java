@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417LogicImpl.java,v 1.4 2007-07-11 08:22:41 jmaerki Exp $ */
+/* $Id: PDF417LogicImpl.java,v 1.5 2012-05-17 13:57:37 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -26,8 +26,8 @@ import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 
 /**
  * Top-level class for the logic part of the PDF417 implementation.
- * 
- * @version $Id: PDF417LogicImpl.java,v 1.4 2007-07-11 08:22:41 jmaerki Exp $
+ *
+ * @version $Id: PDF417LogicImpl.java,v 1.5 2012-05-17 13:57:37 jmaerki Exp $
  */
 public class PDF417LogicImpl {
 
@@ -77,7 +77,7 @@ public class PDF417LogicImpl {
     }
 
     /**
-     * Calculates the number of pad codewords as described in 4.9.2 of ISO/IEC 15438:2001(E). 
+     * Calculates the number of pad codewords as described in 4.9.2 of ISO/IEC 15438:2001(E).
      * @param m the number of source codewords prior to the additional of the Symbol Length
      *          Descriptor and any pad codewords
      * @param k the number of error correction codewords
@@ -99,7 +99,7 @@ public class PDF417LogicImpl {
      * Calculates the number of data codewords (equals the Symbol Length Descriptor).
      * @param m the number of source codewords prior to the additional of the Symbol Length
      *          Descriptor and any pad codewords
-     * @param errorCorrectionLevel the error correction level (value between 0 and 8) 
+     * @param errorCorrectionLevel the error correction level (value between 0 and 8)
      * @param c the number of columns in the symbol in the data region (excluding start, stop and
      *          row indicator codewords)
      * @return the number of data codewords
@@ -190,7 +190,8 @@ public class PDF417LogicImpl {
         //1. step: High-level encoding
         int errorCorrectionCodeWords = PDF417ErrorCorrection.getErrorCorrectionCodewordCount(
                 errorCorrectionLevel);
-        String highLevel = PDF417HighLevelEncoder.encodeHighLevel(msg);
+        String highLevel = PDF417HighLevelEncoder.encodeHighLevel(msg,
+                pdf417Bean.getEncoding(), pdf417Bean.isECIEnabled());
         int sourceCodeWords = highLevel.length();
 
         Dimension dimension = determineDimensions(pdf417Bean, sourceCodeWords);
@@ -234,8 +235,8 @@ public class PDF417LogicImpl {
     }
 
     /**
-     * Determine optimal nr of columns and rows for the specified number of 
-     * codewords. 
+     * Determine optimal nr of columns and rows for the specified number of
+     * codewords.
      * @param pdf417Bean contains configuration settings
      * @param sourceCodeWords number of code words
      * @return dimension object containing cols as width and rows as height

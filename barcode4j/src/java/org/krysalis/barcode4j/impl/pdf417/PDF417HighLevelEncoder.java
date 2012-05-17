@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417HighLevelEncoder.java,v 1.9 2011-10-15 13:37:18 jmaerki Exp $ */
+/* $Id: PDF417HighLevelEncoder.java,v 1.10 2012-05-17 13:57:37 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -23,17 +23,17 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import org.krysalis.barcode4j.tools.ECIUtil;
 import org.krysalis.barcode4j.tools.URLUtil;
 
 /**
  * PDF417 high-level encoder following the algorithm described in ISO/IEC 15438:2001(E) in
  * annex P.
  *
- * @version $Id: PDF417HighLevelEncoder.java,v 1.9 2011-10-15 13:37:18 jmaerki Exp $
+ * @version $Id: PDF417HighLevelEncoder.java,v 1.10 2012-05-17 13:57:37 jmaerki Exp $
  */
 public class PDF417HighLevelEncoder implements PDF417Constants {
 
-    private static final String CP437 = "cp437";
     private static final byte[] MIXED = new byte[128];
     private static final byte[] PUNCTUATION = new byte[128];
 
@@ -59,10 +59,10 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
      * Converts the message to a byte array using the default encoding (cp437) as defined by the
      * specification
      * @param msg the message
+     * @param charset the charset (encoding) to use for the conversion
      * @return the byte array of the message
      */
-    public static byte[] getBytesForMessage(String msg) {
-        final String charset = CP437; //See 4.4.3 and annex B of ISO/IEC 15438:2001(E)
+    static byte[] getBytesForMessage(String msg, String charset) {
         try {
             return msg.getBytes(charset);
         } catch (UnsupportedEncodingException e) {
@@ -89,22 +89,42 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
      * @return the encoded message (the char values range from 0 to 928)
      */
     public static String encodeHighLevel(String msg) {
+        return encodeHighLevel(msg, DEFAULT_ENCODING, false);
+    }
+
+    /**
+     * Performs high-level encoding of a PDF417 message using the algorithm described in annex P
+     * of ISO/IEC 15438:2001(E).
+     * @param msg the message
+     * @return the encoded message (the char values range from 0 to 928)
+     */
+    public static String encodeHighLevel(String msg, String encoding, boolean enableECI) {
+        //the codewords 0..928 are encoded as Unicode characters
+        StringBuffer sb = new StringBuffer(msg.length());
+
+        if (enableECI) {
+            int eci = ECIUtil.getECIForEncoding(encoding);
+            if (eci < 0) {
+                throw new IllegalArgumentException("No ECI supported for encoding: " + encoding);
+            }
+            encodingECI(eci, sb);
+        }
+
         String url = URLUtil.getURL(msg);
         if (url != null) {
             byte[] data;
             try {
-                data = URLUtil.getData(url, CP437);
+                data = URLUtil.getData(url, encoding);
             } catch (IOException ioe) {
                 throw new IllegalArgumentException(
                         "Could not get binary content from URL: " + url, ioe);
             }
-            return encodeHighLevel(data);
+            encodeBinary(null, data, 0, data.length, TEXT_COMPACTION, sb);
+            return sb.toString();
         }
 
         byte[] bytes = null; //Fill later and only if needed
 
-        //the codewords 0..928 are encoded as Unicode characters
-        StringBuffer sb = new StringBuffer(msg.length());
 
         int len = msg.length();
         int p = 0;
@@ -130,7 +150,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
                     p += t;
                 } else {
                     if (bytes == null) {
-                        bytes = getBytesForMessage(msg);
+                        bytes = getBytesForMessage(msg, encoding);
                     }
                     int b = determineConsecutiveBinaryCount(msg, bytes, p);
                     if (b == 0) {
@@ -500,5 +520,21 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
         return idx - startpos;
     }
 
+    private static void encodingECI(int eci, StringBuffer sb) {
+        if (eci >= 0 && eci < 900) {
+            sb.append((char)ECI_CHARSET);
+            sb.append((char)eci);
+        } else if (eci < 810900) {
+            sb.append((char)ECI_GENERAL_PURPOSE);
+            sb.append((char)(eci / 900 - 1));
+            sb.append((char)(eci % 900));
+        } else if (eci < 811800) {
+            sb.append((char)ECI_USER_DEFINED);
+            sb.append((char)(810900 - eci));
+        } else {
+            throw new IllegalArgumentException(
+                    "ECI number not in valid range from 0..811799, but was " + eci);
+        }
+    }
 
 }

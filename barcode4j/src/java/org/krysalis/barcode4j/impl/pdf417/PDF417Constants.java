@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-/* $Id: PDF417Constants.java,v 1.2 2007-03-23 21:16:16 jmaerki Exp $ */
+/* $Id: PDF417Constants.java,v 1.3 2012-05-17 13:57:37 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
 /**
  * Constants for PDF417 barcodes.
- * 
- * @version $Id: PDF417Constants.java,v 1.2 2007-03-23 21:16:16 jmaerki Exp $
+ *
+ * @version $Id: PDF417Constants.java,v 1.3 2012-05-17 13:57:37 jmaerki Exp $
  */
 public interface PDF417Constants {
+
+    String CP437 = "cp437";
+
+    //See 4.4.3 and annex B of ISO/IEC 15438:2001(E)
+    String DEFAULT_ENCODING = CP437;
 
     /** code for Text compaction */
     int TEXT_COMPACTION = 0;
@@ -31,7 +36,7 @@ public interface PDF417Constants {
     int BYTE_COMPACTION = 1;
     /** code for Numeric compaction */
     int NUMERIC_COMPACTION = 2;
-    
+
     /** Text compaction submode Alpha */
     int SUBMODE_ALPHA = 0;
     /** Text compaction submode Lower */
@@ -65,20 +70,20 @@ public interface PDF417Constants {
     int ECI_CHARSET = 927;
     /** Macro marker codeword to indicate the beginning of a Macro PDF Control Block */
     int MACRO_PDF_CONTROL_BLOCK_START = 928;
-    
+
     /** Padding character */
     int PAD = 900;
 
     /** Raw code table for text compaction Mixed sub-mode */
     byte[] TEXT_MIXED_RAW = {
-            48,  49,  50,  51,  52,  53,  54,  55,  56,  57,  38,  13,   9,  44,  58, 
+            48,  49,  50,  51,  52,  53,  54,  55,  56,  57,  38,  13,   9,  44,  58,
             35,  45,  46,  36,  47,  43,  37,  42,  61,  94,   0,  32,   0,   0,   0};
-    
+
     /** Raw code table for text compaction: Punctuation sub-mode */
     byte[] TEXT_PUNCTUATION_RAW = {
             59,  60,  62,  64,  91,  92,  93,  95,  96, 126,  33,  13,   9,  44,  58,
             10,  45,  46,  36,  47,  34, 124,  42,  40,  41,  63, 123, 125,  39,   0};
-    
+
     /**
      * Tables of coefficients for calculating error correction words
      * (see annex F, ISO/IEC 15438:2001(E))
@@ -174,7 +179,7 @@ public interface PDF417Constants {
                 164, 332, 899, 165, 726, 600, 325, 498, 655, 357, 752, 768,
                 223, 849, 647, 63, 310, 863, 251, 366, 304, 282, 738, 675,
                 410, 389, 244, 31, 121, 303, 263}};
-    
+
     /** The start pattern (17 bits) */
     int START_PATTERN = 0x1fea8;
     /** The stop pattern (18 bits) */

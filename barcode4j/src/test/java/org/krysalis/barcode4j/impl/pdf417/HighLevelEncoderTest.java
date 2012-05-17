@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* $Id: HighLevelEncoderTest.java,v 1.9 2011-10-15 13:37:18 jmaerki Exp $ */
+/* $Id: HighLevelEncoderTest.java,v 1.10 2012-05-17 13:57:37 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.impl.pdf417;
 
@@ -40,33 +40,37 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         assertEquals(0, count); //0 because the string has a 13+ numeric sequence
     }
 
+    private byte[] getBytesForMessage(String msg) {
+        return PDF417HighLevelEncoder.getBytesForMessage(msg, PDF417Constants.DEFAULT_ENCODING);
+    }
+
     public void testFindBinarySequence() throws Exception {
         String msg;
         byte[] bytes;
         int count;
 
         msg = "A10200124040182000";
-        bytes = PDF417HighLevelEncoder.getBytesForMessage(msg);
+        bytes = getBytesForMessage(msg);
         count = PDF417HighLevelEncoder.determineConsecutiveBinaryCount(msg, bytes, 0);
         assertEquals(0, count);
 
         msg = "הצüTestיטא1234567890123456789";
-        bytes = PDF417HighLevelEncoder.getBytesForMessage(msg);
+        bytes = getBytesForMessage(msg);
         count = PDF417HighLevelEncoder.determineConsecutiveBinaryCount(msg, bytes, 0);
         assertEquals(10, count);
 
         msg = "הצüTest";
-        bytes = PDF417HighLevelEncoder.getBytesForMessage(msg);
+        bytes = getBytesForMessage(msg);
         count = PDF417HighLevelEncoder.determineConsecutiveBinaryCount(msg, bytes, 0);
         assertEquals(7, count);
 
         msg = "הצüהההההההTestTest";
-        bytes = PDF417HighLevelEncoder.getBytesForMessage(msg);
+        bytes = getBytesForMessage(msg);
         count = PDF417HighLevelEncoder.determineConsecutiveBinaryCount(msg, bytes, 0);
         assertEquals(10, count);
 
         msg = "הצüTestיטא€1234567890";
-        bytes = PDF417HighLevelEncoder.getBytesForMessage(msg);
+        bytes = getBytesForMessage(msg);
         try {
             count = PDF417HighLevelEncoder.determineConsecutiveBinaryCount(msg, bytes, 0);
             fail("The Euro character is not encodable in cp437."
@@ -148,20 +152,20 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
 
         msg = msg + msg + msg.substring(0, 1);
         sb.setLength(0);
-        bytes = PDF417HighLevelEncoder.getBytesForMessage(msg);
+        bytes = getBytesForMessage(msg);
         PDF417HighLevelEncoder.encodeBinary(msg, bytes, 0, msg.length(), TEXT_COMPACTION, sb);
         expected = TestHelper.visualize("\u0385\u0183\u02bc\u00d0\u00d5\u012e\u0183\u02bc\u00d0\u00d5\u012e\u00e7");
         assertEquals(expected, TestHelper.visualize(sb.toString()));
 
         msg = "הההההההההההה"; //12 binary characters = 2x6
-        bytes = PDF417HighLevelEncoder.getBytesForMessage(msg);
+        bytes = getBytesForMessage(msg);
         sb.setLength(0);
         PDF417HighLevelEncoder.encodeBinary(msg, bytes, 0, msg.length(), TEXT_COMPACTION, sb);
         expected = "924 222 69 238 51 792 222 69 238 51 792";
         assertEquals(expected, TestHelper.visualize(sb.toString()));
 
         msg = "הההההההההה"; //10 binary characters = 1x6 + 4
-        bytes = PDF417HighLevelEncoder.getBytesForMessage(msg);
+        bytes = getBytesForMessage(msg);
         sb.setLength(0);
         PDF417HighLevelEncoder.encodeBinary(msg, bytes, 0, msg.length(), TEXT_COMPACTION, sb);
         expected = "901 222 69 238 51 792 132 132 132 132";
@@ -256,6 +260,33 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         //System.out.println(new String(URLUtil.getData(URLUtil.getURL(msg), "UTF-8")));
         result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
         expected = "924 211 636 247 386 518";
+        assertEquals(expected, result);
+    }
+
+    public void testCharsets() throws Exception {
+        String msg;
+        String result;
+        String expected;
+
+        //Note: \u00e4 is 0x84 in Cp437 and 0xE4 in ISO-8859-1
+        msg = "Test\u00e4\u00e4\u00e4\u00e4\u00e4\u00e4"; //10 characters encoded as binary
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
+        expected = "901 141 390 364 673 320 132 132 132 132";
+        log(expected, result);
+        assertEquals(expected, result);
+
+        //Same text but this time with ISO-8859-1 (but with no ECI!!!)
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(
+                msg, "ISO-8859-1", false));
+        expected = "901 141 390 364 700 692 228 228 228 228";
+        log(expected, result);
+        assertEquals(expected, result);
+
+        //Same text but this time with ISO-8859-1 and ECI enabled
+        result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(
+                msg, "ISO-8859-1", true));
+        expected = "927 3 901 141 390 364 700 692 228 228 228 228";
+        log(expected, result);
         assertEquals(expected, result);
     }
 }

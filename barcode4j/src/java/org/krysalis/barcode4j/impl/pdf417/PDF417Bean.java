@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 Jeremias Maerki or contributors to Barcode4J, as applicable.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,12 +23,13 @@ import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
 import org.krysalis.barcode4j.impl.DefaultTwoDimCanvasLogicHandler;
 import org.krysalis.barcode4j.output.Canvas;
 import org.krysalis.barcode4j.output.CanvasProvider;
+import org.krysalis.barcode4j.tools.ECIUtil;
 import org.krysalis.barcode4j.tools.UnitConv;
 
 /**
  * This class is an implementation of the PDF417 barcode.
- * 
- * @version $Id: PDF417Bean.java,v 1.6 2008-05-13 13:00:43 jmaerki Exp $
+ *
+ * @version $Id: PDF417Bean.java,v 1.7 2012-05-17 13:57:37 jmaerki Exp $
  */
 public class PDF417Bean extends AbstractBarcodeBean {
 
@@ -43,7 +44,7 @@ public class PDF417Bean extends AbstractBarcodeBean {
 
     /** The default error correction level for PDF417 */
     protected static final int DEFAULT_ERROR_CORRECTION_LEVEL = 0;
-    
+
     private static final double DEFAULT_WIDTH_TO_HEIGHT_RATIO = 3;
     private static final int MAX_ROW_COUNT = 90;
     private static final int MIN_ROW_COUNT = 3;
@@ -56,6 +57,10 @@ public class PDF417Bean extends AbstractBarcodeBean {
     private int maxCols = MAX_COLUMN_COUNT;
     private double widthToHeightRatio = DEFAULT_WIDTH_TO_HEIGHT_RATIO;
     private int errorCorrectionLevel = DEFAULT_ERROR_CORRECTION_LEVEL;
+
+    /** Message encoding */
+    private String encoding = "Cp437"; //ECI 000000
+    private boolean enableECI = false;
 
     /** Create a new instance. */
     public PDF417Bean() {
@@ -85,7 +90,8 @@ public class PDF417Bean extends AbstractBarcodeBean {
      */
     public BarcodeDimension calcDimensions(String msg) {
 
-        int sourceCodeWords = PDF417HighLevelEncoder.encodeHighLevel(msg).length();
+        int sourceCodeWords = PDF417HighLevelEncoder.encodeHighLevel(msg,
+                getEncoding(), isECIEnabled()).length();
         Dimension dimension = PDF417LogicImpl.determineDimensions(this,
                 sourceCodeWords);
 
@@ -166,6 +172,22 @@ public class PDF417Bean extends AbstractBarcodeBean {
         return widthToHeightRatio;
     }
 
+    /**
+     * Returns the message encoding.
+     * @return the message encoding (default is "ISO-8859-1")
+     */
+    public String getEncoding() {
+        return this.encoding;
+    }
+
+    /**
+     * Indicates whether the generation of ECI sequences is enabled.
+     * @return true if generation of ECI sequences is enabled.
+     */
+    public boolean isECIEnabled() {
+        return this.enableECI;
+    }
+
     private void checkValidColumnCount(int cols) {
         if (cols < MIN_COLUMN_COUNT || cols > MAX_COLUMN_COUNT) {
             throw new IllegalArgumentException(
@@ -189,7 +211,7 @@ public class PDF417Bean extends AbstractBarcodeBean {
         setMinCols(cols);
         setMaxCols(cols);
     }
-    
+
     /**
      * Sets the error correction level for the barcode.
      * @param level the error correction level (a value between 0 and 8)
@@ -253,6 +275,26 @@ public class PDF417Bean extends AbstractBarcodeBean {
      */
     public void setWidthToHeightRatio(double widthToHeightRatio) {
         this.widthToHeightRatio = widthToHeightRatio;
+    }
+
+    /**
+     * Sets the message encoding. The value must conform to one of Java's encodings and
+     * have a mapping in the ECI registry.
+     * @param encoding the message encoding
+     */
+    public void setEncoding(String encoding) {
+        if (ECIUtil.getECIForEncoding(encoding) < 0) {
+            throw new IllegalArgumentException("Not a valid encoding: " + encoding);
+        }
+        this.encoding = encoding;
+    }
+
+    /**
+     * Controls whether ECI sequences are generated for the output encoding.
+     * @param value true to enable the generation of ECI sequences
+     */
+    public void setECIEnabled(boolean value) {
+        this.enableECI = value;
     }
 
 }
