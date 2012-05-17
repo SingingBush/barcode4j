@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-/* $Id: ZXingUtil.java,v 1.1 2012-01-27 14:36:35 jmaerki Exp $ */
+/* $Id: ZXingUtil.java,v 1.2 2012-05-17 13:50:42 jmaerki Exp $ */
 
 package org.krysalis.barcode4j.tools;
 
 /**
  * Utilities concerning the ZXing dependency.
  *
- * @version $Id: ZXingUtil.java,v 1.1 2012-01-27 14:36:35 jmaerki Exp $
+ * @version $Id: ZXingUtil.java,v 1.2 2012-05-17 13:50:42 jmaerki Exp $
  */
 public class ZXingUtil {
 
@@ -34,7 +34,6 @@ public class ZXingUtil {
             Class.forName("com.google.zxing.qrcode.QRCodeWriter");
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }
