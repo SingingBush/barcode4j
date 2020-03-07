@@ -63,10 +63,8 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
                 "org.krysalis.barcode4j.impl.fourstate.RoyalMailCBC", true);
         registerBarcodeClass("usps4cb",
                 "org.krysalis.barcode4j.impl.fourstate.USPSIntelligentMail", true);
-        /*
         registerBarcodeClass("austpost",
                 "org.krysalis.barcode4j.impl.fourstate.AustPost", true);
-                */
         registerBarcodeClass("pdf417", "org.krysalis.barcode4j.impl.pdf417.PDF417", true);
         registerBarcodeClass("datamatrix",
                 "org.krysalis.barcode4j.impl.datamatrix.DataMatrix", true);
