@@ -1,5 +1,6 @@
 .DS_Store
 target/
+build/
 
 # Ignore all VS Code (Java Plugin) files
 .classpath
