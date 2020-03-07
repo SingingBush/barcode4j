@@ -108,8 +108,6 @@
     </condition>
     <echo message="${junit.message}"/>
 
-    <available property="jdk14.present" classname="java.lang.CharSequence"/>
-    <available property="jdk15.present" classname="java.lang.StringBuilder"/>
     <available property="xalan.present" classname="org.apache.xalan.xslt.Process" classpathref="project.classpath"/>
     <available property="saxon6.present" classname="com.icl.saxon.TransformerFactoryImpl" classpathref="project.classpath"/>
     <condition property="saxon8.present">
@@ -125,7 +123,6 @@
     <condition property="IKVM.present">
       <and>
         <available file="${ikvmc}"/>
-        <isset property="jdk14.present"/>
       </and>
     </condition>
     <condition property="ikvm.message" value="IKVM Support PRESENT">
@@ -164,11 +161,6 @@
       </fileset>
     </path>
   </target>
-  <target name="info.jdk14" unless="jdk14.present">
-    <echo message="===================================================================="/>
-    <echo message="Barcode4J requires at least Java 1.4"/>
-    <echo message="===================================================================="/>
-  </target>
   <target name="info.xalan" depends="init" unless="xalan.present">
     <echo message="===================================================================="/>
     <echo message="You can enable compilation of the Xalan-J XSLT extension by adding"/>
@@ -184,7 +176,7 @@
   <target name="info.saxon8" depends="init" unless="saxon8.present">
     <echo message="===================================================================="/>
     <echo message="You can enable compilation of the SAXON 8.x XSLT extension by adding"/>
-    <echo message="saxon8.jar to the lib directory. Use JDK >= 1.4."/>
+    <echo message="saxon8.jar to the lib directory."/>
     <echo message="===================================================================="/>
   </target>
   <target name="info.jdom" depends="init" unless="jdom.present">
@@ -202,7 +194,7 @@
   <!-- =================================================================== -->
   <!-- Prepares the build directory                                        -->
   <!-- =================================================================== -->
-  <target name="prepare" depends="init, info.jdk14, init.fop-0.20.5, init.fop-trunk, init.xgc, info.xalan, info.saxon6, info.saxon8, info.jdom, info.ikvm">
+  <target name="prepare" depends="init, init.fop-0.20.5, init.fop-trunk, init.xgc, info.xalan, info.saxon6, info.saxon8, info.jdom, info.ikvm">
     <!-- create directories -->
     <echo message="Preparing the build directories"/>
     <mkdir dir="${build.dir}"/>
@@ -366,7 +358,7 @@
     </jar>
   </target>
   
-  <target name="osgi" depends="package-base" if="jdk15.present">
+  <target name="osgi" depends="package-base">
     <echo message="Adding OSGi metadata..."/>
     <convert-jar-to-bundle file="${build.dir}/${name}-light.jar"
       descriptor="${basedir}/bundle.xml">

@@ -23,7 +23,7 @@
         </li>
       </ul>
       <note>
-        Barcode4J requires J2SE 1.5 at compile time, but works with J2SE 1.4 at run time.
+        Barcode4J requires Java 1.6 or above.
       </note>
     </section>
     <section>
