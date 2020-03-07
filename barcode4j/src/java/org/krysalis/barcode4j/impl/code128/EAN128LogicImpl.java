@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Dietmar Bürkle.
+ * Copyright 2005 Dietmar BÃ¼rkle.
  * generateBarcodeLogic:
  * Copyright 2002-2004 Jeremias Maerki.
  *
@@ -25,7 +25,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 /**
  * This class is an implementation of the EAN 128 barcode.
  *
- * @author Dietmar Bürkle, Jeremias Maerki (generateBarcodeLogic)
+ * @author Dietmar BÃ¼rkle, Jeremias Maerki (generateBarcodeLogic)
  */
 public class EAN128LogicImpl { //extends Code128LogicImpl{
     private static final byte MAX_LENGTH = 48; // Max according to EAN128 specification.

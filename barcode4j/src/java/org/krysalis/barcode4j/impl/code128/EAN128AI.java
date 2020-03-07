@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Dietmar Bürkle.
+ * Copyright 2005 Dietmar BÃ¼rkle.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import java.util.StringTokenizer;
 /**
  * This class keeps Informations about EAN 128 Application Identifiers (AIs).
  * 
- * @author Dietmar Bürkle
+ * @author Dietmar BÃ¼rkle
  */
 public class EAN128AI {
     

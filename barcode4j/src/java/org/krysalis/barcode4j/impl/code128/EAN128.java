@@ -1,6 +1,6 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * Copyright 2005 Jeremias Maerki, Dietmar Bürkle.
+ * Copyright 2005 Jeremias Maerki, Dietmar BÃ¼rkle.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import org.krysalis.barcode4j.tools.Length;
 /**
  * This class is an implementation of the Code 128 barcode.
  * 
- * @author Jeremias Maerki, Dietmar Bürkle
+ * @author Jeremias Maerki, Dietmar BÃ¼rkle
  */
 public class EAN128 extends Code128 
             implements Configurable {

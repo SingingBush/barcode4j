@@ -4,7 +4,7 @@
 =============================================================================
 
 OSGi Bundle Utility
-Copyright 2009-2010, Jeremias Märki, Switzerland
+Copyright 2009-2010, Jeremias MÃ¤rki, Switzerland
 
 
 This product includes software developed by
