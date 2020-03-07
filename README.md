@@ -1,6 +1,8 @@
 Barcode4j
 =========
 
+![Java CI](https://github.com/SingingBush/barcode4j/workflows/Java%20CI/badge.svg)
+
 Barcode4J is a flexible generator for barcodes written in Java and available under the Apache License v2.0. Features
 
 ### Forked from [Sourceforge barcode4j](https://sourceforge.net/p/barcode4j/):
