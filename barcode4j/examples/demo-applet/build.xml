@@ -39,21 +39,16 @@
     <tstamp>
       <format property="ts" pattern="yyyyMMdd-HHmmss-z"/>
     </tstamp>
-    <available property="jdk14.present" classname="java.lang.CharSequence"/>
   </target>
   <!-- =================================================================== -->
   <!-- Prepares the build directory                                        -->
   <!-- =================================================================== -->
-  <target name="echo-jdk14" if="jdk14.present">
-    <echo message="JDK 1.4 present."/>
-  </target>
   <target name="prepare" depends="init">
     <!-- create directories -->
     <echo message="Preparing the build directories"/>
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.dest}"/>
     <!-- echo options -->
-    <antcall target="echo-jdk14"/>
   </target>
   <!-- =================================================================== -->
   <!-- Compiles the source directory                                       -->

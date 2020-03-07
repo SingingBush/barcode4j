@@ -15,7 +15,7 @@
     <section>
       <title>Requirements</title>
       <ul>
-        <li>Java Runtime Environment (JRE) 1.4 or higher (available from <jump href="http://java.com/en/download/manual.jsp">java.com</jump>)</li>
+        <li>Java Runtime Environment (JRE) 1.6 or higher (available from <jump href="http://java.com/en/download/manual.jsp">java.com</jump>)</li>
         <li>Download <strong>Barcode4J</strong> as described on:</li>
         <ul>
           <li>the <link href="../download.html">Download page</link>, or</li>
