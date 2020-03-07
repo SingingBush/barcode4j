@@ -17,7 +17,8 @@ This fork has the following goals:
 
 - [x] Keeping the svn history
 - [ ] Pulling in various svn patches and git merge requests
-- [ ] Enabling continuous integration
+- [x] Enabling continuous integration for multiple Java versions
+- [x] Dropping support for Java < 1.6 (1.7 will need to be minimum to support Java 12 and above)
 - [ ] Adding Test Coverage
 - [ ] Move to standard maven project structure
 - [ ] Publish build artifacts to maven central
