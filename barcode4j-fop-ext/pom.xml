@@ -23,10 +23,6 @@
             <artifactId>fop</artifactId>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-svg-dom</artifactId>
-        </dependency>
     </dependencies>
 
 
