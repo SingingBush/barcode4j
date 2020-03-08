@@ -65,7 +65,7 @@ public class BarcodeStyleElement extends StyleElement {
     }
 
     /**
-     * @see com.icl.saxon.style.StyleElement#prepareAttributes()
+     * @see net.sf.saxon.style.StyleElement#prepareAttributes()
      */
     public void prepareAttributes() throws XPathException {
         // Get mandatory message attribute
@@ -165,7 +165,7 @@ public class BarcodeStyleElement extends StyleElement {
                 }
                 //Generate barcode
                 gen.generateBarcode(svg, effMessage);
-                
+
                 DocumentWrapper wrapper = new DocumentWrapper(svg.getDOM(),
                         SVGCanvasProvider.SVG_NAMESPACE, context.getConfiguration());
                 out.append(wrapper, this.getLocationId(), 1);

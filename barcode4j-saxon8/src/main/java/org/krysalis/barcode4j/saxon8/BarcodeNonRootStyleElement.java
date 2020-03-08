@@ -29,7 +29,7 @@ import net.sf.saxon.trans.XPathException;
 public class BarcodeNonRootStyleElement extends StyleElement {
 
     /**
-     * @see com.icl.saxon.style.StyleElement#prepareAttributes()
+     * @see net.sf.saxon.style.StyleElement#prepareAttributes()
      */
     public void prepareAttributes() throws XPathException {
         //nop

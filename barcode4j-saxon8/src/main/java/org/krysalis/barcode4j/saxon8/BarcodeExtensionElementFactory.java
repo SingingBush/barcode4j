@@ -28,7 +28,7 @@ public class BarcodeExtensionElementFactory
             implements ExtensionElementFactory {
 
     /**
-     * @see com.icl.saxon.style.ExtensionElementFactory#getExtensionClass(java.lang.String)
+     * @see net.sf.saxon.style.ExtensionElementFactory#getExtensionClass(java.lang.String)
      */
     public Class getExtensionClass(String localname) {
         if (localname.equals("barcode")) {

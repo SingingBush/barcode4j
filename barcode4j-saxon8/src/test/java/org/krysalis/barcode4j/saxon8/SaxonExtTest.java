@@ -17,6 +17,8 @@ package org.krysalis.barcode4j.saxon8;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -25,7 +27,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.krysalis.barcode4j.AbstractBarcodeTestCase;
+import junit.framework.TestCase;
+import net.sf.saxon.TransformerFactoryImpl;
 
 /**
  * Test class for the Saxon 8.x extension.
@@ -33,19 +36,19 @@ import org.krysalis.barcode4j.AbstractBarcodeTestCase;
  * @author Jeremias Maerki
  * @version $Id: SaxonExtTest.java,v 1.2 2004-09-04 20:26:15 jmaerki Exp $
  */
-public class SaxonExtTest extends AbstractBarcodeTestCase {
+public class SaxonExtTest extends TestCase {
     
     public SaxonExtTest(String name) {
         super(name);
     }
     
     public void testSaxonExt() throws Exception {
-        Class clazz = Class.forName("net.sf.saxon.TransformerFactoryImpl");
-        TransformerFactory factory = (TransformerFactory)clazz.newInstance();
-        Transformer trans = factory.newTransformer(new StreamSource(
-                new File(getBaseDir(), "src/saxon8/test/xml/saxon8-test.xsl")));
-        Source src = new StreamSource(
-                new File(getBaseDir(), "src/test/xml/xslt-test.xml"));
+        final TransformerFactory factory = new TransformerFactoryImpl();
+        Transformer trans = factory.newTransformer(
+                new StreamSource(loadTestResourceFile("xml/saxon8-test.xsl"))
+                );
+        Source src = new StreamSource(loadTestResourceFile("xml/xslt-test.xml"));
+
         StringWriter writer = new StringWriter();
         Result res = new StreamResult(writer);
         
@@ -53,6 +56,15 @@ public class SaxonExtTest extends AbstractBarcodeTestCase {
         String output = writer.getBuffer().toString();
         assertTrue(output.indexOf("svg") >= 0);
         //System.out.println(writer.getBuffer());
+    }
+
+    private File loadTestResourceFile(final String resource) {
+        try {
+            return Paths.get(this.getClass().getClassLoader().getResource(resource).toURI()).toFile();
+        } catch (final URISyntaxException e) {
+            fail("Could no load resource : " + resource);
+        }
+        return null;
     }
 
 }

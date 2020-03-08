@@ -11,6 +11,7 @@
     <modules>
         <module>barcode4j</module>
         <module>barcode4j-fop-ext</module>
+        <module>barcode4j-saxon8</module>
     </modules>
     <name>barcode4j-parent</name>
     <description>Barcode4J is a flexible generator for barcodes written in Java</description>
