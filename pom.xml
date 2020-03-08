@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.krysalis</groupId>
+    <artifactId>barcode4j-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>2.1.0-SNAPSHOT</version>
+    <modules>
+        <module>barcode4j</module>
+        <module>barcode4j-fop-ext</module>
+    </modules>
+    <name>barcode4j-parent</name>
+    <description>Barcode4J is a flexible generator for barcodes written in Java</description>
+    <url>https://github.com/singingbush/barcode4j</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Jeremias Märki</name>
+            <email>jmaerki@users.sourceforge.net</email>
+        </developer>
+        <developer>
+            <name>Marc Guillemot</name>
+            <email>mguillem@users.sourceforge.net</email>
+        </developer>
+        <developer>
+            <name>Web Maestro Clay</name>
+            <email>the_webmaestro@users.sourceforge.net</email>
+        </developer>
+        <developer>
+            <name>Dietmar Bürkle</name>
+            <email>buerkle@users.sourceforge.net</email>
+        </developer>
+        <developer>
+            <name>Samael Bate</name>
+            <email>samael@singingbush.com</email>
+            <organization>SingingBush</organization>
+            <organizationUrl>https://singingbush.com</organizationUrl>
+            <roles>
+                <role>maintainer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/singingbush/barcode4j.git</connection>
+        <developerConnection>scm:git:ssh://github.com:singingbush/barcode4j.git</developerConnection>
+        <url>https://github.com/singingbush/barcode4j/tree/master</url>
+    </scm>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/singingbush/barcode4j/issues</url>
+    </issueManagement>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>commons-cli</groupId>
+                <artifactId>commons-cli</artifactId>
+                <version>1.4</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <!-- the older version needs old groupId -->
+                <groupId>avalon-framework</groupId>
+<!--                <version>4.2.0</version>-->
+                <version>4.3</version>
+                <artifactId>avalon-framework-impl</artifactId>
+<!--                <groupId>org.apache.avalon.framework</groupId>-->
+<!--                <version>4.3.1</version>-->
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>fop</artifactId>
+                <version>2.1</version>
+            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.apache.xmlgraphics</groupId>-->
+<!--                <artifactId>batik-transcoder</artifactId>-->
+<!--&lt;!&ndash;                <version>1.7</version>&ndash;&gt;-->
+<!--                <version>1.12</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.xmlgraphics</groupId>-->
+<!--                <artifactId>xmlgraphics-commons</artifactId>-->
+<!--                <version>1.5</version>-->
+<!--&lt;!&ndash;                <version>2.4</version>&ndash;&gt;-->
+<!--            </dependency>-->
+
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>batik-svg-dom</artifactId>
+                <version>1.7</version>
+<!--                <version>1.12</version>-->
+            </dependency>
+            <!--            <dependency>-->
+<!--                <groupId>jdom</groupId>-->
+<!--                <artifactId>jdom</artifactId>-->
+<!--                <version>1.1</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>xalan</groupId>-->
+<!--                <artifactId>xalan</artifactId>-->
+<!--                <version>2.7.2</version>-->
+<!--            </dependency>-->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.2</version>
+                <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>1.8.2</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>1.7</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13</version>
+                <scope>test</scope>
+            </dependency>
+            <!--        <dependency>-->
+            <!--            <groupId>org.junit.vintage</groupId>-->
+            <!--            <artifactId>junit-vintage-engine</artifactId>-->
+            <!--            <version>5.5.2</version>-->
+            <!--            <scope>test</scope>-->
+            <!--        </dependency>-->
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M2</version>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.5.2,)</version>
+                                    <message>You should really be using Maven 3.6.1</message>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>[1.6,)</version>
+                                    <message>Java 6 is the minimum supported</message>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Run 'mvn license:license-list' to show licenses -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <!--                <executions>-->
+                <!--                    <execution>-->
+                <!--                        <id>default-cli</id>-->
+                <!--                        <configuration>-->
+                <!--                            <licenseMerges>-->
+                <!--                                <licenseMerge>The Apache Software License, Version 2.0|Apache License, Version 2.0|Apache Public License 2.0</licenseMerge>-->
+                <!--                            </licenseMerges>-->
+                <!--                        </configuration>-->
+                <!--                    </execution>-->
+                <!--                </executions>-->
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.4</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.1.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <configuration>
+                            <keyname>6E394A59C56281A1C7BCB31CBB1163024293DF16</keyname>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

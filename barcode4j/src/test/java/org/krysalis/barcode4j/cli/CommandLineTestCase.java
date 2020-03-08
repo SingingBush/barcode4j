@@ -34,7 +34,7 @@ public class CommandLineTestCase extends AbstractBarcodeTestCase {
     private ExitHandlerForTests exitHandler;
 
     /**
-     * @see junit.framework.TestCase#Constructor(String)
+     * @see junit.framework.TestCase#TestCase(String)
      */
     public CommandLineTestCase(String name) {
         super(name);
@@ -135,17 +135,15 @@ public class CommandLineTestCase extends AbstractBarcodeTestCase {
     }
 
     public void testValidConfigFile() throws Exception {
-        File cfgFile = new File(getBaseDir(), "src/test/xml/good-cfg.xml");
-        final String[] args = {"-c", cfgFile.getAbsolutePath(),
-            "9771422985503+00006"};
+        final File cfgFile = loadTestFile("xml/good-cfg.xml");
+        final String[] args = {"-c", cfgFile.getAbsolutePath(), "9771422985503+00006"};
         callCLI(args);
         assertEquals("Exit code must be 0", 0, this.exitHandler.getLastExitCode());
     }
 
     public void testBadConfigFile() throws Exception {
-        File cfgFile = new File(getBaseDir(), "src/test/xml/bad-cfg.xml");
-        final String[] args = {"-c", cfgFile.getAbsolutePath(),
-            "9771422985503+00006"};
+        final File cfgFile = loadTestFile("xml/bad-cfg.xml");
+        final String[] args = {"-c", cfgFile.getAbsolutePath(), "9771422985503+00006"};
         callCLI(args);
         assertEquals("Exit code must be -6", -6, this.exitHandler.getLastExitCode());
         assertNotNull(this.exitHandler.getLastMsg());

@@ -16,6 +16,8 @@
 package org.krysalis.barcode4j;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 import junit.framework.TestCase;
 
@@ -39,13 +41,13 @@ public abstract class AbstractBarcodeTestCase extends TestCase {
      * Returns the base directory to use for the tests.
      * @return the base directory
      */
-    protected File getBaseDir() {
-        String basedir = System.getProperty("basedir");
-        if (basedir != null) {
-            return new File(basedir);
-        } else {
-            return new File(".");
+    protected File loadTestFile(final String file) {
+        try {
+            return Paths.get(this.getClass().getClassLoader().getResource(file).toURI()).toFile();
+        } catch (final URISyntaxException e) {
+            fail("Could no load file : "+file);
         }
+        return null;
     }
 
 }

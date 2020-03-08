@@ -12,7 +12,7 @@
   <property name="year" value="2000-2010"/>
   <property name="build.compiler" value="classic"/>
   <property name="src.dir" value="${basedir}/src"/>
-  <property name="src.java.dir" value="${src.dir}/java"/>
+  <property name="src.java.dir" value="${src.dir}/main/java"/>
   <property name="src.test.java.dir" value="${src.dir}/test/java"/>
   <property name="src.conf.dir" value="${src.dir}/conf"/>
   <property name="src.test" value="${basedir}/src/test"/>
@@ -24,14 +24,11 @@
   <property name="resource-jar.dir" value="${build.dir}/resource-jars"/>
   <property name="dist.dir" value="${basedir}/dist"/>
   <property name="docs.dir" value="${build.dir}/javadocs"/>
-  <property name="fop-0.20.5.ext.dir" value="${src.dir}/fop-0.20.5"/>
-  <property name="fop-trunk.ext.dir" value="${src.dir}/fop-trunk"/>
+  <property name="fop.ext.dir" value="../barcode4j-fop-ext/src/main"/>
   <property name="xgc.ext.dir" value="${src.dir}/xmlgraphics-commons"/>
-  <property name="src.fop-0.20.5.dir" value="${fop-0.20.5.ext.dir}/java"/>
-  <property name="src.fop-trunk.dir" value="${fop-trunk.ext.dir}/java"/>
+  <property name="src.fop.dir" value="${fop.ext.dir}/java"/>
   <property name="src.xgc.dir" value="${xgc.ext.dir}/java"/>
-  <property name="build.dest.fop-0.20.5" value="${build.dir}/fop-0.20.5/classes"/>
-  <property name="build.dest.fop-trunk" value="${build.dir}/fop-trunk/classes"/>
+  <property name="build.dest.fop" value="${build.dir}/fop/classes"/>
   <property name="build.dest.xgc" value="${build.dir}/xgc/classes"/>
   <property name="build.dotnet.dir" value="${build.dir}/dotnet"/>
   <property name="xalan.dir" value="${src.dir}/xalan"/>
@@ -117,8 +114,7 @@
       </and>
     </condition>
     <available property="jdom.present" classname="org.jdom.Document" classpathref="project.classpath"/>
-    <property name="init.fop-0.20.5" value="true"/>
-    <property name="init.fop-trunk" value="true"/>
+    <property name="init.fop" value="true"/>
 
     <condition property="IKVM.present">
       <and>
@@ -135,18 +131,9 @@
     </condition>
     <echo message="${ikvm.message}"/>
   </target>
-  <target name="init.fop-0.20.5" depends="init" if="init.fop-0.20.5">
-    <echo message="Home directory for Apache FOP 0.20.5 is set. Will try to compile FOP extension."/>
-    <path id="fop-0.20.5.classpath">
-      <path refid="project.classpath"/>
-      <fileset dir="${lib.dir}/fop-0.20.5">
-        <include name="*.jar"/>
-      </fileset>
-    </path>
-  </target>
-  <target name="init.fop-trunk" depends="init" if="init.fop-trunk">
+  <target name="init.fop" depends="init" if="init.fop">
     <echo message="Home directory for Apache FOP Trunk is set. Will try to compile FOP extension."/>
-    <path id="fop-trunk.classpath">
+    <path id="fop.classpath">
       <path refid="project.classpath"/>
       <fileset dir="${lib.dir}/fop">
         <include name="*.jar"/>
@@ -194,7 +181,7 @@
   <!-- =================================================================== -->
   <!-- Prepares the build directory                                        -->
   <!-- =================================================================== -->
-  <target name="prepare" depends="init, init.fop-0.20.5, init.fop-trunk, init.xgc, info.xalan, info.saxon6, info.saxon8, info.jdom, info.ikvm">
+  <target name="prepare" depends="init, init.fop, init.xgc, info.xalan, info.saxon6, info.saxon8, info.jdom, info.ikvm">
     <!-- create directories -->
     <echo message="Preparing the build directories"/>
     <mkdir dir="${build.dir}"/>
@@ -240,22 +227,12 @@
       <classpath refid="project.classpath"/>
     </javac>
   </target>
-  <target name="compile-fop-0.20.5" depends="compile">
-    <echo message="Compiling the Apache FOP 0.20.5 extension"/>
-    <mkdir dir="${build.dest.fop-0.20.5}"/>
-    <javac srcdir="${src.fop-0.20.5.dir}" destdir="${build.dest.fop-0.20.5}">
-      <classpath>
-        <path refid="fop-0.20.5.classpath"/>
-        <pathelement location="${build.dest}"/>
-      </classpath>
-    </javac>
-  </target>
-  <target name="compile-fop-trunk" depends="compile">
+  <target name="compile-fop" depends="compile">
     <echo message="Compiling the Apache FOP Trunk extension"/>
-    <mkdir dir="${build.dest.fop-trunk}"/>
-    <javac srcdir="${src.fop-trunk.dir}" destdir="${build.dest.fop-trunk}">
+    <mkdir dir="${build.dest.fop}"/>
+    <javac srcdir="${src.fop.dir}" destdir="${build.dest.fop}">
       <classpath>
-        <path refid="fop-trunk.classpath"/>
+        <path refid="fop.classpath"/>
         <pathelement location="${build.dest}"/>
       </classpath>
     </javac>
@@ -270,7 +247,7 @@
       </classpath>
     </javac>
   </target>
-  <target name="compile-all" depends="compile, compile-xalan, compile-saxon6, compile-saxon8, compile-jdom, compile-fop-0.20.5, compile-fop-trunk, compile-xgc" description="Compiles the sources"/>
+  <target name="compile-all" depends="compile, compile-xalan, compile-saxon6, compile-saxon8, compile-jdom, compile-fop, compile-xgc" description="Compiles the sources"/>
   <!-- =================================================================== -->
   <!-- Creates Java docs                                                   -->
   <!-- =================================================================== -->
@@ -283,7 +260,7 @@
           windowtitle="${name} ${version} API"
           stylesheetfile="${src.dir}/documentation/resources/stylesheets/javadoc.css">
       <classpath refid="project.classpath"/>
-      <classpath refid="fop-trunk.classpath"/>
+      <classpath refid="fop.classpath"/>
       <packageset dir="${src.java.dir}" defaultexcludes="yes"/>
       <packageset dir="${xalan.dir}/java" defaultexcludes="yes"/>
       <packageset dir="${saxon6.dir}/java" defaultexcludes="yes"/>
@@ -374,47 +351,8 @@
     </convert-jar-to-bundle>
   </target>
   
-  <target name="package-fop-0.20.5" depends="compile-all">
-    <echo message="Creating the jar file ${build.dir}/${name}-fop-ext-0.20.5.jar"/>
-    <jar jarfile="${build.dir}/${name}-fop-ext-0.20.5.jar">
-      <manifest>
-        <attribute name="Implementation-Title" value="${Name}"/>
-        <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
-        <attribute name="Implementation-URL" value="${impl.url}"/>
-        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
-      </manifest>
-      <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
-      <metainf dir="${fop-0.20.5.ext.dir}/resources">
-        <include name="**"/>
-      </metainf>
-      <fileset dir="${build.dest.fop-0.20.5}">
-        <include name="org/krysalis/**"/>
-      </fileset>
-    </jar>
-    <jar jarfile="${build.dir}/${name}-fop-ext-0.20.5-complete.jar">
-      <manifest>
-        <attribute name="Main-Class" value="${main.class}"/>
-        <attribute name="Implementation-Title" value="${Name}"/>
-        <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
-        <attribute name="Implementation-URL" value="${impl.url}"/>
-        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
-      </manifest>
-      <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
-      <metainf dir="${fop-0.20.5.ext.dir}/resources">
-        <include name="**"/>
-      </metainf>
-      <fileset dir="${build.dest.fop-0.20.5}">
-        <include name="org/krysalis/**"/>
-      </fileset>
-      <fileset dir="${build.dest}">
-        <include name="org/krysalis/**"/>
-      </fileset>
-    </jar>
-  </target>
   
-  <target name="package-fop-trunk" depends="compile-all">
+  <target name="package-fop" depends="compile-all">
     <echo message="Creating the jar file ${build.dir}/${name}-fop-ext.jar"/>
     <jar jarfile="${build.dir}/${name}-fop-ext.jar">
       <manifest>
@@ -425,13 +363,13 @@
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
       <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
-      <metainf dir="${fop-trunk.ext.dir}/resources">
+      <metainf dir="${fop.ext.dir}/resources">
         <include name="**"/>
       </metainf>
       <metainf dir="${xgc.ext.dir}/resources">
         <include name="**"/>
       </metainf>
-      <fileset dir="${build.dest.fop-trunk}">
+      <fileset dir="${build.dest.fop}">
         <include name="org/krysalis/**"/>
       </fileset>
       <fileset dir="${build.dest.xgc}">
@@ -448,13 +386,13 @@
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
       <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
-      <metainf dir="${fop-trunk.ext.dir}/resources">
+      <metainf dir="${fop.ext.dir}/resources">
         <include name="**"/>
       </metainf>
       <metainf dir="${xgc.ext.dir}/resources">
         <include name="**"/>
       </metainf>
-      <fileset dir="${build.dest.fop-trunk}">
+      <fileset dir="${build.dest.fop}">
         <include name="org/krysalis/**"/>
       </fileset>
       <fileset dir="${build.dest.xgc}">
@@ -473,7 +411,7 @@
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
       <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
-      <metainf dir="${fop-trunk.ext.dir}/resources">
+      <metainf dir="${fop.ext.dir}/resources">
         <include name="**"/>
       </metainf>
     </jar>
@@ -512,7 +450,7 @@
     </jar>
   </target>
   
-  <target name="package" depends="package-base, package-fop-0.20.5, package-fop-trunk, package-xgc, osgi, package.NET" description="Creates the Barcode JAR packages"/>
+  <target name="package" depends="package-base, package-fop, package-xgc, osgi, package.NET" description="Creates the Barcode JAR packages"/>
   
   <!-- =================================================================== -->
   <!-- Creates .NET binaries using IKVM                                    -->
