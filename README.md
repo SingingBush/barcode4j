@@ -7,7 +7,7 @@ Barcode4J is a flexible generator for barcodes written in Java and available und
 
 ### Forked from [Sourceforge barcode4j](https://sourceforge.net/p/barcode4j/):
 
-Barcode4j was originally developed by Jeremias Märki and Marc Guillemot with code available on Sourceforge under Apache License V2.0.
+Barcode4j was originally developed by Jeremias Märki and Marc Guillemot with code available on Sourceforge under Apache License v2.0.
 
 It's not been updated in some time so this fork was made with the intention of merging in the various changes that people have tried to add over the years.
 
@@ -22,3 +22,5 @@ This fork has the following goals:
 - [ ] Adding Test Coverage
 - [ ] Move to standard maven project structure
 - [ ] Publish build artifacts to maven central
+
+I had wanted to update the Saxon module to support Saxon 9. Saxonica now ship 3 builds: Saxon-HE, Saxon-PE, and Saxon-EE. The first of which (Home Edition) is available via maven. I did the initial work to update but it turns out element extensibility is not available in Saxon Home Edition (the _net.sf.saxon.style.ExtensionElementFactory_ that is required is not available).
