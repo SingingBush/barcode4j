@@ -24,18 +24,13 @@ import net.sf.saxon.style.ExtensionElementFactory;
  * @author Jeremias Maerki
  * @version $Id: BarcodeExtensionElementFactory.java,v 1.2 2004-09-04 20:25:55 jmaerki Exp $
  */
-public class BarcodeExtensionElementFactory
-            implements ExtensionElementFactory {
+public class BarcodeExtensionElementFactory implements ExtensionElementFactory {
 
     /**
      * @see net.sf.saxon.style.ExtensionElementFactory#getExtensionClass(java.lang.String)
      */
     public Class getExtensionClass(String localname) {
-        if (localname.equals("barcode")) {
-            return BarcodeStyleElement.class;
-        } else { 
-            return BarcodeNonRootStyleElement.class;
-        }
+        return localname.equals("barcode") ? BarcodeStyleElement.class : BarcodeNonRootStyleElement.class;
     }
 
 }

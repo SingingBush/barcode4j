@@ -69,17 +69,14 @@ public class BarcodeStyleElement extends StyleElement {
      */
     public void prepareAttributes() throws XPathException {
         // Get mandatory message attribute
-        String msgAtt = attributeList.getValue("", "message");
+        final String msgAtt = attributeList.getValue("", "message");
         if (msgAtt == null) {
             reportAbsence("message");
         }
         message = makeAttributeValueTemplate(msgAtt);
-        String orientationAtt = attributeList.getValue("", "orientation");
-        if (orientationAtt != null) {
-            this.orientation = makeAttributeValueTemplate(orientationAtt);
-        } else {
-            this.orientation = null;
-        }
+
+        final String orientationAtt = attributeList.getValue("", "orientation");
+        this.orientation = orientationAtt != null ? makeAttributeValueTemplate(orientationAtt) : null;
     }
 
     /**
@@ -99,10 +96,9 @@ public class BarcodeStyleElement extends StyleElement {
      * @see net.sf.saxon.style.StyleElement#compile(net.sf.saxon.instruct.Executable)
      */
     public Expression compile(Executable exec) throws XPathException {
-        NodeOverNodeInfo node = NodeOverNodeInfo.wrap(this);
+        final NodeOverNodeInfo node = NodeOverNodeInfo.wrap(this);
         final Configuration cfg = ConfigurationUtil.buildConfiguration(node);
-        BarcodeExpression inst = new BarcodeExpression(message, orientation, cfg);
-        return inst;
+        return new BarcodeExpression(message, orientation, cfg);
     }
     
     /**
@@ -115,11 +111,11 @@ public class BarcodeStyleElement extends StyleElement {
 
     private static class BarcodeExpression extends SimpleExpression {
 
-        private Expression message;
-        private Expression orientation;
-        private Configuration cfg;
+        private final Expression message;
+        private final Expression orientation;
+        private final Configuration cfg;
         
-        public BarcodeExpression(Expression message, Expression orientation, Configuration cfg) {
+        public BarcodeExpression(final Expression message, final Expression orientation, final Configuration cfg) {
             this.message = message;
             this.orientation = orientation;
             this.cfg = cfg;
@@ -133,17 +129,17 @@ public class BarcodeStyleElement extends StyleElement {
         }
  
         public void process(XPathContext context) throws XPathException {
-            String effMessage = message.evaluateAsString(context);
+            final String effMessage = message.evaluateAsString(context);
             int effOrientation = 0;
+
             if (orientation != null) {
-                String s = orientation.evaluateAsString(context);
+                final String degrees = orientation.evaluateAsString(context);
                 try {
-                    effOrientation = Integer.parseInt(s);
-                    effOrientation = BarcodeDimension.normalizeOrientation(effOrientation);
-                } catch (NumberFormatException nfe) {
-                    throw new ValidationException(nfe);
-                } catch (IllegalArgumentException iae) {
-                    throw new ValidationException(iae);
+                    effOrientation = BarcodeDimension.normalizeOrientation(Integer.parseInt(degrees));
+                } catch (final NumberFormatException e) {
+                    throw new ValidationException(e);
+                } catch (final IllegalArgumentException e) {
+                    throw new ValidationException(e);
                 }
             }
             
@@ -151,29 +147,27 @@ public class BarcodeStyleElement extends StyleElement {
                 SequenceReceiver out = context.getReceiver();
                 
                 //Acquire BarcodeGenerator
-                final BarcodeGenerator gen =
-                        BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
+                final BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
                 
                 //Setup Canvas
-                final SVGCanvasProvider svg;
-                if (cfg.getAttributeAsBoolean("useNamespace", true)) {
-                    svg = new SVGCanvasProvider(cfg.getAttribute("prefix", "svg"), 
-                            effOrientation);
-                } else {
-                    svg = new SVGCanvasProvider(false, 
-                            effOrientation);
-                }
+                final SVGCanvasProvider svg = cfg.getAttributeAsBoolean("useNamespace", true) ?
+                        new SVGCanvasProvider(cfg.getAttribute("prefix", "svg"), effOrientation) :
+                        new SVGCanvasProvider(false, effOrientation);
+
                 //Generate barcode
                 gen.generateBarcode(svg, effMessage);
 
-                DocumentWrapper wrapper = new DocumentWrapper(svg.getDOM(),
-                        SVGCanvasProvider.SVG_NAMESPACE, context.getConfiguration());
+                final DocumentWrapper wrapper = new DocumentWrapper(
+                        svg.getDOM(),
+                        SVGCanvasProvider.SVG_NAMESPACE,
+                        context.getConfiguration()
+                );
+
                 out.append(wrapper, this.getLocationId(), 1);
-                
-            } catch (ConfigurationException ce) {
-                throw new DynamicError("(Barcode4J) " + ce.getMessage());
-            } catch (BarcodeException be) {
-                throw new DynamicError("(Barcode4J) " + be.getMessage());
+            } catch (final ConfigurationException e) {
+                throw new DynamicError("(Barcode4J) " + e.getMessage());
+            } catch (final BarcodeException e) {
+                throw new DynamicError("(Barcode4J) " + e.getMessage());
             }
         }
     }
