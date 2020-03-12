@@ -31,6 +31,7 @@ public class BarcodeNonRootStyleElement extends StyleElement {
     /**
      * @see net.sf.saxon.style.StyleElement#prepareAttributes()
      */
+    @Override
     public void prepareAttributes() throws XPathException {
         //nop
     }
@@ -38,6 +39,7 @@ public class BarcodeNonRootStyleElement extends StyleElement {
     /**
      * @see net.sf.saxon.style.StyleElement#compile(net.sf.saxon.instruct.Executable)
      */
+    @Override
     public Expression compile(Executable exec) throws XPathException {
         return null;
     }
