@@ -86,7 +86,6 @@
     </copy>
     <copy todir="${dist.dir}/work/src/${rel-name}">
       <fileset dir="${basedir}/">
-        <include name="README*"/>
         <include name="LICENSE*"/>
         <include name="forrest.properties"/>
         <include name="properties.xml"/>

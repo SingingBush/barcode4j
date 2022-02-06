@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['8', '11', '17']
+        jdk: ['7', '8', '11', '17']
         # Will need to target JDK 7 as minimum in order to build with Java: '12', '13', '14-ea', '15-ea'
 
     steps:
