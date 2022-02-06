@@ -16,11 +16,27 @@ There is [another barcode4j on github](https://github.com/jeremycrosbie/barcode4
 This fork has the following goals:
 
 - [x] Keeping the svn history
-- [ ] Pulling in various svn patches and git merge requests
 - [x] Enabling continuous integration for multiple Java versions
 - [x] Dropping support for Java < 1.6 (1.7 will need to be minimum to support Java 12 and above)
+- [x] Move to standard maven project structure
+- [ ] Pulling in various svn patches and git merge requests
 - [ ] Adding Test Coverage
-- [ ] Move to standard maven project structure
 - [ ] Publish build artifacts to maven central
+- [ ] Support the latest Saxon version**
 
-I had wanted to update the Saxon module to support Saxon 9. Saxonica now ship 3 builds: Saxon-HE, Saxon-PE, and Saxon-EE. The first of which (Home Edition) is available via maven. I did the initial work to update but it turns out element extensibility is not available in Saxon Home Edition (the _net.sf.saxon.style.ExtensionElementFactory_ that is required is not available).
+** I hope to add support for recent versions of Saxon (10 & 11) but now Saxonica ships 3 builds: Saxon-HE, Saxon-PE, and Saxon-EE. The first of which (Home Edition) is available via maven. I did the initial work to update but it turns out element extensibility is not available in Saxon Home Edition (the _net.sf.saxon.style.ExtensionElementFactory_ that is required is not available).
+
+
+## Build
+
+Maven (in future the project will only support maven)
+
+```
+mvn package
+```
+
+Ant builds can be performed using:
+
+```
+ant -buildfile barcode4j/build-dist.xml
+```
