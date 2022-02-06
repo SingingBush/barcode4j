@@ -47,11 +47,13 @@ public class ConfigurationUtil {
      * @param node the DOM node
      * @return the Configuration object
      */
-    public static Configuration buildConfiguration(Node node) {
+    // @Nullable & arg should be non-null
+    public static Configuration buildConfiguration(final Node node) {
         return processNode(node);
     }
 
-    private static Element findDocumentElement(Document document) {
+    // @Nullable & arg should be non-null
+    private static Element findDocumentElement(final Document document) {
         try {
             return document.getDocumentElement(); //Xalan-bug, doesn't work (2.4.1)
         } catch (Exception e) {
@@ -67,39 +69,40 @@ public class ConfigurationUtil {
         }
     }
 
-    private static DefaultConfiguration processNode(Node node) {
+    // @Nullable & arg should be non-null
+    private static DefaultConfiguration processNode(final Node node) {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             return processElement((Element)node);
         } else if (node.getNodeType() == Node.DOCUMENT_NODE) {
             return processElement(findDocumentElement((Document)node));
         } else if (node.getNodeType() == Node.DOCUMENT_FRAGMENT_NODE) {
-            DocumentFragment df = (DocumentFragment)node;
+            final DocumentFragment df = (DocumentFragment)node;
             return processNode(df.getFirstChild());
         } else {
             return null;
         }
     }
 
-    private static DefaultConfiguration processElement(Element el) {
-        String name = el.getLocalName();
-        if (name == null) {
-            name = el.getTagName();
-        }
-        DefaultConfiguration cfg = new DefaultConfiguration(name);
-        NamedNodeMap atts = el.getAttributes();
+    // @NonNull & arg should be non-null
+    private static DefaultConfiguration processElement(final Element el) {
+        final String name = el.getLocalName() != null ? el.getLocalName() : el.getTagName();
+
+        final DefaultConfiguration cfg = new DefaultConfiguration(name);
+        final NamedNodeMap atts = el.getAttributes();
+
         for (int i = 0; i < atts.getLength(); i++) {
-            Attr attr = (Attr)atts.item(i);
+            final Attr attr = (Attr)atts.item(i);
             cfg.setAttribute(attr.getName(), attr.getValue());
         }
         for (int i = 0; i < el.getChildNodes().getLength(); i++) {
-            Node node = el.getChildNodes().item(i);
+            final Node node = el.getChildNodes().item(i);
             if (node.getNodeType() == Node.ATTRIBUTE_NODE) {
-                Attr attr = (Attr)node;
+                final Attr attr = (Attr)node;
                 cfg.setAttribute(attr.getName(), attr.getNodeValue());
             } else if (node.getNodeType() == Node.ELEMENT_NODE) {
                 cfg.addChild(processElement((Element)node));
             } else if (node.getNodeType() == Node.TEXT_NODE) {
-                String s = cfg.getValue("") + ((Text)node).getData();
+                final String s = cfg.getValue("") + ((Text)node).getData();
                 cfg.setValue(s.trim());
             } else {
                 //ignore
@@ -125,8 +128,7 @@ public class ConfigurationUtil {
                 throw ce;
             }
         }
-        msg = MessageUtil.unescapeUnicode(msg);
-        return msg;
+        return MessageUtil.unescapeUnicode(msg);
     }
 
 }

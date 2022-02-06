@@ -19,6 +19,7 @@
         <module>barcode4j-fop-ext</module>
         <module>barcode4j-ant</module>
         <module>barcode4j-servlet</module>
+        <module>barcode4j-saxon</module>
         <module>barcode4j-saxon8</module>
         <module>barcode4j-saxon91</module>
         <module>barcode4j-examples</module>
@@ -458,7 +459,7 @@
                     <!-- failOnMissing should be true but xalan 2.7.3 is missing license info -->
                     <failOnMissing>false</failOnMissing>
                     <excludedLicenses>GPLv2|GPLv3</excludedLicenses>
-                    <excludedGroups>xalan|org.jdom|javax.servlet|net.sf.saxon</excludedGroups>
+                    <excludedGroups>xalan|org.jdom|javax.servlet|net.sf.saxon|com.saxonica</excludedGroups>
                     <failOnBlacklist>true</failOnBlacklist>
                     <licenseMerges>
                         <licenseMerge>GPLv2 + Classpath Exception|
@@ -479,6 +480,7 @@
                         <licenseMerge>LGPLv3|LGPLv3.0|LGPL-3.0|
                             GNU Lesser General Public License v3.0</licenseMerge>
                         <licenseMerge>Apache License, Version 2.0|
+                            Apache License version 2.0|
                             The Apache Software License, Version 2.0|Apache2|
                             Apache-2.0|Apache 2|APL2|Apache 2.0|
                             The Apache License, Version 2.0|Apache Software License - Version 2.0|
