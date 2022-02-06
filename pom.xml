@@ -8,6 +8,7 @@
     <artifactId>barcode4j-parent</artifactId>
     <packaging>pom</packaging>
     <version>2.1.0-SNAPSHOT</version>
+
     <modules>
         <module>barcode4j</module>
         <module>barcode4j-xgc</module>
@@ -16,7 +17,8 @@
         <module>barcode4j-saxon8</module>
         <module>barcode4j-saxon91</module>
     </modules>
-    <name>barcode4j-parent</name>
+
+    <name>Barcode4J Parent POM</name>
     <description>Barcode4J is a flexible generator for barcodes written in Java</description>
     <url>https://github.com/singingbush/barcode4j</url>
 

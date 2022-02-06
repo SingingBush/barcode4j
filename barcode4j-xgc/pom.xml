@@ -11,6 +11,9 @@
 
     <artifactId>barcode4j-xgc</artifactId>
 
+    <name>Barcode4J xmlgraphics-commons</name>
+    <description></description>
+
     <dependencies>
         <dependency>
             <groupId>org.krysalis</groupId>

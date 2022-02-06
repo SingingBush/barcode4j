@@ -10,6 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>barcode4j-saxon91</artifactId>
+
+    <name>Barcode4J Saxon 9.1</name>
     <description>Support for Saxon 9.1</description>
 
     <properties>

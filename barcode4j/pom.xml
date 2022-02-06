@@ -11,7 +11,7 @@
 
     <artifactId>barcode4j</artifactId>
 
-    <name>barcode4j</name>
+    <name>Barcode4J</name>
     <description>Barcode4J is a flexible generator for barcodes written in Java</description>
     <url>https://github.com/singingbush/barcode4j</url>
 

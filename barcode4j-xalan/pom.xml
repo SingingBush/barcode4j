@@ -11,6 +11,9 @@
 
     <artifactId>barcode4j-xalan</artifactId>
 
+    <name>Barcode4J Xalan</name>
+    <description></description>
+
     <dependencies>
         <dependency>
             <groupId>org.krysalis</groupId>
