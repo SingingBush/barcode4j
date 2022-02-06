@@ -25,7 +25,7 @@
   <property name="dist.dir" value="${basedir}/dist"/>
   <property name="docs.dir" value="${build.dir}/javadocs"/>
   <property name="fop.ext.dir" value="../barcode4j-fop-ext/src/main"/>
-  <property name="xgc.ext.dir" value="${src.dir}/xmlgraphics-commons"/>
+  <property name="xgc.ext.dir" value="../barcode4j-xgc/src/main/"/>
   <property name="src.fop.dir" value="${fop.ext.dir}/java"/>
   <property name="src.xgc.dir" value="${xgc.ext.dir}/java"/>
   <property name="build.dest.fop" value="${build.dir}/fop/classes"/>

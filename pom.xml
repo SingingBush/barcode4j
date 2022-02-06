@@ -10,6 +10,7 @@
     <version>2.1.0-SNAPSHOT</version>
     <modules>
         <module>barcode4j</module>
+        <module>barcode4j-xgc</module>
         <module>barcode4j-fop-ext</module>
         <module>barcode4j-saxon8</module>
         <module>barcode4j-saxon91</module>
