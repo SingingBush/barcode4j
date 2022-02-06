@@ -18,16 +18,18 @@ package org.krysalis.barcode4j.cli;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
+import junit.framework.TestCase;
 import org.apache.avalon.framework.ExceptionUtil;
-import org.krysalis.barcode4j.AbstractBarcodeTestCase;
 
 /**
  * Tests the command line application
  * @author Jeremias Maerki
  * @version $Id: CommandLineTestCase.java,v 1.3 2004-10-02 14:58:23 jmaerki Exp $
  */
-public class CommandLineTestCase extends AbstractBarcodeTestCase {
+public class CommandLineTestCase extends TestCase {
 
     private ByteArrayOutputStream out;
     private ByteArrayOutputStream err;
@@ -198,6 +200,19 @@ public class CommandLineTestCase extends AbstractBarcodeTestCase {
         if (!out300.delete()) {
             fail("Target file could not be deleted. Not closed?");
         } 
+    }
+
+    /**
+     * Returns the base directory to use for the tests.
+     * @return the base directory
+     */
+    private File loadTestFile(final String file) {
+        try {
+            return Paths.get(this.getClass().getClassLoader().getResource(file).toURI()).toFile();
+        } catch (final URISyntaxException e) {
+            fail("Could no load file : "+file);
+        }
+        return null;
     }
 
 }
