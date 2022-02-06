@@ -17,7 +17,7 @@ This fork has the following goals:
 
 - [x] Keeping the svn history
 - [x] Enabling continuous integration for multiple Java versions
-- [x] Dropping support for Java < 8 (1.7 will need to be minimum to support Java 12 and above)
+- [x] Dropping support for Java < 8 (supporting newer LTS releases such as 11 and 17 is priority)
 - [x] Move to standard maven project structure
 - [ ] Pulling in various svn patches and git merge requests
 - [ ] Adding Test Coverage

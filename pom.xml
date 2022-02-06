@@ -81,8 +81,8 @@
     <properties>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <xalan.version>2.7.2</xalan.version>
         <batik.version>1.14</batik.version>
         <xmlgraphics.version>2.7</xmlgraphics.version>
@@ -214,8 +214,8 @@
                                     <message>You should really be using Maven 3.6.1</message>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>[1.6,)</version>
-                                    <message>Java 6 is the minimum supported</message>
+                                    <version>[1.8,)</version>
+                                    <message>Java 8 is the minimum supported</message>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
