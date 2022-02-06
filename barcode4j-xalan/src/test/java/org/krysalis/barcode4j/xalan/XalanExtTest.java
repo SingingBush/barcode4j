@@ -17,6 +17,8 @@ package org.krysalis.barcode4j.xalan;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -26,10 +28,9 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import junit.framework.TestCase;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import org.krysalis.barcode4j.AbstractBarcodeTestCase;
 
 /**
  * Test class for the Xalan-J extension.
@@ -37,7 +38,7 @@ import org.krysalis.barcode4j.AbstractBarcodeTestCase;
  * @author Jeremias Maerki
  * @version $Id: XalanExtTest.java,v 1.5 2006-04-05 15:53:40 jmaerki Exp $
  */
-public class XalanExtTest extends AbstractBarcodeTestCase {
+public class XalanExtTest extends TestCase {
     
     public XalanExtTest(String name) {
         super(name);
@@ -55,9 +56,9 @@ public class XalanExtTest extends AbstractBarcodeTestCase {
         Class clazz = Class.forName("org.apache.xalan.processor.TransformerFactoryImpl");
         TransformerFactory factory = (TransformerFactory)clazz.newInstance();
         Transformer trans = factory.newTransformer(new StreamSource(
-                new File(getBaseDir(), "src/xalan/test/xml/" + xslt)));
+                loadTestFile("xml/" + xslt)));
         Source src = new StreamSource(
-                new File(getBaseDir(), "src/test/xml/xslt-test.xml"));
+                loadTestFile("xml/xslt-test.xml"));
         StringWriter writer = new StringWriter();
         Result res = new StreamResult(writer);
         
@@ -83,9 +84,9 @@ public class XalanExtTest extends AbstractBarcodeTestCase {
         Class clazz = Class.forName("org.apache.xalan.processor.TransformerFactoryImpl");
         TransformerFactory factory = (TransformerFactory)clazz.newInstance();
         Transformer trans = factory.newTransformer(new StreamSource(
-                new File(getBaseDir(), "src/xalan/test/xml/" +xslt)));
+                loadTestFile("xml/" +xslt)));
         Source src = new StreamSource(
-                new File(getBaseDir(), "src/test/xml/xslt-test.xml"));
+                loadTestFile("xml/xslt-test.xml"));
         Result res = new SAXResult(new DefaultHandler() {
             private boolean endDocumentCalled = false;
             
@@ -100,4 +101,16 @@ public class XalanExtTest extends AbstractBarcodeTestCase {
         trans.transform(src, res);
     }
 
+    /**
+     * Returns the base directory to use for the tests.
+     * @return the base directory
+     */
+    private File loadTestFile(final String file) {
+        try {
+            return Paths.get(this.getClass().getClassLoader().getResource(file).toURI()).toFile();
+        } catch (final URISyntaxException e) {
+            fail("Could no load file : "+file);
+        }
+        return null;
+    }
 }

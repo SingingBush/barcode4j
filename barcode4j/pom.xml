@@ -100,8 +100,8 @@
                                     <message>You should really be using Maven 3.6.1</message>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>[1.6,)</version>
-                                    <message>Java 6 is the minimum supported</message>
+                                    <version>[1.7,)</version>
+                                    <message>Java 7 is the minimum supported</message>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>

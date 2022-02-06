@@ -11,6 +11,7 @@
     <modules>
         <module>barcode4j</module>
         <module>barcode4j-xgc</module>
+        <module>barcode4j-xalan</module>
         <module>barcode4j-fop-ext</module>
         <module>barcode4j-saxon8</module>
         <module>barcode4j-saxon91</module>
@@ -147,16 +148,16 @@
 <!--                <artifactId>jdom</artifactId>-->
 <!--                <version>1.1</version>-->
 <!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>xalan</groupId>-->
-<!--                <artifactId>xalan</artifactId>-->
-<!--                <version>${xalan.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>xalan</groupId>-->
-<!--                <artifactId>serializer</artifactId>-->
-<!--                <version>${xalan.version}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>xalan</groupId>
+                <artifactId>xalan</artifactId>
+                <version>${xalan.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>xalan</groupId>
+                <artifactId>serializer</artifactId>
+                <version>${xalan.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>junit</groupId>
