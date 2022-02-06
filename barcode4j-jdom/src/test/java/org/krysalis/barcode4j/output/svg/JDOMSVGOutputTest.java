@@ -16,7 +16,7 @@
 package org.krysalis.barcode4j.output.svg;
 
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.jdom.Document;
+import org.jdom2.Document;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 

@@ -113,7 +113,7 @@
         <available classname="java.lang.CharSequence"/>
       </and>
     </condition>
-    <available property="jdom.present" classname="org.jdom.Document" classpathref="project.classpath"/>
+    <available property="jdom.present" classname="org.jdom2.Document" classpathref="project.classpath"/>
     <property name="init.fop" value="true"/>
 
     <condition property="IKVM.present">
@@ -169,7 +169,7 @@
   <target name="info.jdom" depends="init" unless="jdom.present">
     <echo message="===================================================================="/>
     <echo message="You can enable compilation of the JDOM-related sources by adding"/>
-    <echo message="jdom.jar to the lib directory."/>
+    <echo message="jdom2.jar to the lib directory."/>
     <echo message="===================================================================="/>
   </target>
   <target name="info.ikvm" depends="init" unless="IKVM.present">

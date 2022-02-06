@@ -15,10 +15,10 @@
  */
 package org.krysalis.barcode4j.output.svg;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.Namespace;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.TextAlignment;
 import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
@@ -102,7 +102,7 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @return the DOM document.
      */
     public org.w3c.dom.Document getDOM() {
-        org.jdom.output.DOMOutputter output = new org.jdom.output.DOMOutputter();
+        org.jdom2.output.DOMOutputter output = new org.jdom2.output.DOMOutputter();
         try {
             return output.output(this.doc);
         } catch (JDOMException e) {
