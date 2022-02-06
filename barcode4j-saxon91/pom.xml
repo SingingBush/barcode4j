@@ -9,11 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>barcode4j-saxon8</artifactId>
-    <description>Support for Saxon 8</description>
+    <artifactId>barcode4j-saxon91</artifactId>
+    <description>Support for Saxon 9.1</description>
 
     <properties>
-        <saxon.version>8.7</saxon.version>
+        <saxon.version>9.1.0.8</saxon.version>
     </properties>
 
     <dependencies>
@@ -25,12 +25,12 @@
 
         <dependency>
             <groupId>net.sf.saxon</groupId>
-            <artifactId>saxon</artifactId>
+            <artifactId>saxon9</artifactId>
             <version>${saxon.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
-            <artifactId>saxon-dom</artifactId>
+            <artifactId>saxon9-dom</artifactId>
             <version>${saxon.version}</version>
         </dependency>
 
@@ -41,5 +41,12 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>Edinburgh University</id>
+            <name>Edinburgh PH</name>
+            <url>https://www2.ph.ed.ac.uk/maven2/</url>
+        </repository>
+    </repositories>
 
 </project>

@@ -1,19 +1,19 @@
 /*
  * Copyright 2003-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.krysalis.barcode4j.saxon8;
+package org.krysalis.barcode4j.saxon9;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -31,8 +31,8 @@ import junit.framework.TestCase;
 import net.sf.saxon.TransformerFactoryImpl;
 
 /**
- * Test class for the Saxon 8.x extension.
- * 
+ * Test class for the Saxon 9.x extension.
+ *
  * @author Jeremias Maerki
  * @version $Id: SaxonExtTest.java,v 1.2 2004-09-04 20:26:15 jmaerki Exp $
  */
@@ -42,11 +42,11 @@ public class SaxonExtTest extends TestCase {
         super(name);
     }
 
-    public void testSaxon8Ext() throws Exception {
+    public void testSaxon9Ext() throws Exception {
         final TransformerFactory factory = new TransformerFactoryImpl();
         Transformer trans = factory.newTransformer(
-                new StreamSource(loadTestResourceFile("xml/saxon8-test.xsl"))
-                );
+                new StreamSource(loadTestResourceFile("xml/saxon9-test.xsl"))
+        );
         Source src = new StreamSource(loadTestResourceFile("xml/xslt-test.xml"));
 
         StringWriter writer = new StringWriter();

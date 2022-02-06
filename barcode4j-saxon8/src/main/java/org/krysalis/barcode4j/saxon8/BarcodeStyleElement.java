@@ -152,7 +152,7 @@ public class BarcodeStyleElement extends StyleElement {
             }
 
             try {
-                SequenceReceiver out = context.getReceiver();
+                final SequenceReceiver out = context.getReceiver();
 
                 //Acquire BarcodeGenerator
                 final BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
