@@ -36,7 +36,7 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.batik.dom.svg.SVGDOMImplementation;
+import org.apache.batik.anim.dom.SVGDOMImplementation;
 
 import org.apache.xmlgraphics.java2d.Graphics2DImagePainter;
 import org.apache.xmlgraphics.ps.PSGenerator;

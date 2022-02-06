@@ -84,8 +84,8 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <xalan.version>2.7.2</xalan.version>
-        <batik.version>1.7</batik.version>
-        <xmlgraphics.version>2.4</xmlgraphics.version>
+        <batik.version>1.14</batik.version>
+        <xmlgraphics.version>2.7</xmlgraphics.version>
     </properties>
 
     <dependencyManagement>
@@ -113,12 +113,27 @@
 
             <dependency>
                 <groupId>org.apache.xmlgraphics</groupId>
-                <artifactId>batik-transcoder</artifactId>
+                <artifactId>batik-anim</artifactId>
                 <version>${batik.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlgraphics</groupId>
-                <artifactId>batik-svg-dom</artifactId>
+                <artifactId>batik-bridge</artifactId>
+                <version>${batik.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>batik-extension</artifactId>
+                <version>${batik.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>batik-gvt</artifactId>
+                <version>${batik.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>batik-transcoder</artifactId>
                 <version>${batik.version}</version>
             </dependency>
 
