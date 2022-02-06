@@ -13,7 +13,11 @@
 
     <artifactId>barcode4j-saxon8</artifactId>
     <name>Barcode4J Saxon 8</name>
-    <description>Support for Saxon 8. Current saxon version ${net.sf.saxon.8.version}</description>
+    <description>Support for Saxon 8. Current saxon version ${saxon.version}</description>
+
+    <properties>
+        <saxon.version>8.7</saxon.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -25,12 +29,12 @@
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>saxon</artifactId>
-            <version>${net.sf.saxon.8.version}</version>
+            <version>${saxon.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>saxon-dom</artifactId>
-            <version>${net.sf.saxon.8.version}</version>
+            <version>${saxon.version}</version>
         </dependency>
 
         <!-- test dependencies -->
@@ -47,6 +51,11 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
