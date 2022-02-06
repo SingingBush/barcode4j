@@ -12,3 +12,5 @@ build/
 .idea/
 *.iml
 
+# Ignore the output of the Ant build
+barcode4j/dist/

@@ -33,7 +33,7 @@
   <property name="build.dotnet.dir" value="${build.dir}/dotnet"/>
   <property name="xalan.dir" value="${src.dir}/xalan"/>
   <property name="saxon6.dir" value="${src.dir}/saxon"/>
-  <property name="saxon8.dir" value="${src.dir}/saxon8"/>
+  <property name="saxon8.dir" value="../barcode4j-saxon8/src/main/"/>
   <property name="jdom.dir" value="${src.dir}/jdom"/>
   <property name="checkstyle.home" value=""/>
   <property name="main.class" value="org.krysalis.barcode4j.cli.Main"/>
