@@ -165,15 +165,20 @@ public class QRCodeBean extends AbstractBarcodeBean {
 
     /** {@inheritDoc} */
     public BarcodeDimension calcDimensions(String msg) {
-        QRCode code = new QRCode();
+        final QRCode code = new QRCode();
+
         try {
+//            Encoder.encode(msg,
+//                    QRLogicImpl.getZXingErrorLevel(errorCorrectionLevel),
+//                    QRLogicImpl.createHints(encoding), code);
             Encoder.encode(msg,
                     QRLogicImpl.getZXingErrorLevel(errorCorrectionLevel),
-                    QRLogicImpl.createHints(encoding), code);
+                    QRLogicImpl.createHints(encoding));
         } catch (WriterException e) {
             throw new RuntimeException(e.getMessage());
         }
-        ByteMatrix matrix = code.getMatrix();
+
+        final ByteMatrix matrix = code.getMatrix();
         int effWidth = matrix.getWidth();
         int effHeight = matrix.getHeight();
         checkSizeConstraints(effWidth, effHeight);
