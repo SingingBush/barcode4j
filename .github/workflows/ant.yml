@@ -22,4 +22,4 @@ jobs:
       run: ant -noinput -buildfile barcode4j/build.xml
 
     - name: Build Distribution
-      run; ant -noinput -buildfile barcode4j/build-dist.xml
+      run: ant -noinput -buildfile barcode4j/build-dist.xml
