@@ -57,7 +57,7 @@
   <target name="dist-clean" depends="clean">
     <delete dir="${dist.dir}"/>
   </target>
-  <target name="dist" depends="dist-clean, package, webapp" description="Creates the distribution files">
+  <target name="dist" depends="dist-clean, package" description="Creates the distribution files">
     <echo message="Creating the distribution"/>
     <property name="rel-name" value="${name}-${version}"/>
     <mkdir dir="${dist.dir}/work/bin/${rel-name}/docs"/>

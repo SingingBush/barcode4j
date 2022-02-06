@@ -9,7 +9,7 @@
   <property name="version" value="${barcode4j-version}"/>
   <property name="impl.vendor" value="The Barcode4J Project"/>
   <property name="impl.url" value="http://barcode4j.sourceforge.net"/>
-  <property name="year" value="2000-2010"/>
+  <property name="year" value="2000-2022"/>
   <property name="build.compiler" value="classic"/>
   <property name="src.dir" value="${basedir}/src"/>
   <property name="src.java.dir" value="${src.dir}/main/java"/>
@@ -24,6 +24,8 @@
   <property name="resource-jar.dir" value="${build.dir}/resource-jars"/>
   <property name="dist.dir" value="${basedir}/dist"/>
   <property name="docs.dir" value="${build.dir}/javadocs"/>
+  <property name="servlet.dir" value="../barcode4j-servlet/src/main/"/>
+  <property name="cli.dir" value="../barcode4j-cli/src/main/"/>
   <property name="fop.ext.dir" value="../barcode4j-fop-ext/src/main"/>
   <property name="xgc.ext.dir" value="../barcode4j-xgc/src/main/"/>
   <property name="src.fop.dir" value="${fop.ext.dir}/java"/>
@@ -530,35 +532,36 @@
   <!-- =================================================================== -->
   <!-- Sample web application                                             -->
   <!-- =================================================================== -->
-  <target name="webapp" depends="package" description="Creates the sample webapp found in the example/webapp directory">
-    <echo message="Creating the WAR file ${build.dir}/${name}.war"/>
-    <property name="webapp.dir" value="examples/webapp"/>
-    <property name="build.webapp.dest" value="${build.dir}/webapp/classes"/>
-    <mkdir dir="${build.webapp.dest}"/>
-    <path id="webapp.classpath">
-      <fileset dir="${build.dir}">
-        <include name="${name}.jar"/>
-      </fileset>
-      <path refid="project.classpath"/>
-    </path>
-    <javac srcdir="${webapp.dir}/java" destdir="${build.webapp.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}" encoding="${encoding}">
-      <classpath refid="webapp.classpath"/>
-    </javac>
-    <war warfile="${build.dir}/${name}.war" webxml="${webapp.dir}/conf/web.xml">
-      <lib dir="${lib.dir}">
-        <include name="avalon-framework*.jar"/>
-        <include name="zxing*.jar"/>
-      </lib>
-      <lib dir="${build.dir}">
-        <include name="${name}.jar"/>
-      </lib>
-      <classes dir="${build.webapp.dest}"/>
-      <fileset dir="${webapp.dir}/html"/>
-      <webinf dir="${webapp.dir}/xml">
-        <include name="*.xslt"/>
-      </webinf>
-    </war>
-  </target>
+<!--  <target name="webapp" depends="package" description="Creates the sample webapp found in the example/webapp directory">-->
+<!--    <echo message="Creating the WAR file ${build.dir}/${name}.war"/>-->
+<!--    <property name="webapp.dir" value="examples/webapp"/>-->
+<!--    <property name="build.webapp.dest" value="${build.dir}/webapp/classes"/>-->
+<!--    <mkdir dir="${build.webapp.dest}"/>-->
+<!--    <path id="webapp.classpath">-->
+<!--      <fileset dir="${build.dir}">-->
+<!--        <include name="${name}.jar"/>-->
+<!--      </fileset>-->
+<!--      <path refid="project.classpath"/>-->
+<!--    </path>-->
+<!--    <javac srcdir="${webapp.dir}/java" destdir="${build.webapp.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}" encoding="${encoding}">-->
+<!--      <classpath refid="webapp.classpath"/>-->
+<!--    </javac>-->
+<!--    <war warfile="${build.dir}/${name}.war" webxml="${webapp.dir}/conf/web.xml">-->
+<!--      <lib dir="${lib.dir}">-->
+<!--        <include name="avalon-framework*.jar"/>-->
+<!--        <include name="zxing*.jar"/>-->
+<!--      </lib>-->
+<!--      <lib dir="${build.dir}">-->
+<!--        <include name="${name}.jar"/>-->
+<!--      </lib>-->
+<!--      <classes dir="${build.webapp.dest}"/>-->
+<!--      <fileset dir="${webapp.dir}/html"/>-->
+<!--      <webinf dir="${webapp.dir}/xml">-->
+<!--        <include name="*.xslt"/>-->
+<!--      </webinf>-->
+<!--    </war>-->
+<!--  </target>-->
+
   <!-- =================================================================== -->
   <!-- Tests                                                               -->
   <!-- =================================================================== -->
@@ -640,7 +643,7 @@
   <!-- =================================================================== -->
   <!-- Default target                                                      -->
   <!-- =================================================================== -->
-  <target name="all" depends="test, package, webapp"/>
+  <target name="all" depends="test, package"/>
   <!-- =================================================================== -->
   <!-- Clean targets                                                       -->
   <!-- =================================================================== -->
@@ -674,5 +677,5 @@
   <!-- =================================================================== -->
   <!-- Gump                                                                -->
   <!-- =================================================================== -->
-  <target name="gump" depends="test, package, webapp, javadocs"/>
+  <target name="gump" depends="test, package, javadocs"/>
 </project>
