@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.singingbush</groupId>
+        <artifactId>barcode4j-parent</artifactId>
+        <version>2.2.4-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>barcode4j-saxon</artifactId>
+    <name>Barcode4J Saxon (PE &amp; EE 10 and above)</name>
+    <description>Support for Saxon PE and EE (should work with Saxon 10.6.* to 12.*)</description>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+
+        <!-- Saxon EE could be pulled from the maven.saxonica.com repo -->
+        <!-- See: https://maven.saxonica.com/maven/com/saxonica/Saxon-EE/index.html -->
+        <!-- Once EE is working then it should be good for version 10.* to 12.* -->
+<!--        <saxon.version>10.2</saxon.version>-->
+        <saxon.version>10.6</saxon.version>
+<!--        <saxon.version>10.9</saxon.version>-->
+<!--        <saxon.version>11.1.1</saxon.version>-->
+<!--        <saxon.version>11.6</saxon.version>-->
+<!--        <saxon.version>12.5</saxon.version>-->
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.singingbush</groupId>
+            <artifactId>barcode4j</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.saxonica</groupId>
+            <artifactId>Saxon-EE</artifactId>
+            <version>${saxon.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <!-- don't publish barcode4j-saxon until it's confirmed working -->
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>saxonica</id>
+            <name>Saxonica</name>
+            <url>https://dev.saxonica.com/maven/</url>
+        </repository>
+    </repositories>
+</project>

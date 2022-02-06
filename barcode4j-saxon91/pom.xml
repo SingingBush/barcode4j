@@ -13,7 +13,11 @@
 
     <artifactId>barcode4j-saxon91</artifactId>
     <name>Barcode4J Saxon 9.1</name>
-    <description>Support for Saxon 9.1</description>
+    <description>Support for Saxon ${saxon.version}</description>
+
+    <properties>
+        <saxon.version>9.1.0.8</saxon.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -21,16 +25,18 @@
             <artifactId>barcode4j</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>saxon9</artifactId>
-            <version>${net.sf.saxon.9.version}</version>
+            <version>${saxon.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>saxon9-dom</artifactId>
-            <version>${net.sf.saxon.9.version}</version>
+            <version>${saxon.version}</version>
         </dependency>
+
         <!-- test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -39,7 +45,17 @@
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

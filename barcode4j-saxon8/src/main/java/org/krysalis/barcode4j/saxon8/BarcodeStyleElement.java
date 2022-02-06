@@ -33,6 +33,7 @@ import net.sf.saxon.expr.SimpleExpression;
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.instruct.Executable;
 import net.sf.saxon.style.StyleElement;
+import net.sf.saxon.style.ExtensionInstruction;
 import net.sf.saxon.trans.DynamicError;
 import net.sf.saxon.trans.XPathException;
 import net.sf.saxon.type.ValidationException;
@@ -43,18 +44,10 @@ import net.sf.saxon.type.ValidationException;
  * @author Jeremias Maerki
  * @version $Id: BarcodeStyleElement.java,v 1.4 2007-01-15 11:12:33 jmaerki Exp $
  */
-public class BarcodeStyleElement extends StyleElement {
+public class BarcodeStyleElement extends ExtensionInstruction {
 
     private Expression message;
     private Expression orientation;
-
-    /**
-     * @see net.sf.saxon.style.StyleElement#isInstruction()
-     */
-    @Override
-    public boolean isInstruction() {
-        return true;
-    }
 
     /**
      * Determine whether this type of element is allowed to contain a template-body
@@ -68,6 +61,9 @@ public class BarcodeStyleElement extends StyleElement {
     }
 
     /**
+     * This is called while the stylesheet tree is still being built, so it should not attempt to navigate the tree.
+     * Its task is to validate the attributes of the stylesheet element and perform any preprocessing necessary.
+     * For example, if the attribute is an attribute value template, this includes creating an Expression that can subsequently be evaluated to get the AVT's value.
      * @see net.sf.saxon.style.StyleElement#prepareAttributes()
      */
     @Override
@@ -96,14 +92,29 @@ public class BarcodeStyleElement extends StyleElement {
         }
     }
 
+    @Override
+    public void postValidate() throws XPathException {
+        if(!this.hasChildNodes()) {
+            this.compileError("barcode should have child element");
+        }
+        // todo: enumerate child nodes and make sure that a BarcodeNonRootStyleElement exists
+    }
+
     /**
+     * This is called to create an Expression object which is added to the expression tree.
+     * @param exec a non-nullable saxon executable
+     * @return a new BarcodeExpression instance using the message & orientation expressions
+     * @throws XPathException
      * @see net.sf.saxon.style.StyleElement#compile(net.sf.saxon.instruct.Executable)
      */
+    //@Nullable & arg is non-null
     @Override
     public Expression compile(Executable exec) throws XPathException {
         final NodeOverNodeInfo node = NodeOverNodeInfo.wrap(this);
         final Configuration cfg = ConfigurationUtil.buildConfiguration(node);
         return new BarcodeExpression(message, orientation, cfg);
+
+        // this.compileError("Invalid element name: " + var3, "XTDE0820");
     }
 
     /**
@@ -157,10 +168,11 @@ public class BarcodeStyleElement extends StyleElement {
                 //Acquire BarcodeGenerator
                 final BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
 
-                //Setup Canvas
-                final SVGCanvasProvider svg = cfg.getAttributeAsBoolean("useNamespace", true) ?
-                        new SVGCanvasProvider(cfg.getAttribute("prefix", "svg"), effOrientation) :
-                        new SVGCanvasProvider(false, effOrientation);
+                // Setup Canvas (need to not set "svg:" namespace if we're outputting HTML)
+                final SVGCanvasProvider svg = new SVGCanvasProvider(false, effOrientation);
+                //final SVGCanvasProvider svg = cfg.getAttributeAsBoolean("useNamespace", true) ?
+                //        new SVGCanvasProvider(cfg.getAttribute("prefix", "svg"), effOrientation) :
+                //        new SVGCanvasProvider(false, effOrientation);
 
                 //Generate barcode
                 gen.generateBarcode(svg, effMessage);

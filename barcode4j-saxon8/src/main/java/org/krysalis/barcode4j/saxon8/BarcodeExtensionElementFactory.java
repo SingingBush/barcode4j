@@ -37,8 +37,8 @@ public class BarcodeExtensionElementFactory implements ExtensionElementFactory {
      * @see net.sf.saxon.style.ExtensionElementFactory#getExtensionClass(java.lang.String)
      */
     @Override
-    public Class getExtensionClass(String localname) {
-        return localname.equals("barcode") ? BarcodeStyleElement.class : BarcodeNonRootStyleElement.class;
+    public Class getExtensionClass(String localName) {
+        return localName.equals("barcode") ? BarcodeStyleElement.class : BarcodeNonRootStyleElement.class;
     }
 
 }
