@@ -34,7 +34,7 @@
   <property name="xalan.dir" value="../barcode4j-xalan/src/"/>
   <property name="saxon6.dir" value="${src.dir}/saxon"/>
   <property name="saxon8.dir" value="../barcode4j-saxon8/src/main/"/>
-  <property name="jdom.dir" value="${src.dir}/jdom"/>
+  <property name="jdom.dir" value="../barcode4j-jdom/src/main/"/>
   <property name="checkstyle.home" value=""/>
   <property name="main.class" value="org.krysalis.barcode4j.cli.Main"/>
   
