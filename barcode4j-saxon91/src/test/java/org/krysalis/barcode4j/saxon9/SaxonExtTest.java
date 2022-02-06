@@ -44,17 +44,21 @@ public class SaxonExtTest extends TestCase {
 
     public void testSaxon9Ext() throws Exception {
         final TransformerFactory factory = new TransformerFactoryImpl();
-        Transformer trans = factory.newTransformer(
+        final Transformer trans = factory.newTransformer(
                 new StreamSource(loadTestResourceFile("xml/saxon9-test.xsl"))
         );
-        Source src = new StreamSource(loadTestResourceFile("xml/xslt-test.xml"));
 
-        StringWriter writer = new StringWriter();
-        Result res = new StreamResult(writer);
+        final Source src = new StreamSource(loadTestResourceFile("xml/xslt-test.xml"));
+
+        final StringWriter writer = new StringWriter();
+        final Result res = new StreamResult(writer);
 
         trans.transform(src, res);
-        String output = writer.getBuffer().toString();
-        assertTrue(output.indexOf("svg") >= 0);
+        final String output = writer.getBuffer().toString();
+
+        assertTrue(output.contains("<svg:svg xmlns:svg=\"http://www.w3.org/2000/svg\""));
+        assertTrue(output.contains("<svg:g "));
+
         //System.out.println(writer.getBuffer());
     }
 

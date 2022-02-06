@@ -1,12 +1,12 @@
 /*
  * Copyright 2003-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ import net.sf.saxon.TransformerFactoryImpl;
 
 /**
  * Test class for the Saxon 8.x extension.
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: SaxonExtTest.java,v 1.2 2004-09-04 20:26:15 jmaerki Exp $
  */
@@ -44,17 +44,21 @@ public class SaxonExtTest extends TestCase {
 
     public void testSaxon8Ext() throws Exception {
         final TransformerFactory factory = new TransformerFactoryImpl();
-        Transformer trans = factory.newTransformer(
+        final Transformer trans = factory.newTransformer(
                 new StreamSource(loadTestResourceFile("xml/saxon8-test.xsl"))
-                );
-        Source src = new StreamSource(loadTestResourceFile("xml/xslt-test.xml"));
+        );
 
-        StringWriter writer = new StringWriter();
-        Result res = new StreamResult(writer);
+        final Source src = new StreamSource(loadTestResourceFile("xml/xslt-test.xml"));
+
+        final StringWriter writer = new StringWriter();
+        final Result res = new StreamResult(writer);
 
         trans.transform(src, res);
-        String output = writer.getBuffer().toString();
-        assertTrue(output.indexOf("svg") >= 0);
+        final String output = writer.getBuffer().toString();
+
+        assertTrue(output.contains("<svg:svg xmlns:svg=\"http://www.w3.org/2000/svg\""));
+        assertTrue(output.contains("<svg:g "));
+
         //System.out.println(writer.getBuffer());
     }
 
