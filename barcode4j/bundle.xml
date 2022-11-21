@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <bundle xmlns="http://www.jeremias-maerki.ch/ns/osgi-bundle">
   <name>Barcode4J</name>
   <symbolic-name>org.krysalis.barcode4j</symbolic-name>

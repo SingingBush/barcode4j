@@ -59,7 +59,7 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         visualized = encodeHighLevel("123456");
         assertEquals("142 164 186", visualized);
 
-        visualized = encodeHighLevel("123456£");
+        visualized = encodeHighLevel("123456Â£");
         assertEquals("142 164 186 235 36", visualized);
 
         visualized = encodeHighLevel("30Q324343430794<OQQ");
@@ -89,20 +89,20 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         //"b" is normally encoded as "Shift 3, 2" (two C40 values)
         //"else" case: "b" is encoded as ASCII
 
-        visualized = encodeHighLevel("AIMAIMAIMË");
+        visualized = encodeHighLevel("AIMAIMAIMÃ‹");
         assertEquals("230 91 11 91 11 91 11 254 235 76", visualized);
         //Alternative solution:
         //assertEquals("230 91 11 91 11 91 11 11 9 254", visualized);
         //Expl: 230 = shift to C40, "91 11" = "AIM",
-        //"11 9" = "Ë" = "Shift 2, UpperShift, <char>
+        //"11 9" = "Ã‹" = "Shift 2, UpperShift, <char>
         //"else" case
 
-        visualized = encodeHighLevel("AIMAIMAIMë");
+        visualized = encodeHighLevel("AIMAIMAIMÃ«");
         assertEquals("230 91 11 91 11 91 11 254 235 108", visualized); //Activate when additional rectangulars are available
         //Expl: 230 = shift to C40, "91 11" = "AIM",
-        //"ë" in C40 encodes to: 1 30 2 11 which doesn't fit into a triplet
+        //"Ã«" in C40 encodes to: 1 30 2 11 which doesn't fit into a triplet
         //"10 243" =
-        //254 = unlatch, 235 = Upper Shift, 108 = ë = 0xEB/235 - 128 + 1
+        //254 = unlatch, 235 = Upper Shift, 108 = Ã« = 0xEB/235 - 128 + 1
         //"else" case
     }
 
@@ -222,7 +222,7 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         assertEquals("240 184 27 131 198 236 238 89", visualized);
 
         //Checking temporary unlatch from EDIFACT
-        visualized = encodeHighLevel(".XXX.XXX.XXX.XXX.XXX.XXX.üXX.XXX.XXX.XXX.XXX.XXX.XXX");
+        visualized = encodeHighLevel(".XXX.XXX.XXX.XXX.XXX.XXX.Ã¼XX.XXX.XXX.XXX.XXX.XXX.XXX");
         assertEquals("240 185 134 24 185 134 24 185 134 24 185 134 24 185 134 24 185 134 24"
                 + " 124 47 235 125 240" //<-- this is the temporary unlatch
                 + " 97 139 152 97 139 152 97 139 152 97 139 152 97 139 152 97 139 152 89 89",
@@ -234,20 +234,20 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
 
         //231 shifts to Base256 encodation
 
-        visualized = encodeHighLevel("«äöüé»");
+        visualized = encodeHighLevel("Â«Ã¤Ã¶Ã¼Ã©Â»");
         assertEquals("231 44 108 59 226 126 1 104", visualized);
-        visualized = encodeHighLevel("«äöüéà»");
+        visualized = encodeHighLevel("Â«Ã¤Ã¶Ã¼Ã©Ã Â»");
         assertEquals("231 51 108 59 226 126 1 141 254 129", visualized);
-        visualized = encodeHighLevel("«äöüéàá»");
+        visualized = encodeHighLevel("Â«Ã¤Ã¶Ã¼Ã©Ã Ã¡Â»");
         assertEquals("231 44 108 59 226 126 1 141 36 147", visualized);
 
-        visualized = encodeHighLevel(" 23£"); //ASCII only (for reference)
+        visualized = encodeHighLevel(" 23Â£"); //ASCII only (for reference)
         assertEquals("33 153 235 36 129", visualized);
 
-        visualized = encodeHighLevel("«äöüé» 234"); //Mixed Base256 + ASCII
+        visualized = encodeHighLevel("Â«Ã¤Ã¶Ã¼Ã©Â» 234"); //Mixed Base256 + ASCII
         assertEquals("231 51 108 59 226 126 1 104 99 153 53 129", visualized);
 
-        visualized = encodeHighLevel("«äöüé» 23£ 1234567890123456789");
+        visualized = encodeHighLevel("Â«Ã¤Ã¶Ã¼Ã©Â» 23Â£ 1234567890123456789");
         assertEquals("231 55 108 59 226 126 1 104 99 10 161 167 185 142 164 186 208"
                 + " 220 142 164 186 208 58 129 59 209 104 254 150 45", visualized);
 
@@ -269,11 +269,11 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
 
     private static String createBinaryMessage(int len) {
         StringBuffer sb = new StringBuffer();
-        sb.append("«äöüéàá-");
+        sb.append("Â«Ã¤Ã¶Ã¼Ã©Ã Ã¡-");
         for (int i = 0; i < len - 9; i++) {
             sb.append("\u00B7");
         }
-        sb.append("»");
+        sb.append("Â»");
         return sb.toString();
     }
 

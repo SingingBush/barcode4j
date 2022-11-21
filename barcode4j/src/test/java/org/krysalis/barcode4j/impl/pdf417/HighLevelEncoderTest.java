@@ -31,11 +31,11 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
     }
 
     public void testFindTextSequence() throws Exception {
-        String msg = "1234567890ABCDÄ123";
+        String msg = "1234567890ABCD‚Ç¨123";
         int count = PDF417HighLevelEncoder.determineConsecutiveTextCount(msg, 0);
         assertEquals(14, count);
 
-        msg = "123456789012345ABCDÄ123";
+        msg = "123456789012345ABCD‚Ç¨123";
         count = PDF417HighLevelEncoder.determineConsecutiveTextCount(msg, 0);
         assertEquals(0, count); //0 because the string has a 13+ numeric sequence
     }
@@ -54,22 +54,22 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         count = PDF417HighLevelEncoder.determineConsecutiveBinaryCount(msg, bytes, 0);
         assertEquals(0, count);
 
-        msg = "‰ˆ¸TestÈË‡1234567890123456789";
+        msg = "√§√∂√ºTest√©√®√†1234567890123456789";
         bytes = getBytesForMessage(msg);
         count = PDF417HighLevelEncoder.determineConsecutiveBinaryCount(msg, bytes, 0);
         assertEquals(10, count);
 
-        msg = "‰ˆ¸Test";
+        msg = "√§√∂√ºTest";
         bytes = getBytesForMessage(msg);
         count = PDF417HighLevelEncoder.determineConsecutiveBinaryCount(msg, bytes, 0);
         assertEquals(7, count);
 
-        msg = "‰ˆ¸‰‰‰‰‰‰‰TestTest";
+        msg = "√§√∂√º√§√§√§√§√§√§√§TestTest";
         bytes = getBytesForMessage(msg);
         count = PDF417HighLevelEncoder.determineConsecutiveBinaryCount(msg, bytes, 0);
         assertEquals(10, count);
 
-        msg = "‰ˆ¸TestÈË‡Ä1234567890";
+        msg = "√§√∂√ºTest√©√®√†‚Ç¨1234567890";
         bytes = getBytesForMessage(msg);
         try {
             count = PDF417HighLevelEncoder.determineConsecutiveBinaryCount(msg, bytes, 0);
@@ -157,14 +157,14 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         expected = TestHelper.visualize("\u0385\u0183\u02bc\u00d0\u00d5\u012e\u0183\u02bc\u00d0\u00d5\u012e\u00e7");
         assertEquals(expected, TestHelper.visualize(sb.toString()));
 
-        msg = "‰‰‰‰‰‰‰‰‰‰‰‰"; //12 binary characters = 2x6
+        msg = "√§√§√§√§√§√§√§√§√§√§√§√§"; //12 binary characters = 2x6
         bytes = getBytesForMessage(msg);
         sb.setLength(0);
         PDF417HighLevelEncoder.encodeBinary(msg, bytes, 0, msg.length(), TEXT_COMPACTION, sb);
         expected = "924 222 69 238 51 792 222 69 238 51 792";
         assertEquals(expected, TestHelper.visualize(sb.toString()));
 
-        msg = "‰‰‰‰‰‰‰‰‰‰"; //10 binary characters = 1x6 + 4
+        msg = "√§√§√§√§√§√§√§√§√§√§"; //10 binary characters = 1x6 + 4
         bytes = getBytesForMessage(msg);
         sb.setLength(0);
         PDF417HighLevelEncoder.encodeBinary(msg, bytes, 0, msg.length(), TEXT_COMPACTION, sb);
@@ -188,12 +188,12 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         expected = "902 1 624 434 632 282 200 900 453 178 121 239";
         assertEquals(expected, result);
 
-        msg = "TestTest‰‰‰‰‰‰‰‰‰‰‰‰"; //12 binary characters = 2x6
+        msg = "TestTest√§√§√§√§√§√§√§√§√§√§√§√§"; //12 binary characters = 2x6
         result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
         expected = "597 138 597 574 559 924 222 69 238 51 792 222 69 238 51 792";
         assertEquals(expected, result);
 
-        msg = "TestTest‰‰‰‰‰‰‰‰‰‰"; //10 binary characters = 1x6 + 4
+        msg = "TestTest√§√§√§√§√§√§√§√§√§√§"; //10 binary characters = 1x6 + 4
         result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
         expected = "597 138 597 574 559 901 222 69 238 51 792 132 132 132 132";
         log(expected, result);

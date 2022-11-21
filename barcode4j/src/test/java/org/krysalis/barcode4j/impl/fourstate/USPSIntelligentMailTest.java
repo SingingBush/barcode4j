@@ -215,7 +215,7 @@ public class USPSIntelligentMailTest extends TestCase {
             String expected = results[i];
             //System.out.println(expected);
             //System.out.println(sb.toString());
-            assertEquals("Expected result n° " + i + " does not match", expected, sb.toString());
+            assertEquals("Expected result nÂ° " + i + " does not match", expected, sb.toString());
         }
     }
     
