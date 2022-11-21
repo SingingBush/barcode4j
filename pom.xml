@@ -92,12 +92,12 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- dependencyManagement - set fixed versions for all project dependencies -->
-        <apache.commons-cli.version>1.4</apache.commons-cli.version>
+        <apache.commons-cli.version>1.5.0</apache.commons-cli.version>
         <org.apache.avalon.framework.version>4.3.1</org.apache.avalon.framework.version>
-        <org.apache.xmlgraphics.version>2.7</org.apache.xmlgraphics.version>
-        <org.apache.xmlgraphics.batik.version>1.14</org.apache.xmlgraphics.batik.version>
+        <org.apache.xmlgraphics.version>2.8</org.apache.xmlgraphics.version>
+        <org.apache.xmlgraphics.batik.version>1.16</org.apache.xmlgraphics.batik.version>
         <org.apache.xalan.version>2.7.2</org.apache.xalan.version>
-        <com.google.zxing.version>3.4.1</com.google.zxing.version>
+        <com.google.zxing.version>3.5.1</com.google.zxing.version>
         <javax.servlet.api.version>2.5</javax.servlet.api.version>
         <org.apache.ant.version>1.10.12</org.apache.ant.version>
         <org.jdom.jdom2.version>2.0.6.1</org.jdom.jdom2.version>
