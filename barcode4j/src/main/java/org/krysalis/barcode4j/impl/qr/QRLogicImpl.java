@@ -56,11 +56,9 @@ public class QRLogicImpl implements QRConstants {
         final ErrorCorrectionLevel zxingErrLevel = getZXingErrorLevel(errorCorrectionLevel);
         final Hashtable<EncodeHintType, Object> hints = createHints(encoding);
 
-        final QRCode code = new QRCode();
-
+        QRCode code;
         try {
-            // Encoder.encode(msg, zxingErrLevel, hints, code);
-            Encoder.encode(msg, zxingErrLevel, hints);
+            code = Encoder.encode(msg, zxingErrLevel, hints);
         } catch (WriterException e) {
             throw new RuntimeException(e.getMessage(), e);
         }

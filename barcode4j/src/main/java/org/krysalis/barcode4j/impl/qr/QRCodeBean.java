@@ -164,18 +164,15 @@ public class QRCodeBean extends AbstractBarcodeBean {
     }
 
     /** {@inheritDoc} */
+    @Override
     public BarcodeDimension calcDimensions(String msg) {
-        final QRCode code = new QRCode();
-
+        QRCode code;
         try {
-//            Encoder.encode(msg,
-//                    QRLogicImpl.getZXingErrorLevel(errorCorrectionLevel),
-//                    QRLogicImpl.createHints(encoding), code);
-            Encoder.encode(msg,
+            code = Encoder.encode(msg,
                     QRLogicImpl.getZXingErrorLevel(errorCorrectionLevel),
                     QRLogicImpl.createHints(encoding));
         } catch (WriterException e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e.getMessage(), e);
         }
 
         final ByteMatrix matrix = code.getMatrix();
@@ -194,29 +191,26 @@ public class QRCodeBean extends AbstractBarcodeBean {
 
     private void checkSizeConstraints(int width, int height) {
         //Note: we're only checking the constraints, we can't currently influence ZXing's encoder.
-        if (this.minSize != null) {
-            if (width < this.minSize.width || height < this.minSize.height) {
-                throw new IllegalArgumentException(
-                        "The given message would result in a smaller symbol than required."
-                        + " Requested minimum: "
-                        + this.minSize.width + " x " + this.minSize.height
-                        + ", effective: "
-                        + width + " x " + height);
-            }
+        if (this.minSize != null && (width < this.minSize.width || height < this.minSize.height)) {
+            throw new IllegalArgumentException(
+                    "The given message would result in a smaller symbol than required."
+                            + " Requested minimum: "
+                            + this.minSize.width + " x " + this.minSize.height
+                            + ", effective: "
+                            + width + " x " + height);
         }
-        if (this.maxSize != null) {
-            if (width > this.maxSize.width || height > this.maxSize.height) {
-                throw new IllegalArgumentException(
-                        "The given message would result in a larger symbol than required."
-                        + " Requested maximum: "
-                        + this.maxSize.width + " x " + this.maxSize.height
-                        + ", effective: "
-                        + width + " x " + height);
-            }
+        if (this.maxSize != null && (width > this.maxSize.width || height > this.maxSize.height)) {
+            throw new IllegalArgumentException(
+                    "The given message would result in a larger symbol than required."
+                            + " Requested maximum: "
+                            + this.maxSize.width + " x " + this.maxSize.height
+                            + ", effective: "
+                            + width + " x " + height);
         }
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getVerticalQuietZone() {
         return getQuietZone();
     }
@@ -227,6 +221,7 @@ public class QRCodeBean extends AbstractBarcodeBean {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getBarHeight() {
         return moduleWidth;
     }
