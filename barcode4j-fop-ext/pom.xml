@@ -2,30 +2,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>barcode4j-parent</artifactId>
         <groupId>org.krysalis</groupId>
         <version>2.1.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>barcode4j-fop-ext</artifactId>
     <name>Barcode4J FOP Extension</name>
-    <description></description>
+    <description>This module contains SPI implementation for Apache FOP barcode elements</description>
 
     <dependencies>
         <dependency>
             <groupId>org.krysalis</groupId>
             <artifactId>barcode4j</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.krysalis</groupId>
+            <artifactId>barcode4j-xgc</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>fop</artifactId>
+            <artifactId>fop-core</artifactId>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>batik-anim</artifactId>
@@ -46,8 +51,6 @@
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>batik-transcoder</artifactId>
         </dependency>
-
     </dependencies>
-
 
 </project>
