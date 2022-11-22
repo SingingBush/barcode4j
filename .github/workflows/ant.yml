@@ -13,11 +13,13 @@ jobs:
         # Will need to target JDK 7 as minimum in order to build with Java: '12', '13', '14-ea', '15-ea'
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up JDK ${{ matrix.jdk }}
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v3
       with:
+        distribution: zulu
         java-version: ${{ matrix.jdk }}
+
     - name: Build with Ant
       run: ant -noinput -buildfile barcode4j/build.xml
 

@@ -1,7 +1,8 @@
 Barcode4j
 =========
 
-![Java CI](https://github.com/SingingBush/barcode4j/workflows/Java%20CI/badge.svg)
+[![Maven](https://github.com/SingingBush/barcode4j/actions/workflows/maven.yml/badge.svg)](https://github.com/SingingBush/barcode4j/actions/workflows/maven.yml)
+[![Ant](https://github.com/SingingBush/barcode4j/actions/workflows/ant.yml/badge.svg)](https://github.com/SingingBush/barcode4j/actions/workflows/ant.yml)
 
 Barcode4J is a flexible generator for barcodes written in Java and available under the Apache License v2.0. Features
 
@@ -23,6 +24,7 @@ This fork has the following goals:
 - [ ] Adding Test Coverage
 - [ ] Publish build artifacts to maven central
 - [ ] Support the latest Saxon version**
+- [ ] Add JPMS support (in version 3 and above, 2.* will continue to support JDK 8)
 
 ** I hope to add support for recent versions of Saxon (10 & 11) but now Saxonica ships 3 builds: Saxon-HE, Saxon-PE, and Saxon-EE. The first of which (Home Edition) is available via maven. I did the initial work to update but it turns out element extensibility is not available in Saxon Home Edition (the _net.sf.saxon.style.ExtensionElementFactory_ that is required is not available).
 
