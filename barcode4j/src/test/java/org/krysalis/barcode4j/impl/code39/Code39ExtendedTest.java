@@ -43,7 +43,7 @@ public class Code39ExtendedTest extends TestCase {
         assertEquals("%N%O%W+A+B+C", Code39LogicImpl.escapeExtended(msg, null).toString());
         msg = "xyz{|}~\u007F";
         assertEquals("+X+Y+Z%P%Q%R%S%T", Code39LogicImpl.escapeExtended(msg, null).toString());
-        msg = "Aa‰";
+        msg = "Aa√§";
         try {
             Code39LogicImpl.escapeExtended(msg, null);
             fail("Expected an IllegalArgumentException for unsupported character");

@@ -45,7 +45,7 @@ public class EAN8Test extends TestCase {
         //Test invalid characters in message
         try {
             EAN8LogicImpl logic = new EAN8LogicImpl(ChecksumMode.CP_AUTO);
-            logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "123èöö2");
+            logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "123Ã¨Ã¶Ã¶2");
             fail("Expected an exception complaining about illegal characters");
         } catch (IllegalArgumentException iae) {
             //must fail

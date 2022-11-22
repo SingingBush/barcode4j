@@ -293,7 +293,7 @@
         <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
-      <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
+      <metainf dir="${basedir}/.." includes="LICENSE,NOTICE"/>
       <fileset dir="${build.dest}">
         <include name="org/krysalis/**"/>
       </fileset>
@@ -307,7 +307,7 @@
         <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
-      <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
+      <metainf dir="${basedir}/.." includes="LICENSE,NOTICE"/>
       <fileset dir="${build.dest}">
         <include name="org/krysalis/**"/>
         <exclude name="org/krysalis/barcode4j/cli/**"/>
@@ -364,11 +364,11 @@
         <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
-      <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
-      <metainf dir="${fop.ext.dir}/resources">
+      <metainf dir="${basedir}/.." includes="LICENSE,NOTICE"/>
+      <metainf dir="${fop.ext.dir}/resources/META-INF">
         <include name="**"/>
       </metainf>
-      <metainf dir="${xgc.ext.dir}/resources">
+      <metainf dir="${xgc.ext.dir}/resources/META-INF">
         <include name="**"/>
       </metainf>
       <fileset dir="${build.dest.fop}">
@@ -387,11 +387,11 @@
         <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
-      <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
-      <metainf dir="${fop.ext.dir}/resources">
+      <metainf dir="${basedir}/.." includes="LICENSE,NOTICE"/>
+      <metainf dir="${fop.ext.dir}/resources/META-INF">
         <include name="**"/>
       </metainf>
-      <metainf dir="${xgc.ext.dir}/resources">
+      <metainf dir="${xgc.ext.dir}/resources/META-INF">
         <include name="**"/>
       </metainf>
       <fileset dir="${build.dest.fop}">
@@ -412,8 +412,8 @@
         <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
-      <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
-      <metainf dir="${fop.ext.dir}/resources">
+      <metainf dir="${basedir}/.." includes="LICENSE,NOTICE"/>
+      <metainf dir="${fop.ext.dir}/resources/META-INF">
         <include name="**"/>
       </metainf>
     </jar>
@@ -429,8 +429,8 @@
         <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
-      <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
-      <metainf dir="${xgc.ext.dir}/resources">
+      <metainf dir="${basedir}/.." includes="LICENSE,NOTICE"/>
+      <metainf dir="${xgc.ext.dir}/resources/META-INF">
         <include name="**"/>
       </metainf>
       <fileset dir="${build.dest.xgc}">
@@ -445,8 +445,8 @@
         <attribute name="Implementation-URL" value="${impl.url}"/>
         <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
       </manifest>
-      <metainf dir="${basedir}" includes="LICENSE,NOTICE"/>
-      <metainf dir="${xgc.ext.dir}/resources">
+      <metainf dir="${basedir}/.." includes="LICENSE,NOTICE"/>
+      <metainf dir="${xgc.ext.dir}/resources/META-INF">
         <include name="**"/>
       </metainf>
     </jar>

@@ -2,15 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>barcode4j-parent</artifactId>
         <groupId>org.krysalis</groupId>
-        <version>2.1.0-SNAPSHOT</version>
+        <version>2.2.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>barcode4j</artifactId>
-
     <name>Barcode4J</name>
     <description>Barcode4J is a flexible generator for barcodes written in Java</description>
     <url>https://github.com/singingbush/barcode4j</url>
@@ -21,24 +22,18 @@
             <artifactId>avalon-framework-impl</artifactId>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
             <scope>compile</scope>
         </dependency>
 
+        <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.junit.vintage</groupId>-->
-<!--            <artifactId>junit-vintage-engine</artifactId>-->
-<!--            <version>5.5.2</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -65,55 +60,37 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M2</version>
                 <executions>
                     <execution>
-                        <id>enforce-versions</id>
+                        <id>enforce-license-files-exist</id>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
                         <configuration>
                             <rules>
-                                <requireMavenVersion>
-                                    <version>[3.5.2,)</version>
-                                    <message>You should really be using Maven 3.6.1</message>
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <version>[1.8,)</version>
-                                    <message>Java 8 is the minimum supported</message>
-                                </requireJavaVersion>
+                                <requireFilesExist>
+                                    <files>
+                                        <file>${project.parent.basedir}/LICENSE</file>
+                                        <file>${project.parent.basedir}/NOTICE</file>
+                                    </files>
+                                </requireFilesExist>
                             </rules>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
-            <!-- Run 'mvn license:license-list' to show licenses -->
             <plugin>
+                <!-- Run 'mvn license:license-list' to show licenses -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>2.0.0</version>
-                <!--                <executions>-->
-                <!--                    <execution>-->
-                <!--                        <id>default-cli</id>-->
-                <!--                        <configuration>-->
-                <!--                            <licenseMerges>-->
-                <!--                                <licenseMerge>The Apache Software License, Version 2.0|Apache License, Version 2.0|Apache Public License 2.0</licenseMerge>-->
-                <!--                            </licenseMerges>-->
-                <!--                        </configuration>-->
-                <!--                    </execution>-->
-                <!--                </executions>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M3</version>
                 <configuration>
                     <properties>
                         <property>
@@ -126,7 +103,6 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -153,7 +129,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.1.0</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -163,11 +138,9 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.1.1</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -177,11 +150,9 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
                         <configuration>
                             <keyname>6E394A59C56281A1C7BCB31CBB1163024293DF16</keyname>
                         </configuration>

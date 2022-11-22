@@ -57,7 +57,7 @@ public class Code39Test extends TestCase {
 
         try {
             logic = new Code39LogicImpl(ChecksumMode.CP_AUTO, false, false, false);
-            logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "123èöö2");
+            logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "123Ã¨Ã¶Ã¶2");
             fail("Expected an exception complaining about illegal characters");
         } catch (IllegalArgumentException iae) {
             //must fail

@@ -1,0 +1,4 @@
+org.krysalis.barcode4j.image.loader.ImageConverterBarcodeXML2Barcode
+org.krysalis.barcode4j.image.loader.ImageConverterBarcode2G2D
+org.krysalis.barcode4j.image.loader.ImageConverterBarcode2EPS
+org.krysalis.barcode4j.image.loader.ImageConverterBarcode2SVG

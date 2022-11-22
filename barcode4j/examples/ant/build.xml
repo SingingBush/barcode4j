@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="BarCode4JTask Demo" default="run" basedir=".">
 
   <!-- set global properties for this build -->

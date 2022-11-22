@@ -65,7 +65,7 @@ public class POSTNETTest extends TestCase {
         
         try {
             logic = new POSTNETLogicImpl(ChecksumMode.CP_AUTO, false);
-            logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "123èöö2");
+            logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "123Ã¨Ã¶Ã¶2");
             fail("Expected an exception complaining about illegal characters");
         } catch (IllegalArgumentException iae) {
             //must fail

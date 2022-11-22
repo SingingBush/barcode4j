@@ -2,12 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.krysalis</groupId>
     <artifactId>barcode4j-parent</artifactId>
     <packaging>pom</packaging>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>2.2.0-SNAPSHOT</version>
 
     <modules>
         <module>barcode4j</module>
@@ -85,13 +86,47 @@
     </distributionManagement>
 
     <properties>
-        <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <xalan.version>2.7.2</xalan.version>
-        <batik.version>1.14</batik.version>
-        <xmlgraphics.version>2.7</xmlgraphics.version>
+
+        <!-- dependencyManagement - set fixed versions for all project dependencies -->
+        <apache.commons-cli.version>1.5.0</apache.commons-cli.version>
+        <org.apache.avalon.framework.version>4.3.1</org.apache.avalon.framework.version>
+        <org.apache.xmlgraphics.version>2.8</org.apache.xmlgraphics.version>
+        <org.apache.xmlgraphics.batik.version>1.16</org.apache.xmlgraphics.batik.version>
+        <org.apache.xalan.version>2.7.2</org.apache.xalan.version>
+        <com.google.zxing.version>3.5.1</com.google.zxing.version>
+        <javax.servlet.api.version>2.5</javax.servlet.api.version>
+        <org.apache.ant.version>1.10.12</org.apache.ant.version>
+        <org.jdom.jdom2.version>2.0.6.1</org.jdom.jdom2.version>
+        <net.sf.saxon.8.version>8.7</net.sf.saxon.8.version>
+        <net.sf.saxon.9.version>9.1.0.8</net.sf.saxon.9.version>
+        <junit.junit.version>4.13.2</junit.junit.version>
+
+        <!-- pluginManagement - set fixed versions for all maven plugins -->
+        <!-- maven core plugins -->
+        <plugin.version.maven-clean-plugin>3.2.0</plugin.version.maven-clean-plugin>
+        <plugin.version.maven-compiler-plugin>3.10.1</plugin.version.maven-compiler-plugin>
+        <plugin.version.maven-deploy-plugin>3.0.0</plugin.version.maven-deploy-plugin>
+        <plugin.version.maven-failsave-plugin>3.0.0-M7</plugin.version.maven-failsave-plugin>
+        <plugin.version.maven-install-plugin>3.0.1</plugin.version.maven-install-plugin>
+        <plugin.version.maven-resources-plugin>3.3.0</plugin.version.maven-resources-plugin>
+        <plugin.version.maven-site-plugin>4.0.0-M3</plugin.version.maven-site-plugin>
+        <plugin.version.maven-surefire-plugin>3.0.0-M7</plugin.version.maven-surefire-plugin>
+        <plugin.version.maven-verifier-plugin>1.1</plugin.version.maven-verifier-plugin>
+        <!-- maven packaging plugins -->
+        <plugin.version.maven-jar-plugin>3.3.0</plugin.version.maven-jar-plugin>
+        <plugin.version.maven-source-plugin>3.2.1</plugin.version.maven-source-plugin>
+        <!-- maven reporting plugins -->
+        <plugin.version.maven-javadoc-plugin>3.4.1</plugin.version.maven-javadoc-plugin>
+        <!-- maven tools plugins -->
+        <plugin.version.maven-enforcer-plugin>3.1.0</plugin.version.maven-enforcer-plugin>
+        <plugin.version.maven-gpg-plugin>3.0.1</plugin.version.maven-gpg-plugin>
+        <!-- other plugins -->
+        <plugin.version.org.codehaus.license-maven-plugin>2.0.0</plugin.version.org.codehaus.license-maven-plugin>
+        <plugin.version.org.jacoco.jacoco-maven-plugin>0.8.8</plugin.version.org.jacoco.jacoco-maven-plugin>
     </properties>
 
     <dependencyManagement>
@@ -99,163 +134,251 @@
             <dependency>
                 <groupId>commons-cli</groupId>
                 <artifactId>commons-cli</artifactId>
-                <version>1.4</version>
+                <version>${apache.commons-cli.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.avalon.framework</groupId>
                 <artifactId>avalon-framework-impl</artifactId>
-                <version>4.3.1</version>
+                <version>${org.apache.avalon.framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlgraphics</groupId>
-                <artifactId>fop</artifactId>
-                <version>${xmlgraphics.version}</version>
+                <artifactId>fop-core</artifactId>
+                <version>${org.apache.xmlgraphics.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlgraphics</groupId>
                 <artifactId>xmlgraphics-commons</artifactId>
-                <version>${xmlgraphics.version}</version>
+                <version>${org.apache.xmlgraphics.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.xmlgraphics</groupId>
                 <artifactId>batik-anim</artifactId>
-                <version>${batik.version}</version>
+                <version>${org.apache.xmlgraphics.batik.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlgraphics</groupId>
                 <artifactId>batik-bridge</artifactId>
-                <version>${batik.version}</version>
+                <version>${org.apache.xmlgraphics.batik.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlgraphics</groupId>
                 <artifactId>batik-extension</artifactId>
-                <version>${batik.version}</version>
+                <version>${org.apache.xmlgraphics.batik.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlgraphics</groupId>
                 <artifactId>batik-gvt</artifactId>
-                <version>${batik.version}</version>
+                <version>${org.apache.xmlgraphics.batik.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlgraphics</groupId>
                 <artifactId>batik-transcoder</artifactId>
-                <version>${batik.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>2.5</version>
+                <version>${org.apache.xmlgraphics.batik.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.ant</groupId>
-                <artifactId>ant</artifactId>
-                <version>1.10.12</version>
+                <groupId>xalan</groupId>
+                <artifactId>xalan</artifactId>
+                <version>${org.apache.xalan.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.zxing</groupId>
                 <artifactId>core</artifactId>
-                <version>3.4.1</version>
+                <version>${com.google.zxing.version}</version>
             </dependency>
-
-<!--            <dependency>-->
-<!--                <groupId>xml-apis</groupId>-->
-<!--                <artifactId>xml-apis</artifactId>-->
-<!--                <version>1.3.04</version>-->
-<!--            </dependency>-->
-
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${javax.servlet.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>${org.apache.ant.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.jdom</groupId>
                 <artifactId>jdom2</artifactId>
-                <version>2.0.6.1</version>
+                <version>${org.jdom.jdom2.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>xalan</groupId>
-                <artifactId>xalan</artifactId>
-                <version>${xalan.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>xalan</groupId>
-                <artifactId>serializer</artifactId>
-                <version>${xalan.version}</version>
-            </dependency>
-
+            <!-- test dependencies -->
+            <!-- TODO upgrade to JUnit 5 -> org.junit.jupiter:junit-jupiter-api:5.9.1 -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.13.2</version>
+                <version>${junit.junit.version}</version>
                 <scope>test</scope>
             </dependency>
-            <!--        <dependency>-->
-            <!--            <groupId>org.junit.vintage</groupId>-->
-            <!--            <artifactId>junit-vintage-engine</artifactId>-->
-            <!--            <version>5.5.2</version>-->
-            <!--            <scope>test</scope>-->
-            <!--        </dependency>-->
         </dependencies>
     </dependencyManagement>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <!-- maven core plugins -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${plugin.version.maven-clean-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${plugin.version.maven-compiler-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${plugin.version.maven-deploy-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${plugin.version.maven-failsave-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${plugin.version.maven-install-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${plugin.version.maven-resources-plugin}</version>
+                    <executions>
+                        <execution>
+                            <id>copy-license-file</id>
+                            <phase>generate-resources</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.build.outputDirectory}/META-INF</outputDirectory>
+                                <resources>
+                                    <resource>
+                                        <directory>..</directory>
+                                        <includes>
+                                            <include>LICENSE</include>
+                                            <include>NOTICE</include>
+                                        </includes>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${plugin.version.maven-site-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${plugin.version.maven-surefire-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-verifier-plugin</artifactId>
+                    <version>${plugin.version.maven-verifier-plugin}</version>
+                </plugin>
+                <!-- maven packaging plugins -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${plugin.version.maven-jar-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${plugin.version.maven-source-plugin}</version>
+                </plugin>
+                <!-- maven reporting plugins -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${plugin.version.maven-javadoc-plugin}</version>
+                </plugin>
+                <!-- maven tools plugins -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${plugin.version.maven-enforcer-plugin}</version>
+                    <executions>
+                        <execution>
+                            <id>default-cli</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireMavenVersion>
+                                        <version>[3.8.1,)</version>
+                                        <message>You should really be using Maven 3.8.1</message>
+                                    </requireMavenVersion>
+                                    <requireJavaVersion>
+                                        <version>[1.8,)</version>
+                                        <message>Java 8 is the minimum supported</message>
+                                    </requireJavaVersion>
+                                    <requirePluginVersions>
+                                        <message>Always define plugin versions</message>
+                                        <banLatest>true</banLatest>
+                                        <banRelease>true</banRelease>
+                                        <banSnapshots>true</banSnapshots>
+                                        <phases>clean,deploy,site</phases>
+                                        <additionalPlugins>
+                                            <additionalPlugin>org.codehaus.mojo:license-maven-plugin</additionalPlugin>
+                                            <additionalPlugin>org.jacoco:jacoco-maven-plugin</additionalPlugin>
+                                        </additionalPlugins>
+                                        <unCheckedPluginList>org.apache.maven.plugins:maven-enforcer-plugin</unCheckedPluginList>
+                                    </requirePluginVersions>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${plugin.version.maven-gpg-plugin}</version>
+                </plugin>
+                <!-- other plugins -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>${plugin.version.org.codehaus.license-maven-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${plugin.version.org.jacoco.jacoco-maven-plugin}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M2</version>
-                <executions>
-                    <execution>
-                        <id>enforce-versions</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>[3.5.2,)</version>
-                                    <message>You should really be using Maven 3.6.1</message>
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <version>[1.8,)</version>
-                                    <message>Java 8 is the minimum supported</message>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
             <!-- Run 'mvn license:license-list' to show licenses -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>2.0.0</version>
-                <!--                <executions>-->
-                <!--                    <execution>-->
-                <!--                        <id>default-cli</id>-->
-                <!--                        <configuration>-->
-                <!--                            <licenseMerges>-->
-                <!--                                <licenseMerge>The Apache Software License, Version 2.0|Apache License, Version 2.0|Apache Public License 2.0</licenseMerge>-->
-                <!--                            </licenseMerges>-->
-                <!--                        </configuration>-->
-                <!--                    </execution>-->
-                <!--                </executions>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M3</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -282,7 +405,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.1.0</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -296,7 +418,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.1.1</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -310,7 +431,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
                         <configuration>
                             <keyname>6E394A59C56281A1C7BCB31CBB1163024293DF16</keyname>
                         </configuration>
