@@ -15,8 +15,7 @@
  */
 package org.krysalis.barcode4j.impl;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.postnet.POSTNET;
 import org.krysalis.barcode4j.impl.postnet.POSTNETBean;
@@ -24,41 +23,43 @@ import org.krysalis.barcode4j.impl.postnet.POSTNETLogicImpl;
 
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * Test class for the POSTNET implementation.
  * 
  * @author Chris Dolphy
  * @version $Id: POSTNETTest.java,v 1.5 2008-05-13 13:00:43 jmaerki Exp $
  */
-public class POSTNETTest extends TestCase {
+public class POSTNETTest {
 
-    public POSTNETTest(String name) {
-        super(name);
-    }
-
-    public void testChecksum() throws Exception {
+    @Test
+    void testChecksum() throws Exception {
         assertEquals('1', POSTNETLogicImpl.calcChecksum("75368"));
         assertEquals('7', POSTNETLogicImpl.calcChecksum("110119000"));
         assertEquals('7', POSTNETLogicImpl.calcChecksum("11011-9000"));
         assertEquals('0', POSTNETLogicImpl.calcChecksum("400017265951"));
     }
-    
-    public void testIllegalArguments() throws Exception {
+
+    @Test
+    void testIllegalArguments() throws Exception {
         try {
             POSTNET impl = new POSTNET();
             impl.generateBarcode(null, null);
             fail("Expected an NPE");
-        } catch (NullPointerException npe) {
-            assertNotNull("Error message is empty", npe.getMessage());
+        } catch (final NullPointerException npe) {
+            assertNotNull(npe.getMessage(), "Error message is empty");
         }
     }
-    
-    public void testIgnoreChars() throws Exception {
+
+    @Test
+    void testIgnoreChars() throws Exception {
         assertEquals("75368", POSTNETLogicImpl.removeIgnoredCharacters("75368"));
         assertEquals("110119000", POSTNETLogicImpl.removeIgnoredCharacters("11011-9000"));
     }
-    
-    public void testLogic() throws Exception {
+
+    @Test
+    void testLogic() throws Exception {
         StringBuffer sb = new StringBuffer();
         POSTNETLogicImpl logic;
         String expected;
@@ -133,7 +134,8 @@ public class POSTNETTest extends TestCase {
         }
     }
 
-    public void testDefaultsInXML() throws Exception {
+    @Test
+    void testDefaultsInXML() throws Exception {
         POSTNETBean refBean = new POSTNETBean();
         
         POSTNET gen = new POSTNET();

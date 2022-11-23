@@ -18,19 +18,23 @@
 
 package org.krysalis.barcode4j.impl.pdf417;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.tools.TestHelper;
 
-public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-    public void testFindNumericSequence() throws Exception {
+public class HighLevelEncoderTest implements PDF417Constants {
+
+    @Test
+    void testFindNumericSequence() throws Exception {
         String msg = "1234567890ABC";
         int count = PDF417HighLevelEncoder.determineConsecutiveDigitCount(msg, 0);
         assertEquals(10, count);
     }
 
-    public void testFindTextSequence() throws Exception {
+    @Test
+    void testFindTextSequence() throws Exception {
         String msg = "1234567890ABCD€123";
         int count = PDF417HighLevelEncoder.determineConsecutiveTextCount(msg, 0);
         assertEquals(14, count);
@@ -44,7 +48,8 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         return PDF417HighLevelEncoder.getBytesForMessage(msg, PDF417Constants.DEFAULT_ENCODING);
     }
 
-    public void testFindBinarySequence() throws Exception {
+    @Test
+    void testFindBinarySequence() throws Exception {
         String msg;
         byte[] bytes;
         int count;
@@ -73,15 +78,15 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         bytes = getBytesForMessage(msg);
         try {
             count = PDF417HighLevelEncoder.determineConsecutiveBinaryCount(msg, bytes, 0);
-            fail("The Euro character is not encodable in cp437."
-                    + " An IllegalArgumentException is expected.");
+            fail("The Euro character is not encodable in cp437. An IllegalArgumentException is expected.");
         } catch (IllegalArgumentException iae) {
             //exception is expected
         }
 
     }
 
-    public void testEncodeText() throws Exception {
+    @Test
+    void testEncodeText() throws Exception {
         String msg = "PDF417";
         StringBuffer sb = new StringBuffer();
         PDF417HighLevelEncoder.encodeText(msg, 0, msg.length(), sb, SUBMODE_ALPHA);
@@ -103,7 +108,8 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         //There was a bug with an endless loop here, just check that it doesn't hang.
     }
 
-    public void testEncodeTextLatching() throws Exception {
+    @Test
+    void testEncodeTextLatching() throws Exception {
         String msg = "417'<x>";
         String result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
         String expected = "844 37 778 59 833 872";
@@ -125,7 +131,8 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         assertEquals(expected, result);
     }
 
-    public void testEncodeNumeric() throws Exception {
+    @Test
+    void testEncodeNumeric() throws Exception {
         String msg = "000213298174000";
         StringBuffer sb = new StringBuffer();
         PDF417HighLevelEncoder.encodeNumeric(msg, 0, msg.length(), sb);
@@ -140,7 +147,8 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         */
     }
 
-    public void testEncodeBinary() throws Exception {
+    @Test
+    void testEncodeBinary() throws Exception {
         //Example from Annex C
         byte[] bytes = new byte[] {(byte)231, 101, 11, 97, (byte)205, 2};
         String msg = new String(bytes, "cp437");
@@ -172,7 +180,8 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         assertEquals(expected, TestHelper.visualize(sb.toString()));
     }
 
-    public void testEncodeHighLevel() throws Exception {
+    @Test
+    void testEncodeHighLevel() throws Exception {
         String msg = "000213298174000";
         String result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
         String expected = "902 1 624 434 632 282 200";
@@ -218,7 +227,8 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         assertEquals(expected, result);
     }
 
-    public void testBug1970483() throws Exception {
+    @Test
+    void testBug1970483() throws Exception {
         String msg = "<FIELDS><FIELD NAME=\"DEALER #\">550";
         //The bug was an invalid value for switching back from Punctuation to Alpha in
         //Text Compaction Mode (right before "550" in the example above)
@@ -227,7 +237,8 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         assertEquals(expected, result);
     }
 
-    public void testBug2482570() throws Exception {
+    @Test
+    void testBug2482570() throws Exception {
         String msg = "UNT+11+123'";
         String result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
         String expected = "613 598 601 50 32 119 869";
@@ -238,7 +249,8 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
      * Tests bug https://sourceforge.net/tracker/?func=detail&atid=615504&aid=2804024&group_id=96670
      * @throws Exception if an error occurs
      */
-    public void testBug2804024() throws Exception {
+    @Test
+    void testBug2804024() throws Exception {
         String msg, result, expected;
         msg = "5789\u001dB0KLT3215\u001e\u0004"; //good
         result = TestHelper.visualize(PDF417HighLevelEncoder.encodeHighLevel(msg));
@@ -254,7 +266,8 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         assertEquals(expected, result);
     }
 
-    public void testBinaryData() throws Exception {
+    @Test
+    void testBinaryData() throws Exception {
         String msg, result, expected;
         msg = "url(data:;base64,flRlc3R+)"; //~Test~
         //System.out.println(new String(URLUtil.getData(URLUtil.getURL(msg), "UTF-8")));
@@ -263,7 +276,8 @@ public class HighLevelEncoderTest extends TestCase implements PDF417Constants {
         assertEquals(expected, result);
     }
 
-    public void testCharsets() throws Exception {
+    @Test
+    void testCharsets() throws Exception {
         String msg;
         String result;
         String expected;

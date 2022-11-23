@@ -28,9 +28,12 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test class for the Xalan-J extension.
@@ -38,27 +41,23 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Jeremias Maerki
  * @version $Id: XalanExtTest.java,v 1.5 2006-04-05 15:53:40 jmaerki Exp $
  */
-public class XalanExtTest extends TestCase {
-    
-    public XalanExtTest(String name) {
-        super(name);
-    }
-    
-    public void testXalanExtGenerate() throws Exception {
+public class XalanExtTest {
+
+    @Test
+    void testXalanExtGenerate() throws Exception {
         innerXalanExt("xalan-test1.xsl");
     }
 
-    public void testXalanExtBarcodeElement() throws Exception {
+    @Test
+    void testXalanExtBarcodeElement() throws Exception {
         innerXalanExt("xalan-test2.xsl");
     }
 
-    public void innerXalanExt(String xslt) throws Exception {
-        Class clazz = Class.forName("org.apache.xalan.processor.TransformerFactoryImpl");
+    private void innerXalanExt(String xslt) throws Exception {
+        Class<?> clazz = Class.forName("org.apache.xalan.processor.TransformerFactoryImpl");
         TransformerFactory factory = (TransformerFactory)clazz.newInstance();
-        Transformer trans = factory.newTransformer(new StreamSource(
-                loadTestFile("xml/" + xslt)));
-        Source src = new StreamSource(
-                loadTestFile("xml/xslt-test.xml"));
+        Transformer trans = factory.newTransformer(new StreamSource(loadTestFile("xml/" + xslt)));
+        Source src = new StreamSource(loadTestFile("xml/xslt-test.xml"));
         StringWriter writer = new StringWriter();
         Result res = new StreamResult(writer);
         
@@ -68,11 +67,13 @@ public class XalanExtTest extends TestCase {
         //System.out.println(writer.getBuffer());
     }
 
-    public void testXalanExtSAXOutputGenerate() throws Exception {
+    @Test
+    void testXalanExtSAXOutputGenerate() throws Exception {
         innerXalanExtSAXOutput("xalan-test1.xsl");
     }
 
-    public void testXalanExtSAXOutputBarcodeElement() throws Exception {
+    @Test
+    void testXalanExtSAXOutputBarcodeElement() throws Exception {
         innerXalanExtSAXOutput("xalan-test2.xsl");
         //System.out.println("Skipping test for Xalan barcode element extension because of Xalan bug XALANJ-1706");
     }
@@ -80,13 +81,11 @@ public class XalanExtTest extends TestCase {
     /* This test is done because FOP reacts with an NPE when endDocument is
      * called twice.
      */
-    public void innerXalanExtSAXOutput(String xslt) throws Exception {
-        Class clazz = Class.forName("org.apache.xalan.processor.TransformerFactoryImpl");
+    private void innerXalanExtSAXOutput(String xslt) throws Exception {
+        Class<?> clazz = Class.forName("org.apache.xalan.processor.TransformerFactoryImpl");
         TransformerFactory factory = (TransformerFactory)clazz.newInstance();
-        Transformer trans = factory.newTransformer(new StreamSource(
-                loadTestFile("xml/" +xslt)));
-        Source src = new StreamSource(
-                loadTestFile("xml/xslt-test.xml"));
+        Transformer trans = factory.newTransformer(new StreamSource(loadTestFile("xml/" +xslt)));
+        Source src = new StreamSource(loadTestFile("xml/xslt-test.xml"));
         Result res = new SAXResult(new DefaultHandler() {
             private boolean endDocumentCalled = false;
             

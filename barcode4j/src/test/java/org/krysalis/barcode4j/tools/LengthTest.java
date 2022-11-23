@@ -15,7 +15,9 @@
  */
 package org.krysalis.barcode4j.tools;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the Length class.
@@ -23,14 +25,10 @@ import junit.framework.TestCase;
  * @author Jeremias Maerki
  * @version $Id: LengthTest.java,v 1.2 2004-09-04 20:25:59 jmaerki Exp $
  */
-public class LengthTest extends TestCase {
-    
-    public LengthTest(String name) {
-        super(name);
-    }
-    
-    
-    public void testLength() throws Exception {
+public class LengthTest {
+
+    @Test
+    void testLength() throws Exception {
         Length l = new Length(1.77, "cm");
         assertNotNull(l);
         assertEquals(1.77, l.getValue(), 0.001);

@@ -18,10 +18,11 @@ package org.krysalis.barcode4j.output.eps;
 import java.io.ByteArrayOutputStream;
 
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test class for basic EPS output functionality.
@@ -29,13 +30,10 @@ import junit.framework.TestCase;
  * @author Jeremias Maerki
  * @version $Id: EPSOutputTest.java,v 1.4 2006-11-07 16:44:25 jmaerki Exp $
  */
-public class EPSOutputTest extends TestCase {
+public class EPSOutputTest {
 
-    public EPSOutputTest(String name) {
-        super(name);
-    }
-
-    public void testEPS() throws Exception {
+    @Test
+    void testEPS() throws Exception {
         DefaultConfiguration cfg = new DefaultConfiguration("cfg");
         cfg.addChild(new DefaultConfiguration("intl2of5"));
 

@@ -13,22 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.krysalis.barcode4j.impl.int2of5;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Tests for ITF-14
  *
  * @version $Id: ITF14Test.java,v 1.1 2009-02-19 10:14:54 jmaerki Exp $
  */
-public class ITF14Test extends TestCase {
+public class ITF14Test {
 
-    public void testChecksum() throws Exception {
+    @Test
+    void testChecksum() throws Exception {
         StringBuffer sb = new StringBuffer();
         ITF14LogicImpl logic;
         String expected = "<BC><SBG:start-char:null></SBG>"

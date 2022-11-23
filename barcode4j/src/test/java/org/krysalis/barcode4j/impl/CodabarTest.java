@@ -15,11 +15,12 @@
  */
 package org.krysalis.barcode4j.impl;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.codabar.Codabar;
 import org.krysalis.barcode4j.impl.codabar.CodabarLogicImpl;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for the Codabar implementation.
@@ -27,19 +28,16 @@ import org.krysalis.barcode4j.impl.codabar.CodabarLogicImpl;
  * @author Jeremias Maerki
  * @version $Id: CodabarTest.java,v 1.5 2008-11-22 09:57:29 jmaerki Exp $
  */
-public class CodabarTest extends TestCase {
+public class CodabarTest {
 
-    public CodabarTest(String name) {
-        super(name);
-    }
-
-    public void testIllegalArguments() throws Exception {
+    @Test
+    void testIllegalArguments() throws Exception {
         try {
             Codabar impl = new Codabar();
             impl.generateBarcode(null, null);
             fail("Expected an NPE");
         } catch (NullPointerException npe) {
-            assertNotNull("Error message is empty", npe.getMessage());
+            assertNotNull(npe.getMessage(), "Error message is empty");
         }
 
         try {
@@ -52,7 +50,8 @@ public class CodabarTest extends TestCase {
 
     }
 
-    public void testLogic() throws Exception {
+    @Test
+    void testLogic() throws Exception {
         StringBuffer sb = new StringBuffer();
         CodabarLogicImpl logic;
         String expected;
@@ -82,6 +81,7 @@ public class CodabarTest extends TestCase {
         /**@todo Implement start/stop character checking */
     }
 
+    @Test
     public void testStartStopHandling() throws Exception {
         StringBuffer sb = new StringBuffer();
         CodabarLogicImpl logic;

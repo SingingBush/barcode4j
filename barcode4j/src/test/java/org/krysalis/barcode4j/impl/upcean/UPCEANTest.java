@@ -15,12 +15,12 @@
  */
 package org.krysalis.barcode4j.impl.upcean;
 
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
-import org.krysalis.barcode4j.impl.upcean.EAN13LogicImpl;
-import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Test class for general UPC/EAN functionality.
@@ -28,23 +28,23 @@ import junit.framework.TestCase;
  * @author Jeremias Maerki
  * @version $Id: UPCEANTest.java,v 1.1 2004-09-12 17:57:54 jmaerki Exp $
  */
-public class UPCEANTest extends TestCase {
+public class UPCEANTest {
 
-    public UPCEANTest(String name) {
-        super(name);
-    }
 
-    public void testRemoveSupplemental() throws Exception {
+    @Test
+    void testRemoveSupplemental() throws Exception {
         assertEquals("1234", UPCEANLogicImpl.removeSupplemental("1234"));
         assertEquals("1234", UPCEANLogicImpl.removeSupplemental("1234+20"));
     }
 
-    public void testRetrieveSupplemental() throws Exception {
+    @Test
+    void testRetrieveSupplemental() throws Exception {
         assertNull(UPCEANLogicImpl.retrieveSupplemental("1234"));
         assertEquals("20", UPCEANLogicImpl.retrieveSupplemental("1234+20"));
     }
-    
-    public void testGetSupplementalLength() throws Exception {
+
+    @Test
+    void testGetSupplementalLength() throws Exception {
         assertEquals(0, UPCEANLogicImpl.getSupplementalLength("1234"));
         assertEquals(2, UPCEANLogicImpl.getSupplementalLength("1234+12"));
         assertEquals(5, UPCEANLogicImpl.getSupplementalLength("1234+12345"));
@@ -55,7 +55,8 @@ public class UPCEANTest extends TestCase {
         }
     }
 
-    public void testSupplemental2() throws Exception {
+    @Test
+    void testSupplemental2() throws Exception {
         StringBuffer sb = new StringBuffer();
         EAN13LogicImpl logic;
         String expected;
@@ -73,7 +74,8 @@ public class UPCEANTest extends TestCase {
         assertEquals(expected, sb.toString());
     }
 
-    public void testSupplemental5() throws Exception {
+    @Test
+    void testSupplemental5() throws Exception {
         StringBuffer sb = new StringBuffer();
         EAN13LogicImpl logic;
         String expected;

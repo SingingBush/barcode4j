@@ -15,14 +15,16 @@
  */
 
 /* $Id: PDF417UtilitiesTest.java,v 1.1 2006-06-22 09:01:17 jmaerki Exp $ */
-
 package org.krysalis.barcode4j.impl.pdf417;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class PDF417UtilitiesTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    public void testSymbolSizeCalculation() throws Exception {
+public class PDF417UtilitiesTest {
+
+    @Test
+    void testSymbolSizeCalculation() throws Exception {
         int k;
         k = PDF417ErrorCorrection.getErrorCorrectionCodewordCount(0);
         assertEquals(2, k);

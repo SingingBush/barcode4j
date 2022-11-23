@@ -18,8 +18,7 @@ package org.krysalis.barcode4j.output.bitmap;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -28,38 +27,37 @@ import org.krysalis.barcode4j.BarcodeUtil;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * Test class for basic bitmap output functionality.
  *
  * @author Jeremias Maerki
  * @version $Id: BitmapOutputTest.java,v 1.5 2009-02-18 20:28:13 jmaerki Exp $
  */
-public class BitmapOutputTest extends TestCase {
-
-    public BitmapOutputTest(String name) {
-        super(name);
-    }
+public class BitmapOutputTest {
 
     private BarcodeGenerator getGenerator() throws ConfigurationException, BarcodeException {
         DefaultConfiguration cfg = new DefaultConfiguration("cfg");
         cfg.addChild(new DefaultConfiguration("intl2of5"));
 
         BarcodeUtil util = BarcodeUtil.getInstance();
-        BarcodeGenerator gen = util.createBarcodeGenerator(cfg);
-        return gen;
+        return util.createBarcodeGenerator(cfg);
     }
 
-    public void testBitmap() throws Exception {
+    @Test
+    void testBitmap() throws Exception {
         BarcodeGenerator gen = getGenerator();
         BarcodeDimension dim = gen.calcDimensions("123");
 
         BufferedImage image =
             BitmapBuilder.prepareImage(dim, 200, BufferedImage.TYPE_INT_RGB);
-        assertEquals("Width in pixels should be 107", 107, image.getWidth());
-        assertEquals("Height in pixels should be 140", 140, image.getHeight());
+        assertEquals(107, image.getWidth(), "Width in pixels should be 107");
+        assertEquals(140, image.getHeight(), "Height in pixels should be 140");
     }
 
-    public void testBitmapFile() throws Exception {
+    @Test
+    void testBitmapFile() throws Exception {
         BarcodeGenerator gen = getGenerator();
 
         ByteArrayOutputStream baout = new ByteArrayOutputStream();
@@ -73,7 +71,8 @@ public class BitmapOutputTest extends TestCase {
         assertTrue(baout.size() > 0);
     }
 
-    public void testBitmapBuffered() throws Exception {
+    @Test
+    void testBitmapBuffered() throws Exception {
         BarcodeGenerator gen = getGenerator();
 
         BitmapCanvasProvider provider =
@@ -85,8 +84,8 @@ public class BitmapOutputTest extends TestCase {
         BufferedImage image = provider.getBufferedImage();
 
         assertNotNull(image);
-        assertEquals("Width in pixels should be 107", 107, image.getWidth());
-        assertEquals("Height in pixels should be 140", 140, image.getHeight());
+        assertEquals(107, image.getWidth(), "Width in pixels should be 107");
+        assertEquals(140, image.getHeight(), "Height in pixels should be 140");
     }
 
 }

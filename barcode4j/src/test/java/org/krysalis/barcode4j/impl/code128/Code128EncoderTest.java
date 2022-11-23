@@ -15,24 +15,23 @@
  */
 package org.krysalis.barcode4j.impl.code128;
 
-import junit.framework.TestCase;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for the Code128 message encoder implementations.
  *
  * @version $Id: Code128EncoderTest.java,v 1.3 2009-02-18 16:09:03 jmaerki Exp $
  */
-public class Code128EncoderTest extends TestCase {
+public class Code128EncoderTest {
 
     private static final String[] CHAR_NAMES =
         {"NUL", "SOH", "STX", "ETX", "EOT", "ENQ", "ACK", "BEL", "BS", "HT",
          "LF", "VT", "FF", "CR", "SO", "SI", "DLE", "DC1", "DC2", "DC3",
          "DC4", "NAK", "SYN", "ETB", "CAN", "EM", "SUB", "ESC", "FS", "GS",
          "RS", "US"}; //ASCII 0-31
-
-    public Code128EncoderTest(String name) {
-        super(name);
-    }
 
     private String visualizeChar(char c) {
         if (c < 32) {
@@ -156,8 +155,7 @@ public class Code128EncoderTest extends TestCase {
         assertEquals("->C<FNC1>[12][34][56]", encodeToDebug("\u00f1123456", encoder));
         assertEquals("->B<FNC2>->C[12][34][56]", encodeToDebug("\u00f2123456", encoder));
         assertEquals("->Bbefore<FNC3>after", encodeToDebug("before\u00f3after", encoder));
-        assertEquals("->Bbefore<FNC4>after<DEL>",
-                encodeToDebug("before\u00f4after\u007f", encoder));
+        assertEquals("->Bbefore<FNC4>after<DEL>", encodeToDebug("before\u00f4after\u007f", encoder));
     }
 
     private void testEncoder(Code128Encoder encoder) throws Exception {
@@ -189,8 +187,9 @@ public class Code128EncoderTest extends TestCase {
         assertEquals("->BCode->C[56]<FNC1>[78]->B9", encodeToDebug("Code56\u00f1789", encoder));
     }
 
-    public void testDefaultEncoder() throws Exception {
-        Code128Encoder encoder = new DefaultCode128Encoder();
+    @Test
+    void testDefaultEncoder() throws Exception {
+        final Code128Encoder encoder = new DefaultCode128Encoder();
         testEncoder(encoder);
         testEncoderSpecialChars(encoder);
 
@@ -202,8 +201,9 @@ public class Code128EncoderTest extends TestCase {
         }
     }
 
-    public void testBug942246() throws Exception {
-        Code128Encoder encoder = new DefaultCode128Encoder();
+    @Test
+    void testBug942246() throws Exception {
+        final Code128Encoder encoder = new DefaultCode128Encoder();
         String eff = encodeToDebug("37100\u00f13101000200", encoder);
         assertTrue(
             "->C[37][10]->B0<FNC1>->C[31][1][0][2][0]".equals(eff)
@@ -217,7 +217,8 @@ public class Code128EncoderTest extends TestCase {
                 encodeToDebug("\u00f102045678901234183710\u00f13101000200", encoder));
     }
 
-    public void testCodesets() throws Exception {
+    @Test
+    void testCodesets() throws Exception {
         Code128Encoder encoder;
 
         /*

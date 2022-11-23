@@ -15,16 +15,19 @@
  */
 package org.krysalis.barcode4j.tools;
 
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test case for the Base64 decoder.
  */
-public class Base64InputStreamTest extends TestCase {
+public class Base64InputStreamTest {
 
     private static final boolean DEBUG = false;
 
@@ -35,7 +38,8 @@ public class Base64InputStreamTest extends TestCase {
      * Tests the Base64 decoder.
      * @throws Exception if an error occurs
      */
-    public void testDecoder() throws Exception {
+    @Test
+    void testDecoder() throws Exception {
         for (int mode = MODE_BUF; mode <= MODE_BYTE; mode++) {
             assertEquals("sure.", decode("c3VyZS4=", mode));
             assertEquals("asure.", decode("YXN1cmUu", mode));
@@ -57,7 +61,8 @@ public class Base64InputStreamTest extends TestCase {
      * Tests invalid Base64 strings.
      * @throws Exception if an error occurs
      */
-    public void testInvalid() throws Exception {
+    @Test
+    void testInvalid() throws Exception {
         //Incomplete quad at the end, only three characters expected
         assertEquals("sur", decode("c3VyZS4"));
 
@@ -84,7 +89,8 @@ public class Base64InputStreamTest extends TestCase {
 
     }
 
-    public void testCloseBehaviour() throws Exception {
+    @Test
+    void testCloseBehaviour() throws Exception {
         Base64InputStream in = new Base64InputStream(new StringReader("c3VyZS4="));
         assertEquals('s', in.read());
         assertEquals('u', in.read());

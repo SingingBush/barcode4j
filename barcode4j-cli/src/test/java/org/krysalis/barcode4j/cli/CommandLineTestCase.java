@@ -21,26 +21,22 @@ import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
-import junit.framework.TestCase;
 import org.apache.avalon.framework.ExceptionUtil;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the command line application
  * @author Jeremias Maerki
  * @version $Id: CommandLineTestCase.java,v 1.3 2004-10-02 14:58:23 jmaerki Exp $
  */
-public class CommandLineTestCase extends TestCase {
+public class CommandLineTestCase {
 
     private ByteArrayOutputStream out;
     private ByteArrayOutputStream err;
     private ExitHandlerForTests exitHandler;
-
-    /**
-     * @see junit.framework.TestCase#TestCase(String)
-     */
-    public CommandLineTestCase(String name) {
-        super(name);
-    }
 
     private void dumpResults() throws Exception {
         System.out.println("Msg: " + this.exitHandler.getLastMsg());
@@ -65,8 +61,8 @@ public class CommandLineTestCase extends TestCase {
         }
     }
 
-    /** {@inheritDoc} */
-    protected void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         this.out = new ByteArrayOutputStream();
         this.err = new ByteArrayOutputStream();
         Main.stdout = new PrintStream(this.out);
@@ -74,114 +70,124 @@ public class CommandLineTestCase extends TestCase {
         this.exitHandler = new ExitHandlerForTests();
         Main.setExitHandler(this.exitHandler);
     }
-    
-    public void testSVG() throws Exception {
+
+    @Test
+    void testSVG() throws Exception {
         final String[] args = {"-s", "ean13", "9771422985503+00006"};
         callCLI(args);
-        assertEquals("Exit code must be 0", 0, this.exitHandler.getLastExitCode());
+        assertEquals(0, this.exitHandler.getLastExitCode(), "Exit code must be 0");
         assertNull(this.exitHandler.getLastMsg());
         assertNull(this.exitHandler.getLastThrowable());
-        assertTrue("No output", this.out.size() > 0);
-        assertTrue("No output on stderr expected", this.err.size() == 0);
+        assertTrue(this.out.size() > 0, "No output");
+        assertTrue(this.err.size() == 0, "No output on stderr expected");
     }
 
-    public void testEPS() throws Exception {
+    @Test
+    void testEPS() throws Exception {
         final String[] args = {"-s", "ean13", "-f", "eps", "9771422985503+00006"};
         callCLI(args);
-        assertEquals("Exit code must be 0", 0, this.exitHandler.getLastExitCode());
+        assertEquals(0, this.exitHandler.getLastExitCode(), "Exit code must be 0");
         assertNull(this.exitHandler.getLastMsg());
         assertNull(this.exitHandler.getLastThrowable());
-        assertTrue("No output", this.out.size() > 0);
-        assertTrue("No output on stderr expected", this.err.size() == 0);
+        assertTrue(this.out.size() > 0, "No output");
+        assertTrue(this.err.size() == 0, "No output on stderr expected");
     }
 
-    public void testBitmapJPEG() throws Exception {
+    @Test
+    void testBitmapJPEG() throws Exception {
         final String[] args = {"-s", "ean13", "-f", "image/jpeg", "9771422985503+00006"};
         callCLI(args);
-        assertEquals("Exit code must be 0", 0, this.exitHandler.getLastExitCode());
+        assertEquals(0, this.exitHandler.getLastExitCode(), "Exit code must be 0");
         assertNull(this.exitHandler.getLastMsg());
         assertNull(this.exitHandler.getLastThrowable());
-        assertTrue("No output", this.out.size() > 0);
-        assertTrue("No output on stderr expected", this.err.size() == 0);
+        assertTrue(this.out.size() > 0, "No output");
+        assertTrue(this.err.size() == 0, "No output on stderr expected");
     }
 
-    public void testNoArgs() throws Exception {
+    @Test
+    void testNoArgs() throws Exception {
         final String[] args = new String[0];
         callCLI(args);
-        assertEquals("Exit code must be -2", -2, this.exitHandler.getLastExitCode());
+        assertEquals(-2, this.exitHandler.getLastExitCode(), "Exit code must be -2");
         assertNotNull(this.exitHandler.getLastMsg());
         assertNull(this.exitHandler.getLastThrowable());
-        assertTrue("CLI help expected on stdout", this.out.size() > 0);
-        assertTrue("Error message expected on stderr", this.err.size() > 0);
+        assertTrue(this.out.size() > 0, "CLI help expected on stdout");
+        assertTrue(this.err.size() > 0, "Error message expected on stderr");
     }
 
-    public void testUnknownArg() throws Exception {
+    @Test
+    void testUnknownArg() throws Exception {
         final String[] args = {"--badArgument"};
         callCLI(args);
-        assertEquals("Exit code must be -2", -2, this.exitHandler.getLastExitCode());
+        assertEquals(-2, this.exitHandler.getLastExitCode(), "Exit code must be -2");
         assertNotNull(this.exitHandler.getLastMsg());
         assertNull(this.exitHandler.getLastThrowable());
-        assertTrue("CLI help expected on stdout", this.out.size() > 0);
-        assertTrue("Error message expected on stderr", this.err.size() > 0);
-    }
-    
-    public void testWrongConfigFile() throws Exception {
-        final String[] args = {"-c", "NonExistingConfigFile", "9771422985503+00006"};
-        callCLI(args);
-        assertEquals("Exit code must be -3", -3, this.exitHandler.getLastExitCode());
-        assertNotNull(this.exitHandler.getLastMsg());
-        assertNull(this.exitHandler.getLastThrowable());
-        assertTrue("In case of error stdout may only be written to if there's "
-            + "a problem with the command-line", this.out.size() == 0);
-        assertTrue("Error message expected on stderr", this.err.size() > 0);
+        assertTrue(this.out.size() > 0, "CLI help expected on stdout");
+        assertTrue(this.err.size() > 0, "Error message expected on stderr");
     }
 
-    public void testValidConfigFile() throws Exception {
+    @Test
+    void testWrongConfigFile() throws Exception {
+        final String[] args = {"-c", "NonExistingConfigFile", "9771422985503+00006"};
+        callCLI(args);
+        assertEquals(-3, this.exitHandler.getLastExitCode(), "Exit code must be -3");
+        assertNotNull(this.exitHandler.getLastMsg());
+        assertNull(this.exitHandler.getLastThrowable());
+        assertTrue(this.out.size() == 0,
+                "In case of error stdout may only be written to if there's a problem with the command-line");
+        assertTrue(this.err.size() > 0, "Error message expected on stderr");
+    }
+
+    @Test
+    void testValidConfigFile() throws Exception {
         final File cfgFile = loadTestFile("xml/good-cfg.xml");
         final String[] args = {"-c", cfgFile.getAbsolutePath(), "9771422985503+00006"};
         callCLI(args);
-        assertEquals("Exit code must be 0", 0, this.exitHandler.getLastExitCode());
+        assertEquals(0, this.exitHandler.getLastExitCode(), "Exit code must be 0");
     }
 
-    public void testBadConfigFile() throws Exception {
+    @Test
+    void testBadConfigFile() throws Exception {
         final File cfgFile = loadTestFile("xml/bad-cfg.xml");
         final String[] args = {"-c", cfgFile.getAbsolutePath(), "9771422985503+00006"};
         callCLI(args);
-        assertEquals("Exit code must be -6", -6, this.exitHandler.getLastExitCode());
+
+        assertEquals(-6, this.exitHandler.getLastExitCode(), "Exit code must be -6");
         assertNotNull(this.exitHandler.getLastMsg());
         assertNotNull(this.exitHandler.getLastThrowable());
-        assertTrue("In case of error stdout may only be written to if there's "
-            + "a problem with the command-line", this.out.size() == 0);
-        assertTrue("Error message expected on stderr", this.err.size() > 0);
+        assertTrue(this.out.size() == 0, "In case of error stdout may only be written to if there's a problem with the command-line");
+        assertTrue(this.err.size() > 0, "Error message expected on stderr");
     }
 
-    public void testToFile() throws Exception {
+    @Test
+    void testToFile() throws Exception {
         File out = File.createTempFile("krba", ".tmp");
-        final String[] args = {"-s", "ean-13", "-o", out.getAbsolutePath(),
-                 "9771422985503+00006"};
+        final String[] args = {"-s", "ean-13", "-o", out.getAbsolutePath(), "9771422985503+00006"};
         callCLI(args);
-        assertEquals("Exit code must be 0", 0, this.exitHandler.getLastExitCode());
+
+        assertEquals(0, this.exitHandler.getLastExitCode(), "Exit code must be 0");
         assertNull(this.exitHandler.getLastMsg());
         assertNull(this.exitHandler.getLastThrowable());
-        assertTrue("Application header expected on stdout",
-            this.out.size() > 0);
-        assertTrue("No output expected on stderr", this.err.size() == 0);
-        assertTrue("Target file does not exist", out.exists());
-        assertTrue("Target file must not be empty", out.length() > 0);
+        assertTrue(this.out.size() > 0, "Application header expected on stdout");
+        assertTrue(this.err.size() == 0, "No output expected on stderr");
+        assertTrue(out.exists(), "Target file does not exist");
+        assertTrue(out.length() > 0, "Target file must not be empty");
         if (!out.delete()) {
             fail("Target file could not be deleted. Not closed?");
         } 
     }
 
-    public void testDPI() throws Exception {
+    @Test
+    void testDPI() throws Exception {
         File out100 = File.createTempFile("krba", ".tmp");
         final String[] args100 = {"-s", "ean-13", 
                  "-o", out100.getAbsolutePath(),
                  "-f", "jpeg", 
                  "-d", "100", "9771422985503+00006"};
         callCLI(args100);
-        assertEquals("Exit code must be 0", 0, this.exitHandler.getLastExitCode());
-        assertTrue("Target file does not exist", out100.exists());
+
+        assertEquals(0, this.exitHandler.getLastExitCode(), "Exit code must be 0");
+        assertTrue(out100.exists(), "Target file does not exist");
 
         File out300 = File.createTempFile("krba", ".tmp");
         final String[] args300 = {"-s", "ean-13", 
@@ -189,11 +195,10 @@ public class CommandLineTestCase extends TestCase {
                  "-f", "jpeg",
                  "--dpi", "300", "9771422985503+00006"};
         callCLI(args300);
-        assertEquals("Exit code must be 0", 0, this.exitHandler.getLastExitCode());
-        assertTrue("Target file does not exist", out300.exists());
+        assertEquals(0, this.exitHandler.getLastExitCode(), "Exit code must be 0");
+        assertTrue(out300.exists(), "Target file does not exist");
 
-        assertTrue("300dpi file must be greater than the 100dpi file", 
-            out300.length() > out100.length());
+        assertTrue(out300.length() > out100.length(), "300dpi file must be greater than the 100dpi file");
         if (!out100.delete()) {
             fail("Target file could not be deleted. Not closed?");
         } 

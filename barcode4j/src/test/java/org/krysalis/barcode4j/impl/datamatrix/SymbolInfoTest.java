@@ -15,19 +15,21 @@
  */
 
 /* $Id: SymbolInfoTest.java,v 1.3 2008-09-22 08:59:08 jmaerki Exp $ */
-
 package org.krysalis.barcode4j.impl.datamatrix;
+
+import org.junit.jupiter.api.Test;
 
 import java.awt.Dimension;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the SymbolInfo class.
  */
-public class SymbolInfoTest extends TestCase {
+public class SymbolInfoTest {
 
-    public void testSymbolInfo() throws Exception {
+    @Test
+    void testSymbolInfo() throws Exception {
         DataMatrixSymbolInfo info;
         info = DataMatrixSymbolInfo.lookup(3);
         assertEquals(5, info.errorCodewords);

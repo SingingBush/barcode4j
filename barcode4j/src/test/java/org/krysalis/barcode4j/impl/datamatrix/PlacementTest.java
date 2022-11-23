@@ -18,18 +18,20 @@
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.tools.TestHelper;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests the DataMatrix placement algorithm.
  */
-public class PlacementTest extends TestCase {
+public class PlacementTest {
 
     private static final boolean DEBUG = false;
-    
-    public void testPlacement() throws Exception {
+
+    @Test
+    void testPlacement() throws Exception {
         String codewords = TestHelper.unvisualize(
                 "66 74 78 66 74 78 129 56 35 102 192 96 226 100 156 1 107 221"); //"AIMAIM" encoded
         DebugPlacement placement = new DebugPlacement(
@@ -52,7 +54,7 @@ public class PlacementTest extends TestCase {
             if (DEBUG) {
                 System.out.println(expected[i] + "  " + actual[i]);
             }
-            assertEquals("Row " + i, expected[i], actual[i]);
+            assertEquals(expected[i], actual[i], "Row " + i);
         }
     }
     

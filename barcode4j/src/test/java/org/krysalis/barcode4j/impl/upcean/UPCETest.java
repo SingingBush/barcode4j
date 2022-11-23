@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j.impl.upcean;
 
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.NullClassicBarcodeLogicHandler;
@@ -22,7 +23,7 @@ import org.krysalis.barcode4j.impl.upcean.UPCE;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 import org.krysalis.barcode4j.impl.upcean.UPCELogicImpl;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for the UPC-E implementation.
@@ -30,19 +31,16 @@ import junit.framework.TestCase;
  * @author Jeremias Maerki
  * @version $Id: UPCETest.java,v 1.1 2004-09-12 17:57:54 jmaerki Exp $
  */
-public class UPCETest extends TestCase {
+public class UPCETest {
 
-    public UPCETest(String name) {
-        super(name);
-    }
-
-    public void testIllegalArguments() throws Exception {
+    @Test
+    void testIllegalArguments() throws Exception {
         try {
             UPCE impl = new UPCE();
             impl.generateBarcode(null, null);
             fail("Expected an NPE");
         } catch (NullPointerException npe) {
-            assertNotNull("Error message is empty", npe.getMessage());
+            assertNotNull(npe.getMessage(), "Error message is empty");
         }
 
         //Test invalid characters in message
@@ -93,23 +91,27 @@ public class UPCETest extends TestCase {
         {"00102546", "001020000056"},
         {"01234133", "012300000413"}};
 
-    public void testMessageCompaction() throws Exception {
+    @Test
+    void testMessageCompaction() throws Exception {
         for (int i = 0; i < COMPACTION_TESTS.length; i++) {
             assertEquals(
-                COMPACTION_TESTS[i][1] + " must be compacted to " 
-                    + COMPACTION_TESTS[i][0],
-                COMPACTION_TESTS[i][0], 
-                UPCELogicImpl.compactMessage(COMPACTION_TESTS[i][1]));
+                COMPACTION_TESTS[i][0],
+                UPCELogicImpl.compactMessage(COMPACTION_TESTS[i][1]),
+                COMPACTION_TESTS[i][1] + " must be compacted to " + COMPACTION_TESTS[i][0]
+            );
+
             String nocheck = COMPACTION_TESTS[i][1].substring(0, 11);
             assertEquals(
-                nocheck + " must be compacted to " 
-                    + COMPACTION_TESTS[i][0],
                 COMPACTION_TESTS[i][0], 
-                UPCELogicImpl.compactMessage(nocheck));
+                UPCELogicImpl.compactMessage(nocheck),
+                nocheck + " must be compacted to " + COMPACTION_TESTS[i][0]
+            );
         }
+
         final String noUPCE = "01234567890";
         assertNull(UPCELogicImpl.compactMessage(noUPCE));
         assertNull(UPCELogicImpl.compactMessage(noUPCE + UPCEANLogicImpl.calcChecksum(noUPCE)));
+
         try {
             UPCELogicImpl.compactMessage("ajsgf");
             fail("Invalid messages must fail");
@@ -123,24 +125,27 @@ public class UPCETest extends TestCase {
             //must fail
         }
     }
-    
-    public void testMessageExpansion() throws Exception {
+
+    @Test
+    void testMessageExpansion() throws Exception {
         for (int i = 0; i < COMPACTION_TESTS.length; i++) {
             assertEquals(
-                COMPACTION_TESTS[i][0] + " must be expanded to " 
-                    + COMPACTION_TESTS[i][1],
-                COMPACTION_TESTS[i][1], 
-                UPCELogicImpl.expandMessage(COMPACTION_TESTS[i][0]));
+                COMPACTION_TESTS[i][1],
+                UPCELogicImpl.expandMessage(COMPACTION_TESTS[i][0]),
+                COMPACTION_TESTS[i][0] + " must be expanded to " + COMPACTION_TESTS[i][1]
+            );
+
             String nocheck = COMPACTION_TESTS[i][0].substring(0, 7);
             assertEquals(
-                nocheck + " must be expanded to " 
-                    + COMPACTION_TESTS[i][1],
-                COMPACTION_TESTS[i][1], 
-                UPCELogicImpl.expandMessage(nocheck));
+                    COMPACTION_TESTS[i][1],
+                UPCELogicImpl.expandMessage(nocheck),
+                    nocheck + " must be expanded to " + COMPACTION_TESTS[i][1]
+            );
         }
     }
 
-    public void testLogic() throws Exception {
+    @Test
+    void testLogic() throws Exception {
         StringBuffer sb = new StringBuffer();
         UPCELogicImpl logic;
         String expected;

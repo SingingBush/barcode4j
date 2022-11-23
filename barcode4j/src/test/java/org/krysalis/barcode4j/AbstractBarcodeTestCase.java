@@ -19,7 +19,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Abstract base test class for tests. Provides a bad directory that is 
@@ -28,14 +28,8 @@ import junit.framework.TestCase;
  * @author Jeremias Maerki
  * @version $Id: AbstractBarcodeTestCase.java,v 1.2 2004-09-04 20:26:21 jmaerki Exp $
  */
-public abstract class AbstractBarcodeTestCase extends TestCase {
-
-    /**
-     * @see junit.framework.TestCase#TestCase(String)
-     */
-    public AbstractBarcodeTestCase(String name) {
-        super(name);
-    }
+@Deprecated
+public abstract class AbstractBarcodeTestCase {
 
     /**
      * Returns the base directory to use for the tests.

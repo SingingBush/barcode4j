@@ -15,21 +15,24 @@
  */
 
 /* $Id: MessageUtilTest.java,v 1.1 2008-11-29 16:42:09 jmaerki Exp $ */
-
 package org.krysalis.barcode4j.tools;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Tests the {@code MessageUtil} class.
  */
-public class MessageUtilTest extends TestCase {
+public class MessageUtilTest {
 
     /**
      * Tests unescaping.
      * @throws Exception If an error occurs
      */
-    public void testUnescaping() throws Exception {
+    @Test
+    void testUnescaping() throws Exception {
         String msg = "12345\\u001E00\\\\u001e11\\u0004";
         String processed = MessageUtil.unescapeUnicode(msg);
         assertEquals("12345\u001E00\\u001e11\u0004", processed);

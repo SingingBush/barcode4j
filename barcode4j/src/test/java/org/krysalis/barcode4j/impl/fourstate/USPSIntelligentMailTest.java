@@ -21,18 +21,22 @@ package org.krysalis.barcode4j.impl.fourstate;
 import java.math.BigInteger;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
 
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
 
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * Tests for the USPS Intelligent Mail Barcode (4-State Customer Barcode).
  */
-public class USPSIntelligentMailTest extends TestCase {
+public class USPSIntelligentMailTest {
 
-    public void testCharLookupTableInitialization() throws Exception {
+    @Test
+    void testCharLookupTableInitialization() throws Exception {
         //random/spot checks
         assertEquals(31, USPSIntelligentMailLogicImpl.TABLE5OF13[0]);
         assertEquals(7936, USPSIntelligentMailLogicImpl.TABLE5OF13[1]);
@@ -62,8 +66,9 @@ public class USPSIntelligentMailTest extends TestCase {
         "01234567094987654321012345678",
         "0123456709498765432101234567891"
     };
-    
-    public void testBinaryConversion() throws Exception {
+
+    @Test
+    void testBinaryConversion() throws Exception {
         final String[] results = new String[] {
             "00 00 00 00 00 11 22 10 3B 5C 20 04 B1",
             "00 00 00 0D 13 8A 87 BA B5 CF 38 04 B1",
@@ -81,8 +86,9 @@ public class USPSIntelligentMailTest extends TestCase {
     }
     
     private static final int[] EXAMPLE_FCS = new int[] {0x0051, 0x0065, 0x0606, 0x0751};
-    
-    public void testFCS() throws Exception {
+
+    @Test
+    void testFCS() throws Exception {
         for (int i = 0; i < EXAMPLE_MESSAGES.length; i++) {
             String msg = EXAMPLE_MESSAGES[i];
             BigInteger binary = USPSIntelligentMailLogicImpl.convertToBinary(msg);
@@ -98,8 +104,9 @@ public class USPSIntelligentMailTest extends TestCase {
             {0, 110, 1113, 1363, 198, 413, 470, 468, 1333, 513},
             {14, 787, 607, 1022, 861, 19, 816, 1294, 35, 301}
         };
-    
-    public void testCodewords() throws Exception {
+
+    @Test
+    void testCodewords() throws Exception {
         for (int i = 0; i < EXAMPLE_MESSAGES.length; i++) {
             String msg = EXAMPLE_MESSAGES[i];
             BigInteger binary = USPSIntelligentMailLogicImpl.convertToBinary(msg);
@@ -115,12 +122,11 @@ public class USPSIntelligentMailTest extends TestCase {
             {673, 787, 607, 1022, 861, 19, 816, 1294, 35, 602}
         };
 
-    public void testCodewordModification() throws Exception {
+    @Test
+    void testCodewordModification() throws Exception {
         for (int i = 0; i < EXAMPLE_CODEWORDS.length; i++) {
-            int[] modified = USPSIntelligentMailLogicImpl.modifyCodewords(
-                    EXAMPLE_CODEWORDS[i], EXAMPLE_FCS[i]);
-            assertTrue("Array " + i + " does not match",
-                    Arrays.equals(EXAMPLE_MODIFIED[i], modified));
+            int[] modified = USPSIntelligentMailLogicImpl.modifyCodewords(EXAMPLE_CODEWORDS[i], EXAMPLE_FCS[i]);
+            assertTrue(Arrays.equals(EXAMPLE_MODIFIED[i], modified), "Array " + i + " does not match");
         }
     }
 
@@ -134,13 +140,12 @@ public class USPSIntelligentMailTest extends TestCase {
             {'\u0DCB', '\u085C', '\u08E4', '\u0B06', '\u06DD',
                  '\u1740', '\u17C6', '\u1200', '\u123F', '\u1B2B'}
         };
-    
-    public void testCharacterConversion() throws Exception {
+
+    @Test
+    void testCharacterConversion() throws Exception {
         for (int i = 0; i < EXAMPLE_MODIFIED.length; i++) {
-            char[] result = USPSIntelligentMailLogicImpl.convertToCharacters(
-                    EXAMPLE_MODIFIED[i], EXAMPLE_FCS[i]);
-            assertTrue("Array " + i + " does not match",
-                    Arrays.equals(EXAMPLE_CHARS[i], result));
+            char[] result = USPSIntelligentMailLogicImpl.convertToCharacters(EXAMPLE_MODIFIED[i], EXAMPLE_FCS[i]);
+            assertTrue(Arrays.equals(EXAMPLE_CHARS[i], result), "Array " + i + " does not match");
         }
     }
 
@@ -150,8 +155,9 @@ public class USPSIntelligentMailTest extends TestCase {
         "ADFTTAFDTTTTFATTADTAAATFTFTATDAAAFDDADATATDTDTTDFDTDATADADTDFFTFA",
         "AADTFFDFTDADTAADAATFDTDDAAADDTDTTDAFADADDDTFFFDDTTTADFAAADFTDAADA"
     };
-    
-    public void testBarProduction() throws Exception {
+
+    @Test
+    void testBarProduction() throws Exception {
         for (int i = 0; i < EXAMPLE_MODIFIED.length; i++) {
             String bars = USPSIntelligentMailLogicImpl.convertToBars(EXAMPLE_CHARS[i]);
             bars = bars.replace('0', 'T');
@@ -161,13 +167,15 @@ public class USPSIntelligentMailTest extends TestCase {
             assertEquals(EXAMPLE_BARS[i], bars);
         }
     }
-    
-    public void testDefaults() throws Exception {
+
+    @Test
+    void testDefaults() throws Exception {
         USPSIntelligentMailBean bean = new USPSIntelligentMailBean();
         bean.verifySettings();
     }
-    
-    public void testDefaultsInXML() throws Exception {
+
+    @Test
+    void testDefaultsInXML() throws Exception {
         USPSIntelligentMailBean refBean = new USPSIntelligentMailBean();
         
         USPSIntelligentMail gen = new USPSIntelligentMail();
@@ -189,8 +197,9 @@ public class USPSIntelligentMailTest extends TestCase {
         assertEquals(refBean.getMsgPosition(), xmlBean.getMsgPosition());
         assertEquals(refBean.getPattern(), xmlBean.getPattern());
     }
-    
-    public void testLogic() throws Exception {
+
+    @Test
+    void testLogic() throws Exception {
         final String[] formatted = new String[] {
                 "01 234 567094 987654321",
                 "01;234;567094;987654321;01234",
@@ -215,7 +224,7 @@ public class USPSIntelligentMailTest extends TestCase {
             String expected = results[i];
             //System.out.println(expected);
             //System.out.println(sb.toString());
-            assertEquals("Expected result n° " + i + " does not match", expected, sb.toString());
+            assertEquals(expected, sb.toString(), "Expected result n° " + i + " does not match");
         }
     }
     

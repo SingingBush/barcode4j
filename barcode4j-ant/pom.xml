@@ -26,12 +26,6 @@
             <artifactId>ant</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- test dependencies -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
 </project>

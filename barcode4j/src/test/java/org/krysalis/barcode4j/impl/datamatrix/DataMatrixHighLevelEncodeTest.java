@@ -20,17 +20,18 @@ package org.krysalis.barcode4j.impl.datamatrix;
 
 import java.io.IOException;
 
-import junit.framework.ComparisonFailure;
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.tools.TestHelper;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for the high-level encoder.
  *
  * @version $Id: DataMatrixHighLevelEncodeTest.java,v 1.12 2010-08-19 13:49:29 jmaerki Exp $
  */
-public class DataMatrixHighLevelEncodeTest extends TestCase {
+public class DataMatrixHighLevelEncodeTest {
 
     private static final boolean DEBUG = false;
 
@@ -53,7 +54,8 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         DataMatrixSymbolInfo.overrideSymbolSet(DataMatrixSymbolInfo.PROD_SYMBOLS);
     }
 
-    public void testASCIIEncodation() throws Exception {
+    @Test
+    void testASCIIEncodation() throws Exception {
         String visualized;
 
         visualized = encodeHighLevel("123456");
@@ -66,7 +68,8 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         assertEquals("160 82 162 173 173 173 137 224 61 80 82 82", visualized);
     }
 
-    public void testC40EncodationBasic1() throws Exception {
+    @Test
+    void testC40EncodationBasic1() throws Exception {
         String visualized;
 
         visualized = encodeHighLevel("AIMAIMAIM");
@@ -74,7 +77,8 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         //230 shifts to C40 encodation, 254 unlatches, "else" case
     }
 
-    public void testC40EncodationBasic2() throws Exception {
+    @Test
+    void testC40EncodationBasic2() throws Exception {
         String visualized;
 
         visualized = encodeHighLevel("AIMAIAB");
@@ -106,14 +110,16 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         //"else" case
     }
 
-    public void testC40EncodationSpecExample() throws Exception {
+    @Test
+    void testC40EncodationSpecExample() throws Exception {
         String visualized;
         //Example in Figure 1 in the spec
         visualized = encodeHighLevel("A1B2C3D4E5F6G7H8I9J0K1L2");
         assertEquals("230 88 88 40 8 107 147 59 67 126 206 78 126 144 121 35 47 254", visualized);
     }
 
-    public void testC40EncodationSpecialCases1() throws Exception {
+    @Test
+    void testC40EncodationSpecialCases1() throws Exception {
         String visualized;
 
         //Special tests avoiding ultra-long test strings because these tests are only used
@@ -142,7 +148,8 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         //case "d": Skip Unlatch and write last character in ASCII
     }
 
-    public void testC40EncodationSpecialCases2() throws Exception {
+    @Test
+    void testC40EncodationSpecialCases2() throws Exception {
         String visualized;
 
         visualized = encodeHighLevel("AIMAIMAIMAIMAIMAIMAI");
@@ -150,7 +157,8 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         //available > 2, rest = 2 --> unlatch and encode as ASCII
     }
 
-    public void testTextEncodation() throws Exception {
+    @Test
+    void testTextEncodation() throws Exception {
         String visualized;
 
         visualized = encodeHighLevel("aimaimaim");
@@ -172,7 +180,8 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         assertEquals("239 91 11 91 11 91 11 16 218 236 107 181 69 254 129 237", visualized);
     }
 
-    public void testX12Encodation() throws Exception {
+    @Test
+    void testX12Encodation() throws Exception {
         String visualized;
 
         //238 shifts to X12 encodation, 254 unlatches
@@ -194,7 +203,8 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
 
     }
 
-    public void testEDIFACTEncodation() throws Exception {
+    @Test
+    void testEDIFACTEncodation() throws Exception {
         String visualized;
 
         //240 shifts to EDIFACT encodation
@@ -229,7 +239,8 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
                     visualized);
     }
 
-    public void testBase256Encodation() throws Exception {
+    @Test
+    void testBase256Encodation() throws Exception {
         String visualized;
 
         //231 shifts to Base256 encodation
@@ -278,40 +289,39 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
     }
 
     private void assertStartsWith(String expected, String actual) {
-        if (!actual.startsWith(expected)) {
-            throw new ComparisonFailure(null, expected, actual.substring(0, expected.length()));
-        }
+        assertTrue(actual.startsWith(expected));
     }
 
     private void assertEndsWith(String expected, String actual) {
-        if (!actual.endsWith(expected)) {
-            throw new ComparisonFailure(null,
-                    expected, actual.substring(actual.length() - expected.length()));
-        }
+        assertTrue(actual.endsWith(expected));
     }
 
-    public void testUnlatchingFromC40() throws Exception {
+    @Test
+    void testUnlatchingFromC40() throws Exception {
         String visualized;
 
         visualized = encodeHighLevel("AIMAIMAIMAIMaimaimaim");
         assertEquals("230 91 11 91 11 91 11 254 66 74 78 239 91 11 91 11 91 11", visualized);
     }
 
-    public void testUnlatchingFromText() throws Exception {
+    @Test
+    void testUnlatchingFromText() throws Exception {
         String visualized;
 
         visualized = encodeHighLevel("aimaimaimaim12345678");
         assertEquals("239 91 11 91 11 91 11 91 11 254 142 164 186 208 129 237", visualized);
     }
 
-    public void testHelloWorld() throws Exception {
+    @Test
+    void testHelloWorld() throws Exception {
         String visualized;
 
         visualized = encodeHighLevel("Hello World!");
         assertEquals("73 239 116 130 175 123 148 64 158 233 254 34", visualized);
     }
 
-    public void testBug1664266() throws Exception {
+    @Test
+    void testBug1664266() throws Exception {
         String visualized;
         //There was an exception and the encoder did not handle the unlatching from
         //EDIFACT encoding correctly
@@ -326,7 +336,8 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         assertEquals("240 13 33 88 181 64 78 124 59 105 105 105", visualized);
     }
 
-    public void testBug3048549() throws Exception {
+    @Test
+    void testBug3048549() throws Exception {
         String visualized;
         //There was an IllegalArgumentException for an illegal character here because
         //of an encoding problem of the character 0x0060 in Java source code.
@@ -336,7 +347,8 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
 
     }
 
-    public void testMacroCharacters() throws Exception {
+    @Test
+    void testMacroCharacters() throws Exception {
         String visualized;
 
         visualized = encodeHighLevel("[)>\u001E05\u001D5555\u001C6666\u001E\u0004");
@@ -344,7 +356,8 @@ public class DataMatrixHighLevelEncodeTest extends TestCase {
         assertEquals("236 185 185 29 196 196 129 56", visualized);
     }
 
-    public void testDataURL() throws Exception {
+    @Test
+    void testDataURL() throws Exception {
         String visualized;
 
         byte[] data = new byte[] {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A,

@@ -15,13 +15,14 @@
  */
 package org.krysalis.barcode4j.impl.upcean;
 
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.NullClassicBarcodeLogicHandler;
-import org.krysalis.barcode4j.impl.upcean.UPCA;
-import org.krysalis.barcode4j.impl.upcean.UPCALogicImpl;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test class for the UPC-A implementation.
@@ -29,19 +30,17 @@ import junit.framework.TestCase;
  * @author Jeremias Maerki
  * @version $Id: UPCATest.java,v 1.1 2004-09-12 17:57:54 jmaerki Exp $
  */
-public class UPCATest extends TestCase {
+public class UPCATest {
 
-    public UPCATest(String name) {
-        super(name);
-    }
 
-    public void testIllegalArguments() throws Exception {
+    @Test
+    void testIllegalArguments() throws Exception {
         try {
             UPCA impl = new UPCA();
             impl.generateBarcode(null, null);
             fail("Expected an NPE");
         } catch (NullPointerException npe) {
-            assertNotNull("Error message is empty", npe.getMessage());
+            assertNotNull(npe.getMessage(), "Error message is empty");
         }
 
         //Test invalid characters in message
@@ -73,7 +72,8 @@ public class UPCATest extends TestCase {
         }
     }
 
-    public void testLogic() throws Exception {
+    @Test
+    void testLogic() throws Exception {
         StringBuffer sb = new StringBuffer();
         UPCALogicImpl logic;
         String expected;
@@ -117,7 +117,6 @@ public class UPCATest extends TestCase {
         //System.out.println(expected);
         //System.out.println(sb.toString());
         assertEquals(expected, sb.toString());
-        
     }
 
 }

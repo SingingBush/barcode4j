@@ -15,22 +15,22 @@
  */
 
 /* $Id: ECC200Test.java,v 1.3 2006-12-22 15:58:27 jmaerki Exp $ */
-
 package org.krysalis.barcode4j.impl.datamatrix;
 
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.tools.TestHelper;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for the ECC200 error correction.
  * 
  * @version $Id: ECC200Test.java,v 1.3 2006-12-22 15:58:27 jmaerki Exp $
  */
-public class ECC200Test extends TestCase {
+public class ECC200Test {
 
-
-    public void testRS() throws Exception {
+    @Test
+    void testRS() throws Exception {
         //Sample from Annexe R in ISO/IEC 16022:2000(E)
         char[] cw = new char[] {142, 164, 186};
         DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(3);
