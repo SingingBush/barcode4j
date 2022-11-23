@@ -18,6 +18,7 @@
   <property name="src.test" value="${basedir}/src/test"/>
   <property name="lib.dir" value="${basedir}/lib"/>
   <property name="optional.lib.dir" value="${lib.dir}"/>
+  <property name="test.lib.dir" value="${basedir}/test-lib"/>
   <property name="build.dir" value="${basedir}/build"/>
   <property name="build.test" value="${build.dir}/test"/>
   <property name="build.dest" value="${build.dir}/classes"/>
@@ -34,8 +35,8 @@
   <property name="build.dest.xgc" value="${build.dir}/xgc/classes"/>
   <property name="build.dotnet.dir" value="${build.dir}/dotnet"/>
   <property name="xalan.dir" value="../barcode4j-xalan/src/"/>
-  <property name="saxon6.dir" value="${src.dir}/saxon"/>
   <property name="saxon8.dir" value="../barcode4j-saxon8/src/main/"/>
+  <property name="saxon91.dir" value="../barcode4j-saxon91/src/main/"/>
   <property name="jdom.dir" value="../barcode4j-jdom/src/main/"/>
   <property name="checkstyle.home" value=""/>
   <property name="main.class" value="org.krysalis.barcode4j.cli.Main"/>
@@ -60,6 +61,9 @@
   </path>
 
   <path id="test.classpath">
+    <fileset dir="${test.lib.dir}">
+      <include name="*.jar"/>
+    </fileset>
     <pathelement location="${build.dest}"/>
     <pathelement location="${build.test}/classes"/>
     <path refid="project.classpath"/>
@@ -95,26 +99,25 @@
   </target>
   
   <target name="init" depends="pre-init">
-    <available property="junit.present" classname="junit.framework.TestCase"
-        classpathref="project.classpath"/>
-    <condition property="junit.message" value="JUnit Support PRESENT">
-      <equals arg1="${junit.present}" arg2="true"/>
+    <available property="junit4.present" classname="junit.framework.TestCase" classpathref="test.classpath"/>
+    <condition property="junit4.message" value="JUnit Support PRESENT">
+      <equals arg1="${junit4.present}" arg2="true"/>
     </condition>
-    <condition property="junit.message" value="JUnit Support NOT Present - Committers are required to have JUnit working">
+    <condition property="junit4.message" value="JUnit Support NOT Present - Committers are required to have JUnit working">
       <not>
-        <equals arg1="${junit.present}" arg2="true"/>
+        <equals arg1="${junit4.present}" arg2="true"/>
       </not>
     </condition>
-    <echo message="${junit.message}"/>
+    <echo message="${junit4.message}"/>
 
     <available property="xalan.present" classname="org.apache.xalan.xslt.Process" classpathref="project.classpath"/>
-    <available property="saxon6.present" classname="com.icl.saxon.TransformerFactoryImpl" classpathref="project.classpath"/>
     <condition property="saxon8.present">
       <and>
         <available classname="net.sf.saxon.TransformerFactoryImpl" classpathref="project.classpath"/>
         <available classname="java.lang.CharSequence"/>
       </and>
     </condition>
+    <available property="saxon91.present" classname="com.icl.saxon.TransformerFactoryImpl" classpathref="project.classpath"/>
     <available property="jdom.present" classname="org.jdom2.Document" classpathref="project.classpath"/>
     <property name="init.fop" value="true"/>
 
@@ -156,16 +159,16 @@
     <echo message="xalan.jar to the lib directory."/>
     <echo message="===================================================================="/>
   </target>
-  <target name="info.saxon6" depends="init" unless="saxon6.present">
-    <echo message="===================================================================="/>
-    <echo message="You can enable compilation of the SAXON 6.5.x XSLT extension by"/>
-    <echo message="adding saxon.jar to the lib directory."/>
-    <echo message="===================================================================="/>
-  </target>
   <target name="info.saxon8" depends="init" unless="saxon8.present">
     <echo message="===================================================================="/>
     <echo message="You can enable compilation of the SAXON 8.x XSLT extension by adding"/>
     <echo message="saxon8.jar to the lib directory."/>
+    <echo message="===================================================================="/>
+  </target>
+  <target name="info.saxon91" depends="init" unless="saxon91.present">
+    <echo message="===================================================================="/>
+    <echo message="You can enable compilation of the SAXON 9.1.x XSLT extension by"/>
+    <echo message="adding saxon9.jar to the lib directory."/>
     <echo message="===================================================================="/>
   </target>
   <target name="info.jdom" depends="init" unless="jdom.present">
@@ -183,7 +186,7 @@
   <!-- =================================================================== -->
   <!-- Prepares the build directory                                        -->
   <!-- =================================================================== -->
-  <target name="prepare" depends="init, init.fop, init.xgc, info.xalan, info.saxon6, info.saxon8, info.jdom, info.ikvm">
+  <target name="prepare" depends="init, init.fop, init.xgc, info.xalan, info.saxon8, info.saxon91, info.jdom, info.ikvm">
     <!-- create directories -->
     <echo message="Preparing the build directories"/>
     <mkdir dir="${build.dir}"/>
@@ -211,15 +214,15 @@
       <classpath refid="project.classpath"/>
     </javac>
   </target>
-  <target name="compile-saxon6" depends="compile" if="saxon6.present">
-    <echo message="Compiling the SAXON 6.5.x extension"/>
-    <javac srcdir="${saxon6.dir}/java" destdir="${build.dest}">
-      <classpath refid="project.classpath"/>
-    </javac>
-  </target>
   <target name="compile-saxon8" depends="compile" if="saxon8.present">
     <echo message="Compiling the SAXON 8.x extension"/>
     <javac srcdir="${saxon8.dir}/java" destdir="${build.dest}">
+      <classpath refid="project.classpath"/>
+    </javac>
+  </target>
+  <target name="compile-saxon91" depends="compile" if="saxon91.present">
+    <echo message="Compiling the SAXON 9.1.x extension"/>
+    <javac srcdir="${saxon91.dir}/java" destdir="${build.dest}">
       <classpath refid="project.classpath"/>
     </javac>
   </target>
@@ -249,7 +252,7 @@
       </classpath>
     </javac>
   </target>
-  <target name="compile-all" depends="compile, compile-xalan, compile-saxon6, compile-saxon8, compile-jdom, compile-fop, compile-xgc" description="Compiles the sources"/>
+  <target name="compile-all" depends="compile, compile-xalan, compile-saxon8, compile-saxon91, compile-jdom, compile-fop, compile-xgc" description="Compiles the sources"/>
   <!-- =================================================================== -->
   <!-- Creates Java docs                                                   -->
   <!-- =================================================================== -->
@@ -265,8 +268,8 @@
       <classpath refid="fop.classpath"/>
       <packageset dir="${src.java.dir}" defaultexcludes="yes"/>
       <packageset dir="${xalan.dir}/main/java" defaultexcludes="yes"/>
-      <packageset dir="${saxon6.dir}/java" defaultexcludes="yes"/>
       <packageset dir="${saxon8.dir}/java" defaultexcludes="yes"/>
+      <packageset dir="${saxon91.dir}/java" defaultexcludes="yes"/>
       <packageset dir="${jdom.dir}/java" defaultexcludes="yes"/>
       <packageset dir="${src.xgc.dir}" defaultexcludes="yes"/>
       <tag name="todo" scope="all" description="TODO:" />
@@ -568,7 +571,7 @@
   <target name="test-init" depends="compile-all">
     <mkdir dir="${build.test}/classes"/>
   </target>
-  <target name="test-compile-core" depends="test-init" if="junit.present">
+  <target name="test-compile-core" depends="test-init" if="junit4.present">
     <javac srcdir="${src.test.java.dir}" destdir="${build.test}/classes"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
         source="${javac.source}" target="${javac.target}" encoding="${encoding}">
@@ -582,13 +585,6 @@
       <classpath refid="test.classpath"/>
     </javac>
   </target>
-  <target name="test-compile-saxon6" if="saxon6.present">
-    <javac srcdir="${saxon6.dir}/test/java" destdir="${build.test}/classes"
-        debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
-      <classpath refid="test.classpath"/>
-    </javac>
-  </target>
   <target name="test-compile-saxon8" if="saxon8.present">
     <javac srcdir="${saxon8.dir}/test/java" destdir="${build.test}/classes"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
@@ -596,21 +592,28 @@
       <classpath refid="test.classpath"/>
     </javac>
   </target>
-  <target name="test-compile-jdom" if="jdom.present">
-    <javac srcdir="${jdom.dir}/test/java" destdir="${build.test}/classes"
-        debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
-        source="${javac.source}" target="${javac.target}" encoding="${encoding}">
+  <target name="test-compile-saxon91" if="saxon91.present">
+    <javac srcdir="${saxon91.dir}/test/java" destdir="${build.test}/classes"
+           debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
+           source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="test.classpath"/>
     </javac>
   </target>
-  <!--target name="test-compile" depends="test-compile-core, test-compile-xalan, test-compile-saxon6, test-compile-saxon8, test-compile-jdom"-->
-  <target name="test-compile" depends="test-compile-core" if="junit.present">
+<!--  <target name="test-compile-jdom" if="jdom.present">-->
+<!--    <javac srcdir="${jdom.dir}/test/java" destdir="${build.test}/classes"-->
+<!--        debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"-->
+<!--        source="${javac.source}" target="${javac.target}" encoding="${encoding}">-->
+<!--      <classpath refid="test.classpath"/>-->
+<!--    </javac>-->
+<!--  </target>-->
+  <!--target name="test-compile" depends="test-compile-core, test-compile-xalan, test-compile-saxon8, test-compile-saxon91, test-compile-jdom"-->
+  <target name="test-compile" depends="test-compile-core" if="junit4.present">
     <antcall target="test-compile-xalan"/>
-    <antcall target="test-compile-saxon6"/>
     <antcall target="test-compile-saxon8"/>
-    <antcall target="test-compile-jdom"/>
+    <antcall target="test-compile-saxon91"/>
+<!--    <antcall target="test-compile-jdom"/>-->
   </target>
-  <target name="test" depends="compile,test-compile" if="junit.present">
+  <target name="test" depends="compile,test-compile" if="junit4.present">
     <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
     <junit printsummary="yes" haltonfailure="yes">
       <!--jvmarg value="-verbose:class"/-->

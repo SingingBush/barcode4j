@@ -31,13 +31,23 @@ This fork has the following goals:
 
 ## Build
 
-Maven (in future the project will only support maven)
+### Maven (in future the project will only support maven)
 
 ```
 mvn package
 ```
 
-Ant builds can be performed using:
+### Ant
+
+Make sure to have both ant and ant-junit installed. On Fedora this can be done with `sudo dnf install ant ant-junit`.
+
+Builds can be performed using:
+
+```
+ant -buildfile barcode4j/build.xml
+```
+
+or
 
 ```
 ant -buildfile barcode4j/build-dist.xml
