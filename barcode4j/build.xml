@@ -28,11 +28,8 @@
   <property name="servlet.dir" value="../barcode4j-servlet/src/main/"/>
   <property name="cli.dir" value="../barcode4j-cli/src/main/"/>
   <property name="fop.ext.dir" value="../barcode4j-fop-ext/src/main"/>
-  <property name="xgc.ext.dir" value="../barcode4j-xgc/src/main/"/>
   <property name="src.fop.dir" value="${fop.ext.dir}/java"/>
-  <property name="src.xgc.dir" value="${xgc.ext.dir}/java"/>
   <property name="build.dest.fop" value="${build.dir}/fop/classes"/>
-  <property name="build.dest.xgc" value="${build.dir}/xgc/classes"/>
   <property name="build.dotnet.dir" value="${build.dir}/dotnet"/>
   <property name="xalan.dir" value="../barcode4j-xalan/src/"/>
   <property name="saxon8.dir" value="../barcode4j-saxon8/src/main/"/>
@@ -145,14 +142,6 @@
       </fileset>
     </path>
   </target>
-  <target name="init.xgc" depends="init">
-    <path id="xgc.classpath">
-      <path refid="project.classpath"/>
-      <fileset dir="${lib.dir}/fop">
-        <include name="*.jar"/>
-      </fileset>
-    </path>
-  </target>
   <target name="info.xalan" depends="init" unless="xalan.present">
     <echo message="===================================================================="/>
     <echo message="You can enable compilation of the Xalan-J XSLT extension by adding"/>
@@ -186,7 +175,7 @@
   <!-- =================================================================== -->
   <!-- Prepares the build directory                                        -->
   <!-- =================================================================== -->
-  <target name="prepare" depends="init, init.fop, init.xgc, info.xalan, info.saxon8, info.saxon91, info.jdom, info.ikvm">
+  <target name="prepare" depends="init, init.fop, info.xalan, info.saxon8, info.saxon91, info.jdom, info.ikvm">
     <!-- create directories -->
     <echo message="Preparing the build directories"/>
     <mkdir dir="${build.dir}"/>
@@ -242,17 +231,7 @@
       </classpath>
     </javac>
   </target>
-  <target name="compile-xgc" depends="compile">
-    <echo message="Compiling the image loader extension for Apache XML Graphics Commons"/>
-    <mkdir dir="${build.dest.xgc}"/>
-    <javac srcdir="${src.xgc.dir}" destdir="${build.dest.xgc}">
-      <classpath>
-        <path refid="xgc.classpath"/>
-        <pathelement location="${build.dest}"/>
-      </classpath>
-    </javac>
-  </target>
-  <target name="compile-all" depends="compile, compile-xalan, compile-saxon8, compile-saxon91, compile-jdom, compile-fop, compile-xgc" description="Compiles the sources"/>
+  <target name="compile-all" depends="compile, compile-xalan, compile-saxon8, compile-saxon91, compile-jdom, compile-fop" description="Compiles the sources"/>
   <!-- =================================================================== -->
   <!-- Creates Java docs                                                   -->
   <!-- =================================================================== -->
@@ -271,7 +250,6 @@
       <packageset dir="${saxon8.dir}/java" defaultexcludes="yes"/>
       <packageset dir="${saxon91.dir}/java" defaultexcludes="yes"/>
       <packageset dir="${jdom.dir}/java" defaultexcludes="yes"/>
-      <packageset dir="${src.xgc.dir}" defaultexcludes="yes"/>
       <tag name="todo" scope="all" description="TODO:" />
       <link href="http://avalon.apache.org/framework/api/"/>
       <!--link href="http://www.saxonica.com/documentation/javadoc/"/ doesn't work anymore-->
@@ -371,13 +349,7 @@
       <metainf dir="${fop.ext.dir}/resources/META-INF">
         <include name="**"/>
       </metainf>
-      <metainf dir="${xgc.ext.dir}/resources/META-INF">
-        <include name="**"/>
-      </metainf>
       <fileset dir="${build.dest.fop}">
-        <include name="org/krysalis/**"/>
-      </fileset>
-      <fileset dir="${build.dest.xgc}">
         <include name="org/krysalis/**"/>
       </fileset>
     </jar>
@@ -394,13 +366,7 @@
       <metainf dir="${fop.ext.dir}/resources/META-INF">
         <include name="**"/>
       </metainf>
-      <metainf dir="${xgc.ext.dir}/resources/META-INF">
-        <include name="**"/>
-      </metainf>
       <fileset dir="${build.dest.fop}">
-        <include name="org/krysalis/**"/>
-      </fileset>
-      <fileset dir="${build.dest.xgc}">
         <include name="org/krysalis/**"/>
       </fileset>
       <fileset dir="${build.dest}">
@@ -421,41 +387,8 @@
       </metainf>
     </jar>
   </target>
-  
-  <target name="package-xgc" depends="compile-all">
-    <echo message="Creating the jar file ${build.dir}/${name}-xgc.jar"/>
-    <jar jarfile="${build.dir}/${name}-xgc.jar">
-      <manifest>
-        <attribute name="Implementation-Title" value="${Name}"/>
-        <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
-        <attribute name="Implementation-URL" value="${impl.url}"/>
-        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
-      </manifest>
-      <metainf dir="${basedir}/.." includes="LICENSE,NOTICE"/>
-      <metainf dir="${xgc.ext.dir}/resources/META-INF">
-        <include name="**"/>
-      </metainf>
-      <fileset dir="${build.dest.xgc}">
-        <include name="org/krysalis/**"/>
-      </fileset>
-    </jar>
-    <jar jarfile="${resource-jar.dir}/${name}-xgc-resources.jar">
-      <manifest>
-        <attribute name="Implementation-Title" value="${Name}"/>
-        <attribute name="Implementation-Version" value="${version}"/>
-        <attribute name="Implementation-Vendor" value="${impl.vendor}"/>
-        <attribute name="Implementation-URL" value="${impl.url}"/>
-        <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}, Java ${java.runtime.version}])"/>
-      </manifest>
-      <metainf dir="${basedir}/.." includes="LICENSE,NOTICE"/>
-      <metainf dir="${xgc.ext.dir}/resources/META-INF">
-        <include name="**"/>
-      </metainf>
-    </jar>
-  </target>
-  
-  <target name="package" depends="package-base, package-fop, package-xgc, osgi, package.NET" description="Creates the Barcode JAR packages"/>
+
+  <target name="package" depends="package-base, package-fop, osgi, package.NET" description="Creates the Barcode JAR packages"/>
   
   <!-- =================================================================== -->
   <!-- Creates .NET binaries using IKVM                                    -->

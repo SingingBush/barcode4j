@@ -13,7 +13,6 @@
     <modules>
         <module>barcode4j</module>
         <module>barcode4j-cli</module>
-        <module>barcode4j-xgc</module>
         <module>barcode4j-xalan</module>
         <module>barcode4j-jdom</module>
         <module>barcode4j-fop-ext</module>

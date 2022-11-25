@@ -13,17 +13,12 @@
 
     <artifactId>barcode4j-fop-ext</artifactId>
     <name>Barcode4J FOP Extension</name>
-    <description>This module contains SPI implementation for Apache FOP barcode elements</description>
+    <description>This module contains SPI implementation for Apache FOP and XML-Graphics barcode elements</description>
 
     <dependencies>
         <dependency>
             <groupId>org.krysalis</groupId>
             <artifactId>barcode4j</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.krysalis</groupId>
-            <artifactId>barcode4j-xgc</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
