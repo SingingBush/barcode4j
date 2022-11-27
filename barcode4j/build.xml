@@ -100,7 +100,7 @@
   </target>
   
   <target name="init" depends="pre-init">
-    <available property="junit5.present" classname="org.junit.jupiter.params.ParameterizedTest" classpathref="test.classpath"/>
+    <available property="junit5.present" classname="org.apache.tools.ant.taskdefs.optional.junitlauncher.confined.JUnitLauncherTask" classpathref="test.classpath"/>
     <condition property="junit5.message" value="JUnit 5 (Jupiter) Support PRESENT">
       <equals arg1="${junit5.present}" arg2="true"/>
     </condition>
@@ -118,7 +118,9 @@
         <available classname="java.lang.CharSequence"/>
       </and>
     </condition>
-    <available property="saxon91.present" classname="com.icl.saxon.TransformerFactoryImpl" classpathref="project.classpath"/>
+
+    <available property="saxon91.present" classname="net.sf.saxon.TransformerFactoryImpl" classpathref="project.classpath"/>
+
     <available property="jdom.present" classname="org.jdom2.Document" classpathref="project.classpath"/>
     <property name="init.fop" value="true"/>
 
@@ -613,11 +615,12 @@
 <!--      <classpath refid="test.classpath"/>-->
 <!--    </javac>-->
 <!--  </target>-->
+
   <!--target name="test-compile" depends="test-compile-core, test-compile-xalan, test-compile-saxon8, test-compile-saxon91, test-compile-jdom"-->
   <target name="test-compile" depends="test-compile-core" if="junit5.present">
     <antcall target="test-compile-xalan"/>
-    <antcall target="test-compile-saxon8"/>
-    <antcall target="test-compile-saxon91"/>
+<!--    <antcall target="test-compile-saxon8"/>-->
+<!--    <antcall target="test-compile-saxon91"/>-->
 <!--    <antcall target="test-compile-jdom"/>-->
   </target>
 
