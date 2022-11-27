@@ -15,19 +15,20 @@
  */
 
 /* $Id: EAN128Test.java,v 1.7 2008-05-01 08:10:30 jmaerki Exp $ */
-
 package org.krysalis.barcode4j.impl.code128;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.ChecksumMode;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for EAN 128.
  */
-public class EAN128Test extends TestCase {
+public class EAN128Test {
 
-    public void testAI() throws Exception {
+    @Test
+    void testAI() throws Exception {
         EAN128AI ret = null;
         ret = EAN128AI.parseSpec("230", "n1");
         assertEquals("(230)n1 (fixed)", ret.toString());
@@ -92,7 +93,7 @@ public class EAN128Test extends TestCase {
         //Test length redefinition of fixed length field not allowed
         try {
             impl = new EAN128LogicImpl(ChecksumMode.CP_AUTO, "(00)n19");
-            assertTrue("Exception expected", false);
+            fail("Exception expected");
         } catch (Exception e) {};
         
         //Test date Template
@@ -104,11 +105,12 @@ public class EAN128Test extends TestCase {
         //Test missing length in Template
         try {
             impl = new EAN128LogicImpl(ChecksumMode.CP_AUTO, "(10)n1-");
-            assertTrue("Exception expected", false);
+            fail("Exception expected");
         } catch (Exception e) {};
     }
 
-    public void testSupportRequests() throws Exception {
+    @Test
+    void testSupportRequests() throws Exception {
         final char FNC1 = Code128LogicImpl.FNC_1;
         final char GS = EAN128Bean.DEFAULT_GROUP_SEPARATOR;
         final char CD = EAN128Bean.DEFAULT_CHECK_DIGIT_MARKER;
@@ -127,5 +129,5 @@ public class EAN128Test extends TestCase {
                 + "390000021170" + FNC1 
                 + "9620080402", impl.getCode128Msg());
     }
-    
+
 }

@@ -103,7 +103,8 @@
         <org.jdom.jdom2.version>2.0.6.1</org.jdom.jdom2.version>
         <net.sf.saxon.8.version>8.7</net.sf.saxon.8.version>
         <net.sf.saxon.9.version>9.1.0.8</net.sf.saxon.9.version>
-        <junit.junit.version>4.13.2</junit.junit.version>
+
+        <junit.version>5.9.1</junit.version>
 
         <!-- pluginManagement - set fixed versions for all maven plugins -->
         <!-- maven core plugins -->
@@ -203,11 +204,22 @@
             </dependency>
 
             <!-- test dependencies -->
-            <!-- TODO upgrade to JUnit 5 -> org.junit.jupiter:junit-jupiter-api:5.9.1 -->
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.junit.version}</version>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

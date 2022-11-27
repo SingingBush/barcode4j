@@ -19,10 +19,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test case for ConfigurationUtil.
@@ -30,13 +31,10 @@ import junit.framework.TestCase;
  * @author Jeremias Maerki
  * @version $Id: ConfigurationUtilTestCase.java,v 1.2 2004-09-04 20:25:59 jmaerki Exp $
  */
-public class ConfigurationUtilTestCase extends TestCase {
+public class ConfigurationUtilTestCase {
 
-    public ConfigurationUtilTestCase(String name) {
-        super(name);
-    }
-
-    public void testDOMLevel1ToConfiguration() throws Exception {
+    @Test
+    void testDOMLevel1ToConfiguration() throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(false);
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -55,8 +53,9 @@ public class ConfigurationUtilTestCase extends TestCase {
         
         checkCfgTree(cfg);
     }
-    
-    public void testDOMLevel2ToConfiguration() throws Exception {
+
+    @Test
+    void testDOMLevel2ToConfiguration() throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();

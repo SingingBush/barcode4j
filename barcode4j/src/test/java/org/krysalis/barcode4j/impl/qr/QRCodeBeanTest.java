@@ -15,21 +15,23 @@
  */
 
 /* $Id: QRCodeBeanTest.java,v 1.1 2012-01-27 14:36:35 jmaerki Exp $ */
-
 package org.krysalis.barcode4j.impl.qr;
+
+import org.junit.jupiter.api.Test;
 
 import java.awt.Dimension;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the QR Code bean.
  *
  * @version $Id: QRCodeBeanTest.java,v 1.1 2012-01-27 14:36:35 jmaerki Exp $
  */
-public class QRCodeBeanTest extends TestCase {
+public class QRCodeBeanTest {
 
-    public void testParameters() throws Exception {
+    @Test
+    void testParameters() throws Exception {
         QRCodeBean bean = new QRCodeBean();
 
         bean.setMaxSize(new Dimension(20, 20));

@@ -15,7 +15,9 @@
  */
 package org.krysalis.barcode4j.tools;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for the MimeTypes class.
@@ -23,13 +25,10 @@ import junit.framework.TestCase;
  * @author Jeremias Maerki
  * @version $Id: MimeTypesTest.java,v 1.2 2004-09-04 20:25:59 jmaerki Exp $
  */
-public class MimeTypesTest extends TestCase {
+public class MimeTypesTest {
 
-    public MimeTypesTest(String name) {
-        super(name);
-    }
-
-    public void testExpandFormat() throws Exception {
+    @Test
+    void testExpandFormat() throws Exception {
         assertEquals(MimeTypes.MIME_SVG, MimeTypes.expandFormat("svg"));
         assertEquals(MimeTypes.MIME_SVG, MimeTypes.expandFormat("sVG"));
         assertEquals(MimeTypes.MIME_SVG, MimeTypes.expandFormat(MimeTypes.MIME_SVG));
@@ -39,8 +38,9 @@ public class MimeTypesTest extends TestCase {
         assertNull(MimeTypes.expandFormat(""));
         assertNull(MimeTypes.expandFormat(null));
     }
-    
-    public void testIsBitmapFormat() throws Exception {
+
+    @Test
+    void testIsBitmapFormat() throws Exception {
         assertTrue(MimeTypes.isBitmapFormat("tiff"));
         assertTrue(MimeTypes.isBitmapFormat("tif"));
         assertTrue(MimeTypes.isBitmapFormat("jpeg"));

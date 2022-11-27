@@ -15,10 +15,11 @@
  */
 package org.krysalis.barcode4j.impl.code128;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.NullClassicBarcodeLogicHandler;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for the Code128 implementation.
@@ -26,23 +27,21 @@ import org.krysalis.barcode4j.impl.NullClassicBarcodeLogicHandler;
  * @author Jeremias Maerki
  * @version $Id: Code128Test.java,v 1.2 2009-02-20 13:07:20 jmaerki Exp $
  */
-public class Code128Test extends TestCase {
+public class Code128Test {
 
-    public Code128Test(String name) {
-        super(name);
-    }
-
-    public void testIllegalArguments() throws Exception {
+    @Test
+    void testIllegalArguments() throws Exception {
         try {
             Code128 impl = new Code128();
             impl.generateBarcode(null, null);
             fail("Expected an NPE");
         } catch (NullPointerException npe) {
-            assertNotNull("Error message is empty", npe.getMessage());
+            assertNotNull(npe.getMessage(), "Error message is empty");
         }
     }
 
-    public void testLogic() throws Exception {
+    @Test
+    void testLogic() throws Exception {
         StringBuffer sb = new StringBuffer();
         Code128LogicImpl logic;
         String expected;
@@ -70,7 +69,8 @@ public class Code128Test extends TestCase {
         assertEquals(expected, sb.toString());
     }
 
-    public void testNonPrintableAscii() throws Exception {
+    @Test
+    void testNonPrintableAscii() throws Exception {
         StringBuffer sb = new StringBuffer();
         String expected;
         Code128LogicImpl logic = new Code128LogicImpl();
@@ -92,7 +92,8 @@ public class Code128Test extends TestCase {
         assertEquals(expected, sb.toString());
     }
 
-    public void testBug942246() throws Exception {
+    @Test
+    void testBug942246() throws Exception {
         Code128LogicImpl logic = new Code128LogicImpl();
         logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(),
             "\u00f1020456789012341837100\u00f13101000200");

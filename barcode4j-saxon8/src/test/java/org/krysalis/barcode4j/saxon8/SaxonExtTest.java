@@ -27,8 +27,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import junit.framework.TestCase;
 import net.sf.saxon.TransformerFactoryImpl;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test class for the Saxon 8.x extension.
@@ -36,13 +39,10 @@ import net.sf.saxon.TransformerFactoryImpl;
  * @author Jeremias Maerki
  * @version $Id: SaxonExtTest.java,v 1.2 2004-09-04 20:26:15 jmaerki Exp $
  */
-public class SaxonExtTest extends TestCase {
+public class SaxonExtTest {
 
-    public SaxonExtTest(String name) {
-        super(name);
-    }
-
-    public void testSaxon8Ext() throws Exception {
+    @Test
+    void testSaxon8Ext() throws Exception {
         final TransformerFactory factory = new TransformerFactoryImpl();
         final Transformer trans = factory.newTransformer(
                 new StreamSource(loadTestResourceFile("xml/saxon8-test.xsl"))

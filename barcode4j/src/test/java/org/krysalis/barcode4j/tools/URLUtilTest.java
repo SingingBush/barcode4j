@@ -15,29 +15,33 @@
  */
 
 /* $Id: URLUtilTest.java,v 1.1 2012-05-17 13:57:37 jmaerki Exp $ */
-
 package org.krysalis.barcode4j.tools;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests {@link URLUtil}.
  */
-public class URLUtilTest extends TestCase {
+public class URLUtilTest {
 
-    public void testIsURL() throws Exception {
+    @Test
+    void testIsURL() throws Exception {
         assertFalse(URLUtil.isURL("some message"));
         assertTrue(URLUtil.isURL("url(http://localhost/test.txt)"));
         assertFalse(URLUtil.isURL("url(http://localhost/test.txt"));
         assertFalse(URLUtil.isURL("(http://localhost/test.txt)"));
     }
 
-    public void testGetURL() throws Exception {
+    @Test
+    void testGetURL() throws Exception {
         assertEquals("http://localhost/test.txt", URLUtil.getURL("url(http://localhost/test.txt)"));
         assertNull(URLUtil.getURL("some message"));
     }
 
-    public void testGetData() throws Exception {
+    @Test
+    void testGetData() throws Exception {
         byte[] data = URLUtil.getData("data:;base64,flRlc3R+", "US-ASCII");
         String text = new String(data, "US-ASCII");
         assertEquals("~Test~", text);
@@ -47,7 +51,8 @@ public class URLUtilTest extends TestCase {
         assertEquals("~Test~\u00E5", text);
     }
 
-    public void testGetDataEncoding() throws Exception {
+    @Test
+    void testGetDataEncoding() throws Exception {
         String encoding;
         encoding = URLUtil.getDataEncoding("data:;base64,flRlc3R+");
         assertNull(encoding);

@@ -15,11 +15,12 @@
  */
 package org.krysalis.barcode4j.impl.int2of5;
 
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5LogicImpl;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for the Interleaved 2 of 5 implementation.
@@ -27,13 +28,10 @@ import junit.framework.TestCase;
  * @author Jeremias Maerki
  * @version $Id: Interleaved2Of5Test.java,v 1.1 2009-02-19 10:14:54 jmaerki Exp $
  */
-public class Interleaved2Of5Test extends TestCase {
+public class Interleaved2Of5Test {
 
-    public Interleaved2Of5Test(String name) {
-        super(name);
-    }
-
-    public void testChecksum() throws Exception {
+    @Test
+    void testChecksum() throws Exception {
         //Check with default specification (ITF-14, EAN-14, SSC-14, DUN14 and USPS)
         assertEquals('5', Interleaved2Of5LogicImpl.calcChecksum("123456789"));
 
@@ -43,8 +41,9 @@ public class Interleaved2Of5Test extends TestCase {
         //Check with German Post Identcode and Leitcode specification
         assertEquals('6', Interleaved2Of5LogicImpl.calcChecksum("12345678901", 4, 9));
     }
-    
-    public void testLogic() throws Exception {
+
+    @Test
+    void testLogic() throws Exception {
         StringBuffer sb = new StringBuffer();
         Interleaved2Of5LogicImpl logic;
         String expected;

@@ -15,11 +15,12 @@
  */
 package org.krysalis.barcode4j.impl;
 
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.upcean.EAN8;
 import org.krysalis.barcode4j.impl.upcean.EAN8LogicImpl;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for the EAN-8 implementation.
@@ -27,19 +28,16 @@ import junit.framework.TestCase;
  * @author Jeremias Maerki
  * @version $Id: EAN8Test.java,v 1.3 2004-09-12 17:57:52 jmaerki Exp $
  */
-public class EAN8Test extends TestCase {
+public class EAN8Test {
 
-    public EAN8Test(String name) {
-        super(name);
-    }
-
-    public void testIllegalArguments() throws Exception {
+    @Test
+    void testIllegalArguments() throws Exception {
         try {
             EAN8 impl = new EAN8();
             impl.generateBarcode(null, null);
             fail("Expected an NPE");
         } catch (NullPointerException npe) {
-            assertNotNull("Error message is empty", npe.getMessage());
+            assertNotNull(npe.getMessage(), "Error message is empty");
         }
 
         //Test invalid characters in message
@@ -72,7 +70,8 @@ public class EAN8Test extends TestCase {
         }
     }
 
-    public void testLogic() throws Exception {
+    @Test
+    void testLogic() throws Exception {
         StringBuffer sb = new StringBuffer();
         EAN8LogicImpl logic;
         String expected;
@@ -109,7 +108,6 @@ public class EAN8Test extends TestCase {
         //System.out.println(expected);
         //System.out.println(sb.toString());
         assertEquals(expected, sb.toString());
-        
     }
 
 }

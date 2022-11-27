@@ -18,14 +18,17 @@
 
 package org.krysalis.barcode4j.tools;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test for the TestHelper.
  */
-public class TestHelperTest extends TestCase {
+public class TestHelperTest {
 
-    public void testTestHelper() throws Exception {
+    @Test
+    void testTestHelper() throws Exception {
         assertEquals("65 66 67", TestHelper.visualize("ABC"));
         assertEquals("Hello World!", TestHelper.unvisualize(TestHelper.visualize("Hello World!")));
     }

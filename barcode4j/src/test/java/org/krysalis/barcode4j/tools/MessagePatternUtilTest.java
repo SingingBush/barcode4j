@@ -15,22 +15,25 @@
  */
 
 /* $Id: MessagePatternUtilTest.java,v 1.3 2008-11-29 16:27:25 jmaerki Exp $ */
-
 package org.krysalis.barcode4j.tools;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Tests the class MessagePatternUtil.
  * @version $Id: MessagePatternUtilTest.java,v 1.3 2008-11-29 16:27:25 jmaerki Exp $
  */
-public class MessagePatternUtilTest extends TestCase {
+public class MessagePatternUtilTest {
 
     /**
      * Tests the message pattern feature.
      * @throws Exception If an error occurs
      */
-    public void testMessagePattern() throws Exception {
+    @Test
+    void testMessagePattern() throws Exception {
         String msg, pattern;
         String result;
 
@@ -84,7 +87,8 @@ public class MessagePatternUtilTest extends TestCase {
      * Tests the deletion placeholder (#).
      * @throws Exception if an error occurs
      */
-    public void testDeletion() throws Exception {
+    @Test
+    void testDeletion() throws Exception {
         String msg;
         String result;
 

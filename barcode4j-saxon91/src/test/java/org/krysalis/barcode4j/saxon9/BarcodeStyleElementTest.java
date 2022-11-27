@@ -1,27 +1,31 @@
 package org.krysalis.barcode4j.saxon9;
 
-import junit.framework.TestCase;
 import net.sf.saxon.trans.XPathException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Samael Bate (singingbush)
  * created on 06/02/2022
  */
-public class BarcodeStyleElementTest extends TestCase {
+public class BarcodeStyleElementTest {
 
     private BarcodeStyleElement element;
 
+    @BeforeEach
     public void setUp() throws Exception {
-        super.setUp();
-
         this.element = new BarcodeStyleElement();
     }
 
-    public void testIsInstruction() {
+    @Test
+    void testIsInstruction() {
         assertTrue(this.element.isInstruction());
     }
 
-    public void testMayContainSequenceConstructor() {
+    @Test
+    void testMayContainSequenceConstructor() {
         assertTrue(this.element.mayContainSequenceConstructor());
     }
 
@@ -30,7 +34,8 @@ public class BarcodeStyleElementTest extends TestCase {
 //        this.element.prepareAttributes();
 //    }
 
-    public void testValidate() throws XPathException {
+    @Test
+    void testValidate() throws XPathException {
         this.element.validate();
     }
 
@@ -40,7 +45,8 @@ public class BarcodeStyleElementTest extends TestCase {
 //        final Expression expression = this.element.compile(null);
 //    }
 
-    public void testIsPermittedChild() {
+    @Test
+    void testIsPermittedChild() {
         assertTrue(this.element.isPermittedChild(null)); // todo: check if this is ok
     }
 }

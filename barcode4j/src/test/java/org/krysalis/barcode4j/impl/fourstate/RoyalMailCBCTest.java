@@ -15,25 +15,29 @@
  */
 package org.krysalis.barcode4j.impl.fourstate;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Testcase for the Royal Mail CBC barcode.
  */
-public class RoyalMailCBCTest extends TestCase {
+public class RoyalMailCBCTest {
 
-    public void testChecksum() throws Exception {
-        String msg = "SN34RD1A";
+    @Test
+    void testChecksum() throws Exception {
+        final String msg = "SN34RD1A";
         RoyalMailCBCLogicImpl logic = new RoyalMailCBCLogicImpl(ChecksumMode.CP_AUTO);
         char check = logic.calcChecksum(msg);
         assertEquals('K', check);
     }
-    
-    public void testChecksumHandling() throws Exception {
-        String msg = "SN34RD1A";
+
+    @Test
+    void testChecksumHandling() throws Exception {
+        final String msg = "SN34RD1A";
         RoyalMailCBCLogicImpl logic;
         String res;
         
@@ -61,8 +65,9 @@ public class RoyalMailCBCTest extends TestCase {
         res = logic.handleChecksum(msg);
         assertEquals("SN34RD1A", res);
     }
-    
-    public void testLogic() throws Exception {
+
+    @Test
+    void testLogic() throws Exception {
         RoyalMailCBCLogicImpl logic = new RoyalMailCBCLogicImpl(ChecksumMode.CP_AUTO);
         StringBuffer sb = new StringBuffer();
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "B31HQ1A");

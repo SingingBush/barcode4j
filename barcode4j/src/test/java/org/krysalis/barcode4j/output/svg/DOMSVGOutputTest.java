@@ -16,11 +16,12 @@
 package org.krysalis.barcode4j.output.svg;
 
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 import org.w3c.dom.DocumentFragment;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Test class for SVG output to JDOM.
@@ -28,13 +29,10 @@ import junit.framework.TestCase;
  * @author Jeremias Maerki
  * @version $Id: DOMSVGOutputTest.java,v 1.4 2006-11-07 16:44:25 jmaerki Exp $
  */
-public class DOMSVGOutputTest extends TestCase {
+public class DOMSVGOutputTest {
 
-    public DOMSVGOutputTest(String name) {
-        super(name);
-    }
-
-    public void testDOMSVG() throws Exception {
+    @Test
+    void testDOMSVG() throws Exception {
         DefaultConfiguration cfg = new DefaultConfiguration("cfg");
         cfg.addChild(new DefaultConfiguration("intl2of5"));
         BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);

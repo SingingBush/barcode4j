@@ -15,13 +15,14 @@
  */
 package org.krysalis.barcode4j.impl.code39;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.NullClassicBarcodeLogicHandler;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for the Code39 implementation.
@@ -29,30 +30,29 @@ import org.krysalis.barcode4j.impl.NullClassicBarcodeLogicHandler;
  * @author Jeremias Maerki
  * @version $Id: Code39Test.java,v 1.3 2009-02-20 09:33:43 jmaerki Exp $
  */
-public class Code39Test extends TestCase {
+public class Code39Test {
 
-    public Code39Test(String name) {
-        super(name);
-    }
-
-    public void testChecksum() throws Exception {
+    @Test
+    void testChecksum() throws Exception {
         assertEquals('L', Code39LogicImpl.calcChecksum("12345ABCDEZ/"));
         assertEquals('L', Code39LogicImpl.calcChecksum("12345abcdez/"));
         assertEquals('M', Code39LogicImpl.calcChecksum("494140"));
         assertEquals('P', Code39LogicImpl.calcChecksum("415339"));
     }
 
-    public void testIllegalArguments() throws Exception {
+    @Test
+    void testIllegalArguments() throws Exception {
         try {
             Code39 impl = new Code39();
             impl.generateBarcode(null, null);
             fail("Expected an NPE");
         } catch (NullPointerException npe) {
-            assertNotNull("Error message is empty", npe.getMessage());
+            assertNotNull(npe.getMessage(), "Error message is empty");
         }
     }
 
-    public void testIllegalChars() throws Exception {
+    @Test
+    void testIllegalChars() throws Exception {
         Code39LogicImpl logic;
 
         try {
@@ -143,7 +143,8 @@ public class Code39Test extends TestCase {
         }
     }
 
-    public void testLogic() throws Exception {
+    @Test
+    void testLogic() throws Exception {
         StringBuffer sb = new StringBuffer();
         Code39LogicImpl logic;
         String expected;
@@ -236,7 +237,8 @@ public class Code39Test extends TestCase {
         }
     }
 
-    public void testDisplayStartStop() throws Exception {
+    @Test
+    void testDisplayStartStop() throws Exception {
         StringBuffer sb = new StringBuffer();
         Code39LogicImpl logic;
         String expected;
@@ -263,7 +265,8 @@ public class Code39Test extends TestCase {
         assertEquals(expected, sb.toString());
     }
 
-    public void testDisplayChecksum() throws Exception {
+    @Test
+    void testDisplayChecksum() throws Exception {
         StringBuffer sb = new StringBuffer();
         Code39LogicImpl logic;
         String expected;
@@ -292,7 +295,8 @@ public class Code39Test extends TestCase {
         assertEquals(expected, sb.toString());
     }
 
-    public void testExtendedCharSet() throws Exception {
+    @Test
+    void testExtendedCharSet() throws Exception {
         Code39LogicImpl logic = new Code39LogicImpl(ChecksumMode.CP_IGNORE, false, false, true);
         StringBuffer sb = new StringBuffer();
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "a1$A");
@@ -322,7 +326,8 @@ public class Code39Test extends TestCase {
         assertEquals(expected, sb.toString());
     }
 
-    public void testDimension() throws Exception {
+    @Test
+    void testDimension() throws Exception {
         Code39Bean bean = new Code39Bean();
         bean.setMsgPosition(HumanReadablePlacement.HRP_NONE);
         bean.setModuleWidth(0.29);

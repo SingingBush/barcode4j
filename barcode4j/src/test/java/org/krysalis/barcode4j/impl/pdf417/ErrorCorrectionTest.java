@@ -18,18 +18,20 @@
 
 package org.krysalis.barcode4j.impl.pdf417;
 
+import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.tools.TestHelper;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for the error correction code.
  * 
  * @version $Id: ErrorCorrectionTest.java,v 1.2 2006-11-27 08:12:11 jmaerki Exp $
  */
-public class ErrorCorrectionTest extends TestCase {
+public class ErrorCorrectionTest {
 
-    public void testErrorCorrection() throws Exception {
+    @Test
+    void testErrorCorrection() throws Exception {
         String data = "\u0005\u01c5\u00b2\u0079\u00ef";
         assertEquals("5 453 178 121 239", TestHelper.visualize(data));
         int errorCorrectionLevel = 1;
@@ -37,6 +39,5 @@ public class ErrorCorrectionTest extends TestCase {
         String expected = "452 327 657 619";
         assertEquals(expected, TestHelper.visualize(ec));
     }
-    
-    
+
 }
