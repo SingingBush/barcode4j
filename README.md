@@ -39,7 +39,7 @@ mvn package
 
 ### Ant
 
-Make sure to have both ant and ant-junit installed. On Fedora this can be done with `sudo dnf install ant ant-junit`.
+Make sure to have both ant and ant-junit5 installed. On Fedora this can be done with `sudo dnf install ant ant-junit5`.
 
 Builds can be performed using:
 

@@ -14,6 +14,7 @@
   <property name="src.dir" value="${basedir}/src"/>
   <property name="src.java.dir" value="${src.dir}/main/java"/>
   <property name="src.test.java.dir" value="${src.dir}/test/java"/>
+  <property name="src.test.resources.dir" value="${src.dir}/test"/>
   <property name="src.conf.dir" value="${src.dir}/conf"/>
   <property name="src.test" value="${basedir}/src/test"/>
   <property name="lib.dir" value="${basedir}/lib"/>
@@ -62,7 +63,7 @@
 
   <path id="test.classpath">
     <fileset dir="${test.lib.dir}">
-      <include name="*.jar"/>
+      <include name="junit-jupiter-*.jar"/>
     </fileset>
     <pathelement location="${build.dest}"/>
     <pathelement location="${build.test}/classes"/>
@@ -99,16 +100,16 @@
   </target>
   
   <target name="init" depends="pre-init">
-    <available property="junit4.present" classname="junit.framework.TestCase" classpathref="test.classpath"/>
-    <condition property="junit4.message" value="JUnit Support PRESENT">
-      <equals arg1="${junit4.present}" arg2="true"/>
+    <available property="junit5.present" classname="org.junit.jupiter.params.ParameterizedTest" classpathref="test.classpath"/>
+    <condition property="junit5.message" value="JUnit 5 (Jupiter) Support PRESENT">
+      <equals arg1="${junit5.present}" arg2="true"/>
     </condition>
-    <condition property="junit4.message" value="JUnit Support NOT Present - Committers are required to have JUnit working">
+    <condition property="junit5.message" value="JUnit 5 (Jupiter) Support NOT Present - Committers are required to have JUnit working">
       <not>
-        <equals arg1="${junit4.present}" arg2="true"/>
+        <equals arg1="${junit5.present}" arg2="true"/>
       </not>
     </condition>
-    <echo message="${junit4.message}"/>
+    <echo message="${junit5.message}"/>
 
     <available property="xalan.present" classname="org.apache.xalan.xslt.Process" classpathref="project.classpath"/>
     <condition property="saxon8.present">
@@ -571,12 +572,15 @@
   <target name="test-init" depends="compile-all">
     <mkdir dir="${build.test}/classes"/>
   </target>
-  <target name="test-compile-core" depends="test-init" if="junit4.present">
+  <target name="test-compile-core" depends="test-init" if="junit5.present">
     <javac srcdir="${src.test.java.dir}" destdir="${build.test}/classes"
         debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
         source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="test.classpath"/>
     </javac>
+    <copy todir="${build.test}/classes">
+      <fileset dir="${src.test.resources.dir}" includes="xml/*.*" />
+    </copy>
   </target>
   <target name="test-compile-xalan" if="xalan.present">
     <javac srcdir="${xalan.dir}/test/java" destdir="${build.test}/classes"
@@ -584,6 +588,9 @@
         source="${javac.source}" target="${javac.target}" encoding="${encoding}">
       <classpath refid="test.classpath"/>
     </javac>
+    <copy todir="${build.test}/classes">
+      <fileset dir="${xalan.dir}/test/resources" includes="xml/*.*" />
+    </copy>
   </target>
   <target name="test-compile-saxon8" if="saxon8.present">
     <javac srcdir="${saxon8.dir}/test/java" destdir="${build.test}/classes"
@@ -607,42 +614,31 @@
 <!--    </javac>-->
 <!--  </target>-->
   <!--target name="test-compile" depends="test-compile-core, test-compile-xalan, test-compile-saxon8, test-compile-saxon91, test-compile-jdom"-->
-  <target name="test-compile" depends="test-compile-core" if="junit4.present">
+  <target name="test-compile" depends="test-compile-core" if="junit5.present">
     <antcall target="test-compile-xalan"/>
     <antcall target="test-compile-saxon8"/>
     <antcall target="test-compile-saxon91"/>
 <!--    <antcall target="test-compile-jdom"/>-->
   </target>
-  <target name="test" depends="compile,test-compile" if="junit4.present">
-    <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
-    <junit printsummary="yes" haltonfailure="yes">
-      <!--jvmarg value="-verbose:class"/-->
-      <sysproperty key="java.awt.headless" value="true"/>
-      <formatter type="brief" usefile="false"/> 
-      <formatter type="xml" usefile="true"/>
+
+  <!-- https://junit.org/junit5/docs/snapshot/user-guide/#running-tests-build-ant -->
+  <target name="test.junit.launcher" depends="compile,test-compile" if="junit5.present">
+    <mkdir dir="${build.dir}/test-report"/>
+    <junitlauncher haltOnFailure="true" printSummary="true">
       <classpath refid="test.classpath"/>
-      <batchtest todir="${build.test}">
+      <testclasses outputdir="${build.dir}/test-report">
         <fileset dir="${build.test}/classes">
-          <include name="**/*Test.class" />
-          <include name="**/*TestCase.class" />          
-          <exclude name="**/Abstract*.class" />          
-          <exclude name="**/XalanExtTest.class" />          
+          <include name="org/krysalis/**/*Test.class"/>
         </fileset>
-      </batchtest>
-    </junit>  
-    <!-- Tests for external bugs separately without haltonfailure -->
-    <junit printsummary="yes" haltonfailure="no" fork="yes">
-      <!--jvmarg value="-verbose:class"/-->
-      <sysproperty key="java.awt.headless" value="true"/>
-      <formatter type="brief" usefile="false"/> 
-      <classpath refid="test.classpath"/>
-      <batchtest todir="${build.test}">
-        <fileset dir="${build.test}/classes">
-          <include name="**/XalanExtTest.class" />
-        </fileset>
-      </batchtest>
-    </junit>  
+        <listener type="legacy-brief" sendSysOut="true"/>
+<!--        <listener type="legacy-xml" sendSysOut="true" sendSysErr="true"/>-->
+        <listener type="legacy-plain" sendSysOut="true" sendSysErr="true" />
+      </testclasses>
+    </junitlauncher>
   </target>
+
+  <target name="test" depends="test.junit.launcher" />
+
   <!-- =================================================================== -->
   <!-- Default target                                                      -->
   <!-- =================================================================== -->
