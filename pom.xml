@@ -88,8 +88,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.testSource>8</maven.compiler.testSource>
+        <maven.compiler.testRelease>8</maven.compiler.testRelease>
 
         <!-- dependencyManagement - set fixed versions for all project dependencies -->
         <apache.commons-cli.version>1.5.0</apache.commons-cli.version>
@@ -100,34 +102,35 @@
         <com.google.zxing.version>3.5.1</com.google.zxing.version>
         <javax.servlet.api.version>2.5</javax.servlet.api.version>
         <org.apache.ant.version>1.10.12</org.apache.ant.version>
+<!--        todo: ditch jdom support -->
         <org.jdom.jdom2.version>2.0.6.1</org.jdom.jdom2.version>
         <net.sf.saxon.8.version>8.7</net.sf.saxon.8.version>
         <net.sf.saxon.9.version>9.1.0.8</net.sf.saxon.9.version>
 
-        <junit.version>5.9.1</junit.version>
+        <junit.version>5.9.3</junit.version>
 
         <!-- pluginManagement - set fixed versions for all maven plugins -->
         <!-- maven core plugins -->
-        <plugin.version.maven-clean-plugin>3.2.0</plugin.version.maven-clean-plugin>
-        <plugin.version.maven-compiler-plugin>3.10.1</plugin.version.maven-compiler-plugin>
-        <plugin.version.maven-deploy-plugin>3.0.0</plugin.version.maven-deploy-plugin>
-        <plugin.version.maven-failsave-plugin>3.0.0-M7</plugin.version.maven-failsave-plugin>
-        <plugin.version.maven-install-plugin>3.0.1</plugin.version.maven-install-plugin>
-        <plugin.version.maven-resources-plugin>3.3.0</plugin.version.maven-resources-plugin>
-        <plugin.version.maven-site-plugin>4.0.0-M3</plugin.version.maven-site-plugin>
-        <plugin.version.maven-surefire-plugin>3.0.0-M7</plugin.version.maven-surefire-plugin>
+        <plugin.version.maven-clean-plugin>3.3.1</plugin.version.maven-clean-plugin>
+        <plugin.version.maven-compiler-plugin>3.11.0</plugin.version.maven-compiler-plugin>
+        <plugin.version.maven-deploy-plugin>3.1.1</plugin.version.maven-deploy-plugin>
+        <plugin.version.maven-surefire-plugin>3.1.2</plugin.version.maven-surefire-plugin>
+        <plugin.version.maven-failsafe-plugin>3.1.2</plugin.version.maven-failsafe-plugin>
+        <plugin.version.maven-install-plugin>3.1.1</plugin.version.maven-install-plugin>
+        <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
+        <plugin.version.maven-site-plugin>3.12.1</plugin.version.maven-site-plugin>
         <plugin.version.maven-verifier-plugin>1.1</plugin.version.maven-verifier-plugin>
         <!-- maven packaging plugins -->
         <plugin.version.maven-jar-plugin>3.3.0</plugin.version.maven-jar-plugin>
         <plugin.version.maven-source-plugin>3.2.1</plugin.version.maven-source-plugin>
         <!-- maven reporting plugins -->
-        <plugin.version.maven-javadoc-plugin>3.4.1</plugin.version.maven-javadoc-plugin>
+        <plugin.version.maven-javadoc-plugin>3.5.0</plugin.version.maven-javadoc-plugin>
         <!-- maven tools plugins -->
-        <plugin.version.maven-enforcer-plugin>3.1.0</plugin.version.maven-enforcer-plugin>
-        <plugin.version.maven-gpg-plugin>3.0.1</plugin.version.maven-gpg-plugin>
+        <plugin.version.maven-enforcer-plugin>3.3.0</plugin.version.maven-enforcer-plugin>
+        <plugin.version.maven-gpg-plugin>3.1.0</plugin.version.maven-gpg-plugin>
         <!-- other plugins -->
-        <plugin.version.org.codehaus.license-maven-plugin>2.0.0</plugin.version.org.codehaus.license-maven-plugin>
-        <plugin.version.org.jacoco.jacoco-maven-plugin>0.8.8</plugin.version.org.jacoco.jacoco-maven-plugin>
+        <plugin.version.org.codehaus.license-maven-plugin>2.1.0</plugin.version.org.codehaus.license-maven-plugin>
+        <plugin.version.org.jacoco.jacoco-maven-plugin>0.8.10</plugin.version.org.jacoco.jacoco-maven-plugin>
     </properties>
 
     <dependencyManagement>
@@ -247,7 +250,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>${plugin.version.maven-failsave-plugin}</version>
+                    <version>${plugin.version.maven-failsafe-plugin}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -404,6 +407,19 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>modern</id>
+            <!-- For JDK 18 and above the target Java version needs to be bumped to 1.8 -->
+            <activation>
+                <jdk>[18,)</jdk>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <maven.compiler.source>1.8</maven.compiler.source>
+                <maven.compiler.target>1.8</maven.compiler.target>
+            </properties>
+        </profile>
+
         <profile>
             <id>release</id>
             <activation>
