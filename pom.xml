@@ -25,6 +25,7 @@
 
     <name>Barcode4J Parent POM</name>
     <description>Barcode4J is a flexible generator for barcodes written in Java</description>
+    <inceptionYear>2003</inceptionYear>
     <url>https://github.com/singingbush/barcode4j</url>
 
     <licenses>
@@ -39,10 +40,16 @@
         <developer>
             <name>Jeremias Märki</name>
             <email>jmaerki@users.sourceforge.net</email>
+            <roles>
+                <role>Admin (original Sourceforge project)</role>
+            </roles>
         </developer>
         <developer>
             <name>Marc Guillemot</name>
             <email>mguillem@users.sourceforge.net</email>
+            <roles>
+                <role>Admin (original Sourceforge project)</role>
+            </roles>
         </developer>
         <developer>
             <name>Web Maestro Clay</name>

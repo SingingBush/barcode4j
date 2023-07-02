@@ -32,9 +32,10 @@ This fork has the following goals:
 
 ### V2 (drop in replacement):
 
-Initially the project will continue to be a compatible drop-in replacement for existing use of barcode4j:
+Initially the project will continue to be a compatible drop-in replacement for existing use of `net.sf.barcode4j:barcode4j:2.1`:
 
  - The v2.* releases will continue to have the existing _org.krysalis.barcode4j_ package names.
+ - Both the _barcode4j_ and _barcode4j-fop-ext_ artifacts will be published.
  - Releases will support JDK 1.7 and above.
 
 ### V3 (minor changes):
@@ -46,7 +47,7 @@ The only changes required by users will be to change import paths to the newer p
  - Package names will be updated to _com.singingbush.barcode4j_ equivalent
  - Drop support for JDK 7 (potentially only support JDK 11 and above)
  - Drop all uses of the now defunct Avalon Framework. See [issue #15](https://github.com/SingingBush/barcode4j/issues/15)
- - Remove Saxon support (as Saxonica don't include the required interface in Saxon HE)
+ - Remove Saxon support (as [Saxonica](https://www.saxonica.com/) don't include the required interface in Saxon HE, and it seems the saxon extension was never published)
  - Remove the Ant build
  - Support Java modules (JPMS) via proper use of _module-info.java_ files in the source. (If JDK 8 is supported this will be via multi-release jar)
 
