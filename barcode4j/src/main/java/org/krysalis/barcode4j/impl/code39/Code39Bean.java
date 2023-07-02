@@ -94,7 +94,7 @@ public class Code39Bean extends AbstractBarcodeBean {
 
     /**
      * Sets the factor by which wide bars are broader than narrow bars.
-     * @param value the wide factory (should be > 1.0)
+     * @param value the wide factory (should be &gt; 1.0)
      */
     public void setWideFactor(double value) {
         if (value <= 1.0) {

@@ -22,8 +22,8 @@ import net.sf.saxon.style.ExtensionElementFactory;
  *
  * Later releases of Saxon are split into 3 versions:
  *   Saxon-HE (Home Edition) available on maven central
- *   Saxon-PE (Professional Edition) manual download & requires license
- *   Saxon-EE (Enterprise Edition) manual download & requires license
+ *   Saxon-PE (Professional Edition) manual download &amp; requires license
+ *   Saxon-EE (Enterprise Edition) manual download &amp; requires license
  *
  * The net.sf.saxon.style.ExtensionElementFactory class is not available in Saxon-HE as Saxonica
  * only provide support for element extensibility in the EE and PE releases.

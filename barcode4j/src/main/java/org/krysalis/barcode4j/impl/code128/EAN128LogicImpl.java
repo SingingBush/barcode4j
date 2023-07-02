@@ -37,7 +37,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
 
     private EAN128AI[] ais = null;
 
-    //GroupSeperator not Code128LogicImpl.FNC_1;
+    //GroupSeparator not Code128LogicImpl.FNC_1;
     private char groupSeparator = EAN128Bean.DEFAULT_GROUP_SEPARATOR;
 
     private char checkDigitMarker = EAN128Bean.DEFAULT_CHECK_DIGIT_MARKER;
@@ -93,7 +93,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
      * Encodes a message into an array of character set indexes.
      * @param msg the message to encode
      * @return the requested array of character set indexes
-     * @see #getEncoder()
+     * @see DefaultCode128Encoder#encode(String)
      */
     public int[] getEncodedMessage(String msg) {
         setMessage(msg);
@@ -400,22 +400,23 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
             throw new RuntimeException("Internal error");
         }
     }
+
     /**
-     * @return
+     * @return the group separator character. This defaults to {@link EAN128Bean#DEFAULT_GROUP_SEPARATOR}
      */
     public char getGroupSeparator() {
         return groupSeparator;
     }
 
     /**
-     * @param c
+     * @param c specify a new group separator
      */
     public void setGroupSeparator(char c) {
         groupSeparator = c;
     }
 
     /**
-     * @param string
+     * @param string template string
      */
     public void setTemplate(String string) {
         EAN128AI[] newTemplates = null;
@@ -434,29 +435,30 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
         }
         ais = newTemplates;
     }
+
     /**
-     * @return
+     * @return check digit marker
      */
     public char getCheckDigitMarker() {
         return checkDigitMarker;
     }
 
     /**
-     * @param c
+     * @param c check digit marker
      */
     public void setCheckDigitMarker(char c) {
         checkDigitMarker = c;
     }
 
     /**
-     * @return
+     * @return Whether brackets are omitted. By default, this value is false.
      */
     public boolean isOmitBrackets() {
         return omitBrackets;
     }
 
     /**
-     * @param b
+     * @param b specify if brackets should be omitted. By default, this value is false.
      */
     public void setOmitBrackets(boolean b) {
         omitBrackets = b;

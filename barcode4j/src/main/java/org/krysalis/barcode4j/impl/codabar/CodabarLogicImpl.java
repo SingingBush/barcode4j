@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * This class is an implementation of the Codabar barcode.
  *
  * @author Jeremias Maerki
- * @todo Complete the implementation (checksum, automatic start/stops chars...)
+ * todo: Complete the implementation (checksum, automatic start/stops chars...)
  * @version $Id: CodabarLogicImpl.java,v 1.4 2008-11-22 09:57:10 jmaerki Exp $
  */
 public class CodabarLogicImpl {

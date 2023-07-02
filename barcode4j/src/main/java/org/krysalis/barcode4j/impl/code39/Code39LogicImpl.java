@@ -23,7 +23,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * This class is an implementation of the Code39 barcode.
  *
  * @author Jeremias Maerki
- * @todo Add ASCII-7bit encoding table
+ * todo: Add ASCII-7bit encoding table
  * @version $Id: Code39LogicImpl.java,v 1.5 2009-02-20 09:33:43 jmaerki Exp $
  */
 public class Code39LogicImpl {
@@ -89,15 +89,21 @@ public class Code39LogicImpl {
     private boolean extendedCharSet = false;
 
     /**
-     * Main constructor
-     * @param mode checksum mode
-     * @param displayStartStop Controls whether to display start and stop
-     *   characters in the human-readable message
-     * @param displayChecksum Controls whether to display checksum
-     *   in the human-readable message
+     * As a convenience this nullary constructor has been added to use the default values
+     * @since 2.2.0
      */
-    public Code39LogicImpl(ChecksumMode mode, boolean displayStartStop,
-                boolean displayChecksum, boolean extendedCharSet) {
+    public Code39LogicImpl() {
+        this(ChecksumMode.CP_AUTO, false, false, false);
+    }
+
+    /**
+     * Main constructor
+     * @param mode checksum mode. By default, is set to {@link ChecksumMode#CP_AUTO}.
+     * @param displayStartStop Controls whether to display start and stop characters in the human-readable message. By default, is set to false.
+     * @param displayChecksum Controls whether to display checksum in the human-readable message. By default, is set to false.
+     * @param extendedCharSet Controls whether to use extended character set. By default, is set to false.
+     */
+    public Code39LogicImpl(ChecksumMode mode, boolean displayStartStop, boolean displayChecksum, boolean extendedCharSet) {
         this.checksumMode = mode;
         this.displayStartStop = displayStartStop;
         this.displayChecksum = displayChecksum;

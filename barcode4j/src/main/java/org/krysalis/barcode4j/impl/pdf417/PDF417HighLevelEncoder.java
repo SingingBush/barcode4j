@@ -96,6 +96,8 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
      * Performs high-level encoding of a PDF417 message using the algorithm described in annex P
      * of ISO/IEC 15438:2001(E).
      * @param msg the message
+     * @param encoding specify an encoding other than the default {@link PDF417Constants#DEFAULT_ENCODING}
+     * @param enableECI whether to enable ECI (extended channel interpretation).
      * @return the encoded message (the char values range from 0 to 928)
      */
     public static String encodeHighLevel(String msg, String encoding, boolean enableECI) {
@@ -183,8 +185,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
      * @param initialSubmode should normally be SUBMODE_ALPHA
      * @return the text submode in which this method ends
      */
-    public static int encodeText(String msg, int startpos, int count, StringBuffer sb,
-            int initialSubmode) {
+    public static int encodeText(String msg, int startpos, int count, StringBuffer sb, int initialSubmode) {
         StringBuffer tmp = new StringBuffer(count);
         int submode = initialSubmode;
         int idx = 0;
@@ -306,8 +307,7 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
      * @param startmode the mode from which this method starts
      * @param sb receives the encoded codewords
      */
-    public static void encodeBinary(String msg, byte[] bytes, int startpos, int count,
-            int startmode, StringBuffer sb) {
+    public static void encodeBinary(String msg, byte[] bytes, int startpos, int count, int startmode, StringBuffer sb) {
         if (count == 1 && startmode == TEXT_COMPACTION) {
             sb.append((char)SHIFT_TO_BYTE);
         } else {

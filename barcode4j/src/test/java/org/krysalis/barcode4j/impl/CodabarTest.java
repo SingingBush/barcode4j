@@ -78,7 +78,7 @@ public class CodabarTest {
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "D123E");
         assertEquals(expected, sb.toString());
 
-        /**@todo Implement start/stop character checking */
+        /**todo: Implement start/stop character checking */
     }
 
     @Test

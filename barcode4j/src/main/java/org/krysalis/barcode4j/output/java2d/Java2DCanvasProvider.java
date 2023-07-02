@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004,2006,2008 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,13 +30,13 @@ import org.krysalis.barcode4j.tools.UnitConv;
 
 /**
  * CanvasProvider implementation that renders to Java2D (AWT).
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: Java2DCanvasProvider.java,v 1.7 2008-05-13 13:00:46 jmaerki Exp $
  */
 public class Java2DCanvasProvider extends AbstractCanvasProvider {
 
-    private static final boolean DEBUG = false; 
+    private static final boolean DEBUG = false;
 
     private Graphics2D g2d;
 
@@ -45,23 +45,24 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
      * <p>
      * This class internally operates with millimeters (mm) as units. This
      * means you have to apply the necessary transformation before rendering
-     * a barcode to obtain the expected size. See the source code for 
+     * a barcode to obtain the expected size. See the source code for
      * BitmapBuilder.java for an example.
      * <p>
      * To improve the quality of text output it is recommended that fractional
      * font metrics be enabled on the Graphics2D object passed in:
      * <br>
      * <code>
-     * g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, 
-     * RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+     * g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
      * </code>
      * @param g2d Graphics2D object to paint on
+     * @param orientation Orientation must be 0, 90, 180, 270, -90, -180 or -270
+     * @see BarcodeDimension#normalizeOrientation(int)
      */
     public Java2DCanvasProvider(Graphics2D g2d, int orientation) {
         super(orientation);
         setGraphics2D(g2d);
     }
-    
+
     /**
      * Sets the Graphics2D instance to paint on
      * @param g2d the Graphics2D instance
@@ -77,7 +78,7 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
     public Graphics2D getGraphics2D() {
         return this.g2d;
     }
-    
+
     /** {@inheritDoc} */
     public void establishDimensions(BarcodeDimension dim) {
         super.establishDimensions(dim);
@@ -123,16 +124,16 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
             double fontSize,
             TextAlignment textAlign) {
         if (DEBUG) {
-            System.out.println("deviceText " + x1 + " " + x2 + " " 
+            System.out.println("deviceText " + x1 + " " + x2 + " "
                     + (x2 - x1) + " " + y1 + " " + text);
-            System.out.println("fontSize: " 
+            System.out.println("fontSize: "
                     + fontSize + "mm (" + UnitConv.mm2pt(fontSize) + "pt)");
         }
-        Font font = new Font(fontName, Font.PLAIN, 
+        Font font = new Font(fontName, Font.PLAIN,
             (int)Math.round(fontSize));
         FontRenderContext frc = g2d.getFontRenderContext();
         GlyphVector gv = font.createGlyphVector(frc, text);
-        
+
         final float textwidth = (float)gv.getLogicalBounds().getWidth();
         final float distributableSpace = (float)((x2 - x1) - textwidth);
         final float intercharSpace;
@@ -171,9 +172,9 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
                 point.setLocation(point.getX() + i * intercharSpace, point.getY());
                 gv.setGlyphPosition(i, point);
                 if (DEBUG) {
-                    System.out.println(i + " " + point 
+                    System.out.println(i + " " + point
                             + " " + gv.getGlyphLogicalBounds(i).getBounds2D());
-                    System.out.println(i + " " + text.substring(i, i + 1) 
+                    System.out.println(i + " " + text.substring(i, i + 1)
                         + " " + gv.getGlyphMetrics(i).getBounds2D());
                 }
             }
@@ -182,10 +183,10 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
         g2d.setFont(oldFont);
         if (DEBUG) {
             g2d.setStroke(new BasicStroke(0.01f));
-            g2d.draw(new Rectangle2D.Double(x1, y1 - fontSize, 
+            g2d.draw(new Rectangle2D.Double(x1, y1 - fontSize,
                 x2 - x1, fontSize));
-            g2d.draw(new Rectangle2D.Double(x1 + indent, 
-                y1 - fontSize, 
+            g2d.draw(new Rectangle2D.Double(x1 + indent,
+                y1 - fontSize,
                 textwidth, fontSize));
         }
     }
