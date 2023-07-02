@@ -91,7 +91,7 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <maven.compiler.testSource>8</maven.compiler.testSource>
-        <maven.compiler.testRelease>8</maven.compiler.testRelease>
+        <maven.compiler.testTarget>8</maven.compiler.testTarget>
 
         <!-- dependencyManagement - set fixed versions for all project dependencies -->
         <apache.commons-cli.version>1.5.0</apache.commons-cli.version>
