@@ -6,9 +6,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>barcode4j-parent</artifactId>
         <groupId>com.singingbush</groupId>
-        <version>2.2.0-SNAPSHOT</version>
+        <artifactId>barcode4j-parent</artifactId>
+        <version>2.2.0</version>
     </parent>
 
     <artifactId>barcode4j-servlet</artifactId>

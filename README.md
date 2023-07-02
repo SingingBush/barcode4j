@@ -38,6 +38,14 @@ Initially the project will continue to be a compatible drop-in replacement for e
  - Both the _barcode4j_ and _barcode4j-fop-ext_ artifacts will be published.
  - Releases will support JDK 1.7 and above.
 
+```xml
+    <dependency>
+        <groupId>com.singingbush</groupId>
+        <artifactId>barcode4j</artifactId>
+        <version>2.1.0</version>
+    </dependency>
+```
+
 ### V3 (minor changes):
 
 In version 3 the project will continue to be compatible for the most part. Older JDK's won't be supported but most users will not be affected.
