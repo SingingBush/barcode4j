@@ -41,6 +41,9 @@ jobs:
           server-id: github
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
+          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }} # env variable for GPG private key passphrase
+
 
       - name: Maven Deploy
         run: mvn deploy -Pgithub -Prelease -DskipTests=true
