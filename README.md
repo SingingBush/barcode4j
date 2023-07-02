@@ -16,18 +16,39 @@ There is [another barcode4j on github](https://github.com/jeremycrosbie/barcode4
 
 This fork has the following goals:
 
-- [x] Keeping the svn history
-- [x] Enabling continuous integration for multiple Java versions
-- [x] Dropping support for Java < 8 (supporting newer LTS releases such as 11 and 17 is priority)
-- [x] Move to standard maven project structure
-- [ ] Pulling in various svn patches and git merge requests
-- [ ] Adding Test Coverage
-- [ ] Publish build artifacts to maven central
-- [ ] Support the latest Saxon version**
-- [ ] Add JPMS support (in version 3 and above, 2.* will continue to support JDK 8)
+ - [x] Keeping the svn history
+ - [x] Enabling continuous integration for multiple Java versions
+ - [x] Dropping support for Java < 8 (supporting newer LTS releases such as 11 and 17 is priority)
+ - [x] Move to standard maven project structure
+ - [ ] Pulling in various svn patches and git merge requests
+ - [ ] Adding Test Coverage
+ - [ ] Publish build artifacts to maven central
+ - [ ] Support the latest Saxon version**
+ - [ ] Add JPMS support (**in version 3 and above**, 2.* releases will continue to support JDK 8)
 
 ** I hope to add support for recent versions of Saxon (10 & 11) but now Saxonica ships 3 builds: Saxon-HE, Saxon-PE, and Saxon-EE. The first of which (Home Edition) is available via maven. I did the initial work to update but it turns out element extensibility is not available in Saxon Home Edition (the _net.sf.saxon.style.ExtensionElementFactory_ that is required is not available).
 
+## Compatibility with the original barcode4j
+
+### V2 (drop in replacement):
+
+Initially the project will continue to be a compatible drop-in replacement for existing use of barcode4j:
+
+ - The v2.* releases will continue to have the existing _org.krysalis.barcode4j_ package names.
+ - Releases will support JDK 1.7 and above.
+
+### V3 (minor changes):
+
+In version 3 the project will continue to be compatible for the most part. Older JDK's won't be supported but most users will not be affected.
+
+The only changes required by users will be to change import paths to the newer package name:
+
+ - Package names will be updated to _com.singingbush.barcode4j_ equivalent
+ - Drop support for JDK 7 (potentially only support JDK 11 and above)
+ - Drop all uses of the now defunct Avalon Framework. See [issue #15](https://github.com/SingingBush/barcode4j/issues/15)
+ - Remove Saxon support (as Saxonica don't include the required interface in Saxon HE)
+ - Remove the Ant build
+ - Support Java modules (JPMS) via proper use of _module-info.java_ files in the source. (If JDK 8 is supported this will be via multi-release jar)
 
 ## Build
 
