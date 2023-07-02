@@ -41,8 +41,9 @@ jobs:
           server-id: github
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
+
       - name: Maven Deploy
-        run: mvn deploy -DskipTests=true
+        run: mvn deploy -Pgithub -Prelease -DskipTests=true
         env:
           MAVEN_USERNAME: 'SingingBush'
           MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN  }}
