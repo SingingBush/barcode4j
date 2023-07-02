@@ -3,6 +3,8 @@ Barcode4j
 
 [![Maven](https://github.com/SingingBush/barcode4j/actions/workflows/maven.yml/badge.svg)](https://github.com/SingingBush/barcode4j/actions/workflows/maven.yml)
 [![Ant](https://github.com/SingingBush/barcode4j/actions/workflows/ant.yml/badge.svg)](https://github.com/SingingBush/barcode4j/actions/workflows/ant.yml)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.singingbush/barcode4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.singingbush/barcode4j)
+[![Javadocs](https://www.javadoc.io/badge/com.singingbush/barcode4j.svg)](https://www.javadoc.io/doc/com.singingbush/barcode4j)
 
 Barcode4J is a flexible generator for barcodes written in Java and available under the Apache License v2.0. Features
 
@@ -22,7 +24,7 @@ This fork has the following goals:
  - [x] Move to standard maven project structure
  - [ ] Pulling in various svn patches and git merge requests
  - [ ] Adding Test Coverage
- - [ ] Publish build artifacts to maven central
+ - [x] Publish build artifacts to maven central
  - [ ] Support the latest Saxon version**
  - [ ] Add JPMS support (**in version 3 and above**, 2.* releases will continue to support JDK 8)
 
@@ -42,7 +44,7 @@ Initially the project will continue to be a compatible drop-in replacement for e
     <dependency>
         <groupId>com.singingbush</groupId>
         <artifactId>barcode4j</artifactId>
-        <version>2.1.0</version>
+        <version>2.2.0</version>
     </dependency>
 ```
 
