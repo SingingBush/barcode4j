@@ -37,14 +37,14 @@ This fork has the following goals:
 Initially the project will continue to be a compatible drop-in replacement for existing use of `net.sf.barcode4j:barcode4j:2.1`:
 
  - The v2.* releases will continue to have the existing _org.krysalis.barcode4j_ package names.
- - Both the _barcode4j_ and _barcode4j-fop-ext_ artifacts will be published.
+ - Both the _barcode4j_, _barcode4j-xgc_ and _barcode4j-fop-ext_ artifacts will be published.
  - Releases will support JDK 1.7 and above.
 
 ```xml
     <dependency>
         <groupId>com.singingbush</groupId>
         <artifactId>barcode4j</artifactId>
-        <version>2.2.0</version>
+        <version>2.2.1</version>
     </dependency>
 ```
 
