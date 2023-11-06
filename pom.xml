@@ -114,30 +114,30 @@
         <net.sf.saxon.8.version>8.7</net.sf.saxon.8.version>
         <net.sf.saxon.9.version>9.1.0.8</net.sf.saxon.9.version>
 
-        <junit.version>5.9.3</junit.version>
+        <junit.version>5.10.1</junit.version>
 
         <!-- pluginManagement - set fixed versions for all maven plugins -->
         <!-- maven core plugins -->
-        <plugin.version.maven-clean-plugin>3.3.1</plugin.version.maven-clean-plugin>
+        <plugin.version.maven-clean-plugin>3.3.2</plugin.version.maven-clean-plugin>
         <plugin.version.maven-compiler-plugin>3.11.0</plugin.version.maven-compiler-plugin>
         <plugin.version.maven-deploy-plugin>3.1.1</plugin.version.maven-deploy-plugin>
-        <plugin.version.maven-surefire-plugin>3.1.2</plugin.version.maven-surefire-plugin>
-        <plugin.version.maven-failsafe-plugin>3.1.2</plugin.version.maven-failsafe-plugin>
+        <plugin.version.maven-surefire-plugin>3.2.1</plugin.version.maven-surefire-plugin>
+        <plugin.version.maven-failsafe-plugin>3.2.1</plugin.version.maven-failsafe-plugin>
         <plugin.version.maven-install-plugin>3.1.1</plugin.version.maven-install-plugin>
         <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
         <plugin.version.maven-site-plugin>3.12.1</plugin.version.maven-site-plugin>
         <plugin.version.maven-verifier-plugin>1.1</plugin.version.maven-verifier-plugin>
         <!-- maven packaging plugins -->
         <plugin.version.maven-jar-plugin>3.3.0</plugin.version.maven-jar-plugin>
-        <plugin.version.maven-source-plugin>3.2.1</plugin.version.maven-source-plugin>
+        <plugin.version.maven-source-plugin>3.3.0</plugin.version.maven-source-plugin>
         <!-- maven reporting plugins -->
-        <plugin.version.maven-javadoc-plugin>3.5.0</plugin.version.maven-javadoc-plugin>
+        <plugin.version.maven-javadoc-plugin>3.6.0</plugin.version.maven-javadoc-plugin>
         <!-- maven tools plugins -->
-        <plugin.version.maven-enforcer-plugin>3.3.0</plugin.version.maven-enforcer-plugin>
+        <plugin.version.maven-enforcer-plugin>3.4.1</plugin.version.maven-enforcer-plugin>
         <plugin.version.maven-gpg-plugin>3.1.0</plugin.version.maven-gpg-plugin>
         <!-- other plugins -->
-        <plugin.version.org.codehaus.license-maven-plugin>2.1.0</plugin.version.org.codehaus.license-maven-plugin>
-        <plugin.version.org.jacoco.jacoco-maven-plugin>0.8.10</plugin.version.org.jacoco.jacoco-maven-plugin>
+        <plugin.version.org.codehaus.license-maven-plugin>2.3.0</plugin.version.org.codehaus.license-maven-plugin>
+        <plugin.version.org.jacoco.jacoco-maven-plugin>0.8.11</plugin.version.org.jacoco.jacoco-maven-plugin>
     </properties>
 
     <dependencyManagement>

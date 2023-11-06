@@ -13,7 +13,7 @@ jobs:
         # Will need to target JDK 7 as minimum in order to build with Java: '12', '13', '14-ea', '15-ea'
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install Junit 5
       run: sudo apt-get install ant ant-optional junit5 -y
@@ -21,7 +21,7 @@ jobs:
     - name: Set up JDK ${{ matrix.jdk }}
       uses: actions/setup-java@v3
       with:
-        distribution: zulu
+        distribution: temurin
         java-version: ${{ matrix.jdk }}
 
     - name: Build with Ant
