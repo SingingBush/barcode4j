@@ -33,16 +33,17 @@ import org.apache.avalon.framework.container.ContainerUtil;
  */
 public class BarcodeUtil {
 
-    private static BarcodeUtil instance = null;
-
     private BarcodeClassResolver classResolver = new DefaultBarcodeClassResolver();
 
+    private static class ThreadsafeLazySingleton {
+        private static final BarcodeUtil INSTANCE = new BarcodeUtil();
+    }
 
     /**
-     * Creates a new BarcodeUtil object. This constructor is protected because
+     * Creates a new BarcodeUtil object. This constructor is private because
      * this class is designed as a singleton.
      */
-    protected BarcodeUtil() {
+    private BarcodeUtil() {
         //nop
     }
 
@@ -51,10 +52,7 @@ public class BarcodeUtil {
      * @return the singleton
      */
     public static BarcodeUtil getInstance() {
-        if (instance == null) {
-            instance = new BarcodeUtil();
-        }
-        return instance;
+        return ThreadsafeLazySingleton.INSTANCE;
     }
 
     /**
