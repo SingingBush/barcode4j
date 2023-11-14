@@ -83,6 +83,8 @@ public class Main {
      * Main method.
      * The application needs to be called with args. eg:
      * <code>-s EAN128 -f "image/svg+xml" 12345679</code>
+     * For a list of available options use:
+     * <code>--help</code>
      *
      * @param args commandline arguments
      */

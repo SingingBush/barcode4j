@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,6 @@ import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
-import org.apache.avalon.framework.ExceptionUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,19 +37,21 @@ public class CommandLineTestCase {
     private ByteArrayOutputStream err;
     private ExitHandlerForTests exitHandler;
 
-    private void dumpResults() throws Exception {
-        System.out.println("Msg: " + this.exitHandler.getLastMsg());
-        System.out.println("Exit code: " + this.exitHandler.getLastExitCode());
-        if (this.exitHandler.getLastThrowable() != null) {
-            System.out.println(ExceptionUtil.printStackTrace(
-                this.exitHandler.getLastThrowable()));
-        }
-        System.out.println("--- stdout (" + this.out.size() + ") ---");
-        System.out.println(new String(this.out.toByteArray(), "US-ASCII"));
-        System.out.println("--- stderr (" + this.err.size() + ") ---");
-        System.out.println(new String(this.err.toByteArray(), "US-ASCII"));
-        System.out.println("---");
-    }
+//    private void dumpResults() throws Exception {
+//        System.out.println("Msg: " + this.exitHandler.getLastMsg());
+//        System.out.println("Exit code: " + this.exitHandler.getLastExitCode());
+//
+//        final Throwable lastThrowable = this.exitHandler.getLastThrowable();
+//        if (lastThrowable != null) {
+//            lastThrowable.printStackTrace(System.out);
+//            //System.out.println(org.apache.avalon.framework.ExceptionUtil.printStackTrace(lastThrowable));
+//        }
+//        System.out.println("--- stdout (" + this.out.size() + ") ---");
+//        System.out.println(new String(this.out.toByteArray(), "US-ASCII"));
+//        System.out.println("--- stderr (" + this.err.size() + ") ---");
+//        System.out.println(new String(this.err.toByteArray(), "US-ASCII"));
+//        System.out.println("---");
+//    }
 
     private void callCLI(String[] args) {
         Main app = new Main();
@@ -174,15 +175,15 @@ public class CommandLineTestCase {
         assertTrue(out.length() > 0, "Target file must not be empty");
         if (!out.delete()) {
             fail("Target file could not be deleted. Not closed?");
-        } 
+        }
     }
 
     @Test
     void testDPI() throws Exception {
         File out100 = File.createTempFile("krba", ".tmp");
-        final String[] args100 = {"-s", "ean-13", 
+        final String[] args100 = {"-s", "ean-13",
                  "-o", out100.getAbsolutePath(),
-                 "-f", "jpeg", 
+                 "-f", "jpeg",
                  "-d", "100", "9771422985503+00006"};
         callCLI(args100);
 
@@ -190,7 +191,7 @@ public class CommandLineTestCase {
         assertTrue(out100.exists(), "Target file does not exist");
 
         File out300 = File.createTempFile("krba", ".tmp");
-        final String[] args300 = {"-s", "ean-13", 
+        final String[] args300 = {"-s", "ean-13",
                  "-o", out300.getAbsolutePath(),
                  "-f", "jpeg",
                  "--dpi", "300", "9771422985503+00006"};
@@ -201,10 +202,10 @@ public class CommandLineTestCase {
         assertTrue(out300.length() > out100.length(), "300dpi file must be greater than the 100dpi file");
         if (!out100.delete()) {
             fail("Target file could not be deleted. Not closed?");
-        } 
+        }
         if (!out300.delete()) {
             fail("Target file could not be deleted. Not closed?");
-        } 
+        }
     }
 
     /**
