@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.transform.Result;
@@ -30,6 +32,16 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.MissingOptionException;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.OptionGroup;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
@@ -43,17 +55,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.MissingOptionException;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.OptionGroup;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
 
 /**
  * Command-line interface.
@@ -62,6 +63,8 @@ import org.apache.commons.cli.PosixParser;
  * @version $Id: Main.java,v 1.7 2010-10-05 06:55:40 jmaerki Exp $
  */
 public class Main {
+
+    private AdvancedConsoleLogger log;
 
     private static final String[] APP_HEADER = {
         "Barcode4J command-line application, Version " + getVersion(),
@@ -75,10 +78,12 @@ public class Main {
     private static ExitHandler exitHandler = new DefaultExitHandler();
     private Options options;
     private boolean headerPrinted = false;
-    private Logger log;
 
     /**
      * Main method.
+     * The application needs to be called with args. eg:
+     * <code>-s EAN128 -f "image/svg+xml" 12345679</code>
+     *
      * @param args commandline arguments
      */
     public static void main(String[] args) {
@@ -103,7 +108,7 @@ public class Main {
         CommandLine cl;
         String[] msg;
         try {
-            CommandLineParser clp = new PosixParser();
+            final CommandLineParser clp = new DefaultParser();
             cl = clp.parse(getOptions(), args);
 
             //Message
@@ -116,47 +121,43 @@ public class Main {
             }
         } catch (MissingOptionException moe) {
             printHelp(new PrintWriter(stdout));
-            exitHandler.failureExit(this,
-                "Bad command line. Missing option: " + moe.getMessage(), null, -2);
+            exitHandler.failureExit(this, "Bad command line. Missing option: " + moe.getMessage(), null, -2);
             return; //never reached
         } catch (ParseException pe) {
             printHelp(new PrintWriter(stdout));
             //pe.printStackTrace();
-            exitHandler.failureExit(this,
-                "Bad command line: " + pe.getMessage(), null, -2);
+            exitHandler.failureExit(this, "Bad command line: " + pe.getMessage(), null, -2);
             return; //never reached
         }
         try {
             OutputStream out;
+
             if (!cl.hasOption("o")) {
-                log = new AdvancedConsoleLogger(AdvancedConsoleLogger.LEVEL_ERROR,
-                    false, stderr, stderr);
+                log = new AdvancedConsoleLogger(AdvancedConsoleLogger.LEVEL_ERROR, false, stderr, stderr);
                 printAppHeader();
                 out = stdout;
             } else {
-                int logLevel = AdvancedConsoleLogger.LEVEL_INFO;
-                if (cl.hasOption('v')) {
-                    logLevel = AdvancedConsoleLogger.LEVEL_DEBUG;
-                }
+                int logLevel = cl.hasOption('v') ? AdvancedConsoleLogger.LEVEL_DEBUG : AdvancedConsoleLogger.LEVEL_INFO;
+
                 log = new AdvancedConsoleLogger(logLevel, false, stdout, stderr);
                 printAppHeader();
-                File outFile = new File(cl.getOptionValue("o"));
+                final File outFile = new File(cl.getOptionValue("o"));
                 if (log.isDebugEnabled()) {
                     log.debug("Output to: " + outFile.getCanonicalPath());
                 }
-                out = new java.io.FileOutputStream(outFile);
+                out = Files.newOutputStream(outFile.toPath());
             }
 
             log.debug("Message: " + msg[0]);
 
             //Output format
-            String format = MimeTypes.expandFormat(
-                    cl.getOptionValue("f", MimeTypes.MIME_SVG));
+            final String format = MimeTypes.expandFormat(cl.getOptionValue("f", MimeTypes.MIME_SVG));
+
             int orientation = 0;
             log.info("Generating " + format + "...");
-            BarcodeUtil util = BarcodeUtil.getInstance();
-            BarcodeGenerator gen = util.createBarcodeGenerator(
-                    getConfiguration(cl));
+
+            final BarcodeUtil util = BarcodeUtil.getInstance();
+            final BarcodeGenerator gen = util.createBarcodeGenerator(getConfiguration(cl));
 
             if (MimeTypes.MIME_SVG.equals(format)) {
                 //Create Barcode and render it to SVG
@@ -165,17 +166,16 @@ public class Main {
 
                 //Serialize SVG barcode
                 try {
-                    TransformerFactory factory = TransformerFactory.newInstance();
-                    Transformer trans = factory.newTransformer();
-                    Source src = new javax.xml.transform.dom.DOMSource(
-                        svg.getDOMFragment());
-                    Result res = new javax.xml.transform.stream.StreamResult(out);
+                    final TransformerFactory factory = TransformerFactory.newInstance();
+                    final Transformer trans = factory.newTransformer();
+                    final Source src = new javax.xml.transform.dom.DOMSource(svg.getDOMFragment());
+                    final Result res = new javax.xml.transform.stream.StreamResult(out);
                     trans.transform(src, res);
                 } catch (TransformerException te) {
                     exitHandler.failureExit(this, "XML/XSLT library error", te, -6);
                 }
             } else if (MimeTypes.MIME_EPS.equals(format)) {
-                EPSCanvasProvider eps = new EPSCanvasProvider(out, orientation);
+                final EPSCanvasProvider eps = new EPSCanvasProvider(out, orientation);
                 gen.generateBarcode(eps, msg[0]);
                 eps.finish();
             } else {
@@ -184,12 +184,10 @@ public class Main {
                 BitmapCanvasProvider bitmap;
                 if (cl.hasOption("bw")) {
                     log.debug("Black/white image (1-bit)");
-                    bitmap = new BitmapCanvasProvider(out,
-                        format, dpi, BufferedImage.TYPE_BYTE_BINARY, false, orientation);
+                    bitmap = new BitmapCanvasProvider(out, format, dpi, BufferedImage.TYPE_BYTE_BINARY, false, orientation);
                 } else {
                     log.debug("Grayscale image (8-bit) with anti-aliasing");
-                    bitmap = new BitmapCanvasProvider(out,
-                        format, dpi, BufferedImage.TYPE_BYTE_GRAY, true, orientation);
+                    bitmap = new BitmapCanvasProvider(out, format, dpi, BufferedImage.TYPE_BYTE_GRAY, true, orientation);
                 }
                 gen.generateBarcode(bitmap, msg[0]);
                 bitmap.finish();
@@ -199,14 +197,11 @@ public class Main {
             log.info("done.");
             exitHandler.successfulExit(this);
         } catch (IOException ioe) {
-            exitHandler.failureExit(this,
-                "Error writing output file: " + ioe.getMessage(), null, -5);
+            exitHandler.failureExit(this, "Error writing output file: " + ioe.getMessage(), null, -5);
         } catch (ConfigurationException ce) {
-            exitHandler.failureExit(this,
-                "Configuration problem: " + ce.getMessage(), ce, -6);
+            exitHandler.failureExit(this, "Configuration problem: " + ce.getMessage(), ce, -6);
         } catch (BarcodeException be) {
-            exitHandler.failureExit(this,
-                "Error generating the barcode", be, -3);
+            exitHandler.failureExit(this, "Error generating the barcode", be, -3);
         }
     }
 
@@ -229,7 +224,7 @@ public class Main {
                 .create('o'));
 
             //Group: config file/barcode type
-            OptionGroup group = new OptionGroup();
+            final OptionGroup group = new OptionGroup();
             group.setRequired(true);
             group.addOption(OptionBuilder
                 .withArgName("file")
@@ -241,8 +236,7 @@ public class Main {
                 .withArgName("name")
                 .withLongOpt("symbol")
                 .hasArg()
-                .withDescription("the barcode symbology to select "
-                    + "(default settings, use -c if you want to customize)")
+                .withDescription("the barcode symbology to select (default settings, use -c if you want to customize)")
                 .create('s'));
             this.options.addOptionGroup(group);
 
@@ -338,7 +332,7 @@ public class Main {
         printAppHeader();
 
         //Get a list of additional supported MIME types
-        Set knownMimes = new java.util.HashSet();
+        final Set<String> knownMimes = new HashSet<>();
         knownMimes.add(null);
         knownMimes.add("");
         knownMimes.add(MimeTypes.MIME_PNG);
@@ -347,10 +341,11 @@ public class Main {
         knownMimes.add(MimeTypes.MIME_TIFF);
         knownMimes.add(MimeTypes.MIME_GIF);
         knownMimes.add(MimeTypes.MIME_BMP);
-        Set additionalMimes = BitmapEncoderRegistry.getSupportedMIMETypes();
+
+        final Set additionalMimes = BitmapEncoderRegistry.getSupportedMIMETypes();
         additionalMimes.removeAll(knownMimes);
 
-        HelpFormatter help = new HelpFormatter();
+        final HelpFormatter help = new HelpFormatter();
         final String unavailable = " (unavailable)";
         help.printHelp(writer, HelpFormatter.DEFAULT_WIDTH,
             "java -jar barcode4j.jar "
