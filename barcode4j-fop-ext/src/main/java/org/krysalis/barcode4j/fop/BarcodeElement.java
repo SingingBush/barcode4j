@@ -44,49 +44,54 @@ import org.apache.fop.fo.PropertyList;
  */
 public class BarcodeElement extends BarcodeObj {
 
-    /** @see org.apache.fop.fo.FONode#FONode(FONode) */
+    /**
+     * @param parent XSL-FO node of the parent
+     * @see org.apache.fop.fo.FONode#FONode(FONode)
+     */
     public BarcodeElement(FONode parent) {
         super(parent);
     }
 
     /**
-     * @see org.apache.fop.fo.FONode#processNode
+     * @param elementName element name (e.g., "fo:block")
+     * @param locator Locator object (ignored by default)
+     * @param attlist Collection of attributes passed to us from the parser.
+     * @param propertyList the property list of the parent node
+     * @throws FOPException
+     * @see org.apache.fop.fo.FONode#processNode(String, Locator, Attributes, PropertyList)
      */
+    @Override
     public void processNode(String elementName,
                             Locator locator,
                             Attributes attlist,
                             PropertyList propertyList) throws FOPException {
         super.processNode(elementName, locator, attlist, propertyList);
-        init();
-    }
-
-    private void init() {
         createBasicDocument();
     }
 
+    /**
+     * @param view Point2D instance to receive the dimensions
+     * @return dimensions of the generated barcode
+     * @see org.apache.fop.fo.XMLObj#getDimension(Point2D)
+     */
+    @Override
     public Point2D getDimension(Point2D view) {
-        Configuration cfg = ConfigurationUtil.buildConfiguration(this.doc);
+        final Configuration cfg = ConfigurationUtil.buildConfiguration(this.doc); // consider moving this to just after call to createBasicDocument()
         try {
-            String msg = ConfigurationUtil.getMessage(cfg);
-            msg = MessageUtil.unescapeUnicode(msg);
+            final String msg = MessageUtil.unescapeUnicode(ConfigurationUtil.getMessage(cfg));
 
-            int orientation = cfg.getAttributeAsInteger("orientation", 0);
-            orientation = BarcodeDimension.normalizeOrientation(orientation);
+            final int orientation = BarcodeDimension.normalizeOrientation(cfg.getAttributeAsInteger("orientation", 0));
 
-            BarcodeGenerator bargen = BarcodeUtil.getInstance().
-                    createBarcodeGenerator(cfg);
-            String expandedMsg = VariableUtil.getExpandedMessage((PageInfo)null, msg);
-            BarcodeDimension bardim = bargen.calcDimensions(expandedMsg);
-            float w = (float)UnitConv.mm2pt(bardim.getWidthPlusQuiet(orientation));
-            float h = (float)UnitConv.mm2pt(bardim.getHeightPlusQuiet(orientation));
+            final BarcodeGenerator barcodeGen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
+            final String expandedMsg = VariableUtil.getExpandedMessage((PageInfo)null, msg);
+            final BarcodeDimension barcodeDim = barcodeGen.calcDimensions(expandedMsg);
+            final float w = (float)UnitConv.mm2pt(barcodeDim.getWidthPlusQuiet(orientation));
+            final float h = (float)UnitConv.mm2pt(barcodeDim.getHeightPlusQuiet(orientation));
             return new Point2D.Float(w, h);
-        } catch (ConfigurationException ce) {
-            ce.printStackTrace();
-        } catch (BarcodeException be) {
-            be.printStackTrace();
+        } catch (final ConfigurationException | BarcodeException e) {
+            e.printStackTrace(); // todo: use slf4j-api to log error
         }
         return null;
     }
-
 
 }
