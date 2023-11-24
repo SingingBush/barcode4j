@@ -17,5 +17,9 @@
             <type>pdf417</type>
             <message>Here is some text encoded in a 2D barcode</message>
         </barcode>
+        <barcode>
+            <type>datamatrix</type>
+            <message>Here is some text encoded in a datamatrix</message>
+        </barcode>
     </barcodes>
 </data>

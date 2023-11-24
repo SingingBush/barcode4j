@@ -15,17 +15,32 @@
  */
 package org.krysalis.barcode4j.fop;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.StringWriter;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.fop.apps.FOPException;
+import org.apache.fop.apps.Fop;
+import org.apache.fop.apps.FopFactory;
+import org.apache.fop.apps.MimeConstants;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -70,7 +85,29 @@ public class FopTest {
         assertTrue(xslFo.contains("<barcode:barcode message=\"Here is some text encoded in a 2D barcode\">"));
         assertTrue(xslFo.contains("<barcode:pdf417>"));
 
-        //todo: make sure the generated XSL-FO can be used by Apache FOP without error
+        assertTrue(xslFo.contains("<barcode:datamatrix>"));
+
+        // now ensure the generated XSL-FO can be used by Apache FOP without error
+        generatePdfFileFromXslFo(new ByteArrayInputStream(xslFo.getBytes(StandardCharsets.UTF_8)));
+    }
+
+    private void generatePdfFileFromXslFo(final InputStream xslFo) throws FOPException, IOException, TransformerException {
+        final FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
+
+        final Path filePath = Files.createTempFile("barcode4j-test-", ".pdf");
+
+        try(OutputStream out = new BufferedOutputStream(Files.newOutputStream(filePath))) {
+            final Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
+
+            final Transformer transformer = TransformerFactory.newInstance().newTransformer();
+
+            final Source src = new StreamSource(xslFo);
+            final Result res = new SAXResult(fop.getDefaultHandler());
+
+            transformer.transform(src, res);
+
+            System.out.println("To view rendered pdf open " + filePath);
+        }
     }
 
     private File loadTestResourceFile(final String resource) {
