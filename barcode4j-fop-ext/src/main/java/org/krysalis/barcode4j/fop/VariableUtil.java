@@ -31,11 +31,9 @@ public class VariableUtil extends org.krysalis.barcode4j.tools.VariableUtil {
      * @param msg the message
      * @return the message after the variable processing
      */
-    public static String getExpandedMessage(PageViewport page, String msg) {
-        PageInfo pageInfo = null;
-        if (page != null) {
-            pageInfo = new PageInfo(page.getPageNumber(), page.getPageNumberString());
-        }
+    public static String getExpandedMessage(final PageViewport page, final String msg) {
+        final PageInfo pageInfo = page != null ? new PageInfo(page.getPageNumber(), page.getPageNumberString()) : null;
+
         return getExpandedMessage(pageInfo, msg);
     }
 
