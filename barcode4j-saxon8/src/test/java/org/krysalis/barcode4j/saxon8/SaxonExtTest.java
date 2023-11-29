@@ -15,19 +15,20 @@
  */
 package org.krysalis.barcode4j.saxon8;
 
-import java.io.File;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.URISyntaxException;
-import java.nio.file.Paths;
+import java.nio.file.*;
+import java.util.ArrayList;
 
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import net.sf.saxon.Configuration;
+import net.sf.saxon.Transform;
 import net.sf.saxon.TransformerFactoryImpl;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,8 +43,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class SaxonExtTest {
 
     @Test
-    void testSaxon8Ext() throws Exception {
-        final TransformerFactory factory = new TransformerFactoryImpl();
+    @DisplayName("Do XML transform using Saxon's implementation of TransformerFactory")
+    void testSaxon8Ext_UsingJAXP() throws Exception {
+        final TransformerFactory factory = new TransformerFactoryImpl(); // Saxon's implementation of TransformerFactory
         final Transformer trans = factory.newTransformer(
                 new StreamSource(loadTestResourceFile("xml/saxon8-test.xsl"))
         );
@@ -51,15 +53,51 @@ public class SaxonExtTest {
         final Source src = new StreamSource(loadTestResourceFile("xml/xslt-test.xml"));
 
         final StringWriter writer = new StringWriter();
-        final Result res = new StreamResult(writer);
+        final Result result = new StreamResult(writer);
 
-        trans.transform(src, res);
+        trans.transform(src, result);
+
         final String output = writer.getBuffer().toString();
-
         assertTrue(output.contains("<svg:svg xmlns:svg=\"http://www.w3.org/2000/svg\""));
         assertTrue(output.contains("<svg:g "));
+        assertTrue(output.contains("<svg:rect "));
+        assertTrue(output.contains("<svg:text "));
+        assertTrue(output.contains("Hello World!")); // the text value of the barcode in the XML data
+        //System.out.println(output);
+    }
 
-        //System.out.println(writer.getBuffer());
+    @Test
+    @Disabled // only here for an example of using Saxon CLI
+    void testSaxon8Ext_UsingSaxonCli() throws Exception {
+        final String outputFile = Files.createTempFile("barcode4j-saxon-", ".xml").toString();
+
+        final String[] args = { "-o", outputFile, loadTestResourceFile("xml/xslt-test.xml").getAbsolutePath(), loadTestResourceFile("xml/saxon8-test.xsl").getAbsolutePath() };
+
+        Transform.main(args);
+
+        System.out.println("Created temp file: " + outputFile);
+    }
+
+    @Test
+    @DisplayName("Do XML transform using Saxon's Transform class (used by CLI)")
+    @Disabled // only here for an example of using Saxon CLI
+    void testSaxon8Ext_UsingSaxon() throws TransformerException, IOException {
+        final Configuration configuration = new Configuration(); // Configuration.makeSchemaAwareConfiguration(); // Need paid version for com.saxonica.validate.SchemaAwareConfiguration
+        configuration.setAllNodesUntyped(true); // because we have no license when testing (cannot be Schema Aware)
+
+        final TransformerFactory factory = new TransformerFactoryImpl(configuration); // use Saxon implementation of TransformerFactory!
+        final Templates xslt = factory.newTemplates(new StreamSource(loadTestResourceFile("xml/saxon8-test.xsl")));
+        // factory.getAssociatedStylesheet()
+
+        final Source xmlInput = new StreamSource(loadTestResourceFile("xml/xslt-test.xml"));
+        final File outputFile = Files.createTempFile("barcode4j-saxon-", ".xml").toFile(); // or null for System.out
+        final ArrayList<String> parameterList = new ArrayList<>();
+        final String initialMode = null; // either expanded Clark notation ("{uri}local"), or "local", or null
+
+        final Transform transform = new Transform();
+        transform.processFile(xmlInput, xslt, outputFile, parameterList, initialMode);
+
+        System.out.println("Created temp file: " + outputFile.getAbsolutePath());
     }
 
     private File loadTestResourceFile(final String resource) {
