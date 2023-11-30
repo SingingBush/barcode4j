@@ -105,7 +105,7 @@
         <org.apache.avalon.framework.version>4.3.1</org.apache.avalon.framework.version>
         <org.apache.xmlgraphics.version>2.9</org.apache.xmlgraphics.version>
         <org.apache.xmlgraphics.batik.version>1.17</org.apache.xmlgraphics.batik.version>
-        <org.apache.xalan.version>2.7.2</org.apache.xalan.version>
+        <org.apache.xalan.version>2.7.3</org.apache.xalan.version>
         <com.google.zxing.version>3.5.2</com.google.zxing.version>
         <javax.servlet.api.version>2.5</javax.servlet.api.version>
         <org.apache.ant.version>1.10.12</org.apache.ant.version>
