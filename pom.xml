@@ -192,6 +192,12 @@
                 <artifactId>xalan</artifactId>
                 <version>${org.apache.xalan.version}</version>
             </dependency>
+            <!-- Need to also add Xalan Serializer because Apache screwed the 2.7.3 release (see: XALANJ-2657) -->
+            <dependency>
+                <groupId>xalan</groupId>
+                <artifactId>serializer</artifactId>
+                <version>${org.apache.xalan.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.google.zxing</groupId>
                 <artifactId>core</artifactId>
