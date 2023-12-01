@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet version="2.0"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:barcode4j="java:/org.krysalis.barcode4j.saxon8.BarcodeExtensionElementFactory"
                 extension-element-prefixes="barcode4j">
-    <xsl:output method="xml" version="1.0" omit-xml-declaration="no" indent="yes"/>
+    <xsl:output method="html" indent="yes" />
 
     <!-- ============================================================================================================================= -->
     <xsl:template match="barcodes">
-        <results>
+        <div class="results">
             <xsl:apply-templates/>
-        </results>
+        </div>
     </xsl:template>
 
     <xsl:template match="barcode">
@@ -77,5 +78,20 @@
                 </barcode4j:datamatrix>
             </barcode4j:barcode>
         </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="/">
+        <html lang="en">
+            <head>
+                <meta charset="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <title>XML to HTML</title>
+            </head>
+            <body>
+                <div>
+                    <xsl:apply-templates />
+                </div>
+            </body>
+        </html>
     </xsl:template>
 </xsl:stylesheet>

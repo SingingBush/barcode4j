@@ -17,7 +17,10 @@ package org.krysalis.barcode4j.saxon8;
 
 import java.io.*;
 import java.net.URISyntaxException;
-import java.nio.file.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.xml.transform.*;
@@ -30,6 +33,8 @@ import net.sf.saxon.TransformerFactoryImpl;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -42,28 +47,33 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 public class SaxonExtTest {
 
-    @Test
+    @ParameterizedTest
     @DisplayName("Do XML transform using Saxon's implementation of TransformerFactory")
-    void testSaxon8Ext_UsingJAXP() throws Exception {
+    @ValueSource(strings = { "xml/saxon8-test.xsl", "xml/saxon8-html-transform.xsl" })
+    void testSaxon8Ext_UsingJAXP(final String xsltTemplate) throws Exception {
         final TransformerFactory factory = new TransformerFactoryImpl(); // Saxon's implementation of TransformerFactory
         final Transformer trans = factory.newTransformer(
-                new StreamSource(loadTestResourceFile("xml/saxon8-test.xsl"))
+                new StreamSource(loadTestResourceFile(xsltTemplate))
         );
 
-        final Source src = new StreamSource(loadTestResourceFile("xml/xslt-test.xml"));
+        final Source xmlDataSource = new StreamSource(loadTestResourceFile("xml/xslt-test.xml"));
 
         final StringWriter writer = new StringWriter();
         final Result result = new StreamResult(writer);
 
-        trans.transform(src, result);
+        trans.transform(xmlDataSource, result);
 
         final String output = writer.getBuffer().toString();
         assertTrue(output.contains("<svg:svg xmlns:svg=\"http://www.w3.org/2000/svg\""));
         assertTrue(output.contains("<svg:g "));
         assertTrue(output.contains("<svg:rect "));
         assertTrue(output.contains("<svg:text "));
-        assertTrue(output.contains("Hello World!")); // the text value of the barcode in the XML data
+        assertTrue(output.contains("1234567890")); // the text value of the barcode in the XML data
         //System.out.println(output);
+
+        final Path tempFile = Files.createTempFile("barcode4j-test-", xsltTemplate.contains("html") ? ".html" : ".xml");
+        Files.write(tempFile, output.getBytes(StandardCharsets.UTF_8));
+        System.out.println("Created temp file: " + tempFile.toAbsolutePath());
     }
 
     @Test
