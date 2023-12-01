@@ -49,7 +49,7 @@ public class SaxonExtTest {
 
     @ParameterizedTest
     @DisplayName("Do XML transform using Saxon's implementation of TransformerFactory")
-    @ValueSource(strings = { "xml/saxon8-test.xsl", "xml/saxon8-html-transform.xsl" })
+    @ValueSource(strings = { "xml/saxon8-xml-transform.xsl", "xml/saxon8-html-transform.xsl" })
     void testSaxon8Ext_UsingJAXP(final String xsltTemplate) throws Exception {
         final TransformerFactory factory = new TransformerFactoryImpl(); // Saxon's implementation of TransformerFactory
         final Transformer trans = factory.newTransformer(
