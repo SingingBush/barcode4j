@@ -48,6 +48,7 @@ import org.apache.xmlgraphics.java2d.Graphics2DImagePainter;
 public class ImageConverterBarcode2G2D extends AbstractImageConverter {
 
     /** {@inheritDoc} */
+    @Override
     public Image convert(Image src, Map hints) throws ImageException {
         checkSourceFlavor(src);
         ImageBarcode barcodeImage = (ImageBarcode)src;
@@ -77,11 +78,13 @@ public class ImageConverterBarcode2G2D extends AbstractImageConverter {
     }
 
     /** {@inheritDoc} */
+    @Override
     public ImageFlavor getSourceFlavor() {
         return ImageBarcode.BARCODE_IMAGE_FLAVOR;
     }
 
     /** {@inheritDoc} */
+    @Override
     public ImageFlavor getTargetFlavor() {
         return ImageFlavor.GRAPHICS2D;
     }
@@ -101,10 +104,12 @@ public class ImageConverterBarcode2G2D extends AbstractImageConverter {
             this.orientation = orientation;
         }
 
+        @Override
         public Dimension getImageSize() {
             return barcodeImage.getSize().getDimensionMpt();
         }
 
+        @Override
         public void paint(Graphics2D g2d, Rectangle2D area) {
             double w = area.getWidth();
             double h = area.getHeight();

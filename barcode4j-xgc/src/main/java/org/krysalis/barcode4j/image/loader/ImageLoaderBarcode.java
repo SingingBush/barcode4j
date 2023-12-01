@@ -48,11 +48,13 @@ public class ImageLoaderBarcode extends AbstractImageLoader {
     }
 
     /** {@inheritDoc} */
+    @Override
     public ImageFlavor getTargetFlavor() {
         return this.targetFlavor;
     }
 
     /** {@inheritDoc} */
+    @Override
     public Image loadImage(ImageInfo info, Map hints, ImageSessionContext session)
                 throws ImageException, IOException {
         Image img = info.getOriginalImage();

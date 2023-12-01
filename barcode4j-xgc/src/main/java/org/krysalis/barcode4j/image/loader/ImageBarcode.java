@@ -55,11 +55,13 @@ public class ImageBarcode extends AbstractImage {
     }
 
     /** {@inheritDoc} */
+    @Override
     public ImageFlavor getFlavor() {
         return BARCODE_IMAGE_FLAVOR;
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isCacheable() {
         return true;
     }

@@ -59,8 +59,8 @@ import org.apache.xmlgraphics.util.io.SubInputStream;
 public class PreloaderBarcode extends AbstractImagePreloader {
 
     /** {@inheritDoc} */
-    public ImageInfo preloadImage(String uri, Source src, ImageContext context)
-            throws IOException {
+    @Override
+    public ImageInfo preloadImage(String uri, Source src, ImageContext context) throws IOException {
         ImageInfo info = null;
         if (!isSupportedSource(src)) {
             return null;
@@ -72,8 +72,7 @@ public class PreloaderBarcode extends AbstractImagePreloader {
         return info;
     }
 
-    private ImageInfo getImage(String uri, Source src,
-            ImageContext context) throws IOException {
+    private ImageInfo getImage(String uri, Source src, ImageContext context) throws IOException {
         InputStream in = null;
         try {
             Document doc;
@@ -170,29 +169,31 @@ public class PreloaderBarcode extends AbstractImagePreloader {
         }
     }
 
-    private Document getDocument(InputStream in)
-            throws IOException, SAXException, ParserConfigurationException {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    private Document getDocument(InputStream in) throws IOException, SAXException, ParserConfigurationException {
+        final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
         dbf.setValidating(false);
-        DocumentBuilder db = dbf.newDocumentBuilder();
+
+        final DocumentBuilder db = dbf.newDocumentBuilder();
         db.setErrorHandler(new ErrorHandler() {
 
+            @Override
             public void error(SAXParseException exception) throws SAXException {
                 throw exception;
             }
 
+            @Override
             public void fatalError(SAXParseException exception) throws SAXException {
                 throw exception;
             }
 
+            @Override
             public void warning(SAXParseException exception) throws SAXException {
                 throw exception;
             }
 
         });
-        Document doc = db.parse(in);
-        return doc;
+        return db.parse(in);
     }
 
 }

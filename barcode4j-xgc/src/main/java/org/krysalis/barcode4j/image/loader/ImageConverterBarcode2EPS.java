@@ -46,6 +46,7 @@ import org.apache.xmlgraphics.image.loader.impl.ImageRawStream;
 public class ImageConverterBarcode2EPS extends AbstractImageConverter {
 
     /** {@inheritDoc} */
+    @Override
     public Image convert(Image src, Map hints) throws ImageException, IOException {
         checkSourceFlavor(src);
         ImageBarcode barcodeImage = (ImageBarcode)src;
@@ -69,8 +70,7 @@ public class ImageConverterBarcode2EPS extends AbstractImageConverter {
 
             //Create EPS immediately rather than delaying, but create a cacheable EPS image
             final byte[] eps = bout.toByteArray();
-            ImageRawEPS epsImage = new ImageRawEPS(src.getInfo(),
-                    new ImageRawStream.ByteArrayStreamFactory(eps));
+            ImageRawEPS epsImage = new ImageRawEPS(src.getInfo(), new ImageRawStream.ByteArrayStreamFactory(eps));
             return epsImage;
         } catch (ConfigurationException ce) {
             throw new ImageException("Error in Barcode XML", ce);
@@ -80,11 +80,13 @@ public class ImageConverterBarcode2EPS extends AbstractImageConverter {
     }
 
     /** {@inheritDoc} */
+    @Override
     public ImageFlavor getSourceFlavor() {
         return ImageBarcode.BARCODE_IMAGE_FLAVOR;
     }
 
     /** {@inheritDoc} */
+    @Override
     public ImageFlavor getTargetFlavor() {
         return ImageFlavor.RAW_EPS;
     }

@@ -52,6 +52,7 @@ public class ImageConverterBarcode2SVG extends AbstractImageConverter {
 
 
     /** {@inheritDoc} */
+    @Override
     public Image convert(Image src, Map hints) throws ImageException, IOException {
         checkSourceFlavor(src);
         ImageBarcode barcodeImage = (ImageBarcode)src;
@@ -82,11 +83,13 @@ public class ImageConverterBarcode2SVG extends AbstractImageConverter {
     }
 
     /** {@inheritDoc} */
+    @Override
     public ImageFlavor getSourceFlavor() {
         return ImageBarcode.BARCODE_IMAGE_FLAVOR;
     }
 
     /** {@inheritDoc} */
+    @Override
     public ImageFlavor getTargetFlavor() {
         return SVG_DOM;
     }

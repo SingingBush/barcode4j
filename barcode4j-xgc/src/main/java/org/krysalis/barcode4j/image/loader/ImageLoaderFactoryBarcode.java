@@ -31,21 +31,25 @@ public class ImageLoaderFactoryBarcode extends AbstractImageLoaderFactory {
     public static final String MIME_TYPE = "application/x-barcode4j+xml";
 
     /** {@inheritDoc} */
+    @Override
     public String[] getSupportedMIMETypes() {
         return new String[] {MIME_TYPE};
     }
 
     /** {@inheritDoc} */
+    @Override
     public ImageFlavor[] getSupportedFlavors(String mime) {
         return new ImageFlavor[] {ImageBarcode.BARCODE_IMAGE_FLAVOR};
     }
 
     /** {@inheritDoc} */
+    @Override
     public ImageLoader newImageLoader(ImageFlavor targetFlavor) {
         return new ImageLoaderBarcode(targetFlavor);
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isAvailable() {
         try {
             Class.forName("org.krysalis.barcode4j.BarcodeGenerator");

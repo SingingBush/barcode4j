@@ -1,12 +1,12 @@
 /*
  * Copyright 2003-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test class for the Xalan-J extension.
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: XalanExtTest.java,v 1.5 2006-04-05 15:53:40 jmaerki Exp $
  */
@@ -45,26 +45,38 @@ public class XalanExtTest {
 
     @Test
     void testXalanExtGenerate() throws Exception {
-        innerXalanExt("xalan-test1.xsl");
+        String output = innerXalanExt("xalan-test1.xsl");
+
+        assertTrue(output.contains("<svg:svg "));
+        assertTrue(output.contains("<svg:g "));
+        assertTrue(output.contains("<svg:rect "));
+        assertTrue(output.contains("<svg:text "));
+        assertTrue(output.contains("Hello World!"));
+        //System.out.println(writer.getBuffer());
     }
 
     @Test
     void testXalanExtBarcodeElement() throws Exception {
-        innerXalanExt("xalan-test2.xsl");
+        String output = innerXalanExt("xalan-test2.xsl");
+
+        assertTrue(output.contains("<svg "));
+        assertTrue(output.contains("<g "));
+        assertTrue(output.contains("<rect "));
+        assertTrue(output.contains("<text "));
+        assertTrue(output.contains("{msg}"));
+        //System.out.println(writer.getBuffer());
     }
 
-    private void innerXalanExt(String xslt) throws Exception {
-        Class<?> clazz = Class.forName("org.apache.xalan.processor.TransformerFactoryImpl");
-        TransformerFactory factory = (TransformerFactory)clazz.newInstance();
+    private String innerXalanExt(String xslt) throws Exception {
+        TransformerFactory factory = new org.apache.xalan.processor.TransformerFactoryImpl();
         Transformer trans = factory.newTransformer(new StreamSource(loadTestFile("xml/" + xslt)));
         Source src = new StreamSource(loadTestFile("xml/xslt-test.xml"));
         StringWriter writer = new StringWriter();
         Result res = new StreamResult(writer);
-        
+
         trans.transform(src, res);
-        String output = writer.getBuffer().toString();
-        assertTrue(output.indexOf("svg") >= 0);
-        //System.out.println(writer.getBuffer());
+
+        return writer.getBuffer().toString();
     }
 
     @Test
@@ -82,19 +94,18 @@ public class XalanExtTest {
      * called twice.
      */
     private void innerXalanExtSAXOutput(String xslt) throws Exception {
-        Class<?> clazz = Class.forName("org.apache.xalan.processor.TransformerFactoryImpl");
-        TransformerFactory factory = (TransformerFactory)clazz.newInstance();
+        TransformerFactory factory = new org.apache.xalan.processor.TransformerFactoryImpl();
         Transformer trans = factory.newTransformer(new StreamSource(loadTestFile("xml/" +xslt)));
         Source src = new StreamSource(loadTestFile("xml/xslt-test.xml"));
         Result res = new SAXResult(new DefaultHandler() {
             private boolean endDocumentCalled = false;
-            
+
             public void endDocument() throws SAXException {
                 if (!this.endDocumentCalled) {
                     this.endDocumentCalled = true;
                 } else throw new SAXException("endDocument() called twice. "
                     + "This may be due to this Xalan-J bug: "
-                    + "http://issues.apache.org/jira/browse/XALANJ-1706");
+                    + "http://issues.apache.org/jira/browse/XALANJ-1706 (fixed)");
             }
         });
         trans.transform(src, res);

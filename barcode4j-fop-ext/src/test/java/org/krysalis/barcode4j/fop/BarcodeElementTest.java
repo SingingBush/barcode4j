@@ -15,6 +15,10 @@ import org.xml.sax.ext.Attributes2Impl;
 import org.xml.sax.helpers.AttributesImpl;
 
 
+/**
+ * @author Samael Bate (singingbush)
+ * created on 23/11/2023
+ */
 class BarcodeElementTest {
 
     private static final String BARCODE_ELEMENT_NAME = "barcode";

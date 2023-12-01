@@ -1,12 +1,12 @@
 /*
  * Copyright 2003,2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
 /**
  * Implementation of the Avalon Configuration interface that wraps the
  * not fully implemented DOM nodes coming from Xalan-J.
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: ElemWrappingConfiguration.java,v 1.2 2004-09-04 20:26:16 jmaerki Exp $
  */
@@ -42,10 +42,11 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     public ElemWrappingConfiguration(Element elem) {
         this.elem = elem;
     }
-    
+
     /**
      * @see org.apache.avalon.framework.configuration.AbstractConfiguration#getPrefix()
      */
+    @Override
     protected String getPrefix() throws ConfigurationException {
         return null;
     }
@@ -53,6 +54,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     /**
      * @see org.apache.avalon.framework.configuration.Configuration#getName()
      */
+    @Override
     public String getName() {
         return this.elem.getLocalName();
     }
@@ -60,6 +62,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     /**
      * @see org.apache.avalon.framework.configuration.Configuration#getLocation()
      */
+    @Override
     public String getLocation() {
         return "unknown";
     }
@@ -67,6 +70,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     /**
      * @see org.apache.avalon.framework.configuration.Configuration#getNamespace()
      */
+    @Override
     public String getNamespace() throws ConfigurationException {
         return null;
     }
@@ -74,6 +78,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     /**
      * @see org.apache.avalon.framework.configuration.Configuration#getChildren()
      */
+    @Override
     public Configuration[] getChildren() {
         Configuration[] cfgList = new Configuration[this.elem.getChildNodes().getLength()];
         for (int i = 0; i < cfgList.length; i++) {
@@ -85,9 +90,11 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     /**
      * @see org.apache.avalon.framework.configuration.Configuration#getChildren(java.lang.String)
      */
+    @Override
     public Configuration[] getChildren(String name) {
-        List cfgList = new java.util.LinkedList();
-        NodeList elems = this.elem.getChildNodes();
+        final List<Configuration> cfgList = new java.util.LinkedList<>();
+        final NodeList elems = this.elem.getChildNodes();
+
         for (int i = 0; i < elems.getLength(); i++) {
             final Node node = elems.item(i);
             if ((node instanceof Element)
@@ -95,12 +102,13 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
                 cfgList.add(new ElemWrappingConfiguration((Element)node));
             }
         }
-        return (Configuration[])cfgList.toArray(new Configuration[cfgList.size()]);
+        return cfgList.toArray(new Configuration[cfgList.size()]);
     }
 
     /**
      * @see org.apache.avalon.framework.configuration.Configuration#getAttributeNames()
      */
+    @Override
     public String[] getAttributeNames() {
         throw new UnsupportedOperationException("getAttributeNames() is not supported");
     }
@@ -108,18 +116,20 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     /**
      * @see org.apache.avalon.framework.configuration.Configuration#getAttribute(java.lang.String)
      */
+    @Override
     public String getAttribute(String name) throws ConfigurationException {
         final String s = this.elem.getAttribute(name);
         if (s != null) {
             return s;
         } else {
-            throw new ConfigurationException("Attribut '" + name + "' does not exist");
+            throw new ConfigurationException("Attribute '" + name + "' does not exist");
         }
     }
 
     /**
      * @see org.apache.avalon.framework.configuration.Configuration#getValue()
      */
+    @Override
     public String getValue() throws ConfigurationException {
         //System.out.println(elem.getClass().getName() + " " + elem.getLocalName());
         //System.out.println(elem.hasChildNodes() + " " + elem.getChildNodes().getLength());
@@ -128,7 +138,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < nodes.getLength(); i++) {
             final Node node = nodes.item(i);
-            //System.out.println(node + " " + node.getNodeType() 
+            //System.out.println(node + " " + node.getNodeType()
             //    + " " + node.getChildNodes().getLength());
             //System.out.println(node.getNodeValue());
             if (node.getNodeType() != Node.TEXT_NODE) {
