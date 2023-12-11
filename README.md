@@ -22,13 +22,14 @@ This fork has the following goals:
  - [x] Enabling continuous integration for multiple Java versions
  - [x] Dropping support for Java < 8 (supporting newer LTS releases such as 11 and 17 is priority)
  - [x] Move to standard maven project structure
- - [ ] Pulling in various svn patches and git merge requests
+ - [x] Publish build artifacts to maven central ()
+ - [ ] Add JPMS support (**in version 3 and above**, 2.* releases will continue to support JDK 7 for now)
  - [ ] Adding Test Coverage
- - [x] Publish build artifacts to maven central
- - [ ] Support the latest Saxon version**
- - [ ] Add JPMS support (**in version 3 and above**, 2.* releases will continue to support JDK 8)
+ - [ ] Pulling in various svn patches and git merge requests
+ - [ ] Either remove or update the Saxon code to support the latest Saxon EE version**
+ - [ ] Remove dependency on Avalon-Framework (**in version 3 and above**, Avalon was retired years ago. See: #15)
 
-** I hope to add support for recent versions of Saxon (10 & 11) but now Saxonica ships 3 builds: Saxon-HE, Saxon-PE, and Saxon-EE. The first of which (Home Edition) is available via maven. I did the initial work to update but it turns out element extensibility is not available in Saxon Home Edition (the _net.sf.saxon.style.ExtensionElementFactory_ that is required is not available).
+** Support for Saxon was never published to Maven central before and these days Saxonica ship 3 versions (Saxon-HE, Saxon-PE, and Saxon-EE). The first of which (Home Edition) is available via maven central but the _net.sf.saxon.style.ExtensionElementFactory_ class that is required is not available. Saxon EE is now available via Saxonica's maven repository so it may be able to revive the code to use Saxon 11 or 12. If this proves to be a pain then the related code will be removed.
 
 ## Compatibility with the original barcode4j
 
@@ -37,13 +38,23 @@ This fork has the following goals:
 Initially the project will continue to be a compatible drop-in replacement for existing use of `net.sf.barcode4j:barcode4j:2.1`:
 
  - The v2.* releases will continue to have the existing _org.krysalis.barcode4j_ package names.
- - Both the _barcode4j_, _barcode4j-xgc_ and _barcode4j-fop-ext_ artifacts will be published.
+ - The _barcode4j_, _barcode4j-xgc_ and _barcode4j-fop-ext_ artifacts are published to maven central.
  - Releases will support JDK 1.7 and above.
 
 ```xml
     <dependency>
         <groupId>com.singingbush</groupId>
         <artifactId>barcode4j</artifactId>
+        <version>2.2.1</version>
+    </dependency>
+    <dependency>
+        <groupId>com.singingbush</groupId>
+        <artifactId>barcode4j-xgc</artifactId>
+        <version>2.2.1</version>
+    </dependency>
+    <dependency>
+        <groupId>com.singingbush</groupId>
+        <artifactId>barcode4j-fop-ext</artifactId>
         <version>2.2.1</version>
     </dependency>
 ```
@@ -57,7 +68,7 @@ The only changes required by users will be to change import paths to the newer p
  - Package names will be updated to _com.singingbush.barcode4j_ equivalent
  - Drop support for JDK 7 (potentially only support JDK 11 and above)
  - Drop all uses of the now defunct Avalon Framework. See [issue #15](https://github.com/SingingBush/barcode4j/issues/15)
- - Remove Saxon support (as [Saxonica](https://www.saxonica.com/) don't include the required interface in Saxon HE, and it seems the saxon extension was never published)
+ - Saxon support will be updated to work with the latest Saxon EE ([Saxonica](https://www.saxonica.com/) now have a Maven repository for Saxon EE)
  - Remove the Ant build
  - Support Java modules (JPMS) via proper use of _module-info.java_ files in the source. (If JDK 8 is supported this will be via multi-release jar)
 
