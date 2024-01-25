@@ -136,7 +136,7 @@
         <plugin.version.maven-enforcer-plugin>3.4.1</plugin.version.maven-enforcer-plugin>
         <plugin.version.maven-gpg-plugin>3.1.0</plugin.version.maven-gpg-plugin>
         <!-- other plugins -->
-        <plugin.version.org.codehaus.license-maven-plugin>2.3.0</plugin.version.org.codehaus.license-maven-plugin>
+        <plugin.version.org.codehaus.license-maven-plugin>2.4.0</plugin.version.org.codehaus.license-maven-plugin>
         <plugin.version.org.jacoco.jacoco-maven-plugin>0.8.11</plugin.version.org.jacoco.jacoco-maven-plugin>
     </properties>
 
