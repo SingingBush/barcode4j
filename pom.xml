@@ -8,7 +8,7 @@
     <groupId>com.singingbush</groupId>
     <artifactId>barcode4j-parent</artifactId>
     <packaging>pom</packaging>
-    <version>2.2.2-SNAPSHOT</version>
+    <version>2.2.2</version>
 
     <modules>
         <module>barcode4j</module>
@@ -136,7 +136,6 @@
         <plugin.version.maven-enforcer-plugin>3.4.1</plugin.version.maven-enforcer-plugin>
         <plugin.version.maven-gpg-plugin>3.1.0</plugin.version.maven-gpg-plugin>
         <!-- other plugins -->
-        <plugin.version.org.codehaus.license-maven-plugin>2.3.0</plugin.version.org.codehaus.license-maven-plugin>
         <plugin.version.org.jacoco.jacoco-maven-plugin>0.8.11</plugin.version.org.jacoco.jacoco-maven-plugin>
     </properties>
 
@@ -381,7 +380,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>${plugin.version.org.codehaus.license-maven-plugin}</version>
+                    <version>2.4.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
