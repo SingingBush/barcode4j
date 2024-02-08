@@ -114,7 +114,7 @@
         <net.sf.saxon.8.version>8.7</net.sf.saxon.8.version>
         <net.sf.saxon.9.version>9.1.0.8</net.sf.saxon.9.version>
 
-        <junit.version>5.10.1</junit.version>
+        <junit.version>5.10.2</junit.version>
 
         <!-- pluginManagement - set fixed versions for all maven plugins -->
         <!-- maven core plugins -->
