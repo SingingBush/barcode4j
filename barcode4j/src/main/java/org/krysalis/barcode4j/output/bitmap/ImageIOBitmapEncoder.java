@@ -18,7 +18,6 @@ package org.krysalis.barcode4j.output.bitmap;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Iterator;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -41,8 +40,7 @@ public class ImageIOBitmapEncoder implements BitmapEncoder {
 
     /**
      * Constructs the BitmapEncoder. The constructor checks if the ImageIO
-     * API is available so it doesn't get registered in case it's not
-     * there.
+     * API is available so it doesn't get registered in case it's not there.
      * @throws ClassNotFoundException if the ImageIO API is unavailable
      */
     public ImageIOBitmapEncoder() throws ClassNotFoundException {
@@ -50,34 +48,32 @@ public class ImageIOBitmapEncoder implements BitmapEncoder {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String[] getSupportedMIMETypes() {
         return ImageIO.getWriterMIMETypes();
     }
 
     /** {@inheritDoc} */
-    public void encode(BufferedImage image, OutputStream out,
-                String mime, int resolution) throws IOException {
-
+    @Override
+    public void encode(BufferedImage image, OutputStream out, String mime, int resolution) throws IOException {
         //Simply get first offered writer
-        Iterator i = ImageIO.getImageWritersByMIMEType(mime);
-        ImageWriter writer = (ImageWriter)i.next();
+        final ImageWriter writer = ImageIO.getImageWritersByMIMEType(mime).next();
 
         //Prepare output
         ImageOutputStream imout = ImageIO.createImageOutputStream(out);
         writer.setOutput(imout);
 
         //Prepare metadata
-        IIOMetadata iiometa = setupMetadata(image, writer, mime, resolution);
+        final IIOMetadata iiometa = setupMetadata(image, writer, mime, resolution);
 
         //Write image
-        IIOImage iioimage = new IIOImage(image, null, iiometa);
+        final IIOImage iioimage = new IIOImage(image, null, iiometa);
         writer.write(iioimage);
         writer.dispose();
         imout.close();
     }
 
-    private IIOMetadata setupMetadata(BufferedImage image, ImageWriter writer,
-                String mime, int resolution) throws IOException {
+    private IIOMetadata setupMetadata(BufferedImage image, ImageWriter writer, String mime, int resolution) throws IOException {
         IIOMetadata iiometa;
         try {
             iiometa = writer.getDefaultImageMetadata(new ImageTypeSpecifier(image),

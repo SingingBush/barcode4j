@@ -344,7 +344,7 @@ public class Main {
         knownMimes.add(MimeTypes.MIME_GIF);
         knownMimes.add(MimeTypes.MIME_BMP);
 
-        final Set additionalMimes = BitmapEncoderRegistry.getSupportedMIMETypes();
+        final Set<String> additionalMimes = BitmapEncoderRegistry.getSupportedMIMETypes();
         additionalMimes.removeAll(knownMimes);
 
         final HelpFormatter help = new HelpFormatter();

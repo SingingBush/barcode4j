@@ -15,7 +15,7 @@
  */
 package org.krysalis.barcode4j.output.bitmap;
 
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -26,11 +26,10 @@ import java.util.Set;
  */
 public class BitmapEncoderRegistry {
 
-    private static Set encoders = new java.util.TreeSet();
+    private static final Set<Entry> encoders = new java.util.TreeSet<>();
 
     static {
-        register(org.krysalis.barcode4j.output.bitmap.ImageIOBitmapEncoder.class.getName(),
-                0, false);
+        register(org.krysalis.barcode4j.output.bitmap.ImageIOBitmapEncoder.class, 0, false);
     }
 
     /**
@@ -40,9 +39,9 @@ public class BitmapEncoderRegistry {
         throw new UnsupportedOperationException();
     }
 
-    private static class Entry implements Comparable {
-        private BitmapEncoder encoder;
-        private int priority;
+    private static class Entry implements Comparable<Entry> {
+        private final BitmapEncoder encoder;
+        private final int priority;
 
         public Entry(BitmapEncoder encoder, int priority) {
             this.encoder = encoder;
@@ -50,9 +49,9 @@ public class BitmapEncoderRegistry {
         }
 
         /** {@inheritDoc} */
-        public int compareTo(Object o) {
-            Entry e = (Entry)o;
-            return e.priority - this.priority; //highest priority first
+        @Override
+        public int compareTo(Entry other) {
+            return other.priority - this.priority; //highest priority first
         }
 
     }
@@ -60,8 +59,8 @@ public class BitmapEncoderRegistry {
     private static synchronized void register(String classname, int priority, boolean complain) {
         boolean failed = false;
         try {
-            Class clazz = Class.forName(classname);
-            BitmapEncoder encoder = (BitmapEncoder)clazz.newInstance();
+            final Class<?> clazz = Class.forName(classname);
+            final BitmapEncoder encoder = (BitmapEncoder)clazz.newInstance();
             encoders.add(new Entry(encoder, priority));
         } catch (Exception e) {
             failed = true;
@@ -81,26 +80,43 @@ public class BitmapEncoderRegistry {
 
     /**
      * Register a new BitmapEncoder implementation.
-     * @param classname fully qualified classname of the BitmapEncoder
-     *      implementation
+     * @param classname fully qualified classname of the BitmapEncoder implementation
      * @param priority lets you define a priority for an encoder. If you want
      *      to give an encoder a high priority, assign a value of 100 or higher.
+     * @deprecated please use {@link BitmapEncoderRegistry#register(Class, int)}
      */
+    @Deprecated
     public static void register(String classname, int priority) {
         register(classname, priority, true);
+    }
+
+    /**
+     * Register a new BitmapEncoder implementation.
+     * @param bitmapEncoderClass a class that implements BitmapEncoder
+     * @param priority the priority for an encoder. zero being low and 100 or higher being high
+     */
+    @SuppressWarnings("unused")
+    public static <BitmapEncoder> void register(final Class<BitmapEncoder> bitmapEncoderClass, final int priority) {
+        register(bitmapEncoderClass, priority, true);
+    }
+
+    // todo: consider making this public
+    private static <BitmapEncoder> void register(final Class<BitmapEncoder> bitmapEncoderClass, final int priority, final boolean complain) {
+        register(bitmapEncoderClass.getName(), priority, complain);
     }
 
     /**
      * Indicates whether a specific BitmapEncoder implementation supports a
      * particular MIME type.
      * @param encoder BitmapEncoder to inspect
-     * @param mime MIME type to check
+     * @param mimeType MIME type to check
      * @return true if the MIME type is supported
      */
-    public static boolean supports(BitmapEncoder encoder, String mime) {
-        String[] mimes = encoder.getSupportedMIMETypes();
-        for (int i = 0; i < mimes.length; i++) {
-            if (mimes[i].equals(mime)) {
+    public static boolean supports(final BitmapEncoder encoder, final String mimeType) {
+        final String[] mimes = encoder.getSupportedMIMETypes();
+
+        for (final String s : mimes) {
+            if (s.equals(mimeType)) {
                 return true;
             }
         }
@@ -110,15 +126,12 @@ public class BitmapEncoderRegistry {
     /**
      * Indicates whether a particular MIME type is supported by one of the
      * registered BitmapEncoder implementations.
-     * @param mime MIME type to check
+     * @param mimeType MIME type to check
      * @return true if the MIME type is supported
      */
-    public static boolean supports(String mime) {
-        Iterator i = encoders.iterator();
-        while (i.hasNext()) {
-            Entry entry = (Entry)i.next();
-            BitmapEncoder encoder = entry.encoder;
-            if (supports(encoder, mime)) {
+    public static boolean supports(String mimeType) {
+        for (Entry encoder : encoders) {
+            if (supports(encoder.encoder, mimeType)) {
                 return true;
             }
         }
@@ -127,21 +140,18 @@ public class BitmapEncoderRegistry {
 
     /**
      * Returns a BitmapEncoder instance for a particular MIME type.
-     * @param mime desired MIME type
+     * @param mimeType desired MIME type
      * @return a BitmapEncoder instance (throws an UnsupportedOperationException
      *      if no suitable BitmapEncoder is available)
      */
-    public static BitmapEncoder getInstance(String mime) {
-        Iterator i = encoders.iterator();
-        while (i.hasNext()) {
-            Entry entry = (Entry)i.next();
+    public static BitmapEncoder getInstance(String mimeType) {
+        for (Entry entry : encoders) {
             BitmapEncoder encoder = entry.encoder;
-            if (supports(encoder, mime)) {
+            if (supports(encoder, mimeType)) {
                 return encoder;
             }
         }
-        throw new UnsupportedOperationException(
-            "No BitmapEncoder available for " + mime);
+        throw new UnsupportedOperationException("No BitmapEncoder available for " + mimeType);
     }
 
     /**
@@ -149,16 +159,10 @@ public class BitmapEncoderRegistry {
      * registered BitmapEncoders.
      * @return a Set of Strings (MIME types)
      */
-    public static Set getSupportedMIMETypes() {
-        Set mimes = new java.util.HashSet();
-        Iterator i = encoders.iterator();
-        while (i.hasNext()) {
-            Entry entry = (Entry)i.next();
-            BitmapEncoder encoder = entry.encoder;
-            String[] s = encoder.getSupportedMIMETypes();
-            for (int j = 0; j < s.length; j++) {
-                mimes.add(s[j]);
-            }
+    public static Set<String> getSupportedMIMETypes() {
+        Set<String> mimes = new java.util.HashSet<>();
+        for (Entry entry : encoders) {
+            Collections.addAll(mimes, entry.encoder.getSupportedMIMETypes());
         }
         return mimes;
     }
