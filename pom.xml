@@ -405,6 +405,65 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-third-party</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>add-third-party</goal>
+                        </goals>
+                        <configuration>
+                            <includeTransitiveDependencies>true</includeTransitiveDependencies>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- failOnMissing should be true but xalan 2.7.3 is missing license info -->
+                    <failOnMissing>false</failOnMissing>
+                    <excludedLicenses>GPLv2|GPLv3</excludedLicenses>
+                    <excludedGroups>xalan|org.jdom|javax.servlet|net.sf.saxon</excludedGroups>
+                    <failOnBlacklist>true</failOnBlacklist>
+                    <licenseMerges>
+                        <licenseMerge>GPLv2 + Classpath Exception|
+                            GPL-2.0-with-classpath-exception|
+                            GNU General Public License v2.0 w/Classpath exception|
+                            GNU General Public License, version 2 (GPL2), with the classpath exception</licenseMerge>
+                        <licenseMerge>GPLv2|GPLv2.0|
+                            GNU General Public License, version 2|
+                            GNU General Public License, version 2.0</licenseMerge>
+                        <licenseMerge>GPLv3|GPLv3.0|
+                            GNU General Public License, version 3|
+                            GNU General Public License v3.0</licenseMerge>
+                        <licenseMerge>LGPLv2|LGPLv2.0|LGPL-2.0|
+                            GNU Library General Public License, version 2.0</licenseMerge>
+                        <licenseMerge>LGPLv2.1|LGPL-2.1|
+                            GNU Lesser General Public License v2.1|
+                            GNU Lesser General Public License, Version 2.1</licenseMerge>
+                        <licenseMerge>LGPLv3|LGPLv3.0|LGPL-3.0|
+                            GNU Lesser General Public License v3.0</licenseMerge>
+                        <licenseMerge>Apache License, Version 2.0|
+                            The Apache Software License, Version 2.0|Apache2|
+                            Apache-2.0|Apache 2|APL2|Apache 2.0|
+                            The Apache License, Version 2.0|Apache Software License - Version 2.0|
+                            the Apache License, ASL Version 2.0|ASL 2.0|Apache License 2.0|ASL, version 2
+                        </licenseMerge>
+                        <licenseMerge>BSD 3-Clause License|BSD License 2.0|BSD-3-Clause|BSD License 3|3-Clause BSD License</licenseMerge>
+                        <licenseMerge>Common Development and Distribution License (CDDL)|
+                            Common Development and Distribution License 1.0|
+                            CDDL-1.0|CDDL</licenseMerge>
+                        <licenseMerge>Eclipse Public License 1.0|
+                            Eclipse Public License v1.0|EPL-1.0|Eclipse Public License, Version 1.0</licenseMerge>
+                        <licenseMerge>Eclipse Public License 2.0|
+                            Eclipse Public License v2.0|EPL-2.0|Eclipse Public License, Version 2.0</licenseMerge>
+                        <licenseMerge>The MIT License|MIT license|The MIT License (MIT)|MIT License|MIT|MIT-style</licenseMerge>
+                    </licenseMerges>
+                    <includedLicenses>
+                        <includedLicense>Apache License, Version 2.0</includedLicense>
+                        <includedLicense>The MIT License</includedLicense>
+                        <includedLicense>LGPLv2.1</includedLicense>
+                        <includedLicense>Eclipse Public License 2.0</includedLicense>
+                    </includedLicenses>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
