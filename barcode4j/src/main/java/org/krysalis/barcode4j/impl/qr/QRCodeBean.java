@@ -149,6 +149,7 @@ public class QRCodeBean extends AbstractBarcodeBean {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void generateBarcode(CanvasProvider canvas, String msg) {
         if ((msg == null)
                 || (msg.length() == 0)) {
@@ -216,6 +217,7 @@ public class QRCodeBean extends AbstractBarcodeBean {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getBarWidth(int width) {
         return moduleWidth;
     }

@@ -29,8 +29,8 @@ import org.krysalis.barcode4j.tools.ZXingUtil;
  */
 public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
 
-    private Map classes;
-    private Set mainIDs;
+    private Map<String, String> classes;
+    private Set<String> mainIDs;
 
     /**
      * Main constructor.
@@ -96,8 +96,8 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
      */
     public void registerBarcodeClass(String id, String classname, boolean mainID) {
         if (this.classes == null) {
-            this.classes = new java.util.HashMap();
-            this.mainIDs = new java.util.HashSet();
+            this.classes = new java.util.HashMap<>();
+            this.mainIDs = new java.util.HashSet<>();
         }
         this.classes.put(id.toLowerCase(), classname);
         if (mainID) {
@@ -108,37 +108,38 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
     /**
      * @see org.krysalis.barcode4j.BarcodeClassResolver#resolve(String)
      */
+    @Override
     public Class resolve(String name) throws ClassNotFoundException {
         String clazz = null;
         if (this.classes != null) {
-            clazz = (String)this.classes.get(name.toLowerCase());
+            clazz = this.classes.get(name.toLowerCase());
         }
         if (clazz == null) {
             clazz = name;
         }
-        Class cl = Class.forName(clazz);
-        return cl;
+        return Class.forName(clazz);
     }
 
     /**
      * @see org.krysalis.barcode4j.BarcodeClassResolver#resolveBean(String)
      */
+    @Override
     public Class resolveBean(String name) throws ClassNotFoundException {
         String clazz = null;
         if (this.classes != null) {
-            clazz = (String)this.classes.get(name.toLowerCase());
+            clazz = this.classes.get(name.toLowerCase());
         }
         if (clazz == null) {
             clazz = name;
         }
-        Class cl = Class.forName(clazz + "Bean");
-        return cl;
+        return Class.forName(clazz + "Bean");
     }
 
     /**
      * @see org.krysalis.barcode4j.BarcodeClassResolver#getBarcodeNames()
      */
-    public Collection getBarcodeNames() {
+    @Override
+    public Collection<String> getBarcodeNames() {
         return Collections.unmodifiableCollection(this.mainIDs);
     }
 }

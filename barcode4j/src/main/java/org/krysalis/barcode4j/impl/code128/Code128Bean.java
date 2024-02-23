@@ -72,6 +72,7 @@ public class Code128Bean extends AbstractBarcodeBean {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getBarWidth(int width) {
         if ((width >= 1) && (width <= 4)) {
             return width * moduleWidth;
@@ -81,6 +82,7 @@ public class Code128Bean extends AbstractBarcodeBean {
     }
 
     /** {@inheritDoc} */
+    @Override
     public BarcodeDimension calcDimensions(String msg) {
         Code128LogicImpl impl = createLogicImpl();
         int msgLen = 0;
@@ -101,6 +103,7 @@ public class Code128Bean extends AbstractBarcodeBean {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void generateBarcode(CanvasProvider canvas, String msg) {
         if ((msg == null) || (msg.length() == 0)) {
             throw new NullPointerException("Parameter msg must not be empty");

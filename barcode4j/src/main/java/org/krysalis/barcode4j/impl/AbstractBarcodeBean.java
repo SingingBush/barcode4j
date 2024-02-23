@@ -248,9 +248,11 @@ public abstract class AbstractBarcodeBean
     }
 
     /** {@inheritDoc} */
+    @Override
     public abstract void generateBarcode(CanvasProvider canvas, String msg);
 
     /** {@inheritDoc} */
+    @Override
     public BarcodeDimension calcDimensions(String msg) {
         throw new UnsupportedOperationException("NYI");
     }

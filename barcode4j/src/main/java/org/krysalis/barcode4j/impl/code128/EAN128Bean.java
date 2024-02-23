@@ -1,13 +1,13 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
  * Copyright 2005 Jeremias Maerki, Dietmar Bürkle.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
 
 /**
  * This class is an implementation of the Code 128 barcode.
- * 
+ *
  * @author Jeremias Maerki, Dietmar Bürkle
  */
 public class EAN128Bean extends Code128Bean {
@@ -39,8 +39,8 @@ public class EAN128Bean extends Code128Bean {
 
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
     private String template = null;
-    private char groupSeparator = DEFAULT_GROUP_SEPARATOR; //GroupSeperator not Code128LogicImpl.FNC_1; 
-    private char checkDigitMarker = DEFAULT_CHECK_DIGIT_MARKER; 
+    private char groupSeparator = DEFAULT_GROUP_SEPARATOR; //GroupSeperator not Code128LogicImpl.FNC_1;
+    private char checkDigitMarker = DEFAULT_CHECK_DIGIT_MARKER;
     private boolean omitBrackets = false;
 
     /** Create a new instance. */
@@ -48,36 +48,38 @@ public class EAN128Bean extends Code128Bean {
         super();
         impl = new EAN128LogicImpl(checksumMode, template, groupSeparator);
     }
-    
+
     /**
      * @see org.krysalis.barcode4j.BarcodeGenerator#calcDimensions(String)
      */
+    @Override
     public BarcodeDimension calcDimensions(String msg) {
-        int msgLen = impl.getEncodedMessage(msg).length + 1; 
-        //TODO If the output is able to calculate text lenghts (e.g. awt, fop), and 
+        int msgLen = impl.getEncodedMessage(msg).length + 1;
+        //TODO If the output is able to calculate text lenghts (e.g. awt, fop), and
         //the human readable part is longer then barcode the size should be enlarged!
         final double width = ((msgLen * 11) + 13) * getModuleWidth();
         final double qz = (hasQuietZone() ? quietZone : 0);
-        return new BarcodeDimension(width, getHeight(), 
-                width + (2 * qz), getHeight(), 
+        return new BarcodeDimension(width, getHeight(),
+                width + (2 * qz), getHeight(),
                 quietZone, 0.0);
     }
 
     /**
      * @see org.krysalis.barcode4j.BarcodeGenerator#generateBarcode(CanvasProvider, String)
      */
+    @Override
     public void generateBarcode(CanvasProvider canvas, String msg) {
         if ((msg == null) || (msg.length() == 0)) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        ClassicBarcodeLogicHandler handler = 
+        ClassicBarcodeLogicHandler handler =
                 new DefaultCanvasLogicHandler(this, new Canvas(canvas));
         //handler = new LoggingLogicHandlerProxy(handler);
-        
+
         impl.generateBarcodeLogic(handler, msg);
     }
-    
+
     /**
      * Sets the checksum mode
      * @param mode the checksum mode
@@ -111,7 +113,7 @@ public class EAN128Bean extends Code128Bean {
         groupSeparator = c;
         impl.setGroupSeparator(c);
     }
-    
+
     /*
     public EAN128LogicImpl getImpl() {
         return impl;
@@ -132,7 +134,7 @@ public class EAN128Bean extends Code128Bean {
      * Sets the message template with the fields for the EAN message.
      * <p>
      * The format of the templates here is a repeating set of AI number (in brackets)
-     * followed by a field description. The allowed data types are "n" (numeric), 
+     * followed by a field description. The allowed data types are "n" (numeric),
      * "an" (alpha-numeric), "d" (date) and "cd" (check digit). Examples: "n13" defines a numeric
      * field with exactly 13 digits. "n13+cd" defines a numeric field with exactly 13 digits plus
      * a check digit. "an1-9" defines an alpha-numeric field with 1 to 9 characters.
@@ -156,9 +158,9 @@ public class EAN128Bean extends Code128Bean {
      */
     public void setCheckDigitMarker(char c) {
         checkDigitMarker = c;
-        impl.setCheckDigitMarker(c); 
+        impl.setCheckDigitMarker(c);
     }
-    
+
     /**
      * @return true if the brackets in the human-readable part should be omitted
      */

@@ -70,6 +70,7 @@ public class Interleaved2Of5Bean extends AbstractBarcodeBean {
     /**
      * @see org.krysalis.barcode4j.BarcodeGenerator#generateBarcode(CanvasProvider, String)
      */
+    @Override
     public void generateBarcode(CanvasProvider canvas, String msg) {
         if ((msg == null)
                 || (msg.length() == 0)) {
@@ -88,6 +89,7 @@ public class Interleaved2Of5Bean extends AbstractBarcodeBean {
     /**
      * @see org.krysalis.barcode4j.BarcodeGenerator#calcDimensions(String)
      */
+    @Override
     public BarcodeDimension calcDimensions(String msg) {
         int msgLen = msg.length();
         if (getChecksumMode() == ChecksumMode.CP_ADD) {
@@ -107,6 +109,7 @@ public class Interleaved2Of5Bean extends AbstractBarcodeBean {
     /**
      * @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarWidth(int)
      */
+    @Override
     public double getBarWidth(int width) {
         if (width == 1) {
             return moduleWidth;

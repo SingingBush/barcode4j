@@ -165,6 +165,7 @@ public class Code39Bean extends AbstractBarcodeBean {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getBarWidth(int width) {
         if (width == 1) {
             return moduleWidth;
@@ -178,6 +179,7 @@ public class Code39Bean extends AbstractBarcodeBean {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void generateBarcode(CanvasProvider canvas, String msg) {
         if ((msg == null)
                 || (msg.length() == 0)) {
@@ -197,6 +199,7 @@ public class Code39Bean extends AbstractBarcodeBean {
     }
 
     /** {@inheritDoc} */
+    @Override
     public BarcodeDimension calcDimensions(String msg) {
         Code39LogicImpl impl = createLogicImpl();
         int msglen = impl.prepareMessage(msg).length();

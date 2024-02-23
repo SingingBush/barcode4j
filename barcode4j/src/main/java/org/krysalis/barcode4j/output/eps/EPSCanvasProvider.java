@@ -17,8 +17,8 @@ package org.krysalis.barcode4j.output.eps;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -48,12 +48,7 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
      */
     public EPSCanvasProvider(OutputStream out, int orientation) throws IOException {
         super(orientation);
-        try {
-            this.writer = new java.io.OutputStreamWriter(out, "US-ASCII");
-        } catch (UnsupportedEncodingException uee) {
-            throw new RuntimeException(
-                    "Incompatible VM: Need US-ASCII encoding. " + uee.getMessage());
-        }
+        this.writer = new java.io.OutputStreamWriter(out, StandardCharsets.US_ASCII);
     }
 
     /**
@@ -160,6 +155,7 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void establishDimensions(BarcodeDimension dim) {
         super.establishDimensions(dim);
         int orientation = BarcodeDimension.normalizeOrientation(getOrientation());
@@ -191,19 +187,20 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void deviceFillRect(double x, double y, double w, double h) {
         if (firstError != null) {
             return;
         }
         try {
-            writer.write(formatmm(x, y) + " "
-                       + formatmm(w) + " " + formatmm(h) + " rf\n");
+            writer.write(formatmm(x, y) + " " + formatmm(w) + " " + formatmm(h) + " rf\n");
         } catch (IOException ioe) {
             firstError = ioe;
         }
     }
 
     /** {@inheritDoc} */
+    @Override
     public void deviceText(
                 String text,
                 double x1,
@@ -243,8 +240,7 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
     private void checkFontName(String fontName) {
         if (fontName.indexOf(' ') >= 0) {
             throw new IllegalArgumentException("PostScript/EPS output does not support font names"
-                    + " with spaces ('" + fontName
-                    + "'). Please use the PostScript name of the font!");
+                    + " with spaces ('" + fontName + "'). Please use the PostScript name of the font!");
         }
     }
 

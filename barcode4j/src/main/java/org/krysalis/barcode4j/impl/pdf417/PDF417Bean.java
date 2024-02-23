@@ -73,6 +73,7 @@ public class PDF417Bean extends AbstractBarcodeBean {
     /**
      * @see org.krysalis.barcode4j.BarcodeGenerator#generateBarcode(CanvasProvider, String)
      */
+    @Override
     public void generateBarcode(CanvasProvider canvas, String msg) {
         if ((msg == null) || (msg.length() == 0)) {
             throw new NullPointerException("Parameter msg must not be empty");
@@ -88,6 +89,7 @@ public class PDF417Bean extends AbstractBarcodeBean {
     /**
      * @see org.krysalis.barcode4j.BarcodeGenerator#calcDimensions(String)
      */
+    @Override
     public BarcodeDimension calcDimensions(String msg) {
 
         int sourceCodeWords = PDF417HighLevelEncoder.encodeHighLevel(msg,
@@ -108,7 +110,10 @@ public class PDF417Bean extends AbstractBarcodeBean {
                 qzh, qzv);
     }
 
-    /** @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarWidth(int) */
+    /**
+     * @see org.krysalis.barcode4j.impl.AbstractBarcodeBean#getBarWidth(int)
+     */
+    @Override
     public double getBarWidth(int width) {
         return width * moduleWidth;
     }

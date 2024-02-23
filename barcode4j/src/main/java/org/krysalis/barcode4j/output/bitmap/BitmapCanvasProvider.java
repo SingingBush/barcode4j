@@ -51,8 +51,7 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
      * @param orientation Orientation must be 0, 90, 180, 270, -90, -180 or -270
      * @see BarcodeDimension#normalizeOrientation(int)
      */
-    public BitmapCanvasProvider(OutputStream out, String mime,
-                    int resolution, int imageType, boolean antiAlias, int orientation) {
+    public BitmapCanvasProvider(OutputStream out, String mime, int resolution, int imageType, boolean antiAlias, int orientation) {
         super(orientation);
         this.out = out;
         this.mime = mime;
@@ -69,8 +68,7 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
      * @param orientation Orientation must be 0, 90, 180, 270, -90, -180 or -270
      * @see BarcodeDimension#normalizeOrientation(int)
      */
-    public BitmapCanvasProvider(int resolution, int imageType, boolean antiAlias,
-                    int orientation) {
+    public BitmapCanvasProvider(int resolution, int imageType, boolean antiAlias, int orientation) {
         this(null, null, resolution, imageType, antiAlias, orientation);
     }
 
@@ -96,25 +94,26 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void establishDimensions(BarcodeDimension dim) {
         super.establishDimensions(dim);
-        this.image = BitmapBuilder.prepareImage(dim, getOrientation(),
-                this.resolution, this.imageType);
+        this.image = BitmapBuilder.prepareImage(dim, getOrientation(), this.resolution, this.imageType);
         this.delegate = new Java2DCanvasProvider(
-            BitmapBuilder.prepareGraphics2D(this.image, dim, getOrientation(),
-                    this.antiAlias), getOrientation());
+            BitmapBuilder.prepareGraphics2D(this.image, dim, getOrientation(), this.antiAlias),
+            getOrientation()
+        );
         this.delegate.establishDimensions(dim);
     }
 
     /** {@inheritDoc} */
+    @Override
     public void deviceFillRect(double x, double y, double w, double h) {
         this.delegate.deviceFillRect(x, y, w, h);
     }
 
     /** {@inheritDoc} */
-    public void deviceText(String text,
-            double x1, double x2, double y1,
-            String fontName, double fontSize, TextAlignment textAlign) {
+    @Override
+    public void deviceText(String text, double x1, double x2, double y1, String fontName, double fontSize, TextAlignment textAlign) {
         this.delegate.deviceText(text, x1, x2, y1, fontName, fontSize, textAlign);
     }
 
