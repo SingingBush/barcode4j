@@ -18,6 +18,7 @@ package org.krysalis.barcode4j.output.bitmap;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.logging.Logger;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -31,6 +32,8 @@ import org.krysalis.barcode4j.tools.DebugUtil;
 import org.krysalis.barcode4j.tools.MimeTypes;
 import org.krysalis.barcode4j.tools.UnitConv;
 
+import static java.lang.Thread.currentThread;
+
 /**
  * BitmapEncoder implementation using ImageIO.
  *
@@ -38,13 +41,21 @@ import org.krysalis.barcode4j.tools.UnitConv;
  */
 public class ImageIOBitmapEncoder implements BitmapEncoder {
 
+    private static final String IMAGEIO_CLASSNAME = ImageIO.class.getName();
+    private static Logger log = Logger.getLogger(ImageIOBitmapEncoder.class.getName());
+
     /**
      * Constructs the BitmapEncoder. The constructor checks if the ImageIO
      * API is available so it doesn't get registered in case it's not there.
      * @throws ClassNotFoundException if the ImageIO API is unavailable
      */
     public ImageIOBitmapEncoder() throws ClassNotFoundException {
-        Class.forName("javax.imageio.ImageIO");
+        try {
+            Class.forName(IMAGEIO_CLASSNAME);
+        } catch (final ClassNotFoundException e) {
+            log.warning("Unable to load javax.imageio.ImageIO using Class.forName, Attempting class loader of current thread...");
+            currentThread().getContextClassLoader().loadClass(IMAGEIO_CLASSNAME);
+        }
     }
 
     /** {@inheritDoc} */
@@ -76,9 +87,9 @@ public class ImageIOBitmapEncoder implements BitmapEncoder {
     private IIOMetadata setupMetadata(BufferedImage image, ImageWriter writer, String mime, int resolution) throws IOException {
         IIOMetadata iiometa;
         try {
-            iiometa = writer.getDefaultImageMetadata(new ImageTypeSpecifier(image),
-                writer.getDefaultWriteParam());
+            iiometa = writer.getDefaultImageMetadata(new ImageTypeSpecifier(image), writer.getDefaultWriteParam());
         } catch (Exception e) {
+            log.severe(e.getMessage());
             return null; //ImageIO has problems with metadata
         }
         if (iiometa == null) {

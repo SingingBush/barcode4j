@@ -45,6 +45,9 @@ public class VariableUtil {
      * @return the message after the variable processing
      */
     public static String getExpandedMessage(PageInfo page, String msg) {
+        if (msg == null) {
+            return null;
+        }
         String s = msg;
         int idx;
         while ((idx = s.indexOf(PAGE_NUMBER_WITH_FORMAT)) >= 0) {
