@@ -45,20 +45,20 @@ public class QRCode extends ConfigurableBarcodeGenerator
      */
     public void configure(Configuration cfg) throws ConfigurationException {
         //Module width (MUST ALWAYS BE FIRST BECAUSE QUIET ZONE MAY DEPEND ON IT)
-        String mws = cfg.getChild("module-width").getValue(null);
+        final String mws = cfg.getChild("module-width").getValue(null);
         if (mws != null) {
-            Length mw = new Length(mws, "mm");
+            final Length mw = new Length(mws, "mm");
             getQRBean().setModuleWidth(mw.getValueAsMillimeter());
         }
 
         super.configure(cfg);
 
-        String encoding = cfg.getChild("encoding").getValue(null);
+        final String encoding = cfg.getChild("encoding").getValue(null);
         if (encoding != null) {
             getQRBean().setEncoding(encoding);
         }
 
-        String ecLevel = cfg.getChild("ec-level").getValue(null);
+        final String ecLevel = cfg.getChild("ec-level").getValue(null);
         if (ecLevel != null && ecLevel.length() > 0) {
             getQRBean().setErrorCorrectionLevel(ecLevel.charAt(0));
         }

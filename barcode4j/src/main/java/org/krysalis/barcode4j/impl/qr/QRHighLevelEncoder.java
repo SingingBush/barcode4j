@@ -26,7 +26,7 @@ package org.krysalis.barcode4j.impl.qr;
 public class QRHighLevelEncoder implements QRConstants {
 
     private final String msg;
-    private int encodingMode;
+    private final int encodingMode;
 
     public QRHighLevelEncoder(String msg) {
         this.msg = msg;
@@ -39,26 +39,29 @@ public class QRHighLevelEncoder implements QRConstants {
 
     private int analyzeMessage(String msg) {
         int mode = NUMERIC;
-        for (int i = 0, c = msg.length(); i < c; i++) {
-            char ch = msg.charAt(i);
-            if (isDigit(ch)) {
+
+        for (final char ch : msg.toCharArray()) {
+            if (Character.isDigit(ch)) {
                 //nop
-            } else if (mode == NUMERIC && isAlphanumeric(ch)) {
+            } else if (mode == NUMERIC && isSupportedAlphanumeric(ch)) {
                 mode = ALPHANUMERIC;
-            } else {
+            } else if(!isSupportedAlphanumeric(ch)) {
                 mode = BINARY;
                 break;
             }
         }
+
         return mode;
     }
 
-    private static final boolean isDigit(char ch) {
-        return ch >= '0' && ch <= '9';
-    }
-
-    private static final boolean isAlphanumeric(char ch) {
-        return ALPHANUMERIC_TABLE[ch] >= 0;
+    /**
+     * In Alphanumeric mode, QR Codes support a sub-set of ASCII printable characters (character codes 32-127).
+     * The supported chars are 0–9, A–Z (upper-case only), space, $, %, *, +, -, ., /, :
+     * @param ch a char to check against the supported character list
+     * @return true if the char is supported by QR code alphanumeric mode
+     */
+    private boolean isSupportedAlphanumeric(char ch) {
+        return (int)ch < ALPHANUMERIC_TABLE.length && ALPHANUMERIC_TABLE[ch] >= 0;
     }
 
 }

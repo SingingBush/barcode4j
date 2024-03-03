@@ -33,8 +33,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *
  * @version $Id: ConfigurableBarcodeGenerator.java,v 1.13 2009-02-19 10:14:54 jmaerki Exp $
  */
-public abstract class ConfigurableBarcodeGenerator
-            implements BarcodeGenerator, Configurable {
+public abstract class ConfigurableBarcodeGenerator implements BarcodeGenerator, Configurable {
 
     /**
      * Contains all possible element names that may appear in barcode XML.
@@ -42,7 +41,7 @@ public abstract class ConfigurableBarcodeGenerator
     public static final String[] BARCODE_ELEMENTS;
 
     static {
-        List elements = new java.util.ArrayList();
+        final List<String> elements = new java.util.ArrayList<>();
         //All barcode names
         elements.addAll(BarcodeUtil.getInstance().getClassResolver().getBarcodeNames());
         //All configuration element names
@@ -85,7 +84,7 @@ public abstract class ConfigurableBarcodeGenerator
         elements.add("codesets"); //Code128
         elements.add("bearer-bar-width"); //ITF-14
         elements.add("bearer-box"); //ITF-14
-        BARCODE_ELEMENTS = (String[])elements.toArray(new String[elements.size()]);
+        BARCODE_ELEMENTS = elements.toArray(new String[elements.size()]);
     }
 
     /** Proxy target. Barcode bean to configure. */
