@@ -72,8 +72,7 @@ public class BarcodeUtil {
      * @throws BarcodeException if setting up a BarcodeGenerator fails
      * @throws ConfigurationException if something's wrong wth the configuration
      */
-    public static BarcodeGenerator createBarcodeGenerator(Configuration cfg,
-                                    BarcodeClassResolver classResolver)
+    public static BarcodeGenerator createBarcodeGenerator(Configuration cfg, BarcodeClassResolver classResolver)
             throws BarcodeException, ConfigurationException {
         Class cl = null;
         try {
@@ -106,8 +105,7 @@ public class BarcodeUtil {
             }
 
             if (cl == null) {
-                throw new BarcodeException(
-                    "No known barcode configuration element found");
+                throw new BarcodeException("No known barcode configuration element found");
             }
 
             //Instantiate the BarcodeGenerator
@@ -120,16 +118,19 @@ public class BarcodeUtil {
             try {
                 ContainerUtil.initialize(gen);
             } catch (Exception e) {
-                throw new RuntimeException("Cannot initialize barcode generator. "
-                        + e.getMessage());
+                throw new RuntimeException("Cannot initialize barcode generator. " + e.getMessage());
             }
             return gen;
         } catch (IllegalAccessException ia) {
-            throw new RuntimeException("Problem while instantiating a barcode"
-                    + " generator: " + ia.getMessage());
+            throw new RuntimeException(
+                "Problem while instantiating a barcode generator: " + ia.getMessage(),
+                ia
+            );
         } catch (InstantiationException ie) {
-            throw new BarcodeException("Error instantiating a barcode generator: "
-                    + cl.getName());
+            throw new BarcodeException(
+                "Error instantiating a barcode generator: " + cl != null ? cl.getName() : "class not resolved",
+                ie
+            );
         }
     }
 
@@ -140,8 +141,7 @@ public class BarcodeUtil {
      * @throws BarcodeException if setting up a BarcodeGenerator fails
      * @throws ConfigurationException if something's wrong wth the configuration
      */
-    public BarcodeGenerator createBarcodeGenerator(Configuration cfg)
-            throws ConfigurationException, BarcodeException {
+    public BarcodeGenerator createBarcodeGenerator(Configuration cfg) throws ConfigurationException, BarcodeException {
         return createBarcodeGenerator(cfg, this.classResolver);
     }
 
@@ -153,11 +153,9 @@ public class BarcodeUtil {
      * @throws BarcodeException if setting up a BarcodeGenerator fails
      * @throws ConfigurationException if something's wrong wth the configuration
      */
-    public DocumentFragment generateSVGBarcode(Configuration cfg,
-                                               String msg)
-                    throws ConfigurationException, BarcodeException {
-        BarcodeGenerator gen = createBarcodeGenerator(cfg);
-        SVGCanvasProvider svg = new SVGCanvasProvider(false, 0);
+    public DocumentFragment generateSVGBarcode(Configuration cfg, String msg) throws ConfigurationException, BarcodeException {
+        final BarcodeGenerator gen = createBarcodeGenerator(cfg);
+        final SVGCanvasProvider svg = new SVGCanvasProvider(false, 0);
 
         //Create Barcode and render it to SVG
         gen.generateBarcode(svg, msg);
