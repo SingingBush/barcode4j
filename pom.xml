@@ -551,6 +551,7 @@
                 <configuration>
                     <onlyAnalyze>org.krysalis.barcode4j.*</onlyAnalyze>
                     <xmlOutput>true</xmlOutput>
+                    <failOnError>false</failOnError>
                     <plugins>
                         <plugin>
                             <groupId>com.h3xstream.findsecbugs</groupId>

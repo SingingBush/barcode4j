@@ -21,10 +21,12 @@ This fork has the following goals:
  - [x] Keeping the svn history
  - [x] Enabling continuous integration for multiple Java versions
  - [x] Dropping support for Java < 8 (supporting newer LTS releases such as 11 and 17 is priority)
- - [x] Move to standard maven project structure
- - [x] Publish build artifacts to maven central ()
+ - [x] Move to standard maven project structure (Ant build will be removed later)
+ - [x] Publish build artifacts to maven central [singingbush group on maven.org](https://search.maven.org/search?q=com.singingbush)
+ - [x] Improve Test Coverage (this is ongoing but better than it was)
+ - [ ] Publish JaCoCo report results
+ - [ ] Add static analysis via [SonarCloud](https://sonarcloud.io/summary/overall?id=barcode4j)
  - [ ] Add JPMS support (**in version 3 and above**, 2.* releases will continue to support JDK 7 for now)
- - [ ] Adding Test Coverage
  - [ ] Pulling in various svn patches and git merge requests
  - [ ] Either remove or update the Saxon code to support the latest Saxon EE version**
  - [ ] Remove dependency on Avalon-Framework (**in version 3 and above**, Avalon was retired years ago. See: #15)
