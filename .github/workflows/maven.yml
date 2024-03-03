@@ -17,8 +17,8 @@ jobs:
     name: Test with Java ${{ matrix.jdk }}
     runs-on: ubuntu-22.04
     permissions:
-      contents: read # for actions/checkout to fetch code
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      # contents: read # for actions/checkout to fetch code
+      # security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       pull-requests: write # for JaCoCo report being attached to PR
     strategy:
       fail-fast: false
@@ -76,7 +76,8 @@ jobs:
     name: Static Analysis
     needs: build
     continue-on-error: false
-    if: ${{ needs.build.result == 'success' }} ## && github.ref == 'refs/heads/main'
+    if: ${{ needs.build.result == 'success' }}
+    ## && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write # for actions/checkout to fetch code
@@ -96,6 +97,16 @@ jobs:
         distribution: temurin
         java-version: 8
         cache: maven
+
+    ## todo: use same artifacts from the build job
+    - name: Maven Verify
+      run: mvn -B verify jacoco:report
+
+    - name: Move JaCoCo Report
+      shell: bash
+      run: |
+        mkdir -p .qodana/code-coverage/
+        cp aggregate-report/target/site/jacoco-aggregate/* ${project.basedir}/.qodana/code-coverage/
 
     - name: SpotBugs with FindSecBugs
       uses: advanced-security/spotbugs-findsecbugs-action@v1

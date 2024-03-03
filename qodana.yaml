@@ -21,6 +21,11 @@ exclude:
 
 projectJDK: '8'
 
+licenseRules:
+  - prohibited:
+    - GPLv2
+    - GPLv3
+
 #Execute shell command before Qodana execution (Applied in CI/CD pipeline)
 #bootstrap: sh ./prepare-qodana.sh
 
