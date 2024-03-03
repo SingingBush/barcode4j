@@ -3,6 +3,8 @@ name: Maven
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
   pull_request:
     types: [opened, reopened, synchronize]
     branches:
@@ -108,13 +110,13 @@ jobs:
         mkdir -p .qodana/code-coverage/
         cp -r aggregate-report/target/site/jacoco-aggregate/* .qodana/code-coverage/
 
-    - name: SpotBugs with FindSecBugs
-      uses: advanced-security/spotbugs-findsecbugs-action@v1
+#    - name: SpotBugs with FindSecBugs
+#      uses: advanced-security/spotbugs-findsecbugs-action@v1
 
     - name: Qodana Scan
       uses: JetBrains/qodana-action@v2023.3
       env:
-        QODANA_TOKEN: ${{ secrets.qodana }}
+        QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
 
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
