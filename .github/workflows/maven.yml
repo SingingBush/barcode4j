@@ -106,7 +106,7 @@ jobs:
       shell: bash
       run: |
         mkdir -p .qodana/code-coverage/
-        cp aggregate-report/target/site/jacoco-aggregate/* ${project.basedir}/.qodana/code-coverage/
+        cp -r aggregate-report/target/site/jacoco-aggregate/* .qodana/code-coverage/
 
     - name: SpotBugs with FindSecBugs
       uses: advanced-security/spotbugs-findsecbugs-action@v1
