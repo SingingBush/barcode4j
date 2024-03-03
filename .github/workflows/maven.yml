@@ -1,12 +1,19 @@
 name: Maven
 
-on: [push, pull_request]
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+    branches:
+      - main
 
 jobs:
 
   build:
     name: Test with Java ${{ matrix.jdk }}
     runs-on: ubuntu-22.04
+    permissions:
+      pull-requests: write
     strategy:
       fail-fast: false
       matrix:
@@ -21,8 +28,25 @@ jobs:
         java-version: ${{ matrix.jdk }}
         cache: 'maven'
 
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+    - name: Maven Verify
+      run: mvn -B verify --file pom.xml
+
+    # - name: Maven Site (for reports)
+    #   run: mvn install site
+
+    - name: Add coverage to PR
+      id: jacoco
+      uses: madrapps/jacoco-report@v1.6.1
+      with:
+        paths: |
+          # ${{ github.workspace }}/**/build/reports/jacoco/prodNormalDebugCoverage/prodNormalDebugCoverage.xml,
+          # ${{ github.workspace }}/**/build/reports/jacoco/**/debugCoverage.xml,
+          ${{ github.workspace }}/**/target/surefire-reports/TEST-*.xml
+          ${{ github.workspace }}/aggregate-report/target/site/jacoco-aggregate/jacoco.xml
+        token: ${{ secrets.GITHUB_TOKEN }}
+        min-coverage-overall: 40
+        min-coverage-changed-files: 60
+        update-comment: true
 
 #  deploy:
 #    name: Deploy Artifact
