@@ -1,0 +1,44 @@
+#-------------------------------------------------------------------------------#
+#               Qodana analysis is configured by qodana.yaml file               #
+#             https://www.jetbrains.com/help/qodana/qodana-yaml.html            #
+#-------------------------------------------------------------------------------#
+version: "1.0"
+
+#Specify inspection profile for code analysis
+profile:
+  name: qodana.recommended
+
+#Enable inspections
+include:
+  - name: VulnerableLibrariesGlobal
+  - name: CheckDependencyLicenses
+
+#Disable inspections
+exclude:
+  - name: ConstantValue
+    paths:
+      - barcode4j/src/main/java/org/krysalis/barcode4j/impl/**
+
+projectJDK: '8'
+
+#Execute shell command before Qodana execution (Applied in CI/CD pipeline)
+#bootstrap: sh ./prepare-qodana.sh
+
+#Install IDE plugins before Qodana execution (Applied in CI/CD pipeline)
+#plugins:
+#  - id: <plugin.id> #(plugin id can be found at https://plugins.jetbrains.com)
+
+#Specify Qodana linter for analysis (Applied in CI/CD pipeline)
+linter: jetbrains/qodana-jvm:latest
+
+failureConditions:
+  severityThresholds:
+    any: 200 # Total problems
+    critical: 5 # Critical and other severities
+    high: 120
+    moderate: 40
+    low: 50
+    info: 50
+  testCoverageThresholds:
+    fresh: 50 # Fresh code coverage
+    total: 50 # Total code coverage

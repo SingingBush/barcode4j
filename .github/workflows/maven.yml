@@ -35,7 +35,7 @@ jobs:
         cache: 'maven'
 
     - name: Maven Verify
-      run: mvn -B verify
+      run: mvn -B verify jacoco:report
         ## spotbugs:spotbugs
 
 #    - name: Run SpotBugs with FindSecBugs
@@ -76,11 +76,19 @@ jobs:
     name: Static Analysis
     needs: build
     continue-on-error: false
-    #if: ${{ needs.build.result == 'success' && github.ref == 'refs/heads/main' }}
+    if: ${{ needs.build.result == 'success' }} ## && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # for actions/checkout to fetch code
+      pull-requests: write # for attached results to PR
+      checks: write
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
+        fetch-depth: 0  # a full history is required for pull request analysis
 
     - name: Set up JDK 8
       uses: actions/setup-java@v4
@@ -91,6 +99,11 @@ jobs:
 
     - name: SpotBugs with FindSecBugs
       uses: advanced-security/spotbugs-findsecbugs-action@v1
+
+    - name: Qodana Scan
+      uses: JetBrains/qodana-action@v2023.3
+      env:
+        QODANA_TOKEN: ${{ secrets.qodana }}
 
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
