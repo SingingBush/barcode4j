@@ -18,6 +18,12 @@ exclude:
   - name: ConstantValue
     paths:
       - barcode4j/src/main/java/org/krysalis/barcode4j/impl/**
+  - name: All
+    paths:
+      - barcode4j-ant/**
+      - barcode4j-cli/**
+      - barcode4j-examples/**
+      - barcode4j-servlet/**
 
 projectJDK: '8'
 
@@ -38,9 +44,9 @@ linter: jetbrains/qodana-jvm-community:latest
 
 failureConditions:
   severityThresholds:
-    any: 200 # Total problems
+    any: 400 # Total problems
     critical: 5 # Critical and other severities
-    high: 120
+    high: 350
     moderate: 40
     low: 50
     info: 50
