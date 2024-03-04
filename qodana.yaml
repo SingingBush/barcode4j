@@ -15,15 +15,18 @@ include:
 
 #Disable inspections
 exclude:
+  - name: SizeReplaceableByIsEmpty
+  - name: FieldMayBeFinal
   - name: ConstantValue
     paths:
-      - barcode4j/src/main/java/org/krysalis/barcode4j/impl/**
+      - barcode4j/src/main/java/org/krysalis/barcode4j/impl
   - name: All
     paths:
-      - barcode4j-ant/**
-      - barcode4j-cli/**
-      - barcode4j-examples/**
-      - barcode4j-servlet/**
+      - aggregate-report
+      - barcode4j-ant
+      - barcode4j-cli
+      - barcode4j-examples
+      - barcode4j-servlet
 
 projectJDK: '8'
 
