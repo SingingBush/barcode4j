@@ -5,6 +5,8 @@ Barcode4j
 [![Ant](https://github.com/SingingBush/barcode4j/actions/workflows/ant.yml/badge.svg)](https://github.com/SingingBush/barcode4j/actions/workflows/ant.yml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.singingbush/barcode4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.singingbush/barcode4j)
 [![Javadocs](https://www.javadoc.io/badge/com.singingbush/barcode4j.svg)](https://www.javadoc.io/doc/com.singingbush/barcode4j)
+[![CodeQL](https://github.com/SingingBush/barcode4j/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SingingBush/barcode4j/actions/workflows/github-code-scanning/codeql)
+[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=barcode4j&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=barcode4j)
 
 Barcode4J is a flexible generator for barcodes written in Java and available under the Apache License v2.0. Features
 
@@ -25,7 +27,7 @@ This fork has the following goals:
  - [x] Publish build artifacts to maven central [singingbush group on maven.org](https://search.maven.org/search?q=com.singingbush)
  - [x] Improve Test Coverage (this is ongoing but better than it was)
  - [ ] Publish JaCoCo report results
- - [ ] Add static analysis via [SonarCloud](https://sonarcloud.io/summary/overall?id=barcode4j)
+ - [ ] Add static analysis ([SonarCloud](https://sonarcloud.io/summary/overall?id=barcode4j), CodeQL, and Qodana)
  - [ ] Add JPMS support (**in version 3 and above**, 2.* releases will continue to support JDK 7 for now)
  - [ ] Pulling in various svn patches and git merge requests
  - [ ] Either remove or update the Saxon code to support the latest Saxon EE version**
