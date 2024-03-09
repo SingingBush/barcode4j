@@ -360,8 +360,8 @@
                                         <message>You should really be using Maven 3.8.1</message>
                                     </requireMavenVersion>
                                     <requireJavaVersion>
-                                        <version>[1.8,)</version>
-                                        <message>Java 8 is the minimum supported</message>
+                                        <version>[1.7,)</version>
+                                        <message>Java 7 is the minimum supported</message>
                                     </requireJavaVersion>
                                     <requirePluginVersions>
                                         <message>Always define plugin versions</message>
