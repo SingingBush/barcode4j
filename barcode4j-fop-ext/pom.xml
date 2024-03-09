@@ -27,6 +27,12 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.singingbush</groupId>
+            <artifactId>barcode4j-xalan</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>fop-core</artifactId>
             <scope>compile</scope>
