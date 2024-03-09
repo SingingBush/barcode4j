@@ -26,13 +26,16 @@ jobs:
       fail-fast: false
       matrix:
         jdk: ['8', '11', '17', '21']
+        vendor: ['temurin']
+        include:
+          - { jdk: '7', vendor: 'corretto'}
 
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK ${{ matrix.jdk }}
       uses: actions/setup-java@v4
       with:
-        distribution: temurin
+        distribution: ${{ matrix.vendor }}
         java-version: ${{ matrix.jdk }}
         cache: 'maven'
 
