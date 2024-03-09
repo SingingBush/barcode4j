@@ -28,7 +28,7 @@ jobs:
         jdk: ['8', '11', '17', '21']
         vendor: ['temurin']
         include:
-          - { jdk: '7', vendor: 'corretto'}
+          - { jdk: '7', vendor: 'zulu'}
 
     steps:
     - uses: actions/checkout@v4
@@ -150,11 +150,11 @@ jobs:
 #    runs-on: ubuntu-latest
 #    steps:
 #      - uses: actions/checkout@v4
-#      - name: Set up JDK 8
+#      - name: Set up JDK 7
 #        uses: actions/setup-java@v4
 #        with:
-#          distribution: temurin
-#          java-version: 8
+#          distribution: zulu
+#          java-version: 7
 #          cache: maven
 #          #server-id: github
 #          server-id: ossrh
