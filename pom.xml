@@ -142,6 +142,7 @@
         <!-- maven reporting plugins -->
         <plugin.version.maven-javadoc-plugin>3.6.3</plugin.version.maven-javadoc-plugin>
         <!-- maven tools plugins -->
+        <enforcer-plugin.version>3.4.1</enforcer-plugin.version>
         <plugin.version.maven-gpg-plugin>3.1.0</plugin.version.maven-gpg-plugin>
         <!-- other plugins -->
         <plugin.version.org.jacoco.jacoco-maven-plugin>0.8.11</plugin.version.org.jacoco.jacoco-maven-plugin>
@@ -345,7 +346,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>${enforcer-plugin.version}</version>
                     <executions>
                         <execution>
                             <id>default-cli</id>
@@ -580,6 +581,21 @@
     </reporting>
 
     <profiles>
+        <profile>
+            <id>legacy</id>
+            <!-- For JDK 7 (min supported) -->
+            <activation>
+                <jdk>1.7</jdk>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <maven.compiler.source>1.6</maven.compiler.source>
+                <maven.compiler.target>1.6</maven.compiler.target>
+                <maven.test.skip>true</maven.test.skip>
+                <enforcer-plugin.version>1.4.1</enforcer-plugin.version>
+            </properties>
+        </profile>
+
         <profile>
             <id>modern</id>
             <!-- For JDK 18 and above the target Java version needs to be bumped to 1.8 -->
