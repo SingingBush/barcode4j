@@ -39,7 +39,11 @@ jobs:
         java-version: ${{ matrix.jdk }}
         cache: 'maven'
 
+    - name: Maven Package
+      run: mvn package
+
     - name: Maven Verify
+      if: ${{ matrix.jdk != '7' }}
       run: mvn -B verify spotbugs:check jacoco:report
 
     - name: Add coverage to PR
