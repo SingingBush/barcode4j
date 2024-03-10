@@ -599,8 +599,10 @@
                 <maven.compiler.target>1.7</maven.compiler.target>
                 <maven.test.skip>true</maven.test.skip>
                 <plugin.version.maven-compiler-plugin>3.8.1</plugin.version.maven-compiler-plugin>
-                <plugin.version.maven-deploy-plugin>2.8.2</plugin.version.maven-deploy-plugin>
                 <plugin.version.maven-resources-plugin>2.7</plugin.version.maven-resources-plugin>
+                <plugin.version.maven-deploy-plugin>2.8.2</plugin.version.maven-deploy-plugin>
+                <plugin.version.maven-surefire-plugin>2.22.2</plugin.version.maven-surefire-plugin>
+                <plugin.version.maven-failsafe-plugin>2.22.2</plugin.version.maven-failsafe-plugin>
                 <enforcer-plugin.version>1.4.1</enforcer-plugin.version>
                 <license-plugin.version>1.20</license-plugin.version>
                 <jacoco-plugin.version>0.7.9</jacoco-plugin.version>
