@@ -593,6 +593,7 @@
                 <maven.compiler.source>1.6</maven.compiler.source>
                 <maven.compiler.target>1.6</maven.compiler.target>
                 <maven.test.skip>true</maven.test.skip>
+                <plugin.version.maven-resources-plugin>2.7</plugin.version.maven-resources-plugin>
                 <enforcer-plugin.version>1.4.1</enforcer-plugin.version>
                 <license-plugin.version>1.20</license-plugin.version>
                 <jacoco-plugin.version>0.7.9</jacoco-plugin.version>
