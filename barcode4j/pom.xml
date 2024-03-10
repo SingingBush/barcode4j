@@ -78,6 +78,31 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Automatic-Module-Name>barcode4j</Automatic-Module-Name>
+                            <Build-Time>${maven.build.timestamp}</Build-Time>
+                            <Built-By>singingbush</Built-By>
+                            <Date>${maven.build.timestamp}</Date>
+                            <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+                            <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+                            <Specification-Title>${project.artifactId}</Specification-Title>
+                            <Specification-Vendor>${project.parent.organization.name}</Specification-Vendor>
+                            <Implementation-Title>${project.artifactId}</Implementation-Title>
+                            <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                            <Implementation-Build-Date>${maven.build.timestamp}</Implementation-Build-Date>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <executions>
                     <execution>

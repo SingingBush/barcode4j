@@ -1,6 +1,14 @@
 name: Ant
 
-on: [push, pull_request]
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - main
 
 jobs:
   build:

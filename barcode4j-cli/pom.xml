@@ -54,7 +54,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -62,13 +61,20 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
+                        <manifestEntries>
+                            <Automatic-Module-Name>barcode4j.cli</Automatic-Module-Name>
+                            <Build-Time>${maven.build.timestamp}</Build-Time>
+                            <Built-By>singingbush</Built-By>
+                            <Date>${maven.build.timestamp}</Date>
+                            <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+                            <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -91,7 +97,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.6.1</version>
                 <executions>
                     <execution>
                         <id>copy</id>

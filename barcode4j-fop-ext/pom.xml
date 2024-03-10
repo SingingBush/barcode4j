@@ -83,6 +83,22 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Automatic-Module-Name>barcode4j.fop</Automatic-Module-Name>
+                            <Build-Time>${maven.build.timestamp}</Build-Time>
+                            <Built-By>singingbush</Built-By>
+                            <Date>${maven.build.timestamp}</Date>
+                            <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+                            <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <executions>

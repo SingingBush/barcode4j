@@ -22,7 +22,7 @@ This fork has the following goals:
 
  - [x] Keeping the svn history
  - [x] Enabling continuous integration for multiple Java versions
- - [x] Dropping support for Java < 8 (supporting newer LTS releases such as 11 and 17 is priority)
+ - [x] Support latest JDK versions (for now Java 1.7 and above are supported but future releases will require JDK 11 or above)
  - [x] Move to standard maven project structure (Ant build will be removed later)
  - [x] Publish build artifacts to maven central [singingbush group on maven.org](https://search.maven.org/search?q=com.singingbush)
  - [x] Improve Test Coverage (this is ongoing but better than it was)
