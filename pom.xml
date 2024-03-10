@@ -30,6 +30,11 @@
     <inceptionYear>2003</inceptionYear>
     <url>https://github.com/singingbush/barcode4j</url>
 
+    <organization>
+        <name>SingingBush</name>
+        <url>https://singingbush.com</url>
+    </organization>
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -593,6 +598,8 @@
                 <maven.compiler.source>1.6</maven.compiler.source>
                 <maven.compiler.target>1.6</maven.compiler.target>
                 <maven.test.skip>true</maven.test.skip>
+                <plugin.version.maven-compiler-plugin>3.10.1</plugin.version.maven-compiler-plugin>
+                <plugin.version.maven-deploy-plugin>2.8.2</plugin.version.maven-deploy-plugin>
                 <plugin.version.maven-resources-plugin>2.7</plugin.version.maven-resources-plugin>
                 <enforcer-plugin.version>1.4.1</enforcer-plugin.version>
                 <license-plugin.version>1.20</license-plugin.version>
