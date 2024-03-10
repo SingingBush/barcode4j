@@ -603,6 +603,9 @@
                 <plugin.version.maven-deploy-plugin>2.8.2</plugin.version.maven-deploy-plugin>
                 <plugin.version.maven-surefire-plugin>2.22.2</plugin.version.maven-surefire-plugin>
                 <plugin.version.maven-failsafe-plugin>2.22.2</plugin.version.maven-failsafe-plugin>
+                <plugin.version.maven-jar-plugin>3.1.2</plugin.version.maven-jar-plugin>
+                <plugin.version.maven-source-plugin>3.1.0</plugin.version.maven-source-plugin>
+                <plugin.version.maven-javadoc-plugin>3.1.1</plugin.version.maven-javadoc-plugin>
                 <enforcer-plugin.version>1.4.1</enforcer-plugin.version>
                 <license-plugin.version>1.20</license-plugin.version>
                 <jacoco-plugin.version>0.7.9</jacoco-plugin.version>
