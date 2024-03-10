@@ -145,7 +145,7 @@
         <enforcer-plugin.version>3.4.1</enforcer-plugin.version>
         <plugin.version.maven-gpg-plugin>3.1.0</plugin.version.maven-gpg-plugin>
         <!-- other plugins -->
-        <plugin.version.org.jacoco.jacoco-maven-plugin>0.8.11</plugin.version.org.jacoco.jacoco-maven-plugin>
+        <jacoco-plugin.version>0.8.11</jacoco-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -399,7 +399,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${plugin.version.org.jacoco.jacoco-maven-plugin}</version>
+                    <version>${jacoco-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
@@ -593,6 +593,8 @@
                 <maven.compiler.target>1.6</maven.compiler.target>
                 <maven.test.skip>true</maven.test.skip>
                 <enforcer-plugin.version>1.4.1</enforcer-plugin.version>
+                <jacoco-plugin.version>0.7.9</jacoco-plugin.version>
+                <jacoco.skip>true</jacoco.skip>
             </properties>
         </profile>
 
