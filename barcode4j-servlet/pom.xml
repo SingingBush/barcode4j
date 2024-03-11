@@ -20,6 +20,7 @@
             <groupId>com.singingbush</groupId>
             <artifactId>barcode4j</artifactId>
             <version>${project.parent.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

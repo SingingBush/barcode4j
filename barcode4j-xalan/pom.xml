@@ -20,12 +20,14 @@
             <groupId>com.singingbush</groupId>
             <artifactId>barcode4j</artifactId>
             <version>${project.parent.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.avalon.framework</groupId>
             <artifactId>avalon-framework-impl</artifactId>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
@@ -60,4 +62,24 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Automatic-Module-Name>barcode4j.xalan</Automatic-Module-Name>
+                            <Build-Time>${maven.build.timestamp}</Build-Time>
+                            <Built-By>singingbush</Built-By>
+                            <Date>${maven.build.timestamp}</Date>
+                            <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+                            <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

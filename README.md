@@ -26,8 +26,8 @@ This fork has the following goals:
  - [x] Move to standard maven project structure (Ant build will be removed later)
  - [x] Publish build artifacts to maven central [singingbush group on maven.org](https://search.maven.org/search?q=com.singingbush)
  - [x] Improve Test Coverage (this is ongoing but better than it was)
- - [ ] Publish JaCoCo report results
- - [ ] Add static analysis ([SonarCloud](https://sonarcloud.io/summary/overall?id=barcode4j), CodeQL, and Qodana)
+ - [x] Publish JaCoCo report results
+ - [x] Add static analysis ([SonarCloud](https://sonarcloud.io/summary/overall?id=barcode4j), CodeQL, and Qodana)
  - [ ] Add JPMS support (**in version 3 and above**, 2.* releases will continue to support JDK 7 for now)
  - [ ] Pulling in various svn patches and git merge requests
  - [ ] Either remove or update the Saxon code to support the latest Saxon EE version**
@@ -39,10 +39,14 @@ This fork has the following goals:
 
 ### V2 (drop in replacement):
 
+This fork should work as a drop in replacement of `net.sf.barcode4j:barcode4j:2.1` for most users. Please note however that the original was a fat-jar that included classes that are now in the `barcode4j-ant`, `barcode4j-cli`, `barcode4j-servlet`, and `barcode4j-xalan` sub-modules. The singingbush barcode4j is more aligned to the [barcode4j-light](https://search.maven.org/search?q=a:barcode4j-light) package that was last released in 2008.
+
+That said, if you've been using `net.sf.barcode4j:barcode4j:2.1` then switching to the latest `com.singingbush:barcode4j:2.+` should simply be a case of choosing the dependencies you require. In most cases this is likely to be a combination of `com.singingbush:barcode4j:2.+` and `com.singingbush:barcode4j-fop-ext:2.+`.
+
 Initially the project will continue to be a compatible drop-in replacement for existing use of `net.sf.barcode4j:barcode4j:2.1`:
 
  - The v2.* releases will continue to have the existing _org.krysalis.barcode4j_ package names.
- - The _barcode4j_, _barcode4j-xgc_ and _barcode4j-fop-ext_ artifacts are published to maven central.
+ - The _barcode4j_, _barcode4j-fop-ext_, _barcode4j-xgc_ and _barcode4j-xalan_ artifacts are published to maven central.
  - Releases will support JDK 1.7 and above.
 
 ```xml
