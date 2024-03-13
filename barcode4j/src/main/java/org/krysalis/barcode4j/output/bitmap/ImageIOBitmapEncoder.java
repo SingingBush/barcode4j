@@ -18,6 +18,7 @@ package org.krysalis.barcode4j.output.bitmap;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.util.logging.Logger;
 
 import javax.imageio.IIOImage;
@@ -32,8 +33,6 @@ import org.krysalis.barcode4j.tools.DebugUtil;
 import org.krysalis.barcode4j.tools.MimeTypes;
 import org.krysalis.barcode4j.tools.UnitConv;
 
-import static java.lang.Thread.currentThread;
-
 /**
  * BitmapEncoder implementation using ImageIO.
  *
@@ -41,22 +40,7 @@ import static java.lang.Thread.currentThread;
  */
 public class ImageIOBitmapEncoder implements BitmapEncoder {
 
-    private static final String IMAGEIO_CLASSNAME = ImageIO.class.getName();
-    private static Logger log = Logger.getLogger(ImageIOBitmapEncoder.class.getName());
-
-    /**
-     * Constructs the BitmapEncoder. The constructor checks if the ImageIO
-     * API is available so it doesn't get registered in case it's not there.
-     * @throws ClassNotFoundException if the ImageIO API is unavailable
-     */
-    public ImageIOBitmapEncoder() throws ClassNotFoundException {
-        try {
-            Class.forName(IMAGEIO_CLASSNAME);
-        } catch (final ClassNotFoundException e) {
-            log.warning("Unable to load javax.imageio.ImageIO using Class.forName, Attempting class loader of current thread...");
-            currentThread().getContextClassLoader().loadClass(IMAGEIO_CLASSNAME);
-        }
-    }
+    private static final Logger log = Logger.getLogger(ImageIOBitmapEncoder.class.getName());
 
     /** {@inheritDoc} */
     @Override
@@ -71,17 +55,29 @@ public class ImageIOBitmapEncoder implements BitmapEncoder {
         final ImageWriter writer = ImageIO.getImageWritersByMIMEType(mime).next();
 
         //Prepare output
-        ImageOutputStream imout = ImageIO.createImageOutputStream(out);
-        writer.setOutput(imout);
+        final ImageOutputStream imOutput = ImageIO.createImageOutputStream(out);
 
-        //Prepare metadata
-        final IIOMetadata iiometa = setupMetadata(image, writer, mime, resolution);
+        if (writer != null && imOutput != null) {
+            try {
+                writer.setOutput(imOutput);
 
-        //Write image
-        final IIOImage iioimage = new IIOImage(image, null, iiometa);
-        writer.write(iioimage);
-        writer.dispose();
-        imout.close();
+                //Prepare metadata
+                final IIOMetadata iioMeta = setupMetadata(image, writer, mime, resolution);
+
+                //Write image
+                final IIOImage iioImage = new IIOImage(image, null, iioMeta);
+                writer.write(iioImage);
+            } catch (final IllegalStateException e) {
+                log.severe(e.getMessage());
+            } finally {
+                writer.dispose();
+                imOutput.close();
+            }
+        } else {
+            final String msg = MessageFormat.format("ImageWriter: {0}, ImageOutputStream: {1}", writer, imOutput);
+            log.severe(msg);
+            throw new RuntimeException(msg);
+        }
     }
 
     private IIOMetadata setupMetadata(BufferedImage image, ImageWriter writer, String mime, int resolution) throws IOException {

@@ -16,7 +16,10 @@
 package org.krysalis.barcode4j.output.bitmap;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Registry class for BitmapEncoders.
@@ -26,10 +29,12 @@ import java.util.Set;
  */
 public class BitmapEncoderRegistry {
 
+    private static final Logger log = Logger.getLogger(BitmapEncoderRegistry.class.getName());
+
     private static final Set<Entry> encoders = new java.util.TreeSet<>();
 
     static {
-        register(org.krysalis.barcode4j.output.bitmap.ImageIOBitmapEncoder.class, 0, false);
+        register(new ImageIOBitmapEncoder(), 0);
     }
 
     /**
@@ -54,28 +59,62 @@ public class BitmapEncoderRegistry {
             return other.priority - this.priority; //highest priority first
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Entry entry = (Entry) o;
+            return priority == entry.priority && Objects.equals(encoder, entry.encoder);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(encoder, priority);
+        }
+
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder("Entry{");
+            sb.append("encoder=").append(encoder);
+            sb.append(", priority=").append(priority);
+            sb.append('}');
+            return sb.toString();
+        }
     }
 
+    @Deprecated
     private static synchronized void register(String classname, int priority, boolean complain) {
         boolean failed = false;
         try {
             final Class<?> clazz = Class.forName(classname);
             final BitmapEncoder encoder = (BitmapEncoder)clazz.newInstance();
-            encoders.add(new Entry(encoder, priority));
-        } catch (Exception e) {
+            register(encoder, priority);
+        } catch (final Exception e) {
+            log.warning("Failed to create BitmapEncoder of class " + classname + ": " + e.getMessage());
             failed = true;
-        } catch (LinkageError le) {
+        } catch (final LinkageError e) {
+            log.warning("Failed to create BitmapEncoder of class " + classname + ": " + e.getMessage());
             failed = true; //NoClassDefFoundError for example
         }
-        if (failed) {
-            if (complain) {
-                throw new IllegalArgumentException(
-                    "The implementation being registered is unavailable or "
-                    + "cannot be instantiated: " + classname);
-            } else {
-                return;
-            }
+        if (failed && complain) {
+            final String msg = "The implementation being registered is unavailable or cannot be instantiated: " + classname;
+            log.severe(msg);
+            throw new IllegalArgumentException(msg);
         }
+    }
+
+    /**
+     * Register a BitmapEncoder implementation.
+     * @param bitmapEncoder an implementation of BitmapEncoder
+     * @param priority lets you define a priority for an encoder. If you want
+     *      to give an encoder a high priority, assign a value of 100 or higher.
+     * @return true if the bitmap encoder has been registered
+     * @author Samael Bate (singingbush)
+     * created on 23/02/2024
+     * @since 2.2.3
+     */
+    public static synchronized <T extends BitmapEncoder> boolean register(final T bitmapEncoder, final int priority) {
+        return encoders.add(new Entry(bitmapEncoder, priority));
     }
 
     /**
@@ -83,7 +122,7 @@ public class BitmapEncoderRegistry {
      * @param classname fully qualified classname of the BitmapEncoder implementation
      * @param priority lets you define a priority for an encoder. If you want
      *      to give an encoder a high priority, assign a value of 100 or higher.
-     * @deprecated please use {@link BitmapEncoderRegistry#register(Class, int)}
+     * @deprecated please use {@link BitmapEncoderRegistry#register(Class, int)} or {@link BitmapEncoderRegistry#register(BitmapEncoder, int)}
      */
     @Deprecated
     public static void register(String classname, int priority) {
@@ -100,7 +139,6 @@ public class BitmapEncoderRegistry {
         register(bitmapEncoderClass, priority, true);
     }
 
-    // todo: consider making this public
     private static <BitmapEncoder> void register(final Class<BitmapEncoder> bitmapEncoderClass, final int priority, final boolean complain) {
         register(bitmapEncoderClass.getName(), priority, complain);
     }
@@ -160,7 +198,7 @@ public class BitmapEncoderRegistry {
      * @return a Set of Strings (MIME types)
      */
     public static Set<String> getSupportedMIMETypes() {
-        Set<String> mimes = new java.util.HashSet<>();
+        Set<String> mimes = new HashSet<>();
         for (Entry entry : encoders) {
             Collections.addAll(mimes, entry.encoder.getSupportedMIMETypes());
         }

@@ -132,7 +132,7 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
         if (clazz == null) {
             clazz = name;
         }
-        return Class.forName(clazz + "Bean");
+        return Class.forName(clazz + "Bean"); // todo: get rid of this as it won't work with GraalVM native image
     }
 
     /**

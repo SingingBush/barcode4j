@@ -52,7 +52,7 @@ public class ImageLoaderFactoryBarcode extends AbstractImageLoaderFactory {
     @Override
     public boolean isAvailable() {
         try {
-            Class.forName("org.krysalis.barcode4j.BarcodeGenerator");
+            Class.forName("org.krysalis.barcode4j.BarcodeGenerator"); // todo: get rid of this as it won't work with GraalVM native image
             return true;
         } catch (Exception e) {
             //ignore

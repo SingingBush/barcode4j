@@ -31,7 +31,7 @@ public class ZXingUtil {
      */
     public static boolean isZxingAvailable() {
         try {
-            Class.forName("com.google.zxing.qrcode.QRCodeWriter");
+            Class.forName("com.google.zxing.qrcode.QRCodeWriter"); // todo: get rid of this as it won't work with GraalVM native image
             return true;
         } catch (Exception e) {
             return false;

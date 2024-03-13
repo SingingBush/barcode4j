@@ -23,6 +23,7 @@ This fork has the following goals:
  - [x] Keeping the svn history
  - [x] Enabling continuous integration for multiple Java versions
  - [x] Support latest JDK versions (for now Java 1.7 and above are supported but future releases will require JDK 11 or above)
+ - [x] Support GraalVM Native Image (changes were needed to allow barcode4j to be AOT compiled for use with [GraalVM](https://www.graalvm.org/) and/or [Quarkus](https://quarkus.io/))
  - [x] Move to standard maven project structure (Ant build will be removed later)
  - [x] Publish build artifacts to maven central [singingbush group on maven.org](https://search.maven.org/search?q=com.singingbush)
  - [x] Improve Test Coverage (this is ongoing but better than it was)
