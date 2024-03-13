@@ -5,11 +5,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import javax.imageio.ImageIO;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BitmapEncoderRegistryTest {
 
@@ -24,15 +28,9 @@ public class BitmapEncoderRegistryTest {
     void getSupportedMIMETypes() {
         final Set<String> mimeTypes = BitmapEncoderRegistry.getSupportedMIMETypes();
 
-        assertTrue(mimeTypes.containsAll(Arrays.stream(new String[] {
-            "image/vnd.wap.wbmp",
-            "image/png",
-            "image/x-png",
-            "image/jpeg",
-            "image/tiff",
-            "image/bmp",
-            "image/gif"
-        }).collect(Collectors.toSet())));
+        final Set<String> expected = Arrays.stream(ImageIO.getWriterMIMETypes()).collect(Collectors.toSet());
+
+        assertEquals(expected, mimeTypes);
     }
 
     @ParameterizedTest
@@ -41,11 +39,11 @@ public class BitmapEncoderRegistryTest {
         "image/png",
         "image/x-png",
         "image/jpeg",
-        "image/tiff",
+        // "image/tiff", // tiff is not supported by JDK 8 ImageIO.getWriterMIMETypes()
         "image/bmp",
         "image/gif"
     })
-    @DisplayName("supports with type %s")
+    @DisplayName("BitmapEncoderRegistry should support all ImageIO mime types (all encoders)")
     void supportMimeType(final String mimeType) {
         assertTrue(BitmapEncoderRegistry.supports(mimeType));
     }
@@ -56,11 +54,11 @@ public class BitmapEncoderRegistryTest {
         "image/png",
         "image/x-png",
         "image/jpeg",
-        "image/tiff",
+        // "image/tiff", // tiff is not supported by JDK 8 ImageIO.getWriterMIMETypes()
         "image/bmp",
         "image/gif"
     })
-    @DisplayName("supports with ImageIOBitmapEncoder and type %s")
+    @DisplayName("BitmapEncoderRegistry should support all ImageIO mime types (ImageIOBitmapEncoder)")
     void supportMimeTypeByBitmapEncoder(final String mimeType) {
         assertTrue(BitmapEncoderRegistry.supports(new ImageIOBitmapEncoder(), mimeType));
     }
