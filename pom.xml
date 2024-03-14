@@ -151,6 +151,7 @@
         <!-- maven tools plugins -->
         <enforcer-plugin.version>3.4.1</enforcer-plugin.version>
         <license-plugin.version>2.4.0</license-plugin.version>
+        <spotbugs-plugin.version>4.8.3.1</spotbugs-plugin.version>
         <plugin.version.maven-gpg-plugin>3.1.0</plugin.version.maven-gpg-plugin>
         <!-- other plugins -->
         <jacoco-plugin.version>0.8.11</jacoco-plugin.version>
@@ -412,7 +413,7 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.8.3.1</version>
+                    <version>${spotbugs-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
@@ -622,6 +623,7 @@
                 <plugin.version.maven-javadoc-plugin>3.1.1</plugin.version.maven-javadoc-plugin>
                 <enforcer-plugin.version>1.4.1</enforcer-plugin.version>
                 <license-plugin.version>1.20</license-plugin.version>
+                <spotbugs-plugin.version>3.1.6</spotbugs-plugin.version>
                 <plugin.version.maven-gpg-plugin>1.6</plugin.version.maven-gpg-plugin>
                 <jacoco-plugin.version>0.7.9</jacoco-plugin.version>
                 <jacoco.skip>true</jacoco.skip>
