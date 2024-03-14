@@ -134,7 +134,7 @@
         <!-- maven core plugins -->
         <plugin.version.maven-clean-plugin>3.3.2</plugin.version.maven-clean-plugin>
         <plugin.version.maven-compiler-plugin>3.12.1</plugin.version.maven-compiler-plugin>
-        <assembly-plugin.version>3.6.0</assembly-plugin.version>
+        <assembly-plugin.version>3.7.0</assembly-plugin.version>
         <dependency-plugin.version>3.6.1</dependency-plugin.version>
         <plugin.version.maven-deploy-plugin>3.1.1</plugin.version.maven-deploy-plugin>
         <plugin.version.maven-surefire-plugin>3.2.5</plugin.version.maven-surefire-plugin>
@@ -151,7 +151,8 @@
         <!-- maven tools plugins -->
         <enforcer-plugin.version>3.4.1</enforcer-plugin.version>
         <license-plugin.version>2.4.0</license-plugin.version>
-        <plugin.version.maven-gpg-plugin>3.1.0</plugin.version.maven-gpg-plugin>
+        <spotbugs-plugin.version>4.8.3.1</spotbugs-plugin.version>
+        <plugin.version.maven-gpg-plugin>3.2.0</plugin.version.maven-gpg-plugin>
         <!-- other plugins -->
         <jacoco-plugin.version>0.8.11</jacoco-plugin.version>
     </properties>
@@ -412,7 +413,7 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.8.3.1</version>
+                    <version>${spotbugs-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
@@ -422,7 +423,7 @@
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
-                    <version>3.10.0.2594</version>
+                    <version>3.11.0.3922</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -504,30 +505,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <configuration>
-                    <onlyAnalyze>org.krysalis.barcode4j.*</onlyAnalyze>
-                    <xmlOutput>true</xmlOutput>
-                    <plugins>
-                        <plugin>
-                            <groupId>com.h3xstream.findsecbugs</groupId>
-                            <artifactId>findsecbugs-plugin</artifactId>
-                            <version>1.13.0</version>
-                        </plugin>
-                    </plugins>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>check</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -622,10 +599,58 @@
                 <plugin.version.maven-javadoc-plugin>3.1.1</plugin.version.maven-javadoc-plugin>
                 <enforcer-plugin.version>1.4.1</enforcer-plugin.version>
                 <license-plugin.version>1.20</license-plugin.version>
+                <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
                 <plugin.version.maven-gpg-plugin>1.6</plugin.version.maven-gpg-plugin>
                 <jacoco-plugin.version>0.7.9</jacoco-plugin.version>
                 <jacoco.skip>true</jacoco.skip>
+                <spotbugs.skip>true</spotbugs.skip>
             </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-install-plugin</artifactId>
+                            <version>3.0.1</version>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>default</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <configuration>
+                            <onlyAnalyze>org.krysalis.barcode4j.*</onlyAnalyze>
+                            <xmlOutput>true</xmlOutput>
+                            <plugins>
+                                <plugin>
+                                    <groupId>com.h3xstream.findsecbugs</groupId>
+                                    <artifactId>findsecbugs-plugin</artifactId>
+                                    <version>1.13.0</version>
+                                </plugin>
+                            </plugins>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>check</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
 
         <profile>
