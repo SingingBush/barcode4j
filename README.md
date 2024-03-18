@@ -54,17 +54,22 @@ Initially the project will continue to be a compatible drop-in replacement for e
     <dependency>
         <groupId>com.singingbush</groupId>
         <artifactId>barcode4j</artifactId>
-        <version>2.2.2</version>
+        <version>2.2.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.singingbush</groupId>
+        <artifactId>barcode4j-xalan</artifactId>
+        <version>2.2.3</version>
     </dependency>
     <dependency>
         <groupId>com.singingbush</groupId>
         <artifactId>barcode4j-xgc</artifactId>
-        <version>2.2.2</version>
+        <version>2.2.3</version>
     </dependency>
     <dependency>
         <groupId>com.singingbush</groupId>
         <artifactId>barcode4j-fop-ext</artifactId>
-        <version>2.2.2</version>
+        <version>2.2.3</version>
     </dependency>
 ```
 
