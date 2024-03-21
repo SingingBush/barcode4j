@@ -133,7 +133,7 @@
         <!-- pluginManagement - set fixed versions for all maven plugins -->
         <!-- maven core plugins -->
         <plugin.version.maven-clean-plugin>3.3.2</plugin.version.maven-clean-plugin>
-        <plugin.version.maven-compiler-plugin>3.12.1</plugin.version.maven-compiler-plugin>
+        <plugin.version.maven-compiler-plugin>3.13.0</plugin.version.maven-compiler-plugin>
         <assembly-plugin.version>3.7.0</assembly-plugin.version>
         <dependency-plugin.version>3.6.1</dependency-plugin.version>
         <plugin.version.maven-deploy-plugin>3.1.1</plugin.version.maven-deploy-plugin>
