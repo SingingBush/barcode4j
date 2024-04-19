@@ -115,7 +115,7 @@
         <sonar.coverage.jacoco.xmlReportPaths>aggregate-report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
         <!-- dependencyManagement - set fixed versions for all project dependencies -->
-        <apache.commons-cli.version>1.6.0</apache.commons-cli.version>
+        <apache.commons-cli.version>1.7.0</apache.commons-cli.version>
         <org.apache.avalon.framework.version>4.3.1</org.apache.avalon.framework.version>
         <org.apache.xmlgraphics.version>2.9</org.apache.xmlgraphics.version>
         <org.apache.xmlgraphics.batik.version>1.17</org.apache.xmlgraphics.batik.version>
@@ -145,16 +145,16 @@
         <plugin.version.maven-verifier-plugin>1.1</plugin.version.maven-verifier-plugin>
         <!-- maven packaging plugins -->
         <plugin.version.maven-jar-plugin>3.3.0</plugin.version.maven-jar-plugin>
-        <plugin.version.maven-source-plugin>3.3.0</plugin.version.maven-source-plugin>
+        <plugin.version.maven-source-plugin>3.3.1</plugin.version.maven-source-plugin>
         <!-- maven reporting plugins -->
         <plugin.version.maven-javadoc-plugin>3.6.3</plugin.version.maven-javadoc-plugin>
         <!-- maven tools plugins -->
         <enforcer-plugin.version>3.4.1</enforcer-plugin.version>
         <license-plugin.version>2.4.0</license-plugin.version>
-        <spotbugs-plugin.version>4.8.3.1</spotbugs-plugin.version>
-        <plugin.version.maven-gpg-plugin>3.2.1</plugin.version.maven-gpg-plugin>
+        <spotbugs-plugin.version>4.8.4.0</spotbugs-plugin.version>
+        <plugin.version.maven-gpg-plugin>3.2.3</plugin.version.maven-gpg-plugin>
         <!-- other plugins -->
-        <jacoco-plugin.version>0.8.11</jacoco-plugin.version>
+        <jacoco-plugin.version>0.8.12</jacoco-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -587,6 +587,7 @@
                 <maven.compiler.source>1.7</maven.compiler.source>
                 <maven.compiler.target>1.7</maven.compiler.target>
                 <maven.test.skip>true</maven.test.skip>
+                <apache.commons-cli.version>1.6.0</apache.commons-cli.version>
                 <plugin.version.maven-compiler-plugin>3.8.1</plugin.version.maven-compiler-plugin>
                 <assembly-plugin.version>3.1.1</assembly-plugin.version>
                 <dependency-plugin.version>3.1.2</dependency-plugin.version>
