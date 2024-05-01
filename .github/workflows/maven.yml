@@ -122,7 +122,7 @@ jobs:
 
     # potentially Qodana could be it's own workflow (recommended in the docs)
     - name: Qodana Scan
-      uses: JetBrains/qodana-action@v2023.3
+      uses: JetBrains/qodana-action@v2024.1
       env:
         QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
 
