@@ -136,10 +136,10 @@
         <plugin.version.maven-compiler-plugin>3.13.0</plugin.version.maven-compiler-plugin>
         <assembly-plugin.version>3.7.1</assembly-plugin.version>
         <dependency-plugin.version>3.6.1</dependency-plugin.version>
-        <plugin.version.maven-deploy-plugin>3.1.1</plugin.version.maven-deploy-plugin>
+        <plugin.version.maven-deploy-plugin>3.1.2</plugin.version.maven-deploy-plugin>
         <plugin.version.maven-surefire-plugin>3.2.5</plugin.version.maven-surefire-plugin>
         <plugin.version.maven-failsafe-plugin>3.2.5</plugin.version.maven-failsafe-plugin>
-        <plugin.version.maven-install-plugin>3.1.1</plugin.version.maven-install-plugin>
+        <plugin.version.maven-install-plugin>3.1.2</plugin.version.maven-install-plugin>
         <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
         <plugin.version.maven-site-plugin>3.12.1</plugin.version.maven-site-plugin>
         <plugin.version.maven-verifier-plugin>1.1</plugin.version.maven-verifier-plugin>
@@ -606,17 +606,6 @@
                 <jacoco.skip>true</jacoco.skip>
                 <spotbugs.skip>true</spotbugs.skip>
             </properties>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-install-plugin</artifactId>
-                            <version>3.0.1</version>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
         </profile>
 
         <profile>
