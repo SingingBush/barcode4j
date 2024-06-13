@@ -135,7 +135,7 @@
         <plugin.version.maven-clean-plugin>3.3.2</plugin.version.maven-clean-plugin>
         <plugin.version.maven-compiler-plugin>3.13.0</plugin.version.maven-compiler-plugin>
         <assembly-plugin.version>3.7.1</assembly-plugin.version>
-        <dependency-plugin.version>3.6.1</dependency-plugin.version>
+        <dependency-plugin.version>3.7.0</dependency-plugin.version>
         <plugin.version.maven-deploy-plugin>3.1.2</plugin.version.maven-deploy-plugin>
         <plugin.version.maven-surefire-plugin>3.2.5</plugin.version.maven-surefire-plugin>
         <plugin.version.maven-failsafe-plugin>3.2.5</plugin.version.maven-failsafe-plugin>
