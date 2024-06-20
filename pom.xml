@@ -144,7 +144,7 @@
         <plugin.version.maven-site-plugin>3.12.1</plugin.version.maven-site-plugin>
         <plugin.version.maven-verifier-plugin>1.1</plugin.version.maven-verifier-plugin>
         <!-- maven packaging plugins -->
-        <plugin.version.maven-jar-plugin>3.4.1</plugin.version.maven-jar-plugin>
+        <plugin.version.maven-jar-plugin>3.4.2</plugin.version.maven-jar-plugin>
         <plugin.version.maven-source-plugin>3.3.1</plugin.version.maven-source-plugin>
         <!-- maven reporting plugins -->
         <plugin.version.maven-javadoc-plugin>3.6.3</plugin.version.maven-javadoc-plugin>
