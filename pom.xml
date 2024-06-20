@@ -138,7 +138,7 @@
         <dependency-plugin.version>3.6.1</dependency-plugin.version>
         <plugin.version.maven-deploy-plugin>3.1.2</plugin.version.maven-deploy-plugin>
         <plugin.version.maven-surefire-plugin>3.2.5</plugin.version.maven-surefire-plugin>
-        <plugin.version.maven-failsafe-plugin>3.2.5</plugin.version.maven-failsafe-plugin>
+        <plugin.version.maven-failsafe-plugin>3.3.0</plugin.version.maven-failsafe-plugin>
         <plugin.version.maven-install-plugin>3.1.2</plugin.version.maven-install-plugin>
         <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
         <plugin.version.maven-site-plugin>3.12.1</plugin.version.maven-site-plugin>
