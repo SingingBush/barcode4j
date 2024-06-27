@@ -134,22 +134,22 @@
         <!-- maven core plugins -->
         <plugin.version.maven-clean-plugin>3.3.2</plugin.version.maven-clean-plugin>
         <plugin.version.maven-compiler-plugin>3.13.0</plugin.version.maven-compiler-plugin>
-        <assembly-plugin.version>3.7.1</assembly-plugin.version>
-        <dependency-plugin.version>3.6.1</dependency-plugin.version>
+        <plugin.version.maven-assembly-plugin>3.7.1</plugin.version.maven-assembly-plugin>
+        <plugin.version.maven-dependency-plugin>3.7.1</plugin.version.maven-dependency-plugin>
         <plugin.version.maven-deploy-plugin>3.1.2</plugin.version.maven-deploy-plugin>
-        <plugin.version.maven-surefire-plugin>3.2.5</plugin.version.maven-surefire-plugin>
-        <plugin.version.maven-failsafe-plugin>3.2.5</plugin.version.maven-failsafe-plugin>
+        <plugin.version.maven-surefire-plugin>3.3.0</plugin.version.maven-surefire-plugin>
+        <plugin.version.maven-failsafe-plugin>3.3.0</plugin.version.maven-failsafe-plugin>
         <plugin.version.maven-install-plugin>3.1.2</plugin.version.maven-install-plugin>
         <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
         <plugin.version.maven-site-plugin>3.12.1</plugin.version.maven-site-plugin>
         <plugin.version.maven-verifier-plugin>1.1</plugin.version.maven-verifier-plugin>
         <!-- maven packaging plugins -->
-        <plugin.version.maven-jar-plugin>3.4.1</plugin.version.maven-jar-plugin>
+        <plugin.version.maven-jar-plugin>3.4.2</plugin.version.maven-jar-plugin>
         <plugin.version.maven-source-plugin>3.3.1</plugin.version.maven-source-plugin>
         <!-- maven reporting plugins -->
-        <plugin.version.maven-javadoc-plugin>3.6.3</plugin.version.maven-javadoc-plugin>
+        <plugin.version.maven-javadoc-plugin>3.7.0</plugin.version.maven-javadoc-plugin>
         <!-- maven tools plugins -->
-        <enforcer-plugin.version>3.5.0</enforcer-plugin.version>
+        <plugin.version.maven-enforcer-plugin>3.5.0</plugin.version.maven-enforcer-plugin>
         <license-plugin.version>2.4.0</license-plugin.version>
         <spotbugs-plugin.version>4.8.5.0</spotbugs-plugin.version>
         <plugin.version.maven-gpg-plugin>3.2.4</plugin.version.maven-gpg-plugin>
@@ -281,12 +281,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>${assembly-plugin.version}</version>
+                    <version>${plugin.version.maven-assembly-plugin}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>${dependency-plugin.version}</version>
+                    <version>${plugin.version.maven-dependency-plugin}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -365,7 +365,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>${enforcer-plugin.version}</version>
+                    <version>${plugin.version.maven-enforcer-plugin}</version>
                     <executions>
                         <execution>
                             <id>default-cli</id>
@@ -589,8 +589,8 @@
                 <maven.test.skip>true</maven.test.skip>
                 <apache.commons-cli.version>1.6.0</apache.commons-cli.version>
                 <plugin.version.maven-compiler-plugin>3.8.1</plugin.version.maven-compiler-plugin>
-                <assembly-plugin.version>3.1.1</assembly-plugin.version>
-                <dependency-plugin.version>3.1.2</dependency-plugin.version>
+                <plugin.version.maven-assembly-plugin>3.1.1</plugin.version.maven-assembly-plugin>
+                <plugin.version.maven-dependency-plugin>3.1.2</plugin.version.maven-dependency-plugin>
                 <plugin.version.maven-resources-plugin>2.7</plugin.version.maven-resources-plugin>
                 <plugin.version.maven-deploy-plugin>2.8.2</plugin.version.maven-deploy-plugin>
                 <plugin.version.maven-surefire-plugin>2.22.2</plugin.version.maven-surefire-plugin>
@@ -598,7 +598,7 @@
                 <plugin.version.maven-jar-plugin>3.1.2</plugin.version.maven-jar-plugin>
                 <plugin.version.maven-source-plugin>3.1.0</plugin.version.maven-source-plugin>
                 <plugin.version.maven-javadoc-plugin>3.1.1</plugin.version.maven-javadoc-plugin>
-                <enforcer-plugin.version>1.4.1</enforcer-plugin.version>
+                <plugin.version.maven-enforcer-plugin>1.4.1</plugin.version.maven-enforcer-plugin>
                 <license-plugin.version>1.20</license-plugin.version>
                 <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
                 <plugin.version.maven-gpg-plugin>1.6</plugin.version.maven-gpg-plugin>
