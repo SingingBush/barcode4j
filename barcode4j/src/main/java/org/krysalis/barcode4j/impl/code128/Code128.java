@@ -15,21 +15,18 @@
  */
 package org.krysalis.barcode4j.impl.code128;
 
-
 import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
 import org.krysalis.barcode4j.tools.Length;
-
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configurable;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 
 /**
  * This class is an implementation of the Code 128 barcode.
  *
  * @version $Id: Code128.java,v 1.2 2009-02-18 16:22:23 jmaerki Exp $
  */
-public class Code128 extends ConfigurableBarcodeGenerator
-            implements Configurable {
+public class Code128 extends ConfigurableBarcodeGenerator implements Configurable {
 
     /** Create a new instance. */
     public Code128() {
@@ -37,9 +34,10 @@ public class Code128 extends ConfigurableBarcodeGenerator
     }
 
     /** {@inheritDoc} */
+    @Override
     public void configure(Configuration cfg) throws ConfigurationException {
         //Module width (MUST ALWAYS BE FIRST BECAUSE QUIET ZONE MAY DEPEND ON IT)
-        Length mw = new Length(cfg.getChild("module-width").getValue("0.21mm"), "mm");
+        final Length mw = new Length(cfg.getChild("module-width").getValue("0.21mm"), "mm");
         getCode128Bean().setModuleWidth(mw.getValueAsMillimeter());
 
         super.configure(cfg);
@@ -67,6 +65,5 @@ public class Code128 extends ConfigurableBarcodeGenerator
     public Code128Bean getCode128Bean() {
         return (Code128Bean)getBean();
     }
-
 
 }

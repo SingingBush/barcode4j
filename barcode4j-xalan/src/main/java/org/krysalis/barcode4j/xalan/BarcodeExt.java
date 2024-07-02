@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
 
 import org.xml.sax.SAXException;
 
-import org.apache.avalon.framework.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.Configuration;
 import org.apache.xalan.extensions.XSLProcessorContext;
 import org.apache.xalan.templates.ElemExtensionCall;
 

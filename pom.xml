@@ -114,7 +114,6 @@
 
         <!-- dependencyManagement - set fixed versions for all project dependencies -->
         <apache.commons-cli.version>1.8.0</apache.commons-cli.version>
-        <org.apache.avalon.framework.version>4.3.1</org.apache.avalon.framework.version>
         <org.apache.xmlgraphics.version>2.9</org.apache.xmlgraphics.version>
         <org.apache.xmlgraphics.batik.version>1.17</org.apache.xmlgraphics.batik.version>
         <org.apache.xalan.version>2.7.3</org.apache.xalan.version>
@@ -161,11 +160,6 @@
                 <groupId>commons-cli</groupId>
                 <artifactId>commons-cli</artifactId>
                 <version>${apache.commons-cli.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.avalon.framework</groupId>
-                <artifactId>avalon-framework-impl</artifactId>
-                <version>${org.apache.avalon.framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlgraphics</groupId>

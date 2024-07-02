@@ -29,8 +29,8 @@ import org.krysalis.barcode4j.tools.UnitConv;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.fo.FONode;

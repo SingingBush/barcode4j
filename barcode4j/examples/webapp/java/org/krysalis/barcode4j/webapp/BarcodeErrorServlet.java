@@ -33,10 +33,6 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-import org.apache.avalon.framework.CascadingException;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.Logger;
-
 /**
  * Error handler servlet for Barcode exceptions.
  *
@@ -47,7 +43,7 @@ public class BarcodeErrorServlet extends HttpServlet {
 
     private static final long serialVersionUID = 6515981491896593768L;
 
-    private transient Logger log = new ConsoleLogger(ConsoleLogger.LEVEL_INFO);
+    //private transient Logger log = new ConsoleLogger(ConsoleLogger.LEVEL_INFO);
 
     /**
      * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest, HttpServletResponse)
@@ -61,12 +57,12 @@ public class BarcodeErrorServlet extends HttpServlet {
             java.net.URL xslt = getServletContext().getResource("/WEB-INF/exception2svg.xslt");
             TransformerHandler thandler;
             if (xslt != null) {
-                log.debug(xslt.toExternalForm());
+                //log.debug(xslt.toExternalForm());
                 Source xsltSource = new StreamSource(xslt.toExternalForm());
                 thandler = factory.newTransformerHandler(xsltSource);
                 response.setContentType("image/svg+xml");
             } else {
-                log.error("Exception stylesheet not found, sending back raw XML");
+                //log.error("Exception stylesheet not found, sending back raw XML");
                 thandler = factory.newTransformerHandler();
                 response.setContentType("application/xml");
             }
@@ -84,7 +80,7 @@ public class BarcodeErrorServlet extends HttpServlet {
             response.getOutputStream().write(bout.toByteArray());
             response.getOutputStream().flush();
         } catch (Exception e) {
-            log.error("Error in error servlet", e);
+            //log.error("Error in error servlet", e);
             throw new ServletException(e);
         }
     }
@@ -102,8 +98,7 @@ public class BarcodeErrorServlet extends HttpServlet {
         handler.endDocument();
     }
 
-    private void generateSAXForException(Throwable t,
-                ContentHandler handler, String elName) throws SAXException {
+    private void generateSAXForException(Throwable t, ContentHandler handler, String elName) throws SAXException {
         AttributesImpl attr = new AttributesImpl();
         attr.addAttribute(null, "classname", "classname", "CDATA", t.getClass().getName());
         handler.startElement(null, elName, elName, attr);

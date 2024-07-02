@@ -18,11 +18,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.avalon.framework</groupId>
-            <artifactId>avalon-framework-impl</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
             <scope>compile</scope>

@@ -24,9 +24,9 @@ import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.output.CanvasProvider;
 import org.krysalis.barcode4j.tools.Length;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configurable;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 
 /**
  * Base class for most Avalon-Configurable barcode implementation proxies.

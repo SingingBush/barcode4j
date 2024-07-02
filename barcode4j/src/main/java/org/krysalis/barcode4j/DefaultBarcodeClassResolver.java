@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
 import org.krysalis.barcode4j.tools.ZXingUtil;
 
 /**
@@ -109,7 +110,7 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
      * @see org.krysalis.barcode4j.BarcodeClassResolver#resolve(String)
      */
     @Override
-    public Class resolve(String name) throws ClassNotFoundException {
+    public Class<BarcodeGenerator> resolve(final String name) throws ClassNotFoundException {
         String clazz = null;
         if (this.classes != null) {
             clazz = this.classes.get(name.toLowerCase());
@@ -117,14 +118,14 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
         if (clazz == null) {
             clazz = name;
         }
-        return Class.forName(clazz);
+        return (Class<BarcodeGenerator>) Class.forName(clazz);
     }
 
     /**
      * @see org.krysalis.barcode4j.BarcodeClassResolver#resolveBean(String)
      */
     @Override
-    public Class resolveBean(String name) throws ClassNotFoundException {
+    public Class<AbstractBarcodeBean> resolveBean(String name) throws ClassNotFoundException {
         String clazz = null;
         if (this.classes != null) {
             clazz = this.classes.get(name.toLowerCase());
@@ -132,7 +133,7 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
         if (clazz == null) {
             clazz = name;
         }
-        return Class.forName(clazz + "Bean"); // todo: get rid of this as it won't work with GraalVM native image
+        return (Class<AbstractBarcodeBean>) Class.forName(clazz + "Bean"); // todo: get rid of this as it won't work with GraalVM native image
     }
 
     /**
