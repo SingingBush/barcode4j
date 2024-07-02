@@ -18,9 +18,11 @@
 package org.krysalis.barcode4j.tools;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the {@code MessageUtil} class.
@@ -31,7 +33,7 @@ public class MessageUtilTest {
      * Tests unescaping.
      * @throws Exception If an error occurs
      */
-    @Test
+    @Test // todo: split this into 3 separate tests
     void testUnescaping() throws Exception {
         String msg = "12345\\u001E00\\\\u001e11\\u0004";
         String processed = MessageUtil.unescapeUnicode(msg);
@@ -53,4 +55,16 @@ public class MessageUtilTest {
         assertEquals("1\\u001E", processed);
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = { "\u000F", "\u000B" })
+    void testFilterNonPrintableCharactersShouldFilter(final String text) {
+        assertEquals(" ", MessageUtil.filterNonPrintableCharacters(text));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "ABCxyz", "ÆÑÖ" })
+    @EmptySource
+    void testFilterNonPrintableCharactersShouldLeaveAsIs(final String text) {
+        assertEquals(text, MessageUtil.filterNonPrintableCharacters(text));
+    }
 }

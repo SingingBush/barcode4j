@@ -23,9 +23,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.DefaultConfiguration;
 
 /**
  * This utility class provides helper methods for Avalon Configuration objects.
@@ -51,6 +51,7 @@ public class ConfigurationUtil {
         return processNode(node);
     }
 
+    // @Nullable
     private static Element findDocumentElement(Document document) {
         try {
             return document.getDocumentElement(); //Xalan-bug, doesn't work (2.4.1)
@@ -81,7 +82,7 @@ public class ConfigurationUtil {
     }
 
     private static DefaultConfiguration processElement(Element el) {
-        String name = el.getLocalName();
+        String name = el.getLocalName(); // element can be null
         if (name == null) {
             name = el.getTagName();
         }

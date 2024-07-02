@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,7 +15,7 @@
  */
 package org.krysalis.barcode4j.output.svg;
 
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.krysalis.barcode4j.configuration.DefaultConfiguration;
 import org.jdom2.Document;
 import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Test class for SVG output to JDOM.
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: JDOMSVGOutputTest.java,v 1.4 2006-11-07 16:44:25 jmaerki Exp $
  */
@@ -33,10 +33,11 @@ public class JDOMSVGOutputTest {
 
     @Test
     void testJDOMSVG() throws Exception {
-        DefaultConfiguration cfg = new DefaultConfiguration("cfg");
+        final DefaultConfiguration cfg = new DefaultConfiguration("cfg");
         cfg.addChild(new DefaultConfiguration("intl2of5"));
-        BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
-        JDOMSVGCanvasProvider svg = new JDOMSVGCanvasProvider(false, 0);
+
+        final BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
+        final JDOMSVGCanvasProvider svg = new JDOMSVGCanvasProvider(false, 0);
 
         //Create Barcode and render it to SVG
         gen.generateBarcode(svg, "123");

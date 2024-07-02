@@ -30,8 +30,8 @@ import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
 import org.krysalis.barcode4j.tools.PageInfo;
 import org.krysalis.barcode4j.tools.VariableUtil;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 
 import org.apache.xmlgraphics.image.loader.Image;
 import org.apache.xmlgraphics.image.loader.ImageException;

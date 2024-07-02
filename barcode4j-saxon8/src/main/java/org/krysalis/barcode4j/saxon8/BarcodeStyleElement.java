@@ -16,8 +16,8 @@
  */
 package org.krysalis.barcode4j.saxon8;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;

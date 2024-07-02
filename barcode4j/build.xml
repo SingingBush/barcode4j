@@ -3,7 +3,7 @@
   <property file="build.properties"/>
   <property file="build-local.properties"/>
   <property environment="env"/>
-  
+
   <property name="Name" value="Barcode4J Library"/>
   <property name="name" value="barcode4j"/>
   <property name="version" value="${barcode4j-version}"/>
@@ -41,16 +41,12 @@
   <property name="jdom.dir" value="../barcode4j-jdom/src/main/"/>
   <property name="checkstyle.home" value=""/>
   <property name="main.class" value="org.krysalis.barcode4j.cli.Main"/>
-  
-  <!-- .NET support (using IKVM) -->
-  <property name="ikvm.dir" value="."/>
-  <property name="ikvmc" value="${ikvm.dir}/bin/ikvmc.exe"/>
-	
+
   <presetdef name="javac">
     <javac debug="${debug}" deprecation="${deprecation}" optimize="${optimize}"
       source="${javac.source}" target="${javac.target}" encoding="${encoding}"/>
   </presetdef>
-  
+
   <!-- jars -->
   <path id="project.classpath">
     <fileset dir="${lib.dir}">
@@ -89,7 +85,7 @@
     <tstamp>
       <format property="ts" pattern="yyyyMMdd-HHmmss-z"/>
     </tstamp>
-    
+
     <path id="bundle-util.classpath">
       <fileset dir="${lib.dir}/build-tools">
         <include name="**/*.jar"/>
@@ -98,7 +94,7 @@
     <taskdef resource="ch/jm/osgi/util/bundle/ant/antlib.xml"
       classpathref="bundle-util.classpath" onerror="fail"/>
   </target>
-  
+
   <target name="init" depends="pre-init">
     <available property="junit5.present" classname="org.apache.tools.ant.taskdefs.optional.junitlauncher.confined.JUnitLauncherTask" classpathref="test.classpath"/>
     <condition property="junit5.message" value="JUnit 5 (Jupiter) Support PRESENT">
@@ -124,20 +120,6 @@
     <available property="jdom.present" classname="org.jdom2.Document" classpathref="project.classpath"/>
     <property name="init.fop" value="true"/>
 
-    <condition property="IKVM.present">
-      <and>
-        <available file="${ikvmc}"/>
-      </and>
-    </condition>
-    <condition property="ikvm.message" value="IKVM Support PRESENT">
-      <isset property="IKVM.present"/>
-    </condition>
-    <condition property="ikvm.message" value="IKVM Support NOT PRESENT or DISABLED">
-      <not>
-        <isset property="IKVM.present"/>
-      </not>
-    </condition>
-    <echo message="${ikvm.message}"/>
   </target>
   <target name="init.fop" depends="init" if="init.fop">
     <echo message="Home directory for Apache FOP Trunk is set. Will try to compile FOP extension."/>
@@ -180,16 +162,10 @@
     <echo message="jdom2.jar to the lib directory."/>
     <echo message="===================================================================="/>
   </target>
-  <target name="info.ikvm" depends="init" unless="IKVM.present">
-    <echo message="===================================================================="/>
-    <echo message="You can enable compilation of .NET binaries by installing IKVM and"/>
-    <echo message="by specifying the 'ikvm.dir' value in build-local.properties."/>
-    <echo message="===================================================================="/>
-  </target>
   <!-- =================================================================== -->
   <!-- Prepares the build directory                                        -->
   <!-- =================================================================== -->
-  <target name="prepare" depends="init, init.fop, init.xgc, info.xalan, info.saxon8, info.saxon91, info.jdom, info.ikvm">
+  <target name="prepare" depends="init, init.fop, init.xgc, info.xalan, info.saxon8, info.saxon91, info.jdom">
     <!-- create directories -->
     <echo message="Preparing the build directories"/>
     <mkdir dir="${build.dir}"/>
@@ -262,7 +238,7 @@
   <target name="javadocs" depends="prepare" description="Generates Javadocs">
     <echo message="Creating java docs"/>
     <mkdir dir="${docs.dir}"/>
-    <javadoc destdir="${docs.dir}" packagenames="org.krysalis.*" 
+    <javadoc destdir="${docs.dir}" packagenames="org.krysalis.*"
           version="true" author="true" use="true"
           overview="${src.dir}/documentation/overview.html"
           windowtitle="${name} ${version} API"
@@ -276,7 +252,7 @@
       <packageset dir="${jdom.dir}/java" defaultexcludes="yes"/>
       <packageset dir="${src.xgc.dir}" defaultexcludes="yes"/>
       <tag name="todo" scope="all" description="TODO:" />
-      <link href="http://avalon.apache.org/framework/api/"/>
+
       <!--link href="http://www.saxonica.com/documentation/javadoc/"/ doesn't work anymore-->
       <doctitle>${name} ${version} API</doctitle>
       <bottom>&lt;i&gt;Copyright &#169; ${year} Jeremias Maerki. All rights reserved.&lt;i&gt;</bottom>
@@ -289,7 +265,7 @@
   <!-- =================================================================== -->
   <target name="package-base" depends="compile-all">
     <echo message="Creating the jar file ${build.dir}/${name}.jar"/>
-    
+
     <jar jarfile="${build.dir}/${name}.jar">
       <manifest>
         <attribute name="Main-Class" value="${main.class}"/>
@@ -304,7 +280,7 @@
         <include name="org/krysalis/**"/>
       </fileset>
     </jar>
-    
+
     <jar jarfile="${build.dir}/${name}-light.jar">
       <manifest>
         <attribute name="Implementation-Title" value="${Name}"/>
@@ -342,7 +318,7 @@
       </fileset>
     </jar>
   </target>
-  
+
   <target name="osgi" depends="package-base">
     <echo message="Adding OSGi metadata..."/>
     <convert-jar-to-bundle file="${build.dir}/${name}-light.jar"
@@ -358,8 +334,8 @@
       <attribute name="Bundle-DocURL" value="${impl.url}"/>
     </convert-jar-to-bundle>
   </target>
-  
-  
+
+
   <target name="package-fop" depends="compile-all">
     <echo message="Creating the jar file ${build.dir}/${name}-fop-ext.jar"/>
     <jar jarfile="${build.dir}/${name}-fop-ext.jar">
@@ -424,7 +400,7 @@
       </metainf>
     </jar>
   </target>
-  
+
   <target name="package-xgc" depends="compile-all">
     <echo message="Creating the jar file ${build.dir}/${name}-xgc.jar"/>
     <jar jarfile="${build.dir}/${name}-xgc.jar">
@@ -457,116 +433,9 @@
       </metainf>
     </jar>
   </target>
-  
-  <target name="package" depends="package-base, package-fop, package-xgc, osgi, package.NET" description="Creates the Barcode JAR packages"/>
-  
-  <!-- =================================================================== -->
-  <!-- Creates .NET binaries using IKVM                                    -->
-  <!-- =================================================================== -->
-  
-  <macrodef name="ikvm-compile">
-    <element name="args"/>
-    
-    <sequential>
-      <exec executable="${ikvmc}">
-        <arg value="-exclude:ikvm-excludes.txt"/>
-        <arg value="-debug"/>
-        <arg value="-reference:${build.dotnet.dir}/IKVM.*.dll"/>
-        <args/>
-      </exec>
-    </sequential>
-  </macrodef>
-  
-  <target name="package.NET" depends="package-base" if="IKVM.present" description="Generates the .NET DLL using IKVM">
-    <property name="avalon.name" value="avalon-framework-4.2.0"/>
-    <property name="cli.name" value="commons-cli-1.0"/>
-    
-    <mkdir dir="${build.dotnet.dir}"/>
-    <copy todir="${build.dotnet.dir}">
-      <fileset dir="${ikvm.dir}/bin">
-        <include name="IKVM.Runtime*.dll"/>
-        <include name="IKVM.OpenJDK*.dll"/>
-        <include name="IKVM.AWT*.dll"/>
-      </fileset>
-    </copy>
-    
-    <echo message="=== Avalon DLL ==="/>
-    <ikvm-compile>
-      <args>
-        <arg value="-target:library"/>
-        <arg value="-version:4.2.0.0"/>
-        <arg value="-out:${build.dotnet.dir}\${avalon.name}.dll"/>
-        <arg value="${lib.dir}\${avalon.name}.jar"/>
-      </args>
-    </ikvm-compile>
-    <echo message="=== Commons CLI DLL ==="/>
-    <ikvm-compile>
-      <args>
-        <arg value="-target:library"/>
-        <arg value="-version:1.0.0.0"/>
-        <arg value="-out:${build.dotnet.dir}\${cli.name}.dll"/>
-        <arg value="${lib.dir}\${cli.name}.jar"/>
-      </args>
-    </ikvm-compile>
-    <echo message="=== Barcode4J DLL ==="/>
-    <ikvm-compile>
-      <args>
-        <arg value="-reference:${build.dotnet.dir}\${avalon.name}.dll"/>
-        <arg value="-reference:${build.dotnet.dir}\${cli.name}.dll"/>
-        <arg value="-target:library"/>
-        <arg value="-version:${barcode4j-version.net}"/>
-        <arg value="-fileversion:${barcode4j-version}"/>
-        <arg value="-out:${build.dotnet.dir}\${name}-${version}.dll"/>
-        <arg value="${build.dir}\${name}.jar"/>
-      </args>
-    </ikvm-compile>
-    <echo message="=== Barcode4J EXE ==="/>
-    
-    <ikvm-compile>
-      <args>
-        <arg value="-reference:${build.dotnet.dir}\${name}-${version}.dll"/>
-        <arg value="-reference:${build.dotnet.dir}\${avalon.name}.dll"/>
-        <arg value="-reference:${build.dotnet.dir}\${cli.name}.dll"/>
-        <arg value="-target:exe"/>
-        <arg value="-version:${barcode4j-version.net}"/>
-        <arg value="-fileversion:${barcode4j-version}"/>
-        <arg value="-out:${build.dotnet.dir}\${name}.exe"/>
-        <arg value="-main:${main.class}"/>
-      </args>
-    </ikvm-compile>
-  </target>
-  <!-- =================================================================== -->
-  <!-- Sample web application                                             -->
-  <!-- =================================================================== -->
-<!--  <target name="webapp" depends="package" description="Creates the sample webapp found in the example/webapp directory">-->
-<!--    <echo message="Creating the WAR file ${build.dir}/${name}.war"/>-->
-<!--    <property name="webapp.dir" value="examples/webapp"/>-->
-<!--    <property name="build.webapp.dest" value="${build.dir}/webapp/classes"/>-->
-<!--    <mkdir dir="${build.webapp.dest}"/>-->
-<!--    <path id="webapp.classpath">-->
-<!--      <fileset dir="${build.dir}">-->
-<!--        <include name="${name}.jar"/>-->
-<!--      </fileset>-->
-<!--      <path refid="project.classpath"/>-->
-<!--    </path>-->
-<!--    <javac srcdir="${webapp.dir}/java" destdir="${build.webapp.dest}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}" encoding="${encoding}">-->
-<!--      <classpath refid="webapp.classpath"/>-->
-<!--    </javac>-->
-<!--    <war warfile="${build.dir}/${name}.war" webxml="${webapp.dir}/conf/web.xml">-->
-<!--      <lib dir="${lib.dir}">-->
-<!--        <include name="avalon-framework*.jar"/>-->
-<!--        <include name="zxing*.jar"/>-->
-<!--      </lib>-->
-<!--      <lib dir="${build.dir}">-->
-<!--        <include name="${name}.jar"/>-->
-<!--      </lib>-->
-<!--      <classes dir="${build.webapp.dest}"/>-->
-<!--      <fileset dir="${webapp.dir}/html"/>-->
-<!--      <webinf dir="${webapp.dir}/xml">-->
-<!--        <include name="*.xslt"/>-->
-<!--      </webinf>-->
-<!--    </war>-->
-<!--  </target>-->
+
+  <target name="package" depends="package-base, package-fop, package-xgc, osgi" description="Creates the Barcode JAR packages"/>
+
 
   <!-- =================================================================== -->
   <!-- Tests                                                               -->
@@ -652,7 +521,7 @@
   <target name="clean" depends="init" description="Cleans and deletes the build directory">
     <delete dir="${build.dir}"/>
     <subant target="clean">
-      <dirset dir="${basedir}" includes="examples/demo-applet"/> 
+      <dirset dir="${basedir}" includes="examples/demo-applet"/>
     </subant>
   </target>
   <!-- =================================================================== -->
