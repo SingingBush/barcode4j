@@ -20,9 +20,9 @@ import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
 import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
 import org.krysalis.barcode4j.tools.Length;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configurable;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 
 /**
  * This class is an implementation of the Interleaved 2 of 5 barcode.
@@ -30,8 +30,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @author Jeremias Maerki
  * @version $Id: Interleaved2Of5.java,v 1.3 2009-02-19 10:14:54 jmaerki Exp $
  */
-public class Interleaved2Of5 extends ConfigurableBarcodeGenerator
-            implements Configurable {
+public class Interleaved2Of5 extends ConfigurableBarcodeGenerator implements Configurable {
 
     /** Create a new instance. */
     public Interleaved2Of5() {
@@ -47,10 +46,11 @@ public class Interleaved2Of5 extends ConfigurableBarcodeGenerator
     }
 
     /** {@inheritDoc} */
+    @Override
     public void configure(Configuration cfg) throws ConfigurationException {
-        Interleaved2Of5Bean bean = getInterleaved2Of5Bean();
+        final Interleaved2Of5Bean bean = getInterleaved2Of5Bean();
         //Module width (MUST ALWAYS BE FIRST BECAUSE QUIET ZONE MAY DEPEND ON IT)
-        Length mw = new Length(cfg.getChild("module-width")
+        final Length mw = new Length(cfg.getChild("module-width")
                         .getValue(bean.getModuleWidth() + "mm"), "mm");
         bean.setModuleWidth(mw.getValueAsMillimeter());
 
@@ -58,17 +58,16 @@ public class Interleaved2Of5 extends ConfigurableBarcodeGenerator
 
         //Checksum mode
         bean.setChecksumMode(ChecksumMode.byName(
-            cfg.getChild("checksum").getValue(ChecksumMode.CP_AUTO.getName())));
+            cfg.getChild("checksum").getValue(ChecksumMode.CP_AUTO.getName())
+        ));
 
         //Wide factor
-        bean.setWideFactor(
-            cfg.getChild("wide-factor").getValueAsFloat((float)bean.getWideFactor()));
+        bean.setWideFactor(cfg.getChild("wide-factor").getValueAsFloat((float)bean.getWideFactor()));
 
-        Configuration hr = cfg.getChild("human-readable", false);
+        final Configuration hr = cfg.getChild("human-readable", false);
         if (hr != null) {
             //Display checksum in hr-message or not
-            bean.setDisplayChecksum(
-                    hr.getChild("display-checksum").getValueAsBoolean(false));
+            bean.setDisplayChecksum(hr.getChild("display-checksum").getValueAsBoolean(false));
         }
     }
 

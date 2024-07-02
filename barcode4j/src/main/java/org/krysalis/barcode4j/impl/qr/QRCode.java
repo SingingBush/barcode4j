@@ -23,17 +23,16 @@ import java.awt.Dimension;
 import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
 import org.krysalis.barcode4j.tools.Length;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configurable;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 
 /**
  * This class is an implementation of QR Code.
  *
  * @version $Id: QRCode.java,v 1.1 2012-01-27 14:36:35 jmaerki Exp $
  */
-public class QRCode extends ConfigurableBarcodeGenerator
-            implements Configurable {
+public class QRCode extends ConfigurableBarcodeGenerator implements Configurable {
 
     /** Create a new instance. */
     public QRCode() {
@@ -41,8 +40,9 @@ public class QRCode extends ConfigurableBarcodeGenerator
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configurable#configure(Configuration)
+     * @see org.krysalis.barcode4j.configuration.Configurable#configure(Configuration)
      */
+    @Override
     public void configure(Configuration cfg) throws ConfigurationException {
         //Module width (MUST ALWAYS BE FIRST BECAUSE QUIET ZONE MAY DEPEND ON IT)
         final String mws = cfg.getChild("module-width").getValue(null);

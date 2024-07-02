@@ -35,7 +35,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
-import org.apache.avalon.framework.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.Configuration;
 import org.apache.batik.anim.dom.SVGDOMImplementation;
 
 import org.apache.xmlgraphics.java2d.Graphics2DImagePainter;
@@ -61,27 +61,25 @@ public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
 
     private static final boolean DEBUG = false;
 
-    /** The context constant for the PostScript generator that is being used to drawn into. */
+    /** The context constant for the PostScript generator that is being used to draw into. */
     private static final String PS_GENERATOR = "psGenerator";
 
     /** {@inheritDoc} */
-    public void handleXML(RendererContext context,
-            Document doc, String ns) throws Exception {
+    @Override
+    public void handleXML(RendererContext context, Document doc, String ns) throws Exception {
         Configuration cfg = ConfigurationUtil.buildConfiguration(doc);
         String msg = ConfigurationUtil.getMessage(cfg);
         if (DEBUG) {
             System.out.println("Barcode message: " + msg);
         }
-        String renderMode = cfg.getAttribute("render-mode", "native");
+        final String renderMode = cfg.getAttribute("render-mode", "native");
         int orientation = cfg.getAttributeAsInteger("orientation", 0);
         orientation = BarcodeDimension.normalizeOrientation(orientation);
 
-        PageViewport page = (PageViewport)context.getProperty(PAGE_VIEWPORT);
+        final PageViewport page = (PageViewport)context.getProperty(PAGE_VIEWPORT);
 
-        BarcodeGenerator bargen = BarcodeUtil.getInstance().
-                createBarcodeGenerator(cfg);
-        String expandedMsg = VariableUtil.getExpandedMessage(
-                page, msg);
+        final BarcodeGenerator bargen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
+        final String expandedMsg = VariableUtil.getExpandedMessage(page, msg);
 
         boolean handled = false;
         String effRenderMode = renderMode;
@@ -113,11 +111,10 @@ public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
         }
     }
 
-    private void renderUsingEPS(RendererContext context, BarcodeGenerator bargen,
-                String msg, int orientation) throws IOException {
-        PSGenerator gen = (PSGenerator)context.getProperty(PS_GENERATOR);
-        ByteArrayOutputStream baout = new ByteArrayOutputStream(1024);
-        EPSCanvasProvider canvas = new EPSCanvasProvider(baout, orientation);
+    private void renderUsingEPS(RendererContext context, BarcodeGenerator bargen, String msg, int orientation) throws IOException {
+        final PSGenerator gen = (PSGenerator)context.getProperty(PS_GENERATOR);
+        final ByteArrayOutputStream baout = new ByteArrayOutputStream(1024);
+        final EPSCanvasProvider canvas = new EPSCanvasProvider(baout, orientation);
         bargen.generateBarcode(canvas, msg);
         canvas.finish();
 
@@ -140,11 +137,10 @@ public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
                 gen);
     }
 
-    private boolean renderUsingGraphics2D(RendererContext context,
-            final BarcodeGenerator bargen,
-            final String msg, final int orientation) throws IOException {
+    private boolean renderUsingGraphics2D(final RendererContext context, final BarcodeGenerator bargen,
+                final String msg, final int orientation) throws IOException {
 
-        Graphics2DAdapter g2dAdapter = context.getRenderer().getGraphics2DAdapter();
+        final Graphics2DAdapter g2dAdapter = context.getRenderer().getGraphics2DAdapter();
         if (g2dAdapter != null) {
             final BarcodeDimension barDim = bargen.calcDimensions(msg);
 
@@ -184,13 +180,12 @@ public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
         }
     }
 
-    private boolean renderUsingBitmap(RendererContext context,
-            final BarcodeGenerator bargen,
-            final String msg, final int orientation) throws IOException {
-        ImageAdapter imgAdapter = context.getRenderer().getImageAdapter();
+    private boolean renderUsingBitmap(RendererContext context, final BarcodeGenerator bargen,
+                final String msg, final int orientation) throws IOException {
+        final ImageAdapter imgAdapter = context.getRenderer().getImageAdapter();
         if (imgAdapter != null) {
 
-            BitmapCanvasProvider canvas = new BitmapCanvasProvider(
+            final BitmapCanvasProvider canvas = new BitmapCanvasProvider(
                     300, BufferedImage.TYPE_BYTE_BINARY, false, orientation);
             bargen.generateBarcode(canvas, msg);
 
@@ -217,21 +212,19 @@ public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
      * @param msg the barcode message
      * @throws BarcodeCanvasSetupException In case of an error while generating the barcode
      */
-    private void convertToSVG(RendererContext context,
-            BarcodeGenerator bargen, String msg, int orientation)
+    private void convertToSVG(RendererContext context, BarcodeGenerator bargen, String msg, int orientation)
                 throws BarcodeCanvasSetupException {
-        DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();
+        final DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();
 
-        SVGCanvasProvider canvas = new SVGCanvasProvider(impl, true, orientation);
+        final SVGCanvasProvider canvas = new SVGCanvasProvider(impl, true, orientation);
         bargen.generateBarcode(canvas, msg);
-        Document svg = canvas.getDOM();
+        final Document svg = canvas.getDOM();
 
         //Call the renderXML() method of the renderer to render the SVG
         if (DEBUG) {
             System.out.println(" --> SVG");
         }
-        context.getRenderer().renderXML(context,
-                svg, SVGDOMImplementation.SVG_NAMESPACE_URI);
+        context.getRenderer().renderXML(context, svg, SVGDOMImplementation.SVG_NAMESPACE_URI);
     }
 
     /** {@inheritDoc} */
@@ -240,11 +233,13 @@ public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getNamespace() {
         return BarcodeElementMapping.NAMESPACE;
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean supportsRenderer(Renderer renderer) {
         return (renderer.getGraphics2DAdapter() != null);
     }

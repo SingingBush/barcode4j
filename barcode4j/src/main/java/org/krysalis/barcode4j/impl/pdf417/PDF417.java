@@ -18,17 +18,16 @@ package org.krysalis.barcode4j.impl.pdf417;
 import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
 import org.krysalis.barcode4j.tools.Length;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configurable;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 
 /**
  * This class is an implementation of the PDF417 barcode.
  *
  * @version $Id: PDF417.java,v 1.7 2012-05-17 13:57:37 jmaerki Exp $
  */
-public class PDF417 extends ConfigurableBarcodeGenerator
-            implements Configurable {
+public class PDF417 extends ConfigurableBarcodeGenerator implements Configurable {
 
     /** Create a new instance. */
     public PDF417() {
@@ -36,13 +35,14 @@ public class PDF417 extends ConfigurableBarcodeGenerator
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configurable#configure(Configuration)
+     * @see org.krysalis.barcode4j.configuration.Configurable#configure(Configuration)
      */
+    @Override
     public void configure(Configuration cfg) throws ConfigurationException {
         //Module width (MUST ALWAYS BE FIRST BECAUSE QUIET ZONE MAY DEPEND ON IT)
         String mws = cfg.getChild("module-width").getValue(null);
         if (mws != null) {
-            Length mw = new Length(mws, "mm");
+            final Length mw = new Length(mws, "mm");
             getPDF417Bean().setModuleWidth(mw.getValueAsMillimeter());
         }
 
@@ -75,9 +75,10 @@ public class PDF417 extends ConfigurableBarcodeGenerator
         getPDF417Bean().setErrorCorrectionLevel(cfg.getChild("ec-level").getValueAsInteger(
                 PDF417Bean.DEFAULT_ERROR_CORRECTION_LEVEL));
 
-        String rhs = cfg.getChild("row-height").getValue(null);
+        final String rhs = cfg.getChild("row-height").getValue(null);
+
         if (rhs != null) {
-            Length rh = new Length(rhs, "mw");
+            final Length rh = new Length(rhs, "mw");
             if (rh.getUnit().equalsIgnoreCase("mw")) {
                 getPDF417Bean().setRowHeight(rh.getValue() * getBean().getModuleWidth());
             } else {

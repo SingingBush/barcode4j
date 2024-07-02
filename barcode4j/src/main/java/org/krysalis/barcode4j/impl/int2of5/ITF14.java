@@ -18,8 +18,8 @@ package org.krysalis.barcode4j.impl.int2of5;
 import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
 import org.krysalis.barcode4j.tools.Length;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 
 /**
  * This class is an implementation of ITF-14 (as defined by the
@@ -40,13 +40,15 @@ public class ITF14 extends Interleaved2Of5 {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void configure(Configuration cfg) throws ConfigurationException {
         super.configure(cfg);
 
         //Bearer bar width
         Configuration c = cfg.getChild("bearer-bar-width", false);
+
         if (c != null) {
-            Length w = new Length(c.getValue(), "mw");
+            final Length w = new Length(c.getValue(), "mw");
             if (w.getUnit().equalsIgnoreCase("mw")) {
                 getITFBean().setBearerBarWidth(w.getValue() * getBean().getModuleWidth());
             } else {
