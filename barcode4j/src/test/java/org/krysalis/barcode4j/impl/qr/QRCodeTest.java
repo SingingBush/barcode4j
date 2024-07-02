@@ -15,7 +15,7 @@
  */
 package org.krysalis.barcode4j.impl.qr;
 
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.krysalis.barcode4j.configuration.DefaultConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,8 +25,8 @@ import java.nio.charset.StandardCharsets;
 import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.tools.Length;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -84,7 +84,7 @@ public class QRCodeTest {
         when(config.getChild(eq("module-width"))).thenReturn(moduleWidth);
 
         final DefaultConfiguration quietZone = new DefaultConfiguration("");
-        quietZone.setAttribute("quiet-zone", true);
+        quietZone.setAttribute("quiet-zone", String.valueOf(true));
         quietZone.setValue("8mw");
         when(this.mockBean.getModuleWidth()).thenReturn(1.0d); // needed as QZ is multiplied by width
         when(config.getChild(eq("quiet-zone"))).thenReturn(quietZone);

@@ -124,7 +124,7 @@ public class BarcodeUtil {
             );
         } catch (InstantiationException ie) {
             throw new BarcodeException(
-                "Error instantiating a barcode generator: " + cl.getName(),
+                "Error instantiating a barcode generator: " + cl != null ? cl.getName() : "class not resolved",
                 ie
             );
         }
