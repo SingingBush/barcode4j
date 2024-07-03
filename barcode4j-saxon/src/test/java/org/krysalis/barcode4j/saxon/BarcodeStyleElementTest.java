@@ -43,6 +43,19 @@ public class BarcodeStyleElementTest {
         assertTrue(element.mayContainSequenceConstructor());
     }
 
+    /*
+     * Generally a BarcodeStyleElement will have BarcodeNonRootStyleElement as children
+     * <code>
+     *     <barcode4j:barcode message="{message}" orientation="90">
+     *         <barcode4j:code128>
+     *             <barcode4j:height>15mm</barcode4j:height>
+     *             <barcode4j:module-width>0.21mm</barcode4j:module-width>
+     *             <barcode4j:codesets>ABC</barcode4j:codesets>
+     *             <barcode4j:quiet-zone enabled="true">10mw</barcode4j:quiet-zone>
+     *         </barcode4j:code128>
+     *     </barcode4j:barcode>
+     * </code>
+     */
     @Test
     @DisplayName("Should permit nor root barcode child elements")
     void isPermittedChild() {
