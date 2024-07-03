@@ -1,6 +1,6 @@
 /*
- * Copyright 2003-2004,2007 Jeremias Maerki.
- * Copyright 2006 Robert Deeken (compatibility with Saxon 8.7.1 and later)
+ * Copyright 2003-2012 Jeremias Maerki.
+ * Copyright 2020-2024 Samael Bate (singingbush)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,34 +16,34 @@
  */
 package org.krysalis.barcode4j.saxon;
 
- import com.saxonica.xqj.SaxonXQPreparedExpression;
- import net.sf.saxon.dom.DOMNodeWrapper;
- import net.sf.saxon.dom.DocumentWrapper;
- import net.sf.saxon.dom.NodeOverNodeInfo;
- import net.sf.saxon.event.Outputter;
- import net.sf.saxon.event.Receiver;
- import net.sf.saxon.event.SequenceReceiver;
- import net.sf.saxon.expr.Expression;
- import net.sf.saxon.expr.Literal;
- import net.sf.saxon.expr.SimpleExpression;
- import net.sf.saxon.expr.XPathContext;
- import net.sf.saxon.expr.instruct.SimpleNodeConstructor;
- import net.sf.saxon.expr.parser.ContextItemStaticInfo;
- import net.sf.saxon.expr.parser.ExpressionVisitor;
- import net.sf.saxon.expr.parser.RebindingMap;
- import net.sf.saxon.om.*;
- import net.sf.saxon.option.dom4j.DOM4JNodeWrapper;
- import net.sf.saxon.s9api.Axis;
- import net.sf.saxon.style.Compilation;
- import net.sf.saxon.style.ComponentDeclaration;
- import net.sf.saxon.style.ExtensionInstruction;
- import net.sf.saxon.style.StyleElement;
- import net.sf.saxon.sxpath.XPathExpression;
- import net.sf.saxon.trace.ExpressionPresenter;
- import net.sf.saxon.trans.XPathException;
- import net.sf.saxon.tree.iter.ArrayIterator;
- import net.sf.saxon.type.SchemaType;
- import net.sf.saxon.type.ValidationException;
+import com.saxonica.xqj.SaxonXQPreparedExpression;
+import net.sf.saxon.dom.DOMNodeWrapper;
+import net.sf.saxon.dom.DocumentWrapper;
+import net.sf.saxon.dom.NodeOverNodeInfo;
+import net.sf.saxon.event.Outputter;
+import net.sf.saxon.event.Receiver;
+import net.sf.saxon.event.SequenceReceiver;
+import net.sf.saxon.expr.Expression;
+import net.sf.saxon.expr.Literal;
+import net.sf.saxon.expr.SimpleExpression;
+import net.sf.saxon.expr.XPathContext;
+import net.sf.saxon.expr.instruct.SimpleNodeConstructor;
+import net.sf.saxon.expr.parser.ContextItemStaticInfo;
+import net.sf.saxon.expr.parser.ExpressionVisitor;
+import net.sf.saxon.expr.parser.RebindingMap;
+import net.sf.saxon.om.*;
+import net.sf.saxon.option.dom4j.DOM4JNodeWrapper;
+import net.sf.saxon.s9api.Axis;
+import net.sf.saxon.style.Compilation;
+import net.sf.saxon.style.ComponentDeclaration;
+import net.sf.saxon.style.ExtensionInstruction;
+import net.sf.saxon.style.StyleElement;
+import net.sf.saxon.sxpath.XPathExpression;
+import net.sf.saxon.trace.ExpressionPresenter;
+import net.sf.saxon.trans.XPathException;
+import net.sf.saxon.tree.iter.ArrayIterator;
+import net.sf.saxon.type.SchemaType;
+import net.sf.saxon.type.ValidationException;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -53,15 +53,12 @@ import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
 import org.krysalis.barcode4j.tools.ConfigurationUtil;
- import org.w3c.dom.Node;
-
- import javax.xml.xquery.XQPreparedExpression;
+import org.w3c.dom.Node;
 
 /**
  * This represents the main barcode element.
  *
- * @author Jeremias Maerki
- * @version $Id: BarcodeStyleElement.java,v 1.4 2007-01-15 11:12:33 jmaerki Exp $
+ * @author Jeremias Maerki &amp; Samael Bate (singingbush)
  */
 public class BarcodeStyleElement extends StyleElement {
 
@@ -108,7 +105,6 @@ public class BarcodeStyleElement extends StyleElement {
         }
 
         //final AttributeInfo attributeInfo = new AttributeInfo(NodeName);
-
 
         this.message = super.makeAttributeValueTemplate(msgAtt, null);
 

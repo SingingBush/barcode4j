@@ -1,4 +1,7 @@
 /*
+ * Copyright 2003-2012 Jeremias Maerki.
+ * Copyright 2020-2024 Samael Bate (singingbush)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,7 +34,7 @@ import net.sf.saxon.style.StyleElement;
  * From version 10 onward, instead of implementing "net.sf.saxon.style.ExtensionElementFactory"
  * use "com.saxonica.xsltextn.ExtensionElementFactory"
  * </p>
- * @author Jeremias Maerki
+ * @author Jeremias Maerki &amp; Samael Bate (singingbush)
  * @see com.saxonica.xsltextn.ExtensionElementFactory
  */
 public class BarcodeExtensionElementFactory implements ExtensionElementFactory {
