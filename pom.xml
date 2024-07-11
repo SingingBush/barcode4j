@@ -151,7 +151,7 @@
         <!-- maven tools plugins -->
         <plugin.version.maven-enforcer-plugin>3.5.0</plugin.version.maven-enforcer-plugin>
         <license-plugin.version>2.4.0</license-plugin.version>
-        <spotbugs-plugin.version>4.8.5.0</spotbugs-plugin.version>
+        <spotbugs-plugin.version>4.8.6.2</spotbugs-plugin.version>
         <plugin.version.maven-gpg-plugin>3.2.4</plugin.version.maven-gpg-plugin>
         <!-- other plugins -->
         <jacoco-plugin.version>0.8.12</jacoco-plugin.version>
