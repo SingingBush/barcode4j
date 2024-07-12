@@ -103,8 +103,8 @@ public class BarcodeStyleElement extends ExtensionInstruction {
     /**
      * This is called to create an Expression object which is added to the expression tree.
      * @param exec a non-nullable saxon executable
-     * @return a new BarcodeExpression instance using the message & orientation expressions
-     * @throws XPathException
+     * @return a new BarcodeExpression instance using the message &amp; orientation expressions
+     * @throws XPathException not thrown by this implementation
      * @see net.sf.saxon.style.StyleElement#compile(net.sf.saxon.instruct.Executable)
      */
     //@Nullable & arg is non-null
