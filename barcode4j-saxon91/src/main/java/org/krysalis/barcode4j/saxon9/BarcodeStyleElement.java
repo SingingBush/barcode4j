@@ -16,6 +16,7 @@
  */
 package org.krysalis.barcode4j.saxon9;
 
+import net.sf.saxon.style.ExtensionInstruction;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.krysalis.barcode4j.BarcodeDimension;
@@ -41,19 +42,13 @@ import net.sf.saxon.type.ValidationException;
  *
  * @author Jeremias Maerki
  * @version $Id: BarcodeStyleElement.java,v 1.4 2007-01-15 11:12:33 jmaerki Exp $
+ *
+ * Adapted for Saxon 9.1 by Samael Bate (singingbush)
  */
-public class BarcodeStyleElement extends StyleElement {
+public class BarcodeStyleElement extends ExtensionInstruction {
 
     private Expression message;
     private Expression orientation;
-
-    /**
-     * @see net.sf.saxon.style.StyleElement#isInstruction()
-     */
-    @Override
-    public boolean isInstruction() {
-        return true;
-    }
 
     /**
      * Determine whether this type of element is allowed to contain a template-body
@@ -96,12 +91,26 @@ public class BarcodeStyleElement extends StyleElement {
     }
 
     /**
+     * Allows additional validation immediately after child nodes validated.
+     * This should be used to verify that barcode has a child that specifies type. Potentially same could be done for those types
+     * @see net.sf.saxon.style.StyleElement#postValidate()
+     */
+    @Override
+    public void postValidate() throws XPathException {
+        if(!this.hasChildNodes()) {
+            this.compileError("barcode should have child element");
+        }
+        // todo: enumerate child nodes and make sure that a BarcodeNonRootStyleElement exists
+    }
+
+    /**
      * @see net.sf.saxon.style.StyleElement#compile(net.sf.saxon.instruct.Executable)
      */
     @Override
     public Expression compile(Executable exec) throws XPathException {
         final NodeOverNodeInfo node = NodeOverNodeInfo.wrap(this);
         final Configuration cfg = ConfigurationUtil.buildConfiguration(node);
+
         return new BarcodeExpression(message, orientation, cfg);
     }
 
@@ -156,10 +165,11 @@ public class BarcodeStyleElement extends StyleElement {
                 //Acquire BarcodeGenerator
                 final BarcodeGenerator gen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
 
-                //Setup Canvas
-                final SVGCanvasProvider svg = cfg.getAttributeAsBoolean("useNamespace", true) ?
-                        new SVGCanvasProvider(cfg.getAttribute("prefix", "svg"), effOrientation) :
-                        new SVGCanvasProvider(false, effOrientation);
+                // Setup Canvas (need to not set "svg:" namespace if we're outputting HTML)
+                final SVGCanvasProvider svg = new SVGCanvasProvider(false, effOrientation);
+                //final SVGCanvasProvider svg = cfg.getAttributeAsBoolean("useNamespace", true) ?
+                //        new SVGCanvasProvider(cfg.getAttribute("prefix", "svg"), effOrientation) :
+                //        new SVGCanvasProvider(false, effOrientation);
 
                 //Generate barcode
                 gen.generateBarcode(svg, effMessage);
