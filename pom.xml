@@ -128,17 +128,17 @@
         <net.sf.saxon.8.version>8.7</net.sf.saxon.8.version>
         <net.sf.saxon.9.version>9.1.0.8</net.sf.saxon.9.version>
 
-        <junit.version>5.10.2</junit.version>
+        <junit.version>5.10.3</junit.version>
 
         <!-- pluginManagement - set fixed versions for all maven plugins -->
         <!-- maven core plugins -->
-        <plugin.version.maven-clean-plugin>3.3.2</plugin.version.maven-clean-plugin>
+        <plugin.version.maven-clean-plugin>3.4.0</plugin.version.maven-clean-plugin>
         <plugin.version.maven-compiler-plugin>3.13.0</plugin.version.maven-compiler-plugin>
         <plugin.version.maven-assembly-plugin>3.7.1</plugin.version.maven-assembly-plugin>
         <plugin.version.maven-dependency-plugin>3.7.1</plugin.version.maven-dependency-plugin>
         <plugin.version.maven-deploy-plugin>3.1.2</plugin.version.maven-deploy-plugin>
-        <plugin.version.maven-surefire-plugin>3.3.0</plugin.version.maven-surefire-plugin>
-        <plugin.version.maven-failsafe-plugin>3.3.0</plugin.version.maven-failsafe-plugin>
+        <plugin.version.maven-surefire-plugin>3.3.1</plugin.version.maven-surefire-plugin>
+        <plugin.version.maven-failsafe-plugin>3.3.1</plugin.version.maven-failsafe-plugin>
         <plugin.version.maven-install-plugin>3.1.2</plugin.version.maven-install-plugin>
         <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
         <plugin.version.maven-site-plugin>3.12.1</plugin.version.maven-site-plugin>
@@ -151,7 +151,7 @@
         <!-- maven tools plugins -->
         <plugin.version.maven-enforcer-plugin>3.5.0</plugin.version.maven-enforcer-plugin>
         <license-plugin.version>2.4.0</license-plugin.version>
-        <spotbugs-plugin.version>4.8.5.0</spotbugs-plugin.version>
+        <spotbugs-plugin.version>4.8.6.2</spotbugs-plugin.version>
         <plugin.version.maven-gpg-plugin>3.2.4</plugin.version.maven-gpg-plugin>
         <!-- other plugins -->
         <jacoco-plugin.version>0.8.12</jacoco-plugin.version>
@@ -423,7 +423,7 @@
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
-                    <version>3.11.0.3922</version>
+                    <version>4.0.0.4121</version>
                 </plugin>
             </plugins>
         </pluginManagement>
