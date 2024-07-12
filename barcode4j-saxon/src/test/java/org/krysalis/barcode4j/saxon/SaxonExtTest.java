@@ -43,10 +43,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test class for the Saxon PE/EE extension.
- *
+ * <p>
  * Saxon-PE: com.saxonica.config.ProfessionalTransformerFactory
  * Saxon-EE: com.saxonica.config.EnterpriseTransformerFactory
- *
+ * </p>
  * See {@linkplain 'https://www.saxonica.com/documentation12/index.html#!extensibility/extension-functions'}
  *
  * @author Jeremias Maerki &amp; Samael Bate

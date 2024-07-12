@@ -45,8 +45,8 @@ import net.sf.saxon.tree.iter.ArrayIterator;
 import net.sf.saxon.type.SchemaType;
 import net.sf.saxon.type.ValidationException;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -60,7 +60,7 @@ import org.w3c.dom.Node;
  *
  * @author Jeremias Maerki &amp; Samael Bate (singingbush)
  */
-public class BarcodeStyleElement extends StyleElement {
+public class BarcodeStyleElement extends ExtensionInstruction {
 
     private static final int STATIC_CONTEXT = -1;
 
@@ -73,13 +73,13 @@ public class BarcodeStyleElement extends StyleElement {
 //        //this.defaultCollationName = null;
 //    }
 
-    /**
-     * @see StyleElement#isInstruction()
-     */
-    @Override
-    public boolean isInstruction() {
-        return true; // todo: evaluate extending ExtensionInstruction which already does this
-    }
+//    /**
+//     * @see StyleElement#isInstruction()
+//     */
+//    @Override
+//    public boolean isInstruction() {
+//        return true; // todo: evaluate extending ExtensionInstruction which already does this
+//    }
 
     /**
      * Determine whether this type of element is allowed to contain a template-body
