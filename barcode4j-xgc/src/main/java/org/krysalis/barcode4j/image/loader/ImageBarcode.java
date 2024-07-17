@@ -67,7 +67,7 @@ public class ImageBarcode extends AbstractImage {
     }
 
     /**
-     * Returns the barcode XML as Avalon Configuration object.
+     * Returns the barcode XML as a Configuration (previously an Avalon Configuration) object.
      * @return the barcode XML
      */
     public Configuration getBarcodeXML() {

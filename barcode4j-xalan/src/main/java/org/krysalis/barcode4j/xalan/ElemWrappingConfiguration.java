@@ -25,7 +25,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Implementation of the Avalon Configuration interface that wraps the
+ * Implementation of the Configuration interface (previously an Avalon Configuration) that wraps the
  * not fully implemented DOM nodes coming from Xalan-J.
  *
  * @author Jeremias Maerki
