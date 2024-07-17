@@ -2,7 +2,9 @@ package org.krysalis.barcode4j.configuration;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class is essentially a copy of org.apache.avalon.framework.configuration.DefaultConfiguration
@@ -108,12 +110,10 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
     @Override
     public Configuration getChild(String name, boolean createNew) {
         if (null != this.m_children) {
-            int size = this.m_children.size();
 
-            for (int i = 0; i < size; ++i) {
-                Configuration configuration = (Configuration) this.m_children.get(i);
-                if (name.equals(configuration.getName())) {
-                    return configuration;
+            for (final Configuration config : this.m_children) {
+                if (name.equals(config.getName())) {
+                    return config;
                 }
             }
         }
@@ -126,17 +126,15 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
         if (null == this.m_children) {
             return new Configuration[0];
         } else {
-            ArrayList children = new ArrayList();
-            int size = this.m_children.size();
+            final List<Configuration> children = new ArrayList<>();
 
-            for (int i = 0; i < size; ++i) {
-                Configuration configuration = (Configuration) this.m_children.get(i);
-                if (name.equals(configuration.getName())) {
-                    children.add(configuration);
+            for (final Configuration config : this.m_children) {
+                if (name.equals(config.getName())) {
+                    children.add(config);
                 }
             }
 
-            return (Configuration[]) children.toArray(new Configuration[0]);
+            return children.toArray(new Configuration[0]);
         }
     }
 
@@ -190,7 +188,7 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
         this.checkWriteable();
         if (null != value) {
             if (null == this.m_attributes) {
-                this.m_attributes = new HashMap();
+                this.m_attributes = new HashMap<>();
             }
 
             this.m_attributes.put(name, value);
@@ -266,14 +264,9 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
     @Override
     public void addAllAttributes(Configuration other) {
         this.checkWriteable();
-        String[] attributes = other.getAttributeNames();
 
-        for (int i = 0; i < attributes.length; ++i) {
-            String name = attributes[i];
-            String value = other.getAttribute(name, (String) null);
-            this.setAttribute(name, value);
-        }
-
+        Arrays.stream(other.getAttributeNames())
+            .forEach(name -> this.setAttribute(name, other.getAttribute(name, null)));
     }
 
 //    public void addAllChildren(Configuration other, boolean deepCopy) throws ConfigurationException {
@@ -292,12 +285,9 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
     @Override
     public void addAllChildren(Configuration other) {
         this.checkWriteable();
-        Configuration[] children = other.getChildren();
 
-        for (int i = 0; i < children.length; ++i) {
-            this.addChild(children[i]);
-        }
-
+        Arrays.stream(other.getChildren())
+            .forEach(this::addChild);
     }
 
     @Override
