@@ -27,8 +27,6 @@ jobs:
       matrix:
         jdk: ['8', '11', '17', '21']
         vendor: ['temurin']
-        include:
-          - { jdk: '7', vendor: 'zulu'}
 
     steps:
     - uses: actions/checkout@v4
@@ -43,7 +41,6 @@ jobs:
       run: mvn package
 
     - name: Maven Verify
-      if: ${{ matrix.jdk != '7' }}
       run: mvn -B verify spotbugs:check jacoco:report
 
     - name: Add coverage to PR

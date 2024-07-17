@@ -102,10 +102,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.testSource>8</maven.compiler.testSource>
-        <maven.compiler.testTarget>8</maven.compiler.testTarget>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Sonar config -->
         <sonar.organization>singingbush</sonar.organization>
@@ -576,37 +574,6 @@
     </reporting>
 
     <profiles>
-        <profile>
-            <id>legacy</id>
-            <!-- For JDK 7 (min supported) -->
-            <activation>
-                <jdk>1.7</jdk>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <maven.compiler.source>1.7</maven.compiler.source>
-                <maven.compiler.target>1.7</maven.compiler.target>
-                <maven.test.skip>true</maven.test.skip>
-                <apache.commons-cli.version>1.6.0</apache.commons-cli.version>
-                <plugin.version.maven-compiler-plugin>3.8.1</plugin.version.maven-compiler-plugin>
-                <plugin.version.maven-assembly-plugin>3.1.1</plugin.version.maven-assembly-plugin>
-                <plugin.version.maven-dependency-plugin>3.1.2</plugin.version.maven-dependency-plugin>
-                <plugin.version.maven-resources-plugin>2.7</plugin.version.maven-resources-plugin>
-                <plugin.version.maven-deploy-plugin>2.8.2</plugin.version.maven-deploy-plugin>
-                <plugin.version.maven-surefire-plugin>2.22.2</plugin.version.maven-surefire-plugin>
-                <plugin.version.maven-failsafe-plugin>2.22.2</plugin.version.maven-failsafe-plugin>
-                <plugin.version.maven-jar-plugin>3.1.2</plugin.version.maven-jar-plugin>
-                <plugin.version.maven-source-plugin>3.1.0</plugin.version.maven-source-plugin>
-                <plugin.version.maven-javadoc-plugin>3.1.1</plugin.version.maven-javadoc-plugin>
-                <plugin.version.maven-enforcer-plugin>1.4.1</plugin.version.maven-enforcer-plugin>
-                <license-plugin.version>1.20</license-plugin.version>
-                <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
-                <plugin.version.maven-gpg-plugin>1.6</plugin.version.maven-gpg-plugin>
-                <jacoco-plugin.version>0.7.9</jacoco-plugin.version>
-                <jacoco.skip>true</jacoco.skip>
-                <spotbugs.skip>true</spotbugs.skip>
-            </properties>
-        </profile>
 
         <profile>
             <id>default</id>
@@ -641,19 +608,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-
-        <profile>
-            <id>modern</id>
-            <!-- For JDK 18 and above the target Java version needs to be bumped to 1.8 -->
-            <activation>
-                <jdk>[18,)</jdk>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <maven.compiler.source>1.8</maven.compiler.source>
-                <maven.compiler.target>1.8</maven.compiler.target>
-            </properties>
         </profile>
 
         <profile>
