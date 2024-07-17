@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,13 +22,13 @@ import org.krysalis.barcode4j.ChecksumMode;
 
 /**
  * Abstract base class for Royal Mail Customer Barcode and the Dutch KIX Code.
- * 
+ *
  * @version $Id: AbstractRMCBCKIXLogicImpl.java,v 1.1 2008-05-13 13:00:43 jmaerki Exp $
  */
 public abstract class AbstractRMCBCKIXLogicImpl extends AbstractFourStateLogicImpl {
 
-    private static final Map CHARSET = new java.util.HashMap();
-    
+    private static final Map<String, String> CHARSET = new java.util.HashMap<>();
+
     static {
         //0 = track only, 1 = ascender, 2 = descender, 3 = 1 + 2 = full height
         CHARSET.put("(", "1");
@@ -72,7 +72,6 @@ public abstract class AbstractRMCBCKIXLogicImpl extends AbstractFourStateLogicIm
         CHARSET.put("Y", "3120");
         CHARSET.put("Z", "3300");
     }
-    
 
     /**
      * Main constructor
@@ -84,16 +83,16 @@ public abstract class AbstractRMCBCKIXLogicImpl extends AbstractFourStateLogicIm
 
     /** {@inheritDoc} */
     protected String[] encodeHighLevel(String msg) {
-        List codewords = new java.util.ArrayList(msg.length());
+        final List<String> codewords = new java.util.ArrayList<>(msg.length());
         for (int i = 0, c = msg.length(); i < c; i++) {
             String ch = msg.substring(i, i + 1);
-            String code = (String)CHARSET.get(ch);
+            String code = CHARSET.get(ch);
             if (code == null) {
                 throw new IllegalArgumentException("Illegal character: " + ch);
             }
             codewords.add(code);
         }
-        return (String[])codewords.toArray(new String[codewords.size()]);
+        return codewords.toArray(new String[codewords.size()]);
     }
 
 
