@@ -2,7 +2,6 @@ Barcode4j
 =========
 
 [![Maven](https://github.com/SingingBush/barcode4j/actions/workflows/maven.yml/badge.svg)](https://github.com/SingingBush/barcode4j/actions/workflows/maven.yml)
-[![Ant](https://github.com/SingingBush/barcode4j/actions/workflows/ant.yml/badge.svg)](https://github.com/SingingBush/barcode4j/actions/workflows/ant.yml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.singingbush/barcode4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.singingbush/barcode4j)
 [![Javadocs](https://www.javadoc.io/badge/com.singingbush/barcode4j.svg)](https://www.javadoc.io/doc/com.singingbush/barcode4j)
 [![CodeQL](https://github.com/SingingBush/barcode4j/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SingingBush/barcode4j/actions/workflows/github-code-scanning/codeql)
