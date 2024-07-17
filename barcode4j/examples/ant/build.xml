@@ -12,7 +12,6 @@
 
   <path id="task.classpath">
     <pathelement location="${barcode4j-root}/build/barcode4j.jar"/>
-    <pathelement location="${barcode4j-root}/lib/avalon-framework-4.2.0.jar"/>
   </path>
 
   <taskdef name="barcode" classname="org.krysalis.barcode4j.ant.BarcodeTask"
@@ -59,7 +58,7 @@
       message="${number}"/>
 
     <barcode output="${pathPrefix}.upca.svg" symbol="upce" format="svg">1234567</barcode>
-      
+
   </target>
 
   <target name="run" depends="withmacro, withoutmacro"/>

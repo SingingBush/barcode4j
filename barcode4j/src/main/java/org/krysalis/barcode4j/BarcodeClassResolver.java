@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package org.krysalis.barcode4j;
+package org.krysalis.barcode4j;
+
+import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
 
 import java.util.Collection;
 
@@ -33,7 +35,7 @@ public interface BarcodeClassResolver {
      * @return Class The class requested
      * @throws ClassNotFoundException If the class could not be resolved
      */
-    Class resolve(String name) throws ClassNotFoundException;
+    Class<BarcodeGenerator> resolve(String name) throws ClassNotFoundException;
 
     /**
      * Returns the Class object of a Barcode bean implementation.
@@ -42,7 +44,7 @@ public interface BarcodeClassResolver {
      * @return Class The class requested
      * @throws ClassNotFoundException If the class could not be resolved
      */
-    Class resolveBean(String name) throws ClassNotFoundException;
+    Class<AbstractBarcodeBean> resolveBean(String name) throws ClassNotFoundException;
 
     /**
      * Return the names of all registered barcode types.

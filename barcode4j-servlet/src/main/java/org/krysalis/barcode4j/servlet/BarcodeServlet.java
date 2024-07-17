@@ -35,10 +35,8 @@ import org.krysalis.barcode4j.output.eps.EPSCanvasProvider;
 import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
 import org.krysalis.barcode4j.tools.MimeTypes;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.Logger;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.DefaultConfiguration;
 
 /**
  * Simple barcode servlet.
@@ -76,8 +74,6 @@ public class BarcodeServlet extends HttpServlet {
     /** Parameter name for the pattern to format the human readable message */
     public static final String BARCODE_HUMAN_READABLE_PATTERN = "hrpattern";
 
-
-    private transient Logger log = new ConsoleLogger(ConsoleLogger.LEVEL_INFO);
 
     /**
      * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest, HttpServletResponse)
@@ -149,11 +145,9 @@ public class BarcodeServlet extends HttpServlet {
             response.setContentLength(bout.size());
             response.getOutputStream().write(bout.toByteArray());
             response.getOutputStream().flush();
-        } catch (Exception e) {
-            log.error("Error while generating barcode", e);
+        } catch (final Exception e) {
             throw new ServletException(e);
-        } catch (Throwable t) {
-            log.error("Error while generating barcode", t);
+        } catch (final Throwable t) {
             throw new ServletException(t);
         }
     }
@@ -173,19 +167,19 @@ public class BarcodeServlet extends HttpServlet {
     }
 
     /**
-     * Build an Avalon Configuration object from the request.
+     * Build a Configuration object from the request.
      * @param request the request to use
-     * @return the newly built COnfiguration object
+     * @return the newly built Configuration object
      * todo: Change to bean API
      */
     protected Configuration buildCfg(HttpServletRequest request) {
-        DefaultConfiguration cfg = new DefaultConfiguration("barcode");
+        final DefaultConfiguration cfg = new DefaultConfiguration("barcode");
         //Get type
         String type = request.getParameter(BARCODE_TYPE);
         if (type == null) {
             type = "code128";
         }
-        DefaultConfiguration child = new DefaultConfiguration(type);
+        final DefaultConfiguration child = new DefaultConfiguration(type);
         cfg.addChild(child);
         //Get additional attributes
         DefaultConfiguration attr;

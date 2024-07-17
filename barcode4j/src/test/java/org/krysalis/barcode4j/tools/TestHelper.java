@@ -22,15 +22,15 @@ import java.util.StringTokenizer;
 
 /**
  * Helper methods for testing.
- * 
+ *
  * @version $Id: TestHelper.java,v 1.2 2006-12-01 13:28:40 jmaerki Exp $
  */
-public class TestHelper {
+public abstract class TestHelper {
 
     /**
-     * Convert a string of char codewords into a different string which lists each character 
+     * Convert a string of char codewords into a different string which lists each character
      * using its decimal value.
-     * @param codewords the codewords 
+     * @param codewords the codewords
      * @return the visualized codewords
      */
     public static String visualize(String codewords) {
@@ -43,7 +43,7 @@ public class TestHelper {
         }
         return sb.toString();
     }
-    
+
     public static String unvisualize(String visualized) {
         StringBuffer sb = new StringBuffer();
         StringTokenizer st = new StringTokenizer(visualized, " ");
@@ -52,5 +52,5 @@ public class TestHelper {
         }
         return sb.toString();
     }
-    
+
 }

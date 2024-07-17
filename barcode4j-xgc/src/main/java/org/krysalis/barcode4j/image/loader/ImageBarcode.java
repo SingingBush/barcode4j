@@ -21,8 +21,8 @@ package org.krysalis.barcode4j.image.loader;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.tools.ConfigurationUtil;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 
 import org.apache.xmlgraphics.image.loader.ImageFlavor;
 import org.apache.xmlgraphics.image.loader.ImageInfo;
@@ -67,7 +67,7 @@ public class ImageBarcode extends AbstractImage {
     }
 
     /**
-     * Returns the barcode XML as Avalon Configuration object.
+     * Returns the barcode XML as a Configuration (previously an Avalon Configuration) object.
      * @return the barcode XML
      */
     public Configuration getBarcodeXML() {

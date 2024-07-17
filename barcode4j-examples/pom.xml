@@ -28,10 +28,6 @@
             <artifactId>barcode4j</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.avalon.framework</groupId>
-            <artifactId>avalon-framework-impl</artifactId>
-        </dependency>
 
         <!-- test dependencies -->
         <dependency>

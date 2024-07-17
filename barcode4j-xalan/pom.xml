@@ -23,12 +23,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.avalon.framework</groupId>
-            <artifactId>avalon-framework-impl</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
             <exclusions>

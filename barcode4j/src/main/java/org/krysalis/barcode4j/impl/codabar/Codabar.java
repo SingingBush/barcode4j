@@ -19,9 +19,9 @@ import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
 import org.krysalis.barcode4j.tools.Length;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.Configurable;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 
 /**
  * This class is an implementation of the Codabar barcode.
@@ -29,8 +29,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @author Jeremias Maerki
  * @version $Id: Codabar.java,v 1.2 2008-11-22 09:57:10 jmaerki Exp $
  */
-public class Codabar extends ConfigurableBarcodeGenerator
-            implements Configurable {
+public class Codabar extends ConfigurableBarcodeGenerator implements Configurable {
 
     /** Create a new instance. */
     public Codabar() {
@@ -38,27 +37,27 @@ public class Codabar extends ConfigurableBarcodeGenerator
     }
 
     /** {@inheritDoc} */
+    @Override
     public void configure(Configuration cfg) throws ConfigurationException {
         //Module width (MUST ALWAYS BE FIRST BECAUSE QUIET ZONE MAY DEPEND ON IT)
-        Length mw = new Length(cfg.getChild("module-width").getValue("0.21mm"), "mm");
+        final Length mw = new Length(cfg.getChild("module-width").getValue("0.21mm"), "mm");
         getBean().setModuleWidth(mw.getValueAsMillimeter());
 
         super.configure(cfg);
 
         //Checksum mode
         getCodabarBean().setChecksumMode(ChecksumMode.byName(
-            cfg.getChild("checksum").getValue(ChecksumMode.CP_AUTO.getName())));
+            cfg.getChild("checksum").getValue(ChecksumMode.CP_AUTO.getName())
+        ));
 
         //Wide factor
         getCodabarBean().setWideFactor(
             cfg.getChild("wide-factor").getValueAsFloat((float)CodabarBean.DEFAULT_WIDE_FACTOR));
 
-        Configuration hr = cfg.getChild("human-readable", false);
+        final Configuration hr = cfg.getChild("human-readable", false);
         if (hr != null) {
             //Display start/stop character and checksum in hr-message or not
-            getCodabarBean().setDisplayStartStop(
-                    hr.getChild("display-start-stop").getValueAsBoolean(
-                            CodabarBean.DEFAULT_DISPLAY_START_STOP));
+            getCodabarBean().setDisplayStartStop(hr.getChild("display-start-stop").getValueAsBoolean(CodabarBean.DEFAULT_DISPLAY_START_STOP));
         }
     }
 

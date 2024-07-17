@@ -25,7 +25,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
 
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.krysalis.barcode4j.configuration.DefaultConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -59,7 +59,7 @@ public class USPSIntelligentMailTest {
         assertEquals(272, USPSIntelligentMailLogicImpl.TABLE2OF13[76]);
         assertEquals(160, USPSIntelligentMailLogicImpl.TABLE2OF13[77]);
     }
-    
+
     private static final String[] EXAMPLE_MESSAGES = new String[] {
         "01234567094987654321",
         "0123456709498765432101234",
@@ -75,7 +75,7 @@ public class USPSIntelligentMailTest {
             "00 02 02 BD C0 97 71 12 04 D2 18 04 B1",
             "01 69 07 B2 A2 4A BC 16 A2 E5 C0 04 B1"
         };
-        
+
         //non-formatted messages
         for (int i = 0; i < EXAMPLE_MESSAGES.length; i++) {
             String msg = EXAMPLE_MESSAGES[i];
@@ -84,7 +84,7 @@ public class USPSIntelligentMailTest {
             assertEquals(results[i], hexBinary);
         }
     }
-    
+
     private static final int[] EXAMPLE_FCS = new int[] {0x0051, 0x0065, 0x0606, 0x0751};
 
     @Test
@@ -97,7 +97,7 @@ public class USPSIntelligentMailTest {
             assertEquals(EXAMPLE_FCS[i], fcs);
         }
     }
-    
+
     private static final int[][] EXAMPLE_CODEWORDS = new int[][] {
             {0, 0, 0, 0, 559, 202, 508, 451, 124, 17},
             {0, 0, 15, 14, 290, 567, 385, 48, 388, 333},
@@ -177,7 +177,7 @@ public class USPSIntelligentMailTest {
     @Test
     void testDefaultsInXML() throws Exception {
         USPSIntelligentMailBean refBean = new USPSIntelligentMailBean();
-        
+
         USPSIntelligentMail gen = new USPSIntelligentMail();
         DefaultConfiguration cfg = new DefaultConfiguration("usps4cb");
         gen.configure(cfg);
@@ -227,11 +227,11 @@ public class USPSIntelligentMailTest {
             assertEquals(expected, sb.toString(), "Expected result n° " + i + " does not match");
         }
     }
-    
-    private static final char[] DIGITS 
+
+    private static final char[] DIGITS
         = {'0', '1', '2', '3', '4', '5', '6', '7',
            '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-    
+
     private String toHex(byte[] data) {
         final StringBuffer sb = new StringBuffer(data.length * 2);
         int start = data.length - 13;
@@ -248,5 +248,5 @@ public class USPSIntelligentMailTest {
         }
         return sb.toString();
     }
-    
+
 }

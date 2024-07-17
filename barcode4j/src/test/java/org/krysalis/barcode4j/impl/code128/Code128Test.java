@@ -30,33 +30,21 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Code128Test {
 
     @Test
-    void testIllegalArguments() throws Exception {
-        try {
-            Code128 impl = new Code128();
-            impl.generateBarcode(null, null);
-            fail("Expected an NPE");
-        } catch (NullPointerException npe) {
-            assertNotNull(npe.getMessage(), "Error message is empty");
-        }
+    void testIllegalArguments() {
+        final Code128 impl = new Code128();
+
+        assertThrows(NullPointerException.class,
+            () -> impl.generateBarcode(null, null),
+            "Expected a NullPointerException");
     }
 
     @Test
-    void testLogic() throws Exception {
-        StringBuffer sb = new StringBuffer();
-        Code128LogicImpl logic;
-        String expected;
-
-        try {
-            logic = new Code128LogicImpl();
-            logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "123èöö2");
-            fail("Expected an exception complaining about illegal characters");
-        } catch (IllegalArgumentException iae) {
-            //must fail
-        }
-
-        logic = new Code128LogicImpl();
+    void testLogic() {
+        final StringBuffer sb = new StringBuffer();
+        final Code128LogicImpl logic = new Code128LogicImpl();
         logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb), "123");
-        expected = "<BC>"
+
+        final String expected = "<BC>"
             + "<SBG:msg-char:StartB>B2W1B1W2B1W4</SBG>"
             + "<SBG:msg-char:idx17>B1W2B3W2B2W1</SBG>"
             + "<SBG:msg-char:idx18>B2W2B3W2B1W1</SBG>"
@@ -64,19 +52,26 @@ public class Code128Test {
             + "<SBG:msg-char:idx8>B1W3B2W2B1W2</SBG>"
             + "<SBG:stop-char:null>B2W3B3W1B1W1B2</SBG>"
             + "</BC>";
-        //System.out.println(expected);
-        //System.out.println(sb.toString());
+
         assertEquals(expected, sb.toString());
+    }
+
+    @Test
+    void testLogicThrowsOnInvalidChars() {
+        final Code128LogicImpl logic = new Code128LogicImpl();
+
+        assertThrows(IllegalArgumentException.class,
+            () -> logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "123èöö2"),
+            "Expected an IllegalArgumentException due to illegal characters");
     }
 
     @Test
     void testNonPrintableAscii() throws Exception {
         StringBuffer sb = new StringBuffer();
-        String expected;
         Code128LogicImpl logic = new Code128LogicImpl();
-        logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb, false, true),
-                "AA\rBB\tCC");
-        expected = "<BC:AA BB CC>"
+        logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb, false, true), "AA\rBB\tCC");
+
+        final String expected = "<BC:AA BB CC>"
             + "<SBG:msg-char:StartA></SBG>"
             + "<SBG:msg-char:idx33></SBG>"
             + "<SBG:msg-char:idx33></SBG>"
@@ -95,8 +90,7 @@ public class Code128Test {
     @Test
     void testBug942246() throws Exception {
         Code128LogicImpl logic = new Code128LogicImpl();
-        logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(),
-            "\u00f1020456789012341837100\u00f13101000200");
+        logic.generateBarcodeLogic(new NullClassicBarcodeLogicHandler(), "\u00f1020456789012341837100\u00f13101000200");
         //expect no failure
     }
 

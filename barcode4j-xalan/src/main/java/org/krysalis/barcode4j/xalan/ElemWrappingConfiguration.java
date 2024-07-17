@@ -17,15 +17,15 @@ package org.krysalis.barcode4j.xalan;
 
 import java.util.List;
 
-import org.apache.avalon.framework.configuration.AbstractConfiguration;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.krysalis.barcode4j.configuration.AbstractConfiguration;
+import org.krysalis.barcode4j.configuration.Configuration;
+import org.krysalis.barcode4j.configuration.ConfigurationException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Implementation of the Avalon Configuration interface that wraps the
+ * Implementation of the Configuration interface (previously an Avalon Configuration) that wraps the
  * not fully implemented DOM nodes coming from Xalan-J.
  *
  * @author Jeremias Maerki
@@ -44,7 +44,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.AbstractConfiguration#getPrefix()
+     * @see org.krysalis.barcode4j.configuration.AbstractConfiguration#getPrefix()
      */
     @Override
     protected String getPrefix() throws ConfigurationException {
@@ -52,7 +52,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configuration#getName()
+     * @see org.krysalis.barcode4j.configuration.Configuration#getName()
      */
     @Override
     public String getName() {
@@ -60,7 +60,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configuration#getLocation()
+     * @see org.krysalis.barcode4j.configuration.Configuration#getLocation()
      */
     @Override
     public String getLocation() {
@@ -68,7 +68,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configuration#getNamespace()
+     * @see org.krysalis.barcode4j.configuration.Configuration#getNamespace()
      */
     @Override
     public String getNamespace() throws ConfigurationException {
@@ -76,7 +76,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configuration#getChildren()
+     * @see org.krysalis.barcode4j.configuration.Configuration#getChildren()
      */
     @Override
     public Configuration[] getChildren() {
@@ -88,7 +88,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configuration#getChildren(java.lang.String)
+     * @see org.krysalis.barcode4j.configuration.Configuration#getChildren(java.lang.String)
      */
     @Override
     public Configuration[] getChildren(String name) {
@@ -106,7 +106,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configuration#getAttributeNames()
+     * @see org.krysalis.barcode4j.configuration.Configuration#getAttributeNames()
      */
     @Override
     public String[] getAttributeNames() {
@@ -114,7 +114,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configuration#getAttribute(java.lang.String)
+     * @see org.krysalis.barcode4j.configuration.Configuration#getAttribute(java.lang.String)
      */
     @Override
     public String getAttribute(String name) throws ConfigurationException {
@@ -127,7 +127,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configuration#getValue()
+     * @see org.krysalis.barcode4j.configuration.Configuration#getValue()
      */
     @Override
     public String getValue() throws ConfigurationException {
