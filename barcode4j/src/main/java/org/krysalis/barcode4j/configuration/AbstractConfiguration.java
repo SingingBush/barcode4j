@@ -1,5 +1,7 @@
 package org.krysalis.barcode4j.configuration;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This class is essentially a copy of org.apache.avalon.framework.configuration.AbstractConfiguration
  *
@@ -45,9 +47,10 @@ public abstract class AbstractConfiguration implements Configuration {
                 return Integer.parseInt(value);
             }
         } catch (final NumberFormatException e) {
-            final String message = "Cannot parse the value \"" + value + "\" as an integer in the configuration element \""
-                + getName() + "\" at " + getLocation();
-            throw new ConfigurationException(message);
+            throw new ConfigurationException(
+                String.format("Cannot parse the value \"%s\" as an integer in the configuration element \"%s\" at %s", value, getName(), getLocation()),
+                e
+            );
         }
     }
 
@@ -92,10 +95,11 @@ public abstract class AbstractConfiguration implements Configuration {
             } else {
                 return Long.parseLong(value);
             }
-        } catch (final Exception nfe) {
-            final String message = "Cannot parse the value \"" + value + "\" as a long in the configuration element \""
-                + getName() + "\" at " + getLocation();
-            throw new ConfigurationException(message);
+        } catch (final Exception e) {
+            throw new ConfigurationException(
+                String.format("Cannot parse the value \"%s\" as a long in the configuration element \"%s\" at %s", value, getName(), getLocation()),
+                e
+            );
         }
     }
 
@@ -129,10 +133,11 @@ public abstract class AbstractConfiguration implements Configuration {
         final String value = getValue().trim();
         try {
             return Float.parseFloat(value);
-        } catch (final Exception nfe) {
-            final String message = "Cannot parse the value \"" + value + "\" as a float in the configuration element \""
-                + getName() + "\" at " + getLocation();
-            throw new ConfigurationException(message);
+        } catch (final Exception e) {
+            throw new ConfigurationException(
+                String.format("Cannot parse the value \"%s\" as a float in the configuration element \"%s\" at %s", value, getName(), getLocation()),
+                e
+            );
         }
     }
 
@@ -164,8 +169,7 @@ public abstract class AbstractConfiguration implements Configuration {
         try {
             return Double.parseDouble(value);
         } catch (final Exception nfe) {
-            final String message = "Cannot parse the value \"" + value + "\" as a double in the configuration element \""
-                + getName() + "\" at " + getLocation();
+            final String message = String.format("Cannot parse the value \"%s\" as a double in the configuration element \"%s\" at %s", value, getName(), getLocation());
             throw new ConfigurationException(message);
         }
     }
@@ -201,9 +205,14 @@ public abstract class AbstractConfiguration implements Configuration {
         } else if (isFalse(value)) {
             return false;
         } else {
-            final String message = "Cannot parse the value \"" + value + "\" as a boolean in the configuration element \""
-                + getName() + "\" at " + getLocation();
-            throw new ConfigurationException(message);
+            throw new ConfigurationException(
+                String.format(
+                    "Cannot parse the value \"%s\" as a boolean in the configuration element \"%s\" at %s",
+                    value,
+                    getName(),
+                    getLocation()
+                )
+            );
         }
     }
 
@@ -262,10 +271,11 @@ public abstract class AbstractConfiguration implements Configuration {
             } else {
                 return Integer.parseInt(value);
             }
-        } catch (final Exception nfe) {
-            final String message = "Cannot parse the value \"" + value + "\" as an integer in the attribute \""
-                + name + "\" at " + getLocation();
-            throw new ConfigurationException(message);
+        } catch (final Exception e) {
+            throw new ConfigurationException(
+                String.format("Cannot parse the value \"%s\" as an integer in the attribute \"%s\" at %s", value, name, getLocation()),
+                e
+            );
         }
     }
 
@@ -315,10 +325,11 @@ public abstract class AbstractConfiguration implements Configuration {
             } else {
                 return Long.parseLong(value);
             }
-        } catch (final Exception nfe) {
-            final String message = "Cannot parse the value \"" + value + "\" as a long in the attribute \""
-                + name + "\" at " + getLocation();
-            throw new ConfigurationException(message);
+        } catch (final Exception e) {
+            throw new ConfigurationException(
+                String.format("Cannot parse the value \"%s\" as a long in the attribute \"%s\" at %s", value, name, getLocation()),
+                e
+            );
         }
     }
 
@@ -357,9 +368,10 @@ public abstract class AbstractConfiguration implements Configuration {
         try {
             return Float.parseFloat(value);
         } catch (final Exception e) {
-            final String message = "Cannot parse the value \"" + value + "\" as a float in the attribute \""
-                + name + "\" at " + getLocation();
-            throw new ConfigurationException(message);
+            throw new ConfigurationException(
+                String.format("Cannot parse the value \"%s\" as a float in the attribute \"%s\" at %s", value, name, getLocation()),
+                e
+            );
         }
     }
 
@@ -394,9 +406,10 @@ public abstract class AbstractConfiguration implements Configuration {
         try {
             return Double.parseDouble(value);
         } catch (final Exception e) {
-            final String message = "Cannot parse the value \"" + value + "\" as a double in the attribute \""
-                + name + "\" at " + getLocation();
-            throw new ConfigurationException(message);
+            throw new ConfigurationException(
+                String.format("Cannot parse the value \"%s\" as a double in the attribute \"%s\" at %s", value, name, getLocation()),
+                e
+            );
         }
     }
 
@@ -435,9 +448,14 @@ public abstract class AbstractConfiguration implements Configuration {
         } else if (isFalse(value)) {
             return false;
         } else {
-            final String message = "Cannot parse the value \"" + value + "\" as a boolean in the attribute \""
-                + name + "\" at " + getLocation();
-            throw new ConfigurationException(message);
+            throw new ConfigurationException(
+                String.format(
+                    "Cannot parse the value \"%s\" as a boolean in the attribute \"%s\" at %s",
+                    value,
+                    name,
+                    getLocation()
+                )
+            );
         }
     }
 
@@ -508,9 +526,10 @@ public abstract class AbstractConfiguration implements Configuration {
      *
      * @param name      the name of the child
      * @param createNew true if you want to create a new Configuration object if none exists
-     * @return the child Configuration
+     * @return the child Configuration or null
      */
     @Override
+    @Nullable
     public Configuration getChild(final String name, final boolean createNew) {
         final Configuration[] children = getChildren(name);
         if (children.length > 0) {

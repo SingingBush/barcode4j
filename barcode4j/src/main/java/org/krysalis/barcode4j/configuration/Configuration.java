@@ -1,5 +1,7 @@
 package org.krysalis.barcode4j.configuration;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This class is essentially a copy of org.apache.avalon.framework.configuration.Configuration
  *
@@ -194,6 +196,7 @@ public interface Configuration {
      *                  child doesn't exist.
      * @return Configuration
      */
+    @Nullable
     Configuration getChild(String child, boolean createNew);
 
     /**

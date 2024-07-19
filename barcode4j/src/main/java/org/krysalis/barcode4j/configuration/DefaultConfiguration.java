@@ -1,5 +1,7 @@
 package org.krysalis.barcode4j.configuration;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +13,6 @@ import java.util.List;
  */
 public class DefaultConfiguration extends AbstractConfiguration implements MutableConfiguration, Serializable {
 
-    protected static final Configuration[] EMPTY_ARRAY = new Configuration[0];
     private final String m_name;
     private final String m_location;
     private final String m_namespace;
@@ -108,6 +109,7 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
     }
 
     @Override
+    @Nullable
     public Configuration getChild(String name, boolean createNew) {
         if (null != this.m_children) {
 

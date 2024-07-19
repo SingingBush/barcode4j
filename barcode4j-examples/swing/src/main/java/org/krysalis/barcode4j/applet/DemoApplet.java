@@ -40,26 +40,26 @@ import org.krysalis.barcode4j.DefaultBarcodeClassResolver;
 
 /**
  * Demo Applet class
- * 
+ *
  * @author Jeremias Maerki
  */
-public class DemoApplet extends Applet 
+public class DemoApplet extends Applet
         implements BarcodeModelListener, ActionListener, DocumentListener,
             BarcodeErrorListener {
 
     //Controller part
-    private Model model = new Model();
-    
+    private final Model model = new Model();
+
     //View part
     private AbstractBarcode barcode;
-    private JComboBox symbology;
+    private JComboBox<String> symbology;
     private JTextField msgField;
-    
+
     public void initComponents() {
         msgField = new JTextField();
-        BarcodeClassResolver classResolver = new DefaultBarcodeClassResolver();
-        Collection names = classResolver.getBarcodeNames();
-        symbology = new JComboBox(names.toArray());
+        final BarcodeClassResolver classResolver = new DefaultBarcodeClassResolver();
+        final Collection<String> names = classResolver.getBarcodeNames();
+        symbology = new JComboBox<>(names.toArray(new String[] {}));
         symbology.getModel().setSelectedItem("code128");
     }
 
@@ -67,9 +67,9 @@ public class DemoApplet extends Applet
         GridBagLayout layout = new GridBagLayout();
         JPanel panel = new JPanel();
         panel.setLayout(layout);
-        GridBagAdder.add(panel, symbology, 0, 0, 4, 1, 0, 0, 
+        GridBagAdder.add(panel, symbology, 0, 0, 4, 1, 0, 0,
                 GridBagConstraints.BOTH, GridBagConstraints.CENTER);
-        GridBagAdder.add(panel, msgField, 0, 1, 4, 1, 1, 0, 
+        GridBagAdder.add(panel, msgField, 0, 1, 4, 1, 1, 0,
                 GridBagConstraints.BOTH, GridBagConstraints.CENTER);
         panel.setBackground(Color.lightGray);
         return panel;
@@ -91,22 +91,22 @@ public class DemoApplet extends Applet
         }
         msgField.getDocument().addDocumentListener(this);
         symbology.addActionListener(this);
-        
+
         barcode = new Barcode();
         barcode.setBarcodeGenerator(getModel().getBean());
         barcode.addErrorListener(this);
-        
+
         add(BorderLayout.CENTER, barcode);
         add(BorderLayout.SOUTH, buildControlPanel());
 
         updateModel();
         valueChanged();
     }
-    
+
     public Model getModel() {
         return this.model;
     }
-    
+
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == symbology) {
             if (e.getActionCommand().equals("comboBoxChanged")) {
@@ -130,7 +130,7 @@ public class DemoApplet extends Applet
     public void notifySuccess() {
         barcode.setToolTipText(null);
     }
-    
+
     public void notifyException(Exception e) {
         System.out.println("notifyException: " + e);
         barcode.setToolTipText(e.getMessage());
@@ -142,7 +142,7 @@ public class DemoApplet extends Applet
         barcode.setBarcodeGenerator(getModel().getBean());
         barcode.setMessage(getModel().getMessage());
     }
-    
+
     private void updateModel() {
         //System.out.println("updateModel()");
         getModel().setup(symbology.getSelectedItem().toString());
@@ -153,14 +153,14 @@ public class DemoApplet extends Applet
             e.printStackTrace();
         }
     }
-    
+
     static class GridBagAdder {
         private static GridBagConstraints cons = new GridBagConstraints();
-        
-        public static void add(Container cont, Component comp, 
-                int x, int y, 
-                int width, int height, 
-                int weightx, int weighty, 
+
+        public static void add(Container cont, Component comp,
+                int x, int y,
+                int width, int height,
+                int weightx, int weighty,
                 int fill, int anchor) {
             cons.gridx = x;
             cons.gridy = y;

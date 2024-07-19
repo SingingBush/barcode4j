@@ -23,6 +23,7 @@ import java.io.PrintStream;
  *
  * @author Jeremias Maerki
  * @version $Id: AdvancedConsoleLogger.java,v 1.2 2004-09-04 20:25:58 jmaerki Exp $
+ * @deprecated this will be removed as it's not needed
  */
 @Deprecated // only used in CLI module, remove in another commit
 public class AdvancedConsoleLogger {

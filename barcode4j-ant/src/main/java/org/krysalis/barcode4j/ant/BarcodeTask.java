@@ -76,6 +76,7 @@ public class BarcodeTask extends Task {
      * completion.
      * @throws BuildException if an error occurs
      */
+    @Override
     public void execute() throws BuildException {
 
         if (message == null || message.length() == 0) {
