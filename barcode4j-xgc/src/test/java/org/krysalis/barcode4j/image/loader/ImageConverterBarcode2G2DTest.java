@@ -1,16 +1,15 @@
 package org.krysalis.barcode4j.image.loader;
 
-import org.krysalis.barcode4j.configuration.DefaultConfiguration;
 import org.apache.xmlgraphics.image.loader.Image;
 import org.apache.xmlgraphics.image.loader.ImageException;
 import org.apache.xmlgraphics.image.loader.ImageFlavor;
 import org.apache.xmlgraphics.image.loader.ImageInfo;
+import org.junit.jupiter.api.DisplayName;
+import org.krysalis.barcode4j.configuration.DefaultConfiguration;
 import org.apache.xmlgraphics.image.loader.impl.ImageGraphics2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.BarcodeDimension;
-
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.krysalis.barcode4j.image.loader.ImageBarcode.BARCODE_IMAGE_FLAVOR;
@@ -25,7 +24,8 @@ class ImageConverterBarcode2G2DTest {
     }
 
     @Test
-    void convert() throws ImageException, IOException {
+    @DisplayName("Should convert ImageBarcode to ImageGraphics2D")
+    void testConvertImageBarcode() throws ImageException {
         final ImageInfo info = new ImageInfo("", ImageLoaderFactoryBarcode.MIME_TYPE);
 
         final DefaultConfiguration barcodeXML = createBarcodeConfig("intl2of5", "0123456789012");
@@ -37,6 +37,8 @@ class ImageConverterBarcode2G2DTest {
         final Image converted = imageConverter.convert(image, null);
 
         assertNotNull(converted);
+        assertEquals(ImageLoaderFactoryBarcode.MIME_TYPE, converted.getInfo().getMimeType());
+        assertEquals(ImageFlavor.GRAPHICS2D, converted.getFlavor());
         assertTrue(ImageGraphics2D.class.isAssignableFrom(converted.getClass()));
     }
 

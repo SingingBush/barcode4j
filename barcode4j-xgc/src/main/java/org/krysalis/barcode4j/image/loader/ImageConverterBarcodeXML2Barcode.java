@@ -49,8 +49,8 @@ import org.apache.xmlgraphics.image.loader.impl.ImageXMLDOM;
  */
 public class ImageConverterBarcodeXML2Barcode extends AbstractImageConverter {
 
-    /** An barcode in form of a W3C DOM instance */
-    private static final XMLNamespaceEnabledImageFlavor BARCODE_XML_FLAVOR
+    /** A barcode in form of a W3C DOM instance */
+    static final XMLNamespaceEnabledImageFlavor BARCODE_XML_FLAVOR
         = new XMLNamespaceEnabledImageFlavor(ImageFlavor.XML_DOM, BarcodeConstants.NAMESPACE);
 
 

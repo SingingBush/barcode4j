@@ -27,6 +27,8 @@ import org.apache.xmlgraphics.image.loader.ImageFlavor;
 import org.apache.xmlgraphics.image.loader.ImageInfo;
 import org.apache.xmlgraphics.image.loader.ImageSessionContext;
 import org.apache.xmlgraphics.image.loader.impl.AbstractImageLoader;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * ImageLoader for barcodes. This implementation doesn't really load anything since the full
@@ -34,13 +36,13 @@ import org.apache.xmlgraphics.image.loader.impl.AbstractImageLoader;
  */
 public class ImageLoaderBarcode extends AbstractImageLoader {
 
-    private ImageFlavor targetFlavor;
+    private final ImageFlavor targetFlavor;
 
     /**
      * Main constructor.
      * @param targetFlavor the target flavor
      */
-    public ImageLoaderBarcode(ImageFlavor targetFlavor) {
+    public ImageLoaderBarcode(@NotNull final ImageFlavor targetFlavor) {
         if (!(targetFlavor.isCompatible(ImageBarcode.BARCODE_IMAGE_FLAVOR))) {
             throw new IllegalArgumentException("Unsupported target ImageFlavor: " + targetFlavor);
         }
@@ -55,15 +57,14 @@ public class ImageLoaderBarcode extends AbstractImageLoader {
 
     /** {@inheritDoc} */
     @Override
-    public Image loadImage(ImageInfo info, Map hints, ImageSessionContext session)
-                throws ImageException, IOException {
-        Image img = info.getOriginalImage();
+    public Image loadImage(@NotNull final ImageInfo info, @Nullable Map hints, @Nullable final ImageSessionContext session) throws ImageException, IOException {
+        final Image img = info.getOriginalImage();
+
         if (!(img instanceof ImageBarcode)) {
-            throw new IllegalArgumentException(
-                    "ImageInfo was expected to contain the Barcode document");
+            throw new IllegalArgumentException("ImageInfo was expected to contain the Barcode document");
         }
-        ImageBarcode barcodeImage = (ImageBarcode)img;
-        return barcodeImage;
+
+        return img; // will always be a ImageBarcode
     }
 
 }

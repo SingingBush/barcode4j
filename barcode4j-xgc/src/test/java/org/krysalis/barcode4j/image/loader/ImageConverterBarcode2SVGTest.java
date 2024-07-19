@@ -1,5 +1,7 @@
 package org.krysalis.barcode4j.image.loader;
 
+import org.apache.xmlgraphics.image.loader.XMLNamespaceEnabledImageFlavor;
+import org.junit.jupiter.api.DisplayName;
 import org.krysalis.barcode4j.configuration.DefaultConfiguration;
 import org.apache.xmlgraphics.image.loader.Image;
 import org.apache.xmlgraphics.image.loader.ImageException;
@@ -25,7 +27,8 @@ class ImageConverterBarcode2SVGTest {
     }
 
     @Test
-    void convert() throws ImageException, IOException {
+    @DisplayName("Should convert ImageBarcode to ImageXMLDOM (SVG)")
+    void testConvertImageBarcode() throws ImageException, IOException {
         final ImageInfo info = new ImageInfo("", ImageLoaderFactoryBarcode.MIME_TYPE);
 
         final DefaultConfiguration barcodeXML = createBarcodeConfig("intl2of5", "0123456789012");
@@ -37,6 +40,8 @@ class ImageConverterBarcode2SVGTest {
         final Image converted = imageConverter.convert(image, null);
 
         assertNotNull(converted);
+        assertEquals(ImageLoaderFactoryBarcode.MIME_TYPE, converted.getInfo().getMimeType());
+        assertEquals(XMLNamespaceEnabledImageFlavor.SVG_DOM, converted.getFlavor());
         assertTrue(ImageXMLDOM.class.isAssignableFrom(converted.getClass()));
     }
 

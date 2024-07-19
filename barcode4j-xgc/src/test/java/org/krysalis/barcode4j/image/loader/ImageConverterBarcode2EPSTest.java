@@ -1,5 +1,6 @@
 package org.krysalis.barcode4j.image.loader;
 
+import org.junit.jupiter.api.DisplayName;
 import org.krysalis.barcode4j.configuration.DefaultConfiguration;
 import org.apache.xmlgraphics.image.loader.Image;
 import org.apache.xmlgraphics.image.loader.ImageException;
@@ -25,7 +26,8 @@ class ImageConverterBarcode2EPSTest {
     }
 
     @Test
-    void convert() throws ImageException, IOException {
+    @DisplayName("Should convert ImageBarcode to ImageRawEPS")
+    void testConvertImageBarcode() throws ImageException, IOException {
         final ImageInfo info = new ImageInfo("", ImageLoaderFactoryBarcode.MIME_TYPE);
 
         final DefaultConfiguration barcodeXML = createBarcodeConfig("intl2of5", "0123456789012");
@@ -37,6 +39,8 @@ class ImageConverterBarcode2EPSTest {
         final Image converted = imageConverter.convert(image, null);
 
         assertNotNull(converted);
+        assertEquals(ImageLoaderFactoryBarcode.MIME_TYPE, converted.getInfo().getMimeType());
+        assertEquals(ImageFlavor.RAW_EPS, converted.getFlavor());
         assertTrue(ImageRawEPS.class.isAssignableFrom(converted.getClass()));
     }
 
