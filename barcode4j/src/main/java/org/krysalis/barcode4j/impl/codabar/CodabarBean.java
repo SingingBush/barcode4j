@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j.impl.codabar;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -152,7 +153,7 @@ public class CodabarBean extends AbstractBarcodeBean {
 
     /** {@inheritDoc} */
     @Override
-    public BarcodeDimension calcDimensions(String msg) {
+    public BarcodeDimension calcDimensions(@NotNull String msg) {
         double width = 0.0;
         for (int i = 0; i < msg.length(); i++) {
             if (i > 0) {

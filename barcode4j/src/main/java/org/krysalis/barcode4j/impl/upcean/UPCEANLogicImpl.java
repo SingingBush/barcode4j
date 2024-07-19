@@ -15,6 +15,8 @@
  */
 package org.krysalis.barcode4j.impl.upcean;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarGroup;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -276,8 +278,8 @@ public abstract class UPCEANLogicImpl {
      * @param msg the UPC/EAN message
      * @return 2 or 5 if there is a supplemental, 0 if there's none.
      */
-    protected static int getSupplementalLength(String msg) {
-        String supp = retrieveSupplemental(msg);
+    protected static int getSupplementalLength(@NotNull final String msg) {
+        @Nullable String supp = retrieveSupplemental(msg);
         if (supp == null) {
             return 0;
         } else if (supp.length() == 2) {
@@ -285,8 +287,7 @@ public abstract class UPCEANLogicImpl {
         } else if (supp.length() == 5) {
             return 5;
         } else {
-            throw new IllegalArgumentException(
-                "Illegal supplemental length (valid: 2 or 5): " + supp);
+            throw new IllegalArgumentException("Illegal supplemental length (valid: 2 or 5): " + supp);
         }
     }
 
@@ -308,9 +309,10 @@ public abstract class UPCEANLogicImpl {
      * Returns the supplemental part of a UPC/EAN message if there is one.
      * Supplementals are added in the form: "+[supplemental]" (ex. "+20").
      * @param msg a UPC/EAN message
-     * @return the supplemental part, null if there is none
+     * @return the supplemental part, or null if there is none
      */
-    protected static String retrieveSupplemental(String msg) {
+    @Nullable
+    protected static String retrieveSupplemental(@NotNull final String msg) {
         int pos = msg.indexOf('+');
         if (pos >= 0) {
             return msg.substring(pos + 1);

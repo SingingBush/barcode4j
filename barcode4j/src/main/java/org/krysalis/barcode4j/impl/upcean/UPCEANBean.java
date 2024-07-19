@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j.impl.upcean;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -24,7 +25,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
 
 /**
  * This is an abstract base class for UPC and EAN barcodes.
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: UPCEANBean.java,v 1.5 2008-05-13 13:00:44 jmaerki Exp $
  */
@@ -32,7 +33,7 @@ public abstract class UPCEANBean extends AbstractBarcodeBean {
 
     /** The default module width for UPC and EAN. */
     protected static final double DEFAULT_MODULE_WIDTH = 0.33f; //mm
-    
+
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
 
     /** Create a new instance. */
@@ -42,7 +43,7 @@ public abstract class UPCEANBean extends AbstractBarcodeBean {
         setQuietZone(10 * this.moduleWidth);
         setVerticalQuietZone(0); //1D barcodes don't have vertical quiet zones
     }
-    
+
     /**
      * Sets the checksum mode
      * @param mode the checksum mode
@@ -69,14 +70,14 @@ public abstract class UPCEANBean extends AbstractBarcodeBean {
             throw new IllegalArgumentException("Only widths 1 to 4 allowed");
         }
     }
-    
-    
+
+
     /**
      * Factory method for the logic implementation.
      * @return the newly created logic implementation instance
      */
     public abstract UPCEANLogicImpl createLogicImpl();
-       
+
 
     /**
      * @see org.krysalis.barcode4j.BarcodeGenerator#generateBarcode(CanvasProvider, String)
@@ -98,7 +99,7 @@ public abstract class UPCEANBean extends AbstractBarcodeBean {
      * @param msg the full message
      * @return the width of the supplemental part
      */
-    protected double supplementalWidth(String msg) {
+    protected double supplementalWidth(@NotNull final String msg) {
         double width = 0;
         int suppLen = UPCEANLogicImpl.getSupplementalLength(msg);
         if (suppLen > 0) {
@@ -114,7 +115,7 @@ public abstract class UPCEANBean extends AbstractBarcodeBean {
     /**
      * @see org.krysalis.barcode4j.BarcodeGenerator#calcDimensions(String)
      */
-    public BarcodeDimension calcDimensions(String msg) {
+    public BarcodeDimension calcDimensions(@NotNull final String msg) {
         double width = 3 * moduleWidth; //left guard
         width += 6 * 7 * moduleWidth;
         width += 5 * moduleWidth; //center guard
@@ -122,8 +123,8 @@ public abstract class UPCEANBean extends AbstractBarcodeBean {
         width += 3 * moduleWidth; //right guard
         width += supplementalWidth(msg);
         final double qz = (hasQuietZone() ? quietZone : 0);
-        return new BarcodeDimension(width, getHeight(), 
-                width + (2 * qz), getHeight(), 
+        return new BarcodeDimension(width, getHeight(),
+                width + (2 * qz), getHeight(),
                 quietZone, 0.0);
     }
 

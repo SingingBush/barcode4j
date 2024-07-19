@@ -22,6 +22,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -47,31 +49,31 @@ public class ImageConverterBarcode2EPS extends AbstractImageConverter {
 
     /** {@inheritDoc} */
     @Override
-    public Image convert(Image src, Map hints) throws ImageException, IOException {
+    public Image convert(@NotNull final Image src, @Nullable Map hints) throws ImageException, IOException {
         checkSourceFlavor(src);
-        ImageBarcode barcodeImage = (ImageBarcode)src;
+        final ImageBarcode barcodeImage = (ImageBarcode)src;
 
-        Configuration cfg = barcodeImage.getBarcodeXML();
-        int orientation = BarcodeDimension.normalizeOrientation(
-                cfg.getAttributeAsInteger("orientation", 0));
+        final Configuration cfg = barcodeImage.getBarcodeXML();
 
-        try {
-            String msg = barcodeImage.getMessage();
-            PageInfo pageInfo = PageInfo.fromProcessingHints(hints);
-            String expandedMsg = VariableUtil.getExpandedMessage(pageInfo, msg);
+        final int orientation = BarcodeDimension.normalizeOrientation(
+                cfg.getAttributeAsInteger("orientation", 0)
+        );
 
-            final BarcodeGenerator bargen = BarcodeUtil.getInstance().
-                        createBarcodeGenerator(cfg);
+        try(final ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            final String msg = barcodeImage.getMessage();
+            final PageInfo pageInfo = PageInfo.fromProcessingHints(hints);
+            final String expandedMsg = VariableUtil.getExpandedMessage(pageInfo, msg);
 
-            ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            EPSCanvasProvider canvas = new EPSCanvasProvider(bout, orientation);
+            final BarcodeGenerator bargen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
+
+            final EPSCanvasProvider canvas = new EPSCanvasProvider(outputStream, orientation);
             bargen.generateBarcode(canvas, expandedMsg);
             canvas.finish();
 
             //Create EPS immediately rather than delaying, but create a cacheable EPS image
-            final byte[] eps = bout.toByteArray();
-            ImageRawEPS epsImage = new ImageRawEPS(src.getInfo(), new ImageRawStream.ByteArrayStreamFactory(eps));
-            return epsImage;
+            final byte[] eps = outputStream.toByteArray();
+
+            return new ImageRawEPS(src.getInfo(), new ImageRawStream.ByteArrayStreamFactory(eps));
         } catch (ConfigurationException ce) {
             throw new ImageException("Error in Barcode XML", ce);
         } catch (BarcodeException be) {

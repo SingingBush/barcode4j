@@ -18,6 +18,7 @@
 
 package org.krysalis.barcode4j.impl.int2of5;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -128,7 +129,7 @@ public class ITF14Bean extends Interleaved2Of5Bean {
 
     /** {@inheritDoc} */
     @Override
-    public BarcodeDimension calcDimensions(String msg) {
+    public BarcodeDimension calcDimensions(@NotNull String msg) {
         int msgLen = msg.length();
         if (getChecksumMode() == ChecksumMode.CP_ADD) {
             msgLen++;

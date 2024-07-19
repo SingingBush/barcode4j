@@ -24,6 +24,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Map;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -49,7 +51,7 @@ public class ImageConverterBarcode2G2D extends AbstractImageConverter {
 
     /** {@inheritDoc} */
     @Override
-    public Image convert(Image src, Map hints) throws ImageException {
+    public Image convert(@NotNull final Image src, @Nullable Map hints) throws ImageException {
         checkSourceFlavor(src);
         ImageBarcode barcodeImage = (ImageBarcode)src;
 
@@ -58,18 +60,16 @@ public class ImageConverterBarcode2G2D extends AbstractImageConverter {
                 cfg.getAttributeAsInteger("orientation", 0));
 
         try {
-            String msg = barcodeImage.getMessage();
-            PageInfo pageInfo = PageInfo.fromProcessingHints(hints);
-            String expandedMsg = VariableUtil.getExpandedMessage(pageInfo, msg);
+            final String msg = barcodeImage.getMessage();
+            final PageInfo pageInfo = PageInfo.fromProcessingHints(hints);
+            final String expandedMsg = VariableUtil.getExpandedMessage(pageInfo, msg);
 
-            final BarcodeGenerator bargen = BarcodeUtil.getInstance().
-                        createBarcodeGenerator(cfg);
+            final BarcodeGenerator bargen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
 
-            Graphics2DImagePainter painter = new Graphics2DImagePainterBarcode(
+            final Graphics2DImagePainter painter = new Graphics2DImagePainterBarcode(
                     barcodeImage, bargen, expandedMsg, orientation);
 
-            ImageGraphics2D g2dImage = new ImageGraphics2D(src.getInfo(), painter);
-            return g2dImage;
+            return new ImageGraphics2D(src.getInfo(), painter);
         } catch (ConfigurationException ce) {
             throw new ImageException("Error in Barcode XML", ce);
         } catch (BarcodeException be) {

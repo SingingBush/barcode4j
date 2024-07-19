@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.HumanReadablePlacement;
@@ -26,8 +27,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  *
  * @version $Id: AbstractBarcodeBean.java,v 1.7 2008-05-13 13:00:45 jmaerki Exp $
  */
-public abstract class AbstractBarcodeBean
-            implements BarcodeGenerator {
+public abstract class AbstractBarcodeBean implements BarcodeGenerator {
 
     /** Net height of bars in mm */
     protected double height          = 15.0; //mm
@@ -253,7 +253,7 @@ public abstract class AbstractBarcodeBean
 
     /** {@inheritDoc} */
     @Override
-    public BarcodeDimension calcDimensions(String msg) {
+    public BarcodeDimension calcDimensions(@NotNull final String msg) {
         throw new UnsupportedOperationException("NYI");
     }
 

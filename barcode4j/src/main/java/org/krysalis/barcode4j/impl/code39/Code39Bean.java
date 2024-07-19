@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j.impl.code39;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -181,28 +182,32 @@ public class Code39Bean extends AbstractBarcodeBean {
     /** {@inheritDoc} */
     @Override
     public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null)
-                || (msg.length() == 0)) {
+        if ((msg == null) || (msg.length() == 0)) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        ClassicBarcodeLogicHandler handler =
-                new DefaultCanvasLogicHandler(this, new Canvas(canvas));
+        final ClassicBarcodeLogicHandler handler = new DefaultCanvasLogicHandler(this, new Canvas(canvas));
 
-        Code39LogicImpl impl = createLogicImpl();
+        final Code39LogicImpl impl = createLogicImpl();
         impl.generateBarcodeLogic(handler, msg);
     }
 
     private Code39LogicImpl createLogicImpl() {
-        return new Code39LogicImpl(getChecksumMode(),
-                isDisplayStartStop(), isDisplayChecksum(), isExtendedCharSetEnabled());
+        return new Code39LogicImpl(
+            getChecksumMode(),
+            isDisplayStartStop(),
+            isDisplayChecksum(),
+            isExtendedCharSetEnabled()
+        );
     }
 
     /** {@inheritDoc} */
     @Override
-    public BarcodeDimension calcDimensions(String msg) {
-        Code39LogicImpl impl = createLogicImpl();
+    public BarcodeDimension calcDimensions(@NotNull String msg) {
+        final Code39LogicImpl impl = createLogicImpl();
+
         int msglen = impl.prepareMessage(msg).length();
+
         final double width = ((msglen + 2) * (3 * wideFactor + 6) * moduleWidth)
                 + ((msglen + 1) * intercharGapWidth);
         final double qz = (hasQuietZone() ? quietZone : 0);

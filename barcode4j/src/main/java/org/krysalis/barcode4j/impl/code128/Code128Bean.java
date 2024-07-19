@@ -16,6 +16,7 @@
 package org.krysalis.barcode4j.impl.code128;
 
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
@@ -83,11 +84,10 @@ public class Code128Bean extends AbstractBarcodeBean {
 
     /** {@inheritDoc} */
     @Override
-    public BarcodeDimension calcDimensions(String msg) {
-        Code128LogicImpl impl = createLogicImpl();
-        int msgLen = 0;
+    public BarcodeDimension calcDimensions(@NotNull String msg) {
+        final Code128LogicImpl impl = createLogicImpl();
 
-        msgLen = impl.createEncodedMessage(msg).length + 1;
+        final int msgLen = impl.createEncodedMessage(msg).length + 1;
 
         final double width = ((msgLen * 11) + 13) * getModuleWidth();
         final double qz = (hasQuietZone() ? quietZone : 0);
@@ -109,8 +109,7 @@ public class Code128Bean extends AbstractBarcodeBean {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        ClassicBarcodeLogicHandler handler =
-                new DefaultCanvasLogicHandler(this, new Canvas(canvas));
+        final ClassicBarcodeLogicHandler handler = new DefaultCanvasLogicHandler(this, new Canvas(canvas));
         //handler = new LoggingLogicHandlerProxy(handler);
 
         Code128LogicImpl impl = createLogicImpl();

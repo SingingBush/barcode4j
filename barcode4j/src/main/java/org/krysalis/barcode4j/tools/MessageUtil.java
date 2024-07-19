@@ -18,19 +18,22 @@
 
 package org.krysalis.barcode4j.tools;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Utilities for pre-processing messages.
  */
 public class MessageUtil {
 
     /**
-     * Un-escapes escaped Unicode characters in a message. This is used to support characters
-     * not encodable in XML, such as the RS or GS characters.
-     * @param message the message
-     * @return the processed message
+     * Un-escapes escaped Unicode characters in a message. This is used to support characters that
+     * cannot be encoded in XML, such as the RS or GS characters.
+     * @param message the message to be un-escaped
+     * @return the processed message or null if the message arg was null
      */
-    // @Nullable
-    public static String unescapeUnicode(/* @Nullable */ String message) {
+    @Nullable
+    public static String unescapeUnicode(@Nullable final String message) {
         if (message == null) {
             return null;
         }
@@ -79,7 +82,8 @@ public class MessageUtil {
      * @param text the text to be filtered.
      * @return the filtered text
      */
-    public static String filterNonPrintableCharacters(String text) {
+    @NotNull
+    public static String filterNonPrintableCharacters(@NotNull final String text) {
         final int len = text.length();
         final StringBuffer sb = new StringBuffer(len);
         for (int i = 0; i < len; i++) {

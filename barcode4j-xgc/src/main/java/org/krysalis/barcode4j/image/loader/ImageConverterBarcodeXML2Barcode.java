@@ -21,6 +21,8 @@ package org.krysalis.barcode4j.image.loader;
 import java.io.IOException;
 import java.util.Map;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeConstants;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
@@ -54,7 +56,7 @@ public class ImageConverterBarcodeXML2Barcode extends AbstractImageConverter {
 
     /** {@inheritDoc} */
     @Override
-    public Image convert(Image src, Map hints) throws ImageException, IOException {
+    public Image convert(@NotNull final Image src, @Nullable Map hints) throws ImageException, IOException {
         checkSourceFlavor(src);
         final ImageXMLDOM barcodeXML = (ImageXMLDOM)src;
 
@@ -67,8 +69,7 @@ public class ImageConverterBarcodeXML2Barcode extends AbstractImageConverter {
             //int orientation = cfg.getAttributeAsInteger("orientation", 0);
             //orientation = BarcodeDimension.normalizeOrientation(orientation);
 
-            final BarcodeGenerator bargen = BarcodeUtil.getInstance().
-                    createBarcodeGenerator(cfg);
+            final BarcodeGenerator bargen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
             final PageInfo pageInfo = PageInfo.fromProcessingHints(hints);
             final String expandedMsg = VariableUtil.getExpandedMessage(pageInfo, msg);
             final BarcodeDimension bardim = bargen.calcDimensions(expandedMsg);

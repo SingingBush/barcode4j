@@ -16,6 +16,7 @@
  */
 package org.krysalis.barcode4j.impl.code128;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -53,10 +54,10 @@ public class EAN128Bean extends Code128Bean {
      * @see org.krysalis.barcode4j.BarcodeGenerator#calcDimensions(String)
      */
     @Override
-    public BarcodeDimension calcDimensions(String msg) {
+    public BarcodeDimension calcDimensions(@NotNull String msg) {
         int msgLen = impl.getEncodedMessage(msg).length + 1;
-        //TODO If the output is able to calculate text lenghts (e.g. awt, fop), and
-        //the human readable part is longer then barcode the size should be enlarged!
+        // todo: If the output is able to calculate text lengths (e.g. awt, fop), and the
+        // human readable part is longer than the barcode, then the size should be enlarged!
         final double width = ((msgLen * 11) + 13) * getModuleWidth();
         final double qz = (hasQuietZone() ? quietZone : 0);
         return new BarcodeDimension(width, getHeight(),

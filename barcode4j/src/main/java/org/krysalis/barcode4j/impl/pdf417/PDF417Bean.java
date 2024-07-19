@@ -17,6 +17,7 @@ package org.krysalis.barcode4j.impl.pdf417;
 
 import java.awt.Dimension;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
@@ -79,8 +80,7 @@ public class PDF417Bean extends AbstractBarcodeBean {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        TwoDimBarcodeLogicHandler handler = new DefaultTwoDimCanvasLogicHandler(
-                this, new Canvas(canvas));
+        final TwoDimBarcodeLogicHandler handler = new DefaultTwoDimCanvasLogicHandler(this, new Canvas(canvas));
 
         PDF417LogicImpl.generateBarcodeLogic(handler, msg, this);
     }
@@ -90,12 +90,10 @@ public class PDF417Bean extends AbstractBarcodeBean {
      * @see org.krysalis.barcode4j.BarcodeGenerator#calcDimensions(String)
      */
     @Override
-    public BarcodeDimension calcDimensions(String msg) {
+    public BarcodeDimension calcDimensions(@NotNull String msg) {
+        final int sourceCodeWords = PDF417HighLevelEncoder.encodeHighLevel(msg, getEncoding(), isECIEnabled()).length();
 
-        int sourceCodeWords = PDF417HighLevelEncoder.encodeHighLevel(msg,
-                getEncoding(), isECIEnabled()).length();
-        Dimension dimension = PDF417LogicImpl.determineDimensions(this,
-                sourceCodeWords);
+        final Dimension dimension = PDF417LogicImpl.determineDimensions(this, sourceCodeWords);
 
         if (dimension == null) {
             throw new IllegalArgumentException("Unable to fit message in columns");

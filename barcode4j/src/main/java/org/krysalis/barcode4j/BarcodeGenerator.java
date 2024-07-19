@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.output.CanvasProvider;
 
 /**
@@ -40,5 +41,5 @@ public interface BarcodeGenerator {
      * @return BarcodeDimension a BarcodeDimension object containing the
      * barcode's dimensions
      */
-    BarcodeDimension calcDimensions(String msg);
+    BarcodeDimension calcDimensions(@NotNull final String msg);
 }

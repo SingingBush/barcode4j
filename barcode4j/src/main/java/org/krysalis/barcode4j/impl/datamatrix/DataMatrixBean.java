@@ -18,6 +18,7 @@ package org.krysalis.barcode4j.impl.datamatrix;
 import java.awt.Dimension;
 import java.io.IOException;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
@@ -116,20 +117,18 @@ public class DataMatrixBean extends AbstractBarcodeBean {
 
     /** {@inheritDoc} */
     public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null)
-                || (msg.length() == 0)) {
+        if ((msg == null) || (msg.length() == 0)) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        TwoDimBarcodeLogicHandler handler =
-                new DefaultTwoDimCanvasLogicHandler(this, new Canvas(canvas));
+        final TwoDimBarcodeLogicHandler handler = new DefaultTwoDimCanvasLogicHandler(this, new Canvas(canvas));
 
-        DataMatrixLogicImpl impl = new DataMatrixLogicImpl();
+        final DataMatrixLogicImpl impl = new DataMatrixLogicImpl();
         impl.generateBarcodeLogic(handler, msg, getShape(), getMinSize(), getMaxSize());
     }
 
     /** {@inheritDoc} */
-    public BarcodeDimension calcDimensions(String msg) {
+    public BarcodeDimension calcDimensions(@NotNull String msg) {
         String encoded;
         try {
             encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg,
@@ -137,7 +136,8 @@ public class DataMatrixBean extends AbstractBarcodeBean {
         } catch (IOException e) {
             throw new IllegalArgumentException("Cannot fetch data: " + e.getLocalizedMessage());
         }
-        DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length(), shape);
+
+        final DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length(), shape);
 
         double width = symbolInfo.getSymbolWidth() * getModuleWidth();
         double height = symbolInfo.getSymbolHeight() * getBarHeight();

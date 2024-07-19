@@ -21,6 +21,8 @@ package org.krysalis.barcode4j.image.loader;
 import java.io.IOException;
 import java.util.Map;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -53,7 +55,7 @@ public class ImageConverterBarcode2SVG extends AbstractImageConverter {
 
     /** {@inheritDoc} */
     @Override
-    public Image convert(Image src, Map hints) throws ImageException, IOException {
+    public Image convert(@NotNull final Image src, @Nullable Map hints) throws ImageException, IOException {
         checkSourceFlavor(src);
         ImageBarcode barcodeImage = (ImageBarcode)src;
 

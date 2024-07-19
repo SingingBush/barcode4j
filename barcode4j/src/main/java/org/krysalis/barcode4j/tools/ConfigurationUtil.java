@@ -15,6 +15,8 @@
  */
 package org.krysalis.barcode4j.tools;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
@@ -51,8 +53,8 @@ public class ConfigurationUtil {
         return processNode(node);
     }
 
-    // @Nullable
-    private static Element findDocumentElement(Document document) {
+    @Nullable
+    private static Element findDocumentElement(@NotNull final Document document) {
         try {
             return document.getDocumentElement(); //Xalan-bug, doesn't work (2.4.1)
         } catch (Exception e) {
@@ -81,6 +83,7 @@ public class ConfigurationUtil {
         }
     }
 
+    @NotNull
     private static DefaultConfiguration processElement(Element el) {
         String name = el.getLocalName(); // element can be null
         if (name == null) {
@@ -112,10 +115,11 @@ public class ConfigurationUtil {
     /**
      * Extracts the message from the barcode XML. Escaped Unicode characters are unescaped.
      * @param cfg the configuration object containing the barcode XML
-     * @return the message
+     * @return the message or null
      * @throws ConfigurationException if an error occurs retrieving values from the configuration
      */
-    public static String getMessage(Configuration cfg) throws ConfigurationException {
+    @Nullable
+    public static String getMessage(@NotNull final Configuration cfg) throws ConfigurationException {
         String msg;
         try {
             msg = cfg.getAttribute("message");
@@ -126,8 +130,7 @@ public class ConfigurationUtil {
                 throw ce;
             }
         }
-        msg = MessageUtil.unescapeUnicode(msg);
-        return msg;
+        return MessageUtil.unescapeUnicode(msg);
     }
 
 }

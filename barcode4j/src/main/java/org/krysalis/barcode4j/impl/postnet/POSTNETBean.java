@@ -1,12 +1,12 @@
 /*
  * Copyright 2003,2004,2006 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j.impl.postnet;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BaselineAlignment;
 import org.krysalis.barcode4j.ChecksumMode;
@@ -26,7 +27,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 
 /**
  * Implements the United States Postal Service POSTNET barcode.
- * 
+ *
  * @author Chris Dolphy
  * @version $Id: POSTNETBean.java,v 1.9 2008-05-13 13:00:44 jmaerki Exp $
  */
@@ -36,7 +37,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
     static final double DEFAULT_MODULE_WIDTH = 0.020f; //inch
     static final double DEFAULT_TALL_BAR_HEIGHT = 0.125f; //inch
     static final double DEFAULT_SHORT_BAR_HEIGHT = 0.050f; //inch
-    
+
     static final double DEFAULT_HORZ_QUIET_ZONE_INCH = 1.0 / 8; // 1/8 inch
     static final double DEFAULT_VERT_QUIET_ZONE_INCH = 1.0 / 25; // 1/25 inch
 
@@ -47,7 +48,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
     private double shortBarHeight = UnitConv.in2mm(DEFAULT_SHORT_BAR_HEIGHT);
     private boolean displayChecksum = false;
     private Double quietZoneVertical;
-    
+
     /** Create a new instance. */
     public POSTNETBean() {
         super();
@@ -58,7 +59,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
         setVerticalQuietZone(UnitConv.in2mm(DEFAULT_VERT_QUIET_ZONE_INCH));
         setBarHeight(UnitConv.in2mm(DEFAULT_TALL_BAR_HEIGHT));
     }
-    
+
     /**
      * Sets the height of the vertical quiet zone. If this value is not explicitely set the
      * vertical quiet zone has the same width as the horizontal quiet zone.
@@ -67,7 +68,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
     public void setVerticalQuietZone(double height) {
         this.quietZoneVertical = new Double(height);
     }
-    
+
     /** {@inheritDoc} */
     public double getVerticalQuietZone() {
         if (this.quietZoneVertical != null) {
@@ -100,7 +101,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
     public double getIntercharGapWidth() {
         return this.intercharGapWidth;
     }
-    
+
     /**
      * Sets the width between encoded characters.
      * @param width the interchar gap width
@@ -108,7 +109,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
     public void setIntercharGapWidth(double width) {
         this.intercharGapWidth = width;
     }
-    
+
     /**
      * Returns the height of a short bar.
      * @return the height of a short bar
@@ -116,7 +117,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
     public double getShortBarHeight() {
         return this.shortBarHeight;
     }
-    
+
     /**
      * Sets the height of a short bar.
      * @param height the height of a short bar
@@ -124,7 +125,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
     public void setShortBarHeight(double height) {
         this.shortBarHeight = height;
     }
-    
+
     /** {@inheritDoc} */
     public double getBarWidth(int width) {
         if (width == 1) {
@@ -135,7 +136,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
             throw new IllegalArgumentException("Only width 1 allowed");
         }
     }
-    
+
     /** {@inheritDoc} */
     public double getBarHeight(int height) {
         if (height == 2) {
@@ -148,7 +149,7 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
             throw new IllegalArgumentException("Only height 0 or 1 allowed");
         }
     }
-    
+
     /**
      * Indicates whether the checksum will be displayed as
      * part of the human-readable message.
@@ -157,45 +158,42 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
     public boolean isDisplayChecksum() {
         return this.displayChecksum;
     }
-    
+
     /**
      * Enables or disables the use of the checksum in the
      * human-readable message.
-     * @param value true to include the checksum in the human-readable message, 
+     * @param value true to include the checksum in the human-readable message,
      *   false to ignore
      */
     public void setDisplayChecksum(boolean value) {
         this.displayChecksum = value;
     }
-    
+
     /** {@inheritDoc} */
     public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null) 
-                || (msg.length() == 0)) {
+        if ((msg == null) || (msg.length() == 0)) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        POSTNETLogicHandler handler = 
-                new POSTNETLogicHandler(this, new Canvas(canvas));
+        final POSTNETLogicHandler handler = new POSTNETLogicHandler(this, new Canvas(canvas));
 
-        POSTNETLogicImpl impl = new POSTNETLogicImpl(
-                getChecksumMode(), isDisplayChecksum());
+        final POSTNETLogicImpl impl = new POSTNETLogicImpl(getChecksumMode(), isDisplayChecksum());
         impl.generateBarcodeLogic(handler, msg);
     }
 
     /** {@inheritDoc} */
-    public BarcodeDimension calcDimensions(String msg) {
+    public BarcodeDimension calcDimensions(@NotNull String msg) {
         String modMsg = POSTNETLogicImpl.removeIgnoredCharacters(msg);
-        final double width = (((modMsg.length() * 5) + 2) * moduleWidth) 
+        final double width = (((modMsg.length() * 5) + 2) * moduleWidth)
                 + (((modMsg.length() * 5) + 1) * intercharGapWidth);
         final double qz = (hasQuietZone() ? quietZone : 0);
-        double qzv = (hasQuietZone() ? getVerticalQuietZone() : 0);        
+        double qzv = (hasQuietZone() ? getVerticalQuietZone() : 0);
         double height = getHeight();
         if (getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
             height -= getHumanReadableHeight();
         }
-        return new BarcodeDimension(width, height, 
-                width + (2 * qz), height + (2 * qzv), 
+        return new BarcodeDimension(width, height,
+                width + (2 * qz), height + (2 * qzv),
                 quietZone, qzv);
     }
 

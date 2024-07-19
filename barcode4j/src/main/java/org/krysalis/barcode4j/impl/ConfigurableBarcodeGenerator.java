@@ -17,6 +17,7 @@ package org.krysalis.barcode4j.impl;
 
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
@@ -174,7 +175,7 @@ public abstract class ConfigurableBarcodeGenerator implements BarcodeGenerator, 
     }
 
     /** {@inheritDoc} */
-    public BarcodeDimension calcDimensions(String msg) {
+    public BarcodeDimension calcDimensions(@NotNull String msg) {
         return getBean().calcDimensions(msg);
     }
 

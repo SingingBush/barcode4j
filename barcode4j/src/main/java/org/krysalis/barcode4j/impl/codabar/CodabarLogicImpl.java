@@ -60,26 +60,32 @@ public class CodabarLogicImpl {
                                              {0, 0, 1, 0, 1, 0, 1},  //+
                                              {0, 0, 0, 1, 0, 1, 1}}; //*
 
-    private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
-    private boolean displayStartStop = false;
-
+    private final ChecksumMode checksumMode;
+    private final boolean displayStartStop;
 
     /**
      * Main constructor
-     * @param mode Determines how checksums are to be treated.
+     * @since 2.3.0
      */
-    public CodabarLogicImpl(ChecksumMode mode) {
-        this.checksumMode = mode;
+    public CodabarLogicImpl() {
+        this(ChecksumMode.CP_AUTO);
     }
 
     /**
      * Main constructor
-     * @param mode Determines how checksums are to be treated.
-     * @param displayStartStop enables or disables suppressing the start/stop characters from
-     *          the human-readable part
+     * @param mode Determines how checksums are to be treated. If null will default to CP_AUTO
      */
-    public CodabarLogicImpl(ChecksumMode mode, boolean displayStartStop) {
-        this.checksumMode = mode;
+    public CodabarLogicImpl(final ChecksumMode mode) {
+        this(mode, false);
+    }
+
+    /**
+     * Main constructor
+     * @param checksumMode Determines how checksums are to be treated. If null will default to CP_AUTO
+     * @param displayStartStop enables or disables suppressing the start/stop characters from the human-readable part
+     */
+    public CodabarLogicImpl(final ChecksumMode checksumMode, boolean displayStartStop) {
+        this.checksumMode = checksumMode != null ? checksumMode : ChecksumMode.CP_AUTO;
         this.displayStartStop = displayStartStop;
     }
 

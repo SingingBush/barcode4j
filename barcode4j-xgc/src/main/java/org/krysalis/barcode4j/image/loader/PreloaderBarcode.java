@@ -27,6 +27,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 
+import org.apache.xmlgraphics.io.XmlSourceUtil;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeConstants;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeException;
@@ -60,18 +62,19 @@ public class PreloaderBarcode extends AbstractImagePreloader {
 
     /** {@inheritDoc} */
     @Override
+    @Nullable
     public ImageInfo preloadImage(String uri, Source src, ImageContext context) throws IOException {
-        ImageInfo info = null;
         if (!isSupportedSource(src)) {
             return null;
         }
-        info = getImage(uri, src, context);
+        final ImageInfo info = getImage(uri, src, context);
         if (info != null) {
-            ImageUtil.closeQuietly(src); //Image is fully read
+            XmlSourceUtil.closeQuietly(src); //Image is fully read
         }
         return info;
     }
 
+    @Nullable
     private ImageInfo getImage(String uri, Source src, ImageContext context) throws IOException {
         InputStream in = null;
         try {
@@ -80,7 +83,7 @@ public class PreloaderBarcode extends AbstractImagePreloader {
                 DOMSource domSrc = (DOMSource)src;
                 doc = (Document)domSrc.getNode();
             } else {
-                in = ImageUtil.needInputStream(src);
+                in = XmlSourceUtil.needInputStream(src);
                 int length = in.available();
                 in.mark(length + 1);
                 try {
@@ -90,8 +93,7 @@ public class PreloaderBarcode extends AbstractImagePreloader {
                     return null;
                 }
             }
-            if (!BarcodeConstants.NAMESPACE.equals(
-                    doc.getDocumentElement().getNamespaceURI())) {
+            if (!BarcodeConstants.NAMESPACE.equals(doc.getDocumentElement().getNamespaceURI())) {
                 resetInputStream(in);
                 return null;
             }
@@ -170,7 +172,9 @@ public class PreloaderBarcode extends AbstractImagePreloader {
     }
 
     private Document getDocument(InputStream in) throws IOException, SAXException, ParserConfigurationException {
+        // todo: when supporting JDK 11+ see about changing to use DocumentBuilderFactory.newDefaultInstance()
         final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
         dbf.setNamespaceAware(true);
         dbf.setValidating(false);
 
