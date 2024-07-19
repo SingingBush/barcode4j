@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 
 /**
  * Provides a base class for "four-state" barcodes.
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: AbstractFourStateLogicImpl.java,v 1.2 2008-05-13 13:00:43 jmaerki Exp $
  */
@@ -47,7 +47,7 @@ public abstract class AbstractFourStateLogicImpl {
     }
 
     /**
-     * Calculates the checksum for a message to be encoded as an 
+     * Calculates the checksum for a message to be encoded as an
      * one of the foru-state barcode symbologies.
      * @param msg message to calculate the check digit for
      * @return char the check digit
@@ -70,11 +70,13 @@ public abstract class AbstractFourStateLogicImpl {
      * Checks if a character is an ignored character (such as a '-' (dash)).
      * @param c character to check
      * @return True if the character is ignored
+     * @deprecated for removal as there's no need for this method
      */
+    @Deprecated
     public static boolean isIgnoredChar(char c) {
         return false;
     }
-    
+
     /**
      * Turns the given message into a normalize representation. Some subclasses may update/add
      * parentheses around the message and/or handle the checksum as necessary.
@@ -82,14 +84,14 @@ public abstract class AbstractFourStateLogicImpl {
      * @return the normalized message to be encoded
      */
     protected abstract String normalizeMessage(String msg);
-    
+
     /**
      * Does the high-level encoding of the message into codewords.
      * @param msg the message
      * @return an array of Strings with codewords
      */
     protected abstract String[] encodeHighLevel(String msg);
-    
+
     /**
      * Encodes a single character.
      * @param logic the logic handler to receive generated events
@@ -97,7 +99,7 @@ public abstract class AbstractFourStateLogicImpl {
      * @param codeword the codeword belonging to the character
      */
     protected void encodeCodeword(ClassicBarcodeLogicHandler logic, char c, String codeword) {
-        logic.startBarGroup(BarGroup.MSG_CHARACTER, new Character(c).toString());
+        logic.startBarGroup(BarGroup.MSG_CHARACTER, String.valueOf(c));
         for (int i = 0, count = codeword.length(); i < count; i++) {
             int height = Integer.parseInt(codeword.substring(i, i + 1));
             logic.addBar(true, height);
@@ -115,7 +117,7 @@ public abstract class AbstractFourStateLogicImpl {
         String[] encodedMsg = encodeHighLevel(normalizedMsg);
 
         logic.startBarcode(msg, normalizedMsg);
-        
+
         // encode message
         for (int i = 0; i < encodedMsg.length; i++) {
             final char ch = normalizedMsg.charAt(i);

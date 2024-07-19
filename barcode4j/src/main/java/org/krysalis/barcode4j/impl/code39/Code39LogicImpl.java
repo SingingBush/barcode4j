@@ -259,7 +259,7 @@ public class Code39LogicImpl {
      * @param c the character to encode
      */
     protected void encodeChar(ClassicBarcodeLogicHandler logic, char c) {
-        logic.startBarGroup(BarGroup.MSG_CHARACTER, new Character(c).toString());
+        logic.startBarGroup(BarGroup.MSG_CHARACTER, String.valueOf(c));
         for (byte i = 0; i < 9; i++) {
             int width = widthAt(c, i);
             boolean black = (i % 2 == 0);
@@ -327,7 +327,7 @@ public class Code39LogicImpl {
         logic.startBarcode(sb.toString(), displayMsg);
 
         //Start character
-        logic.startBarGroup(BarGroup.START_CHARACTER, new Character(STARTSTOP).toString());
+        logic.startBarGroup(BarGroup.START_CHARACTER, String.valueOf(STARTSTOP));
         encodeChar(logic, STARTSTOP);
         logic.endBarGroup();
 
@@ -344,7 +344,7 @@ public class Code39LogicImpl {
         addIntercharacterGap(logic);
 
         //Start character
-        logic.startBarGroup(BarGroup.STOP_CHARACTER, new Character(STARTSTOP).toString());
+        logic.startBarGroup(BarGroup.STOP_CHARACTER, String.valueOf(STARTSTOP));
         encodeChar(logic, STARTSTOP);
         logic.endBarGroup();
 

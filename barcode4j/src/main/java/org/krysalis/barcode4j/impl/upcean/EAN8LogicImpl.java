@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 
 /**
  * This class is an implementation of the EAN-8 barcode.
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: EAN8LogicImpl.java,v 1.2 2004-10-24 11:45:53 jmaerki Exp $
  */
@@ -34,7 +34,7 @@ public class EAN8LogicImpl extends UPCEANLogicImpl {
     public EAN8LogicImpl(ChecksumMode mode) {
         super(mode);
     }
-    
+
     /**
      * Validates a EAN-8 message. The method throws IllegalArgumentExceptions
      * if an invalid message is passed.
@@ -47,7 +47,7 @@ public class EAN8LogicImpl extends UPCEANLogicImpl {
                 "Message must be 7 or 8 characters long. Message: " + msg);
         }
     }
-    
+
     private String handleChecksum(String msg) {
         ChecksumMode mode = getChecksumMode();
         if (mode == ChecksumMode.CP_AUTO) {
@@ -93,11 +93,11 @@ public class EAN8LogicImpl extends UPCEANLogicImpl {
                 "Unknown checksum mode: " + mode);
         }
     }
-    
+
     /** @see org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl */
     public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
         String supp = retrieveSupplemental(msg);
-        String s = removeSupplemental(msg); 
+        String s = removeSupplemental(msg);
         validateMessage(s);
         s = handleChecksum(s);
 
@@ -106,19 +106,19 @@ public class EAN8LogicImpl extends UPCEANLogicImpl {
             canonicalMessage = canonicalMessage + "+" + supp;
         }
         logic.startBarcode(canonicalMessage, canonicalMessage);
-        
+
         //Left guard
         drawSideGuard(logic);
 
         logic.startBarGroup(BarGroup.UPC_EAN_GROUP, s.substring(0, 4));
-        
+
         //First four data characters
         for (int i = 0; i < 4; i++) {
             encodeChar(logic, s.charAt(i), LEFT_HAND_A);
         }
 
         logic.endBarGroup();
-        
+
         //Center guard
         drawCenterGuard(logic);
 
@@ -131,12 +131,12 @@ public class EAN8LogicImpl extends UPCEANLogicImpl {
 
         //Checksum
         final char check = s.charAt(7);
-        logic.startBarGroup(BarGroup.UPC_EAN_CHECK, new Character(check).toString());
+        logic.startBarGroup(BarGroup.UPC_EAN_CHECK, String.valueOf(check));
         encodeChar(logic, check, RIGHT_HAND);
         logic.endBarGroup();
 
         logic.endBarGroup();
-        
+
         //Right guard
         drawSideGuard(logic);
 

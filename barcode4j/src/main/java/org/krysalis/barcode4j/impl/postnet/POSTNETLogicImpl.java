@@ -1,12 +1,12 @@
 /*
  * Copyright 2003,2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,13 +21,13 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 
 /**
  * Implements the United States Postal Service Postnet barcode.
- * 
+ *
  * @author Chris Dolphy
  * @version $Id: POSTNETLogicImpl.java,v 1.3 2006-11-07 16:42:17 jmaerki Exp $
  */
 public class POSTNETLogicImpl {
 
-    private static final byte[][] CHARSET = 
+    private static final byte[][] CHARSET =
                         {{2, 2, 1, 1, 1},  //0
                          {1, 1, 1, 2, 2},  //1
                          {1, 1, 2, 1, 2},  //2
@@ -64,7 +64,7 @@ public class POSTNETLogicImpl {
     }
 
     /**
-     * Calculates the checksum for a message to be encoded as an 
+     * Calculates the checksum for a message to be encoded as an
      * POSTNET barcode.
      * @param msg message to calculate the check digit for
      * @return char the check digit
@@ -98,7 +98,7 @@ public class POSTNETLogicImpl {
     private static boolean isValidChar(char ch) {
         return Character.isDigit(ch) || isIgnoredChar(ch);
     }
-    
+
     /**
      * Checks if a character is an ignored character (such as a '-' (dash)).
      * @param c character to check
@@ -107,7 +107,7 @@ public class POSTNETLogicImpl {
     public static boolean isIgnoredChar(char c) {
         return c == DASH;
     }
-    
+
     /**
      * Removes ignored character from a valid POSTNET message.
      * @param msg valid POSTNET message
@@ -146,7 +146,7 @@ public class POSTNETLogicImpl {
         if (isIgnoredChar(c)) {
             return;  // allow dash, but don't encode
         }
-        logic.startBarGroup(BarGroup.MSG_CHARACTER, new Character(c).toString());
+        logic.startBarGroup(BarGroup.MSG_CHARACTER, String.valueOf(c));
         for (byte i = 0; i < 5; i++) {
             int height = heightAt(c, i);
             logic.addBar(true, height);
@@ -158,7 +158,7 @@ public class POSTNETLogicImpl {
     private void addIntercharacterGap(ClassicBarcodeLogicHandler logic) {
         logic.addBar(false, -1); //-1 is special
     }
-        
+
     private String handleChecksum(StringBuffer sb) {
         if (getChecksumMode() == ChecksumMode.CP_ADD) {
             if (displayChecksum) {
@@ -171,9 +171,9 @@ public class POSTNETLogicImpl {
             }
         } else if (getChecksumMode() == ChecksumMode.CP_CHECK) {
             if (!validateChecksum(sb.toString())) {
-                throw new IllegalArgumentException("Message '" 
+                throw new IllegalArgumentException("Message '"
                     + sb.toString()
-                    + "' has a bad checksum. Expected: " 
+                    + "' has a bad checksum. Expected: "
                     + calcChecksum(sb.substring(0, sb.length() - 1)));
             }
             if (displayChecksum) {
@@ -201,7 +201,7 @@ public class POSTNETLogicImpl {
         String formattedMsg = handleChecksum(sb);
 
         logic.startBarcode(sb.toString(), formattedMsg);
-        
+
         // start frame bar
         logic.addBar(true, 2);
         addIntercharacterGap(logic);
@@ -211,7 +211,7 @@ public class POSTNETLogicImpl {
             final char ch = sb.charAt(i);
             if (!isValidChar(ch)) {
                 throw new IllegalArgumentException("Invalid character: " + ch);
-            } 
+            }
             encodeChar(logic, ch);
         }
 
@@ -220,6 +220,5 @@ public class POSTNETLogicImpl {
 
         logic.endBarcode();
     }
-
 
 }

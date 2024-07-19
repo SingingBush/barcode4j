@@ -108,9 +108,10 @@
         <!-- Sonar config -->
         <sonar.organization>singingbush</sonar.organization>
         <sonar.projectKey>barcode4j</sonar.projectKey>
+        <sonar.java.source>${maven.compiler.source}</sonar.java.source>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.exclusions>barcode4j-ant/**,barcode4j-cli/**,barcode4j-examples/**,barcode4j-saxon**,barcode4j-servlet/**</sonar.exclusions>
-        <sonar.coverage.jacoco.xmlReportPaths>aggregate-report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/aggregate-report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
         <!-- dependencyManagement - set fixed versions for all project dependencies -->
         <apache.commons-cli.version>1.8.0</apache.commons-cli.version>

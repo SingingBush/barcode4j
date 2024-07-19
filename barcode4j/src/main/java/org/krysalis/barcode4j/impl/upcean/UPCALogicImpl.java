@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 
 /**
  * This class is an implementation of the UPC-A barcode.
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: UPCALogicImpl.java,v 1.2 2004-10-24 11:45:53 jmaerki Exp $
  */
@@ -47,7 +47,7 @@ public class UPCALogicImpl extends UPCEANLogicImpl {
                 "Message must be 11 or 12 characters long. Message: " + msg);
         }
     }
-    
+
     /**
      * Does checksum processing according to the checksum mode.
      * @param msg the message to process
@@ -98,11 +98,11 @@ public class UPCALogicImpl extends UPCEANLogicImpl {
     private String handleChecksum(String msg) {
         return handleChecksum(msg, getChecksumMode());
     }
-    
+
     /** @see org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl */
     public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
         String supp = retrieveSupplemental(msg);
-        String s = removeSupplemental(msg); 
+        String s = removeSupplemental(msg);
         validateMessage(s);
         s = handleChecksum(s);
 
@@ -111,30 +111,30 @@ public class UPCALogicImpl extends UPCEANLogicImpl {
             canonicalMessage = canonicalMessage + "+" + supp;
         }
         logic.startBarcode(canonicalMessage, canonicalMessage);
-        
+
         //Left guard
         drawSideGuard(logic);
 
         //Number system character
         final char lead = s.charAt(0);
-        logic.startBarGroup(BarGroup.UPC_EAN_LEAD, new Character(lead).toString());
+        logic.startBarGroup(BarGroup.UPC_EAN_LEAD, String.valueOf(lead));
         encodeChar(logic, lead, LEFT_HAND_A);
         logic.endBarGroup();
 
         logic.startBarGroup(BarGroup.UPC_EAN_GROUP, s.substring(1, 6));
-        
+
         //First five data characters
         for (int i = 1; i < 6; i++) {
             encodeChar(logic, s.charAt(i), LEFT_HAND_A);
         }
-        
+
         logic.endBarGroup();
 
         //Center guard
         drawCenterGuard(logic);
 
         logic.startBarGroup(BarGroup.UPC_EAN_GROUP, s.substring(6, 11));
-        
+
         //Last five data characters
         for (int i = 6; i < 11; i++) {
             encodeChar(logic, s.charAt(i), RIGHT_HAND);
@@ -144,13 +144,13 @@ public class UPCALogicImpl extends UPCEANLogicImpl {
 
         //Checksum
         final char check = s.charAt(11);
-        logic.startBarGroup(BarGroup.UPC_EAN_CHECK, new Character(check).toString());
+        logic.startBarGroup(BarGroup.UPC_EAN_CHECK, String.valueOf(check));
         encodeChar(logic, check, RIGHT_HAND);
         logic.endBarGroup();
 
         //Right guard
         drawSideGuard(logic);
-        
+
         //Optional Supplemental
         if (supp != null) {
             drawSupplemental(logic, supp);

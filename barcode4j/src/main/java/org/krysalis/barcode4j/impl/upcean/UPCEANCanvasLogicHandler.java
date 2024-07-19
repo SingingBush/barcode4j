@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,12 +29,12 @@ import org.krysalis.barcode4j.output.Canvas;
 /**
  * Logic Handler implementation for painting on a Canvas. This is a special
  * implementation for UPC and EAN barcodes.
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: UPCEANCanvasLogicHandler.java,v 1.3 2008-05-13 13:00:44 jmaerki Exp $
  */
 public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
-    
+
     private UPCEANBean bcBean;
     private Canvas canvas;
     private double x = 0.0;
@@ -45,7 +45,7 @@ public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
     private boolean inMsgGroup;
     private boolean inSupplemental;
     private Stack groupStack = new Stack();
-    
+
     /**
      * Main constructor.
      * @param bcBean the barcode implementation class
@@ -59,26 +59,26 @@ public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
         this.bcBean = (UPCEANBean)bcBean;
         this.canvas = canvas;
     }
-    
+
     private double getStartX() {
         if (bcBean.hasQuietZone()) {
             return bcBean.getQuietZone();
         } else {
             return 0.0;
         }
-    }            
+    }
 
     /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
     public void startBarcode(String msg, String formattedMsg) {
         this.msg = msg;
         //Calculate extents
         this.dim = bcBean.calcDimensions(msg);
-        
+
         canvas.establishDimensions(dim);
         x = getStartX();
         inMsgGroup = false;
         inSupplemental = false;
-        
+
     }
 
     /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
@@ -136,13 +136,13 @@ public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
                     y = bcBean.getHumanReadableHeight();
                     canvas.drawRectWH(x, y, w, h);
                 } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
-                    h = bcBean.getBarHeight() 
+                    h = bcBean.getBarHeight()
                         + (bcBean.getHumanReadableHeight() / 2)
                         - bcBean.getHumanReadableHeight();
                     y = bcBean.getHumanReadableHeight() / 2;
                     canvas.drawRectWH(x, y, w, h);
                 } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
-                    h = bcBean.getBarHeight() 
+                    h = bcBean.getBarHeight()
                         + (bcBean.getHumanReadableHeight() / 2)
                         - bcBean.getHumanReadableHeight();
                     y = bcBean.getHumanReadableHeight();
@@ -152,7 +152,7 @@ public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
         }
         x += w;
     }
-    
+
     private boolean isEAN() {
         return (bcBean instanceof EAN13Bean) || (bcBean instanceof EAN8Bean);
     }
@@ -170,11 +170,10 @@ public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
             int colonPos = lastgroup.indexOf(":");
             String grouptext = lastgroup;
             if (colonPos >= 0) {
-                String lead = new Character(grouptext.charAt(0)).toString();
-                drawLeadChar(lead);
+                drawLeadChar(String.valueOf(grouptext.charAt(0)));
                 grouptext = grouptext.substring(colonPos + 1);
             }
-    
+
             //character group text
             drawGroupText(grouptext);
         } else if (group == BarGroup.UPC_EAN_LEAD) {
@@ -190,22 +189,22 @@ public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
             inSupplemental = false;
         }
     }
-    
+
     private void drawLeadChar(String lead) {
         final double leadw = 7 * bcBean.getBarWidth(1);
-        final double leadx = getStartX() 
+        final double leadx = getStartX()
                     - 3 * bcBean.getBarWidth(1)
                     - leadw;
-                    
+
         if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
             //nop
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
-            DrawingUtil.drawText(canvas, bcBean, 
-                    lead, leadx, leadx + leadw, 
+            DrawingUtil.drawText(canvas, bcBean,
+                    lead, leadx, leadx + leadw,
                     bcBean.getHumanReadableHeight(), TextAlignment.TA_CENTER);
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
-            DrawingUtil.drawText(canvas, bcBean, 
-                    lead, leadx, leadx + leadw, 
+            DrawingUtil.drawText(canvas, bcBean,
+                    lead, leadx, leadx + leadw,
                     bcBean.getHeight(), TextAlignment.TA_CENTER);
         }
     }
@@ -216,16 +215,16 @@ public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
                     + this.dim.getWidth()
                     - bcBean.supplementalWidth(this.msg)
                     + 3 * bcBean.getBarWidth(1);
-                    
+
         if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
             //nop
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
-            DrawingUtil.drawText(canvas, bcBean, 
-                    trailer, trailerx, trailerx + trailerw, 
+            DrawingUtil.drawText(canvas, bcBean,
+                    trailer, trailerx, trailerx + trailerw,
                     bcBean.getHumanReadableHeight(), TextAlignment.TA_CENTER);
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
-            DrawingUtil.drawText(canvas, bcBean, 
-                    trailer, trailerx, trailerx + trailerw, 
+            DrawingUtil.drawText(canvas, bcBean,
+                    trailer, trailerx, trailerx + trailerw,
                     bcBean.getHeight(), TextAlignment.TA_CENTER);
         }
     }
@@ -234,28 +233,28 @@ public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
         if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_NONE) {
             //nop
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
-            DrawingUtil.drawText(canvas, bcBean, text, 
-                    groupx + bcBean.getBarWidth(1), 
-                    x - bcBean.getBarWidth(1), 
+            DrawingUtil.drawText(canvas, bcBean, text,
+                    groupx + bcBean.getBarWidth(1),
+                    x - bcBean.getBarWidth(1),
                     bcBean.getHumanReadableHeight(), TextAlignment.TA_JUSTIFY);
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
-            DrawingUtil.drawText(canvas, bcBean, text, 
-                    groupx + bcBean.getBarWidth(1), 
-                    x - bcBean.getBarWidth(1), 
+            DrawingUtil.drawText(canvas, bcBean, text,
+                    groupx + bcBean.getBarWidth(1),
+                    x - bcBean.getBarWidth(1),
                     bcBean.getHeight(), TextAlignment.TA_JUSTIFY);
         }
     }
-    
+
     private void drawSupplementalText(String supp) {
         if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_TOP) {
-            DrawingUtil.drawText(canvas, bcBean, supp, 
-                    groupx, 
-                    x, 
+            DrawingUtil.drawText(canvas, bcBean, supp,
+                    groupx,
+                    x,
                     bcBean.getHeight(), TextAlignment.TA_CENTER);
         } else if (bcBean.getMsgPosition() == HumanReadablePlacement.HRP_BOTTOM) {
-            DrawingUtil.drawText(canvas, bcBean, supp, 
-                    groupx, 
-                    x, 
+            DrawingUtil.drawText(canvas, bcBean, supp,
+                    groupx,
+                    x,
                     bcBean.getHumanReadableHeight(), TextAlignment.TA_CENTER);
         }
     }

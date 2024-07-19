@@ -145,7 +145,7 @@ public class CodabarLogicImpl {
      */
     protected void encodeChar(ClassicBarcodeLogicHandler logic, char ch) {
         ch = Character.toLowerCase(ch);
-        logic.startBarGroup(BarGroup.MSG_CHARACTER, new Character(ch).toString());
+        logic.startBarGroup(BarGroup.MSG_CHARACTER, String.valueOf(ch));
         for (byte i = 0; i < 7; i++) {
             final int width = widthAt(ch, i);
             final boolean black = ((i % 2) == 0);
@@ -155,10 +155,8 @@ public class CodabarLogicImpl {
     }
 
     private void handleChecksum(StringBuffer sb) {
-        if ((getChecksumMode() == ChecksumMode.CP_ADD)
-                || (getChecksumMode() == ChecksumMode.CP_CHECK)) {
-            throw new UnsupportedOperationException(
-                "No checksums are currently supported for Codabar symbols");
+        if ((getChecksumMode() == ChecksumMode.CP_ADD) || (getChecksumMode() == ChecksumMode.CP_CHECK)) {
+            throw new UnsupportedOperationException("No checksums are currently supported for Codabar symbols");
         } else if (getChecksumMode() == ChecksumMode.CP_IGNORE) {
             return;
         } else if (getChecksumMode() == ChecksumMode.CP_AUTO) {
