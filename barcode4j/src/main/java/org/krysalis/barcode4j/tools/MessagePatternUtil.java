@@ -18,6 +18,8 @@
 
 package org.krysalis.barcode4j.tools;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Helper class to apply custom message pattern (i.e. message characters grouping) to barcode
  * messages.
@@ -39,13 +41,10 @@ public class MessagePatternUtil {
      * @return the formatted message
      * @author Dimitar Vlasev
      */
-    public static String applyCustomMessagePattern(String msg, String pattern) {
-
-        StringBuffer result = new StringBuffer();
-
+    @Nullable
+    public static String applyCustomMessagePattern(@Nullable String msg, @Nullable String pattern) {
         // if there is no pattern then return the original message
-        if ((pattern == null) || "".equals(pattern)
-                || msg == null || "".equals(msg)) {
+        if ((pattern == null) || pattern.isEmpty() || msg == null || msg.isEmpty()) {
             return msg;
         }
 
@@ -59,9 +58,11 @@ public class MessagePatternUtil {
 
         // iterate trough pattern chars
         boolean msgFinished = false;
-        for (int patternIndex = 0; patternIndex < patternBytes.length; patternIndex++) {
 
-            currentPatternChar = (char) patternBytes[patternIndex];
+        final StringBuilder result = new StringBuilder();
+
+        for (byte patternByte : patternBytes) {
+            currentPatternChar = (char) patternByte;
 
             // if the currentPatternChar is escape character and the
             // escapeCharEncountered flag is down
@@ -79,8 +80,8 @@ public class MessagePatternUtil {
             // append the currentPatternChar to the result and set the
             // escapeCharEncountered flag down
             if ((!msgFinished)
-                    && (!escapeCharEncountered)
-                    && (isPlaceholder(currentPatternChar) || isDeleteholder(currentPatternChar))) {
+                && (!escapeCharEncountered)
+                && (isPlaceholder(currentPatternChar) || isDeleteholder(currentPatternChar))) {
                 if (!isDeleteholder(currentPatternChar)) {
                     result.append((char) msgBytes[msgIndex]);
                 }

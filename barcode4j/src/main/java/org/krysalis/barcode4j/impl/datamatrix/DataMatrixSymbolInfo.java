@@ -109,10 +109,8 @@ public class DataMatrixSymbolInfo {
         return lookup(dataCodewords, shape, true);
     }
 
-    public static DataMatrixSymbolInfo lookup(int dataCodewords,
-                boolean allowRectangular, boolean fail) {
-        SymbolShapeHint shape = allowRectangular
-                ? SymbolShapeHint.FORCE_NONE : SymbolShapeHint.FORCE_SQUARE;
+    public static DataMatrixSymbolInfo lookup(int dataCodewords, boolean allowRectangular, boolean fail) {
+        final SymbolShapeHint shape = allowRectangular ? SymbolShapeHint.FORCE_NONE : SymbolShapeHint.FORCE_SQUARE;
         return lookup(dataCodewords, shape, fail);
     }
 
@@ -155,25 +153,27 @@ public class DataMatrixSymbolInfo {
 
     public int getHorzDataRegions() {
         switch (dataRegions) {
-        case 1: return 1;
-        case 2: return 2;
-        case 4: return 2;
-        case 16: return 4;
-        case 36: return 6;
-        default:
-            throw new IllegalStateException("Cannot handle this number of data regions");
+            case 1: return 1;
+            case 2:
+            case 4:
+                return 2;
+            case 16: return 4;
+            case 36: return 6;
+            default:
+                throw new IllegalStateException("Cannot handle this number of data regions");
         }
     }
 
     public int getVertDataRegions() {
         switch (dataRegions) {
-        case 1: return 1;
-        case 2: return 1;
-        case 4: return 2;
-        case 16: return 4;
-        case 36: return 6;
-        default:
-            throw new IllegalStateException("Cannot handle this number of data regions");
+            case 1:
+            case 2:
+                return 1;
+            case 4: return 2;
+            case 16: return 4;
+            case 36: return 6;
+            default:
+                throw new IllegalStateException("Cannot handle this number of data regions");
         }
     }
 
@@ -211,13 +211,11 @@ public class DataMatrixSymbolInfo {
 
     /** @see java.lang.Object#toString() */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append(rectangular ? "Rectangular Symbol:" : "Square Symbol:");
-        sb.append(" data region " + matrixWidth + "x" + matrixHeight);
-        sb.append(", symbol size " + getSymbolWidth() + "x" + getSymbolHeight());
-        sb.append(", symbol data size " + getSymbolDataWidth() + "x" + getSymbolDataHeight());
-        sb.append(", codewords " + dataCapacity + "+" + errorCodewords);
-        return sb.toString();
+        return (rectangular ? "Rectangular Symbol:" : "Square Symbol:") +
+            " data region " + matrixWidth + "x" + matrixHeight +
+            ", symbol size " + getSymbolWidth() + "x" + getSymbolHeight() +
+            ", symbol data size " + getSymbolDataWidth() + "x" + getSymbolDataHeight() +
+            ", codewords " + dataCapacity + "+" + errorCodewords;
     }
 
     private static class DataMatrixSymbolInfo144 extends DataMatrixSymbolInfo {
