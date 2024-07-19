@@ -16,6 +16,7 @@
 package org.krysalis.barcode4j.impl.codabar;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -119,16 +120,14 @@ public class CodabarBean extends AbstractBarcodeBean {
 
     /** {@inheritDoc} */
     @Override
-    public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null)
-                || (msg.length() == 0)) {
+    public void generateBarcode(@NotNull CanvasProvider canvas, @Nullable String msg) {
+        if ((msg == null) || (msg.isEmpty())) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        ClassicBarcodeLogicHandler handler =
-                new DefaultCanvasLogicHandler(this, new Canvas(canvas));
+        final ClassicBarcodeLogicHandler handler = new DefaultCanvasLogicHandler(this, new Canvas(canvas));
 
-        CodabarLogicImpl impl = new CodabarLogicImpl(getChecksumMode(), isDisplayStartStop());
+        final CodabarLogicImpl impl = new CodabarLogicImpl(getChecksumMode(), isDisplayStartStop());
         impl.generateBarcodeLogic(handler, msg);
     }
 

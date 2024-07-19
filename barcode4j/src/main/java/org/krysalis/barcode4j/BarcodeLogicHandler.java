@@ -35,8 +35,7 @@ public interface BarcodeLogicHandler {
      * This is always the first method called. It is called to inform the
      * logic handler that a new barcode is about to be painted.
      * @param msg full message to be encoded
-     * @param formattedMsg message as it is to be presented in the
-     *      human-readable part
+     * @param formattedMsg message as it is to be presented in the human-readable part
      */
     void startBarcode(String msg, String formattedMsg);
 

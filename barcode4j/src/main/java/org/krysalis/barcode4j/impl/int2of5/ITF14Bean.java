@@ -19,6 +19,7 @@
 package org.krysalis.barcode4j.impl.int2of5;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -105,25 +106,21 @@ public class ITF14Bean extends Interleaved2Of5Bean {
      */
     protected void validate() {
         if (getQuietZone() < 10 * getModuleWidth()) {
-            throw new IllegalStateException(
-                    "Quiet zone must be at least 10 times the module width!");
+            throw new IllegalStateException("Quiet zone must be at least 10 times the module width!");
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null)
-                || (msg.length() == 0)) {
+    public void generateBarcode(@NotNull CanvasProvider canvas, @Nullable String msg) {
+        if ((msg == null) || (msg.isEmpty())) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
         validate();
 
-        ClassicBarcodeLogicHandler handler =
-                new ITF14CanvasLogicHandler(this, new Canvas(canvas));
+        final ClassicBarcodeLogicHandler handler = new ITF14CanvasLogicHandler(this, new Canvas(canvas));
 
-        ITF14LogicImpl impl = new ITF14LogicImpl(
-                getChecksumMode(), isDisplayChecksum());
+        final ITF14LogicImpl impl = new ITF14LogicImpl(getChecksumMode(), isDisplayChecksum());
         impl.generateBarcodeLogic(handler, msg);
     }
 

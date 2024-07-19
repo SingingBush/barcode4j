@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,24 +15,25 @@
  */
 package org.krysalis.barcode4j.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarGroup;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 
 /**
  * Proxy class for logging.
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: LoggingLogicHandlerProxy.java,v 1.3 2004-10-24 11:45:37 jmaerki Exp $
  */
 public class LoggingLogicHandlerProxy implements ClassicBarcodeLogicHandler {
 
-    private ClassicBarcodeLogicHandler delegate;
-    
+    private final ClassicBarcodeLogicHandler delegate;
+
     /**
      * Main constructor.
      * @param delegate the logic handler that the method calls are passed to.
      */
-    public LoggingLogicHandlerProxy(ClassicBarcodeLogicHandler delegate) {
+    public LoggingLogicHandlerProxy(@NotNull final ClassicBarcodeLogicHandler delegate) {
         this.delegate = delegate;
     }
 

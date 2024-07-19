@@ -16,6 +16,7 @@
 package org.krysalis.barcode4j.impl.fourstate;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.HumanReadablePlacement;
@@ -51,17 +52,14 @@ public class RoyalMailCBCBean extends AbstractFourStateBean {
     }
 
     /** {@inheritDoc} */
-    public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null)
-                || (msg.length() == 0)) {
+    public void generateBarcode(@NotNull CanvasProvider canvas, @Nullable String msg) {
+        if ((msg == null) || (msg.isEmpty())) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        FourStateLogicHandler handler =
-                new FourStateLogicHandler(this, new Canvas(canvas));
+        final FourStateLogicHandler handler = new FourStateLogicHandler(this, new Canvas(canvas));
 
-        RoyalMailCBCLogicImpl impl = new RoyalMailCBCLogicImpl(
-                getChecksumMode());
+        final RoyalMailCBCLogicImpl impl = new RoyalMailCBCLogicImpl(getChecksumMode());
         impl.generateBarcodeLogic(handler, msg);
     }
 

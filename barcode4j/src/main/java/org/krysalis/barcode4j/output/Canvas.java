@@ -28,7 +28,7 @@ import org.krysalis.barcode4j.TextAlignment;
  */
 public class Canvas {
 
-    private CanvasProvider canvasImp;
+    private final CanvasProvider canvasImp;
 
     /**
      * Main constructor

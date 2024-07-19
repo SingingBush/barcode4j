@@ -16,6 +16,7 @@
 package org.krysalis.barcode4j.impl.fourstate;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.HumanReadablePlacement;
 import org.krysalis.barcode4j.TextAlignment;
@@ -59,26 +60,21 @@ public class USPSIntelligentMailBean extends AbstractFourStateBean {
 
     /** {@inheritDoc} */
     public double getVerticalQuietZone() {
-        if (this.quietZoneVertical != null) {
-            return this.quietZoneVertical.doubleValue();
-        } else {
-            return getQuietZone();
-        }
+        return this.quietZoneVertical != null ? this.quietZoneVertical : getQuietZone();
     }
 
     /**
-     * Sets the height of the vertical quiet zone. If this value is not explicitely set the
+     * Sets the height of the vertical quiet zone. If this value is not explicitly set the
      * vertical quiet zone has the same width as the horizontal quiet zone.
      * @param height the height of the vertical quiet zone (in mm)
      */
     public void setVerticalQuietZone(double height) {
-        this.quietZoneVertical = new Double(height);
+        this.quietZoneVertical = height;
     }
 
     /** {@inheritDoc} */
-    public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null)
-                || (msg.length() == 0)) {
+    public void generateBarcode(@NotNull CanvasProvider canvas, @Nullable String msg) {
+        if ((msg == null) || (msg.isEmpty())) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
@@ -93,8 +89,7 @@ public class USPSIntelligentMailBean extends AbstractFourStateBean {
     /** {@inheritDoc} */
     public BarcodeDimension calcDimensions(@NotNull String msg) {
         final int barCount = 65;
-        final double width = (barCount * getModuleWidth())
-                + ((barCount - 1) * getIntercharGapWidth());
+        final double width = (barCount * getModuleWidth()) + ((barCount - 1) * getIntercharGapWidth());
         final double qzh = (hasQuietZone() ? getQuietZone() : 0);
         final double qzv = (hasQuietZone() ? getVerticalQuietZone() : 0);
         return new BarcodeDimension(width, getHeight(),

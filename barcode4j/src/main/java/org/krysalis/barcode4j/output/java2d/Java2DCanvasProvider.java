@@ -15,7 +15,6 @@
  */
 package org.krysalis.barcode4j.output.java2d;
 
-import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
@@ -26,7 +25,6 @@ import java.awt.geom.Rectangle2D;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.TextAlignment;
 import org.krysalis.barcode4j.output.AbstractCanvasProvider;
-import org.krysalis.barcode4j.tools.UnitConv;
 
 /**
  * CanvasProvider implementation that renders to Java2D (AWT).
@@ -36,7 +34,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  */
 public class Java2DCanvasProvider extends AbstractCanvasProvider {
 
-    private static final boolean DEBUG = false;
+    //private static final boolean DEBUG = false;
 
     private Graphics2D g2d;
 
@@ -88,20 +86,20 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
         double h = dim.getHeightPlusQuiet(orientation);
         this.g2d = (Graphics2D)this.g2d.create();
         switch (orientation) {
-        case 90:
-            g2d.rotate(-Math.PI / 2);
-            g2d.translate(-h, 0);
-            break;
-        case 180:
-            g2d.rotate(-Math.PI);
-            g2d.translate(-w, -h);
-            break;
-        case 270:
-            g2d.rotate(-Math.PI * 1.5);
-            g2d.translate(0, -w);
-            break;
-        default:
-            //nop
+            case 90:
+                g2d.rotate(-Math.PI / 2);
+                g2d.translate(-h, 0);
+                break;
+            case 180:
+                g2d.rotate(-Math.PI);
+                g2d.translate(-w, -h);
+                break;
+            case 270:
+                g2d.rotate(-Math.PI * 1.5);
+                g2d.translate(0, -w);
+                break;
+            default:
+                //nop
         }
     }
 
@@ -126,72 +124,69 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
             String fontName,
             double fontSize,
             TextAlignment textAlign) {
-        if (DEBUG) {
-            System.out.println("deviceText " + x1 + " " + x2 + " "
-                    + (x2 - x1) + " " + y1 + " " + text);
-            System.out.println("fontSize: "
-                    + fontSize + "mm (" + UnitConv.mm2pt(fontSize) + "pt)");
-        }
-        Font font = new Font(fontName, Font.PLAIN,
-            (int)Math.round(fontSize));
-        FontRenderContext frc = g2d.getFontRenderContext();
-        GlyphVector gv = font.createGlyphVector(frc, text);
+//        if (DEBUG) {
+//            System.out.println("deviceText " + x1 + " " + x2 + " "
+//                    + (x2 - x1) + " " + y1 + " " + text);
+//            System.out.println("fontSize: "
+//                    + fontSize + "mm (" + org.krysalis.barcode4j.tools.UnitConv.mm2pt(fontSize) + "pt)");
+//        }
+        final Font font = new Font(fontName, Font.PLAIN, (int)Math.round(fontSize));
+        final FontRenderContext frc = g2d.getFontRenderContext();
+        final GlyphVector gv = font.createGlyphVector(frc, text);
 
         final float textwidth = (float)gv.getLogicalBounds().getWidth();
         final float distributableSpace = (float)((x2 - x1) - textwidth);
-        final float intercharSpace;
-        if (gv.getNumGlyphs() > 1) {
-            intercharSpace = distributableSpace / (gv.getNumGlyphs() - 1);
-        } else {
-            intercharSpace = 0.0f;
-        }
-        if (DEBUG) {
-            System.out.println(gv.getLogicalBounds()
-                    + " " + gv.getVisualBounds());
-            System.out.println("textwidth=" + textwidth);
-            System.out.println("distributableSpace=" + distributableSpace);
-            System.out.println("intercharSpace=" + intercharSpace);
-        }
+        final float intercharSpace = gv.getNumGlyphs() > 1 ? distributableSpace / (gv.getNumGlyphs() - 1) : 0.0f;
+
+//        if (DEBUG) {
+//            System.out.println(gv.getLogicalBounds()
+//                    + " " + gv.getVisualBounds());
+//            System.out.println("textwidth=" + textwidth);
+//            System.out.println("distributableSpace=" + distributableSpace);
+//            System.out.println("intercharSpace=" + intercharSpace);
+//        }
         final float indent;
-        if (textAlign == TextAlignment.TA_JUSTIFY) {
-            if (text.length() > 1) {
+
+        switch (textAlign) {
+            case TA_JUSTIFY:
+                indent = text.length() > 1 ? 0.0f : distributableSpace / 2; //Center if only one character
+                break;
+            case TA_CENTER:
+                indent = distributableSpace / 2;
+                break;
+            case TA_RIGHT:
+                indent = distributableSpace;
+                break;
+            default:
                 indent = 0.0f;
-            } else {
-                indent = distributableSpace / 2; //Center if only one character
-            }
-        } else if (textAlign == TextAlignment.TA_CENTER) {
-            indent = distributableSpace / 2;
-        } else if (textAlign == TextAlignment.TA_RIGHT) {
-            indent = distributableSpace;
-        } else {
-            indent = 0.0f;
         }
-        Font oldFont = g2d.getFont();
+
+        final Font oldFont = g2d.getFont();
+
         g2d.setFont(font);
+
         if (textAlign == TextAlignment.TA_JUSTIFY) {
             //move the individual glyphs
             for (int i = 0; i < gv.getNumGlyphs(); i++) {
                 Point2D point = gv.getGlyphPosition(i);
                 point.setLocation(point.getX() + i * intercharSpace, point.getY());
                 gv.setGlyphPosition(i, point);
-                if (DEBUG) {
-                    System.out.println(i + " " + point
-                            + " " + gv.getGlyphLogicalBounds(i).getBounds2D());
-                    System.out.println(i + " " + text.substring(i, i + 1)
-                        + " " + gv.getGlyphMetrics(i).getBounds2D());
-                }
+//                if (DEBUG) {
+//                    System.out.println(i + " " + point + " " + gv.getGlyphLogicalBounds(i).getBounds2D());
+//                    System.out.println(i + " " + text.substring(i, i + 1) + " " + gv.getGlyphMetrics(i).getBounds2D());
+//                }
             }
         }
         g2d.drawGlyphVector(gv, (float)x1 + indent, (float)y1);
         g2d.setFont(oldFont);
-        if (DEBUG) {
-            g2d.setStroke(new BasicStroke(0.01f));
-            g2d.draw(new Rectangle2D.Double(x1, y1 - fontSize,
-                x2 - x1, fontSize));
-            g2d.draw(new Rectangle2D.Double(x1 + indent,
-                y1 - fontSize,
-                textwidth, fontSize));
-        }
+//        if (DEBUG) {
+//            g2d.setStroke(new java.awt.BasicStroke(0.01f));
+//            g2d.draw(new Rectangle2D.Double(x1, y1 - fontSize,
+//                x2 - x1, fontSize));
+//            g2d.draw(new Rectangle2D.Double(x1 + indent,
+//                y1 - fontSize,
+//                textwidth, fontSize));
+//        }
     }
 
 }

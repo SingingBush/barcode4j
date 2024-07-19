@@ -126,8 +126,7 @@ public abstract class UPCEANLogicImpl {
     private int widthAt(char ch, int index) {
         if (Character.isDigit(ch)) {
             int digit = Character.digit(ch, 10);
-            int width = CHARSET[digit][index];
-            return width;
+            return CHARSET[digit][index];
         } else {
             throw new IllegalArgumentException("Invalid character '" + ch + "'. Expected a digit.");
         }
@@ -257,7 +256,7 @@ public abstract class UPCEANLogicImpl {
      * @param logic the logic handler to receive generated events
      * @param supp the supplemental
      */
-    protected void drawSupplemental(ClassicBarcodeLogicHandler logic, String supp) {
+    protected void drawSupplemental(ClassicBarcodeLogicHandler logic, @Nullable final String supp) {
         if (supp == null) {
             throw new NullPointerException("Supplemental message must not be null");
         }
@@ -266,8 +265,7 @@ public abstract class UPCEANLogicImpl {
         } else if (supp.length() == 5) {
             drawSupplemental5(logic, supp);
         } else {
-            throw new IllegalArgumentException(
-                "Only supplemental lengths 2 and 5 are allowed: " + supp.length());
+            throw new IllegalArgumentException("Only supplemental lengths 2 and 5 are allowed: " + supp.length());
         }
     }
 

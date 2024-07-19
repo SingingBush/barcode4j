@@ -1,12 +1,12 @@
 /*
  * Copyright 2003,2004,2006 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,13 +24,13 @@ import org.krysalis.barcode4j.output.Canvas;
 import org.krysalis.barcode4j.tools.MessagePatternUtil;
 
 /**
- * Logic Handler to be used by subclasses of HeightVariableBarcodeBean 
+ * Logic Handler to be used by subclasses of HeightVariableBarcodeBean
  * for painting on a Canvas.
- * 
+ *
  * @author Chris Dolphy
  * @version $Id: AbstractVariableHeightLogicHandler.java,v 1.3 2008-05-13 13:00:45 jmaerki Exp $
  */
-public abstract class AbstractVariableHeightLogicHandler 
+public abstract class AbstractVariableHeightLogicHandler
             implements ClassicBarcodeLogicHandler {
 
     /** the barcode bean */
@@ -45,7 +45,7 @@ public abstract class AbstractVariableHeightLogicHandler
     private TextAlignment textAlignment = TextAlignment.TA_CENTER;
 
     /**
-     * Constructor 
+     * Constructor
      * @param bcBean the barcode implementation class
      * @param canvas the canvas to paint to
      */
@@ -64,22 +64,21 @@ public abstract class AbstractVariableHeightLogicHandler
         }
         this.textAlignment = align;
     }
-    
+
     private double getStartX() {
         if (bcBean.hasQuietZone()) {
             return bcBean.getQuietZone();
         } else {
             return 0.0;
         }
-    }            
+    }
 
     /** {@inheritDoc} */
     public void startBarcode(String msg, String formattedMsg) {
-        this.formattedMsg = MessagePatternUtil.applyCustomMessagePattern(
-                formattedMsg, bcBean.getPattern());
+        this.formattedMsg = MessagePatternUtil.applyCustomMessagePattern(formattedMsg, bcBean.getPattern());
         //Calculate extents
-        BarcodeDimension dim = bcBean.calcDimensions(msg);       
-        canvas.establishDimensions(dim);        
+        final BarcodeDimension dim = bcBean.calcDimensions(msg);
+        canvas.establishDimensions(dim);
         x = getStartX();
     }
 
@@ -101,12 +100,12 @@ public abstract class AbstractVariableHeightLogicHandler
         }
         return texty;
     }
-    
+
     /** {@inheritDoc} */
     public void endBarcode() {
         if (bcBean.getMsgPosition() != HumanReadablePlacement.HRP_NONE) {
             double texty = getTextY();
-            DrawingUtil.drawText(canvas, bcBean, formattedMsg, 
+            DrawingUtil.drawText(canvas, bcBean, formattedMsg,
                     getStartX(), x, texty, this.textAlignment);
         }
     }

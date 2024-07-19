@@ -45,21 +45,18 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public SVGCanvasProvider(String namespacePrefix, int orientation)
-                throws BarcodeCanvasSetupException {
+    public SVGCanvasProvider(String namespacePrefix, int orientation) throws BarcodeCanvasSetupException {
         this(null, namespacePrefix, orientation);
     }
 
     /**
      * Creates a new SVGCanvasProvider with namespaces enabled.
-     * @param domImpl DOMImplementation to use (JAXP default is used when
-     *     this is null)
+     * @param domImpl DOMImplementation to use (JAXP default is used when this is null)
      * @param namespacePrefix the namespace prefix to use, null for no prefix
      * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public SVGCanvasProvider(DOMImplementation domImpl, String namespacePrefix,
-                    int orientation)
+    public SVGCanvasProvider(DOMImplementation domImpl, String namespacePrefix, int orientation)
                 throws BarcodeCanvasSetupException {
         super(namespacePrefix, orientation);
         this.domImpl = domImpl;
@@ -72,8 +69,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public SVGCanvasProvider(boolean useNamespace, int orientation)
-                throws BarcodeCanvasSetupException {
+    public SVGCanvasProvider(boolean useNamespace, int orientation) throws BarcodeCanvasSetupException {
         this(null, useNamespace, orientation);
     }
 
@@ -115,13 +111,9 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
 
 
     private Element createElement(String localName) {
-        Element el;
-        if (isNamespaceEnabled()) {
-            el = doc.createElementNS(SVG_NAMESPACE, getQualifiedName(localName));
-        } else {
-            el = doc.createElement(localName);
-        }
-        return el;
+        return isNamespaceEnabled() ?
+            doc.createElementNS(SVG_NAMESPACE, getQualifiedName(localName)) :
+            doc.createElement(localName);
     }
 
 
@@ -136,8 +128,8 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
             }
 
             if (isNamespaceEnabled()) {
-                Document doc = this.domImpl.createDocument(
-                        SVG_NAMESPACE, getQualifiedName("svg"), null);
+                final Document doc = this.domImpl.createDocument(SVG_NAMESPACE, getQualifiedName("svg"), null);
+
                 /*
                 if (getNamespacePrefix() == null) {
                     doc.getDocumentElement().setAttribute(
@@ -168,7 +160,7 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @return the DOM fragment
      */
     public org.w3c.dom.DocumentFragment getDOMFragment() {
-        DocumentFragment frag = doc.createDocumentFragment();
+        final DocumentFragment frag = doc.createDocumentFragment();
         frag.appendChild(doc.importNode(doc.getFirstChild(), true));
         return frag;
     }
@@ -183,19 +175,20 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
         String w = getDecimalFormat().format(dim.getWidthPlusQuiet(orientation));
         String h = getDecimalFormat().format(dim.getHeightPlusQuiet(orientation));
         svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+
         String transform;
         switch (orientation) {
-        case 90:
-            transform = "rotate(-90) translate(-" + h + ")";
-            break;
-        case 180:
-            transform = "rotate(-180) translate(-" + w + " -" + h + ")";
-            break;
-        case 270:
-            transform = "rotate(-270) translate(0 -" + w + ")";
-            break;
-        default:
-            transform = null;
+            case 90:
+                transform = "rotate(-90) translate(-" + h + ")";
+                break;
+            case 180:
+                transform = "rotate(-180) translate(-" + w + " -" + h + ")";
+                break;
+            case 270:
+                transform = "rotate(-270) translate(0 -" + w + ")";
+                break;
+            default:
+                transform = null;
         }
         if (transform != null) {
             detailGroup.setAttribute("transform", transform);
@@ -213,21 +206,25 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     }
 
     /** {@inheritDoc} */
-    public void deviceText(String text, double x1, double x2, double y1,
-                            String fontName, double fontSize, TextAlignment textAlign) {
-        Element el = createElement("text");
-        String anchor;
-        double tx;
-        if (textAlign == TextAlignment.TA_LEFT) {
-            anchor = "start";
-            tx = x1;
-        } else if (textAlign == TextAlignment.TA_RIGHT) {
-            anchor = "end";
-            tx = x2;
-        } else {
-            anchor = "middle";
-            tx = x1 + (x2 - x1) / 2;
+    public void deviceText(String text, double x1, double x2, double y1, String fontName, double fontSize, TextAlignment textAlign) {
+        final String anchor;
+        final double tx;
+
+        switch (textAlign) {
+            case TA_LEFT:
+                anchor = "start";
+                tx = x1;
+                break;
+            case TA_RIGHT:
+                anchor = "end";
+                tx = x2;
+                break;
+            default:
+                anchor = "middle";
+                tx = x1 + (x2 - x1) / 2;
         }
+
+        final Element el = createElement("text");
         el.setAttribute("font-family", fontName);
         el.setAttribute("font-size", getDecimalFormat().format(fontSize));
         el.setAttribute("text-anchor", anchor);
@@ -238,7 +235,6 @@ public class SVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
         }
         el.appendChild(doc.createTextNode(text));
         detailGroup.appendChild(el);
-
     }
 
 }

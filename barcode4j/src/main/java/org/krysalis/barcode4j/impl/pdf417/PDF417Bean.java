@@ -18,6 +18,7 @@ package org.krysalis.barcode4j.impl.pdf417;
 import java.awt.Dimension;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
@@ -75,8 +76,8 @@ public class PDF417Bean extends AbstractBarcodeBean {
      * @see org.krysalis.barcode4j.BarcodeGenerator#generateBarcode(CanvasProvider, String)
      */
     @Override
-    public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null) || (msg.length() == 0)) {
+    public void generateBarcode(@NotNull CanvasProvider canvas, @Nullable String msg) {
+        if ((msg == null) || (msg.isEmpty())) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 

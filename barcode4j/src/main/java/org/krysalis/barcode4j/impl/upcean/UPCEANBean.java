@@ -16,6 +16,7 @@
 package org.krysalis.barcode4j.impl.upcean;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -78,19 +79,18 @@ public abstract class UPCEANBean extends AbstractBarcodeBean {
      */
     public abstract UPCEANLogicImpl createLogicImpl();
 
-
     /**
      * @see org.krysalis.barcode4j.BarcodeGenerator#generateBarcode(CanvasProvider, String)
      */
-    public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null) || (msg.length() == 0)) {
+    public void generateBarcode(@NotNull CanvasProvider canvas, @Nullable String msg) {
+        if ((msg == null) || (msg.isEmpty())) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        ClassicBarcodeLogicHandler handler = new UPCEANCanvasLogicHandler(this, new Canvas(canvas));
+        final ClassicBarcodeLogicHandler handler = new UPCEANCanvasLogicHandler(this, new Canvas(canvas));
         //handler = new LoggingLogicHandlerProxy(handler);
 
-        UPCEANLogicImpl impl = createLogicImpl();
+        final UPCEANLogicImpl impl = createLogicImpl();
         impl.generateBarcodeLogic(handler, msg);
     }
 

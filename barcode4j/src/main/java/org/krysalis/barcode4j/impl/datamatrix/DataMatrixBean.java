@@ -19,6 +19,7 @@ import java.awt.Dimension;
 import java.io.IOException;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
@@ -116,8 +117,8 @@ public class DataMatrixBean extends AbstractBarcodeBean {
     }
 
     /** {@inheritDoc} */
-    public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null) || (msg.length() == 0)) {
+    public void generateBarcode(@NotNull CanvasProvider canvas, @Nullable String msg) {
+        if ((msg == null) || (msg.isEmpty())) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 

@@ -16,6 +16,7 @@
 package org.krysalis.barcode4j.impl;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.HumanReadablePlacement;
@@ -175,11 +176,7 @@ public abstract class AbstractBarcodeBean implements BarcodeGenerator {
      * @return the height of the vertical quiet zone (in mm)
      */
     public double getVerticalQuietZone() {
-        if (this.quietZoneVertical != null) {
-            return this.quietZoneVertical.doubleValue();
-        } else {
-            return getQuietZone();
-        }
+        return this.quietZoneVertical != null ? this.quietZoneVertical : getQuietZone();
     }
 
     /**
@@ -191,12 +188,12 @@ public abstract class AbstractBarcodeBean implements BarcodeGenerator {
     }
 
     /**
-     * Sets the height of the vertical quiet zone. If this value is not explicitely set the
+     * Sets the height of the vertical quiet zone. If this value is not explicitly set the
      * vertical quiet zone has the same width as the horizontal quiet zone.
      * @param height the height of the vertical quiet zone (in mm)
      */
     public void setVerticalQuietZone(double height) {
-        this.quietZoneVertical = new Double(height);
+        this.quietZoneVertical = height;
     }
 
     /**
@@ -249,7 +246,7 @@ public abstract class AbstractBarcodeBean implements BarcodeGenerator {
 
     /** {@inheritDoc} */
     @Override
-    public abstract void generateBarcode(CanvasProvider canvas, String msg);
+    public abstract void generateBarcode(@NotNull final CanvasProvider canvas, @Nullable final String msg);
 
     /** {@inheritDoc} */
     @Override

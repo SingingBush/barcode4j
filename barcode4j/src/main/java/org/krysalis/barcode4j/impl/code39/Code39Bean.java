@@ -16,6 +16,7 @@
 package org.krysalis.barcode4j.impl.code39;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -181,8 +182,8 @@ public class Code39Bean extends AbstractBarcodeBean {
 
     /** {@inheritDoc} */
     @Override
-    public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null) || (msg.length() == 0)) {
+    public void generateBarcode(@NotNull CanvasProvider canvas, @Nullable String msg) {
+        if ((msg == null) || (msg.isEmpty())) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 

@@ -21,6 +21,7 @@ package org.krysalis.barcode4j.impl.qr;
 import java.awt.Dimension;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
@@ -74,8 +75,7 @@ public class QRCodeBean extends AbstractBarcodeBean {
             this.errorCorrectionLevel = level;
             break;
         default:
-            throw new IllegalArgumentException(
-                    "Invalid error correction level. Valid levels are: L, M, Q and H");
+            throw new IllegalArgumentException("Invalid error correction level. Valid levels are: L, M, Q and H");
         }
     }
 
@@ -120,6 +120,7 @@ public class QRCodeBean extends AbstractBarcodeBean {
      * there's no constraint on the symbol size.
      * @return the minimum symbol size (in pixels), or null if there's no size constraint
      */
+    @Nullable
     public Dimension getMinSize() {
         if (this.minSize != null) {
             return new Dimension(this.minSize);
@@ -141,6 +142,7 @@ public class QRCodeBean extends AbstractBarcodeBean {
      * there's no constraint on the symbol size.
      * @return the maximum symbol size (in pixels), or null if there's no size constraint
      */
+    @Nullable
     public Dimension getMaxSize() {
         if (this.maxSize != null) {
             return new Dimension(this.maxSize);
@@ -151,18 +153,15 @@ public class QRCodeBean extends AbstractBarcodeBean {
 
     /** {@inheritDoc} */
     @Override
-    public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null)
-                || (msg.length() == 0)) {
+    public void generateBarcode(@NotNull CanvasProvider canvas, @Nullable String msg) {
+        if ((msg == null) || (msg.isEmpty())) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        TwoDimBarcodeLogicHandler handler =
-                new DefaultTwoDimCanvasLogicHandler(this, new Canvas(canvas));
+        final TwoDimBarcodeLogicHandler handler = new DefaultTwoDimCanvasLogicHandler(this, new Canvas(canvas));
 
-        QRLogicImpl impl = new QRLogicImpl();
-        impl.generateBarcodeLogic(handler, msg, encoding, errorCorrectionLevel,
-                getMinSize(), getMaxSize());
+        final QRLogicImpl impl = new QRLogicImpl();
+        impl.generateBarcodeLogic(handler, msg, encoding, errorCorrectionLevel, getMinSize(), getMaxSize());
     }
 
     /** {@inheritDoc} */

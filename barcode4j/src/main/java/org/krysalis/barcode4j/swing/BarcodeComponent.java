@@ -25,7 +25,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 /**
- * This swing component was ported over from some of the old example code as it useful for displaying barcodes in sing applications
+ * This swing component was ported over from some of the old example code as it useful for displaying barcodes in swing applications
  * @author Samael Bate (singingbush)
  * created on 23/02/2024
  * @since 2.2.3
@@ -38,7 +38,7 @@ public class BarcodeComponent extends JComponent {
     private BarcodeDimension bardim;
 
     /** the barcode orientation (0, 90, 180, 270) */
-    private int orientation;
+    private final int orientation;
 
     public BarcodeComponent(BarcodeGenerator generator, String msg) {
         this(generator, msg, 0);

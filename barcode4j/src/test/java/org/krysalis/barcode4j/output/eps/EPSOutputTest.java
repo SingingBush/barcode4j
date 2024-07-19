@@ -23,6 +23,7 @@ import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test class for basic EPS output functionality.
@@ -34,20 +35,23 @@ public class EPSOutputTest {
 
     @Test
     void testEPS() throws Exception {
-        DefaultConfiguration cfg = new DefaultConfiguration("cfg");
+        final DefaultConfiguration cfg = new DefaultConfiguration("cfg");
         cfg.addChild(new DefaultConfiguration("intl2of5"));
 
-        BarcodeUtil util = BarcodeUtil.getInstance();
-        BarcodeGenerator gen = util.createBarcodeGenerator(cfg);
+        final BarcodeUtil util = BarcodeUtil.getInstance();
+        final BarcodeGenerator gen = util.createBarcodeGenerator(cfg);
 
-        ByteArrayOutputStream baout = new ByteArrayOutputStream();
-        EPSCanvasProvider provider = new EPSCanvasProvider(baout, 0);
+        try(final ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            final EPSCanvasProvider provider = new EPSCanvasProvider(outputStream, 0);
 
-        //Create Barcode and render it to EPS
-        gen.generateBarcode(provider, "123");
-        provider.finish();
+            //Create Barcode and render it to EPS
+            gen.generateBarcode(provider, "123");
+            provider.finish();
 
-        assertTrue(baout.size() > 0);
+            assertTrue(outputStream.size() > 0);
+        } catch (final Exception e) {
+            fail("Unexpected exception", e);
+        }
     }
 
 }

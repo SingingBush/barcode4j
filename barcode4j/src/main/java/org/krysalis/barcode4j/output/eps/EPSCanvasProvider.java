@@ -35,7 +35,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
  */
 public class EPSCanvasProvider extends AbstractCanvasProvider {
 
-    private Writer writer;
+    private final Writer writer;
     private DecimalFormat df;
     private IOException firstError;
     private double height;
@@ -164,22 +164,22 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
         }
         this.height = dim.getHeightPlusQuiet();
         try {
-            writeHeader(dim.getWidthPlusQuiet(orientation),
-                    dim.getHeightPlusQuiet(orientation));
-            String w = formatmm(dim.getWidthPlusQuiet());
-            String h = formatmm(dim.getHeightPlusQuiet());
+            writeHeader(dim.getWidthPlusQuiet(orientation), dim.getHeightPlusQuiet(orientation));
+            final String w = formatmm(dim.getWidthPlusQuiet());
+            final String h = formatmm(dim.getHeightPlusQuiet());
+
             switch (orientation) {
-            case 90:
-                writer.write("90 rotate 0" + " -" + h + " translate\n");
-                break;
-            case 180:
-                writer.write("180 rotate -" + w + " -" + h + " translate\n");
-                break;
-            case 270:
-                writer.write("270 rotate -" + w + " 0 translate\n");
-                break;
-            default:
-                //nop
+                case 90:
+                    writer.write("90 rotate 0" + " -" + h + " translate\n");
+                    break;
+                case 180:
+                    writer.write("180 rotate -" + w + " -" + h + " translate\n");
+                    break;
+                case 270:
+                    writer.write("270 rotate -" + w + " 0 translate\n");
+                    break;
+                default:
+                    //nop
             }
         } catch (IOException ioe) {
             firstError = ioe;
@@ -213,24 +213,29 @@ public class EPSCanvasProvider extends AbstractCanvasProvider {
             return;
         }
         checkFontName(fontName);
+
         try {
-            writer.write("/" + fontName + " findfont "
-                    + UnitConv.mm2pt(fontSize) + " scalefont setfont\n");
-            if (textAlign == TextAlignment.TA_LEFT) {
-                writer.write(formatmm(x1, y1) + " moveto (" + text + ") show\n");
-            } else if (textAlign == TextAlignment.TA_RIGHT) {
-                writer.write("(" + text + ") "
+            writer.write("/" + fontName + " findfont " + UnitConv.mm2pt(fontSize) + " scalefont setfont\n");
+
+            switch (textAlign) {
+                case TA_LEFT:
+                    writer.write(formatmm(x1, y1) + " moveto (" + text + ") show\n");
+                    break;
+                case TA_RIGHT:
+                    writer.write("(" + text + ") "
                         + formatmm(x1) + " "
                         + formatmm(x2) + " "
                         + formatmm(this.height - y1) + " rt\n");
-            } else if (textAlign == TextAlignment.TA_CENTER) {
-                writer.write("(" + text + ") "
-                        + formatmm((x1 + x2) / 2, y1) + " ct\n");
-            } else if (textAlign == TextAlignment.TA_JUSTIFY) {
-                writer.write("(" + text + ") "
+                    break;
+                case TA_CENTER:
+                    writer.write("(" + text + ") " + formatmm((x1 + x2) / 2, y1) + " ct\n");
+                    break;
+                case TA_JUSTIFY:
+                    writer.write("(" + text + ") "
                         + formatmm(x1) + " "
                         + formatmm(x2) + " "
                         + formatmm(this.height - y1) + " jt\n");
+                    break;
             }
         } catch (IOException ioe) {
             firstError = ioe;

@@ -19,6 +19,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.TextAlignment;
 import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
@@ -41,8 +42,7 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public JDOMSVGCanvasProvider(String namespacePrefix, int orientation)
-                throws BarcodeCanvasSetupException {
+    public JDOMSVGCanvasProvider(String namespacePrefix, int orientation) throws BarcodeCanvasSetupException {
         super(namespacePrefix, orientation);
     }
 
@@ -52,8 +52,7 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * @param orientation the barcode orientation (0, 90, 180, 270)
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public JDOMSVGCanvasProvider(boolean useNamespace, int orientation)
-                throws BarcodeCanvasSetupException {
+    public JDOMSVGCanvasProvider(boolean useNamespace, int orientation) throws BarcodeCanvasSetupException {
         super(useNamespace, orientation);
         init();
     }
@@ -70,7 +69,6 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     }
 
     private void init() {
-        Element svg;
         if (isNamespaceEnabled()) {
             if (getNamespacePrefix() != null) {
                 ns = Namespace.getNamespace(getNamespacePrefix(), SVG_NAMESPACE);
@@ -80,7 +78,8 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
         } else {
             ns = null;
         }
-        svg = new Element("svg", ns);
+
+        final Element svg = new Element("svg", ns);
         doc = new Document(svg);
 
         detailGroup = new Element("g", ns);
@@ -101,6 +100,7 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
      * Converts the internal JDOM to a DOM and returns it.
      * @return the DOM document.
      */
+    @Nullable
     public org.w3c.dom.Document getDOM() {
         org.jdom2.output.DOMOutputter output = new org.jdom2.output.DOMOutputter();
         try {
@@ -146,19 +146,24 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     /** {@inheritDoc} */
     public void deviceText(String text, double x1, double x2, double y1,
                             String fontName, double fontSize, TextAlignment textAlign) {
-        Element el = new Element("text", ns);
         String anchor;
         double tx;
-        if (textAlign == TextAlignment.TA_LEFT) {
-            anchor = "start";
-            tx = x1;
-        } else if (textAlign == TextAlignment.TA_RIGHT) {
-            anchor = "end";
-            tx = x2;
-        } else {
-            anchor = "middle";
-            tx = x1 + (x2 - x1) / 2;
+
+        switch (textAlign) {
+            case TA_LEFT:
+                anchor = "start";
+                tx = x1;
+                break;
+            case TA_RIGHT:
+                anchor = "end";
+                tx = x2;
+                break;
+            default:
+                anchor = "middle";
+                tx = x1 + (x2 - x1) / 2;
         }
+
+        final Element el = new Element("text", ns);
         el.setAttribute("font-family", fontName);
         el.setAttribute("font-size", getDecimalFormat().format(fontSize));
         el.setAttribute("text-anchor", anchor);

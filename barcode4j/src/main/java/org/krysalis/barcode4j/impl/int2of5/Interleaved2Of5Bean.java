@@ -16,6 +16,7 @@
 package org.krysalis.barcode4j.impl.int2of5;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -72,18 +73,15 @@ public class Interleaved2Of5Bean extends AbstractBarcodeBean {
      * @see org.krysalis.barcode4j.BarcodeGenerator#generateBarcode(CanvasProvider, String)
      */
     @Override
-    public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null)
-                || (msg.length() == 0)) {
+    public void generateBarcode(@NotNull CanvasProvider canvas, @Nullable String msg) {
+        if ((msg == null) || (msg.isEmpty())) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 
-        ClassicBarcodeLogicHandler handler =
-                new DefaultCanvasLogicHandler(this, new Canvas(canvas));
+        final ClassicBarcodeLogicHandler handler = new DefaultCanvasLogicHandler(this, new Canvas(canvas));
         //handler = new LoggingLogicHandlerProxy(handler);
 
-        Interleaved2Of5LogicImpl impl = new Interleaved2Of5LogicImpl(
-                getChecksumMode(), isDisplayChecksum());
+        final Interleaved2Of5LogicImpl impl = new Interleaved2Of5LogicImpl(getChecksumMode(), isDisplayChecksum());
         impl.generateBarcodeLogic(handler, msg);
     }
 

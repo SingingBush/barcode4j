@@ -16,6 +16,7 @@
 package org.krysalis.barcode4j.impl.postnet;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BaselineAlignment;
 import org.krysalis.barcode4j.ChecksumMode;
@@ -61,18 +62,18 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
     }
 
     /**
-     * Sets the height of the vertical quiet zone. If this value is not explicitely set the
+     * Sets the height of the vertical quiet zone. If this value is not explicitly set the
      * vertical quiet zone has the same width as the horizontal quiet zone.
      * @param height the height of the vertical quiet zone (in mm)
      */
     public void setVerticalQuietZone(double height) {
-        this.quietZoneVertical = new Double(height);
+        this.quietZoneVertical = height;
     }
 
     /** {@inheritDoc} */
     public double getVerticalQuietZone() {
         if (this.quietZoneVertical != null) {
-            return this.quietZoneVertical.doubleValue();
+            return this.quietZoneVertical;
         } else {
             return getQuietZone();
         }
@@ -170,8 +171,8 @@ public class POSTNETBean extends HeightVariableBarcodeBean {
     }
 
     /** {@inheritDoc} */
-    public void generateBarcode(CanvasProvider canvas, String msg) {
-        if ((msg == null) || (msg.length() == 0)) {
+    public void generateBarcode(@NotNull CanvasProvider canvas, @Nullable String msg) {
+        if ((msg == null) || (msg.isEmpty())) {
             throw new NullPointerException("Parameter msg must not be empty");
         }
 

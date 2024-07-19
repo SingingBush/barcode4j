@@ -24,13 +24,14 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  *
  * @author Jeremias Maerki
  * @version $Id: MockClassicBarcodeLogicHandler.java,v 1.5 2009-02-19 10:14:54 jmaerki Exp $
+ * @deprecated get rid of this and just use a mockito mock
  */
-public class MockClassicBarcodeLogicHandler
-            implements ClassicBarcodeLogicHandler {
+@Deprecated
+public class MockClassicBarcodeLogicHandler implements ClassicBarcodeLogicHandler {
 
-    private StringBuffer sb;
-    private boolean dumpBars = true;
-    private boolean dumpHumanReadable;
+    private final StringBuffer sb;
+    private final boolean dumpBars;
+    private final boolean dumpHumanReadable;
 
     /**
      * Creates a new instance.
@@ -55,8 +56,7 @@ public class MockClassicBarcodeLogicHandler
      * @param dumpBars true if the bars should be included in the output
      * @param dumpHumanReadable true if the human-readable message should be included in the output
      */
-    public MockClassicBarcodeLogicHandler(StringBuffer sb,
-            boolean dumpBars, boolean dumpHumanReadable) {
+    public MockClassicBarcodeLogicHandler(StringBuffer sb, boolean dumpBars, boolean dumpHumanReadable) {
         this.sb = sb;
         this.dumpBars = dumpBars;
         this.dumpHumanReadable = dumpHumanReadable;

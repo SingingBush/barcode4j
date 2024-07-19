@@ -20,6 +20,7 @@ package org.krysalis.barcode4j.impl.pdf417;
 
 import java.awt.Dimension;
 
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarGroup;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
@@ -241,8 +242,8 @@ public class PDF417LogicImpl {
      * @param sourceCodeWords number of code words
      * @return dimension object containing cols as width and rows as height
      */
-    public static Dimension determineDimensions(PDF417Bean pdf417Bean,
-            int sourceCodeWords) {
+    @Nullable
+    public static Dimension determineDimensions(PDF417Bean pdf417Bean, int sourceCodeWords) {
 
         int minCols = pdf417Bean.getMinCols();
         int maxCols = pdf417Bean.getMaxCols();
@@ -257,8 +258,7 @@ public class PDF417LogicImpl {
 
         for (int cols = minCols; cols <= maxCols; cols++) {
 
-            int rows = calculateNumberOfRows(sourceCodeWords,
-                    errorCorrectionCodeWords, cols);
+            int rows = calculateNumberOfRows(sourceCodeWords, errorCorrectionCodeWords, cols);
 
             if (rows < minRows) {
                 break;
@@ -272,9 +272,7 @@ public class PDF417LogicImpl {
                     / (rows * pdf417Bean.getBarHeight());
 
             // ignore if previous ratio is closer to preferred ratio
-            if (dimension != null
-                    && Math.abs(newRatio - preferredRatio) > Math.abs(ratio
-                            - preferredRatio)) {
+            if (dimension != null && Math.abs(newRatio - preferredRatio) > Math.abs(ratio - preferredRatio)) {
                 continue;
             }
 

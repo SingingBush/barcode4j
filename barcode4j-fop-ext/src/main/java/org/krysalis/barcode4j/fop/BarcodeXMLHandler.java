@@ -59,7 +59,7 @@ import org.apache.fop.render.XMLHandler;
  */
 public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
 
-    private static final boolean DEBUG = false;
+    //private static final boolean DEBUG = false;
 
     /** The context constant for the PostScript generator that is being used to draw into. */
     private static final String PS_GENERATOR = "psGenerator";
@@ -69,12 +69,14 @@ public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
     public void handleXML(RendererContext context, Document doc, String ns) throws Exception {
         Configuration cfg = ConfigurationUtil.buildConfiguration(doc);
         String msg = ConfigurationUtil.getMessage(cfg);
-        if (DEBUG) {
-            System.out.println("Barcode message: " + msg);
-        }
+//        if (DEBUG) {
+//            System.out.println("Barcode message: " + msg);
+//        }
         final String renderMode = cfg.getAttribute("render-mode", "native");
-        int orientation = cfg.getAttributeAsInteger("orientation", 0);
-        orientation = BarcodeDimension.normalizeOrientation(orientation);
+
+        final int orientation = BarcodeDimension.normalizeOrientation(
+            cfg.getAttributeAsInteger("orientation", 0)
+        );
 
         final PageViewport page = (PageViewport)context.getProperty(PAGE_VIEWPORT);
 
@@ -82,59 +84,61 @@ public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
         final String expandedMsg = VariableUtil.getExpandedMessage(page, msg);
 
         boolean handled = false;
-        String effRenderMode = renderMode;
+        //String effRenderMode = renderMode;
         if ("native".equals(renderMode)) {
             if (context.getProperty(PS_GENERATOR) != null) {
                 renderUsingEPS(context, bargen, expandedMsg, orientation);
-                effRenderMode = "native";
+                //effRenderMode = "native";
                 handled = true;
             }
         } else if ("g2d".equals(renderMode)) {
             handled = renderUsingGraphics2D(context, bargen, expandedMsg, orientation);
-            if (handled) {
-                effRenderMode = "g2d";
-            }
+//            if (handled) {
+//                effRenderMode = "g2d";
+//            }
         } else if ("bitmap".equals(renderMode)) {
             handled = renderUsingBitmap(context, bargen, expandedMsg, orientation);
-            if (handled) {
-                effRenderMode = "bitmap";
-            }
+//            if (handled) {
+//                effRenderMode = "bitmap";
+//            }
         }
         if (!handled) {
             //Convert the Barcode XML to SVG and let it render through
             //an SVG handler
             convertToSVG(context, bargen, expandedMsg, orientation);
-            effRenderMode = "svg";
+            //effRenderMode = "svg";
         }
-        if (DEBUG) {
-            System.out.println("Effective render mode: " + effRenderMode);
-        }
+//        if (DEBUG) {
+//            System.out.println("Effective render mode: " + effRenderMode);
+//        }
     }
 
     private void renderUsingEPS(RendererContext context, BarcodeGenerator bargen, String msg, int orientation) throws IOException {
         final PSGenerator gen = (PSGenerator)context.getProperty(PS_GENERATOR);
-        final ByteArrayOutputStream baout = new ByteArrayOutputStream(1024);
-        final EPSCanvasProvider canvas = new EPSCanvasProvider(baout, orientation);
-        bargen.generateBarcode(canvas, msg);
-        canvas.finish();
 
-        final BarcodeDimension barDim = canvas.getDimensions();
-        float bw = (float)UnitConv.mm2pt(barDim.getWidthPlusQuiet(orientation));
-        float bh = (float)UnitConv.mm2pt(barDim.getHeightPlusQuiet(orientation));
+        try(final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(1024)) {
+            final EPSCanvasProvider canvas = new EPSCanvasProvider(outputStream, orientation);
+            bargen.generateBarcode(canvas, msg);
+            canvas.finish();
 
-        float width = ((Integer)context.getProperty(WIDTH)).intValue() / 1000f;
-        float height = ((Integer)context.getProperty(HEIGHT)).intValue() / 1000f;
-        float x = ((Integer)context.getProperty(XPOS)).intValue() / 1000f;
-        float y = ((Integer)context.getProperty(YPOS)).intValue() / 1000f;
+            final BarcodeDimension barDim = canvas.getDimensions();
+            float bw = (float)UnitConv.mm2pt(barDim.getWidthPlusQuiet(orientation));
+            float bh = (float)UnitConv.mm2pt(barDim.getHeightPlusQuiet(orientation));
 
-        if (DEBUG) {
-            System.out.println(" --> EPS");
-        }
-        PSImageUtils.renderEPS(new java.io.ByteArrayInputStream(baout.toByteArray()),
+            float width = ((Integer)context.getProperty(WIDTH)).intValue() / 1000f;
+            float height = ((Integer)context.getProperty(HEIGHT)).intValue() / 1000f;
+            float x = ((Integer)context.getProperty(XPOS)).intValue() / 1000f;
+            float y = ((Integer)context.getProperty(YPOS)).intValue() / 1000f;
+
+//            if (DEBUG) {
+//                System.out.println(" --> EPS");
+//            }
+            PSImageUtils.renderEPS(new java.io.ByteArrayInputStream(outputStream.toByteArray()),
                 "Barcode:" + msg,
                 new Rectangle2D.Float(x, y, width, height),
                 new Rectangle2D.Float(0, 0, bw, bh),
                 gen);
+        }
     }
 
     private boolean renderUsingGraphics2D(final RendererContext context, final BarcodeGenerator bargen,
@@ -164,9 +168,9 @@ public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
 
             };
 
-            if (DEBUG) {
-                System.out.println(" --> Java2D");
-            }
+//            if (DEBUG) {
+//                System.out.println(" --> Java2D");
+//            }
             g2dAdapter.paintImage(painter,
                     context,
                     ((Integer)context.getProperty("xpos")).intValue(),
@@ -189,9 +193,9 @@ public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
                     300, BufferedImage.TYPE_BYTE_BINARY, false, orientation);
             bargen.generateBarcode(canvas, msg);
 
-            if (DEBUG) {
-                System.out.println(" --> Bitmap");
-            }
+//            if (DEBUG) {
+//                System.out.println(" --> Bitmap");
+//            }
             imgAdapter.paintImage(canvas.getBufferedImage(),
                     context,
                     ((Integer)context.getProperty("xpos")).intValue(),
@@ -221,9 +225,9 @@ public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
         final Document svg = canvas.getDOM();
 
         //Call the renderXML() method of the renderer to render the SVG
-        if (DEBUG) {
-            System.out.println(" --> SVG");
-        }
+//        if (DEBUG) {
+//            System.out.println(" --> SVG");
+//        }
         context.getRenderer().renderXML(context, svg, SVGDOMImplementation.SVG_NAMESPACE_URI);
     }
 
