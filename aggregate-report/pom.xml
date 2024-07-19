@@ -36,6 +36,11 @@
             <artifactId>barcode4j-xalan</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.singingbush</groupId>
+            <artifactId>barcode4j-xgc</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

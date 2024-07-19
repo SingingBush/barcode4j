@@ -18,6 +18,8 @@
 
 package org.krysalis.barcode4j.tools;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Map;
 
 /**
@@ -25,15 +27,19 @@ import java.util.Map;
  */
 public class PageInfo {
 
-    private int pageNumber;
-    private String pageNumberString;
+    // constants key values used as ProcessingHints for PageInfo
+    private static final String PAGE_NUMBER = "page-number";
+    private static final String PAGE_NAME = "page-name";
+
+    private final int pageNumber;
+    private final String pageNumberString;
 
     /**
      * Creates a new object.
      * @param pageNumber the page number
      * @param pageNumberString the string representation of the page number (ex. "12" or "XII")
      */
-    public PageInfo(int pageNumber, String pageNumberString) {
+    public PageInfo(final int pageNumber, @NotNull final String pageNumberString) {
         this.pageNumber = pageNumber;
         this.pageNumberString = pageNumberString;
     }
@@ -44,9 +50,9 @@ public class PageInfo {
      * @return the page info object or null if no such information is available
      */
     public static PageInfo fromProcessingHints(Map hints) {
-        if (hints != null && hints.containsKey("page-number")) {
-            int pageNumber = ((Number)hints.get("page-number")).intValue();
-            String pageName = (String)hints.get("page-name");
+        if (hints != null && hints.containsKey(PAGE_NUMBER)) {
+            int pageNumber = ((Number)hints.get(PAGE_NUMBER)).intValue();
+            String pageName = (String)hints.get(PAGE_NAME);
             return new PageInfo(pageNumber, pageName);
         }
         return null;

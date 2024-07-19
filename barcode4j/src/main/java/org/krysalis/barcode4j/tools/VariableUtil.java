@@ -15,6 +15,9 @@
  */
 package org.krysalis.barcode4j.tools;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -23,8 +26,9 @@ import java.text.NumberFormat;
  */
 public class VariableUtil {
 
-    private static String replace(String text, String repl, String with) {
-        StringBuffer buf = new StringBuffer(text.length());
+    @NotNull
+    private static String replace(@NotNull String text, @NotNull String repl, @NotNull String with) {
+        final StringBuffer buf = new StringBuffer(text.length());
         int start = 0, end = 0;
         while ((end = text.indexOf(repl, start)) != -1) {
             buf.append(text.substring(start, end)).append(with);
@@ -44,7 +48,8 @@ public class VariableUtil {
      * @param msg the message
      * @return the message after the variable processing
      */
-    public static String getExpandedMessage(PageInfo page, String msg) {
+    @Nullable
+    public static String getExpandedMessage(@Nullable PageInfo page, @Nullable String msg) {
         if (msg == null) {
             return null;
         }
@@ -62,7 +67,7 @@ public class VariableUtil {
                 NumberFormat nf = new DecimalFormat(fmt);
                 value = nf.format(page.getPageNumber());
             } else {
-                StringBuffer blanks = new StringBuffer(fmt.length());
+                final StringBuffer blanks = new StringBuffer(fmt.length());
                 blanks.setLength(fmt.length());
                 for (int i = 0; i < blanks.length(); i++) {
                     blanks.setCharAt(i, '0');

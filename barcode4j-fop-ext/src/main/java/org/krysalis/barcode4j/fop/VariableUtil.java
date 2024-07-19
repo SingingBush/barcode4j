@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j.fop;
 
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.tools.PageInfo;
 
 import org.apache.fop.area.PageViewport;
@@ -31,8 +32,8 @@ public class VariableUtil extends org.krysalis.barcode4j.tools.VariableUtil {
      * @param msg the message
      * @return the message after the variable processing
      */
-    public static String getExpandedMessage(final PageViewport page, final String msg) {
-        final PageInfo pageInfo = page != null ? new PageInfo(page.getPageNumber(), page.getPageNumberString()) : null;
+    public static String getExpandedMessage(@Nullable final PageViewport page, final String msg) {
+        @Nullable final PageInfo pageInfo = page != null ? new PageInfo(page.getPageNumber(), page.getPageNumberString()) : null;
 
         return getExpandedMessage(pageInfo, msg);
     }

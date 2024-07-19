@@ -96,19 +96,3 @@ The only changes required by users will be to change import paths to the newer p
 ```
 mvn package
 ```
-
-### Ant
-
-Make sure to have both ant and ant-junit5 installed. On Fedora this can be done with `sudo dnf install ant ant-junit5`, on Ubuntu using `sudo apt install ant ant-optional junit5` should be enough but Ubuntu doesn't ship _ant-junitlauncher_ yet, see [launchpad bug](https://bugs.launchpad.net/ubuntu/+source/ant/+bug/1998045).
-
-Builds can be performed using:
-
-```
-ant -buildfile barcode4j/build.xml
-```
-
-or
-
-```
-ant -buildfile barcode4j/build-dist.xml
-```

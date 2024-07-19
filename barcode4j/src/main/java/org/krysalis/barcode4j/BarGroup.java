@@ -51,7 +51,7 @@ public class BarGroup {
      * @param name name of the BarGroup
      * @param map Map to register the instance in.
      */
-    protected BarGroup(String name, final Map map) {
+    protected BarGroup(String name, final Map<String, BarGroup> map) {
         this.name = name;
         MAP.put(name, this);
     }
