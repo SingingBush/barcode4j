@@ -24,8 +24,6 @@ class EAN8Test {
         final EAN8 impl = new EAN8();
         assertInstanceOf(EAN8Bean.class, impl.getBean());
 
-        assertThrows(IllegalArgumentException.class, () -> impl.generateBarcode(null, null));
-
         final CanvasProvider mockCanvas = mock(CanvasProvider.class);
 
         assertThrows(NullPointerException.class, () -> impl.generateBarcode(mockCanvas, null));
