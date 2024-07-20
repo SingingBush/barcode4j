@@ -57,8 +57,7 @@ public class EAN13LogicImpl extends UPCEANLogicImpl {
     public static void validateMessage(String msg) {
         UPCEANLogicImpl.validateMessage(msg);
         if ((msg.length() < 12) || (msg.length() > 13)) {
-            throw new IllegalArgumentException(
-                "Message must be 12 or 13 characters long. Message: " + msg);
+            throw new IllegalArgumentException("Message must be 12 or 13 characters long. Message: " + msg);
         }
     }
 

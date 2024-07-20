@@ -43,8 +43,7 @@ public class EAN8LogicImpl extends UPCEANLogicImpl {
     public static void validateMessage(String msg) {
         UPCEANLogicImpl.validateMessage(msg);
         if ((msg.length() < 7) || (msg.length() > 8)) {
-            throw new IllegalArgumentException(
-                "Message must be 7 or 8 characters long. Message: " + msg);
+            throw new IllegalArgumentException("Message must be 7 or 8 characters long. Message: " + msg);
         }
     }
 
@@ -72,25 +71,21 @@ public class EAN8LogicImpl extends UPCEANLogicImpl {
             return msg + calcChecksum(msg);
         } else if (mode == ChecksumMode.CP_CHECK) {
             if (msg.length() > 8) {
-                throw new IllegalArgumentException(
-                    "Message is too long (max. 8 characters)");
+                throw new IllegalArgumentException("Message is too long (max. 8 characters)");
             }
             if (msg.length() < 8) {
-                throw new IllegalArgumentException(
-                    "Message must be 8 characters long");
+                throw new IllegalArgumentException("Message must be 8 characters long");
             }
             char check = msg.charAt(7);
             char expected = calcChecksum(msg.substring(0, 7));
             if (check != expected) {
-                throw new IllegalArgumentException(
-                    "Checksum is bad (" + check + "). Expected: " + expected);
+                throw new IllegalArgumentException("Checksum is bad (" + check + "). Expected: " + expected);
             }
             return msg;
         } else if (mode == ChecksumMode.CP_IGNORE) {
             return msg;
         } else {
-            throw new UnsupportedOperationException(
-                "Unknown checksum mode: " + mode);
+            throw new UnsupportedOperationException("Unknown checksum mode: " + mode);
         }
     }
 
