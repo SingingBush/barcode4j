@@ -701,7 +701,7 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
                         <configuration>
-                            <keyname>6E394A59C56281A1C7BCB31CBB1163024293DF16</keyname>
+                            <keyname>8C9F968580343413D7FF75D8F701D6E5FD064848</keyname>
                             <!-- Prevent gpg from using pinentry programs -->
                             <gpgArguments>
                                 <arg>--pinentry-mode</arg>
