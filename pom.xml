@@ -595,7 +595,8 @@
                 <plugin.version.maven-deploy-plugin>2.8.2</plugin.version.maven-deploy-plugin>
                 <plugin.version.maven-surefire-plugin>2.22.2</plugin.version.maven-surefire-plugin>
                 <plugin.version.maven-failsafe-plugin>2.22.2</plugin.version.maven-failsafe-plugin>
-                <plugin.version.maven-jar-plugin>3.1.2</plugin.version.maven-jar-plugin>
+		<plugin.version.maven-install-plugin>3.0.1</plugin.version.maven-install-plugin>
+		<plugin.version.maven-jar-plugin>3.1.2</plugin.version.maven-jar-plugin>
                 <plugin.version.maven-source-plugin>3.1.0</plugin.version.maven-source-plugin>
                 <plugin.version.maven-javadoc-plugin>3.1.1</plugin.version.maven-javadoc-plugin>
                 <plugin.version.maven-enforcer-plugin>1.4.1</plugin.version.maven-enforcer-plugin>
