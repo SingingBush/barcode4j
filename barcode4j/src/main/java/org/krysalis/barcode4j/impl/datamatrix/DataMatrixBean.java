@@ -78,7 +78,7 @@ public class DataMatrixBean extends AbstractBarcodeBean {
      * Sets the minimum symbol size that is to be produced.
      * @param minSize the minimum size (in pixels), or null for no constraint
      */
-    public void setMinSize(Dimension minSize) {
+    public void setMinSize(@Nullable final Dimension minSize) {
         this.minSize = (minSize != null ? new Dimension(minSize) : null);
     }
 
@@ -87,6 +87,7 @@ public class DataMatrixBean extends AbstractBarcodeBean {
      * there's no constraint on the symbol size.
      * @return the minimum symbol size (in pixels), or null if there's no size constraint
      */
+    @Nullable
     public Dimension getMinSize() {
         if (this.minSize != null) {
             return new Dimension(this.minSize);
@@ -99,7 +100,7 @@ public class DataMatrixBean extends AbstractBarcodeBean {
      * Sets the maximum symbol size that is to be produced.
      * @param maxSize the maximum size (in pixels), or null for no constraint
      */
-    public void setMaxSize(Dimension maxSize) {
+    public void setMaxSize(@Nullable final Dimension maxSize) {
         this.maxSize = (maxSize != null ? new Dimension(maxSize) : null);
     }
 
@@ -108,6 +109,7 @@ public class DataMatrixBean extends AbstractBarcodeBean {
      * there's no constraint on the symbol size.
      * @return the maximum symbol size (in pixels), or null if there's no size constraint
      */
+    @Nullable
     public Dimension getMaxSize() {
         if (this.maxSize != null) {
             return new Dimension(this.maxSize);
@@ -129,11 +131,10 @@ public class DataMatrixBean extends AbstractBarcodeBean {
     }
 
     /** {@inheritDoc} */
-    public BarcodeDimension calcDimensions(@NotNull String msg) {
-        String encoded;
+    public BarcodeDimension calcDimensions(@NotNull final String msg) {
+        final String encoded;
         try {
-            encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg,
-                    shape, getMinSize(), getMaxSize());
+            encoded = DataMatrixHighLevelEncoder.encodeHighLevel(msg, shape, getMinSize(), getMaxSize());
         } catch (IOException e) {
             throw new IllegalArgumentException("Cannot fetch data: " + e.getLocalizedMessage());
         }

@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.tools.URLUtil;
 
 /**
@@ -33,7 +35,7 @@ import org.krysalis.barcode4j.tools.URLUtil;
  */
 public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
-    private static final boolean DEBUG = false;
+    //private static final boolean DEBUG = false;
 
     private static final int ASCII_ENCODATION = 0;
     private static final int C40_ENCODATION = 1;
@@ -105,15 +107,21 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
      * @return the encoded message (the char values range from 0 to 255)
      * @throws IOException if an I/O error occurs while fetching external data
      */
-    public static String encodeHighLevel(String msg,
-            SymbolShapeHint shape, Dimension minSize, Dimension maxSize) throws IOException {
+    public static String encodeHighLevel(
+        String msg,
+        SymbolShapeHint shape,
+        @Nullable Dimension minSize,
+        @Nullable Dimension maxSize
+    ) throws IOException {
         //the codewords 0..255 are encoded as Unicode characters
-        Encoder[] encoders = new Encoder[] {new ASCIIEncoder(),
-                new C40Encoder(), new TextEncoder(), new X12Encoder(), new EdifactEncoder(),
-                new Base256Encoder()};
+        final Encoder[] encoders = new Encoder[] {
+            new ASCIIEncoder(), new C40Encoder(), new TextEncoder(),
+            new X12Encoder(), new EdifactEncoder(), new Base256Encoder()
+        };
 
-        int encodingMode = ASCII_ENCODATION; //Default mode
-        EncoderContext context = createEncoderContext(msg);
+        int encodingMode = ASCII_ENCODATION; // Default mode
+
+        final EncoderContext context = createEncoderContext(msg);
         context.setSymbolShape(shape);
         context.setSizeConstraints(minSize, maxSize);
 
@@ -139,9 +147,9 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         int capacity = context.symbolInfo.dataCapacity;
         if (len < capacity) {
             if (encodingMode != ASCII_ENCODATION && encodingMode != BASE256_ENCODATION) {
-                if (DEBUG) {
-                    System.out.println("Unlatch because symbol isn't filled up");
-                }
+//                if (DEBUG) {
+//                    System.out.println("Unlatch because symbol isn't filled up");
+//                }
                 context.writeCodeword('\u00fe'); //Unlatch (254)
             }
         }
@@ -157,15 +165,12 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         return context.codewords.toString();
     }
 
-    private static EncoderContext createEncoderContext(String msg) throws IOException {
-        String url = URLUtil.getURL(msg);
-        if (url != null) {
-            //URL processing
-            byte[] data = URLUtil.getData(url, DEFAULT_ASCII_ENCODING);
-            return new EncoderContext(data);
-        } else {
-            return new EncoderContext(msg);
-        }
+    private static EncoderContext createEncoderContext(@NotNull final String msg) throws IOException {
+        final String url = URLUtil.getURL(msg);
+
+        return url != null ?
+            new EncoderContext(URLUtil.getData(url, DEFAULT_ASCII_ENCODING)) :
+            new EncoderContext(msg);
     }
 
     private static class EncoderContext {
@@ -188,7 +193,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             } catch (UnsupportedEncodingException e) {
                 throw new UnsupportedOperationException("Unsupported encoding: " + e.getMessage());
             }
-            StringBuffer sb = new StringBuffer(msgBinary.length);
+            final StringBuilder sb = new StringBuilder(msgBinary.length);
             for (int i = 0, c = msgBinary.length; i < c; i++) {
                 char ch = (char)(msgBinary[i] & 0xff);
                 if (ch == '?' && msg.charAt(i) != '?') {
@@ -202,10 +207,10 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         }
 
         public EncoderContext(byte[] data) {
-            //From this point on Strings are not Unicode anymore!
-            StringBuffer sb = new StringBuffer(data.length);
-            for (int i = 0, c = data.length; i < c; i++) {
-                char ch = (char)(data[i] & 0xff);
+            // From this point on Strings are not Unicode anymore!
+            final StringBuilder sb = new StringBuilder(data.length);
+            for (byte datum : data) {
+                char ch = (char) (datum & 0xff);
                 sb.append(ch);
             }
             this.msg = sb.toString(); //Not Unicode here!
@@ -335,11 +340,11 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                     context.writeCodeword((char)(c - 128 + 1));
                     context.pos++;
                 } else {
-                    if (DEBUG) {
-                        if (!isASCII7(c)) {
-                            throw new IllegalArgumentException("Not an ASCII-7 character");
-                        }
-                    }
+//                    if (DEBUG) {
+//                        if (!isASCII7(c)) {
+//                            throw new IllegalArgumentException("Not an ASCII-7 character");
+//                        }
+//                    }
                     context.writeCodeword((char)(c + 1));
                     context.pos++;
                 }
@@ -376,14 +381,12 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                     StringBuffer removed = new StringBuffer();
                     if ((buffer.length() % 3) == 2) {
                         if (available < 2 || available > 2) {
-                            lastCharSize = backtrackOneCharacter(context, buffer, removed,
-                                    lastCharSize);
+                            lastCharSize = backtrackOneCharacter(context, buffer, removed, lastCharSize);
                         }
                     }
                     while ((buffer.length() % 3) == 1
                             && ((lastCharSize <= 3 && available != 1) || lastCharSize > 3)) {
-                        lastCharSize = backtrackOneCharacter(context, buffer, removed,
-                                lastCharSize);
+                        lastCharSize = backtrackOneCharacter(context, buffer, removed, lastCharSize);
                     }
                     break outerloop;
                 }
@@ -443,8 +446,6 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 }
                 if (context.hasMoreCharacters()) {
                     context.writeCodeword(C40_UNLATCH);
-                } else {
-                    //No unlatch
                 }
                 context.pos--;
             } else if (rest == 0) {
@@ -629,8 +630,6 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 context.pos--;
                 if (available > 1) {
                     context.writeCodeword(X12_UNLATCH);
-                } else {
-                    //NOP - No unlatch necessary
                 }
                 context.signalEncoderChange(ASCII_ENCODATION);
             }
@@ -695,14 +694,13 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 boolean endOfSymbolReached = !context.hasMoreCharacters();
                 boolean restInAscii = endOfSymbolReached && restChars <= 2;
 
-                int available;
                 if (restChars <= 2) {
                     context.updateSymbolInfo(context.getCodewordCount() + restChars);
-                    available = context.symbolInfo.dataCapacity - context.getCodewordCount();
+                    final int available = context.symbolInfo.dataCapacity - context.getCodewordCount();
                     if (available >= 3) {
                         restInAscii = false;
                         context.updateSymbolInfo(context.getCodewordCount() + encoded.length());
-                        available = context.symbolInfo.dataCapacity - context.getCodewordCount();
+                        //available = context.symbolInfo.dataCapacity - context.getCodewordCount();
                     }
                 }
 
@@ -741,7 +739,8 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
             char cw1 = (char)((v >> 16) & 255);
             char cw2 = (char)((v >> 8) & 255);
             char cw3 = (char)(v & 255);
-            StringBuffer res = new StringBuffer(3);
+
+            final StringBuilder res = new StringBuilder(3);
             res.append(cw1);
             if (len >= 2) {
                 res.append(cw2);
@@ -761,7 +760,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         }
 
         public void encode(EncoderContext context) {
-            StringBuffer buffer = new StringBuffer();
+            final StringBuilder buffer = new StringBuilder();
             buffer.append('\0'); //Initialize length field
             while (context.hasMoreCharacters()) {
                 char c = context.getCurrentChar();
@@ -851,13 +850,13 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
             //step L
             if (isDigit(c)) {
-                charCounts[ASCII_ENCODATION] += 0.5;
+                charCounts[ASCII_ENCODATION] += 0.5f;
             } else if (isExtendedASCII(c)) {
                 charCounts[ASCII_ENCODATION] = (int)Math.ceil(charCounts[ASCII_ENCODATION]);
-                charCounts[ASCII_ENCODATION] += 2;
+                charCounts[ASCII_ENCODATION] += 2f;
             } else {
                 charCounts[ASCII_ENCODATION] = (int)Math.ceil(charCounts[ASCII_ENCODATION]);
-                charCounts[ASCII_ENCODATION] += 1;
+                charCounts[ASCII_ENCODATION] += 1f;
             }
 
             //step M
@@ -1016,9 +1015,9 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
         return (ch >= 128 && ch <= 255);
     }
 
-    private static boolean isASCII7(char ch) {
-        return (ch >= 0 && ch <= 127);
-    }
+//    private static boolean isASCII7(char ch) {
+//        return (ch >= 0 && ch <= 127);
+//    }
 
     private static boolean isNativeC40(char ch) {
         return (ch == 32)
@@ -1078,10 +1077,8 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
     private static void illegalCharacter(char c) {
         String hex = Integer.toHexString(c);
-        final String padding = "0000";
-        hex = padding.substring(0, 4 - hex.length()) + hex;
-        throw new IllegalArgumentException("Illegal character: " + c
-                + " (0x" + hex + ")");
+        hex = "0000".substring(0, 4 - hex.length()) + hex;
+        throw new IllegalArgumentException(String.format("Illegal character: %s (0x%s)", c, hex));
     }
 
 }

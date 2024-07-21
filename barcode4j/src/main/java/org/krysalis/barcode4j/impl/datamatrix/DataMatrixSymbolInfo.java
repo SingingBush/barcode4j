@@ -18,6 +18,8 @@
 
 package org.krysalis.barcode4j.impl.datamatrix;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.awt.Dimension;
 
 /**
@@ -114,15 +116,13 @@ public class DataMatrixSymbolInfo {
         return lookup(dataCodewords, shape, fail);
     }
 
-    public static DataMatrixSymbolInfo lookup(int dataCodewords,
-            SymbolShapeHint shape, boolean fail) {
+    public static DataMatrixSymbolInfo lookup(int dataCodewords, SymbolShapeHint shape, boolean fail) {
         return lookup(dataCodewords, shape, null, null, fail);
     }
 
-    public static DataMatrixSymbolInfo lookup(int dataCodewords,
-            SymbolShapeHint shape, Dimension minSize, Dimension maxSize, boolean fail) {
-        for (int i = 0, c = symbols.length; i < c; i++) {
-            DataMatrixSymbolInfo symbol = symbols[i];
+    @Nullable
+    public static DataMatrixSymbolInfo lookup(int dataCodewords, SymbolShapeHint shape, Dimension minSize, Dimension maxSize, boolean fail) {
+        for (final DataMatrixSymbolInfo symbol : symbols) {
             if (shape == SymbolShapeHint.FORCE_SQUARE && symbol.rectangular) {
                 continue;
             }
@@ -130,13 +130,13 @@ public class DataMatrixSymbolInfo {
                 continue;
             }
             if (minSize != null
-                    && (symbol.getSymbolWidth() < minSize.width
-                            || symbol.getSymbolHeight() < minSize.height)) {
+                && (symbol.getSymbolWidth() < minSize.width
+                || symbol.getSymbolHeight() < minSize.height)) {
                 continue;
             }
             if (maxSize != null
-                    && (symbol.getSymbolWidth() > maxSize.width
-                            || symbol.getSymbolHeight() > maxSize.height)) {
+                && (symbol.getSymbolWidth() > maxSize.width
+                || symbol.getSymbolHeight() > maxSize.height)) {
                 continue;
             }
             if (dataCodewords <= symbol.dataCapacity) {
@@ -145,8 +145,7 @@ public class DataMatrixSymbolInfo {
         }
         if (fail) {
             throw new IllegalArgumentException(
-                "Can't find a symbol arrangement that matches the message. Data codewords: "
-                    + dataCodewords);
+                "Can't find a symbol arrangement that matches the message. Data codewords: " + dataCodewords);
         }
         return null;
     }

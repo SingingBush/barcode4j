@@ -17,6 +17,7 @@ package org.krysalis.barcode4j.impl.datamatrix;
 
 import java.awt.Dimension;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.impl.ConfigurableBarcodeGenerator;
 import org.krysalis.barcode4j.tools.Length;
 
@@ -26,6 +27,13 @@ import org.krysalis.barcode4j.configuration.ConfigurationException;
 
 /**
  * This class is an implementation of the DataMatrix barcode.
+ * <p>
+ * A DataMatrix 2D Barcode can handle various message sizes depending on the size of the grid. They can
+ * generally store up to 3,116 numeric or 2,335 alphanumeric characters or up to 1,555 bytes
+ * of binary information and can also include a checksum. Symbol sizes vary from 8×8 to 144×144.
+ * Six encoding modes coexist: ASCII, Text, C40, X12, EDIFACT and Base 256.
+ * The ASCII encoding is the default encoding and the most used.
+ * </p>
  *
  * @version $Id: DataMatrix.java,v 1.4 2008-09-22 08:59:08 jmaerki Exp $
  */
@@ -66,7 +74,7 @@ public class DataMatrix extends ConfigurableBarcodeGenerator implements Configur
         }
     }
 
-    private Dimension parseSymbolSize(String size) {
+    private Dimension parseSymbolSize(@NotNull final String size) {
         int idx = size.indexOf('x');
         Dimension dim;
         if (idx > 0) {

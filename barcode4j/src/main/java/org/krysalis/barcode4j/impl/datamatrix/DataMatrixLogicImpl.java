@@ -21,6 +21,8 @@ package org.krysalis.barcode4j.impl.datamatrix;
 import java.awt.Dimension;
 import java.io.IOException;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 
 /**
@@ -30,7 +32,7 @@ import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
  */
 public class DataMatrixLogicImpl {
 
-    private static final boolean DEBUG = false;
+    //private static final boolean DEBUG = false;
 
     /**
      * Generates the barcode logic.
@@ -40,9 +42,13 @@ public class DataMatrixLogicImpl {
      * @param minSize the minimum symbol size constraint or null for no constraint
      * @param maxSize the maximum symbol size constraint or null for no constraint
      */
-    public void generateBarcodeLogic(TwoDimBarcodeLogicHandler logic, String msg,
-            SymbolShapeHint shape, Dimension minSize, Dimension maxSize) {
-
+    public void generateBarcodeLogic(
+        @NotNull TwoDimBarcodeLogicHandler logic,
+        String msg,
+        @NotNull SymbolShapeHint shape,
+        @Nullable Dimension minSize,
+        @Nullable Dimension maxSize
+    ) {
         //ECC 200
         //1. step: Data encodation
         String encoded;
@@ -52,20 +58,17 @@ public class DataMatrixLogicImpl {
             throw new IllegalArgumentException("Cannot fetch data: " + e.getLocalizedMessage());
         }
 
-        DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length(),
-                shape, minSize, maxSize, true);
-        if (DEBUG) {
-            System.out.println(symbolInfo);
-        }
+        @Nullable final DataMatrixSymbolInfo symbolInfo = DataMatrixSymbolInfo.lookup(encoded.length(), shape, minSize, maxSize, true);
 
         //2. step: ECC generation
-        String codewords = DataMatrixErrorCorrection.encodeECC200(
-                encoded, symbolInfo);
+        String codewords = DataMatrixErrorCorrection.encodeECC200(encoded, symbolInfo);
 
         //3. step: Module placement in Matrix
-        DefaultDataMatrixPlacement placement = new DefaultDataMatrixPlacement(
-                    codewords,
-                    symbolInfo.getSymbolDataWidth(), symbolInfo.getSymbolDataHeight());
+        final DefaultDataMatrixPlacement placement = new DefaultDataMatrixPlacement(
+            codewords,
+            symbolInfo.getSymbolDataWidth(),
+            symbolInfo.getSymbolDataHeight()
+        );
         placement.place();
 
         //4. step: low-level encoding

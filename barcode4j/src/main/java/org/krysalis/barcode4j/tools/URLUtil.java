@@ -18,6 +18,9 @@
 
 package org.krysalis.barcode4j.tools;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,24 +63,24 @@ public class URLUtil {
     /**
      * Returns the data pointed at by a URL as a byte array.
      * @param url the URL
-     * @return encoding text as a string
+     * @return encoding text as a string or null
      */
-    public static String getDataEncoding(String url) {
+    @Nullable
+    public static String getDataEncoding(@NotNull final String url) {
         int commaPos = url.indexOf(',');
         // header is of the form data:[<mediatype>][;charset=<encoding>][;base64]
-        String header = url.substring(0, commaPos);
-        return getEncoding(header);
+        return getEncoding(url.substring(0, commaPos));
     }
 
     private static byte[] parseDataURL(String url, String encoding) throws IOException {
         int commaPos = url.indexOf(',');
         // header is of the form data:[<mediatype>][;charset=<encoding>][;base64]
-        String header = url.substring(0, commaPos);
-        String data = url.substring(commaPos + 1);
+        final String header = url.substring(0, commaPos);
+        final String data = url.substring(commaPos + 1);
+
         if (header.endsWith(";base64")) {
-            Base64InputStream in = new Base64InputStream(
-                    new java.io.StringReader(data));
-            ByteArrayOutputStream baout = new ByteArrayOutputStream();
+            final Base64InputStream in = new Base64InputStream(new java.io.StringReader(data));
+            final ByteArrayOutputStream baout = new ByteArrayOutputStream();
             IOUtil.copy(in, baout);
             IOUtil.closeQuietly(in);
             return baout.toByteArray();
@@ -87,12 +90,12 @@ public class URLUtil {
                 urlEncoding = "US-ASCII";
             }
             final String unescapedString = URLDecoder.decode(data, urlEncoding);
-            byte[] bytes = unescapedString.getBytes(encoding);
-            return bytes;
+            return unescapedString.getBytes(encoding);
         }
     }
 
-    private static String getEncoding(String header) {
+    @Nullable
+    private static String getEncoding(@NotNull final String header) {
         String urlEncoding = null;
         final int charsetpos = header.indexOf(";charset=");
         if (charsetpos > 0) {
@@ -105,18 +108,15 @@ public class URLUtil {
         return urlEncoding;
     }
 
-    public static boolean isURL(String message) {
+    public static boolean isURL(@NotNull final String message) {
         return message.startsWith(URLUtil.URL_START) && message.endsWith(URLUtil.URL_END);
     }
 
-    public static String getURL(String message) {
-        if (URLUtil.isURL(message)) {
-            String url = message.substring(URLUtil.URL_START.length(),
-                    message.length() - URLUtil.URL_END.length());
-            return url;
-        } else {
-            return null;
-        }
+    @Nullable
+    public static String getURL(@NotNull final String message) {
+        return URLUtil.isURL(message) ?
+            message.substring(URLUtil.URL_START.length(), message.length() - URLUtil.URL_END.length()) :
+            null;
     }
 
 }
