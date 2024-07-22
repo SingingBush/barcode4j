@@ -57,6 +57,7 @@ import org.apache.fop.render.XMLHandler;
  * @author Jeremias Maerki
  * @version $Id: BarcodeXMLHandler.java,v 1.12 2010-11-18 09:30:45 jmaerki Exp $
  */
+// todo: this should potentially be split into a class per renderer type (Bitmap, G2D, EPS)
 public class BarcodeXMLHandler implements XMLHandler, RendererContextConstants {
 
     //private static final boolean DEBUG = false;

@@ -30,9 +30,10 @@ public class VariableUtil extends org.krysalis.barcode4j.tools.VariableUtil {
      * Legacy method to replace page number variables in the message.
      * @param page the FOP page
      * @param msg the message
-     * @return the message after the variable processing
+     * @return the message after the variable processing or null
      */
-    public static String getExpandedMessage(@Nullable final PageViewport page, final String msg) {
+    @Nullable
+    public static String getExpandedMessage(@Nullable final PageViewport page, @Nullable final String msg) {
         @Nullable final PageInfo pageInfo = page != null ? new PageInfo(page.getPageNumber(), page.getPageNumberString()) : null;
 
         return getExpandedMessage(pageInfo, msg);
