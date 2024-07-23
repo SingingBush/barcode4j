@@ -28,8 +28,6 @@ import javax.imageio.ImageWriter;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageOutputStream;
-
-import org.krysalis.barcode4j.tools.DebugUtil;
 import org.krysalis.barcode4j.tools.MimeTypes;
 import org.krysalis.barcode4j.tools.UnitConv;
 
@@ -188,4 +186,19 @@ public class ImageIOBitmapEncoder implements BitmapEncoder {
 //        }
 //    }
 
+//    /**
+//     * Serializes a W3C DOM node to a String and dumps it to System.out.
+//     * This used to be a static method in DebugUtil.dumpNode() but DebugUtil has been removed
+//     * @param node a W3C DOM node
+//     */
+//    private void dumpNode(Node node) {
+//        try {
+//            final Transformer trans = TransformerFactory.newInstance().newTransformer();
+//            trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+//            trans.setOutputProperty(OutputKeys.INDENT, "yes");
+//            trans.transform(new DOMSource(node), new StreamResult(System.out));
+//        } catch (final Exception e) {
+//            System.err.println(e.getMessage());
+//        }
+//    }
 }
