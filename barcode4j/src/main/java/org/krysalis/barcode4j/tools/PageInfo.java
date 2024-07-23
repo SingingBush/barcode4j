@@ -19,6 +19,7 @@
 package org.krysalis.barcode4j.tools;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -49,11 +50,11 @@ public class PageInfo {
      * @param hints the processing hints
      * @return the page info object or null if no such information is available
      */
-    public static PageInfo fromProcessingHints(Map hints) {
+    public static PageInfo fromProcessingHints(@Nullable final Map<String,Object> hints) {
         if (hints != null && hints.containsKey(PAGE_NUMBER)) {
             int pageNumber = ((Number)hints.get(PAGE_NUMBER)).intValue();
-            String pageName = (String)hints.get(PAGE_NAME);
-            return new PageInfo(pageNumber, pageName);
+            @Nullable String pageName = (String)hints.get(PAGE_NAME);
+            return new PageInfo(pageNumber, pageName != null ? pageName : String.valueOf(pageNumber));
         }
         return null;
     }
@@ -70,6 +71,7 @@ public class PageInfo {
      * Returns the string representation of the page number (ex. "12" or "XII").
      * @return the page number as a string
      */
+    @NotNull
     public String getPageNumberString() {
         return this.pageNumberString;
     }
