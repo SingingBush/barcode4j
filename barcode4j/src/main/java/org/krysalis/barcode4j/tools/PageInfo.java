@@ -40,9 +40,9 @@ public class PageInfo {
      * @param pageNumber the page number
      * @param pageNumberString the string representation of the page number (ex. "12" or "XII")
      */
-    public PageInfo(final int pageNumber, @NotNull final String pageNumberString) {
+    public PageInfo(final int pageNumber, @Nullable final String pageNumberString) {
         this.pageNumber = pageNumber;
-        this.pageNumberString = pageNumberString;
+        this.pageNumberString = pageNumberString != null ? pageNumberString : String.valueOf(pageNumber);
     }
 
     /**
