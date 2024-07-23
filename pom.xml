@@ -108,9 +108,11 @@
         <!-- Sonar config -->
         <sonar.organization>singingbush</sonar.organization>
         <sonar.projectKey>barcode4j</sonar.projectKey>
+        <sonar.language>java</sonar.language>
         <sonar.java.source>${maven.compiler.source}</sonar.java.source>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.exclusions>barcode4j-ant/**,barcode4j-cli/**,barcode4j-examples/**,barcode4j-saxon**,barcode4j-servlet/**</sonar.exclusions>
+        <sonar.exclusions>barcode4j-ant/**,barcode4j-cli/**,barcode4j-examples/**,barcode4j-sax*/**,barcode4j-servlet/**</sonar.exclusions>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/aggregate-report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
         <!-- dependencyManagement - set fixed versions for all project dependencies -->
@@ -457,6 +459,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <excludedScopes>test,provided</excludedScopes>
                     <!-- failOnMissing should be true but xalan 2.7.3 is missing license info -->
                     <failOnMissing>false</failOnMissing>
                     <excludedLicenses>GPLv2|GPLv3</excludedLicenses>

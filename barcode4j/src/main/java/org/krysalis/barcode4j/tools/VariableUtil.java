@@ -46,7 +46,7 @@ public class VariableUtil {
      * Method to replace page number variables in the message.
      * @param page the page information object
      * @param msg the message
-     * @return the message after the variable processing
+     * @return the message after the variable processing or null if message is null
      */
     @Nullable
     public static String getExpandedMessage(@Nullable PageInfo page, @Nullable String msg) {

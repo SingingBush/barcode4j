@@ -15,19 +15,18 @@
  */
 package org.krysalis.barcode4j.fop;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.util.JAXBSource;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -48,28 +47,29 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
+ * Integration test for using the Fop extension that will output a pdf to the temp dir and
+ * display the path to the file so that it can be opened and inspected by hand
+ *
  * @author Samael Bate (singingbush)
  * created on 09/11/2023
  */
 public class FopTest {
 
     @Test
-    @DisplayName("Use xmlns:barcode within an XSLT to produce XSL-FO")
-    void testUseOfBarcode4jNamespaceForXslTransform() throws Exception {
-        final TransformerFactory factory = TransformerFactory.newInstance();
-
-        final Transformer trans = factory.newTransformer(
-            new StreamSource(loadTestResourceFile("barcode-data-XSL-2.xsl"))
-        );
-
+    @DisplayName("Use xmlns:barcode within an XSLT to transform StreamSource data to XSL-FO")
+    void testTransformStreamSourceToFop() throws Exception {
         final Source srcData = new StreamSource(loadTestResourceFile("barcodes.xml"));
 
+        // capture resulting fop for assertions
         final StreamResult resultingXslFo = new StreamResult(new StringWriter());
 
-        trans.transform(srcData, resultingXslFo); // apply our data to the XSLT to get XSL-FO
+        TransformerFactory.newInstance()
+            .newTransformer(
+                new StreamSource(loadTestResourceFile("barcode-data-XSL-2.xsl"))
+            )
+            .transform(srcData, resultingXslFo); // apply our data to the XSLT to get XSL-FO
 
         final String xslFo = resultingXslFo.getWriter().toString();
-        //System.out.println(xslFo);
 
         assertTrue(xslFo.contains("xmlns:barcode=\"http://barcode4j.krysalis.org/ns\""));
 
@@ -91,10 +91,61 @@ public class FopTest {
         generatePdfFileFromXslFo(new ByteArrayInputStream(xslFo.getBytes(StandardCharsets.UTF_8)));
     }
 
+    @Test
+    @DisplayName("Use xmlns:barcode within an XSLT to transform JAXBSource data to XSL-FO")
+    void testTransformJaxbSourceToFop() throws JAXBException, TransformerException, FOPException, IOException {
+        final Source srcData = createDataFromPojos();
+
+        // capture resulting fop for assertions
+        final StreamResult resultingXslFo = new StreamResult(new StringWriter());
+
+        // for debugging the JAXB source data:
+        // final Marshaller jaxbMarshaller = JAXBContext.newInstance(Data.class).createMarshaller();
+        // jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        // jaxbMarshaller.marshal(data, new PrintWriter(System.out));
+
+        TransformerFactory.newInstance()
+            .newTransformer(
+                new StreamSource(loadTestResourceFile("barcode-data-XSL-2.xsl"))
+            )
+            .transform(srcData, resultingXslFo); // apply our data to the XSLT to get XSL-FO
+
+        final String xslFo = resultingXslFo.getWriter().toString();
+        assertTrue(xslFo.contains("xmlns:barcode=\"http://barcode4j.krysalis.org/ns\""));
+
+        assertTrue(xslFo.contains("<barcode:barcode message=\"012345678905\">"));
+        assertTrue(xslFo.contains("<barcode:upc-A>"));
+
+        assertTrue(xslFo.contains("<barcode:barcode message=\"0012345678905\">"));
+        assertTrue(xslFo.contains("<barcode:ean-13>"));
+
+        // now ensure the generated XSL-FO can be used by Apache FOP without error
+        generatePdfFileFromXslFo(new ByteArrayInputStream(xslFo.getBytes(StandardCharsets.UTF_8)));
+    }
+
+    private Source createDataFromPojos() throws JAXBException {
+        final Barcode upcA = new Barcode();
+        upcA.setMessage("012345678905");
+        upcA.setType("upc-A");
+
+        final Barcode ean13 = new Barcode();
+        ean13.setMessage("0012345678905");
+        ean13.setType("ean-13");
+
+        final Data data = new Data();
+        final List<Barcode> barcodes = new java.util.ArrayList<>();
+        barcodes.add(upcA);
+        barcodes.add(ean13);
+
+        data.setBarcodes(barcodes);
+
+        return new JAXBSource( JAXBContext.newInstance(Data.class, Barcode.class) , data);
+    }
+
     private void generatePdfFileFromXslFo(final InputStream xslFo) throws FOPException, IOException, TransformerException {
         final FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
 
-        final Path filePath = Files.createTempFile("barcode4j-test-", ".pdf");
+        final Path filePath = Files.createTempFile("barcode4j-fop-test-", ".pdf");
 
         try(OutputStream out = new BufferedOutputStream(Files.newOutputStream(filePath))) {
             final Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
@@ -119,4 +170,49 @@ public class FopTest {
         return null;
     }
 
+    @XmlRootElement(name = "barcode")
+    @XmlAccessorType(XmlAccessType.FIELD)
+    private static class Barcode {
+        @XmlElement(name = "type", required = true)
+        private String type;
+        @XmlElement(name = "message", required = true)
+        private String message;
+
+        public Barcode() {}
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+    }
+
+    @XmlRootElement
+    @XmlAccessorType(XmlAccessType.FIELD)
+    private static class Data {
+
+        @XmlElementWrapper
+        @XmlElement(name = "barcode")
+        private List<Barcode> barcodes;
+
+        public Data() {}
+
+        public List<Barcode> getBarcodes() {
+            return barcodes;
+        }
+
+        public void setBarcodes(List<Barcode> barcodes) {
+            this.barcodes = barcodes;
+        }
+    }
 }
