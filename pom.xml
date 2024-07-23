@@ -459,6 +459,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <excludedScopes>test,provided</excludedScopes>
                     <!-- failOnMissing should be true but xalan 2.7.3 is missing license info -->
                     <failOnMissing>false</failOnMissing>
                     <excludedLicenses>GPLv2|GPLv3</excludedLicenses>
