@@ -16,8 +16,6 @@
 package org.krysalis.barcode4j.tools;
 
 import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -43,17 +41,16 @@ public class DebugUtil {
     /**
      * Serializes a W3C DOM node to a String and dumps it to System.out.
      * @param node a W3C DOM node
+     * todo: either move to ImageIOBitmapEncoder (only place that was ever used) or delete as caller is commented out anyway
      */
     public static void dumpNode(Node node) {
         try {
             final Transformer trans = TransformerFactory.newInstance().newTransformer();
             trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
             trans.setOutputProperty(OutputKeys.INDENT, "yes");
-            final Source src = new DOMSource(node);
-            final Result res = new StreamResult(System.out);
-            trans.transform(src, res);
+            trans.transform(new DOMSource(node), new StreamResult(System.out));
         } catch (final Exception e) {
-            e.printStackTrace(); // todo: use slf4j
+            System.err.println(e.getMessage());
         }
     }
 
