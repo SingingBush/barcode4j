@@ -45,25 +45,4 @@ public enum TextAlignment {
         return this.name;
     }
 
-    /**
-     * Returns a TextAlignment instance by name.
-     * @param name the name of the instance
-     * @return the requested instance
-     * @deprecated not needed, just use the enum values
-     */
-    @Deprecated
-    public static TextAlignment byName(final String name) {
-        if (name.equalsIgnoreCase(TextAlignment.TA_LEFT.getName())) {
-            return TextAlignment.TA_LEFT;
-        } else if (name.equalsIgnoreCase(TextAlignment.TA_CENTER.getName())) {
-            return TextAlignment.TA_CENTER;
-        } else if (name.equalsIgnoreCase(TextAlignment.TA_RIGHT.getName())) {
-            return TextAlignment.TA_RIGHT;
-        } else if (name.equalsIgnoreCase(TextAlignment.TA_JUSTIFY.getName())) {
-            return TextAlignment.TA_JUSTIFY;
-        } else {
-            throw new IllegalArgumentException("Invalid TextAlignment: " + name);
-        }
-    }
-
 }

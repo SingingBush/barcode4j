@@ -15,45 +15,78 @@
  */
 package org.krysalis.barcode4j;
 
-import java.util.Map;
-
 /**
  * Enumeration type for bar groups.
  *
  * @author Jeremias Maerki
  * @version $Id: BarGroup.java,v 1.3 2004-10-02 14:53:22 jmaerki Exp $
  */
-public class BarGroup {
+public enum BarGroup {
 
-    private static final Map<String, BarGroup> MAP = new java.util.HashMap<>();
+    /**
+     * Used to indicate a start character when calling startBarGroup()
+     *
+     * @see ClassicBarcodeLogicHandler#startBarGroup(BarGroup, String)
+     */
+    START_CHARACTER("start-char"),
 
-    /** Bar group is represents a start character */
-    public static final BarGroup START_CHARACTER = new BarGroup("start-char", MAP);
-    /** Bar group is represents a stop character */
-    public static final BarGroup STOP_CHARACTER  = new BarGroup("stop-char", MAP);
-    /** Bar group is represents a message character or a part of the message */
-    public static final BarGroup MSG_CHARACTER   = new BarGroup("msg-char", MAP);
-    /** Bar group is represents a UPC/EAN guard */
-    public static final BarGroup UPC_EAN_GUARD   = new BarGroup("upc-ean-guard", MAP);
-    /** Bar group is represents a UPC/EAN lead */
-    public static final BarGroup UPC_EAN_LEAD    = new BarGroup("upc-ean-lead", MAP);
-    /** Bar group is represents a UPC/EAN character group */
-    public static final BarGroup UPC_EAN_GROUP   = new BarGroup("upc-ean-group", MAP);
-    /** Bar group is represents a UPC/EAN check character */
-    public static final BarGroup UPC_EAN_CHECK   = new BarGroup("upc-ean-check", MAP);
-    /** Bar group is represents a UPC/EAN supplemental */
-    public static final BarGroup UPC_EAN_SUPP    = new BarGroup("upc-ean-supp", MAP);
+    /**
+     * Used to indicate a stop character when calling startBarGroup()
+     *
+     * @see ClassicBarcodeLogicHandler#startBarGroup(BarGroup, String)
+     */
+    STOP_CHARACTER("stop-char"),
+
+    /**
+     * Used to indicate a message character when calling startBarGroup()
+     *
+     * @see ClassicBarcodeLogicHandler#startBarGroup(BarGroup, String)
+     */
+    MSG_CHARACTER("msg-char"),
+
+    /**
+     * Used to indicate a UPC/EAN Guard when calling startBarGroup()
+     *
+     * @see ClassicBarcodeLogicHandler#startBarGroup(BarGroup, String)
+     */
+    UPC_EAN_GUARD("upc-ean-guard"),
+
+    /**
+     * Used to indicate a UPC/EAN Lead when calling startBarGroup()
+     *
+     * @see ClassicBarcodeLogicHandler#startBarGroup(BarGroup, String)
+     */
+    UPC_EAN_LEAD("upc-ean-lead"),
+
+    /**
+     * Used to indicate a UPC/EAN character group when calling startBarGroup()
+     *
+     * @see ClassicBarcodeLogicHandler#startBarGroup(BarGroup, String)
+     */
+    UPC_EAN_GROUP("upc-ean-group"),
+
+    /**
+     * Used to indicate a UPC/EAN check character when calling startBarGroup()
+     *
+     * @see ClassicBarcodeLogicHandler#startBarGroup(BarGroup, String)
+     */
+    UPC_EAN_CHECK("upc-ean-check"),
+
+    /**
+     * Used to indicate a UPC/EAN supplemental when calling startBarGroup()
+     *
+     * @see ClassicBarcodeLogicHandler#startBarGroup(BarGroup, String)
+     */
+    UPC_EAN_SUPP("upc-ean-supp");
 
     private final String name;
 
     /**
      * Creates a new BarGroup instance.
      * @param name name of the BarGroup
-     * @param map Map to register the instance in.
      */
-    protected BarGroup(String name, final Map<String, BarGroup> map) {
+    BarGroup(final String name) {
         this.name = name;
-        MAP.put(name, this);
     }
 
     /**
@@ -61,19 +94,6 @@ public class BarGroup {
      */
     public String getName() {
         return this.name;
-    }
-
-    /**
-     * Returns a BarGroup instance by name.
-     * @param name the name of the desired BarGroup
-     * @return the requested BarGroup instance
-     */
-    public static BarGroup byName(String name) {
-        final BarGroup bg = MAP.get(name);
-        if (bg == null) {
-            throw new IllegalArgumentException("Invalid BarGroup: " + name);
-        }
-        return bg;
     }
 
 }
