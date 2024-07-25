@@ -147,7 +147,7 @@
         <plugin.version.maven-jar-plugin>3.4.2</plugin.version.maven-jar-plugin>
         <plugin.version.maven-source-plugin>3.3.1</plugin.version.maven-source-plugin>
         <!-- maven reporting plugins -->
-        <plugin.version.maven-javadoc-plugin>3.7.0</plugin.version.maven-javadoc-plugin>
+        <plugin.version.maven-javadoc-plugin>3.8.0</plugin.version.maven-javadoc-plugin>
         <!-- maven tools plugins -->
         <plugin.version.maven-enforcer-plugin>3.5.0</plugin.version.maven-enforcer-plugin>
         <license-plugin.version>2.4.0</license-plugin.version>
