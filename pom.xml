@@ -129,32 +129,6 @@
         <net.sf.saxon.9.version>9.1.0.8</net.sf.saxon.9.version>
 
         <junit.version>5.10.3</junit.version>
-
-        <!-- pluginManagement - set fixed versions for all maven plugins -->
-        <!-- maven core plugins -->
-        <plugin.version.maven-clean-plugin>3.4.0</plugin.version.maven-clean-plugin>
-        <plugin.version.maven-compiler-plugin>3.13.0</plugin.version.maven-compiler-plugin>
-        <plugin.version.maven-assembly-plugin>3.7.1</plugin.version.maven-assembly-plugin>
-        <plugin.version.maven-dependency-plugin>3.7.1</plugin.version.maven-dependency-plugin>
-        <plugin.version.maven-deploy-plugin>3.1.2</plugin.version.maven-deploy-plugin>
-        <plugin.version.maven-surefire-plugin>3.3.1</plugin.version.maven-surefire-plugin>
-        <plugin.version.maven-failsafe-plugin>3.3.1</plugin.version.maven-failsafe-plugin>
-        <plugin.version.maven-install-plugin>3.1.2</plugin.version.maven-install-plugin>
-        <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
-        <plugin.version.maven-site-plugin>3.12.1</plugin.version.maven-site-plugin>
-        <plugin.version.maven-verifier-plugin>1.1</plugin.version.maven-verifier-plugin>
-        <!-- maven packaging plugins -->
-        <plugin.version.maven-jar-plugin>3.4.2</plugin.version.maven-jar-plugin>
-        <plugin.version.maven-source-plugin>3.3.1</plugin.version.maven-source-plugin>
-        <!-- maven reporting plugins -->
-        <plugin.version.maven-javadoc-plugin>3.7.0</plugin.version.maven-javadoc-plugin>
-        <!-- maven tools plugins -->
-        <plugin.version.maven-enforcer-plugin>3.5.0</plugin.version.maven-enforcer-plugin>
-        <license-plugin.version>2.4.0</license-plugin.version>
-        <spotbugs-plugin.version>4.8.6.2</spotbugs-plugin.version>
-        <plugin.version.maven-gpg-plugin>3.2.4</plugin.version.maven-gpg-plugin>
-        <!-- other plugins -->
-        <jacoco-plugin.version>0.8.12</jacoco-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -275,42 +249,42 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>${plugin.version.maven-clean-plugin}</version>
+                    <version>3.4.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${plugin.version.maven-compiler-plugin}</version>
+                    <version>3.13.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>${plugin.version.maven-assembly-plugin}</version>
+                    <version>3.7.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>${plugin.version.maven-dependency-plugin}</version>
+                    <version>3.7.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
-                    <version>${plugin.version.maven-deploy-plugin}</version>
+                    <version>3.1.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>${plugin.version.maven-failsafe-plugin}</version>
+                    <version>3.3.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
-                    <version>${plugin.version.maven-install-plugin}</version>
+                    <version>3.1.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>${plugin.version.maven-resources-plugin}</version>
+                    <version>3.3.1</version>
                     <executions>
                         <execution>
                             <id>copy-license-file</id>
@@ -336,40 +310,40 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>${plugin.version.maven-site-plugin}</version>
+                    <version>3.12.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${plugin.version.maven-surefire-plugin}</version>
+                    <version>3.3.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-verifier-plugin</artifactId>
-                    <version>${plugin.version.maven-verifier-plugin}</version>
+                    <version>1.1</version>
                 </plugin>
                 <!-- maven packaging plugins -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>${plugin.version.maven-jar-plugin}</version>
+                    <version>3.4.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>${plugin.version.maven-source-plugin}</version>
+                    <version>3.3.1</version>
                 </plugin>
                 <!-- maven reporting plugins -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${plugin.version.maven-javadoc-plugin}</version>
+                    <version>3.8.0</version>
                 </plugin>
                 <!-- maven tools plugins -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>${plugin.version.maven-enforcer-plugin}</version>
+                    <version>3.5.0</version>
                     <executions>
                         <execution>
                             <id>default-cli</id>
@@ -383,8 +357,8 @@
                                         <message>You should really be using Maven 3.8.1</message>
                                     </requireMavenVersion>
                                     <requireJavaVersion>
-                                        <version>[1.7,)</version>
-                                        <message>Java 7 is the minimum supported</message>
+                                        <version>[1.8,)</version>
+                                        <message>Java 8 is the minimum supported</message>
                                     </requireJavaVersion>
                                     <requirePluginVersions>
                                         <message>Always define plugin versions</message>
@@ -406,23 +380,23 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>${plugin.version.maven-gpg-plugin}</version>
+                    <version>3.2.4</version>
                 </plugin>
                 <!-- other plugins -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>${license-plugin.version}</version>
+                    <version>2.4.0</version>
                 </plugin>
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>${spotbugs-plugin.version}</version>
+                    <version>4.8.6.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${jacoco-plugin.version}</version>
+                    <version>0.8.12</version>
                 </plugin>
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
