@@ -64,7 +64,7 @@ jobs:
         overwrite: true
 
     - name: JaCoCo Coverage
-      if: ${{ matrix.jdk == '11' }} && steps.jacoco.outputs.coverage-overall != ''
+      if: ${{ matrix.jdk == '11' && steps.jacoco.outputs.coverage-overall != '' }}
       run: |
         echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
         echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
@@ -128,6 +128,8 @@ jobs:
     # potentially Qodana could be its own workflow (recommended in the docs)
     - name: Qodana Scan
       uses: JetBrains/qodana-action@v2024.1
+      with:
+        args: --baseline,qodana.sarif.json
       env:
         QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
 
