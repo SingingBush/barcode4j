@@ -35,9 +35,9 @@ public class EAN128Bean extends Code128Bean {
     /** Defines the default group separator character */
     public static final char DEFAULT_GROUP_SEPARATOR = '\u001D'; //ASCII: GS
     /** Defines the default character for the check digit marker */
-    public static final char DEFAULT_CHECK_DIGIT_MARKER = '\u00F0';
+    public static final char DEFAULT_CHECK_DIGIT_MARKER = 'ð';
 
-    private EAN128LogicImpl impl;
+    private final EAN128LogicImpl impl;
 
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
     private String template = null;
@@ -114,15 +114,6 @@ public class EAN128Bean extends Code128Bean {
         groupSeparator = c;
         impl.setGroupSeparator(c);
     }
-
-    /*
-    public EAN128LogicImpl getImpl() {
-        return impl;
-    }
-
-    public void setImpl(EAN128LogicImpl impl) {
-        this.impl = impl;
-    }*/
 
     /**
      * @return the message template with the fields for the EAN message

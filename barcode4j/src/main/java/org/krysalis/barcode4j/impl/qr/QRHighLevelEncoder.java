@@ -25,11 +25,10 @@ package org.krysalis.barcode4j.impl.qr;
  */
 public class QRHighLevelEncoder implements QRConstants {
 
-    private final String msg;
     private final int encodingMode;
 
+    // todo: should this constructor handle null msg?
     public QRHighLevelEncoder(String msg) {
-        this.msg = msg;
         this.encodingMode = analyzeMessage(msg);
     }
 

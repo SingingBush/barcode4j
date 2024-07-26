@@ -57,7 +57,7 @@ public class BarcodeElement extends BarcodeObj {
      * @param locator Locator object (ignored by default)
      * @param attlist Collection of attributes passed to us from the parser.
      * @param propertyList the property list of the parent node
-     * @throws FOPException
+     * @throws FOPException if Apache FOP cannot process node
      * @see org.apache.fop.fo.FONode#processNode(String, Locator, Attributes, PropertyList)
      */
     @Override

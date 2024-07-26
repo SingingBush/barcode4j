@@ -44,14 +44,12 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
     private static final int EDIFACT_ENCODATION = 4;
     private static final int BASE256_ENCODATION = 5;
 
-    private static final String[] ENCODATION_NAMES
-        = new String[] {"ASCII", "C40", "Text", "ANSI X12", "EDIFACT", "Base 256"};
+    //private static final String[] ENCODATION_NAMES = new String[] {"ASCII", "C40", "Text", "ANSI X12", "EDIFACT", "Base 256"};
 
     private static final String DEFAULT_ASCII_ENCODING = "ISO-8859-1";
 
     /**
-     * Converts the message to a byte array using the default encoding (cp437) as defined by the
-     * specification
+     * Converts the message to a byte array using the default encoding (cp437) as defined by the specification
      * @param msg the message
      * @return the byte array of the message
      */
@@ -150,11 +148,11 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 //                if (DEBUG) {
 //                    System.out.println("Unlatch because symbol isn't filled up");
 //                }
-                context.writeCodeword('\u00fe'); //Unlatch (254)
+                context.writeCodeword('þ'); //Unlatch (254)
             }
         }
         //Padding
-        StringBuffer codewords = context.codewords;
+        final StringBuffer codewords = context.codewords;
         if (codewords.length() < capacity) {
             codewords.append(DataMatrixConstants.PAD);
         }
@@ -175,11 +173,11 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
 
     private static class EncoderContext {
 
-        private String msg;
+        private final String msg;
         private SymbolShapeHint shape = SymbolShapeHint.FORCE_NONE;
         private Dimension minSize;
         private Dimension maxSize;
-        private StringBuffer codewords;
+        private final StringBuffer codewords;
         private int pos = 0;
         private int newEncoding = -1;
         private DataMatrixSymbolInfo symbolInfo;
@@ -380,7 +378,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                     //Avoid having a single C40 value in the last triplet
                     StringBuffer removed = new StringBuffer();
                     if ((buffer.length() % 3) == 2) {
-                        if (available < 2 || available > 2) {
+                        if (available != 2) {
                             lastCharSize = backtrackOneCharacter(context, buffer, removed, lastCharSize);
                         }
                     }
@@ -487,7 +485,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 sb.append('\1'); //Shift 2 Set
                 sb.append((char)(c - 91 + 22));
                 return 2;
-            } else if (c >= '\u0060' && c <= '\u007f') {
+            } else if (c >= '`' && c <= '\u007f') {
                 sb.append('\2'); //Shift 3 Set
                 sb.append((char)(c - 96));
                 return 2;
@@ -545,7 +543,7 @@ public class DataMatrixHighLevelEncoder implements DataMatrixConstants {
                 sb.append('\1'); //Shift 2 Set
                 sb.append((char)(c - 91 + 22));
                 return 2;
-            } else if (c == '\u0060') {
+            } else if (c == '`') {
                 sb.append('\2'); //Shift 3 Set
                 sb.append((char)(c - 96));
                 return 2;

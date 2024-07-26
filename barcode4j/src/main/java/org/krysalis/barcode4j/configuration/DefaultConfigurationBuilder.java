@@ -69,7 +69,7 @@ public class DefaultConfigurationBuilder {
     public Configuration buildFromFile(final File file) throws SAXException, IOException, ConfigurationException {
         synchronized (this) {
             m_handler.clear();
-            m_parser.parse(file.toURL().toString());
+            m_parser.parse(file.toURI().toURL().toString());
             return m_handler.getConfiguration();
         }
     }

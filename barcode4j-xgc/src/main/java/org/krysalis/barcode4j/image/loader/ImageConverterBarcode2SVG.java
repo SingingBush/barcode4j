@@ -59,7 +59,7 @@ public class ImageConverterBarcode2SVG extends AbstractImageConverter {
         checkSourceFlavor(src);
         ImageBarcode barcodeImage = (ImageBarcode)src;
 
-        Configuration cfg = barcodeImage.getBarcodeXML();
+        final Configuration cfg = barcodeImage.getBarcodeXML();
         int orientation = BarcodeDimension.normalizeOrientation(
                 cfg.getAttributeAsInteger("orientation", 0));
 
@@ -72,11 +72,10 @@ public class ImageConverterBarcode2SVG extends AbstractImageConverter {
                         createBarcodeGenerator(cfg);
 
             //TODO Optionally use Batik's SVG DOM?
-            SVGCanvasProvider canvas = new SVGCanvasProvider(true, orientation);
+            final SVGCanvasProvider canvas = new SVGCanvasProvider(true, orientation);
             bargen.generateBarcode(canvas, expandedMsg);
 
-            ImageXMLDOM svgImage = new ImageXMLDOM(src.getInfo(), canvas.getDOM(), SVG_DOM);
-            return svgImage;
+            return new ImageXMLDOM(src.getInfo(), canvas.getDOM(), SVG_DOM);
         } catch (ConfigurationException ce) {
             throw new ImageException("Error in Barcode XML", ce);
         } catch (BarcodeException be) {

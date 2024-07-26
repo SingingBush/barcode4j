@@ -58,12 +58,12 @@ public class EAN128 extends Code128 implements Configurable {
             cfg.getChild("checksum").getValue(ChecksumMode.CP_AUTO.getName())));
         //Checkdigit place holder
         getEAN128Bean().setCheckDigitMarker(getFirstChar(
-                cfg.getChild("check-digit-marker").getValue("\u00f0")));
+                cfg.getChild("check-digit-marker").getValue("ð")));
         //Template
         getEAN128Bean().setTemplate(cfg.getChild("template").getValue(""));
         //group seperator aka FNC_1
         getEAN128Bean().setGroupSeparator(getFirstChar(
-                cfg.getChild("group-separator").getValue("\u00f1")));
+                cfg.getChild("group-separator").getValue("ñ")));
 
         final Configuration hr = cfg.getChild("human-readable", false);
         if (hr != null) {
@@ -73,7 +73,7 @@ public class EAN128 extends Code128 implements Configurable {
     }
 
     private char getFirstChar(String s) {
-        if (s != null && s.length() > 0) {
+        if (s != null && !s.isEmpty()) {
             return s.charAt(0);
         } else {
             throw new IllegalArgumentException("Value must have at least one character");

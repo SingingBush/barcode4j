@@ -107,6 +107,7 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
     }
 
     /**
+     * {@inheritDoc}
      * @see org.krysalis.barcode4j.BarcodeClassResolver#resolve(String)
      */
     @Override
@@ -122,6 +123,7 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
     }
 
     /**
+     * {@inheritDoc}
      * @see org.krysalis.barcode4j.BarcodeClassResolver#resolveBean(String)
      */
     @Override
@@ -137,6 +139,7 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
     }
 
     /**
+     * {@inheritDoc}
      * @see org.krysalis.barcode4j.BarcodeClassResolver#getBarcodeNames()
      */
     @Override
