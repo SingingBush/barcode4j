@@ -22,7 +22,7 @@ import java.nio.file.Files;
 
 import org.krysalis.barcode4j.impl.code39.Code39Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
-import org.krysalis.barcode4j.tools.UnitConv;
+import org.krysalis.barcode4j.tools.MimeTypes;
 
 /**
  * This example demonstrates creating a bitmap barcode using the bean API.
@@ -32,23 +32,28 @@ import org.krysalis.barcode4j.tools.UnitConv;
  */
 public class SampleBitmapBarcodeWithBean {
 
+    private static final int DPI = 300; // for print, 300 dpi is pretty good
+    private static final int ORIENTATION = 0;
+
     public static void main(String[] args) {
+        final Code39Bean bean = new Code39Bean();
+
+        // Configure the barcode generator:
+        bean.setHeight(15.0);
+        //bean.setBarHeight(10.0);
+        //bean.setModuleWidth(UnitConv.in2mm(1.0f / DPI));
+        bean.setWideFactor(3.0);
+        bean.doQuietZone(true);
+
         try {
-            //Create the barcode bean
-            final Code39Bean bean = new Code39Bean();
+            try (final OutputStream out = Files.newOutputStream(new File("out.jpg").toPath())) {
+                // Set up the canvas provider for monochrome JPEG output
+                final BitmapCanvasProvider canvas = new BitmapCanvasProvider(
+                    out, MimeTypes.MIME_JPEG, DPI, BufferedImage.TYPE_BYTE_BINARY, false, ORIENTATION);
 
-            final int dpi = 150;
-
-            //Configure the barcode generator
-            bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi)); //makes the narrow bar
-                                                             //width exactly one pixel
-            bean.setWideFactor(3);
-            bean.doQuietZone(false);
-
-            try(final OutputStream out = Files.newOutputStream(new File("out.jpg").toPath())) {
-                //Set up the canvas provider for monochrome JPEG output
-                BitmapCanvasProvider canvas = new BitmapCanvasProvider(
-                        out, "image/jpeg", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+                // Set up the canvas provider for colour JPEG output
+                //final BitmapCanvasProvider canvas = new BitmapCanvasProvider(
+                //    out, MimeTypes.MIME_JPEG, DPI, BufferedImage.TYPE_INT_RGB, false, ORIENTATION);
 
                 //Generate the barcode
                 bean.generateBarcode(canvas, "123456");
@@ -57,7 +62,7 @@ public class SampleBitmapBarcodeWithBean {
                 canvas.finish();
             }
         } catch (final IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage()); // e.printStackTrace();
         }
     }
 }
