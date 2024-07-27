@@ -15,6 +15,8 @@
  */
 package org.krysalis.barcode4j.output.bitmap;
 
+import org.jetbrains.annotations.NotNull;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -150,15 +152,9 @@ public class BitmapEncoderRegistry {
      * @param mimeType MIME type to check
      * @return true if the MIME type is supported
      */
-    public static boolean supports(final BitmapEncoder encoder, final String mimeType) {
-        final String[] mimes = encoder.getSupportedMIMETypes();
-
-        for (final String s : mimes) {
-            if (s.equals(mimeType)) {
-                return true;
-            }
-        }
-        return false;
+    public static boolean supports(@NotNull final BitmapEncoder encoder, final String mimeType) {
+        return Arrays.asList(encoder.getSupportedMIMETypes())
+            .contains(mimeType);
     }
 
     /**
@@ -168,12 +164,9 @@ public class BitmapEncoderRegistry {
      * @return true if the MIME type is supported
      */
     public static boolean supports(String mimeType) {
-        for (Entry encoder : encoders) {
-            if (supports(encoder.encoder, mimeType)) {
-                return true;
-            }
-        }
-        return false;
+        return encoders.stream()
+            .map((entry) -> entry.encoder)
+            .anyMatch((encoder) -> supports(encoder, mimeType));
     }
 
     /**
@@ -183,13 +176,11 @@ public class BitmapEncoderRegistry {
      *      if no suitable BitmapEncoder is available)
      */
     public static BitmapEncoder getInstance(String mimeType) {
-        for (Entry entry : encoders) {
-            BitmapEncoder encoder = entry.encoder;
-            if (supports(encoder, mimeType)) {
-                return encoder;
-            }
-        }
-        throw new UnsupportedOperationException("No BitmapEncoder available for " + mimeType);
+        return encoders.stream()
+            .map((entry) -> entry.encoder)
+            .filter((encoder) -> supports(encoder, mimeType))
+            .findFirst()
+            .orElseThrow(() -> new UnsupportedOperationException("No BitmapEncoder available for " + mimeType));
     }
 
     /**
@@ -198,8 +189,8 @@ public class BitmapEncoderRegistry {
      * @return a Set of Strings (MIME types)
      */
     public static Set<String> getSupportedMIMETypes() {
-        Set<String> mimes = new HashSet<>();
-        for (Entry entry : encoders) {
+        final Set<String> mimes = new HashSet<>();
+        for (final Entry entry : encoders) {
             Collections.addAll(mimes, entry.encoder.getSupportedMIMETypes());
         }
         return mimes;
