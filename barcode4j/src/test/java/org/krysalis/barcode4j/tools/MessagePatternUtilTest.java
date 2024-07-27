@@ -17,10 +17,13 @@
 /* $Id: MessagePatternUtilTest.java,v 1.3 2008-11-29 16:27:25 jmaerki Exp $ */
 package org.krysalis.barcode4j.tools;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Tests the class MessagePatternUtil.
@@ -30,73 +33,53 @@ public class MessagePatternUtilTest {
 
     /**
      * Tests the message pattern feature.
-     * @throws Exception If an error occurs
      */
-    @Test
-    void testMessagePattern() throws Exception {
-        String msg, pattern;
-        String result;
-
-        pattern = "__:____/__/__";
-
-        msg = "0120070119";
-        result = MessagePatternUtil.applyCustomMessagePattern(msg, pattern);
-        assertEquals("01:2007/01/19", result);
-
-        //Test case where the message pattern will be exhausted
-        msg = "0120070119abc";
-        result = MessagePatternUtil.applyCustomMessagePattern(msg, pattern);
-        assertEquals("01:2007/01/19abc", result);
-
-        //Test with no pattern, message should not be changed
-        msg = "123";
-        result = MessagePatternUtil.applyCustomMessagePattern(msg, null);
-        assertEquals("123", result);
-
-        //Test with no pattern, message should not be changed
-        msg = "123";
-        result = MessagePatternUtil.applyCustomMessagePattern(msg, "");
-        assertEquals("123", result);
-
-        //Test with no message, message should not be changed
-        result = MessagePatternUtil.applyCustomMessagePattern(null, pattern);
-        assertNull(result);
-
-        //Test with no message, message should not be changed
-        result = MessagePatternUtil.applyCustomMessagePattern("", pattern);
-        assertEquals("", result);
-
-        pattern = "_\\__"; //with escape
-        result = MessagePatternUtil.applyCustomMessagePattern("AB", pattern);
-        assertEquals("A_B", result);
-
-        pattern = "____>>>>"; //additional chars at the end
-        result = MessagePatternUtil.applyCustomMessagePattern("ABCD", pattern);
-        assertEquals("ABCD>>>>", result);
-
-        pattern = "____>>>>"; //underfull message
-        result = MessagePatternUtil.applyCustomMessagePattern("AB", pattern);
-        assertEquals("AB>>>>", result);
-
-        pattern = "____>>>>\\_"; //underfull message with escape
-        result = MessagePatternUtil.applyCustomMessagePattern("AB", pattern);
-        assertEquals("AB>>>>_", result);
+    @ParameterizedTest
+    @MethodSource("messagePatternArgs")
+    void testMessagePattern(final String msg, final String pattern, final String expected) {
+        final String result = MessagePatternUtil.applyCustomMessagePattern(msg, pattern);
+        assertEquals(expected, result);
     }
 
-    /**
-     * Tests the deletion placeholder (#).
-     * @throws Exception if an error occurs
-     */
-    @Test
-    void testDeletion() throws Exception {
-        String msg;
-        String result;
+    public static Stream<Arguments> messagePatternArgs() {
+        return Stream.of(
+            Arguments.of("148.99", "$_", "$148.99"),
 
-        String pattern = "____#/__#/__";
+            // todo: consider supporting unicode. See: https://stackoverflow.com/questions/65897123/trouble-parsing-%e2%82%ac-with-barcode4j-messagepatternutil
+            //Arguments.of("148.99", "£_", "£148.99"),
+            //Arguments.of("148.99", "€_", "€148.99"),
 
-        msg = "2008-11-28";
-        result = MessagePatternUtil.applyCustomMessagePattern(msg, pattern);
-        assertEquals("2008/11/28", result);
+            Arguments.of("1234567890", "____ ____ __", "1234 5678 90"),
+            Arguments.of("444408246137", "(+__)___ _______", "(+44)440 8246137"),
+            Arguments.of("01012001103854", "__/__/____ __:__:__ UTC", "01/01/2001 10:38:54 UTC"),
+            // Test with pattern ____\\___\____
+            Arguments.of("1234567890", "____\\\\___\\____", "1234\\567_890"),
+            // Test with deletion of hyphens and addition of forward slash
+            Arguments.of("2008-11-28", "____#/__#/__", "2008/11/28"),
+
+            Arguments.of("0120070119", "__:____/__/__", "01:2007/01/19"),
+            // Test case where the message pattern will be exhausted:
+            Arguments.of("0120070119abc", "__:____/__/__", "01:2007/01/19abc"),
+            // Test with null pattern, message should not be changed:
+            Arguments.of("123", null, "123"),
+            // Test with empty pattern, message should not be changed
+            Arguments.of("123", "", "123"),
+            // Test with null message, message should not be changed
+            Arguments.of(null, "__:____/__/__", null),
+            // Test with null message & null pattern
+            Arguments.of(null, null, null),
+            // Test with empty message, message should not be changed
+            Arguments.of("", "__:____/__/__", ""),
+            // Test with escape
+            Arguments.of("AB", "_\\__", "A_B"),
+            // Test with additional chars at the end
+            Arguments.of("ABCD", "____>>>>", "ABCD>>>>"),
+            // Test with under-full message
+            Arguments.of("AB", "____>>>>", "AB>>>>"),
+            // Test with under-full message with escape
+            Arguments.of("AB", "____>>>>\\_", "AB>>>>_"),
+            // Tests the deletion placeholder (#)
+            Arguments.of("2008-11-28", "____#/__#/__", "2008/11/28")
+        );
     }
-
 }

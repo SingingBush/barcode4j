@@ -35,10 +35,12 @@ public class MessagePatternUtil {
      * <p>
      * Example: "\_patterned\_:__/__/____" (Any '_' is placeholder for the next message symbol,
      * all other pattern symbols will be inserted between. The '\' is escape char. If the patterned
-     * message is too long you can increase the quite zone length to make it visible)
+     * message is too long you can increase the quite-zone length to make it visible).
+     * Custom messages apply to Interleaves 2 of 5, Code 39, Code 128 and Codabar barcodes.
+     *
      * @param msg the original message
-     * @param pattern the message pattern to be applied
-     * @return the formatted message
+     * @param pattern the message pattern to be applied or null
+     * @return the formatted message or null if message was null
      * @author Dimitar Vlasev
      */
     @Nullable
