@@ -1,5 +1,6 @@
 package org.krysalis.barcode4j.output.bitmap;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -113,6 +114,6 @@ public class BitmapEncoderRegistryTest {
         }
 
         @Override
-        public void encode(BufferedImage image, OutputStream out, String mime, int resolution) throws IOException {}
+        public void encode(@NotNull BufferedImage image, @NotNull OutputStream out, @NotNull String mime, int resolution) throws IOException {}
     }
 }

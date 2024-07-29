@@ -15,6 +15,8 @@
  */
 package org.krysalis.barcode4j.output.bitmap;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -31,6 +33,7 @@ public interface BitmapEncoder {
      * Returns an array of MIME types supported.
      * @return the array of MIME types
      */
+    @NotNull
     String[] getSupportedMIMETypes();
 
     /**
@@ -42,6 +45,6 @@ public interface BitmapEncoder {
      * @param resolution the resolution in dpi of the image
      * @throws IOException in case of an I/O problem
      */
-    void encode(BufferedImage image, OutputStream out, String mime, int resolution) throws IOException;
+    void encode(@NotNull BufferedImage image, @NotNull OutputStream out, @NotNull String mime, int resolution) throws IOException;
 
 }

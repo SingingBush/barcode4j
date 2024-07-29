@@ -47,7 +47,7 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
      * @param mime MIME type of the desired output format (ex. "image/png")
      * @param resolution the desired image resolution (dots per inch)
      * @param imageType the desired image type (Values: BufferedImage.TYPE_*)
-     * @param antiAlias true if anti-aliasing should be enabled
+     * @param antiAlias true if antialiasing should be enabled
      * @param orientation Orientation must be 0, 90, 180, 270, -90, -180 or -270
      * @see BarcodeDimension#normalizeOrientation(int)
      */
@@ -64,7 +64,7 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
      * Creates a new BitmapCanvasProvider.
      * @param resolution the desired image resolution (dots per inch)
      * @param imageType the desired image type (Values: BufferedImage.TYPE_*)
-     * @param antiAlias true if anti-aliasing should be enabled
+     * @param antiAlias true if antialiasing should be enabled
      * @param orientation Orientation must be 0, 90, 180, 270, -90, -180 or -270
      * @see BarcodeDimension#normalizeOrientation(int)
      */

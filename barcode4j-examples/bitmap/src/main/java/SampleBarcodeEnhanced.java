@@ -24,15 +24,16 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 
 import org.krysalis.barcode4j.impl.datamatrix.DataMatrixBean;
 import org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.output.bitmap.BitmapEncoder;
 import org.krysalis.barcode4j.output.bitmap.BitmapEncoderRegistry;
+import org.krysalis.barcode4j.tools.MimeTypes;
 import org.krysalis.barcode4j.tools.UnitConv;
 
 /**
@@ -111,13 +112,9 @@ public class SampleBarcodeEnhanced {
         g2d.dispose();
 
         //Encode bitmap as file
-        String mime = "image/png";
-        OutputStream out = new FileOutputStream(outputFile);
-        try {
-            final BitmapEncoder encoder = BitmapEncoderRegistry.getInstance(mime);
-            encoder.encode(bitmap, out, mime, dpi);
-        } finally {
-            out.close();
+        try(final OutputStream out = Files.newOutputStream(outputFile.toPath())) {
+            final BitmapEncoder encoder = BitmapEncoderRegistry.getInstance(MimeTypes.MIME_PNG);
+            encoder.encode(bitmap, out, MimeTypes.MIME_PNG, dpi);
         }
     }
 

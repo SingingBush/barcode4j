@@ -28,6 +28,8 @@ import javax.imageio.ImageWriter;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageOutputStream;
+
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.tools.MimeTypes;
 import org.krysalis.barcode4j.tools.UnitConv;
 
@@ -48,7 +50,7 @@ public class ImageIOBitmapEncoder implements BitmapEncoder {
 
     /** {@inheritDoc} */
     @Override
-    public void encode(BufferedImage image, OutputStream out, String mime, int resolution) throws IOException {
+    public void encode(@NotNull BufferedImage image, @NotNull OutputStream out, @NotNull String mime, int resolution) throws IOException {
         //Simply get first offered writer
         final ImageWriter writer = ImageIO.getImageWritersByMIMEType(mime).next();
 
