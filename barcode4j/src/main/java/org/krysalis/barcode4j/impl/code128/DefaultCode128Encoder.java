@@ -15,6 +15,8 @@
  */
 package org.krysalis.barcode4j.impl.code128;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Default encoder algorithm for Code128 barcode messages.
  *
@@ -34,7 +36,7 @@ public class DefaultCode128Encoder implements Code128Encoder, Code128Constants {
     private static final int FNC_4 = 0xF4;
     private static final int SHIFT = 98;
 
-    private int codesets;
+    private final int codesets;
 
     /**
      * Create a new encoder
@@ -116,13 +118,12 @@ public class DefaultCode128Encoder implements Code128Encoder, Code128Constants {
     }
 
     /**
-     * Encodes message using code set A, B and C. Tries to use as few characters
-     * as possible.
+     * Encodes message using code set A, B and C. Tries to use as few characters as possible.
      * @param message to encoded
-     * @return array of code set caracters
+     * @return array of code set characters
      * @see org.krysalis.barcode4j.impl.code128.Code128Encoder#encode(java.lang.String)
      */
-    public int[] encode(String message) {
+    public int[] encode(@NotNull String message) {
 
         // Allocate enough space
         int[] encoded = new int[message.length() * 2];
@@ -159,8 +160,7 @@ public class DefaultCode128Encoder implements Code128Encoder, Code128Constants {
 
                     saveChar++;
                     countC += 2;
-                } else if (character == Code128LogicImpl.FNC_1
-                        && (messagePos == 0 || countC > 0)) {
+                } else if (character == Code128LogicImpl.FNC_1 && (messagePos == 0 || countC > 0)) {
                     // only include FNC_1 if it is the first character or if it is
                     // preceeded by other codeset C characters
                     countC += 1;
@@ -184,15 +184,13 @@ public class DefaultCode128Encoder implements Code128Encoder, Code128Constants {
                 }
 
                 // write A or B section preceeding this C section
-                encodedPos += encodeAordB(message, startAorBPos, messagePos,
-                        encoded, encodedPos);
+                encodedPos += encodeAordB(message, startAorBPos, messagePos, encoded, encodedPos);
 
                 // set new start to end of C section
                 startAorBPos = messagePos + countC;
 
                 // write codeset C section
-                encodedPos += encodeC(message, messagePos, startAorBPos,
-                        encoded, encodedPos);
+                encodedPos += encodeC(message, messagePos, startAorBPos, encoded, encodedPos);
             }
 
             // skip the current codeset C section and the character following it
@@ -201,8 +199,7 @@ public class DefaultCode128Encoder implements Code128Encoder, Code128Constants {
         }
 
         // write A or B section after the (optional) C section
-        encodedPos += encodeAordB(message, startAorBPos, messageLength,
-                encoded, encodedPos);
+        encodedPos += encodeAordB(message, startAorBPos, messageLength, encoded, encodedPos);
 
         int[] result = new int[encodedPos];
         System.arraycopy(encoded, 0, result, 0, result.length);
@@ -219,8 +216,7 @@ public class DefaultCode128Encoder implements Code128Encoder, Code128Constants {
      * @param startEncodedPos start index in encoded array
      * @return number of integers added to encoding
      */
-    private int encodeC(String message, int start, int finish, int[] encoded,
-            int startEncodedPos) {
+    private int encodeC(String message, int start, int finish, int[] encoded, int startEncodedPos) {
 
         if (start == finish) {
             return 0;
@@ -261,8 +257,7 @@ public class DefaultCode128Encoder implements Code128Encoder, Code128Constants {
      * @param startEncodedPos start index in encoded array
      * @return number of integers added to encoding
      */
-    private int encodeAordB(String message, int start, int finish,
-            int[] encoded, int startEncodedPos) {
+    private int encodeAordB(String message, int start, int finish, int[] encoded, int startEncodedPos) {
 
         if (start == finish) {
             return 0;
@@ -317,8 +312,7 @@ public class DefaultCode128Encoder implements Code128Encoder, Code128Constants {
                 if (needA(character)) {
 
                     // check for switch or shift
-                    if (messagePos + 1 < finish
-                            && needA(message.charAt(messagePos + 1))) {
+                    if (messagePos + 1 < finish && needA(message.charAt(messagePos + 1))) {
                         encoded[encodedPos++] = GOTO_A;
                         inB = false;
                     } else {
@@ -336,8 +330,7 @@ public class DefaultCode128Encoder implements Code128Encoder, Code128Constants {
                 if (needB(character)) {
 
                     // check for switch or shift
-                    if (messagePos + 1 < finish
-                            && needB(message.charAt(messagePos + 1))) {
+                    if (messagePos + 1 < finish && needB(message.charAt(messagePos + 1))) {
                         encoded[encodedPos++] = GOTO_B;
                         inB = true;
                     } else {

@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j.impl.code128;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.BarGroup;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 import org.krysalis.barcode4j.tools.MessageUtil;
@@ -145,7 +146,7 @@ public class Code128LogicImpl {
 
     private static final byte[] STOP = {2, 3, 3, 1, 1, 1, 2}; //106, STOP
 
-    private int codeset;
+    private final int codeset;
 
     /**
      * Default constructor.
@@ -168,8 +169,7 @@ public class Code128LogicImpl {
      * @return true if it is a valid character
      */
     public static boolean isValidChar(char ch) {
-        return (ch >= 0 && ch <= 127)
-            || (ch >= FNC_1 && ch <= FNC_4);
+        return (ch >= 0 && ch <= 127) || (ch >= FNC_1 && ch <= FNC_4);
     }
 
     /**
@@ -178,8 +178,7 @@ public class Code128LogicImpl {
      * @return true if it is found in codeset A
      */
     public static boolean isInCodeSetA(char ch) {
-        return (ch >= 0 && ch <= 95)
-            || (ch >= FNC_1 && ch <= FNC_4);
+        return (ch >= 0 && ch <= 95) || (ch >= FNC_1 && ch <= FNC_4);
     }
 
     /**
@@ -188,8 +187,7 @@ public class Code128LogicImpl {
      * @return true if it is found in codeset B
      */
     public static boolean isInCodeSetB(char ch) {
-        return (ch >= 32 && ch <= 127)
-            || (ch >= FNC_1 && ch <= FNC_4);
+        return (ch >= 32 && ch <= 127) || (ch >= FNC_1 && ch <= FNC_4);
     }
 
     /**
@@ -235,6 +233,7 @@ public class Code128LogicImpl {
      * @param encodedMsg the encoded message
      * @return the String representation
      */
+    @NotNull
     public static String toString(int[] encodedMsg) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < encodedMsg.length; i++) {
@@ -251,7 +250,7 @@ public class Code128LogicImpl {
      * @param logic LogicHandler to send the barcode events to
      * @param index index withing the character set of the character to encode
      */
-    protected void encodeChar(ClassicBarcodeLogicHandler logic, int index) {
+    protected void encodeChar(@NotNull ClassicBarcodeLogicHandler logic, int index) {
         logic.startBarGroup(BarGroup.MSG_CHARACTER, symbolCharToString(index));
         for (byte i = 0; i < 6; i++) {
             final int width = CHARSET[index][i];
@@ -265,7 +264,7 @@ public class Code128LogicImpl {
      * Encodes the special stop character.
      * @param logic LogicHandler to send the barcode events to
      */
-    protected void encodeStop(ClassicBarcodeLogicHandler logic) {
+    protected void encodeStop(@NotNull ClassicBarcodeLogicHandler logic) {
         logic.startBarGroup(BarGroup.STOP_CHARACTER, null);
         for (byte i = 0; i < 7; i++) {
             final int width = STOP[i];
@@ -282,6 +281,7 @@ public class Code128LogicImpl {
      * Override this method to supply your own implementation.
      * @return the requested encoder
      */
+    @NotNull
     protected Code128Encoder getEncoder() {
         return new DefaultCode128Encoder(this.codeset);
     }
@@ -292,7 +292,7 @@ public class Code128LogicImpl {
      * @return the requested array of character set indexes
      * @see #getEncoder()
      */
-    int[] createEncodedMessage(String msg) {
+    int[] createEncodedMessage(@NotNull String msg) {
         return getEncoder().encode(msg);
     }
 
@@ -301,19 +301,25 @@ public class Code128LogicImpl {
      * @param logic the logic handler to receive the generated events
      * @param msg the message to encode
      */
-    public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
+    public void generateBarcodeLogic(@NotNull ClassicBarcodeLogicHandler logic, String msg) {
         logic.startBarcode(msg, MessageUtil.filterNonPrintableCharacters(msg));
 
         int[] encodedMsg = createEncodedMessage(msg);
-        for (int i = 0; i < encodedMsg.length; i++) {
-            encodeChar(logic, encodedMsg[i]);
+
+        if (!(encodedMsg.length > 0)) {
+            // this should never happen unless perhaps an empty string is used for the message
+            throw new RuntimeException("Encoded message was empty");
         }
 
-        //Calculate checksum
+        // Calculate checksum
         int checksum = encodedMsg[0];
-        for (int i = 1; i < encodedMsg.length; i++) {
-            checksum += i * encodedMsg[i];
+        for (int i = 0; i < encodedMsg.length; i++) {
+            encodeChar(logic, encodedMsg[i]);
+            if (i > 0) {
+                checksum += i * encodedMsg[i];
+            }
         }
+
         checksum = checksum % 103;
         encodeChar(logic, checksum);
 

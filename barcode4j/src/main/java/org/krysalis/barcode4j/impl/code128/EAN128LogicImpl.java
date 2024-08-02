@@ -19,6 +19,8 @@ package org.krysalis.barcode4j.impl.code128;
 
 import java.util.StringTokenizer;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 
@@ -44,8 +46,8 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
     private boolean omitBrackets = false;
 
     private String msgCache = null;
-    private StringBuffer code128Msg = new StringBuffer(MAX_LENGTH);
-    private StringBuffer humanReadableMsg = new StringBuffer(MAX_LENGTH);
+    private final StringBuffer code128Msg = new StringBuffer(MAX_LENGTH);
+    private final StringBuffer humanReadableMsg = new StringBuffer(MAX_LENGTH);
     private int[] encodedMsg = new int[]{};
     private IllegalArgumentException exception = null;
 
@@ -63,7 +65,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
         setTemplate(template);
     }
 
-    protected void setMessage(String msg) {
+    protected void setMessage(@Nullable String msg) {
         if (msg == null || !msg.equals(msgCache)) {
             code128Msg.setLength(0);
             humanReadableMsg.setLength(0);
@@ -76,7 +78,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
                 code128Msg.append(Code128LogicImpl.FNC_1);
                 addAIs(msg);
 
-                Code128Encoder encoder = new DefaultCode128Encoder();
+                final Code128Encoder encoder = new DefaultCode128Encoder();
                 encodedMsg = encoder.encode(getCode128Msg());
             }
         } else if (exception != null) {
@@ -108,7 +110,12 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
     public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
         setMessage(msg);
 
-        Code128LogicImpl c128 = new Code128LogicImpl();
+        if (!(encodedMsg.length > 0)) {
+            // this should never happen unless perhaps an empty string is used for the message
+            throw new RuntimeException("Encoded message was empty");
+        }
+
+        final Code128LogicImpl c128 = new Code128LogicImpl();
         logic.startBarcode(msg, getHumanReadableMsg());
         for (int i = 0; i < encodedMsg.length; i++) {
             c128.encodeChar(logic, encodedMsg[i]);
@@ -195,8 +202,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
             newOffset = msg.length();
         }
         if (newOffset < offset + lenID + lenMin) {
-            if (checksumADD && ai.canDoChecksumADD
-                    && newOffset == offset + lenID + lenMin - 1) {
+            if (checksumADD && ai.canDoChecksumADD && newOffset == offset + lenID + lenMin - 1) {
                 doChecksumADD = true;
             } else if ((ai.fixed || lenMin == lenMax) && newOffset < msg.length()) {
                 throw getException("FNC1 not allowed in fixed length field: \""
@@ -235,12 +241,10 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
 //                code128Msg.append(cd1);
 //            } else if (ai.checkDigit[i] == CheckDigit.CDNone || !doChecksumADD) {
             if (doChecksumADD && i == ai.type.length - 1) { //ai.checkDigit[i] != CheckDigit.CDNone) {
-                char c = CheckDigit.calcCheckdigit(msg,
-                        startA[ai.checkDigitStart[i]], start, CheckDigit.CD31);
+                char c = CheckDigit.calcCheckdigit(msg, startA[ai.checkDigitStart[i]], start, CheckDigit.CD31);
                 humanReadableMsg.append(c);
                 code128Msg.append(c);
-                if (newOffset < msg.length()
-                    && isGroupSeparator(msg.charAt(newOffset))) {
+                if (newOffset < msg.length() && isGroupSeparator(msg.charAt(newOffset))) {
                     newOffset++;
                 }
             } else {
@@ -257,8 +261,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
 //                newOffset++;
 //            }
 //        }
-        if (newOffset < msg.length()
-                && isGroupSeparator(msg.charAt(newOffset))) {
+        if (newOffset < msg.length() && isGroupSeparator(msg.charAt(newOffset))) {
             //TODO Needed for 8001?...
             newOffset++;
 //            code128Msg.append(Code128LogicImpl.FNC_1);
@@ -277,7 +280,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
         return (ch == groupSeparator || ch == Code128LogicImpl.FNC_1);
     }
 
-    private void checkType(EAN128AI ai, byte idx, String msg, int start, int end, int cdStart) {
+    private void checkType(@NotNull EAN128AI ai, byte idx, @NotNull String msg, int start, int end, int cdStart) {
         byte type = ai.type[idx];
         if (type == EAN128AI.TYPEError) {
             throw getException("This AI is not allowed by configuration! ("
@@ -307,8 +310,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
                     cd2 = cd1;
                 }
                 if (cd1 != cd2) {
-                    throw getException("Checkdigit is wrong! Correct is " + cd1
-                        + " but I found " + cd2 + "!");
+                    throw getException("Checkdigit is wrong! Correct is " + cd1 + " but I found " + cd2 + "!");
                 }
                 humanReadableMsg.append(cd1);
                 code128Msg.append(cd1);
@@ -336,8 +338,8 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
                 }
             }
         }
-        humanReadableMsg.append(msg.substring(start, end));
-        code128Msg.append(msg.substring(start, end));
+        humanReadableMsg.append(msg, start, end);
+        code128Msg.append(msg, start, end);
     }
 
     private char getIDChar(String msg, int offset) {
@@ -357,7 +359,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
         return getException(text, "");
     }
 
-    private IllegalArgumentException getException(String text, String msgOk) {
+    private IllegalArgumentException getException(String text, @Nullable String msgOk) {
         if (msgOk == null) {
             msgOk = "";
         }
@@ -419,8 +421,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
      * @param string template string
      */
     public void setTemplate(String string) {
-        EAN128AI[] newTemplates = null;
-        if (string == null || string.trim().length() == 0) {
+        if (string == null || string.trim().isEmpty()) {
             return;
         }
         StringTokenizer st = new StringTokenizer(string, "()", false);
@@ -429,7 +430,8 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
             throw new IllegalArgumentException("Cannot parse template: \"" + string);
         }
         count /= 2;
-        newTemplates = new EAN128AI[count];
+
+        final EAN128AI[] newTemplates = new EAN128AI[count];
         for (int i = 0; i < count; i++) {
             newTemplates[i] = EAN128AI.parseSpec(st.nextToken(), st.nextToken());
         }
