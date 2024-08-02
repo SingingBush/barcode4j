@@ -104,7 +104,7 @@ jobs:
         cache: maven
 
     - name: Setup Cache for SonarCloud packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
@@ -113,7 +113,7 @@ jobs:
     ## todo: use same artifacts from the build job
     ## Automatic Analysis is turned off on sonarcloud.io
     - name: Maven JaCoCo report & Sonar
-      run: mvn -B install jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+      run: mvn -B install jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=barcode4j
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -130,6 +130,7 @@ jobs:
       uses: JetBrains/qodana-action@v2024.1
       with:
         args: --baseline,qodana.sarif.json
+        fail-threshold: 100
       env:
         QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
 
