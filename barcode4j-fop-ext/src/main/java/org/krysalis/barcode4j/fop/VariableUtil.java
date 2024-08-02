@@ -24,6 +24,7 @@ import org.apache.fop.area.PageViewport;
  * Helper class to replace certain variables in the barcode message.
  * @author Jeremias Maerki
  */
+// NOSONAR
 public class VariableUtil extends org.krysalis.barcode4j.tools.VariableUtil {
 
     /**

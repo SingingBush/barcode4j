@@ -25,6 +25,8 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  * @author Jeremias Maerki
  * @version $Id: LoggingLogicHandlerProxy.java,v 1.3 2004-10-24 11:45:37 jmaerki Exp $
  */
+// NOSONAR
+@Deprecated // this file simply needs removing from source control at some point. Perhaps useful for development but probably should have never been checked in
 public class LoggingLogicHandlerProxy implements ClassicBarcodeLogicHandler {
 
     private final ClassicBarcodeLogicHandler delegate;
