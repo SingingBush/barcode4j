@@ -539,7 +539,7 @@
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <configuration>
-                    <excludeBugsFile>spotbugs-filter.xml</excludeBugsFile>
+                    <excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>
                     <onlyAnalyze>org.krysalis.barcode4j.*</onlyAnalyze>
                     <xmlOutput>true</xmlOutput>
                     <failOnError>false</failOnError>
@@ -568,6 +568,7 @@
                         <groupId>com.github.spotbugs</groupId>
                         <artifactId>spotbugs-maven-plugin</artifactId>
                         <configuration>
+                            <excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>
                             <onlyAnalyze>org.krysalis.barcode4j.*</onlyAnalyze>
                             <xmlOutput>true</xmlOutput>
                             <plugins>
