@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter
+    xmlns="https://github.com/spotbugs/filter/4.8.4"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://github.com/spotbugs/filter/4.8.4 https://raw.githubusercontent.com/spotbugs/spotbugs/4.8.4/spotbugs/etc/findbugsfilter.xsd">
+
+    <!-- Had to add this exclusion due to Spotbugs having a false positive -->
+    <Match>
+        <Class name="org.krysalis.barcode4j.BarcodeUtil" />
+        <Method name="createBarcodeGenerator" />
+        <Bug pattern="NP_NULL_ON_SOME_PATH_EXCEPTION" />
+    </Match>
+
+    <!-- All bugs in test classes, except for JUnit-specific bugs -->
+    <Match>
+        <Class name="~.*\.*Test" />
+        <Not>
+            <Bug code="IJU" />
+        </Not>
+    </Match>
+</FindBugsFilter>

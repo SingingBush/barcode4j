@@ -79,7 +79,7 @@ public class BarcodeUtil {
             try {
                 cl = classResolver.resolve(type);
             } catch (ClassNotFoundException cnfe) {
-                cl = null;
+                // noop
             }
             Configuration child = null;
             if (cl == null) {
@@ -97,7 +97,7 @@ public class BarcodeUtil {
                         cl = classResolver.resolve(type);
                         break;
                     } catch (ClassNotFoundException cnfe) {
-                        cl = null;
+                        // noop
                     }
                 }
             }
@@ -112,21 +112,15 @@ public class BarcodeUtil {
             try {
                 //org.apache.avalon.framework.container.ContainerUtil.configure(gen, (child != null ? child : cfg));
                 configure(gen, (child != null ? child : cfg));
-            } catch (IllegalArgumentException iae) {
-                throw new ConfigurationException("Cannot configure barcode generator", iae);
+            } catch (IllegalArgumentException e) {
+                throw new ConfigurationException("Cannot configure barcode generator", e);
             }
 
             return gen;
-        } catch (IllegalAccessException ia) {
-            throw new RuntimeException(
-                "Problem while instantiating a barcode generator: " + ia.getMessage(),
-                ia
-            );
-        } catch (InstantiationException ie) {
-            throw new BarcodeException(
-                "Error instantiating a barcode generator: " + cl != null ? cl.getName() : "class not resolved",
-                ie
-            );
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Problem while instantiating a barcode generator: " + e.getMessage(), e);
+        } catch (InstantiationException e) {
+            throw new BarcodeException(String.format("Error instantiating a barcode generator: %s", cl.getName()), e);
         }
     }
 

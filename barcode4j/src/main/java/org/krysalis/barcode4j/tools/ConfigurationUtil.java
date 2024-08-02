@@ -29,6 +29,8 @@ import org.krysalis.barcode4j.configuration.Configuration;
 import org.krysalis.barcode4j.configuration.ConfigurationException;
 import org.krysalis.barcode4j.configuration.DefaultConfiguration;
 
+import java.util.Objects;
+
 /**
  * This utility class provides helper methods for Avalon Configuration objects.
  *
@@ -58,10 +60,9 @@ public class ConfigurationUtil {
         try {
             return document.getDocumentElement(); //Xalan-bug, doesn't work (2.4.1)
         } catch (Exception e) {
-            //Alternative method
-            Node nd = null;
+            // Alternative method
             for (int i = 0; i < document.getChildNodes().getLength(); i++) {
-                nd = document.getChildNodes().item(i);
+                final Node nd = document.getChildNodes().item(i);
                 if (nd.getNodeType() == Node.ELEMENT_NODE) {
                     return (Element)nd;
                 }
@@ -70,11 +71,12 @@ public class ConfigurationUtil {
         }
     }
 
-    private static DefaultConfiguration processNode(Node node) {
+    @Nullable
+    private static DefaultConfiguration processNode(@NotNull Node node) {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             return processElement((Element)node);
         } else if (node.getNodeType() == Node.DOCUMENT_NODE) {
-            return processElement(findDocumentElement((Document)node));
+            return processElement(Objects.requireNonNull(findDocumentElement((Document) node)));
         } else if (node.getNodeType() == Node.DOCUMENT_FRAGMENT_NODE) {
             DocumentFragment df = (DocumentFragment)node;
             return processNode(df.getFirstChild());
@@ -84,29 +86,27 @@ public class ConfigurationUtil {
     }
 
     @NotNull
-    private static DefaultConfiguration processElement(Element el) {
+    private static DefaultConfiguration processElement(@NotNull Element el) {
         String name = el.getLocalName(); // element can be null
         if (name == null) {
             name = el.getTagName();
         }
-        DefaultConfiguration cfg = new DefaultConfiguration(name);
-        NamedNodeMap atts = el.getAttributes();
-        for (int i = 0; i < atts.getLength(); i++) {
-            Attr attr = (Attr)atts.item(i);
+        final DefaultConfiguration cfg = new DefaultConfiguration(name);
+        final NamedNodeMap attrs = el.getAttributes();
+        for (int i = 0; i < attrs.getLength(); i++) {
+            final Attr attr = (Attr)attrs.item(i);
             cfg.setAttribute(attr.getName(), attr.getValue());
         }
         for (int i = 0; i < el.getChildNodes().getLength(); i++) {
-            Node node = el.getChildNodes().item(i);
+            final Node node = el.getChildNodes().item(i);
             if (node.getNodeType() == Node.ATTRIBUTE_NODE) {
-                Attr attr = (Attr)node;
+                final Attr attr = (Attr)node;
                 cfg.setAttribute(attr.getName(), attr.getNodeValue());
             } else if (node.getNodeType() == Node.ELEMENT_NODE) {
-                cfg.addChild(processElement((Element)node));
+                cfg.addChild(Objects.requireNonNull(processElement((Element)node)));
             } else if (node.getNodeType() == Node.TEXT_NODE) {
-                String s = cfg.getValue("") + ((Text)node).getData();
+                final String s = cfg.getValue("") + ((Text)node).getData();
                 cfg.setValue(s.trim());
-            } else {
-                //ignore
             }
         }
         return cfg;
