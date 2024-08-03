@@ -76,11 +76,15 @@ public class BarcodeUtil {
         try {
             //First, check Configuration directly
             String type = cfg.getName();
-            try {
-                cl = classResolver.resolve(type);
-            } catch (ClassNotFoundException cnfe) {
-                // noop
+
+            if (type != null && !type.isEmpty()) {
+                try {
+                    cl = classResolver.resolve(type);
+                } catch (ClassNotFoundException cnfe) {
+                    // noop
+                }
             }
+
             Configuration child = null;
             if (cl == null) {
                 //Second, check children

@@ -26,22 +26,22 @@ import java.awt.geom.Rectangle2D;
  */
 public class BarcodeDimension {
 
-    private double width;
-    private double height;
+    private final double width;
+    private final double height;
 
-    private double widthPlusQuiet;
-    private double heightPlusQuiet;
-    private double xOffset;
-    private double yOffset;
+    private final double widthPlusQuiet;
+    private final double heightPlusQuiet;
+    private final double xOffset;
+    private final double yOffset;
 
     /**
      * Creates a new BarcodeDimension object. No quiet-zone is respected.
-     * @param w width of the barcode in millimeters (mm).
-     * @param h height of the barcode in millimeters (mm).
+     * @param width width of the barcode in millimeters (mm).
+     * @param height height of the barcode in millimeters (mm).
      */
-    public BarcodeDimension(double w, double h) {
-        this.width = w;
-        this.height = h;
+    public BarcodeDimension(double width, double height) {
+        this.width = width;
+        this.height = height;
         this.widthPlusQuiet = this.width;
         this.heightPlusQuiet = this.height;
         this.xOffset = 0.0;
@@ -50,24 +50,24 @@ public class BarcodeDimension {
 
     /**
      * Creates a new BarcodeDimension object.
-     * @param w width of the raw barcode (without quiet-zone) in millimeters (mm).
-     * @param h height of the raw barcode (without quiet-zone) in millimeters (mm).
+     * @param width width of the raw barcode (without quiet-zone) in millimeters (mm).
+     * @param height height of the raw barcode (without quiet-zone) in millimeters (mm).
      * @param wpq width of the barcode (quiet-zone included) in millimeters (mm).
      * @param hpq height of the barcode (quiet-zone included) in millimeters (mm).
-     * @param xoffset x-offset if the upper-left corner of the barcode within
+     * @param xOffset x-offset if the upper-left corner of the barcode within
      * the extended barcode area.
-     * @param yoffset y-offset if the upper-left corner of the barcode within
+     * @param yOffset y-offset if the upper-left corner of the barcode within
      * the extended barcode area.
      */
-    public BarcodeDimension(double w, double h,
+    public BarcodeDimension(double width, double height,
                 double wpq, double hpq,
-                double xoffset, double yoffset) {
-        this.width = w;
-        this.height = h;
+                double xOffset, double yOffset) {
+        this.width = width;
+        this.height = height;
         this.widthPlusQuiet = wpq;
         this.heightPlusQuiet = hpq;
-        this.xOffset = xoffset;
-        this.yOffset = yoffset;
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
     }
 
 
@@ -127,8 +127,7 @@ public class BarcodeDimension {
         case -90:
             return 270;
         default:
-            throw new IllegalArgumentException(
-                    "Orientation must be 0, 90, 180, 270, -90, -180 or -270");
+            throw new IllegalArgumentException("Orientation must be 0, 90, 180, 270, -90, -180 or -270");
         }
     }
 
@@ -178,16 +177,22 @@ public class BarcodeDimension {
 
     /** @return a bounding rectangle (including quiet zone if applicable) */
     public Rectangle2D getBoundingRect() {
-        Rectangle2D.Double r = new Rectangle2D.Double(
-                0, 0, getWidthPlusQuiet(), getHeightPlusQuiet());
-        return r;
+        return new Rectangle2D.Double(
+            0,
+            0,
+            getWidthPlusQuiet(),
+            getHeightPlusQuiet()
+        );
     }
 
     /** @return a content rectangle (excluding quiet zone) */
     public Rectangle2D getContentRect() {
-        Rectangle2D.Double r = new Rectangle2D.Double(
-                getXOffset(), getYOffset(), getWidth(), getHeight());
-        return r;
+        return new Rectangle2D.Double(
+            getXOffset(),
+            getYOffset(),
+            getWidth(),
+            getHeight()
+        );
     }
 
     /**
