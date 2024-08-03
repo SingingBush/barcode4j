@@ -90,8 +90,8 @@ public class BarcodeUtil {
                 }
 
                 //Find barcode config element
-                for (int i = 0; i < children.length; i++) {
-                    child = children[i];
+                for (final Configuration configuration : children) {
+                    child = configuration;
                     type = child.getName();
                     try {
                         cl = classResolver.resolve(type);
@@ -137,7 +137,7 @@ public class BarcodeUtil {
     }
 
     /**
-     * Creates a BarcoderGenerator.
+     * Creates a BarcodeGenerator.
      * @param cfg Configuration object that specifies the barcode to produce.
      * @return the newly instantiated BarcodeGenerator
      * @throws BarcodeException if setting up a BarcodeGenerator fails
@@ -148,7 +148,7 @@ public class BarcodeUtil {
     }
 
     /**
-     * Convenience method to create an SVG barocde as a DOM fragment.
+     * Convenience method to create an SVG barcode as a DOM fragment.
      * @param cfg Configuration object that specifies the barcode to produce.
      * @param msg message to encode.
      * @return the requested barcode as an DOM fragment (SVG format)
