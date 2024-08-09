@@ -14,6 +14,10 @@
             <message>1234567890</message>
         </barcode>
         <barcode>
+            <type>ean-128</type>
+            <message>00353912341234567895</message>
+        </barcode>
+        <barcode>
             <type>pdf417</type>
             <message>Here is some text encoded in a 2D barcode</message>
         </barcode>

@@ -144,8 +144,7 @@ public class EAN128LogicImpl {
                 try {
                     ai = ais[i++];
                 } catch (IndexOutOfBoundsException e) {
-                    throw getException("Message has more AIs than template (template has "
-                            + ais.length + ")");
+                    throw getException("Message has more AIs than template (template has " + ais.length + ")");
                 }
             }
             offset = addAI(msg, offset, ai);

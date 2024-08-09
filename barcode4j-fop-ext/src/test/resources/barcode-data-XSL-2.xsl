@@ -78,6 +78,16 @@
                         </barcode:code128>
                     </xsl:if>
 
+                    <xsl:if test="$t = 'ean-128'">
+                        <barcode:ean-128>
+                            <barcode:height>18mm</barcode:height>
+                            <barcode:human-readable>
+                                <barcode:pattern font-size="20pt">(__) _ _______ _________ _</barcode:pattern>
+                                <barcode:omit-brackets>true</barcode:omit-brackets>
+                            </barcode:human-readable>
+                        </barcode:ean-128>
+                    </xsl:if>
+
                     <xsl:if test="$t = 'pdf417'">
                         <barcode:pdf417>
                             <barcode:module-width>0.705554mm</barcode:module-width> <!-- 2 pixels at 72dpi -->

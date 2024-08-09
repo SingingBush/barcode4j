@@ -82,6 +82,9 @@ public class FopTest {
         assertTrue(xslFo.contains("<barcode:barcode message=\"1234567890\">"));
         assertTrue(xslFo.contains("<barcode:code128>"));
 
+        assertTrue(xslFo.contains("<barcode:barcode message=\"00353912341234567895\">"));
+        assertTrue(xslFo.contains("<barcode:ean-128>"));
+
         assertTrue(xslFo.contains("<barcode:barcode message=\"Here is some text encoded in a 2D barcode\">"));
         assertTrue(xslFo.contains("<barcode:pdf417>"));
 
@@ -119,6 +122,15 @@ public class FopTest {
         assertTrue(xslFo.contains("<barcode:barcode message=\"0012345678905\">"));
         assertTrue(xslFo.contains("<barcode:ean-13>"));
 
+        assertTrue(xslFo.contains("<barcode:barcode message=\"1234567890\">"));
+        assertTrue(xslFo.contains("<barcode:code128>"));
+
+        assertTrue(xslFo.contains("<barcode:barcode message=\"00353912341234567895\">"));
+        assertTrue(xslFo.contains("<barcode:ean-128>"));
+
+        assertTrue(xslFo.contains("<barcode:barcode message=\"Here is some text encoded in a 2D barcode\">"));
+        assertTrue(xslFo.contains("<barcode:pdf417>"));
+
         // now ensure the generated XSL-FO can be used by Apache FOP without error
         generatePdfFileFromXslFo(new ByteArrayInputStream(xslFo.getBytes(StandardCharsets.UTF_8)));
     }
@@ -132,10 +144,25 @@ public class FopTest {
         ean13.setMessage("0012345678905");
         ean13.setType("ean-13");
 
+        final Barcode code128 = new Barcode();
+        code128.setMessage("1234567890");
+        code128.setType("code128");
+
+        final Barcode ean128 = new Barcode();
+        ean128.setMessage("00353912341234567895");
+        ean128.setType("ean-128");
+
+        final Barcode pdf417 = new Barcode();
+        pdf417.setMessage("Here is some text encoded in a 2D barcode");
+        pdf417.setType("pdf417");
+
         final Data data = new Data();
         final List<Barcode> barcodes = new java.util.ArrayList<>();
         barcodes.add(upcA);
         barcodes.add(ean13);
+        barcodes.add(code128);
+        barcodes.add(ean128);
+        barcodes.add(pdf417);
 
         data.setBarcodes(barcodes);
 

@@ -33,7 +33,7 @@ import org.krysalis.barcode4j.output.CanvasProvider;
 public class EAN128Bean extends Code128Bean {
 
     /** Defines the default group separator character */
-    public static final char DEFAULT_GROUP_SEPARATOR = '\u001D'; //ASCII: GS
+    public static final char DEFAULT_GROUP_SEPARATOR = '\u001D'; // ASCII: GS (&#x001D;)
     /** Defines the default character for the check digit marker */
     public static final char DEFAULT_CHECK_DIGIT_MARKER = 'ð';
 
