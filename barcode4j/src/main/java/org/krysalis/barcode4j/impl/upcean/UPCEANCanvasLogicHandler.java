@@ -35,8 +35,8 @@ import org.krysalis.barcode4j.output.Canvas;
  */
 public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
 
-    private UPCEANBean bcBean;
-    private Canvas canvas;
+    private final UPCEANBean bcBean;
+    private final Canvas canvas;
     private double x = 0.0;
     private BarcodeDimension dim;
     private String msg;
@@ -44,7 +44,7 @@ public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
     private double groupx;
     private boolean inMsgGroup;
     private boolean inSupplemental;
-    private Stack groupStack = new Stack();
+    private final Stack<BarGroup> groupStack = new Stack<>();
 
     /**
      * Main constructor.
@@ -159,7 +159,7 @@ public class UPCEANCanvasLogicHandler implements ClassicBarcodeLogicHandler {
 
     /** @see org.krysalis.barcode4j.ClassicBarcodeLogicHandler */
     public void endBarGroup() {
-        BarGroup group = (BarGroup)groupStack.pop();
+        final BarGroup group = groupStack.pop();
 
         if (group == BarGroup.UPC_EAN_GROUP) {
             inMsgGroup = false;

@@ -137,10 +137,10 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
 
     private static final class BarToCharacterMapping {
 
-        private int descChar;
-        private int descBitMap;
-        private int ascChar;
-        private int ascBitMap;
+        private final int descChar;
+        private final int descBitMap;
+        private final int ascChar;
+        private final int ascBitMap;
 
         private BarToCharacterMapping(int index, String line) {
             StringTokenizer tokenizer = new StringTokenizer(line, ";");
@@ -307,7 +307,7 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
     }
 
     static String convertToBars(char[] chars) {
-        StringBuffer bars = new StringBuffer(65);
+        final StringBuilder bars = new StringBuilder(65);
         bars.setLength(65);
         for (int i = 0; i < bars.length(); i++) {
             BarToCharacterMapping mapping = TABLE_BAR_TO_CHARACTER[i];
@@ -342,7 +342,7 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
 
     /** {@inheritDoc} */
     protected String normalizeMessage(String msg) {
-        StringBuffer sb = new StringBuffer(msg.length());
+        final StringBuilder sb = new StringBuilder(msg.length());
         for (int i = 0, c = msg.length(); i < c; i++) {
             char ch = msg.charAt(i);
             if (Character.isDigit(ch)) {

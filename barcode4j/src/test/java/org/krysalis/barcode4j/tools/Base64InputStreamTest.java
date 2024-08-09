@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test case for the Base64 decoder.
@@ -66,41 +66,31 @@ public class Base64InputStreamTest {
         //Incomplete quad at the end, only three characters expected
         assertEquals("sur", decode("c3VyZS4"));
 
-        try {
-            decode("c3%20VyZS4");
-            fail("Expected IOException");
-        } catch (IOException ioe) {
-            //expected
-        }
+        assertThrows(IOException.class,
+            () -> decode("c3%20VyZS4")
+        );
 
-        try {
-            decode("=c3VyZS4=");
-            fail("Expected IOException");
-        } catch (IOException ioe) {
-            //expected
-        }
+        assertThrows(IOException.class,
+            () -> decode("=c3VyZS4=")
+        );
 
-        try {
-            new Base64InputStream(null);
-            fail("Expected NullPointerException");
-        } catch (NullPointerException npe) {
-            //expected
-        }
+        // note that running in IDE will result in IllegalArgumentException while mvn test will be NullPointerException
+        assertThrows(NullPointerException.class,
+            () -> new Base64InputStream(null)
+        );
 
     }
 
     @Test
     void testCloseBehaviour() throws Exception {
-        Base64InputStream in = new Base64InputStream(new StringReader("c3VyZS4="));
+        final Base64InputStream in = new Base64InputStream(new StringReader("c3VyZS4="));
         assertEquals('s', in.read());
         assertEquals('u', in.read());
         in.close();
-        try {
-            in.read();
-            fail("Expected IOException");
-        } catch (IOException ioe) {
-            //expected
-        }
+
+        assertThrows(IOException.class,
+            in::read
+        );
     }
 
     private String decode(String encoded) throws IOException {

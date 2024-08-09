@@ -19,33 +19,33 @@
 package org.krysalis.barcode4j.impl.datamatrix;
 
 /**
- * Symbol Character Placement Program. Adapted from Annex M.1 in ISO/IEC 16022:2000(E). 
- * 
+ * Symbol Character Placement Program. Adapted from Annex M.1 in ISO/IEC 16022:2000(E).
+ *
  * @version $Id: DataMatrixPlacement.java,v 1.2 2006-12-01 13:29:43 jmaerki Exp $
  */
 public abstract class DataMatrixPlacement {
 
-    private String codewords;
-    protected int numrows;
-    protected int numcols;
-    
+    private final String codewords;
+    protected final int numrows;
+    protected final int numcols;
+
     public DataMatrixPlacement(String codewords, int numcols, int numrows) {
         this.codewords = codewords;
         this.numcols = numcols;
         this.numrows = numrows;
     }
-    
+
     protected abstract void setBit(int col, int row, boolean bit);
-    
+
     protected abstract boolean getBit(int col, int row);
-    
+
     protected abstract boolean hasBit(int col, int row);
-    
+
     public void place() {
         int pos = 0;
         int row = 4;
         int col = 0;
-        
+
         do {
             /* repeatedly first check for one of the special corner cases, then... */
             if ((row == numrows) && (col == 0)) {
@@ -70,7 +70,7 @@ public abstract class DataMatrixPlacement {
             } while ((row >= 0 && (col < numcols)));
             row++;
             col += 3;
-            
+
             /* and then sweep downward diagonally, inserting successive characters, ... */
             do {
                 if ((row >= 0) && (col < numcols) && !hasBit(col, row)) {
@@ -80,10 +80,10 @@ public abstract class DataMatrixPlacement {
                 col -= 2;
             } while ((row < numrows) && (col >= 0));
             row += 3; col += 1;
-            
+
             /* ...until the entire array is scanned */
         } while ((row < numrows) || (col < numcols));
-        
+
         /* Lastly, if the lower righthand corner is untouched, fill in fixed pattern */
         if (!hasBit(numcols - 1, numrows - 1)) {
             setBit(numcols - 1, numrows - 1, true);
@@ -105,7 +105,7 @@ public abstract class DataMatrixPlacement {
         v &= 1 << (8 - bit);
         setBit(col, row, v != 0);
     }
-    
+
     /**
      * Places the 8 bits of a utah-shaped symbol character in ECC200.
      * @param row the row
@@ -122,7 +122,7 @@ public abstract class DataMatrixPlacement {
         module(row, col - 1, pos, 7);
         module(row, col, pos, 8);
     }
-    
+
     private void corner1(int pos) {
         module(numrows - 1, 0, pos, 1);
         module(numrows - 1, 1, pos, 2);
@@ -133,7 +133,7 @@ public abstract class DataMatrixPlacement {
         module(2, numcols - 1, pos, 7);
         module(3, numcols - 1, pos, 8);
     }
-    
+
     private void corner2(int pos) {
         module(numrows - 3, 0, pos, 1);
         module(numrows - 2, 0, pos, 2);
@@ -144,7 +144,7 @@ public abstract class DataMatrixPlacement {
         module(0, numcols - 1, pos, 7);
         module(1, numcols - 1, pos, 8);
     }
-    
+
     private void corner3(int pos) {
         module(numrows - 3, 0, pos, 1);
         module(numrows - 2, 0, pos, 2);
@@ -155,7 +155,7 @@ public abstract class DataMatrixPlacement {
         module(2, numcols - 1, pos, 7);
         module(3, numcols - 1, pos, 8);
     }
-    
+
     private void corner4(int pos) {
         module(numrows - 1, 0, pos, 1);
         module(numrows - 1, numcols - 1, pos, 2);
@@ -166,5 +166,5 @@ public abstract class DataMatrixPlacement {
         module(1, numcols - 2, pos, 7);
         module(1, numcols - 1, pos, 8);
     }
-    
+
 }

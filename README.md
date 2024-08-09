@@ -29,7 +29,7 @@ This fork has the following goals:
  - [x] Remove dependency on Avalon-Framework (**in version 2.3.0 and above**, Avalon was retired years ago. See: #15)
  - [x] Improve Test Coverage (this is ongoing but better than it was)
  - [x] Publish JaCoCo report results
- - [x] Add static analysis ([SonarCloud](https://sonarcloud.io/summary/overall?id=barcode4j), CodeQL, and Qodana)
+ - [x] Add static analysis ([SonarCloud](https://sonarcloud.io/summary/overall?id=barcode4j), CodeQL, and [Qodana](https://qodana.cloud/projects/ALj9x))
  - [ ] Pulling in various svn patches and git merge requests
  - [ ] Either remove or update the Saxon code to support the latest Saxon EE version**
 

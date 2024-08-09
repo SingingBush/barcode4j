@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.TextAlignment;
 import org.krysalis.barcode4j.output.AbstractCanvasProvider;
@@ -33,11 +34,11 @@ import org.krysalis.barcode4j.output.java2d.Java2DCanvasProvider;
  */
 public class BitmapCanvasProvider extends AbstractCanvasProvider {
 
-    private OutputStream out;
-    private String mime;
-    private int resolution;
-    private int imageType;
-    private boolean antiAlias;
+    private final OutputStream out;
+    private final String mime;
+    private final int resolution;
+    private final int imageType;
+    private final boolean antiAlias;
     private BufferedImage image;
     private Java2DCanvasProvider delegate;
 
@@ -51,10 +52,10 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
      * @param orientation Orientation must be 0, 90, 180, 270, -90, -180 or -270
      * @see BarcodeDimension#normalizeOrientation(int)
      */
-    public BitmapCanvasProvider(OutputStream out, String mime, int resolution, int imageType, boolean antiAlias, int orientation) {
+    public BitmapCanvasProvider(@Nullable OutputStream out, @Nullable String mime, int resolution, int imageType, boolean antiAlias, int orientation) {
         super(orientation);
         this.out = out;
-        this.mime = mime;
+        this.mime = mime; // this needs a sensible default
         this.resolution = resolution;
         this.imageType = imageType;
         this.antiAlias = antiAlias;

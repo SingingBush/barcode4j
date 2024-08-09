@@ -18,10 +18,14 @@
 
 package org.krysalis.barcode4j.tools;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Base64-implementation as an {@code InputStream} reading Base64-encoded data
@@ -53,9 +57,9 @@ public class Base64InputStream extends InputStream {
 
     private Reader source;
 
-    private char[] quadBuffer = new char[4];
+    private final char[] quadBuffer = new char[4];
 
-    private byte[] triple = new byte[3];
+    private final byte[] triple = new byte[3];
     private int tripleIndex = 4;
     private int tripleFilled;
 
@@ -63,11 +67,8 @@ public class Base64InputStream extends InputStream {
      * Constructs a new instance.
      * @param source the Reader to read the Base64-encoded data from
      */
-    public Base64InputStream(Reader source) {
-        if (source == null) {
-            throw new NullPointerException("source must not be null");
-        }
-        this.source = source;
+    public Base64InputStream(final @NotNull Reader source) {
+        this.source = Objects.requireNonNull(source);
     }
 
     /** {@inheritDoc} */

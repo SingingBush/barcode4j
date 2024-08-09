@@ -30,7 +30,7 @@ public abstract class AbstractCanvasProvider implements CanvasProvider {
     protected BarcodeDimension bardim;
 
     /** the barcode orientation (0, 90, 180, 270) */
-    private int orientation;
+    private final int orientation;
 
     /**
      * Main constructor.

@@ -55,19 +55,20 @@ public class ImageConverterBarcode2G2D extends AbstractImageConverter {
         checkSourceFlavor(src);
         ImageBarcode barcodeImage = (ImageBarcode)src;
 
-        Configuration cfg = barcodeImage.getBarcodeXML();
+        final Configuration cfg = barcodeImage.getBarcodeXML();
+
         int orientation = BarcodeDimension.normalizeOrientation(
-                cfg.getAttributeAsInteger("orientation", 0));
+            cfg.getAttributeAsInteger("orientation", 0)
+        );
 
         try {
             final String msg = barcodeImage.getMessage();
             final PageInfo pageInfo = PageInfo.fromProcessingHints(hints);
             final String expandedMsg = VariableUtil.getExpandedMessage(pageInfo, msg);
 
-            final BarcodeGenerator bargen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
+            final BarcodeGenerator barGen = BarcodeUtil.getInstance().createBarcodeGenerator(cfg);
 
-            final Graphics2DImagePainter painter = new Graphics2DImagePainterBarcode(
-                    barcodeImage, bargen, expandedMsg, orientation);
+            final Graphics2DImagePainter painter = new Graphics2DImagePainterBarcode(barcodeImage, barGen, expandedMsg, orientation);
 
             return new ImageGraphics2D(src.getInfo(), painter);
         } catch (ConfigurationException ce) {
@@ -91,15 +92,17 @@ public class ImageConverterBarcode2G2D extends AbstractImageConverter {
 
     private static class Graphics2DImagePainterBarcode implements Graphics2DImagePainter {
 
-        private ImageBarcode barcodeImage;
-        private BarcodeGenerator bargen;
-        private int orientation;
-        private String msg;
+        private final ImageBarcode barcodeImage;
+        private final BarcodeGenerator barGen;
+        private final int orientation;
+        private final String msg;
 
-        public Graphics2DImagePainterBarcode(ImageBarcode barcodeImage, BarcodeGenerator bargen,
-                String msg, int orientation) {
+        public Graphics2DImagePainterBarcode(final @NotNull ImageBarcode barcodeImage,
+                                             final @NotNull BarcodeGenerator barGen,
+                                             final String msg,
+                                             final int orientation) {
             this.barcodeImage = barcodeImage;
-            this.bargen = bargen;
+            this.barGen = barGen;
             this.msg = msg;
             this.orientation = orientation;
         }
@@ -114,17 +117,17 @@ public class ImageConverterBarcode2G2D extends AbstractImageConverter {
             double w = area.getWidth();
             double h = area.getHeight();
 
-            //Fit in paint area and
-            //set up for the CanvasProvider's internal coordinate system (mm-based)
+            // Fit in paint area and
+            // set up for the CanvasProvider's internal coordinate system (mm-based)
             g2d.translate(area.getX(), area.getY());
-            BarcodeDimension bardim = barcodeImage.getBarcodeDimension();
-            double bsx = w / bardim.getWidthPlusQuiet(orientation);
-            double bsy = h / bardim.getHeightPlusQuiet(orientation);
+            final BarcodeDimension barDim = barcodeImage.getBarcodeDimension();
+            double bsx = w / barDim.getWidthPlusQuiet(orientation);
+            double bsy = h / barDim.getHeightPlusQuiet(orientation);
             g2d.scale(bsx, bsy);
 
             g2d.setColor(Color.BLACK);
             Java2DCanvasProvider canvas = new Java2DCanvasProvider(g2d, orientation);
-            bargen.generateBarcode(canvas, msg);
+            barGen.generateBarcode(canvas, msg);
         }
     }
 

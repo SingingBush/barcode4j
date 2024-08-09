@@ -34,7 +34,7 @@ public enum TextAlignment {
 
     private final String name;
 
-    TextAlignment(String name) {;
+    TextAlignment(String name) {
         this.name = name;
     }
 
