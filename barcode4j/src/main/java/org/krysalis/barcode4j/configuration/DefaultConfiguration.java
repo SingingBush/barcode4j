@@ -21,7 +21,7 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
     private boolean m_readOnly;
 
     public DefaultConfiguration(@NotNull String name) {
-        this(name, (String) null, "", "");
+        this(name, null, "", "");
     }
 
     public DefaultConfiguration(@NotNull String name, @Nullable String location) {

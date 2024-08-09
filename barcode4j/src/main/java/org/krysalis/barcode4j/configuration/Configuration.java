@@ -36,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
  * namespaces) built from this XML:
  * </p>
  * <pre>
- * &lt;my-system version="1.3" xmlns:doc="https://myco.com/documentation"&gt;
+ * &lt;my-system version="1.3" xmlns:doc="http://myco.com/documentation"&gt;
  *   &lt;doc:desc&gt;This is a highly fictitious config file&lt;/doc:desc&gt;
  *   &lt;widget name="fooWidget" initOrder="1" threadsafe="true"/&gt;
  * &lt;/my-system&gt;
@@ -46,7 +46,7 @@ import org.jetbrains.annotations.Nullable;
  * DefaultConfigurationBuilder(true)), then the <code>xmlns:doc</code> element
  * will not translate into a Configuration attribute, and the
  * <code>doc:desc</code> element will become a <code>Configuration</code> node
- * with name "desc" and namespace "https://myco.com/documentation". The
+ * with name "desc" and namespace "http://myco.com/documentation". The
  * <code>widget</code> element will have namespace "".
  * </p>
  * <p>If namespace support is disabled (the default for
@@ -95,7 +95,7 @@ import org.jetbrains.annotations.Nullable;
  * </td><td>This is a highly fictitious config file</td><td>{@link ConfigurationException}</td></tr>
  * <tr align="center"><td align="left">
  * <code>conf.{@link #getChild(String) getChild}("desc").{@link #getNamespace getNamespace}()</code>
- * </td><td>&nbsp;</td><td>https://myco.com/documentation"</td></tr>
+ * </td><td>&nbsp;</td><td>http://myco.com/documentation"</td></tr>
  * </table>
  * </p>
  * <p>
@@ -155,12 +155,12 @@ public interface Configuration {
      * <p>In the case of DefaultConfigurationBuilder, the namespace will
      * be the URI associated with the XML element. Eg.,:</p>
      * <pre>
-     * &lt;foo xmlns:x="https://blah.com"&gt;
+     * &lt;foo xmlns:x="http://blah.com"&gt;
      *   &lt;x:bar/&gt;
      * &lt;/foo&gt;
      * </pre>
      * <p>The namespace of <code>foo</code> will be "", and the namespace of
-     * <code>bar</code> will be "https://blah.com".</p>
+     * <code>bar</code> will be "http://blah.com".</p>
      *
      * @return a String identifying the namespace of this Configuration.
      * @throws ConfigurationException if an error occurs

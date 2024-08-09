@@ -15,17 +15,24 @@ include:
 
 #Disable inspections
 exclude:
+  - name: CommentedOutCode
+  - name: ControlFlowWithEmptyBody # there's a few if statements with no-op
+  - name: Deprecation
   - name: SizeReplaceableByIsEmpty
-  - name: FieldMayBeFinal
+  - name: JavadocLinkAsPlainText
   - name: ConstantValue
     paths:
       - barcode4j/src/main/java/org/krysalis/barcode4j/impl
   - name: All
     paths:
       - aggregate-report
+      - barcode4j/src/main/java/org/krysalis/barcode4j/configuration
+      - barcode4j/src/sandbox
       - barcode4j-ant
       - barcode4j-cli
       - barcode4j-examples
+      - barcode4j-saxon8
+      - barcode4j-saxon91
       - barcode4j-servlet
 
 projectJDK: '8'
@@ -47,12 +54,12 @@ linter: jetbrains/qodana-jvm-community:latest
 
 failureConditions:
   severityThresholds:
-    any: 400 # Total problems
-    critical: 5 # Critical and other severities
-    high: 350
-    moderate: 40
-    low: 50
-    info: 50
+    any: 200 # Total problems
+    critical: 10 # Critical and other severities
+    high: 20
+    moderate: 100
+    low: 150
+    info: 150
   testCoverageThresholds:
     fresh: 50 # Fresh code coverage
-    total: 50 # Total code coverage
+    total: 60 # Total code coverage

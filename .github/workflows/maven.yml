@@ -123,7 +123,7 @@ jobs:
       run: |
         ls -lha aggregate-report/target/site/jacoco-aggregate/
         mkdir -p .qodana/code-coverage/
-        cp -r aggregate-report/target/site/jacoco-aggregate/* .qodana/code-coverage/
+        cp -r aggregate-report/target/site/jacoco-aggregate/jacoco.xml .qodana/code-coverage/
 
     # potentially Qodana could be its own workflow (recommended in the docs)
     - name: Qodana Scan
