@@ -216,17 +216,16 @@ public class PDF417LogicImpl {
                             + msg.length() + " bytes)");
         }
 
-        StringBuffer sb = new StringBuffer(n);
+        final StringBuilder sb = new StringBuilder(n);
         sb.append((char)n);
         sb.append(highLevel);
         for (int i = 0; i < pad; i++) {
             sb.append((char)900); //PAD characters
         }
-        String dataCodewords = sb.toString();
+        final String dataCodewords = sb.toString();
 
         //3. step: Error correction
-        String ec = PDF417ErrorCorrection.generateErrorCorrection(
-                dataCodewords, errorCorrectionLevel);
+        final String ec = PDF417ErrorCorrection.generateErrorCorrection(dataCodewords, errorCorrectionLevel);
         String fullCodewords = dataCodewords + ec;
 
         //4. step: low-level encoding

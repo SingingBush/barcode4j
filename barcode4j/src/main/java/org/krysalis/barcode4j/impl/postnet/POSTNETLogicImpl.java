@@ -114,7 +114,7 @@ public class POSTNETLogicImpl {
      * @return the message but without ignored characters
      */
     public static String removeIgnoredCharacters(final String msg) {
-        StringBuffer sb = new StringBuffer(msg.length());
+        final StringBuilder sb = new StringBuilder(msg.length());
         for (int i = 0; i < msg.length(); i++) {
             final char ch = msg.charAt(i);
             if (!isValidChar(ch)) {
@@ -130,8 +130,7 @@ public class POSTNETLogicImpl {
     private int heightAt(char ch, int index) {
         int chidx = Character.digit(ch, 10);
         if (chidx >= 0) {
-            int height = CHARSET[chidx][index];
-            return height;
+            return CHARSET[chidx][index];
         } else {
             throw new IllegalArgumentException("Invalid character: " + ch);
         }

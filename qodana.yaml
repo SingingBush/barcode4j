@@ -23,6 +23,9 @@ exclude:
   - name: ConstantValue
     paths:
       - barcode4j/src/main/java/org/krysalis/barcode4j/impl
+  - name: UNCHECKED_WARNING
+    paths:
+      - barcode4j/src/main/java/org/krysalis/barcode4j/DefaultBarcodeClassResolver.java
   - name: All
     paths:
       - aggregate-report
@@ -54,12 +57,12 @@ linter: jetbrains/qodana-jvm-community:latest
 
 failureConditions:
   severityThresholds:
-    any: 200 # Total problems
-    critical: 10 # Critical and other severities
-    high: 20
-    moderate: 100
-    low: 150
-    info: 150
+    any: 100 # Total problems
+    critical: 5 # Critical and other severities
+    high: 90
+    moderate: 20
+    low: 10
+    info: 10
   testCoverageThresholds:
     fresh: 50 # Fresh code coverage
     total: 60 # Total code coverage

@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
 
 /**
  * This class is an implementation of the UPC-E barcode.
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: UPCELogicImpl.java,v 1.2 2004-10-24 11:45:53 jmaerki Exp $
  */
@@ -30,7 +30,7 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
     private static final byte O = ODD_PARITY;
     private static final byte E = EVEN_PARITY;
 
-    private static final byte[][] NUMBER_SYSTEM_0 = 
+    private static final byte[][] NUMBER_SYSTEM_0 =
                 {{E, E, E, O, O, O},
                  {E, E, O, E, O, O},
                  {E, E, O, O, E, O},
@@ -49,16 +49,16 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
     public UPCELogicImpl(ChecksumMode mode) {
         super(mode);
     }
-    
+
     private static String substring(String s, int idx, int len) {
         return s.substring(idx, idx + len);
     }
-    
+
     /**
      * Compacts an UPC-A message to an UPC-E message if possible.
      * @param msg an UPC-A message
-     * @return String the derived UPC-E message (with checksum), 
-     * null if the message is a valid UPC-A message but no UPC-E representation 
+     * @return String the derived UPC-E message (with checksum),
+     * null if the message is a valid UPC-A message but no UPC-E representation
      * is possible
      */
     public static String compactMessage(String msg) {
@@ -69,7 +69,7 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
             return null;
         }
         final byte check = Byte.parseByte(upca.substring(11, 12));
-        StringBuffer upce = new StringBuffer();
+        final StringBuilder upce = new StringBuilder();
         upce.append(Byte.toString(numberSystem));
         try {
             String manufacturer = substring(upca, 1, 5);
@@ -78,16 +78,14 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
             //Rule 1
             mtemp = substring(manufacturer, 2, 3);
             ptemp = substring(product, 0, 2);
-            if (("000|100|200".indexOf(mtemp) >= 0) 
-                    && ("00".equals(ptemp))) {
+            if (("000|100|200".indexOf(mtemp) >= 0) && ("00".equals(ptemp))) {
                 upce.append(substring(manufacturer, 0, 2));
                 upce.append(substring(product, 2, 3));
                 upce.append(mtemp.charAt(0));
             } else {
                 //Rule 2
                 ptemp = substring(product, 0, 3);
-                if (("300|400|500|600|700|800|900".indexOf(mtemp) >= 0) 
-                        && ("000".equals(ptemp))) {
+                if (("300|400|500|600|700|800|900".indexOf(mtemp) >= 0) && ("000".equals(ptemp))) {
                     upce.append(substring(manufacturer, 0, 3));
                     upce.append(substring(product, 3, 2));
                     upce.append("3");
@@ -95,8 +93,7 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
                     //Rule 3
                     mtemp = substring(manufacturer, 3, 2);
                     ptemp = substring(product, 0, 4);
-                    if (("10|20|30|40|50|60|70|80|90".indexOf(mtemp) >= 0) 
-                            && ("0000".equals(ptemp))) {
+                    if (("10|20|30|40|50|60|70|80|90".indexOf(mtemp) >= 0) && ("0000".equals(ptemp))) {
                         upce.append(substring(manufacturer, 0, 4));
                         upce.append(substring(product, 4, 1));
                         upce.append("4");
@@ -104,14 +101,13 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
                         //Rule 4
                         mtemp = substring(manufacturer, 4, 1);
                         ptemp = substring(product, 4, 1);
-                        if (!"0".equals(mtemp) 
-                            && ("5|6|7|8|9".indexOf(ptemp) >= 0)) {
+                        if (!"0".equals(mtemp) && ("5|6|7|8|9".indexOf(ptemp) >= 0)) {
                             upce.append(manufacturer);
                             upce.append(ptemp);
                         } else {
                             return null;
                         }
-                    }        
+                    }
                 }
             }
         } catch (NumberFormatException nfe) {
@@ -136,7 +132,7 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
         if ((numberSystem != 0) && (numberSystem != 1)) {
             throw new IllegalArgumentException("Invalid UPC-E message: " + msg);
         }
-        StringBuffer upca = new StringBuffer();
+        final StringBuilder upca = new StringBuilder();
         upca.append(Byte.toString(numberSystem));
         byte mode = Byte.parseByte(substring(upce, 6, 1));
         if ((mode >= 0) && (mode <= 2)) {
@@ -163,16 +159,15 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
         String upcaFinished = upca.toString();
         char expectedCheck = calcChecksum(upcaFinished);
         if ((check != '\u0000') && (check != expectedCheck)) {
-            throw new IllegalArgumentException("Invalid checksum. Expected "
-                + expectedCheck + " but was " + check);
+            throw new IllegalArgumentException("Invalid checksum. Expected " + expectedCheck + " but was " + check);
         }
         return upcaFinished + expectedCheck;
     }
-    
+
     private static byte extractNumberSystem(String msg) {
         return Byte.parseByte(msg.substring(0, 1));
     }
-    
+
     private String convertUPCAtoUPCE(String msg) {
         if ((msg.length() == 11) || (msg.length() == 12)) {
             final String s = compactMessage(msg);
@@ -194,17 +189,14 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
     public static void validateMessage(String msg) {
         UPCEANLogicImpl.validateMessage(msg);
         if ((msg.length() < 7) || (msg.length() > 8)) {
-            throw new IllegalArgumentException(
-                "Message must be 7 or 8 characters long. Message: " + msg);
+            throw new IllegalArgumentException("Message must be 7 or 8 characters long. Message: " + msg);
         }
         byte numberSystem = extractNumberSystem(msg);
         if ((numberSystem < 0) || (numberSystem > 1)) {
-            throw new IllegalArgumentException(
-                "Valid number systems for UPC-E are 0 or 1. Found: " 
-                    + numberSystem);
+            throw new IllegalArgumentException("Valid number systems for UPC-E are 0 or 1. Found: " + numberSystem);
         }
     }
-    
+
     private String handleChecksum(String msg) {
         ChecksumMode mode = getChecksumMode();
         if (mode == ChecksumMode.CP_AUTO) {
@@ -225,28 +217,24 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
             return msg + expandMessage(msg).charAt(11);
         } else if (mode == ChecksumMode.CP_CHECK) {
             if (msg.length() != 8) {
-                throw new IllegalArgumentException(
-                    "Message must be 8 characters long");
+                throw new IllegalArgumentException("Message must be 8 characters long");
             }
             char check = msg.charAt(7);
             char expected = expandMessage(msg).charAt(11);
             if (check != expected) {
-                throw new IllegalArgumentException(
-                    "Checksum is bad (" + check + "). Expected: " + expected);
+                throw new IllegalArgumentException("Checksum is bad (" + check + "). Expected: " + expected);
             }
             return msg;
         } else if (mode == ChecksumMode.CP_IGNORE) {
             if (msg.length() != 8) {
-                throw new IllegalArgumentException(
-                    "Message must be 8 characters long");
+                throw new IllegalArgumentException("Message must be 8 characters long");
             }
             return msg;
         } else {
-            throw new UnsupportedOperationException(
-                "Unknown checksum mode: " + mode);
+            throw new UnsupportedOperationException("Unknown checksum mode: " + mode);
         }
     }
-    
+
     private byte selectCharset(byte check, byte numberSystem, int position) {
         byte charset = NUMBER_SYSTEM_0[check][position];
         if (numberSystem == 1) {
@@ -259,7 +247,7 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
         }
         return charset;
     }
-    
+
     /**
      * Generates a UPC-E right guard.
      * @param logic the logic handler to receive generated events
@@ -279,7 +267,7 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
     /** @see org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl */
     public void generateBarcodeLogic(ClassicBarcodeLogicHandler logic, String msg) {
         String supp = retrieveSupplemental(msg);
-        String s = removeSupplemental(msg); 
+        String s = removeSupplemental(msg);
         s = convertUPCAtoUPCE(s);
         validateMessage(s);
         s = handleChecksum(s);
@@ -289,7 +277,7 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
             canonicalMessage = canonicalMessage + "+" + supp;
         }
         logic.startBarcode(canonicalMessage, canonicalMessage);
-        
+
         //Left guard
         drawSideGuard(logic);
 
@@ -301,15 +289,15 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
 
         //Checksum
         final byte check = Byte.parseByte(s.substring(7, 8));
-        
+
         logic.startBarGroup(BarGroup.UPC_EAN_GROUP, s.substring(1, 7));
-        
+
         //First five data characters
         for (int i = 1; i < 7; i++) {
             final byte charset = selectCharset(check, numberSystem, i - 1);
             encodeChar(logic, s.charAt(i), charset);
         }
-        
+
         logic.endBarGroup();
 
         //Checksum
@@ -319,7 +307,7 @@ public class UPCELogicImpl extends UPCEANLogicImpl {
 
         //Right guard
         drawUPCERightGuard(logic);
-        
+
         //Optional Supplemental
         if (supp != null) {
             drawSupplemental(logic, supp);

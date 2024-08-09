@@ -29,18 +29,17 @@ import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
  *
  * @author Dietmar Bürkle, Jeremias Maerki (generateBarcodeLogic)
  */
-public class EAN128LogicImpl { //extends Code128LogicImpl{
+public class EAN128LogicImpl {
     private static final byte MAX_LENGTH = 48; // Max according to EAN128 specification.
 
-    private static final byte TYPENumTestCheckDigit = 4;
-    private static final byte TYPENumReplaceCheckDigit = 5;
-    private static final byte TYPENumAddCheckDigit = 6;
+//    private static final byte TYPENumTestCheckDigit = 4;
+//    private static final byte TYPENumReplaceCheckDigit = 5;
+//    private static final byte TYPENumAddCheckDigit = 6;
 
 
     private EAN128AI[] ais = null;
 
-    //GroupSeparator not Code128LogicImpl.FNC_1;
-    private char groupSeparator = EAN128Bean.DEFAULT_GROUP_SEPARATOR;
+    private char groupSeparator;
 
     private char checkDigitMarker = EAN128Bean.DEFAULT_CHECK_DIGIT_MARKER;
     private boolean omitBrackets = false;
@@ -54,15 +53,14 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
     private boolean checksumADD = true;
     private boolean checksumCHECK = true;
 
-    public EAN128LogicImpl(ChecksumMode mode, String template, char fnc1) {
+    public EAN128LogicImpl(ChecksumMode mode, String template, char groupSeparator) {
         setChecksumMode(mode);
         setTemplate(template);
-        this.groupSeparator = fnc1;
+        this.groupSeparator = groupSeparator;
     }
 
     public EAN128LogicImpl(ChecksumMode mode, String template) {
-        setChecksumMode(mode);
-        setTemplate(template);
+        this(mode, template, EAN128Bean.DEFAULT_GROUP_SEPARATOR);
     }
 
     protected void setMessage(@Nullable String msg) {
@@ -117,8 +115,8 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
 
         final Code128LogicImpl c128 = new Code128LogicImpl();
         logic.startBarcode(msg, getHumanReadableMsg());
-        for (int i = 0; i < encodedMsg.length; i++) {
-            c128.encodeChar(logic, encodedMsg[i]);
+        for (int i : encodedMsg) {
+            c128.encodeChar(logic, i);
         }
 
         //Calculate checksum
@@ -283,22 +281,20 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
     private void checkType(@NotNull EAN128AI ai, byte idx, @NotNull String msg, int start, int end, int cdStart) {
         byte type = ai.type[idx];
         if (type == EAN128AI.TYPEError) {
-            throw getException("This AI is not allowed by configuration! ("
-                + ai.toString() + ")");
-
+            throw getException("This AI is not allowed by configuration! (" + ai.toString() + ")");
         } else if (type == EAN128AI.TYPEAlpha) {
             for (int i = end - 1; i >= start; i--) {
                 if (msg.charAt(i) > 128 || Character.isDigit(msg.charAt(i))) {
-                    throw getException("Character \'" + msg.charAt(i)
-                            + "\' must be a valid ASCII byte but not number!",
+                    throw getException("Character '" + msg.charAt(i)
+                            + "' must be a valid ASCII byte but not number!",
                             msg.substring(start, i));
                 }
             }
         } else if (type == EAN128AI.TYPEAlphaNum) {
             for (int i = end - 1; i >= start; i--) {
                 if (msg.charAt(i) > 128) {
-                    throw getException("Character \'" + msg.charAt(i)
-                            + "\' must be a valid ASCII byte!",
+                    throw getException("Character '" + msg.charAt(i)
+                            + "' must be a valid ASCII byte!",
                             msg.substring(start, i));
                 }
             }
@@ -310,7 +306,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
                     cd2 = cd1;
                 }
                 if (cd1 != cd2) {
-                    throw getException("Checkdigit is wrong! Correct is " + cd1 + " but I found " + cd2 + "!");
+                    throw getException("Check digit is wrong! Correct is " + cd1 + " but I found " + cd2 + "!");
                 }
                 humanReadableMsg.append(cd1);
                 code128Msg.append(cd1);
@@ -318,8 +314,8 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
             }
             for (int i = end - 1; i >= start; i--) {
                 if (!Character.isDigit(msg.charAt(i))) {
-                    throw getException("Character \'" + msg.charAt(i)
-                        + "\' must be a Digit!",
+                    throw getException("Character '" + msg.charAt(i)
+                        + "' must be a Digit!",
                         msg.substring(start, i));
                 }
             }
@@ -363,7 +359,7 @@ public class EAN128LogicImpl { //extends Code128LogicImpl{
         if (msgOk == null) {
             msgOk = "";
         }
-        if (humanReadableMsg.length() > 1 || msgOk.length() > 0) {
+        if (humanReadableMsg.length() > 1 || !msgOk.isEmpty()) {
             text = text + " Accepted start of Message: \""
                 + humanReadableMsg.toString() + msgOk + "\"";
         }

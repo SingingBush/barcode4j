@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Base64-implementation as an {@code InputStream} reading Base64-encoded data

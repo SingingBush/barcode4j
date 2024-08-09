@@ -41,7 +41,7 @@ public class EAN128Bean extends Code128Bean {
 
     private ChecksumMode checksumMode = ChecksumMode.CP_AUTO;
     private String template = null;
-    private char groupSeparator = DEFAULT_GROUP_SEPARATOR; //GroupSeperator not Code128LogicImpl.FNC_1;
+    private char groupSeparator = DEFAULT_GROUP_SEPARATOR;
     private char checkDigitMarker = DEFAULT_CHECK_DIGIT_MARKER;
     private boolean omitBrackets = false;
 

@@ -110,8 +110,7 @@ public class Interleaved2Of5LogicImpl {
     private int widthAt(char ch, int index) {
         if (Character.isDigit(ch)) {
             int digit = Character.digit(ch, 10);
-            int width = CHARSET[digit][index];
-            return width;
+            return CHARSET[digit][index];
         } else {
             throw new IllegalArgumentException("Invalid character '" + ch
                     + " (" + Character.getNumericValue(ch)
