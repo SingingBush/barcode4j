@@ -1,13 +1,14 @@
 package org.krysalis.barcode4j.configuration;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * This class is essentially a copy of org.apache.avalon.framework.configuration.Configuration
- *
- * <code>Configuration</code> is a interface encapsulating a configuration node
+ * <p>
+ * <code>Configuration</code> is an interface encapsulating a configuration node
  * used to retrieve configuration values.
- *
+ * </p>
  * <p>
  * This is a "read only" interface preventing applications from modifying their
  * own configurations. Once it is created, the information never changes.
@@ -35,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
  * namespaces) built from this XML:
  * </p>
  * <pre>
- * &lt;my-system version="1.3" xmlns:doc="http://myco.com/documentation"&gt;
+ * &lt;my-system version="1.3" xmlns:doc="https://myco.com/documentation"&gt;
  *   &lt;doc:desc&gt;This is a highly fictitious config file&lt;/doc:desc&gt;
  *   &lt;widget name="fooWidget" initOrder="1" threadsafe="true"/&gt;
  * &lt;/my-system&gt;
@@ -45,7 +46,7 @@ import org.jetbrains.annotations.Nullable;
  * DefaultConfigurationBuilder(true)), then the <code>xmlns:doc</code> element
  * will not translate into a Configuration attribute, and the
  * <code>doc:desc</code> element will become a <code>Configuration</code> node
- * with name "desc" and namespace "http://myco.com/documentation". The
+ * with name "desc" and namespace "https://myco.com/documentation". The
  * <code>widget</code> element will have namespace "".
  * </p>
  * <p>If namespace support is disabled (the default for
@@ -94,7 +95,7 @@ import org.jetbrains.annotations.Nullable;
  * </td><td>This is a highly fictitious config file</td><td>{@link ConfigurationException}</td></tr>
  * <tr align="center"><td align="left">
  * <code>conf.{@link #getChild(String) getChild}("desc").{@link #getNamespace getNamespace}()</code>
- * </td><td>&nbsp;</td><td>http://myco.com/documentation"</td></tr>
+ * </td><td>&nbsp;</td><td>https://myco.com/documentation"</td></tr>
  * </table>
  * </p>
  * <p>
@@ -130,6 +131,7 @@ public interface Configuration {
      *
      * @return name of the <code>Configuration</code> node.
      */
+    @NotNull
     String getName();
 
     /**
@@ -153,17 +155,18 @@ public interface Configuration {
      * <p>In the case of DefaultConfigurationBuilder, the namespace will
      * be the URI associated with the XML element. Eg.,:</p>
      * <pre>
-     * &lt;foo xmlns:x="http://blah.com"&gt;
+     * &lt;foo xmlns:x="https://blah.com"&gt;
      *   &lt;x:bar/&gt;
      * &lt;/foo&gt;
      * </pre>
      * <p>The namespace of <code>foo</code> will be "", and the namespace of
-     * <code>bar</code> will be "http://blah.com".</p>
+     * <code>bar</code> will be "https://blah.com".</p>
      *
      * @return a String identifying the namespace of this Configuration.
      * @throws ConfigurationException if an error occurs
      * @since 4.1
      */
+    @NotNull // returns empty string if no namespace
     String getNamespace() throws ConfigurationException;
 
     /**
@@ -183,7 +186,8 @@ public interface Configuration {
      * @param child The name of the child node.
      * @return Configuration
      */
-    Configuration getChild(String child);
+    @NotNull
+    Configuration getChild(@NotNull String child);
 
     /**
      * Return a <code>Configuration</code> instance encapsulating the specified
@@ -197,7 +201,7 @@ public interface Configuration {
      * @return Configuration
      */
     @Nullable
-    Configuration getChild(String child, boolean createNew);
+    Configuration getChild(@NotNull String child, boolean createNew);
 
     /**
      * Return an <code>Array</code> of <code>Configuration</code>
@@ -216,7 +220,7 @@ public interface Configuration {
      * @param name The name of the children to get.
      * @return The child nodes with name <code>name</code>
      */
-    Configuration[] getChildren(String name);
+    Configuration[] getChildren(@NotNull String name);
 
     /**
      * Return an array of all attribute names.
@@ -239,7 +243,8 @@ public interface Configuration {
      * @return String value of attribute.
      * @throws ConfigurationException If no attribute with that name exists.
      */
-    String getAttribute(String paramName) throws ConfigurationException;
+    @NotNull
+    String getAttribute(@NotNull String paramName) throws ConfigurationException;
 
     /**
      * Return the <code>int</code> value of the specified attribute contained
@@ -250,7 +255,7 @@ public interface Configuration {
      * @throws ConfigurationException If no parameter with that name exists.
      *                                or if conversion to <code>int</code> fails.
      */
-    int getAttributeAsInteger(String paramName) throws ConfigurationException;
+    int getAttributeAsInteger(@NotNull String paramName) throws ConfigurationException;
 
     /**
      * Returns the value of the attribute specified by its name as a
@@ -261,7 +266,7 @@ public interface Configuration {
      * @throws ConfigurationException If no parameter with that name exists.
      *                                or if conversion to <code>long</code> fails.
      */
-    long getAttributeAsLong(String name) throws ConfigurationException;
+    long getAttributeAsLong(@NotNull String name) throws ConfigurationException;
 
     /**
      * Return the <code>float</code> value of the specified parameter contained
@@ -272,7 +277,7 @@ public interface Configuration {
      * @throws ConfigurationException If no parameter with that name exists.
      *                                or if conversion to <code>float</code> fails.
      */
-    float getAttributeAsFloat(String paramName) throws ConfigurationException;
+    float getAttributeAsFloat(@NotNull String paramName) throws ConfigurationException;
 
     /**
      * Return the <code>double</code> value of the specified parameter contained
@@ -283,7 +288,7 @@ public interface Configuration {
      * @throws ConfigurationException If no parameter with that name exists.
      *                                or if conversion to <code>double</code> fails.
      */
-    double getAttributeAsDouble(String paramName) throws ConfigurationException;
+    double getAttributeAsDouble(@NotNull String paramName) throws ConfigurationException;
 
     /**
      * Return the <code>boolean</code> value of the specified parameter contained
@@ -294,14 +299,15 @@ public interface Configuration {
      * @throws ConfigurationException If no parameter with that name exists.
      *                                or if conversion to <code>boolean</code> fails.
      */
-    boolean getAttributeAsBoolean(String paramName) throws ConfigurationException;
+    boolean getAttributeAsBoolean(@NotNull String paramName) throws ConfigurationException;
 
     /**
      * Return the <code>String</code> value of the node.
      *
      * @return the value of the node.
-     * @throws ConfigurationException if an error occurs
+     * @throws ConfigurationException if the value is null
      */
+    @NotNull
     String getValue() throws ConfigurationException;
 
     /**
@@ -351,7 +357,7 @@ public interface Configuration {
      * @param defaultValue The default value desired.
      * @return String value of the <code>Configuration</code>, or default if none specified.
      */
-    String getValue(String defaultValue);
+    String getValue(@Nullable String defaultValue);
 
     /**
      * Returns the value of the configuration element as an <code>int</code>.
@@ -414,7 +420,7 @@ public interface Configuration {
      * value if the named attribute does not exist, or if
      * the value is not set.
      */
-    String getAttribute(String name, String defaultValue);
+    String getAttribute(@NotNull String name, @Nullable String defaultValue);
 
     /**
      * Returns the value of the attribute specified by its name as a
@@ -427,7 +433,7 @@ public interface Configuration {
      * value if the named attribute does not exist, or if
      * the value is not set.
      */
-    int getAttributeAsInteger(String name, int defaultValue);
+    int getAttributeAsInteger(@NotNull String name, int defaultValue);
 
     /**
      * Returns the value of the attribute specified by its name as a
@@ -440,7 +446,7 @@ public interface Configuration {
      * value if the named attribute does not exist, or if
      * the value is not set.
      */
-    long getAttributeAsLong(String name, long defaultValue);
+    long getAttributeAsLong(@NotNull String name, long defaultValue);
 
     /**
      * Returns the value of the attribute specified by its name as a
@@ -453,7 +459,7 @@ public interface Configuration {
      * value if the named attribute does not exist, or if
      * the value is not set.
      */
-    float getAttributeAsFloat(String name, float defaultValue);
+    float getAttributeAsFloat(@NotNull String name, float defaultValue);
 
     /**
      * Returns the value of the attribute specified by its name as a
@@ -466,7 +472,7 @@ public interface Configuration {
      * value if the named attribute does not exist, or if
      * the value is not set.
      */
-    double getAttributeAsDouble(String name, double defaultValue);
+    double getAttributeAsDouble(@NotNull String name, double defaultValue);
 
     /**
      * Returns the value of the attribute specified by its name as a
@@ -479,5 +485,5 @@ public interface Configuration {
      * value if the named attribute does not exist, or if
      * the value is not set.
      */
-    boolean getAttributeAsBoolean(String name, boolean defaultValue);
+    boolean getAttributeAsBoolean(@NotNull String name, boolean defaultValue);
 }

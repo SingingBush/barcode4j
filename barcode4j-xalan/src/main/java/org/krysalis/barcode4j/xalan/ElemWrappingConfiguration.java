@@ -16,7 +16,9 @@
 package org.krysalis.barcode4j.xalan;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.configuration.AbstractConfiguration;
 import org.krysalis.barcode4j.configuration.Configuration;
 import org.krysalis.barcode4j.configuration.ConfigurationException;
@@ -33,7 +35,7 @@ import org.w3c.dom.NodeList;
  */
 public class ElemWrappingConfiguration extends AbstractConfiguration {
 
-    private Element elem;
+    private final Element elem;
 
     /**
      * Creates a new Configuration wrapper/adapter around a DOM element.
@@ -55,7 +57,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
      * @see org.krysalis.barcode4j.configuration.Configuration#getName()
      */
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return this.elem.getLocalName();
     }
 
@@ -71,8 +73,8 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
      * @see org.krysalis.barcode4j.configuration.Configuration#getNamespace()
      */
     @Override
-    public String getNamespace() throws ConfigurationException {
-        return null;
+    public @NotNull String getNamespace() throws ConfigurationException {
+        return "";
     }
 
     /**
@@ -91,7 +93,7 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
      * @see org.krysalis.barcode4j.configuration.Configuration#getChildren(java.lang.String)
      */
     @Override
-    public Configuration[] getChildren(String name) {
+    public Configuration[] getChildren(@NotNull String name) {
         final List<Configuration> cfgList = new java.util.LinkedList<>();
         final NodeList elems = this.elem.getChildNodes();
 
@@ -117,30 +119,21 @@ public class ElemWrappingConfiguration extends AbstractConfiguration {
      * @see org.krysalis.barcode4j.configuration.Configuration#getAttribute(java.lang.String)
      */
     @Override
-    public String getAttribute(String name) throws ConfigurationException {
-        final String s = this.elem.getAttribute(name);
-        if (s != null) {
-            return s;
-        } else {
-            throw new ConfigurationException("Attribute '" + name + "' does not exist");
-        }
+    public @NotNull String getAttribute(@NotNull String name) throws ConfigurationException {
+        return Optional.of(this.elem.getAttribute(name))
+            .orElseThrow(() -> new ConfigurationException("Attribute '" + name + "' does not exist"));
     }
 
     /**
      * @see org.krysalis.barcode4j.configuration.Configuration#getValue()
      */
     @Override
-    public String getValue() throws ConfigurationException {
-        //System.out.println(elem.getClass().getName() + " " + elem.getLocalName());
-        //System.out.println(elem.hasChildNodes() + " " + elem.getChildNodes().getLength());
-        //System.out.println(elem.getNodeValue());
-        NodeList nodes = elem.getChildNodes();
-        StringBuffer sb = new StringBuffer();
+    public @NotNull String getValue() throws ConfigurationException {
+        final NodeList nodes = elem.getChildNodes();
+        final StringBuffer sb = new StringBuffer();
+
         for (int i = 0; i < nodes.getLength(); i++) {
             final Node node = nodes.item(i);
-            //System.out.println(node + " " + node.getNodeType()
-            //    + " " + node.getChildNodes().getLength());
-            //System.out.println(node.getNodeValue());
             if (node.getNodeType() != Node.TEXT_NODE) {
                 sb.append(node.getNodeValue());
             }

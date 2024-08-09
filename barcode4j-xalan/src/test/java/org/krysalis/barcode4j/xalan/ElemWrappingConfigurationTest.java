@@ -48,7 +48,7 @@ class ElemWrappingConfigurationTest {
 
     @Test
     void getNamespaceShouldNotInteractWithElement() throws ConfigurationException {
-        assertNull(configuration.getNamespace());
+        assertEquals("", configuration.getNamespace());
         verifyNoInteractions(mockElement);
     }
 

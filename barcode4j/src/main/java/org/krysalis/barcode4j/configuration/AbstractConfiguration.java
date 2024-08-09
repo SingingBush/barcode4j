@@ -1,13 +1,14 @@
 package org.krysalis.barcode4j.configuration;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * This class is essentially a copy of org.apache.avalon.framework.configuration.AbstractConfiguration
- *
+ * <p>
  * This is an abstract <code>Configuration</code> implementation that deals
  * with methods that can be abstracted away from underlying implementations.
- *
+ * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Id: AbstractConfiguration.java 506231 2007-02-12 02:36:54Z crossley $
  */
@@ -258,7 +259,7 @@ public abstract class AbstractConfiguration implements Configuration {
      * @throws ConfigurationException if an error occurs
      */
     @Override
-    public int getAttributeAsInteger(final String name)
+    public int getAttributeAsInteger(final @NotNull String name)
         throws ConfigurationException {
         final String value = getAttribute(name).trim();
         try {
@@ -291,7 +292,7 @@ public abstract class AbstractConfiguration implements Configuration {
      * @return the value
      */
     @Override
-    public int getAttributeAsInteger(final String name, final int defaultValue) {
+    public int getAttributeAsInteger(final @NotNull String name, final int defaultValue) {
         try {
             return getAttributeAsInteger(name);
         } catch (final ConfigurationException ce) {
@@ -311,7 +312,7 @@ public abstract class AbstractConfiguration implements Configuration {
      * @throws ConfigurationException if an error occurs
      */
     @Override
-    public long getAttributeAsLong(final String name)
+    public long getAttributeAsLong(final @NotNull String name)
         throws ConfigurationException {
         final String value = getAttribute(name);
 
@@ -345,7 +346,7 @@ public abstract class AbstractConfiguration implements Configuration {
      * @return the value
      */
     @Override
-    public long getAttributeAsLong(final String name, final long defaultValue) {
+    public long getAttributeAsLong(final @NotNull String name, final long defaultValue) {
         try {
             return getAttributeAsLong(name);
         } catch (final ConfigurationException ce) {
@@ -362,7 +363,7 @@ public abstract class AbstractConfiguration implements Configuration {
      * @throws ConfigurationException if an error occurs
      */
     @Override
-    public float getAttributeAsFloat(final String name)
+    public float getAttributeAsFloat(final @NotNull String name)
         throws ConfigurationException {
         final String value = getAttribute(name);
         try {
@@ -384,7 +385,7 @@ public abstract class AbstractConfiguration implements Configuration {
      * @return the value
      */
     @Override
-    public float getAttributeAsFloat(final String name, final float defaultValue) {
+    public float getAttributeAsFloat(final @NotNull String name, final float defaultValue) {
         try {
             return getAttributeAsFloat(name);
         } catch (final ConfigurationException ce) {
@@ -401,7 +402,7 @@ public abstract class AbstractConfiguration implements Configuration {
      * @throws ConfigurationException if an error occurs
      */
     @Override
-    public double getAttributeAsDouble(final String name) throws ConfigurationException {
+    public double getAttributeAsDouble(final @NotNull String name) throws ConfigurationException {
         final String value = getAttribute(name);
         try {
             return Double.parseDouble(value);
@@ -422,7 +423,7 @@ public abstract class AbstractConfiguration implements Configuration {
      * @return the value
      */
     @Override
-    public double getAttributeAsDouble(final String name, final double defaultValue) {
+    public double getAttributeAsDouble(final @NotNull String name, final double defaultValue) {
         try {
             return getAttributeAsDouble(name);
         } catch (final ConfigurationException ce) {
@@ -439,7 +440,7 @@ public abstract class AbstractConfiguration implements Configuration {
      * @throws ConfigurationException if an error occurs
      */
     @Override
-    public boolean getAttributeAsBoolean(final String name)
+    public boolean getAttributeAsBoolean(final @NotNull String name)
         throws ConfigurationException {
         final String value = getAttribute(name);
 
@@ -482,7 +483,7 @@ public abstract class AbstractConfiguration implements Configuration {
      * @return the value
      */
     @Override
-    public boolean getAttributeAsBoolean(final String name, final boolean defaultValue) {
+    public boolean getAttributeAsBoolean(final @NotNull String name, final boolean defaultValue) {
         try {
             return getAttributeAsBoolean(name);
         } catch (final ConfigurationException ce) {
@@ -499,7 +500,7 @@ public abstract class AbstractConfiguration implements Configuration {
      * @return the value
      */
     @Override
-    public String getAttribute(final String name, final String defaultValue) {
+    public String getAttribute(final @NotNull String name, final String defaultValue) {
         try {
             return getAttribute(name);
         } catch (final ConfigurationException ce) {
@@ -516,7 +517,8 @@ public abstract class AbstractConfiguration implements Configuration {
      * @return the child Configuration
      */
     @Override
-    public Configuration getChild(final String name) {
+    public @NotNull Configuration getChild(final @NotNull String name) {
+        //noinspection DataFlowIssue
         return getChild(name, true);
     }
 
@@ -530,7 +532,7 @@ public abstract class AbstractConfiguration implements Configuration {
      */
     @Override
     @Nullable
-    public Configuration getChild(final String name, final boolean createNew) {
+    public Configuration getChild(final @NotNull String name, final boolean createNew) {
         final Configuration[] children = getChildren(name);
         if (children.length > 0) {
             return children[0];

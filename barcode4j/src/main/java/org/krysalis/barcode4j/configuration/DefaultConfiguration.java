@@ -1,12 +1,10 @@
 package org.krysalis.barcode4j.configuration;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class is essentially a copy of org.apache.avalon.framework.configuration.DefaultConfiguration
@@ -17,29 +15,20 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
     private final String m_location;
     private final String m_namespace;
     private final String m_prefix;
-    private HashMap<String, String> m_attributes;
-    private ArrayList<Configuration> m_children;
-    private String m_value;
+    private @Nullable HashMap<String, String> m_attributes;
+    private @Nullable ArrayList<Configuration> m_children;
+    private @Nullable String m_value;
     private boolean m_readOnly;
 
-//    public DefaultConfiguration(Configuration config, boolean deepCopy) throws ConfigurationException {
-//        this(config.getName(), config.getLocation(), config.getNamespace(), config instanceof AbstractConfiguration ? ((AbstractConfiguration)config).getPrefix() : "");
-//        this.addAll(config, deepCopy);
-//    }
-
-//    public DefaultConfiguration(Configuration config) throws ConfigurationException {
-//        this(config, false);
-//    }
-
-    public DefaultConfiguration(String name) {
+    public DefaultConfiguration(@NotNull String name) {
         this(name, (String) null, "", "");
     }
 
-    public DefaultConfiguration(String name, String location) {
+    public DefaultConfiguration(@NotNull String name, @Nullable String location) {
         this(name, location, "", "");
     }
 
-    public DefaultConfiguration(String name, String location, String ns, String prefix) {
+    public DefaultConfiguration(@NotNull String name, @Nullable String location, @NotNull String ns, @NotNull String prefix) {
         this.m_name = name;
         this.m_location = location;
         this.m_namespace = ns;
@@ -47,26 +36,20 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return this.m_name;
     }
 
     @Override
-    public String getNamespace() throws ConfigurationException {
-        if (null != this.m_namespace) {
-            return this.m_namespace;
-        } else {
-            throw new ConfigurationException("No namespace (not even default \"\") is associated with the configuration element \"" + this.getName() + "\" at " + this.getLocation());
-        }
+    public @NotNull String getNamespace() throws ConfigurationException {
+        return Optional.of(m_namespace)
+            .orElseThrow(() -> new ConfigurationException("No namespace (not even default \"\") is associated with the configuration element \"" + this.getName() + "\" at " + this.getLocation()));
     }
 
     @Override
     protected String getPrefix() throws ConfigurationException {
-        if (null != this.m_prefix) {
-            return this.m_prefix;
-        } else {
-            throw new ConfigurationException("No prefix (not even default \"\") is associated with the configuration element \"" + this.getName() + "\" at " + this.getLocation());
-        }
+        return Optional.of(m_prefix)
+            .orElseThrow(() -> new ConfigurationException("No prefix (not even default \"\") is associated with the configuration element \"" + this.getName() + "\" at " + this.getLocation()));
     }
 
     @Override
@@ -80,37 +63,32 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
     }
 
     @Override
-    public String getValue() throws ConfigurationException {
-        if (null != this.m_value) {
-            return this.m_value;
-        } else {
-            throw new ConfigurationException("No value is associated with the configuration element \"" + this.getName() + "\" at " + this.getLocation());
-        }
+    public @NotNull String getValue() throws ConfigurationException {
+        return Optional.ofNullable(m_value)
+            .orElseThrow(() -> new ConfigurationException("No value is associated with the configuration element \"" + this.getName() + "\" at " + this.getLocation()));
     }
 
     @Override
     public String[] getAttributeNames() {
-        return null == this.m_attributes ? new String[0] : (String[]) this.m_attributes.keySet().toArray(new String[0]);
+        return null == this.m_attributes ? new String[0] : this.m_attributes.keySet().toArray(new String[0]);
     }
 
     @Override
     public Configuration[] getChildren() {
-        return null == this.m_children ? new Configuration[0] : (Configuration[]) this.m_children.toArray(new Configuration[0]);
+        return null == this.m_children ? new Configuration[0] : this.m_children.toArray(new Configuration[0]);
     }
 
     @Override
-    public String getAttribute(String name) throws ConfigurationException {
-        String value = null != this.m_attributes ? (String) this.m_attributes.get(name) : null;
-        if (null != value) {
-            return value;
-        } else {
-            throw new ConfigurationException("No attribute named \"" + name + "\" is " + "associated with the configuration element \"" + this.getName() + "\" at " + this.getLocation());
-        }
+    public @NotNull String getAttribute(@NotNull String name) throws ConfigurationException {
+        final String value = null != this.m_attributes ? this.m_attributes.get(name) : null;
+
+        return Optional.ofNullable(value)
+            .orElseThrow(() -> new ConfigurationException("No attribute named \"" + name + "\" is " + "associated with the configuration element \"" + this.getName() + "\" at " + this.getLocation()));
     }
 
     @Override
     @Nullable
-    public Configuration getChild(String name, boolean createNew) {
+    public Configuration getChild(@NotNull String name, boolean createNew) {
         if (null != this.m_children) {
 
             for (final Configuration config : this.m_children) {
@@ -124,7 +102,7 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
     }
 
     @Override
-    public Configuration[] getChildren(String name) {
+    public Configuration[] getChildren(@NotNull String name) {
         if (null == this.m_children) {
             return new Configuration[0];
         } else {
@@ -138,20 +116,6 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
 
             return children.toArray(new Configuration[0]);
         }
-    }
-
-    /**
-     * @deprecated
-     */
-    @Deprecated
-    public void appendValueData(String value) {
-        this.checkWriteable();
-        if (null == this.m_value) {
-            this.m_value = value;
-        } else {
-            this.m_value = this.m_value + value;
-        }
-
     }
 
     @Override
@@ -200,31 +164,6 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
 
     }
 
-//    @Override
-//    public void setAttribute(String name, int value) {
-//        this.setAttribute(name, String.valueOf(value));
-//    }
-//
-//    @Override
-//    public void setAttribute(String name, long value) {
-//        this.setAttribute(name, String.valueOf(value));
-//    }
-//
-//    @Override
-//    public void setAttribute(String name, boolean value) {
-//        this.setAttribute(name, String.valueOf(value));
-//    }
-//
-//    @Override
-//    public void setAttribute(String name, float value) {
-//        this.setAttribute(name, String.valueOf(value));
-//    }
-//
-//    @Override
-//    public void setAttribute(String name, double value) {
-//        this.setAttribute(name, String.valueOf(value));
-//    }
-
     /**
      * @deprecated
      */
@@ -235,7 +174,7 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
             this.m_attributes = new HashMap<>();
         }
 
-        return (String) this.m_attributes.put(name, value);
+        return this.m_attributes.put(name, value);
     }
 
     @Override
@@ -248,17 +187,10 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
         this.m_children.add(configuration);
     }
 
-//    public void addAll(Configuration other, boolean deepCopy) throws ConfigurationException {
-//        this.checkWriteable();
-//        this.setValue(other.getValue((String)null));
-//        this.addAllAttributes(other);
-//        this.addAllChildren(other, deepCopy);
-//    }
-
     @Override
     public void addAll(Configuration other) {
         this.checkWriteable();
-        this.setValue(other.getValue((String) null));
+        this.setValue(other.getValue(null));
         this.addAllAttributes(other);
         this.addAllChildren(other);
     }
@@ -270,19 +202,6 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
         Arrays.stream(other.getAttributeNames())
             .forEach(name -> this.setAttribute(name, other.getAttribute(name, null)));
     }
-
-//    public void addAllChildren(Configuration other, boolean deepCopy) throws ConfigurationException {
-//        this.checkWriteable();
-//        Configuration[] children = other.getChildren();
-//
-//        for(int i = 0; i < children.length; ++i) {
-//            if (deepCopy) {
-//                this.addChild(new DefaultConfiguration(children[i], true));
-//            } else {
-//                this.addChild(children[i]);
-//            }
-//        }
-//    }
 
     @Override
     public void addAllChildren(Configuration other) {
@@ -317,77 +236,6 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
     protected final boolean isReadOnly() {
         return this.m_readOnly;
     }
-
-//    private MutableConfiguration toMutable(Configuration child) throws ConfigurationException {
-//        if (!(child instanceof MutableConfiguration) || child instanceof DefaultConfiguration && ((DefaultConfiguration)child).isReadOnly()) {
-//            this.checkWriteable();
-//            DefaultConfiguration config = new DefaultConfiguration(child);
-//
-//            for(int i = 0; i < this.m_children.size(); ++i) {
-//                if (this.m_children.get(i) == child) {
-//                    this.m_children.set(i, config);
-//                    break;
-//                }
-//            }
-//
-//            return config;
-//        } else {
-//            return (MutableConfiguration)child;
-//        }
-//    }
-
-//    public MutableConfiguration getMutableChild(String name) throws ConfigurationException {
-//        return this.getMutableChild(name, true);
-//    }
-
-//    public MutableConfiguration getMutableChild(String name, boolean autoCreate) throws ConfigurationException {
-//        Configuration child = this.getChild(name, false);
-//        if (child == null) {
-//            if (autoCreate) {
-//                DefaultConfiguration config = new DefaultConfiguration(name, "-");
-//                this.addChild(config);
-//                return config;
-//            } else {
-//                return null;
-//            }
-//        } else {
-//            return this.toMutable(child);
-//        }
-//    }
-
-//    public MutableConfiguration[] getMutableChildren() throws ConfigurationException {
-//        if (null == this.m_children) {
-//            return new MutableConfiguration[0];
-//        } else {
-//            ArrayList children = new ArrayList();
-//            int size = this.m_children.size();
-//
-//            for(int i = 0; i < size; ++i) {
-//                Configuration configuration = (Configuration)this.m_children.get(i);
-//                children.add(this.toMutable(configuration));
-//            }
-//
-//            return (MutableConfiguration[])children.toArray(new MutableConfiguration[0]);
-//        }
-//    }
-//
-//    public MutableConfiguration[] getMutableChildren(String name) throws ConfigurationException {
-//        if (null == this.m_children) {
-//            return new MutableConfiguration[0];
-//        } else {
-//            ArrayList children = new ArrayList();
-//            int size = this.m_children.size();
-//
-//            for(int i = 0; i < size; ++i) {
-//                Configuration configuration = (Configuration)this.m_children.get(i);
-//                if (name.equals(configuration.getName())) {
-//                    children.add(this.toMutable(configuration));
-//                }
-//            }
-//
-//            return (MutableConfiguration[])children.toArray(new MutableConfiguration[0]);
-//        }
-//    }
 
     @Override
     public boolean equals(Object other) {
@@ -460,4 +308,17 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
         return hash;
     }
 
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", DefaultConfiguration.class.getSimpleName() + "[", "]")
+            .add("m_name='" + m_name + "'")
+            .add("m_location='" + m_location + "'")
+            .add("m_namespace='" + m_namespace + "'")
+            .add("m_prefix='" + m_prefix + "'")
+            .add("m_attributes=" + m_attributes)
+            .add("m_children=" + m_children)
+            .add("m_value='" + m_value + "'")
+            .add("m_readOnly=" + m_readOnly)
+            .toString();
+    }
 }

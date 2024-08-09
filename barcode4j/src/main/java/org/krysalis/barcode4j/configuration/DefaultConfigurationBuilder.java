@@ -11,50 +11,38 @@ import java.io.IOException;
 /**
  * This class is essentially a copy of org.apache.avalon.framework.configuration.DefaultConfigurationBuilder with some code removed
  * namespaced xml is not supported
+ * <p>
+ * Please note that this class should not be used. It's only used internal by barcode4j-ant and barcode4j-cli which are not published to maven central. This class will be removed
+ * </p>
  */
+@Deprecated
 public class DefaultConfigurationBuilder {
 
-    private SAXConfigurationHandler m_handler;
+    private final SAXConfigurationHandler m_handler;
 
-    private XMLReader m_parser;
+    private final XMLReader m_parser;
 
 
     /**
      * Create a Configuration Builder, specifying a flag that determines namespace support.
      * <p>
      * The default JAXP <code>SAXParser</code> is used.
+     * </p>
      */
     public DefaultConfigurationBuilder() {
         try {
             final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 
             final SAXParser saxParser = saxParserFactory.newSAXParser();
-            setParser(saxParser.getXMLReader());
+            this.m_parser = saxParser.getXMLReader();
+
+            this.m_handler = new SAXConfigurationHandler();
+
+            this.m_parser.setContentHandler(m_handler);
+            this.m_parser.setErrorHandler(m_handler);
         } catch (final Exception se) {
             throw new Error("Unable to setup SAX parser" + se);
         }
-    }
-
-    /**
-     * Internally sets up the XMLReader
-     */
-    private void setParser(XMLReader parser) {
-        m_parser = parser;
-
-        m_handler = getHandler();
-        m_handler = new SAXConfigurationHandler();
-
-        m_parser.setContentHandler(m_handler);
-        m_parser.setErrorHandler(m_handler);
-    }
-
-    /**
-     * Get a SAXConfigurationHandler for your configuration reading.
-     *
-     * @return a <code>SAXConfigurationHandler</code>
-     */
-    private SAXConfigurationHandler getHandler() {
-        return new SAXConfigurationHandler();
     }
 
     /**
