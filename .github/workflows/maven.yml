@@ -80,8 +80,7 @@ jobs:
     name: Static Analysis
     needs: build
     continue-on-error: false
-    if: ${{ needs.build.result == 'success' }}
-    ## && github.ref == 'refs/heads/main'
+    if: ${{ needs.build.result == 'success' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write # for actions/checkout to fetch code
