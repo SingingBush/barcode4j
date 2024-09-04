@@ -23,7 +23,11 @@ package org.krysalis.barcode4j.impl.qr;
  *
  * @version $Id: QRHighLevelEncoder.java,v 1.1 2012-01-27 14:36:35 jmaerki Exp $
  */
-public class QRHighLevelEncoder implements QRConstants {
+/*
+* Deprecated : this encoder isn't actually used in QRLogicImpl as Zxing's com.google.zxing.qrcode.encoder.Encoder is
+* used instead. I've changed to package private for now just to be sure and will delete if proven to not be of any value.
+*/
+class QRHighLevelEncoder implements QRConstants {
 
     private final int encodingMode;
 

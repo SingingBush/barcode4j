@@ -51,7 +51,7 @@ class QRHighLevelEncoderTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "{}", "<>", "lowercase text" })
+    @ValueSource(strings = { "{}", "<>", "lowercase text", "2.0 = 2 x 6", "2.0 = 2x6" })
     void getEncodingModeBinary(final String msg) {
         final QRHighLevelEncoder encoder = new QRHighLevelEncoder(msg);
 

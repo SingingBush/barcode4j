@@ -19,8 +19,11 @@
 package org.krysalis.barcode4j.impl.qr;
 
 import java.awt.Dimension;
+import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.TwoDimBarcodeLogicHandler;
 
 import com.google.zxing.EncodeHintType;
@@ -46,11 +49,13 @@ public class QRLogicImpl implements QRConstants {
      * @param minSize the minimum symbol size constraint or null for no constraint
      * @param maxSize the maximum symbol size constraint or null for no constraint
      */
-    public void generateBarcodeLogic(TwoDimBarcodeLogicHandler logic, String msg,
-            String encoding,
-            char errorCorrectionLevel,
-            Dimension minSize, Dimension maxSize) {
-
+    public void generateBarcodeLogic(@NotNull final TwoDimBarcodeLogicHandler logic,
+                                     String msg,
+                                     @NotNull final String encoding,
+                                     char errorCorrectionLevel,
+                                     @Nullable Dimension minSize,
+                                     @Nullable Dimension maxSize
+    ) {
         //TODO ZXing doesn't allow to set minSize/maxSize through its API
 
         final ErrorCorrectionLevel zxingErrLevel = getZXingErrorLevel(errorCorrectionLevel);
@@ -71,10 +76,11 @@ public class QRLogicImpl implements QRConstants {
         logic.endBarcode();
     }
 
-    static Hashtable<EncodeHintType, Object> createHints(String encoding) {
+    // todo: consider changing to accept a @NotNull Charset
+    static Hashtable<EncodeHintType, Object> createHints(@NotNull final String encoding) {
         final Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
 
-        if (!"ISO-8859-1".equals(encoding)) {
+        if (!StandardCharsets.ISO_8859_1.name().equals(encoding)) {
             hints.put(EncodeHintType.CHARACTER_SET, encoding);
         }
 
@@ -84,21 +90,20 @@ public class QRLogicImpl implements QRConstants {
     static ErrorCorrectionLevel getZXingErrorLevel(char errorCorrectionLevel) {
         ErrorCorrectionLevel zxingErrLevel;
         switch (errorCorrectionLevel) {
-        case ERROR_CORRECTION_LEVEL_L:
-            zxingErrLevel = ErrorCorrectionLevel.L;
-            break;
-        case ERROR_CORRECTION_LEVEL_M:
-            zxingErrLevel = ErrorCorrectionLevel.M;
-            break;
-        case ERROR_CORRECTION_LEVEL_Q:
-            zxingErrLevel = ErrorCorrectionLevel.Q;
-            break;
-        case ERROR_CORRECTION_LEVEL_H:
-            zxingErrLevel = ErrorCorrectionLevel.H;
-            break;
-        default:
-            throw new IllegalArgumentException(
-                    "Invalid error correction level: " + errorCorrectionLevel);
+            case ERROR_CORRECTION_LEVEL_L:
+                zxingErrLevel = ErrorCorrectionLevel.L;
+                break;
+            case ERROR_CORRECTION_LEVEL_M:
+                zxingErrLevel = ErrorCorrectionLevel.M;
+                break;
+            case ERROR_CORRECTION_LEVEL_Q:
+                zxingErrLevel = ErrorCorrectionLevel.Q;
+                break;
+            case ERROR_CORRECTION_LEVEL_H:
+                zxingErrLevel = ErrorCorrectionLevel.H;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid error correction level: " + errorCorrectionLevel);
         }
         return zxingErrLevel;
     }
