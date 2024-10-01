@@ -45,7 +45,7 @@ jobs:
 
     - name: Add coverage to PR
       id: jacoco
-      uses: madrapps/jacoco-report@v1.7.0
+      uses: madrapps/jacoco-report@v1.7.1
       if: ${{ matrix.jdk == '11' }}
       with:
         paths: |
