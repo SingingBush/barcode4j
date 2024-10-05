@@ -122,7 +122,7 @@
         <org.apache.xalan.version>2.7.3</org.apache.xalan.version>
         <com.google.zxing.version>3.5.3</com.google.zxing.version>
         <javax.servlet.api.version>2.5</javax.servlet.api.version>
-        <org.apache.ant.version>1.10.14</org.apache.ant.version>
+        <org.apache.ant.version>1.10.15</org.apache.ant.version>
 <!--        todo: ditch jdom support -->
         <org.jdom.jdom2.version>2.0.6.1</org.jdom.jdom2.version>
         <net.sf.saxon.8.version>8.7</net.sf.saxon.8.version>
