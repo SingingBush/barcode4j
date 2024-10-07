@@ -110,6 +110,7 @@ public class Canvas {
      * @param fontSize the size of the font
      * @deprecated Use {@link #drawText(String, double, double, double, String, double, TextAlignment)} instead.
      */
+    @Deprecated
     public void drawJustifiedText(String text, double x1, double x2, double y1,
                 String fontName, double fontSize) {
         drawText(text, x1, x2, y1, fontName, fontSize, TextAlignment.TA_JUSTIFY);
@@ -125,6 +126,7 @@ public class Canvas {
      * @param fontSize the size of the font
      * @deprecated Use {@link #drawText(String, double, double, double, String, double, TextAlignment)} instead.
      */
+    @Deprecated
     public void drawCenteredText(String text, double x1, double x2, double y1,
                 String fontName, double fontSize) {
         drawText(text, x1, x2, y1, fontName, fontSize, TextAlignment.TA_CENTER);
