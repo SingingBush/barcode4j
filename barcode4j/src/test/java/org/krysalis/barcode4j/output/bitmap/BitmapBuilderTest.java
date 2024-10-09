@@ -1,6 +1,5 @@
 package org.krysalis.barcode4j.output.bitmap;
 
-import org.apache.commons.io.output.NullOutputStream;
 import org.junit.jupiter.api.Test;
 import org.krysalis.barcode4j.BarcodeDimension;
 import org.krysalis.barcode4j.BarcodeGenerator;
@@ -9,6 +8,7 @@ import org.krysalis.barcode4j.impl.upcean.EAN13;
 import java.awt.image.BufferedImage;
 import java.awt.image.ComponentColorModel;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,12 +47,29 @@ class BitmapBuilderTest {
 
     @Test // just ensure no exception
     void outputBarcodeImage() throws IOException {
+        final VerifyStreamUsed output = new VerifyStreamUsed();
+
         BitmapBuilder.outputBarcodeImage(
             new EAN13(),
             VALID_EAN13_MESSAGE,
-            NullOutputStream.INSTANCE,
+            output,
             "image/png",
             DESIRED_DPI
         );
+
+        assertTrue(output.isInvoked());
+    }
+
+    private static class VerifyStreamUsed extends OutputStream {
+        private static boolean invoked = false;
+
+        @Override
+        public void write(int i) throws IOException {
+            invoked = true;
+        }
+
+        public boolean isInvoked() {
+            return invoked;
+        }
     }
 }
