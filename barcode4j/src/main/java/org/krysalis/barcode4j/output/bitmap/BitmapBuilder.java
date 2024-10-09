@@ -38,12 +38,10 @@ public class BitmapBuilder {
 
     private static final int DEFAULT_ORIENTATION = 0;
 
-    /**
-     * Utility class: Constructor prevents instantiating when subclassed.
+    /*
+     * Utility class: private constructor prevents instantiating
      */
-    protected BitmapBuilder() {
-        throw new UnsupportedOperationException();
-    }
+    private BitmapBuilder() {}
 
     /**
      * Prepares a BufferedImage to paint to.
