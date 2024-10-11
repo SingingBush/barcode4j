@@ -165,7 +165,10 @@ public class DefaultConfiguration extends AbstractConfiguration implements Mutab
     }
 
     /**
-     * @deprecated
+     * @param name of the attribute
+     * @param value of the attribute
+     * @return the value being set
+     * @deprecated use {@link #setAttribute(String, String)}
      */
     @Deprecated
     public String addAttribute(String name, String value) {

@@ -33,8 +33,7 @@ public abstract class AbstractCanvasProvider implements CanvasProvider {
     private final int orientation;
 
     /**
-     * Main constructor.
-     * @param orientation the orientation of the barcode
+     * @param orientation The orientation of the barcode, eg: 0, 90, 180, 270
      */
     public AbstractCanvasProvider(int orientation) {
         this.orientation = BarcodeDimension.normalizeOrientation(orientation);

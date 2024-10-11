@@ -40,13 +40,14 @@ public abstract class AbstractSVGGeneratingCanvasProvider extends AbstractXMLGen
      * Creates a new AbstractSVGCanvasProvider.
      * @param useNamespace Controls whether namespaces should be used
      * @param namespacePrefix the namespace prefix to use, null for no prefix
+     * @param orientation The orientation of the barcode, eg: 0, 90, 180, 270
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public AbstractSVGGeneratingCanvasProvider(boolean useNamespace, @Nullable String namespacePrefix, int orientation)
-                throws BarcodeCanvasSetupException {
+    public AbstractSVGGeneratingCanvasProvider(boolean useNamespace, @Nullable String namespacePrefix, int orientation) throws BarcodeCanvasSetupException {
         super(orientation);
-        if (!useNamespace && namespacePrefix != null)
+        if (!useNamespace && namespacePrefix != null) {
             throw new IllegalArgumentException("No prefix allow when namespaces are enabled");
+        }
         this.useNamespace = true;
         this.prefix = namespacePrefix;
     }
@@ -54,16 +55,17 @@ public abstract class AbstractSVGGeneratingCanvasProvider extends AbstractXMLGen
     /**
      * Creates a new AbstractSVGCanvasProvider with namespaces enabled.
      * @param namespacePrefix the namespace prefix to use, null for no prefix
+     * @param orientation The orientation of the barcode, eg: 0, 90, 180, 270
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
-    public AbstractSVGGeneratingCanvasProvider(@Nullable String namespacePrefix, int orientation)
-                throws BarcodeCanvasSetupException {
+    public AbstractSVGGeneratingCanvasProvider(@Nullable String namespacePrefix, int orientation) throws BarcodeCanvasSetupException {
         this(true, namespacePrefix, orientation);
     }
 
     /**
      * Creates a new AbstractSVGCanvasProvider.
      * @param useNamespace Controls whether namespaces should be used
+     * @param orientation The orientation of the barcode, eg: 0, 90, 180, 270
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
     public AbstractSVGGeneratingCanvasProvider(boolean useNamespace, int orientation) throws BarcodeCanvasSetupException {
@@ -73,6 +75,7 @@ public abstract class AbstractSVGGeneratingCanvasProvider extends AbstractXMLGen
     /**
      * Creates a new AbstractSVGCanvasProvider with default settings (with
      * namespaces, but without namespace prefix).
+     * @param orientation The orientation of the barcode, eg: 0, 90, 180, 270
      * @throws BarcodeCanvasSetupException if setting up the provider fails
      */
     public AbstractSVGGeneratingCanvasProvider(int orientation) throws BarcodeCanvasSetupException {

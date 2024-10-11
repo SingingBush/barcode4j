@@ -84,6 +84,13 @@ public class BitmapEncoderRegistry {
         }
     }
 
+    /**
+     * Register a new BitmapEncoder implementation.
+     * @param classname fully qualified classname of the BitmapEncoder implementation
+     * @param priority lets you define a priority for an encoder. If you want to give an encoder a high priority, assign a value of 100 or higher.
+     * @param complain will log an error and throw an IllegalArgumentException only if set to true
+     * @deprecated please use {@link BitmapEncoderRegistry#register(BitmapEncoder, int)}
+     */
     @Deprecated
     private static synchronized void register(String classname, int priority, boolean complain) {
         boolean failed = false;
@@ -107,9 +114,9 @@ public class BitmapEncoderRegistry {
 
     /**
      * Register a BitmapEncoder implementation.
+     * @param <T> a class that extends BitmapEncoder
      * @param bitmapEncoder an implementation of BitmapEncoder
-     * @param priority lets you define a priority for an encoder. If you want
-     *      to give an encoder a high priority, assign a value of 100 or higher.
+     * @param priority lets you define a priority for an encoder. If you want to give an encoder a high priority, assign a value of 100 or higher.
      * @return true if the bitmap encoder has been registered
      * @author Samael Bate (singingbush)
      * created on 23/02/2024
@@ -122,27 +129,12 @@ public class BitmapEncoderRegistry {
     /**
      * Register a new BitmapEncoder implementation.
      * @param classname fully qualified classname of the BitmapEncoder implementation
-     * @param priority lets you define a priority for an encoder. If you want
-     *      to give an encoder a high priority, assign a value of 100 or higher.
-     * @deprecated please use {@link BitmapEncoderRegistry#register(Class, int)} or {@link BitmapEncoderRegistry#register(BitmapEncoder, int)}
+     * @param priority lets you define a priority for an encoder. If you want to give an encoder a high priority, assign a value of 100 or higher.
+     * @deprecated please use {@link BitmapEncoderRegistry#register(BitmapEncoder, int)}
      */
     @Deprecated
     public static void register(String classname, int priority) {
         register(classname, priority, true);
-    }
-
-    /**
-     * Register a new BitmapEncoder implementation.
-     * @param bitmapEncoderClass a class that implements BitmapEncoder
-     * @param priority the priority for an encoder. zero being low and 100 or higher being high
-     */
-    @SuppressWarnings("unused")
-    public static <BitmapEncoder> void register(final Class<BitmapEncoder> bitmapEncoderClass, final int priority) {
-        register(bitmapEncoderClass, priority, true);
-    }
-
-    private static <BitmapEncoder> void register(final Class<BitmapEncoder> bitmapEncoderClass, final int priority, final boolean complain) {
-        register(bitmapEncoderClass.getName(), priority, complain);
     }
 
     /**

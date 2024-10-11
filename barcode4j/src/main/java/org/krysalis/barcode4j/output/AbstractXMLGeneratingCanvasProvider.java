@@ -29,6 +29,9 @@ public abstract class AbstractXMLGeneratingCanvasProvider extends AbstractCanvas
 
     private DecimalFormat df;
 
+    /**
+     * @param orientation The orientation of the barcode, eg: 0, 90, 180, 270
+     */
     public AbstractXMLGeneratingCanvasProvider(int orientation) {
         super(orientation);
     }

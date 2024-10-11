@@ -79,6 +79,10 @@ public class BarcodeDimension {
         return height;
     }
 
+    /**
+     * @param orientation The orientation of the barcode (eg: 0, 90, 180 or 270)
+     * @return height in millimeters (mm) that will take the orientation into account
+     */
     public double getHeight(int orientation) {
         orientation = normalizeOrientation(orientation);
         if (orientation % 180 != 0) {
@@ -96,6 +100,10 @@ public class BarcodeDimension {
         return heightPlusQuiet;
     }
 
+    /**
+     * @param orientation The orientation of the barcode (eg: 0, 90, 180 or 270)
+     * @return height in millimeters (mm) including the Quiet Zone
+     */
     public double getHeightPlusQuiet(int orientation) {
         orientation = normalizeOrientation(orientation);
         if (orientation % 180 != 0) {
@@ -113,6 +121,10 @@ public class BarcodeDimension {
         return width;
     }
 
+    /**
+     * @param orientation The orientation of the barcode (eg: 0, 90, 180 or 270)
+     * @return Normalised value for orientation. For example if you pass in -90 method will return positive value equivalent of 270
+     */
     public static int normalizeOrientation(int orientation) {
         switch (orientation) {
         case 0:
@@ -131,6 +143,10 @@ public class BarcodeDimension {
         }
     }
 
+    /**
+     * @param orientation The orientation of the barcode (eg: 0, 90, 180 or 270)
+     * @return width in millimeters (mm) that will take the orientation into account
+     */
     public double getWidth(int orientation) {
         orientation = normalizeOrientation(orientation);
         if (orientation % 180 != 0) {
@@ -148,6 +164,10 @@ public class BarcodeDimension {
         return widthPlusQuiet;
     }
 
+    /**
+     * @param orientation The orientation of the barcode (eg: 0, 90, 180 or 270)
+     * @return width in millimeters (mm) including the Quiet Zone
+     */
     public double getWidthPlusQuiet(int orientation) {
         orientation = normalizeOrientation(orientation);
         if (orientation % 180 != 0) {
