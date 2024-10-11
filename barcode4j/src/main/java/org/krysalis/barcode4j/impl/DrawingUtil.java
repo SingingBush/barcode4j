@@ -15,13 +15,14 @@
  */
 package org.krysalis.barcode4j.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.TextAlignment;
 import org.krysalis.barcode4j.output.Canvas;
 import org.krysalis.barcode4j.tools.UnitConv;
 
 /**
  * Drawing utilities.
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: DrawingUtil.java,v 1.2 2008-05-13 13:00:45 jmaerki Exp $
  */
@@ -35,12 +36,14 @@ public class DrawingUtil {
      * @param x1 the left boundary
      * @param x2 the right boundary
      * @param y1 the y coordinate of the font's baseline
+     * @deprecated use {@link Canvas#drawCenteredChar(char, double, double, double, String, double)}
      */
-    public static void drawCenteredChar(Canvas canvas, AbstractBarcodeBean bean, 
-                                    char ch, 
+    @Deprecated
+    public static void drawCenteredChar(Canvas canvas, AbstractBarcodeBean bean,
+                                    char ch,
                                     double x1, double x2, double y1) {
-        canvas.drawCenteredChar(ch, x1, x2, 
-                y1 - UnitConv.pt2mm(bean.getFontSize()) * 0.2, 
+        canvas.drawCenteredChar(ch, x1, x2,
+                y1 - UnitConv.pt2mm(bean.getFontSize()) * 0.2,
                 bean.getFontName(), bean.getFontSize());
     }
 
@@ -54,8 +57,9 @@ public class DrawingUtil {
      * @param y1 the y coordinate of the font's baseline
      * @deprecated Use {@link #drawText(Canvas, AbstractBarcodeBean, String, double, double, double, TextAlignment)} instead.
      */
+    @Deprecated
     public static void drawJustifiedText(Canvas canvas, AbstractBarcodeBean bean,
-                                    String text, 
+                                    String text,
                                     double x1, double x2, double y1) {
         drawText(canvas, bean, text, x1, x2, y1, TextAlignment.TA_JUSTIFY);
     }
@@ -70,8 +74,9 @@ public class DrawingUtil {
      * @param y1 the y coordinate of the font's baseline
      * @deprecated Use {@link #drawText(Canvas, AbstractBarcodeBean, String, double, double, double, TextAlignment)} instead.
      */
-    public static void drawCenteredText(Canvas canvas, AbstractBarcodeBean bean, 
-                                    String text, 
+    @Deprecated
+    public static void drawCenteredText(Canvas canvas, AbstractBarcodeBean bean,
+                                    String text,
                                     double x1, double x2, double y1) {
         drawText(canvas, bean, text, x1, x2, y1, TextAlignment.TA_CENTER);
     }
@@ -86,14 +91,14 @@ public class DrawingUtil {
      * @param y1 the y coordinate of the font's baseline
      * @param textAlign the text alignment
      */
-    public static void drawText(Canvas canvas, AbstractBarcodeBean bean, 
-                                    String text, 
+    public static void drawText(@NotNull final Canvas canvas, @NotNull final AbstractBarcodeBean bean,
+                                    String text,
                                     double x1, double x2, double y1,
                                     TextAlignment textAlign) {
-        canvas.drawText(text, x1, x2, 
-                y1 - UnitConv.pt2mm(bean.getFontSize()) * 0.2, 
+        canvas.drawText(text, x1, x2,
+                y1 - UnitConv.pt2mm(bean.getFontSize()) * 0.2,
                 bean.getFontName(), bean.getFontSize(),
                 textAlign);
     }
-    
+
 }
