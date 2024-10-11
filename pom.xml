@@ -117,26 +117,40 @@
 
         <!-- dependencyManagement - set fixed versions for all project dependencies -->
         <apache.commons-cli.version>1.9.0</apache.commons-cli.version>
-        <org.apache.xmlgraphics.version>2.9</org.apache.xmlgraphics.version>
+        <org.apache.xmlgraphics.version>2.10</org.apache.xmlgraphics.version>
         <org.apache.xmlgraphics.batik.version>1.17</org.apache.xmlgraphics.batik.version>
         <org.apache.xalan.version>2.7.3</org.apache.xalan.version>
         <com.google.zxing.version>3.5.3</com.google.zxing.version>
         <javax.servlet.api.version>2.5</javax.servlet.api.version>
         <org.apache.ant.version>1.10.14</org.apache.ant.version>
-<!--        todo: ditch jdom support -->
+        <!-- todo: ditch jdom support if project isn't maintained https://github.com/hunterhacker/jdom -->
         <org.jdom.jdom2.version>2.0.6.1</org.jdom.jdom2.version>
         <net.sf.saxon.8.version>8.7</net.sf.saxon.8.version>
         <net.sf.saxon.9.version>9.1.0.8</net.sf.saxon.9.version>
 
+        <slf4j.version>2.0.16</slf4j.version>
         <junit.version>5.11.1</junit.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <!-- logging implementation is only to be used for examples or during testing -->
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
-                <version>25.0.0</version>
+                <version>26.0.0</version>
                 <scope>provided</scope>
                 <!-- set to provided so they don't get bundled into the jar (not needed at runtime) -->
                 <optional>true</optional>
