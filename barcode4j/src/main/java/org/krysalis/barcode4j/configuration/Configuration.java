@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
  * This is a "read only" interface preventing applications from modifying their
  * own configurations. Once it is created, the information never changes.
  * </p>
- * <h3>Data Model</h3>
+ * <h2>Data Model</h2>
  * <p>
  * The data model is a subset of XML's; a single-rooted hierarchical tree where each
  * node can contain multiple <em>attributes</em>, and leaf nodes can also
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
  * class, or directly by a SAX parser using a SAXConfigurationHandler or
  * NamespacedSAXConfigurationHandler event handler.
  * </p>
- * <h4>Namespace support</h4>
+ * <h3>Namespace support</h3>
  * <p>
  * Since version 4.1, each <code>Configuration</code> node has a namespace
  * associated with it, in the form of a string, accessible through {@link
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
  * return blank (""). See DefaultConfigurationBuilder for details on how
  * XML namespaces are mapped to <code>Configuration</code> namespaces.
  * </p>
- * <h3>Example</h3>
+ * <h2>Example</h2>
  * <p>
  * As an example, consider two <code>Configuration</code>s (with and without
  * namespaces) built from this XML:
@@ -55,11 +55,9 @@ import org.jetbrains.annotations.Nullable;
  * an attribute named "xmlns:doc", and a child called "doc:desc".
  * </p>
  * <p>
- * Assuming the <code>Configuration</code> object is named <code>conf</code>,
- * here is how the data could be retrieved:
+ * Assuming the <code>Configuration</code> object is named <code>conf</code>, here is how the data could be retrieved:
  * </p>
- * <p>
- * <table border="1">
+ * <table border="1"><tbody>
  *   <tr><th>Code</th><th>No namespaces</th><th>With namespaces</th></tr>
  *   <tr><td>
  *   <code>conf.{@link #getName getName}()</code></td><td colspan="2">my-system</td></tr>
@@ -97,14 +95,14 @@ import org.jetbrains.annotations.Nullable;
  *   <tr><td>
  *   <code>conf.{@link #getChild(String) getChild}("desc").{@link #getNamespace getNamespace}()</code>
  *   </td><td>&nbsp;</td><td>http://myco.com/documentation"</td></tr>
- * </table>
- * </p>
+ * </tbody></table>
+ *
  * <p>
  * Type-safe utility methods are provided for retrieving attribute and element
  * values as <code>String</code>, <code>int</code>, <code>long</code>,
  * <code>float</code> and <code>boolean</code>.
  * </p>
- * <h3>Miscellanea</h3>
+ * <h2>Miscellanea</h2>
  * <p>
  * Currently, the configuration tree can only be traversed one node at a time,
  * eg., through {@link #getChild(String) getChild("foo")} or {@link #getChildren()}. In

@@ -648,6 +648,7 @@
                             </execution>
                         </executions>
                         <configuration>
+                            <doclint>all,-missing,-accessibility</doclint>
                             <quiet>true</quiet>
                             <failOnWarnings>false</failOnWarnings>
                             <failOnError>true</failOnError>
@@ -692,6 +693,7 @@
                             </execution>
                         </executions>
                         <configuration>
+                            <doclint>all,-missing,-accessibility</doclint>
                             <quiet>true</quiet>
                             <failOnWarnings>false</failOnWarnings>
                             <failOnError>true</failOnError>
