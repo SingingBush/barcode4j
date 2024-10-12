@@ -15,6 +15,8 @@
  */
 package org.krysalis.barcode4j.impl.code128;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -28,14 +30,27 @@ import java.util.StringTokenizer;
  */
 public class EAN128AI {
 
-    public final static byte CONSTLenMax = 48; // Max according to EAN128 specification.
+    /** Max length according to EAN128 specification */
+    public final static byte CONSTLenMax = 48;
+
+    /** Alpha Numeric */
     public final static byte TYPEAlphaNum = 0;
+
+    /** Numeric */
     public final static byte TYPENum = 1;
-    public final static byte TYPEAlpha = 2;    //Unused at the moment, but mentioned by
-                                                //the EAN128 specification.
+
+    /** Alpha */
+    // Unused at the moment, but mentioned by the EAN128 specification
+    public final static byte TYPEAlpha = 2;
+
     public final static byte TYPENumDate = 3;
+
+    /** Error */
     public final static byte TYPEError = 4;
-    public final static byte TYPECD = 5; //Check digit
+
+    /** Check Digit */
+    public final static byte TYPECD = 5;
+
     private final static String[] typeToString = {"an", "n", "a", "d", "e", "cd"};
 
 //    public final static byte TYPEAlphaNum421 = 7;
@@ -98,7 +113,7 @@ public class EAN128AI {
 //        loadProperties();
     }
 
-    public static synchronized void loadProperties() throws Exception {
+    private static synchronized void loadProperties() throws Exception {
         if (propertiesLoaded) return;
 
         final String bundlename = "EAN128AIs";
@@ -230,7 +245,7 @@ public class EAN128AI {
     }
 
     public static EAN128AI parseSpec(String ai, String spec) {
-        EAN128AI  ret = parseSpecPrivate(ai, spec);
+        final EAN128AI ret = parseSpecPrivate(ai, spec);
         checkAI(ret);
         return ret;
     }
@@ -316,18 +331,18 @@ public class EAN128AI {
         }
     }
 
-    public static boolean checkAI(EAN128AI ai) {
+    public static boolean checkAI(@NotNull final EAN128AI ai) {
         EAN128AI aiCompare = getAIPrivate(ai.id + "0000", 0);
         checkFixed(ai, aiCompare);
         return true;
     }
 
-    public static EAN128AI getAI(String msg, int msgStart) throws Exception {
+    public static EAN128AI getAI(@NotNull final String msg, int msgStart) throws Exception {
         loadProperties();
         return getAIPrivate(msg, msgStart);
     }
 
-    private static EAN128AI getAIPrivate(String msg, int msgStart) {
+    private static EAN128AI getAIPrivate(@NotNull final String msg, int msgStart) {
         EAN128AI ret = dft;
         Object o = aiTable;
         int c;
@@ -345,7 +360,7 @@ public class EAN128AI {
         return ret;
     }
 
-    private static char getIDChar(String msg, int msgStart) {
+    private static char getIDChar(@NotNull final String msg, int msgStart) {
         char ret;
         try {
             ret = msg.charAt(msgStart);

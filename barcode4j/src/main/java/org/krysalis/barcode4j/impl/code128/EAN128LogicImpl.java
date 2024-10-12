@@ -132,8 +132,10 @@ public class EAN128LogicImpl {
         logic.endBarcode();
     }
 
-
-    public void addAIs(String msg) {
+    /**
+     * @param msg The barcode message
+     */
+    public void addAIs(@NotNull String msg) {
         int offset = 0;
         int i = 0;
         EAN128AI ai = null;
@@ -166,10 +168,7 @@ public class EAN128LogicImpl {
         return Math.min(retGS, retF);
     }
 
-    public int addAI(String msg, int offset, EAN128AI ai) {
-        if (msg == null) {
-            throw getException("Message is empty!");
-        }
+    public int addAI(@NotNull String msg, int offset, @Nullable EAN128AI ai) {
         try {
             if (ai == null) {
                 ai = EAN128AI.getAI(msg, offset);
