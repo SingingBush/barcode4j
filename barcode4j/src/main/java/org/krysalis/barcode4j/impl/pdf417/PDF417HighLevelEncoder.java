@@ -343,6 +343,12 @@ public class PDF417HighLevelEncoder implements PDF417Constants {
         }
     }
 
+    /**
+     * @param msg the message
+     * @param startpos the start position within the message
+     * @param count the number of bytes to encode
+     * @param sb receives the encoded codewords
+     */
     public static void encodeNumeric(String msg, int startpos, int count, StringBuffer sb) {
         int idx = 0;
         StringBuffer tmp = new StringBuffer(count / 3 + 1);

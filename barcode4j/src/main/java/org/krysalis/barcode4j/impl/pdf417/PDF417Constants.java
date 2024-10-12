@@ -27,7 +27,7 @@ public interface PDF417Constants {
 
     String CP437 = "cp437";
 
-    //See 4.4.3 and annex B of ISO/IEC 15438:2001(E)
+    /** See 4.4.3 and annex B of ISO/IEC 15438:2001(E) */
     String DEFAULT_ENCODING = CP437;
 
     /** code for Text compaction */

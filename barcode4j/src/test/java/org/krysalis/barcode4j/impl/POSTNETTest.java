@@ -43,12 +43,12 @@ public class POSTNETTest {
 
     @Test
     void testIllegalArguments() throws Exception {
+        final POSTNET impl = new POSTNET();
         try {
-            POSTNET impl = new POSTNET();
             impl.generateBarcode(null, null);
-            fail("Expected an NPE");
-        } catch (final NullPointerException npe) {
-            assertNotNull(npe.getMessage(), "Error message is empty");
+            fail("Expected an Null Pointer or Illegal Arg exception");
+        } catch (IllegalArgumentException | NullPointerException e) {
+            assertNotNull(e.getMessage(), "Error message is empty");
         }
     }
 

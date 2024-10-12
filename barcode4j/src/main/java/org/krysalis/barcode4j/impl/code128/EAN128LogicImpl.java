@@ -381,11 +381,16 @@ public class EAN128LogicImpl {
         return exception;
     }
 
-
+    /**
+     * @return a String of the Code 128 message
+     */
     public String getCode128Msg() {
         return code128Msg.toString();
     }
 
+    /**
+     * @return a String of the human-readable form of the barcode message
+     */
     public String getHumanReadableMsg() {
         return humanReadableMsg.toString();
     }
@@ -395,6 +400,9 @@ public class EAN128LogicImpl {
         return getHumanReadableMsg();
     }
 
+    /**
+     * @param mode Can be one of: auto, ignore, add, check
+     */
     public void setChecksumMode(ChecksumMode mode) {
         if (mode == ChecksumMode.CP_AUTO) {
             checksumADD = true;

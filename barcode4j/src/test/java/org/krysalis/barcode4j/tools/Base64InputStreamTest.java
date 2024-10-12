@@ -75,7 +75,7 @@ public class Base64InputStreamTest {
         );
 
         // note that running in IDE will result in IllegalArgumentException while mvn test will be NullPointerException
-        assertThrows(NullPointerException.class,
+        assertThrows(RuntimeException.class,
             () -> new Base64InputStream(null)
         );
 

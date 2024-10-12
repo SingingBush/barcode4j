@@ -33,9 +33,10 @@ public class Code128Test {
     void testIllegalArguments() {
         final Code128 impl = new Code128();
 
-        assertThrows(NullPointerException.class,
+        // due to @NotNull on args, can be one of two exceptions depending on how tests are run
+        assertThrows(RuntimeException.class,
             () -> impl.generateBarcode(null, null),
-            "Expected a NullPointerException");
+            "Expected a NullPointerException or IllegalArgumentException");
     }
 
     @Test

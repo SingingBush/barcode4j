@@ -32,7 +32,7 @@ public interface BarcodeGenerator {
      * @param canvas CanvasProvider that the barcode is to be rendered on.
      * @param msg message to encode
      */
-    void generateBarcode(CanvasProvider canvas, String msg);
+    void generateBarcode(@NotNull CanvasProvider canvas, String msg);
 
     /**
      * Calculates the dimension of a barcode with the given message. The

@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j.impl.code128;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
@@ -304,7 +305,8 @@ public class EAN128AI {
             }
         }
     }
-    private static byte parseByte(String val, byte dft, String spec) {
+
+    private static byte parseByte(@NotNull final String val, byte dft, String spec) {
         try {
             return Byte.parseByte(val);
         } catch (Exception e) {
@@ -314,7 +316,9 @@ public class EAN128AI {
             return dft;
         }
     }
-    private static EAN128AI parseSpecPrivate(String ai, String spec) {
+
+    @Contract("_, _ -> new")
+    private static @NotNull EAN128AI parseSpecPrivate(@NotNull final String ai, @NotNull String spec) {
         try {
             byte lenID = (byte) ai.trim().length();
             spec = spec.trim();

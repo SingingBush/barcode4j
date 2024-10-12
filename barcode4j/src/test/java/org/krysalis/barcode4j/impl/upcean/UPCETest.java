@@ -35,12 +35,12 @@ public class UPCETest {
 
     @Test
     void testIllegalArguments() throws Exception {
+        final UPCE impl = new UPCE();
         try {
-            final UPCE impl = new UPCE();
             impl.generateBarcode(null, null);
-            fail("Expected an NPE");
-        } catch (NullPointerException npe) {
-            assertNotNull(npe.getMessage(), "Error message is empty");
+            fail("Expected an Null Pointer or Illegal Arg exception");
+        } catch (IllegalArgumentException | NullPointerException e) {
+            assertNotNull(e.getMessage(), "Error message is empty");
         }
 
         //Test invalid characters in message

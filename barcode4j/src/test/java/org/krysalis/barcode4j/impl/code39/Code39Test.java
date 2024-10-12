@@ -45,9 +45,9 @@ public class Code39Test {
         try {
             Code39 impl = new Code39();
             impl.generateBarcode(null, null);
-            fail("Expected an NPE");
-        } catch (NullPointerException npe) {
-            assertNotNull(npe.getMessage(), "Error message is empty");
+            fail("Expected an Null Pointer or Illegal Arg exception");
+        } catch (IllegalArgumentException | NullPointerException e) {
+            assertNotNull(e.getMessage(), "Error message is empty");
         }
     }
 
