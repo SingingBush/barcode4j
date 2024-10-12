@@ -47,19 +47,29 @@ public class EAN128LogicImpl {
     private String msgCache = null;
     private final StringBuffer code128Msg = new StringBuffer(MAX_LENGTH);
     private final StringBuffer humanReadableMsg = new StringBuffer(MAX_LENGTH);
-    private int[] encodedMsg = new int[]{};
+    private int[] encodedMsg = new int[] {};
     private IllegalArgumentException exception = null;
 
     private boolean checksumADD = true;
     private boolean checksumCHECK = true;
 
-    public EAN128LogicImpl(ChecksumMode mode, String template, char groupSeparator) {
+    /**
+     * @param mode ChecksumMode
+     * @param template String
+     * @param groupSeparator char
+     */
+    public EAN128LogicImpl(ChecksumMode mode, @Nullable String template, char groupSeparator) {
         setChecksumMode(mode);
         setTemplate(template);
         this.groupSeparator = groupSeparator;
     }
 
-    public EAN128LogicImpl(ChecksumMode mode, String template) {
+    /**
+     * Constructor that defaults to using {@link EAN128Bean#DEFAULT_GROUP_SEPARATOR}
+     * @param mode ChecksumMode
+     * @param template String
+     */
+    public EAN128LogicImpl(ChecksumMode mode, @Nullable String template) {
         this(mode, template, EAN128Bean.DEFAULT_GROUP_SEPARATOR);
     }
 
@@ -168,6 +178,12 @@ public class EAN128LogicImpl {
         return Math.min(retGS, retF);
     }
 
+    /**
+     * @param msg String
+     * @param offset int
+     * @param ai EAN128AI
+     * @return int
+     */
     public int addAI(@NotNull String msg, int offset, @Nullable EAN128AI ai) {
         try {
             if (ai == null) {
@@ -414,7 +430,7 @@ public class EAN128LogicImpl {
     /**
      * @param string template string
      */
-    public void setTemplate(String string) {
+    public void setTemplate(@Nullable String string) {
         if (string == null || string.trim().isEmpty()) {
             return;
         }

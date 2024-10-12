@@ -108,10 +108,18 @@ public class URLUtil {
         return urlEncoding;
     }
 
+    /**
+     * @param message String
+     * @return String
+     */
     public static boolean isURL(@NotNull final String message) {
         return message.startsWith(URLUtil.URL_START) && message.endsWith(URLUtil.URL_END);
     }
 
+    /**
+     * @param message String
+     * @return String
+     */
     @Nullable
     public static String getURL(@NotNull final String message) {
         return URLUtil.isURL(message) ?

@@ -71,7 +71,7 @@ public class DataMatrixSymbolInfo {
      * Overrides the symbol info set used by this class. Used for testing purposes.
      * @param override the symbol info set to use
      */
-    public static void overrideSymbolSet(DataMatrixSymbolInfo[] override) {
+    static void overrideSymbolSet(DataMatrixSymbolInfo[] override) {
         symbols = override;
     }
 
@@ -120,23 +120,52 @@ public class DataMatrixSymbolInfo {
         this.rsBlockError = rsBlockError;
     }
 
+    /**
+     * @param dataCodewords int
+     * @return DataMatrixSymbolInfo
+     */
     public static DataMatrixSymbolInfo lookup(int dataCodewords) {
         return lookup(dataCodewords, SymbolShapeHint.FORCE_NONE, true);
     }
 
+    /**
+     * @param dataCodewords int
+     * @param shape SymbolShapeHint
+     * @return DataMatrixSymbolInfo
+     */
     public static DataMatrixSymbolInfo lookup(int dataCodewords, SymbolShapeHint shape) {
         return lookup(dataCodewords, shape, true);
     }
 
+    /**
+     * @param dataCodewords int
+     * @param allowRectangular boolean
+     * @param fail boolean
+     * @return DataMatrixSymbolInfo
+     */
     public static DataMatrixSymbolInfo lookup(int dataCodewords, boolean allowRectangular, boolean fail) {
         final SymbolShapeHint shape = allowRectangular ? SymbolShapeHint.FORCE_NONE : SymbolShapeHint.FORCE_SQUARE;
         return lookup(dataCodewords, shape, fail);
     }
 
+    /**
+     * @param dataCodewords int
+     * @param shape SymbolShapeHint
+     * @param fail boolean
+     * @return DataMatrixSymbolInfo
+     */
     public static DataMatrixSymbolInfo lookup(int dataCodewords, SymbolShapeHint shape, boolean fail) {
         return lookup(dataCodewords, shape, null, null, fail);
     }
 
+    /**
+     * @param dataCodewords int
+     * @param shape SymbolShapeHint
+     * @param minSize Dimension
+     * @param maxSize Dimension
+     * @param fail boolean
+     * @return DataMatrixSymbolInfo
+     */
     @Nullable
     public static DataMatrixSymbolInfo lookup(int dataCodewords, SymbolShapeHint shape, Dimension minSize, Dimension maxSize, boolean fail) {
         for (final DataMatrixSymbolInfo symbol : symbols) {

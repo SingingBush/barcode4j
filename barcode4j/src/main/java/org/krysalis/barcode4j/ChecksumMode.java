@@ -21,6 +21,7 @@ package org.krysalis.barcode4j;
  * @author Jeremias Maerki
  * @version $Id: ChecksumMode.java,v 1.3 2004-10-02 14:53:22 jmaerki Exp $
  */
+// todo: change this to an enum
 public class ChecksumMode {
 
     /** "auto" chooses the barcode's default checksum behaviour */

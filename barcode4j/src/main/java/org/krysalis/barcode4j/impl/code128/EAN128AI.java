@@ -55,7 +55,6 @@ public class EAN128AI {
 
 //    public final static byte TYPEAlphaNum421 = 7;
 
-
     String id;
     byte lenID, lenMinAll, lenMaxAll;
     byte minLenAfterVariableLen;
@@ -244,6 +243,11 @@ public class EAN128AI {
         }
     }
 
+    /**
+     * @param ai String
+     * @param spec String
+     * @return EAN128AI
+     */
     public static EAN128AI parseSpec(String ai, String spec) {
         final EAN128AI ret = parseSpecPrivate(ai, spec);
         checkAI(ret);
@@ -331,12 +335,22 @@ public class EAN128AI {
         }
     }
 
+    /**
+     * @param ai EAN128AI
+     * @return true
+     */
     public static boolean checkAI(@NotNull final EAN128AI ai) {
-        EAN128AI aiCompare = getAIPrivate(ai.id + "0000", 0);
+        final EAN128AI aiCompare = getAIPrivate(ai.id + "0000", 0);
         checkFixed(ai, aiCompare);
         return true;
     }
 
+    /**
+     * @param msg String
+     * @param msgStart int
+     * @return EAN128AI
+     * @throws Exception if properties cannot be loaded
+     */
     public static EAN128AI getAI(@NotNull final String msg, int msgStart) throws Exception {
         loadProperties();
         return getAIPrivate(msg, msgStart);

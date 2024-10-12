@@ -25,17 +25,20 @@ package org.krysalis.barcode4j.impl.qr;
  */
 public interface QRConstants {
 
-    char ERROR_CORRECTION_LEVEL_L = 'L';
-    char ERROR_CORRECTION_LEVEL_M = 'M';
-    char ERROR_CORRECTION_LEVEL_Q = 'Q';
-    char ERROR_CORRECTION_LEVEL_H = 'H';
+    /** ~7% correction */ char ERROR_CORRECTION_LEVEL_L = 'L';
+    /** ~15% correction */ char ERROR_CORRECTION_LEVEL_M = 'M';
+    /** ~25% correction */ char ERROR_CORRECTION_LEVEL_Q = 'Q';
+    /** ~30% correction */ char ERROR_CORRECTION_LEVEL_H = 'H';
 
-    int QUIET_ZONE_SIZE = 4;
-    int QUIET_ZONE_SIZE_MICRO = 2;
+    /** */ int QUIET_ZONE_SIZE = 4;
+    /** */ int QUIET_ZONE_SIZE_MICRO = 2;
 
-    int NUMERIC = 0; // Numeric encoding (10 bits per 3 digits)
-    int ALPHANUMERIC = 1; // Alphanumeric encoding (11 bits per 2 characters)
-    int BINARY = 2; // Byte encoding (8 bits per character)
+    /** Numeric encoding (10 bits per 3 digits) */
+    int NUMERIC = 0;
+    /** Alphanumeric encoding (11 bits per 2 characters) */
+    int ALPHANUMERIC = 1;
+    /** Byte encoding (8 bits per character) */
+    int BINARY = 2;
 
     // int KANJI_KANA_MODE = 3; // todo: Add support for Kanji encoding (13 bits per character)
 
