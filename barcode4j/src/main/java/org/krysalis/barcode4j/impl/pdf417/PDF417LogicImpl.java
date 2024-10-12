@@ -20,6 +20,7 @@ package org.krysalis.barcode4j.impl.pdf417;
 
 import java.awt.Dimension;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.krysalis.barcode4j.BarGroup;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
@@ -184,36 +185,30 @@ public class PDF417LogicImpl {
      * @param pdf417Bean reference to the PDF417 bean for configuration access
      */
     public static void generateBarcodeLogic(TwoDimBarcodeLogicHandler logic,
-            String msg, PDF417Bean pdf417Bean) {
+                                            String msg,
+                                            @NotNull final PDF417Bean pdf417Bean) {
 
         int errorCorrectionLevel = pdf417Bean.getErrorCorrectionLevel();
 
         //1. step: High-level encoding
-        int errorCorrectionCodeWords = PDF417ErrorCorrection.getErrorCorrectionCodewordCount(
-                errorCorrectionLevel);
-        String highLevel = PDF417HighLevelEncoder.encodeHighLevel(msg,
-                pdf417Bean.getEncoding(), pdf417Bean.isECIEnabled());
+        int errorCorrectionCodeWords = PDF417ErrorCorrection.getErrorCorrectionCodewordCount(errorCorrectionLevel);
+        String highLevel = PDF417HighLevelEncoder.encodeHighLevel(msg, pdf417Bean.getEncoding(), pdf417Bean.isECIEnabled());
         int sourceCodeWords = highLevel.length();
 
         Dimension dimension = determineDimensions(pdf417Bean, sourceCodeWords);
 
         if (dimension == null) {
-            throw new IllegalArgumentException(
-                    "Unable to fit message in columns");
+            throw new IllegalArgumentException("Unable to fit message in columns");
         }
 
         int rows = dimension.height;
         int cols = dimension.width;
-        int pad = getNumberOfPadCodewords(sourceCodeWords,
-                errorCorrectionCodeWords, cols, rows);
+        int pad = getNumberOfPadCodewords(sourceCodeWords, errorCorrectionCodeWords, cols, rows);
 
         //2. step: construct data codewords
-        int n = getNumberOfDataCodewords(sourceCodeWords, errorCorrectionLevel,
-                cols);
+        int n = getNumberOfDataCodewords(sourceCodeWords, errorCorrectionLevel, cols);
         if (n > 929) {
-            throw new IllegalArgumentException(
-                    "Encoded message contains to many code words, message to big ("
-                            + msg.length() + " bytes)");
+            throw new IllegalArgumentException("Encoded message contains to many code words, message to big (" + msg.length() + " bytes)");
         }
 
         final StringBuilder sb = new StringBuilder(n);
@@ -242,7 +237,7 @@ public class PDF417LogicImpl {
      * @return dimension object containing cols as width and rows as height
      */
     @Nullable
-    public static Dimension determineDimensions(PDF417Bean pdf417Bean, int sourceCodeWords) {
+    public static Dimension determineDimensions(@NotNull PDF417Bean pdf417Bean, int sourceCodeWords) {
 
         int minCols = pdf417Bean.getMinCols();
         int maxCols = pdf417Bean.getMaxCols();
@@ -283,4 +278,3 @@ public class PDF417LogicImpl {
         return dimension;
     }
 }
-
