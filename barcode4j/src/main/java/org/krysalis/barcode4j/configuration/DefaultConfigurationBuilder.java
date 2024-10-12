@@ -1,5 +1,7 @@
 package org.krysalis.barcode4j.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
@@ -17,6 +19,8 @@ import java.io.IOException;
  */
 @Deprecated
 public class DefaultConfigurationBuilder {
+
+    private static final Logger log = LoggerFactory.getLogger(DefaultConfigurationBuilder.class);
 
     private final SAXConfigurationHandler m_handler;
 
@@ -40,8 +44,9 @@ public class DefaultConfigurationBuilder {
 
             this.m_parser.setContentHandler(m_handler);
             this.m_parser.setErrorHandler(m_handler);
-        } catch (final Exception se) {
-            throw new Error("Unable to setup SAX parser" + se);
+        } catch (final Exception e) {
+            log.error("Unable to setup SAX parser", e);
+            throw new Error("Unable to setup SAX parser", e);
         }
     }
 

@@ -17,6 +17,8 @@ package org.krysalis.barcode4j.impl.code128;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -30,6 +32,8 @@ import java.util.StringTokenizer;
  * @author Dietmar Bürkle
  */
 public class EAN128AI {
+
+    private static final Logger log = LoggerFactory.getLogger(EAN128AI.class);
 
     /** Max length according to EAN128 specification */
     public final static byte CONSTLenMax = 48;
@@ -69,37 +73,37 @@ public class EAN128AI {
         "20",
         "31", "32", "33", "34", "35", "36",
         "41"};
+
     private static final byte[] fixedLenValueTable = new byte[]{
         20, 16, 16, 16, 18,
         8, 8, 8, 8, 8, 8, 8, 8, 8,
         4,
         10, 10, 10, 10, 10, 10,
         16};
+
     private static final EAN128AI dft = parseSpecPrivate("xx", "an1-48");
-    private static final Object[] aiTable = new Object[]
-                                        {dft, dft, dft, dft, dft, dft, dft, dft, dft, dft};
+    private static final Object[] aiTable = new Object[] { dft, dft, dft, dft, dft, dft, dft, dft, dft, dft };
     private static boolean propertiesLoaded = false;
 
-
     private static class AIProperties extends Properties {
-        public synchronized Object put(Object arg0, Object arg1) {
-            EAN128AI ai = parseSpecPrivate((String)arg0, (String)arg1);
+        @Override
+        public synchronized Object put(Object aiName, Object spec) {
             try {
-                setAI((String)arg0, ai);
+                setAI((String)aiName, parseSpecPrivate((String)aiName, (String)spec));
             } catch (final Exception e) {
-                System.err.println(e); // todo: use slf4j
+                log.error("Unable to set AI from spec", e);
             }
-            return super.put(arg0, arg1);
+            return super.put(aiName, spec);
         }
     }
 
-    private static void initFixedLen(String aiName, byte aiLen) {
+    private static void initFixedLen(@NotNull String aiName, byte aiLen) {
         byte lenID = (byte)aiName.length();
-        EAN128AI ai = new EAN128AI(aiName, "an" + aiLen, lenID, TYPEAlphaNum, aiLen);
+
         try {
-            setAI(aiName, ai);
+            setAI(aiName, new EAN128AI(aiName, "an" + aiLen, lenID, TYPEAlphaNum, aiLen));
         } catch (final Exception e) {
-            System.err.println(e); // todo: use slf4j
+            log.error("Unable to set AI from aiLen", e);
         }
     }
 
@@ -147,16 +151,15 @@ public class EAN128AI {
                 }
             }
         } catch (Exception e) {
-            System.err.println(filename + " could not be loaded!");
-            e.printStackTrace();
+            log.error(filename + " could not be loaded!", e);
             // Not loading EAN128AIs.properties is a severe error.
-            // But the code is still usable, if you use templates or do not rely on checkdigits.
+            // But the code is still usable, if you use templates or do not rely on check digits.
             // Maybe it would be better to throw this exception and find out how this cold happen.
         }
         propertiesLoaded = true;
     }
 
-    private EAN128AI(String id, byte lenID, byte[] type, byte[] lenMin, byte[] lenMax, byte[] checkDigitStart){
+    private EAN128AI(String id, byte lenID, byte @NotNull [] type, byte[] lenMin, byte[] lenMax, byte[] checkDigitStart){
         this.id = id;
         this.lenID = lenID;
         this.type = type;
@@ -182,6 +185,7 @@ public class EAN128AI {
         }
         canDoChecksumADD = (idxFirstChecksum == type.length - 1 && lenMinAll == lenMaxAll);
     }
+
     private EAN128AI(String id, String spec, byte lenID, byte type, byte len) {
         this(id, lenID,
                 new byte[] {type}, new byte[] {len}, new byte[] {len},
@@ -192,22 +196,23 @@ public class EAN128AI {
 //    public boolean isCheckDigit(int i) {
 //        return (type[i] == TYPECDWight31 || type[i] == TYPECDWight1);
 //    }
-    private static void checkFixed(EAN128AI aiNew, EAN128AI aiOld) {
+
+    private static void checkFixed(EAN128AI aiNew, @NotNull EAN128AI aiOld) {
         if (aiOld.fixed && !aiNew.fixed) {
-            if (aiNew.lenMaxAll != aiNew.lenMinAll
-                    || aiNew.lenID + aiNew.lenMinAll != aiOld.lenID + aiOld.lenMinAll) {
-                throw new IllegalArgumentException("AI \"" + aiNew.toString()
-                        + "\" must have fixed len: " + aiOld.lenID + "+" + aiOld.lenMinAll);
+            if (aiNew.lenMaxAll != aiNew.lenMinAll || aiNew.lenID + aiNew.lenMinAll != aiOld.lenID + aiOld.lenMinAll) {
+                throw new IllegalArgumentException("AI \"" + aiNew.toString() + "\" must have fixed len: " + aiOld.lenID + "+" + aiOld.lenMinAll);
             }
             aiNew.fixed = true;
         }
     }
+
     private static void SetAIHere(EAN128AI ai, Object[] aitParent) {
         for (int idx = 0; idx <= 9; idx++) {
             SetAIHere(ai, aitParent, idx);
         }
     }
-    private static void SetAIHere(EAN128AI aiNew, Object[] aitParent, int idx) {
+
+    private static void SetAIHere(EAN128AI aiNew, Object @NotNull [] aitParent, int idx) {
         Object tmp = aitParent[idx];
         if (tmp instanceof EAN128AI) {
             EAN128AI aiOld = (EAN128AI)tmp;
@@ -221,11 +226,11 @@ public class EAN128AI {
             SetAIHere(aiNew, (Object[])tmp);
         }
     }
-    private static void setAI(String aiName, EAN128AI ai) {
+
+    private static void setAI(@NotNull String aiName, EAN128AI ai) {
         Object[] aitParent = aiTable;
         int aiLastRelevantIdx = aiName.length() - 1;
-        while (aiLastRelevantIdx >= 0
-                && !Character.isDigit(aiName.charAt(aiLastRelevantIdx))) {
+        while (aiLastRelevantIdx >= 0 && !Character.isDigit(aiName.charAt(aiLastRelevantIdx))) {
             aiLastRelevantIdx--;
         }
         Object tmp;
@@ -249,7 +254,7 @@ public class EAN128AI {
      * @param spec String
      * @return EAN128AI
      */
-    public static EAN128AI parseSpec(String ai, String spec) {
+    public static @NotNull EAN128AI parseSpec(String ai, String spec) {
         final EAN128AI ret = parseSpecPrivate(ai, spec);
         checkAI(ret);
         return ret;
