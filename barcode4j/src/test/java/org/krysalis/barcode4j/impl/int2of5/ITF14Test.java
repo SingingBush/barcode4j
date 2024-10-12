@@ -20,7 +20,7 @@ import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.impl.MockClassicBarcodeLogicHandler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for ITF-14
@@ -31,9 +31,9 @@ public class ITF14Test {
 
     @Test
     void testChecksum() throws Exception {
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         ITF14LogicImpl logic;
-        String expected = "<BC><SBG:start-char:null></SBG>"
+        final String expected = "<BC><SBG:start-char:null></SBG>"
             + "<SBG:msg-char:15></SBG>"
             + "<SBG:msg-char:40></SBG>"
             + "<SBG:msg-char:01></SBG>"
@@ -69,23 +69,19 @@ public class ITF14Test {
         checkNegative("154001412887634", logic, sb); //too many digits
     }
 
-    private void checkPositive(String msg, Interleaved2Of5LogicImpl logic,
-            StringBuffer sb, String expected) {
+    private void checkPositive(String msg, Interleaved2Of5LogicImpl logic, StringBuffer sb, String expected) {
         sb.setLength(0);
-        logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb, false, false),
-                msg);
+        logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb, false, false), msg);
         assertEquals(expected, sb.toString());
     }
 
     private void checkNegative(String msg, Interleaved2Of5LogicImpl logic, StringBuffer sb) {
-        try {
-            sb.setLength(0);
-            logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb, false, false),
-                    msg);
-            fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException iae) {
-            //expected
-        }
+        sb.setLength(0);
+
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> logic.generateBarcodeLogic(new MockClassicBarcodeLogicHandler(sb, false, false), msg)
+        );
     }
 
 }

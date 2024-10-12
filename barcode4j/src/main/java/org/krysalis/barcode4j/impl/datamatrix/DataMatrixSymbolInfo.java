@@ -84,15 +84,32 @@ public class DataMatrixSymbolInfo {
     public int rsBlockData;
     public int rsBlockError;
 
+    /**
+     * @param rectangular bool
+     * @param dataCapacity int
+     * @param errorCodewords int
+     * @param matrixWidth int
+     * @param matrixHeight int
+     * @param dataRegions int
+     */
     public DataMatrixSymbolInfo(boolean rectangular, int dataCapacity, int errorCodewords,
-            int matrixWidth, int matrixHeight, int dataRegions) {
-        this(rectangular, dataCapacity, errorCodewords, matrixWidth, matrixHeight, dataRegions,
-                dataCapacity, errorCodewords);
+                                int matrixWidth, int matrixHeight, int dataRegions) {
+        this(rectangular, dataCapacity, errorCodewords, matrixWidth, matrixHeight, dataRegions, dataCapacity, errorCodewords);
     }
 
+    /**
+     * @param rectangular bool
+     * @param dataCapacity int
+     * @param errorCodewords int
+     * @param matrixWidth int
+     * @param matrixHeight int
+     * @param dataRegions int
+     * @param rsBlockData int
+     * @param rsBlockError int
+     */
     public DataMatrixSymbolInfo(boolean rectangular, int dataCapacity, int errorCodewords,
-            int matrixWidth, int matrixHeight, int dataRegions,
-            int rsBlockData, int rsBlockError) {
+                                int matrixWidth, int matrixHeight, int dataRegions,
+                                int rsBlockData, int rsBlockError) {
         this.rectangular = rectangular;
         this.dataCapacity = dataCapacity;
         this.errorCodewords = errorCodewords;

@@ -26,21 +26,44 @@ package org.krysalis.barcode4j.impl.datamatrix;
 public abstract class DataMatrixPlacement {
 
     private final String codewords;
-    protected final int numrows;
-    protected final int numcols;
+    final int numrows;
+    final int numcols;
 
+    /**
+     * @param codewords the codewords to place
+     * @param numcols the number of columns
+     * @param numrows the number of rows
+     */
     public DataMatrixPlacement(String codewords, int numcols, int numrows) {
         this.codewords = codewords;
         this.numcols = numcols;
         this.numrows = numrows;
     }
 
+    /**
+     * @param col Column index
+     * @param row Row index
+     * @param bit Set to true/false for the given row/column
+     */
     protected abstract void setBit(int col, int row, boolean bit);
 
+    /**
+     * @param col Column index
+     * @param row Row index
+     * @return Either true/false depending on the given row/column
+     */
     protected abstract boolean getBit(int col, int row);
 
+    /**
+     * @param col Column index
+     * @param row Row index
+     * @return Either true/false depending on the given row/column
+     */
     protected abstract boolean hasBit(int col, int row);
 
+    /**
+     * Loops through all rows/columns of the matrix setting module placement
+     */
     public void place() {
         int pos = 0;
         int row = 4;
