@@ -19,12 +19,12 @@ import net.sf.saxon.style.ExtensionElementFactory;
  * This class represents the element factory for the barcode extension for Saxon.
  * <p>
  * Later releases of Saxon are split into 3 versions:
+ * </p>
  * <ul>
  *   <li>Saxon-HE (Home Edition) available on maven central</li>
  *   <li>Saxon-PE (Professional Edition) available from Saxonica maven repo &amp; requires license</li>
  *   <li>Saxon-EE (Enterprise Edition) available from Saxonica maven repo &amp; requires license</li>
  * </ul>
- * </p>
  * <p>
  * Saxonica only provide support for element extensibility in the EE and PE releases.
  * From version 10 onward, instead of implementing "net.sf.saxon.style.ExtensionElementFactory"
