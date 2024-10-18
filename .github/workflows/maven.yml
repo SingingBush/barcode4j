@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['8', '11', '17', '21']
+        jdk: ['8', '11', '17', '21', '23']
         vendor: ['temurin']
 
     steps:

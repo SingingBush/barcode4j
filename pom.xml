@@ -118,9 +118,9 @@
         <!-- dependencyManagement - set fixed versions for all project dependencies -->
         <apache.commons-cli.version>1.9.0</apache.commons-cli.version>
         <org.apache.xmlgraphics.version>2.10</org.apache.xmlgraphics.version>
-        <org.apache.xmlgraphics.batik.version>1.17</org.apache.xmlgraphics.batik.version>
+        <org.apache.xmlgraphics.batik.version>1.18</org.apache.xmlgraphics.batik.version>
         <org.apache.xalan.version>2.7.3</org.apache.xalan.version>
-        <com.google.zxing.version>3.5.3</com.google.zxing.version>
+
         <javax.servlet.api.version>2.5</javax.servlet.api.version>
         <org.apache.ant.version>1.10.14</org.apache.ant.version>
         <!-- todo: ditch jdom support if project isn't maintained https://github.com/hunterhacker/jdom -->
@@ -129,7 +129,7 @@
         <net.sf.saxon.9.version>9.1.0.8</net.sf.saxon.9.version>
 
         <slf4j.version>2.0.16</slf4j.version>
-        <junit.version>5.11.1</junit.version>
+        <junit.version>5.11.2</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -216,7 +216,7 @@
             <dependency>
                 <groupId>com.google.zxing</groupId>
                 <artifactId>core</artifactId>
-                <version>${com.google.zxing.version}</version>
+                <version>3.5.3</version>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -294,12 +294,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>3.5.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>3.5.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
