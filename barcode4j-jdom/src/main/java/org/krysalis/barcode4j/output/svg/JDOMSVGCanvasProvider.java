@@ -123,6 +123,7 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void establishDimensions(BarcodeDimension dim) {
         super.establishDimensions(dim);
         Element svg = doc.getRootElement();
@@ -134,6 +135,7 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void deviceFillRect(double x, double y, double w, double h) {
         Element el = new Element("rect", ns);
         el.setAttribute("x", getDecimalFormat().format(x));
@@ -144,6 +146,7 @@ public class JDOMSVGCanvasProvider extends AbstractSVGGeneratingCanvasProvider {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void deviceText(String text, double x1, double x2, double y1,
                             String fontName, double fontSize, TextAlignment textAlign) {
         String anchor;

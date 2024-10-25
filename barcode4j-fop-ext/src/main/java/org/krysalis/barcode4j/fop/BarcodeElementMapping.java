@@ -44,11 +44,13 @@ public class BarcodeElementMapping extends ElementMapping {
     }
 
     /** @see org.apache.fop.fo.ElementMapping#getDOMImplementation() */
+    @Override
     public DOMImplementation getDOMImplementation() {
         return getDefaultDOMImplementation();
     }
 
     /** @see org.apache.fop.fo.ElementMapping#initialize() */
+    @Override
     protected void initialize() {
         if (foObjs == null) {
             foObjs = new HashMap<>();
@@ -60,12 +62,14 @@ public class BarcodeElementMapping extends ElementMapping {
     }
 
     static class BarcodeMaker extends ElementMapping.Maker {
+        @Override
         public FONode make(FONode parent) {
             return new BarcodeObj(parent);
         }
     }
 
     static class BarcodeRootMaker extends ElementMapping.Maker {
+        @Override
         public FONode make(FONode parent) {
             return new BarcodeElement(parent);
         }

@@ -32,11 +32,13 @@ public class BarcodeObj extends XMLObj {
     }
 
     /** @see org.apache.fop.fo.FONode#getNamespaceURI() */
+    @Override
     public String getNamespaceURI() {
         return BarcodeElementMapping.NAMESPACE;
     }
 
     /** @see org.apache.fop.fo.FONode#getNormalNamespacePrefix() */
+    @Override
     public String getNormalNamespacePrefix() {
         return "bc";
     }
