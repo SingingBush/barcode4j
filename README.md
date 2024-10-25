@@ -53,28 +53,28 @@ Initially the project will continue to be a compatible drop-in replacement for e
     <dependency>
         <groupId>com.singingbush</groupId>
         <artifactId>barcode4j</artifactId>
-        <version>2.2.4</version>
+        <version>2.3.1</version>
     </dependency>
     <dependency>
         <groupId>com.singingbush</groupId>
         <artifactId>barcode4j-xalan</artifactId>
-        <version>2.2.4</version>
+        <version>2.3.1</version>
     </dependency>
     <dependency>
         <groupId>com.singingbush</groupId>
         <artifactId>barcode4j-xgc</artifactId>
-        <version>2.2.4</version>
+        <version>2.3.1</version>
     </dependency>
     <dependency>
         <groupId>com.singingbush</groupId>
         <artifactId>barcode4j-fop-ext</artifactId>
-        <version>2.2.4</version>
+        <version>2.3.1</version>
     </dependency>
 ```
 
 ### V2.3.* (should be drop in replacement, possibly minor changes):
 
- - The 2.3.0 release supports JDK 1.8 and above
+ - The 2.3.1 release supports JDK 1.8 and above
  - Drop all uses of the now defunct Avalon Framework. See [issue #15](https://github.com/SingingBush/barcode4j/issues/15)
  - Remove the Ant build
 
