@@ -126,7 +126,7 @@ jobs:
 
     # potentially Qodana could be its own workflow (recommended in the docs)
     - name: Qodana Scan
-      uses: JetBrains/qodana-action@v2024.2
+      uses: JetBrains/qodana-action@v2024.3
       with:
         args: --baseline,qodana.sarif.json
         fail-threshold: 100
