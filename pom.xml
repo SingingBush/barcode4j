@@ -269,7 +269,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.4.0</version>
+                    <version>3.4.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -412,6 +412,7 @@
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
                     <version>4.8.6.6</version>
+                    <!-- This is overridden with 4.9.1.0 when using JDK 11 or above -->
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
@@ -611,6 +612,35 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+            <id>modern</id>
+            <activation>
+                <jdk>[11,)</jdk>
+            </activation>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>4.9.1.0</version>
+                        <configuration>
+                            <excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>
+                            <onlyAnalyze>org.krysalis.barcode4j.*</onlyAnalyze>
+                            <xmlOutput>true</xmlOutput>
+                            <failOnError>false</failOnError>
+                            <plugins>
+                                <plugin>
+                                    <groupId>com.h3xstream.findsecbugs</groupId>
+                                    <artifactId>findsecbugs-plugin</artifactId>
+                                    <version>1.13.0</version>
+                                </plugin>
+                            </plugins>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </reporting>
         </profile>
 
         <profile>
