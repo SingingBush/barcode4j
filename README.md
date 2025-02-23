@@ -9,7 +9,7 @@ Barcode4j
 
 Barcode4J is a flexible generator for barcodes written in Java and available under the Apache License v2.0. Features
 
-### Forked from [Sourceforge barcode4j](https://sourceforge.net/p/barcode4j/):
+## Forked from [Sourceforge barcode4j](https://sourceforge.net/p/barcode4j/):
 
 Barcode4j was originally developed by Jeremias Märki and Marc Guillemot with code available on Sourceforge under Apache License v2.0.
 
@@ -36,7 +36,34 @@ This fork has the following goals:
 
 ** Support for Saxon was never published to Maven central before and these days Saxonica ship 3 versions (Saxon-HE, Saxon-PE, and Saxon-EE). The first of which (Home Edition) is available via maven central but the _net.sf.saxon.style.ExtensionElementFactory_ class that is required is not available. Saxon EE is now available via Saxonica's maven repository so it may be able to revive the code to use Saxon 11 or 12. If this proves to be a pain then the related code will be removed.
 
-## Compatibility with the original barcode4j
+## Artifacts are published to maven central:
+
+```xml
+    <dependency>
+        <groupId>com.singingbush</groupId>
+        <artifactId>barcode4j</artifactId>
+        <version>2.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>com.singingbush</groupId>
+        <artifactId>barcode4j-xalan</artifactId>
+        <version>2.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>com.singingbush</groupId>
+        <artifactId>barcode4j-xgc</artifactId>
+        <version>2.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>com.singingbush</groupId>
+        <artifactId>barcode4j-fop-ext</artifactId>
+        <version>2.4.0</version>
+    </dependency>
+```
+
+## Compatibility with the original barcode4j:
+
+For the most part any V2 release should be a simple migration. There are some small changes between minor versions so please see the following notes on compatibility.
 
 ### V2.2.* (drop in replacement):
 
@@ -48,38 +75,16 @@ Initially the project will continue to be a compatible drop-in replacement for e
 
  - The v2.* releases will continue to have the existing _org.krysalis.barcode4j_ package names.
  - The _barcode4j_, _barcode4j-fop-ext_, _barcode4j-xgc_ and _barcode4j-xalan_ artifacts are published to maven central.
- - The 2.2.3 release supports JDK 1.7 and above, from 2.3.0 JDK 8 is the minimum.
+ - The 2.2.3 release supports JDK 1.7 and above (from 2.3.0 JDK 8 is the minimum).
 
-```xml
-    <dependency>
-        <groupId>com.singingbush</groupId>
-        <artifactId>barcode4j</artifactId>
-        <version>2.3.1</version>
-    </dependency>
-    <dependency>
-        <groupId>com.singingbush</groupId>
-        <artifactId>barcode4j-xalan</artifactId>
-        <version>2.3.1</version>
-    </dependency>
-    <dependency>
-        <groupId>com.singingbush</groupId>
-        <artifactId>barcode4j-xgc</artifactId>
-        <version>2.3.1</version>
-    </dependency>
-    <dependency>
-        <groupId>com.singingbush</groupId>
-        <artifactId>barcode4j-fop-ext</artifactId>
-        <version>2.3.1</version>
-    </dependency>
-```
-
-### V2.3.* (should be drop in replacement, possibly minor changes):
+### V2.3.* - V2.4.* (should be drop in replacement, possibly minor changes):
 
  - The 2.3.1 release supports JDK 1.8 and above
- - Drop all uses of the now defunct Avalon Framework. See [issue #15](https://github.com/SingingBush/barcode4j/issues/15)
+ - Drop all uses of the now defunct Avalon Framework. See [issue #15](https://github.com/SingingBush/barcode4j/issues/15), previously used imports from `org.apache.avalon.framework.configuration` should instead now use the `org.krysalis.barcode4j.configuration` alternatives
  - Remove the Ant build
+ - 2.4.0 adds support for Aztec barcodes as long as `com.google.zxing:core` is available. (this used to be *compile* scope but is now set as *provided* so you will need to add the dependency if you wish to use Aztec or QR Codes)
 
-### V3 (minor changes):
+### V3 (planned changes):
 
 In version 3 the project will continue to be compatible for the most part. Older JDK's won't be supported but most users will not be affected.
 
