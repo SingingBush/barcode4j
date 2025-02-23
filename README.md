@@ -21,11 +21,12 @@ This fork has the following goals:
 
  - [x] Keeping the svn history
  - [x] Enabling continuous integration for multiple Java versions
- - [x] Support latest JDK versions (for now Java 1.7 and above are supported but future releases will require JDK 11 or above)
- - [x] Add JPMS support (from 2.2.3 _Automatic-Module-Name_ is defined in the manifest of each published jar, **version 3 and above will use _module-info.java_**)
- - [x] Support GraalVM Native Image (changes were needed to allow barcode4j to be AOT compiled for use with [GraalVM](https://www.graalvm.org/) and/or [Quarkus](https://quarkus.io/))
- - [x] Move to standard maven project structure (Ant build still available but will be removed in future)
+ - [x] Move to standard maven project structure (#85: Ant was removed in [102cd44](https://github.com/SingingBush/barcode4j/commit/102cd448e44961859265820be7347956b1b608e7))
  - [x] Publish build artifacts to maven central [singingbush group on maven.org](https://search.maven.org/search?q=com.singingbush)
+ - [x] Support latest JDK versions (currently Java 1.8 is still supported but **version 3 and above will require JDK 11 or above**)
+ - [x] Add JPMS support (from 2.2.3 _Automatic-Module-Name_ is defined in the manifest of each published jar, **version 3 and above will use _module-info.java_**)
+ - [x] Add support for Aztec barcodes (**in version 2.3.2 and above**, See: #91)
+ - [x] Support GraalVM Native Image (changes were needed to allow barcode4j to be AOT compiled for use with [GraalVM](https://www.graalvm.org/) and/or [Quarkus](https://quarkus.io/))
  - [x] Remove dependency on Avalon-Framework (**in version 2.3.0 and above**, Avalon was retired years ago. See: #15)
  - [x] Improve Test Coverage (this is ongoing but better than it was)
  - [x] Publish JaCoCo report results
