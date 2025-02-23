@@ -25,5 +25,13 @@
             <type>datamatrix</type>
             <message>Here is some text encoded in a datamatrix</message>
         </barcode>
+        <barcode>
+            <type>qr</type>
+            <message>Here is some text encoded in a QR Code</message>
+        </barcode>
+        <barcode>
+            <type>aztec</type>
+            <message>Here is some text encoded in an Aztec barcode</message>
+        </barcode>
     </barcodes>
 </data>

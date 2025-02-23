@@ -45,10 +45,8 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
         registerBarcodeClass("ean-128", "org.krysalis.barcode4j.impl.code128.EAN128", true);
         registerBarcodeClass("ean128", "org.krysalis.barcode4j.impl.code128.EAN128");
         registerBarcodeClass("2of5", "org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5");
-        registerBarcodeClass("intl2of5",
-                "org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5", true);
-        registerBarcodeClass("interleaved2of5",
-                "org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5");
+        registerBarcodeClass("intl2of5", "org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5", true);
+        registerBarcodeClass("interleaved2of5", "org.krysalis.barcode4j.impl.int2of5.Interleaved2Of5");
         registerBarcodeClass("itf-14", "org.krysalis.barcode4j.impl.int2of5.ITF14", true);
         registerBarcodeClass("itf14", "org.krysalis.barcode4j.impl.int2of5.ITF14");
         registerBarcodeClass("ean-13", "org.krysalis.barcode4j.impl.upcean.EAN13", true);
@@ -60,23 +58,21 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
         registerBarcodeClass("upc-e", "org.krysalis.barcode4j.impl.upcean.UPCE", true);
         registerBarcodeClass("upce", "org.krysalis.barcode4j.impl.upcean.UPCE");
         registerBarcodeClass("postnet", "org.krysalis.barcode4j.impl.postnet.POSTNET", true);
-        registerBarcodeClass("royal-mail-cbc",
-                "org.krysalis.barcode4j.impl.fourstate.RoyalMailCBC", true);
-        registerBarcodeClass("usps4cb",
-                "org.krysalis.barcode4j.impl.fourstate.USPSIntelligentMail", true);
-        /*
-        registerBarcodeClass("austpost",
-                "org.krysalis.barcode4j.impl.fourstate.AustPost", true);
-                */
+        registerBarcodeClass("royal-mail-cbc", "org.krysalis.barcode4j.impl.fourstate.RoyalMailCBC", true);
+        registerBarcodeClass("usps4cb", "org.krysalis.barcode4j.impl.fourstate.USPSIntelligentMail", true);
+        /* registerBarcodeClass("austpost", "org.krysalis.barcode4j.impl.fourstate.AustPost", true); */
         registerBarcodeClass("pdf417", "org.krysalis.barcode4j.impl.pdf417.PDF417", true);
-        registerBarcodeClass("datamatrix",
-                "org.krysalis.barcode4j.impl.datamatrix.DataMatrix", true);
+        registerBarcodeClass("datamatrix", "org.krysalis.barcode4j.impl.datamatrix.DataMatrix", true);
+
         if (ZXingUtil.isZxingAvailable()) {
-            //QR Code currently uses ZXing for encoding
-            final String clazz = "org.krysalis.barcode4j.impl.qr.QRCode";
+            // QR Code currently uses ZXing for encoding
+            final String clazz = org.krysalis.barcode4j.impl.qr.QRCode.class.getCanonicalName();
             registerBarcodeClass("qr", clazz, true);
             registerBarcodeClass("qrcode", clazz);
             registerBarcodeClass("qr-code", clazz);
+
+            // Aztec also requires ZXing
+            registerBarcodeClass("aztec", org.krysalis.barcode4j.impl.aztec.Aztec.class.getCanonicalName(), true);
         }
     }
 

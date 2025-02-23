@@ -44,54 +44,50 @@ public class QRCode extends ConfigurableBarcodeGenerator implements Configurable
      */
     @Override
     public void configure(Configuration cfg) throws ConfigurationException {
+        final QRCodeBean qrCodeBean = (QRCodeBean) getBean();
+
         //Module width (MUST ALWAYS BE FIRST BECAUSE QUIET ZONE MAY DEPEND ON IT)
         final String mws = cfg.getChild("module-width").getValue(null);
         if (mws != null) {
             final Length mw = new Length(mws, "mm");
-            getQRBean().setModuleWidth(mw.getValueAsMillimeter());
+            qrCodeBean.setModuleWidth(mw.getValueAsMillimeter());
         }
 
         super.configure(cfg);
 
         final String encoding = cfg.getChild("encoding").getValue(null);
         if (encoding != null) {
-            getQRBean().setEncoding(encoding);
+            qrCodeBean.setEncoding(encoding);
         }
 
         final String ecLevel = cfg.getChild("ec-level").getValue(null);
-        if (ecLevel != null && ecLevel.length() > 0) {
-            getQRBean().setErrorCorrectionLevel(ecLevel.charAt(0));
+        if (ecLevel != null && !ecLevel.isEmpty()) {
+            qrCodeBean.setErrorCorrectionLevel(ecLevel.charAt(0));
         }
 
-        String size;
-        size = cfg.getChild("min-symbol-size").getValue(null);
-        if (size != null) {
-            getQRBean().setMinSize(parseSymbolSize(size));
+        final String minSize = cfg.getChild("min-symbol-size").getValue(null);
+        if (minSize != null) {
+            qrCodeBean.setMinSize(parseSymbolSize(minSize));
         }
-        size = cfg.getChild("max-symbol-size").getValue(null);
-        if (size != null) {
-            getQRBean().setMaxSize(parseSymbolSize(size));
+
+        final String maxSize = cfg.getChild("max-symbol-size").getValue(null);
+        if (maxSize != null) {
+            qrCodeBean.setMaxSize(parseSymbolSize(maxSize));
         }
     }
 
     private Dimension parseSymbolSize(String size) {
-        int idx = size.indexOf('x');
-        Dimension dim;
+        final int idx = size.indexOf('x');
+
         if (idx > 0) {
-            dim = new Dimension(Integer.parseInt(size.substring(0, idx)),
-                    Integer.parseInt(size.substring(idx + 1)));
+            return new Dimension(
+                Integer.parseInt(size.substring(0, idx)),
+                Integer.parseInt(size.substring(idx + 1))
+            );
         } else {
             int extent = Integer.parseInt(size);
-            dim = new Dimension(extent, extent);
+            return new Dimension(extent, extent);
         }
-        return dim;
-    }
-
-    /**
-     * @return the underlying DataMatrix bean
-     */
-    public QRCodeBean getQRBean() {
-        return (QRCodeBean)getBean();
     }
 
 }

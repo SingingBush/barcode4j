@@ -170,7 +170,7 @@ public abstract class ConfigurableBarcodeGenerator implements BarcodeGenerator, 
     }
 
     /** {@inheritDoc} */
-    public void generateBarcode(CanvasProvider canvas, String msg) {
+    public void generateBarcode(@NotNull CanvasProvider canvas, String msg) {
         getBean().generateBarcode(canvas, msg);
     }
 

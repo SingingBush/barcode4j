@@ -30,10 +30,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- ZXing (zebra crossing) is only required for Aztec and QR Codes -->
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
-            <scope>compile</scope>
+            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
 
         <!-- test dependencies -->

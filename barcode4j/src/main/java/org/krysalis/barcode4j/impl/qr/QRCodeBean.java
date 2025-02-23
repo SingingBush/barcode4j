@@ -111,6 +111,7 @@ public class QRCodeBean extends AbstractBarcodeBean {
      * Sets the minimum symbol size that is to be produced.
      * @param minSize the minimum size (in pixels), or null for no constraint
      */
+    @Deprecated // this isn't actually used
     public void setMinSize(Dimension minSize) {
         this.minSize = (minSize != null ? new Dimension(minSize) : null);
     }
@@ -120,6 +121,7 @@ public class QRCodeBean extends AbstractBarcodeBean {
      * there's no constraint on the symbol size.
      * @return the minimum symbol size (in pixels), or null if there's no size constraint
      */
+    @Deprecated // this isn't actually used
     @Nullable
     public Dimension getMinSize() {
         if (this.minSize != null) {
@@ -133,6 +135,7 @@ public class QRCodeBean extends AbstractBarcodeBean {
      * Sets the maximum symbol size that is to be produced.
      * @param maxSize the maximum size (in pixels), or null for no constraint
      */
+    @Deprecated // this isn't actually used
     public void setMaxSize(Dimension maxSize) {
         this.maxSize = (maxSize != null ? new Dimension(maxSize) : null);
     }
@@ -142,13 +145,10 @@ public class QRCodeBean extends AbstractBarcodeBean {
      * there's no constraint on the symbol size.
      * @return the maximum symbol size (in pixels), or null if there's no size constraint
      */
+    @Deprecated // this isn't actually used
     @Nullable
     public Dimension getMaxSize() {
-        if (this.maxSize != null) {
-            return new Dimension(this.maxSize);
-        } else {
-            return null;
-        }
+        return this.maxSize != null ? new Dimension(this.maxSize) : null;
     }
 
     /** {@inheritDoc} */

@@ -37,9 +37,9 @@ public interface BarcodeGenerator {
     /**
      * Calculates the dimension of a barcode with the given message. The
      * dimensions are dependent on the configuration of the barcode generator.
+     * When rendering with XSL-FOP, calcDimensions will be called prior to generateBarcode.
      * @param msg message to use for calculation.
-     * @return BarcodeDimension a BarcodeDimension object containing the
-     * barcode's dimensions
+     * @return BarcodeDimension the barcodes dimensions
      */
     BarcodeDimension calcDimensions(@NotNull final String msg);
 }

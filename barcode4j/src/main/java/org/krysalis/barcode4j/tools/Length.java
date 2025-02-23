@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2004,2008 Jeremias Maerki.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,14 +16,14 @@
 package org.krysalis.barcode4j.tools;
 
 /**
- * This class represents a length (value plus unit). It is used to parse 
+ * This class represents a length (value plus unit). It is used to parse
  * expressions like "0.21mm".
- * 
+ *
  * @author Jeremias Maerki
  * @version $Id: Length.java,v 1.3 2008-05-13 13:00:46 jmaerki Exp $
  */
 public class Length {
-    
+
     /** String constant for inches. */
     public static final String INCH = "in";
     /** String constant for points. */
@@ -32,10 +32,10 @@ public class Length {
     public static final String CM = "cm";
     /** String constant for millimeters. */
     public static final String MM = "mm";
-    
+
     private double value;
     private String unit;
-    
+
     /**
      * Creates a Length instance.
      * @param value the value
@@ -45,7 +45,7 @@ public class Length {
         this.value = value;
         this.unit = unit.toLowerCase();
     }
-    
+
     /**
      * Creates a Length instance.
      * @param text the String to parse
@@ -54,7 +54,7 @@ public class Length {
     public Length(String text, String defaultUnit) {
         parse(text, defaultUnit);
     }
-    
+
     /**
      * Creates a Length instance. The default unit assumed is "mm".
      * @param text the String to parse
@@ -62,7 +62,7 @@ public class Length {
     public Length(String text) {
         this(text, null);
     }
-    
+
     /**
      * Parses a value with unit.
      * @param text the String to parse
@@ -78,7 +78,7 @@ public class Length {
         int i = 0;
         while (i < s.length()) {
             char c = s.charAt(i);
-            
+
             if (mode == 0) {
                 //Parse value
                 if (Character.isDigit(c) || c == '.' || c == ',') {
@@ -108,7 +108,7 @@ public class Length {
                     //Break on first white space after unit
                     break;
                 }
-                
+
             }
         }
         if (mode == 0) {
@@ -156,14 +156,13 @@ public class Length {
         } else if (this.unit.equals(INCH)) {
             return UnitConv.in2mm(this.value);
         } else {
-            throw new IllegalStateException("Don't know how to convert " 
-                    + this.unit + " to mm");
+            throw new IllegalStateException("Don't know how to convert " + this.unit + " to mm");
         }
     }
-    
+
     /** {@inheritDoc} */
     public String toString() {
         return getValue() + getUnit();
     }
-    
+
 }
