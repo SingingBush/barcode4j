@@ -27,7 +27,7 @@ import static com.google.zxing.aztec.encoder.Encoder.DEFAULT_EC_PERCENT;
 /**
  * This class is an implementation of the Aztec barcode.
  *
- * @since 2.3.2
+ * @since 2.4.0
  * @author Samael Bate (singingbush)
  */
 public class Aztec extends ConfigurableBarcodeGenerator implements Configurable {

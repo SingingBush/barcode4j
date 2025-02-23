@@ -8,7 +8,7 @@
     <groupId>com.singingbush</groupId>
     <artifactId>barcode4j-parent</artifactId>
     <packaging>pom</packaging>
-    <version>2.3.2-SNAPSHOT</version>
+    <version>2.4.0</version>
 
     <modules>
         <module>barcode4j</module>

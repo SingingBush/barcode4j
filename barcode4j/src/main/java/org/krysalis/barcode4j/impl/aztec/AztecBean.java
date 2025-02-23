@@ -40,7 +40,7 @@ import static com.google.zxing.aztec.encoder.Encoder.DEFAULT_EC_PERCENT;
  * the Reed Solomon algorithm.
  * </p>
  *
- * @since 2.3.2
+ * @since 2.4.0
  * @author Samael Bate (singingbush)
  */
 public class AztecBean extends AbstractBarcodeBean {

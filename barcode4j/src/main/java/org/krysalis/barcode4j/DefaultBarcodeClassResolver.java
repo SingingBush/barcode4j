@@ -81,7 +81,7 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
      * @param id short name to use as a key
      * @param clazz the class to register
      * @param mainID indicates whether the name is the main name for the barcode
-     * @since 2.3.2
+     * @since 2.4.0
      */
     public <T extends ConfigurableBarcodeGenerator> void registerBarcodeClass(String id, Class<T> clazz, boolean mainID) {
         registerBarcodeClass(id, clazz.getCanonicalName(), mainID);
@@ -91,7 +91,7 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
      * Registers a barcode implementation.
      * @param id short name to use as a key
      * @param clazz the class to register
-     * @since 2.3.2
+     * @since 2.4.0
      */
     public <T extends ConfigurableBarcodeGenerator> void registerBarcodeClass(String id, Class<T> clazz) {
         registerBarcodeClass(id, clazz.getCanonicalName(), false);
