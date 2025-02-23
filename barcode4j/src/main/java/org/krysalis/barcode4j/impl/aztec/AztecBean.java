@@ -103,7 +103,7 @@ public class AztecBean extends AbstractBarcodeBean {
     @Override
     public void generateBarcode(@NotNull CanvasProvider canvas, @Nullable String msg) {
         if ((msg == null) || (msg.isEmpty())) {
-            throw new NullPointerException("Parameter msg must not be empty");
+            throw new IllegalArgumentException("Parameter msg must not be empty");
         }
 
         final BitMatrix matrix = generateAztecBarcodeMatrix(msg);
