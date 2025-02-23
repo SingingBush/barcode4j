@@ -114,6 +114,22 @@
                         </barcode:datamatrix>
                     </xsl:if>
 
+                    <xsl:if test="$t = 'qr'">
+                        <barcode:qr>
+                            <barcode:module-width>1.8mm</barcode:module-width>
+                            <barcode:quiet-zone enabled="true">1mw</barcode:quiet-zone>
+                        </barcode:qr>
+                    </xsl:if>
+
+                    <xsl:if test="$t = 'aztec'">
+                        <barcode:aztec>
+                            <barcode:module-width>1.8mm</barcode:module-width>
+                            <barcode:ec-level>23</barcode:ec-level>
+                            <barcode:layers>0</barcode:layers>
+                            <barcode:quiet-zone enabled="false"/>
+                        </barcode:aztec>
+                    </xsl:if>
+
                 </barcode:barcode>
             </fo:instream-foreign-object>
         </fo:block>

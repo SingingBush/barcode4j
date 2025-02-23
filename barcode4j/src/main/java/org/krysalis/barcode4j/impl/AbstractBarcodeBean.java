@@ -250,8 +250,6 @@ public abstract class AbstractBarcodeBean implements BarcodeGenerator {
 
     /** {@inheritDoc} */
     @Override
-    public BarcodeDimension calcDimensions(@NotNull final String msg) {
-        throw new UnsupportedOperationException("NYI");
-    }
+    public abstract BarcodeDimension calcDimensions(@NotNull final String msg);
 
 }
