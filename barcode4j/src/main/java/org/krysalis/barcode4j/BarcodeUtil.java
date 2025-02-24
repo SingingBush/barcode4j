@@ -22,6 +22,8 @@ import org.krysalis.barcode4j.configuration.Configurable;
 import org.krysalis.barcode4j.configuration.Configuration;
 import org.krysalis.barcode4j.configuration.ConfigurationException;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * This is a convenience class to generate barcodes. It is implemented as
  * Singleton to cache the BarcodeClassResolver. However, the class also
@@ -75,7 +77,7 @@ public class BarcodeUtil {
         Class<BarcodeGenerator> cl = null;
         try {
             //First, check Configuration directly
-            String type = cfg.getName();
+            final String type = cfg.getName();
 
             if (type != null && !type.isEmpty()) {
                 try {
@@ -94,11 +96,10 @@ public class BarcodeUtil {
                 }
 
                 //Find barcode config element
-                for (final Configuration configuration : children) {
-                    child = configuration;
-                    type = child.getName();
+                for (final Configuration childConf : children) {
+                    child = childConf;
                     try {
-                        cl = classResolver.resolve(type);
+                        cl = classResolver.resolve(childConf.getName());
                         break;
                     } catch (ClassNotFoundException cnfe) {
                         // noop
@@ -111,20 +112,19 @@ public class BarcodeUtil {
             }
 
             //Instantiate the BarcodeGenerator
-            final BarcodeGenerator gen = cl.newInstance();
+            final BarcodeGenerator gen = cl.getDeclaredConstructor().newInstance();
 
             try {
-                //org.apache.avalon.framework.container.ContainerUtil.configure(gen, (child != null ? child : cfg));
                 configure(gen, (child != null ? child : cfg));
             } catch (IllegalArgumentException e) {
                 throw new ConfigurationException("Cannot configure barcode generator", e);
             }
 
             return gen;
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("Problem while instantiating a barcode generator: " + e.getMessage(), e);
-        } catch (InstantiationException e) {
-            throw new BarcodeException(String.format("Error instantiating a barcode generator: %s", cl.getName()), e);
+        } catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
+            throw new BarcodeException(
+                String.format("Error instantiating a barcode generator '%s'. Reason: '%s'", cl.getName(), e.getMessage()), e
+            );
         }
     }
 

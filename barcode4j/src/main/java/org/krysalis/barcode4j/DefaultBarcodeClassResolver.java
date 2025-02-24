@@ -31,13 +31,13 @@ import org.krysalis.barcode4j.tools.ZXingUtil;
  */
 public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
 
-    private Map<String, String> classes;
+    private Map<String, Class<?>> classes;
     private Set<String> mainIDs;
 
     /**
      * Main constructor.
      * <br>
-     * Already registers a default set of implementations.
+     * Already registers a default set of BarcodeGenerator implementations.
      */
     public DefaultBarcodeClassResolver() {
         registerBarcodeClass("codabar", org.krysalis.barcode4j.impl.codabar.Codabar.class, true);
@@ -77,24 +77,31 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
     }
 
     /**
-     * Registers a barcode implementation.
+     * Registers a barcode generator implementation.
      * @param id short name to use as a key
      * @param clazz the class to register
      * @param mainID indicates whether the name is the main name for the barcode
      * @since 2.4.0
      */
     public <T extends ConfigurableBarcodeGenerator> void registerBarcodeClass(String id, Class<T> clazz, boolean mainID) {
-        registerBarcodeClass(id, clazz.getCanonicalName(), mainID);
+        if (this.classes == null) {
+            this.classes = new java.util.HashMap<>();
+            this.mainIDs = new java.util.HashSet<>();
+        }
+        this.classes.put(id.toLowerCase(), clazz);
+        if (mainID) {
+            this.mainIDs.add(id);
+        }
     }
 
     /**
-     * Registers a barcode implementation.
+     * Registers a barcode generator implementation.
      * @param id short name to use as a key
      * @param clazz the class to register
      * @since 2.4.0
      */
     public <T extends ConfigurableBarcodeGenerator> void registerBarcodeClass(String id, Class<T> clazz) {
-        registerBarcodeClass(id, clazz.getCanonicalName(), false);
+        registerBarcodeClass(id, clazz, false);
     }
 
     /**
@@ -113,14 +120,12 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
      * @param classname fully qualified classname
      * @param mainID indicates whether the name is the main name for the barcode
      */
+    @Deprecated
     public void registerBarcodeClass(String id, String classname, boolean mainID) {
-        if (this.classes == null) {
-            this.classes = new java.util.HashMap<>();
-            this.mainIDs = new java.util.HashSet<>();
-        }
-        this.classes.put(id.toLowerCase(), classname);
-        if (mainID) {
-            this.mainIDs.add(id);
+        try {
+            registerBarcodeClass(id, (Class<ConfigurableBarcodeGenerator>) Class.forName(classname), mainID);
+        } catch (final ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -130,14 +135,11 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
      */
     @Override
     public Class<BarcodeGenerator> resolve(final String name) throws ClassNotFoundException {
-        String clazz = null;
+        Class<BarcodeGenerator> clazz = null;
         if (this.classes != null) {
-            clazz = this.classes.get(name.toLowerCase());
+            clazz = (Class<BarcodeGenerator>) this.classes.get(name.toLowerCase());
         }
-        if (clazz == null) {
-            clazz = name;
-        }
-        return (Class<BarcodeGenerator>) Class.forName(clazz);
+        return clazz != null ? clazz : (Class<BarcodeGenerator>) Class.forName(name);
     }
 
     /**
@@ -146,14 +148,8 @@ public class DefaultBarcodeClassResolver implements BarcodeClassResolver {
      */
     @Override
     public Class<AbstractBarcodeBean> resolveBean(String name) throws ClassNotFoundException {
-        String clazz = null;
-        if (this.classes != null) {
-            clazz = this.classes.get(name.toLowerCase());
-        }
-        if (clazz == null) {
-            clazz = name;
-        }
-        return (Class<AbstractBarcodeBean>) Class.forName(clazz + "Bean"); // todo: get rid of this as it won't work with GraalVM native image
+        // todo: Get rid of resolveBean(), it's not needed. The beans aren't used the same way as the other classes anyway.
+        return (Class<AbstractBarcodeBean>) Class.forName(name + "Bean");
     }
 
     /**

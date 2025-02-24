@@ -29,11 +29,12 @@ import java.util.Collection;
 public interface BarcodeClassResolver {
 
     /**
-     * Returns the Class object of a Barcode implementation.
+     * Returns the Class object of a Barcode Generator implementation.
      *
-     * @param name Name or Classname of a Barcode implementation class
+     * @param name Name or Classname of a Barcode Generator implementation class
      * @return Class The class requested
      * @throws ClassNotFoundException If the class could not be resolved
+     * @since 1.0
      */
     Class<BarcodeGenerator> resolve(String name) throws ClassNotFoundException;
 
@@ -43,7 +44,9 @@ public interface BarcodeClassResolver {
      * @param name Name or Classname of a Barcode bean implementation class
      * @return Class The class requested
      * @throws ClassNotFoundException If the class could not be resolved
+     * @since 1.0
      */
+    @Deprecated
     Class<AbstractBarcodeBean> resolveBean(String name) throws ClassNotFoundException;
 
     /**

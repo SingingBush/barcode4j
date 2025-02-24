@@ -96,7 +96,7 @@ public class BitmapEncoderRegistry {
         boolean failed = false;
         try {
             final Class<?> clazz = Class.forName(classname);
-            final BitmapEncoder encoder = (BitmapEncoder)clazz.newInstance();
+            final BitmapEncoder encoder = (BitmapEncoder)clazz.getDeclaredConstructor().newInstance();
             register(encoder, priority);
         } catch (final Exception e) {
             log.warning("Failed to create BitmapEncoder of class " + classname + ": " + e.getMessage());
