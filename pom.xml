@@ -129,7 +129,7 @@
         <net.sf.saxon.9.version>9.1.0.8</net.sf.saxon.9.version>
 
         <slf4j.version>2.0.17</slf4j.version>
-        <junit.version>5.12.0</junit.version>
+        <junit.version>5.12.1</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -294,12 +294,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.5.2</version>
+                    <version>3.5.3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.5.2</version>
+                    <version>3.5.3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -422,7 +422,7 @@
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
-                    <version>5.0.0.4389</version>
+                    <version>5.1.0.4751</version>
                 </plugin>
             </plugins>
         </pluginManagement>
