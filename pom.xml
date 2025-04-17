@@ -165,7 +165,7 @@
                 <!-- Specifying commons-io version as the one in xmlgraphics-commons needs updating -->
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.18.0</version>
+                <version>2.19.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlgraphics</groupId>
