@@ -8,6 +8,10 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
+# note that Saxon license should not be added to git but you may need it locally for testing
+[saxon-license.lic]
+charset = latin1
+
 [*.{yml,yaml}]
 indent_size = 2
 

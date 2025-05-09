@@ -19,15 +19,19 @@ import net.sf.saxon.style.ExtensionElementFactory;
 
 /**
  * This class represents the element factory for the barcode extension for Saxon.
- *
+ * <p>
  * Later releases of Saxon are split into 3 versions:
- *   Saxon-HE (Home Edition) available on maven central
- *   Saxon-PE (Professional Edition) manual download &amp; requires license
- *   Saxon-EE (Enterprise Edition) manual download &amp; requires license
- *
+ * </p>
+ * <ul>
+ *   <li>Saxon-HE (Home Edition) available on maven central</li>
+ *   <li>Saxon-PE (Professional Edition) manual download &amp; requires license</li>
+ *   <li>Saxon-EE (Enterprise Edition) manual download &amp; requires license</li>
+ * </ul>
+ * <p>
  * The net.sf.saxon.style.ExtensionElementFactory class is not available in Saxon-HE as Saxonica
  * only provide support for element extensibility in the EE and PE releases.
- *
+ * </p>
+ * @see net.sf.saxon.style.ExtensionElementFactory
  * @author Jeremias Maerki
  * @version $Id: BarcodeExtensionElementFactory.java,v 1.2 2004-09-04 20:25:55 jmaerki Exp $
  */
@@ -37,8 +41,8 @@ public class BarcodeExtensionElementFactory implements ExtensionElementFactory {
      * @see net.sf.saxon.style.ExtensionElementFactory#getExtensionClass(java.lang.String)
      */
     @Override
-    public Class getExtensionClass(String localname) {
-        return localname.equals("barcode") ? BarcodeStyleElement.class : BarcodeNonRootStyleElement.class;
+    public Class getExtensionClass(String localName) {
+        return localName.equals("barcode") ? BarcodeStyleElement.class : BarcodeNonRootStyleElement.class;
     }
 
 }

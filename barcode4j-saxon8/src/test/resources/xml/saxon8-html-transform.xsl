@@ -16,6 +16,13 @@
         <xsl:variable name="t" select="type"/>
         <xsl:variable name="msg" select="message"/>
 
+        <div class="result">
+        <xsl:text>Barcode of type </xsl:text>
+        <strong>
+            <xsl:value-of select="$t"/>
+        </strong>
+        <xsl:text>:</xsl:text>
+
         <xsl:if test="$t = 'upc-A'">
             <barcode4j:barcode message="{$msg}">
                 <barcode4j:upc-A>
@@ -78,6 +85,8 @@
                 </barcode4j:datamatrix>
             </barcode4j:barcode>
         </xsl:if>
+
+        </div>
     </xsl:template>
 
     <xsl:template match="/">
@@ -86,6 +95,13 @@
                 <meta charset="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <title>XML to HTML</title>
+                <style>
+                    .result {
+                      padding: 0.6em 0.4em;
+                      margin-bottom: 0.4em;
+                      border-bottom: 1px solid blue;
+                    }
+                </style>
             </head>
             <body>
                 <div>
