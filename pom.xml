@@ -129,7 +129,7 @@
         <net.sf.saxon.9.version>9.1.0.8</net.sf.saxon.9.version>
 
         <slf4j.version>2.0.17</slf4j.version>
-        <junit.version>5.12.2</junit.version>
+        <junit.version>5.13.1</junit.version>
     </properties>
 
     <dependencyManagement>
