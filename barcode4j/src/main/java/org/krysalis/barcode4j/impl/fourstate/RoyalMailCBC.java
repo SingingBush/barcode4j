@@ -24,7 +24,9 @@ import org.krysalis.barcode4j.configuration.Configuration;
 import org.krysalis.barcode4j.configuration.ConfigurationException;
 
 /**
- * Implements the Royal Mail Customer Barcode.
+ * Implements the Royal Mail 4-State Customer Code (RM4SCC), also known as Customer Bar Code (CBC).
+ * 
+ * The RM4SCC is used for the Royal Mail Cleanmail service. It enables UK postcodes as well as Delivery Point Suffixes (DPSs) to be easily read by a machine at high speed.
  *
  * @author Jeremias Maerki
  * @version $Id: RoyalMailCBC.java,v 1.3 2008-05-13 13:00:43 jmaerki Exp $
