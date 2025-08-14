@@ -116,7 +116,7 @@
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/aggregate-report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
         <!-- dependencyManagement - set fixed versions for all project dependencies -->
-        <apache.commons-cli.version>1.9.0</apache.commons-cli.version>
+        <apache.commons-cli.version>1.10.0</apache.commons-cli.version>
         <org.apache.xmlgraphics.version>2.11</org.apache.xmlgraphics.version>
         <org.apache.xmlgraphics.batik.version>1.19</org.apache.xmlgraphics.batik.version>
         <org.apache.xalan.version>2.7.3</org.apache.xalan.version>
