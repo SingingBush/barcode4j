@@ -58,16 +58,17 @@ public class SaxonExtTest {
 
         final Source xmlDataSource = new StreamSource(loadTestResourceFile("xml/xslt-test.xml"));
 
-        final StringWriter writer = new StringWriter();
-        final Result result = new StreamResult(writer);
+        final StreamResult result = new StreamResult(new StringWriter());
 
         trans.transform(xmlDataSource, result);
 
-        final String output = writer.getBuffer().toString();
-        assertTrue(output.contains("<svg:svg xmlns:svg=\"http://www.w3.org/2000/svg\""));
-        assertTrue(output.contains("<svg:g "));
-        assertTrue(output.contains("<svg:rect "));
-        assertTrue(output.contains("<svg:text "));
+        final String output = result.getWriter().toString();
+
+        // when outputting HTML we cannot have the "svg:" namespace prefixed
+        assertTrue(output.contains("<svg xmlns=\"http://www.w3.org/2000/svg\""));
+        assertTrue(output.contains("<g "));
+        assertTrue(output.contains("<rect "));
+        assertTrue(output.contains("<text "));
         assertTrue(output.contains("1234567890")); // the text value of the barcode in the XML data
         //System.out.println(output);
 

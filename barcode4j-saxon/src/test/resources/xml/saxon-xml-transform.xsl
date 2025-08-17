@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:barcode4j="java:/org.krysalis.barcode4j.saxon8.BarcodeExtensionElementFactory"
+                xmlns:barcode4j="java:/org.krysalis.barcode4j.saxon9.BarcodeExtensionElementFactory"
                 extension-element-prefixes="barcode4j">
     <xsl:output method="xml" version="1.0" omit-xml-declaration="no" indent="yes"/>
 
@@ -13,11 +13,9 @@
     </xsl:template>
 
     <xsl:template match="barcode">
-        <xsl:variable name="t" select="type"/>
-        <xsl:variable name="msg" select="message"/>
 
-        <xsl:if test="$t = 'upc-A'">
-            <barcode4j:barcode message="{$msg}">
+        <xsl:if test="type = 'upc-A'">
+            <barcode4j:barcode message="{message}">
                 <barcode4j:upc-A>
                     <barcode4j:height>15mm</barcode4j:height>
                     <barcode4j:module-width>0.33mm</barcode4j:module-width>
@@ -27,8 +25,8 @@
             </barcode4j:barcode>
         </xsl:if>
 
-        <xsl:if test="$t = 'ean-13'">
-            <barcode4j:barcode message="{$msg}">
+        <xsl:if test="type = 'ean-13'">
+            <barcode4j:barcode message="{message}">
                 <barcode4j:ean-13>
                     <barcode4j:height>15mm</barcode4j:height>
                     <barcode4j:module-width>0.33mm</barcode4j:module-width>
@@ -38,8 +36,8 @@
             </barcode4j:barcode>
         </xsl:if>
 
-        <xsl:if test="$t = 'code128'">
-            <barcode4j:barcode message="{$msg}">
+        <xsl:if test="type = 'code128'">
+            <barcode4j:barcode message="{message}">
                 <barcode4j:code128>
                     <barcode4j:height>15mm</barcode4j:height>
                     <barcode4j:module-width>0.21mm</barcode4j:module-width>
@@ -49,8 +47,8 @@
             </barcode4j:barcode>
         </xsl:if>
 
-        <xsl:if test="$t = 'pdf417'">
-            <barcode4j:barcode message="{$msg}">
+        <xsl:if test="type = 'pdf417'">
+            <barcode4j:barcode message="{message}">
                 <barcode4j:pdf417>
                     <barcode4j:module-width>0.705554mm</barcode4j:module-width> <!-- 2 pixels at 72dpi -->
                     <barcode4j:row-height>3mw</barcode4j:row-height>
@@ -67,8 +65,8 @@
             </barcode4j:barcode>
         </xsl:if>
 
-        <xsl:if test="$t = 'datamatrix'">
-            <barcode4j:barcode message="{$msg}">
+        <xsl:if test="type = 'datamatrix'">
+            <barcode4j:barcode message="{message}">
                 <barcode4j:datamatrix>
                     <barcode4j:module-width>1.411108mm</barcode4j:module-width> <!-- 4 pixels at 72dpi -->
                     <barcode4j:quiet-zone enabled="true">1mw</barcode4j:quiet-zone>

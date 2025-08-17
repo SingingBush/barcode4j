@@ -51,12 +51,11 @@ public class ConfigurationUtil {
      * @param node the DOM node
      * @return the Configuration object
      */
-    public static Configuration buildConfiguration(Node node) {
+    public static @Nullable Configuration buildConfiguration(@NotNull final Node node) {
         return processNode(node);
     }
 
-    @Nullable
-    private static Element findDocumentElement(@NotNull final Document document) {
+    private static @Nullable Element findDocumentElement(@NotNull final Document document) {
         try {
             return document.getDocumentElement(); //Xalan-bug, doesn't work (2.4.1)
         } catch (Exception e) {
@@ -71,28 +70,25 @@ public class ConfigurationUtil {
         }
     }
 
-    @Nullable
-    private static DefaultConfiguration processNode(@NotNull Node node) {
+    private static @Nullable DefaultConfiguration processNode(@NotNull Node node) {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             return processElement((Element)node);
         } else if (node.getNodeType() == Node.DOCUMENT_NODE) {
             return processElement(Objects.requireNonNull(findDocumentElement((Document) node)));
         } else if (node.getNodeType() == Node.DOCUMENT_FRAGMENT_NODE) {
-            DocumentFragment df = (DocumentFragment)node;
+            final DocumentFragment df = (DocumentFragment)node;
             return processNode(df.getFirstChild());
         } else {
             return null;
         }
     }
 
-    @NotNull
-    private static DefaultConfiguration processElement(@NotNull Element el) {
-        String name = el.getLocalName(); // element can be null
-        if (name == null) {
-            name = el.getTagName();
-        }
+    private static @NotNull DefaultConfiguration processElement(@NotNull Element el) {
+        final String name = el.getLocalName() != null ? el.getLocalName() : el.getTagName();
+
         final DefaultConfiguration cfg = new DefaultConfiguration(name);
         final NamedNodeMap attrs = el.getAttributes();
+
         for (int i = 0; i < attrs.getLength(); i++) {
             final Attr attr = (Attr)attrs.item(i);
             cfg.setAttribute(attr.getName(), attr.getValue());
@@ -118,8 +114,7 @@ public class ConfigurationUtil {
      * @return the message or null
      * @throws ConfigurationException if an error occurs retrieving values from the configuration
      */
-    @Nullable
-    public static String getMessage(@NotNull final Configuration cfg) throws ConfigurationException {
+    public static @Nullable String getMessage(@NotNull final Configuration cfg) throws ConfigurationException {
         String msg;
         try {
             msg = cfg.getAttribute("message");

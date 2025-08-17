@@ -14,3 +14,6 @@ build/
 
 # Ignore the output of the Ant build
 barcode4j/dist/
+
+# If a Saxon license is used for testing make sure it's not added
+saxon-license.lic
