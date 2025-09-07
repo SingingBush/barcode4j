@@ -116,7 +116,7 @@
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/aggregate-report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
         <!-- dependencyManagement - set fixed versions for all project dependencies -->
-        <apache.commons-cli.version>1.9.0</apache.commons-cli.version>
+        <apache.commons-cli.version>1.10.0</apache.commons-cli.version>
         <org.apache.xmlgraphics.version>2.11</org.apache.xmlgraphics.version>
         <org.apache.xmlgraphics.batik.version>1.19</org.apache.xmlgraphics.batik.version>
         <org.apache.xalan.version>2.7.3</org.apache.xalan.version>
@@ -363,7 +363,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>3.6.1</version>
                     <executions>
                         <execution>
                             <id>default-cli</id>
@@ -624,7 +624,7 @@
                     <plugin>
                         <groupId>com.github.spotbugs</groupId>
                         <artifactId>spotbugs-maven-plugin</artifactId>
-                        <version>4.9.3.0</version>
+                        <version>4.9.4.1</version>
                         <configuration>
                             <excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>
                             <onlyAnalyze>org.krysalis.barcode4j.*</onlyAnalyze>
