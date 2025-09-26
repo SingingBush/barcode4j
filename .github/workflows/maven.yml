@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['8', '11', '17', '21', '24']
+        jdk: ['8', '11', '17', '21', '25']
         vendor: ['temurin']
 
     steps:
@@ -111,10 +111,15 @@ jobs:
 
     ## todo: use same artifacts from the build job
     ## Automatic Analysis is turned off on sonarcloud.io
-    - name: Maven JaCoCo report & Sonar
-      run: mvn -B install jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=barcode4j
+    - name: Maven JaCoCo report & dependency-check
+      run: mvn -B install jacoco:report dependency-check:check
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        NVD_API_KEY: ${{ secrets.NVD_API_KEY }} # for dependency-check
+
+    - name: Sonar
+      run: mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=barcode4j
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     - name: Copy aggregate JaCoCo Report (for Qodana)
