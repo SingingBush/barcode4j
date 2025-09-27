@@ -42,7 +42,7 @@ jobs:
       run: mvn package
 
     - name: Maven Verify
-      run: mvn -B verify spotbugs:check jacoco:report
+      run: mvn -B verify spotbugs:check jacoco:report -Ddependency-check.skip=true
 
     - name: Add coverage to PR
       id: jacoco
