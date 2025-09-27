@@ -25,7 +25,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['8', '11', '17', '21', '25']
+        # JDK 25 fails due to: https://bugs.openjdk.org/browse/JDK-8368356 (FOP had the error)
+        jdk: ['8', '11', '17', '21', '24']
         vendor: ['temurin']
 
     steps:
