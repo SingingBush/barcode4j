@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns="http://barcode4j.krysalis.org/ns"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://barcode4j.krysalis.org/ns"
+           elementFormDefault="qualified"
+           version="2.4">
+
+<!--    <xs:simpleType name="BarcodeClass">-->
+<!--        <xs:restriction base="xs:token">-->
+<!--            <xs:enumeration value="codabar" />-->
+<!--            <xs:enumeration value="code39" />-->
+<!--            <xs:enumeration value="code128" />-->
+<!--            <xs:enumeration value="ean-128" />-->
+<!--            <xs:enumeration value="intl2of5" />-->
+<!--            <xs:enumeration value="itf-14" />-->
+<!--            <xs:enumeration value="ean-13" />-->
+<!--            <xs:enumeration value="ean-8" />-->
+<!--            <xs:enumeration value="upc-a" />-->
+<!--            <xs:enumeration value="upc-e" />-->
+<!--            <xs:enumeration value="postnet" />-->
+<!--            <xs:enumeration value="royal-mail-cbc" />-->
+<!--            <xs:enumeration value="usps4cb" />-->
+<!--            <xs:enumeration value="pdf417" />-->
+<!--            <xs:enumeration value="datamatrix" />-->
+<!--            <xs:enumeration value="qr" />-->
+<!--            <xs:enumeration value="aztec" />-->
+<!--        </xs:restriction>-->
+<!--    </xs:simpleType>-->
+
+    <xs:simpleType name="length">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="([0-9]+)(.[0-9]+)?(in|pt|cm|mm|mw)?"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!--
+    checksum
+    human-readable
+    human-readable-font     // old approach
+    human-readable-size     // old approach
+    font-name
+    font-size
+    placement
+    pattern
+    display-start-stop
+    display-checksum
+    interchar-gap-width
+    tall-bar-height
+    short-bar-height
+    track-height
+    ascender-height
+    baseline-alignment
+    template
+    group-separator
+    check-digit-marker
+    omit-brackets
+
+    shape           // DataMatrix
+    row-height      // PDF417
+    columns         // PDF417
+    min-columns     // PDF417
+    max-columns     // PDF417
+    min-rows        // PDF417
+    max-rows        // PDF417
+    ec-level        // PDF417
+
+    width-to-height-ratio
+
+    min-symbol-size     // DataMatrix
+    max-symbol-size     // DataMatrix
+    codesets            // Code128
+    bearer-bar-width    // ITF-14
+    bearer-box          // ITF-14
+-->
+
+    <xs:complexType name="BarcodeParams">
+        <xs:all>
+            <xs:element type="length" name="height" minOccurs="0" />
+            <xs:element type="length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+
+            <xs:element name="quiet-zone" minOccurs="0">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="length">
+                            <xs:attribute type="xs:boolean" name="enabled" default="true">
+                                <xs:annotation>
+                                    <xs:documentation><![CDATA[
+                                    Quiet Zone should be a length value
+				                    ]]></xs:documentation>
+                                </xs:annotation>
+                            </xs:attribute>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="vertical-quiet-zone" minOccurs="0">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="length">
+                            <xs:attribute type="xs:boolean" name="enabled" default="true"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element type="xs:string" name="bearer-bar-width" minOccurs="0" />
+
+            <xs:element type="xs:string" name="row-height" minOccurs="0" />
+            <xs:element type="xs:integer" name="columns" minOccurs="0" />
+            <xs:element type="xs:integer" name="min-columns" minOccurs="0" />
+            <xs:element type="xs:integer" name="max-columns" minOccurs="0" />
+            <xs:element type="xs:integer" name="min-rows" minOccurs="0" />
+            <xs:element type="xs:integer" name="max-rows" minOccurs="0" />
+            <xs:element type="xs:integer" name="ec-level" minOccurs="0" />
+
+            <xs:element name="human-readable" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:all>
+                        <xs:element type="xs:string" name="font-size" minOccurs="0" maxOccurs="1" />
+                        <xs:element type="xs:string" name="pattern" minOccurs="0" maxOccurs="1" />
+                        <xs:element type="xs:string" name="placement" minOccurs="0" maxOccurs="1" />
+                        <xs:element type="xs:boolean" name="omit-brackets" minOccurs="0" maxOccurs="1" />
+                        <xs:element type="xs:boolean" name="display-start-stop" minOccurs="0" maxOccurs="1" />
+                        <xs:element type="xs:boolean" name="display-checksum" minOccurs="0" maxOccurs="1" />
+                    </xs:all>
+                </xs:complexType>
+            </xs:element>
+
+        </xs:all>
+    </xs:complexType>
+
+    <xs:element name="barcode">
+        <xs:annotation>
+            <xs:documentation><![CDATA[The outer barcode element]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:choice>
+                <xs:element name="codabar" type="BarcodeParams">
+                    <xs:annotation>
+                        <xs:documentation><![CDATA[The Codabar symbology]]></xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="code39" type="BarcodeParams" />
+                <xs:element name="code128" type="BarcodeParams" />
+                <xs:element name="ean-128" type="BarcodeParams" />
+                <xs:element name="intl2of5" type="BarcodeParams" />
+                <xs:element name="itf-14" type="BarcodeParams" />
+                <xs:element name="ean-13" type="BarcodeParams" />
+                <xs:element name="ean-8" type="BarcodeParams" />
+                <xs:element name="upc-a" type="BarcodeParams" />
+                <xs:element name="upc-e" type="BarcodeParams" />
+                <xs:element name="postnet" type="BarcodeParams" />
+                <xs:element name="royal-mail-cbc" type="BarcodeParams" />
+                <xs:element name="usps4cb" type="BarcodeParams" />
+                <xs:element name="pdf417" type="BarcodeParams" />
+                <xs:element name="datamatrix" type="BarcodeParams" />
+                <xs:element name="qr" type="BarcodeParams" />
+                <xs:element name="aztec" type="BarcodeParams" />
+            </xs:choice>
+
+            <xs:attribute type="xs:string" name="message" use="required">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[The barcode message is the data that will be represented in the barcode]]></xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="orientation" default="0">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[
+                    The supported values for orientation are 0, 90, 180, and 270
+                    ]]></xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:integer">
+                        <xs:enumeration value="0" />
+                        <xs:enumeration value="90" />
+                        <xs:enumeration value="180" />
+                        <xs:enumeration value="270" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
