@@ -40,6 +40,11 @@
 
         <!-- test dependencies -->
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
@@ -72,6 +77,10 @@
                 'usps-4bc-bar-to-character-table.csv' and 'EAN128AIs.properties' are included
                 -->
                 <directory>src/main/java</directory>
+<!--                <includes>-->
+<!--                    <include>**/**.csv</include>-->
+<!--                    <include>**/**.properties</include>-->
+<!--                </includes>-->
                 <excludes>
                     <exclude>**/**.java</exclude>
                 </excludes>
