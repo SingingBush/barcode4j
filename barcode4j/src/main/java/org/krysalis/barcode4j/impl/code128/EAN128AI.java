@@ -20,10 +20,9 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
 /**
@@ -120,37 +119,12 @@ public class EAN128AI {
     private static synchronized void loadProperties() throws Exception {
         if (propertiesLoaded) return;
 
-        final String bundlename = "EAN128AIs";
-        final String filename = bundlename + ".properties";
-        Properties p = new AIProperties();
-        try {
-            InputStream is = EAN128AI.class.getResourceAsStream(filename);
-            if (is == null) {
-//               System.err.println(filename + " could not be loaded with class.getResourceAsStream()");
-               is = EAN128AI.class.getClassLoader().getResourceAsStream(filename);
-            }
-            if (is != null) {
-                try {
-                    p.load(is);
-                } finally {
-                    is.close();
-                }
-            } else {
-//                System.err.println(filename + " could not be loaded with getClassLoader().getResourceAsStream()");
-                // The getResourceAsStream variants do not work if an applet is loading
-                // several jars from different directories (as in examples\demo-applet\html\index.html)!
-                // ResourceBundle does this job. It seems to have more privileges.
-                // It is not the best choice (as we never want to translate EAN128AIs.properties),
-                // but it works.
-                final String rbName = EAN128AI.class.getPackage().getName() + "." + bundlename;
-                final ResourceBundle rb = ResourceBundle.getBundle(rbName);
-                final Enumeration<String> keys = rb.getKeys();
-                while (keys.hasMoreElements()) {
-                    final String key = keys.nextElement();
-                    p.put(key, rb.getObject(key));
-                }
-            }
-        } catch (Exception e) {
+        final String filename = "EAN128AIs.properties";
+
+        try (InputStream is = EAN128AI.class.getClassLoader().getResourceAsStream(filename)) {
+            final Properties p = new AIProperties();
+            p.load(is);
+        } catch (IOException e) {
             log.error(filename + " could not be loaded!", e);
             // Not loading EAN128AIs.properties is a severe error.
             // But the code is still usable, if you use templates or do not rely on check digits.

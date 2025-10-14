@@ -20,14 +20,15 @@ package org.krysalis.barcode4j.impl.fourstate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.MissingResourceException;
 import java.util.StringTokenizer;
 
 import org.krysalis.barcode4j.ChecksumMode;
 import org.krysalis.barcode4j.ClassicBarcodeLogicHandler;
-import org.krysalis.barcode4j.tools.IOUtil;
 
 /**
  * This class is a logic implementation for the USPS Intelligent Mail Barcode (aka 4-State Customer
@@ -107,32 +108,27 @@ public class USPSIntelligentMailLogicImpl extends AbstractFourStateLogicImpl {
         }
     }
 
-    private static final String BAR_TO_CHARACTER_TABLE_FILENAME
-                = "usps-4bc-bar-to-character-table.csv";
+    private static final String BAR_TO_CHARACTER_TABLE_FILENAME = "usps-4bc-bar-to-character-table.csv";
 
     private static void initializeBarToCharacterTable() {
-        InputStream in = USPSIntelligentMailLogicImpl.class.getResourceAsStream(
-                BAR_TO_CHARACTER_TABLE_FILENAME);
-        if (in == null) {
-            throw new MissingResourceException(
-                    "Resource " + BAR_TO_CHARACTER_TABLE_FILENAME + " not found!", null, null);
+        final URL barToCharResource = USPSIntelligentMailLogicImpl.class
+            .getClassLoader()
+            .getResource(BAR_TO_CHARACTER_TABLE_FILENAME);
+
+        if (barToCharResource == null) {
+            throw new MissingResourceException("Resource " + BAR_TO_CHARACTER_TABLE_FILENAME + " not found!", null, null);
         }
-        BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(in));
-        try {
+
+        try (final BufferedReader reader = new BufferedReader(new InputStreamReader(barToCharResource.openStream(), StandardCharsets.UTF_8))) {
             int idx = 0;
             String line;
             while ((line = reader.readLine()) != null) {
                 TABLE_BAR_TO_CHARACTER[idx] = new BarToCharacterMapping(idx, line);
                 idx++;
             }
-        } catch (IOException ioe) {
-            throw new RuntimeException("Could not initialize constant due to I/O error: "
-                    + ioe.getMessage());
-        } finally {
-            IOUtil.closeQuietly(reader);
-            IOUtil.closeQuietly(in);
+        } catch (final IOException e) {
+            throw new RuntimeException("Could not initialize constant due to I/O error: "+ e.getMessage(), e);
         }
-
     }
 
     private static final class BarToCharacterMapping {

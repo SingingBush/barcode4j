@@ -67,26 +67,6 @@
     </dependencies>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <!--
-                This is so that non-Java files such as
-                'usps-4bc-bar-to-character-table.csv' and 'EAN128AIs.properties' are included
-                -->
-                <directory>src/main/java</directory>
-<!--                <includes>-->
-<!--                    <include>**/**.csv</include>-->
-<!--                    <include>**/**.properties</include>-->
-<!--                </includes>-->
-                <excludes>
-                    <exclude>**/**.java</exclude>
-                </excludes>
-            </resource>
-        </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

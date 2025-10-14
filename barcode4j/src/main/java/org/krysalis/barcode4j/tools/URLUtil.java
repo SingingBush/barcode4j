@@ -48,14 +48,12 @@ public class URLUtil {
         if (url.startsWith(DATA_PROTOCOL)) {
             return parseDataURL(url, encoding);
         } else {
-            URL u = new URL(url);
-            InputStream in = u.openStream();
-            try {
-                ByteArrayOutputStream baout = new ByteArrayOutputStream();
-                IOUtil.copy(in, baout);
-                return baout.toByteArray();
-            } finally {
-                IOUtil.closeQuietly(in);
+            final URL u = new URL(url);
+
+            try (final InputStream in = u.openStream();
+                 final ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                IOUtil.copy(in, out);
+                return out.toByteArray();
             }
         }
     }
@@ -79,11 +77,11 @@ public class URLUtil {
         final String data = url.substring(commaPos + 1);
 
         if (header.endsWith(";base64")) {
-            final Base64InputStream in = new Base64InputStream(new java.io.StringReader(data));
-            final ByteArrayOutputStream baout = new ByteArrayOutputStream();
-            IOUtil.copy(in, baout);
-            IOUtil.closeQuietly(in);
-            return baout.toByteArray();
+            try (final Base64InputStream in = new Base64InputStream(new java.io.StringReader(data));
+                 final ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                IOUtil.copy(in, out);
+                return out.toByteArray();
+            }
         } else {
             String urlEncoding = getEncoding(header);
             if (urlEncoding == null) {
