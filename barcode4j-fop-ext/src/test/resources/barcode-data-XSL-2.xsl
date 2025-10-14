@@ -82,7 +82,8 @@
                         <barcode:ean-128>
                             <barcode:height>18mm</barcode:height>
                             <barcode:human-readable>
-                                <barcode:pattern font-size="20pt">(__) _ _______ _________ _</barcode:pattern>
+                                <barcode:font-size>20pt</barcode:font-size>
+                                <barcode:pattern>(__) _ _______ _________ _</barcode:pattern>
                                 <barcode:omit-brackets>true</barcode:omit-brackets>
                             </barcode:human-readable>
                         </barcode:ean-128>
