@@ -87,19 +87,6 @@
             </resource>
         </resources>
 
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-            <testResource>
-                <directory>src/test</directory>
-                <excludes>
-                    <exclude>**/**.java</exclude>
-                </excludes>
-            </testResource>
-        </testResources>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
