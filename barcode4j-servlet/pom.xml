@@ -15,6 +15,10 @@
     <name>Barcode4J Servlet</name>
     <description>This module contains the code creating barcodes via a servlet.</description>
 
+    <properties>
+        <jakarta.servlet.api.version>6.1.0</jakarta.servlet.api.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.singingbush</groupId>
@@ -23,8 +27,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet.api.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

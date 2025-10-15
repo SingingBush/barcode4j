@@ -63,17 +63,17 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- For now just test with the older JAXB API (Jakarta can come later) -->
+        <!-- Jakarta's JAXB is only used for testing -->
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>4.0.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
-            <version>2.3.6</version>
+            <version>4.0.0</version>
             <scope>test</scope>
         </dependency>
 
