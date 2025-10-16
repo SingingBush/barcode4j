@@ -82,7 +82,6 @@
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                         <manifestEntries>
-                            <Automatic-Module-Name>barcode4j</Automatic-Module-Name>
                             <Build-Time>${maven.build.timestamp}</Build-Time>
                             <Built-By>singingbush</Built-By>
                             <Date>${maven.build.timestamp}</Date>
