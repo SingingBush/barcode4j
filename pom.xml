@@ -400,18 +400,17 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>2.6.0</version>
+                    <version>2.7.0</version>
                 </plugin>
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.8.6.6</version>
-                    <!-- This is overridden with 4.9.6.0 when using JDK 11 or above -->
+                    <version>4.9.7.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.13</version>
+                    <version>0.8.14</version>
                 </plugin>
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
@@ -421,7 +420,7 @@
                 <plugin>
                     <groupId>org.owasp</groupId>
                     <artifactId>dependency-check-maven</artifactId>
-                    <version>12.1.6</version>
+                    <version>12.1.8</version>
                     <configuration>
                         <nvdApiKeyEnvironmentVariable>NVD_API_KEY</nvdApiKeyEnvironmentVariable>
                     </configuration>
@@ -572,91 +571,6 @@
     </reporting>
 
     <profiles>
-
-        <profile>
-            <id>default</id>
-            <activation>
-                <jdk>[1.8,)</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs-maven-plugin</artifactId>
-                        <configuration>
-                            <excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>
-                            <onlyAnalyze>org.krysalis.barcode4j.*</onlyAnalyze>
-                            <xmlOutput>true</xmlOutput>
-                            <plugins>
-                                <plugin>
-                                    <groupId>com.h3xstream.findsecbugs</groupId>
-                                    <artifactId>findsecbugs-plugin</artifactId>
-                                    <version>1.14.0</version>
-                                </plugin>
-                            </plugins>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>check</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>modern</id>
-            <activation>
-                <jdk>[11,)</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.owasp</groupId>
-                        <artifactId>dependency-check-maven</artifactId>
-                        <!-- dependency-check now requires JDK11+ -->
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                                <configuration>
-                                    <failBuildOnCVSS>9</failBuildOnCVSS>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-            <reporting>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs-maven-plugin</artifactId>
-                        <version>4.9.6.0</version>
-                        <configuration>
-                            <excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>
-                            <onlyAnalyze>org.krysalis.barcode4j.*</onlyAnalyze>
-                            <xmlOutput>true</xmlOutput>
-                            <failOnError>false</failOnError>
-                            <plugins>
-                                <plugin>
-                                    <groupId>com.h3xstream.findsecbugs</groupId>
-                                    <artifactId>findsecbugs-plugin</artifactId>
-                                    <version>1.14.0</version>
-                                </plugin>
-                            </plugins>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </reporting>
-        </profile>
-
         <profile>
             <id>CI</id>
             <activation>
