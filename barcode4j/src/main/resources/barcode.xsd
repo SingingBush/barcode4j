@@ -7,10 +7,11 @@
 
     <xs:simpleType name="Length">
         <xs:annotation>
-            <xs:documentation><![CDATA[
-            Length values in can be whole numbers or floating point and use various measurement types such as in, pt, cm, mm, and mw.
-            See org.krysalis.barcode4j.tools.Length
-			]]></xs:documentation>
+            <xs:documentation>
+                Length values in can be whole numbers or floating point and use various measurement types such as in,
+                pt, cm, mm, and mw.
+                See org.krysalis.barcode4j.tools.Length
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="([0-9]+)(.[0-9]+)?(in|pt|cm|mm|mw)?"/>
@@ -19,14 +20,14 @@
 
     <!-- OptionalLength allows the value to either be a Length (which needs a value) or string (which can be blank) -->
     <xs:simpleType name="OptionalLength">
-        <xs:union memberTypes="Length xs:string" />
+        <xs:union memberTypes="Length xs:string"/>
     </xs:simpleType>
 
     <xs:simpleType name="ChecksumMode">
         <xs:annotation>
-            <xs:documentation><![CDATA[
-            Checksum Mode matches the values in org.krysalis.barcode4j.ChecksumMode
-			]]></xs:documentation>
+            <xs:documentation>
+                Checksum Mode matches the values in org.krysalis.barcode4j.ChecksumMode
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="auto"/>
@@ -38,9 +39,9 @@
 
     <xs:simpleType name="HumanReadablePlacement">
         <xs:annotation>
-            <xs:documentation><![CDATA[
-            HumanReadablePlacement matches the values in org.krysalis.barcode4j.HumanReadablePlacement
-			]]></xs:documentation>
+            <xs:documentation>
+                HumanReadablePlacement matches the values in org.krysalis.barcode4j.HumanReadablePlacement
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="none"/>
@@ -51,9 +52,9 @@
 
     <xs:simpleType name="BaselineAlignment">
         <xs:annotation>
-            <xs:documentation><![CDATA[
-            BaselineAlignment matches the values in org.krysalis.barcode4j.BaselineAlignment
-			]]></xs:documentation>
+            <xs:documentation>
+                BaselineAlignment matches the values in org.krysalis.barcode4j.BaselineAlignment
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="top"/>
@@ -63,9 +64,9 @@
 
     <xs:simpleType name="SymbolShapeHint">
         <xs:annotation>
-            <xs:documentation><![CDATA[
-            SymbolShapeHint matches the values in org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint
-			]]></xs:documentation>
+            <xs:documentation>
+                SymbolShapeHint matches the values in org.krysalis.barcode4j.impl.datamatrix.SymbolShapeHint
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="force-none"/>
@@ -76,9 +77,10 @@
 
     <xs:simpleType name="DimensionString">
         <xs:annotation>
-            <xs:documentation><![CDATA[
-            Dimensions should be in the format width x height (eg: "50x50"). A single integer value is interpreted as using the same number for width and height.
-			]]></xs:documentation>
+            <xs:documentation>
+                Dimensions should be in the format width x height (eg: "50x50"). A single integer value is interpreted
+                as using the same number for width and height.
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="([0-9]+)(x[0-9]+)?"/>
@@ -87,14 +89,16 @@
 
     <xs:complexType name="BarcodeParams">
         <xs:all>
-            <xs:element type="Length" name="height" minOccurs="0" />
-            <xs:element type="Length" name="module-width" minOccurs="0" />
-            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
-            <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
+            <xs:element type="Length" name="height" minOccurs="0"/>
+            <xs:element type="Length" name="module-width" minOccurs="0"/>
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0"/>
+            <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto"/>
 
             <xs:element type="xs:string" name="codesets" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Only used by implementations of Code128, eg: EAN-128. Use any or all of 'A', 'B', 'C'</xs:documentation>
+                    <xs:documentation>Only used by implementations of Code128, eg: EAN-128. Use any or all of 'A', 'B',
+                        'C'
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
 
@@ -119,51 +123,26 @@
                 </xs:annotation>
             </xs:element>
 
-            <xs:element name="human-readable" minOccurs="0" maxOccurs="1">
-                <xs:complexType>
-                    <xs:annotation>
-                        <xs:documentation><![CDATA[
-                        The human-readable sections is used by many barcode types. However, some child properties are for specific barcode implementations
-                        ]]></xs:documentation>
-                    </xs:annotation>
-                    <xs:all>
-                        <xs:element type="HumanReadablePlacement" name="placement" minOccurs="0" maxOccurs="1" />
-                        <xs:element type="xs:string" name="font-size" minOccurs="0" maxOccurs="1">
-                            <xs:annotation>
-                                <xs:documentation>Widely used across barcodes. Fonts can be set with the same units as Length. Eg: 20pt or 12mm</xs:documentation>
-                            </xs:annotation>
-                        </xs:element>
-                        <xs:element type="xs:string" name="font-name" minOccurs="0" maxOccurs="1" default="Helvetica">
-                            <xs:annotation>
-                                <xs:documentation>Widely used across barcodes. Currently defaults to Helvetica</xs:documentation>
-                            </xs:annotation>
-                        </xs:element>
-                        <xs:element type="xs:string" name="pattern" minOccurs="0" maxOccurs="1" />
-
-                        <xs:element type="xs:boolean" name="omit-brackets" minOccurs="0" maxOccurs="1" default="false">
-                            <xs:annotation>
-                                <xs:documentation>Only used by EAN-128 barcodes</xs:documentation>
-                            </xs:annotation>
-                        </xs:element>
-                        <xs:element type="xs:boolean" name="display-start-stop" minOccurs="0" maxOccurs="1" default="false">
-                            <xs:annotation>
-                                <xs:documentation>Only used by Codabar and Code39 barcodes</xs:documentation>
-                            </xs:annotation>
-                        </xs:element>
-                        <xs:element type="xs:boolean" name="display-checksum" minOccurs="0" maxOccurs="1" default="false" />
-                    </xs:all>
-                </xs:complexType>
+            <xs:element type="human-readable" name="human-readable" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        The human-readable sections is used by many barcode types. However, some child properties are
+                        for specific barcode implementations
+                    </xs:documentation>
+                </xs:annotation>
             </xs:element>
 
             <xs:element type="xs:string" name="human-readable-font" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Deprecated, please use human-readable -> font-name child element</xs:documentation>
+                    <xs:documentation>Deprecated, please use human-readable -> font-name child element
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
 
             <xs:element type="xs:string" name="human-readable-size" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Deprecated, please use human-readable -> font-size child element</xs:documentation>
+                    <xs:documentation>Deprecated, please use human-readable -> font-size child element
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
 
@@ -205,7 +184,8 @@
 
             <xs:element type="Length" name="interchar-gap-width" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Only used by COde39, RoyalMailCBC, USPSIntelligentMail, and POSTNET barcodes</xs:documentation>
+                    <xs:documentation>Only used by COde39, RoyalMailCBC, USPSIntelligentMail, and POSTNET barcodes
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
 
@@ -231,13 +211,7 @@
                 <xs:complexType>
                     <xs:simpleContent>
                         <xs:extension base="OptionalLength">
-                            <xs:attribute type="xs:boolean" name="enabled" default="true">
-                                <xs:annotation>
-                                    <xs:documentation><![CDATA[
-                                    Quiet Zone should be a length value
-				                    ]]></xs:documentation>
-                                </xs:annotation>
-                            </xs:attribute>
+                            <xs:attribute type="xs:boolean" name="enabled" default="true"/>
                         </xs:extension>
                     </xs:simpleContent>
                 </xs:complexType>
@@ -297,7 +271,8 @@
             </xs:element>
             <xs:element type="xs:integer" name="ec-level" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Error Correction Level is used by PDF417, Aztec, and QRCode barcodes</xs:documentation>
+                    <xs:documentation>Error Correction Level is used by PDF417, Aztec, and QRCode barcodes
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element type="xs:float" name="width-to-height-ratio" minOccurs="0">
@@ -321,56 +296,150 @@
         </xs:all>
     </xs:complexType>
 
+    <xs:complexType name="CodabarBarcodeParams">
+        <xs:complexContent>
+            <xs:extension base="BarcodeParams">
+                <xs:all>
+                    <xs:element type="human-readable-with-start-stop" name="human-readable" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The human-readable sections is used by many barcode types. However, some child properties are
+                                for specific barcode implementations
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:all>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="QRBarcodeParams">
+        <xs:complexContent>
+            <xs:extension base="BarcodeParams">
+                <xs:all>
+                    <xs:element type="DimensionString" name="min-symbol-size" minOccurs="0"/>
+
+                    <xs:element type="DimensionString" name="max-symbol-size" minOccurs="0"/>
+
+                    <xs:element type="xs:string" name="encoding" minOccurs="0"/>
+
+                    <xs:element name="ec-level" minOccurs="0">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="H"/>
+                                <xs:enumeration value="L"/>
+                                <xs:enumeration value="M"/>
+                                <xs:enumeration value="Q"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:all>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:element name="barcode">
         <xs:annotation>
-            <xs:documentation><![CDATA[The outer barcode element]]></xs:documentation>
+            <xs:documentation>The outer barcode element</xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:choice>
-                <xs:element name="codabar" type="BarcodeParams">
-                    <xs:annotation>
-                        <xs:documentation><![CDATA[The Codabar symbology]]></xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="code39" type="BarcodeParams" />
-                <xs:element name="code128" type="BarcodeParams" />
-                <xs:element name="ean-128" type="BarcodeParams" />
-                <xs:element name="intl2of5" type="BarcodeParams" />
-                <xs:element name="itf-14" type="BarcodeParams" />
-                <xs:element name="ean-13" type="BarcodeParams" />
-                <xs:element name="ean-8" type="BarcodeParams" />
-                <xs:element name="upc-a" type="BarcodeParams" />
-                <xs:element name="upc-e" type="BarcodeParams" />
-                <xs:element name="postnet" type="BarcodeParams" />
-                <xs:element name="royal-mail-cbc" type="BarcodeParams" />
-                <xs:element name="usps4cb" type="BarcodeParams" />
-                <xs:element name="pdf417" type="BarcodeParams" />
-                <xs:element name="datamatrix" type="BarcodeParams" />
-                <xs:element name="qr" type="BarcodeParams" />
-                <xs:element name="aztec" type="BarcodeParams" />
+                <xs:element name="codabar" type="CodabarBarcodeParams"/>
+                <xs:element name="code39" type="BarcodeParams"/>
+                <xs:element name="code128" type="BarcodeParams"/>
+                <xs:element name="ean-128" type="BarcodeParams"/>
+                <xs:element name="intl2of5" type="BarcodeParams"/>
+                <xs:element name="itf-14" type="BarcodeParams"/>
+                <xs:element name="ean-13" type="BarcodeParams"/>
+                <xs:element name="ean-8" type="BarcodeParams"/>
+                <xs:element name="upc-a" type="BarcodeParams"/>
+                <xs:element name="upc-e" type="BarcodeParams"/>
+                <xs:element name="postnet" type="BarcodeParams"/>
+                <xs:element name="royal-mail-cbc" type="BarcodeParams"/>
+                <xs:element name="usps4cb" type="BarcodeParams"/>
+                <xs:element name="pdf417" type="BarcodeParams"/>
+                <xs:element name="datamatrix" type="BarcodeParams"/>
+                <xs:element name="qr" type="QRBarcodeParams"/>
+                <xs:element name="aztec" type="BarcodeParams"/>
             </xs:choice>
 
             <xs:attribute type="xs:string" name="message" use="required">
                 <xs:annotation>
-                    <xs:documentation><![CDATA[The barcode message is the data that will be represented in the barcode]]></xs:documentation>
+                    <xs:documentation>The barcode message is the data that will be represented in the barcode
+                    </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
 
             <xs:attribute name="orientation" default="0">
                 <xs:annotation>
-                    <xs:documentation><![CDATA[
-                    The supported values for orientation are 0, 90, 180, and 270
-                    ]]></xs:documentation>
+                    <xs:documentation>
+                        The supported values for orientation are 0, 90, 180, and 270
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:simpleType>
                     <xs:restriction base="xs:integer">
-                        <xs:enumeration value="0" />
-                        <xs:enumeration value="90" />
-                        <xs:enumeration value="180" />
-                        <xs:enumeration value="270" />
+                        <xs:enumeration value="0"/>
+                        <xs:enumeration value="90"/>
+                        <xs:enumeration value="180"/>
+                        <xs:enumeration value="270"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:attribute>
         </xs:complexType>
     </xs:element>
+
+    <xs:complexType name="human-readable">
+        <xs:annotation>
+            <xs:documentation>
+                The human-readable sections is used by many barcode types. However, some child properties are for
+                specific barcode implementations
+            </xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element type="HumanReadablePlacement" name="placement" minOccurs="0"/>
+            <xs:element type="xs:string" name="font-size" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Widely used across barcodes. Fonts can be set with the same units as Length. Eg:
+                        20pt or 12mm
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="font-name" minOccurs="0" default="Helvetica">
+                <xs:annotation>
+                    <xs:documentation>Widely used across barcodes. Currently defaults to Helvetica</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="pattern" minOccurs="0"/>
+
+            <xs:element type="xs:boolean" name="display-checksum" minOccurs="0" default="false"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="human-readable-with-start-stop">
+        <xs:complexContent>
+            <xs:extension base="human-readable">
+                <xs:all>
+                    <xs:element type="xs:boolean" name="display-start-stop" minOccurs="0" default="false">
+                        <xs:annotation>
+                            <xs:documentation>Only used by Codabar and Code39 barcodes</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:all>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="human-readable-without-brackets">
+        <xs:complexContent>
+            <xs:extension base="human-readable">
+                <xs:all>
+                    <xs:element type="xs:boolean" name="omit-brackets" minOccurs="0" default="false">
+                        <xs:annotation>
+                            <xs:documentation>Only used by EAN-128 barcodes</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:all>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 </xs:schema>
