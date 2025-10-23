@@ -81,6 +81,22 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- setting legacy Mode to true is a workaround for the fact that Xalan did not have bsf:bsf in it's pom -->
+                    <legacyMode>true</legacyMode>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

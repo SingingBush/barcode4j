@@ -15,6 +15,7 @@
  */
 package org.krysalis.barcode4j;
 
+import org.jetbrains.annotations.NotNull;
 import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
 import org.w3c.dom.DocumentFragment;
 
@@ -73,7 +74,7 @@ public class BarcodeUtil {
      * @throws BarcodeException if setting up a BarcodeGenerator fails
      * @throws ConfigurationException if something's wrong wth the configuration
      */
-    public static BarcodeGenerator createBarcodeGenerator(Configuration cfg, BarcodeClassResolver classResolver) throws BarcodeException, ConfigurationException {
+    public static BarcodeGenerator createBarcodeGenerator(final @NotNull Configuration cfg, BarcodeClassResolver classResolver) throws BarcodeException, ConfigurationException {
         Class<BarcodeGenerator> cl = null;
         try {
             //First, check Configuration directly
