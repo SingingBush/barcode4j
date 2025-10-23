@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Stream;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -41,7 +42,9 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -55,9 +58,10 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 public class FopTest {
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("outputArgs")
     @DisplayName("Use xmlns:barcode within an XSLT to transform StreamSource data to XSL-FO")
-    void testTransformStreamSourceToFop() throws Exception {
+    void testTransformStreamSourceToFop(final String fileType, final String mimeType) throws Exception {
         final Source srcData = new StreamSource(loadTestResourceFile("barcodes.xml"));
 
         // capture resulting fop for assertions
@@ -91,12 +95,13 @@ public class FopTest {
         assertTrue(xslFo.contains("<barcode:datamatrix>"));
 
         // now ensure the generated XSL-FO can be used by Apache FOP without error
-        generatePdfFileFromXslFo(new ByteArrayInputStream(xslFo.getBytes(StandardCharsets.UTF_8)));
+        generateFileFromXslFo(fileType, mimeType, new ByteArrayInputStream(xslFo.getBytes(StandardCharsets.UTF_8)));
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("outputArgs")
     @DisplayName("Use xmlns:barcode within an XSLT to transform JAXBSource data to XSL-FO")
-    void testTransformJaxbSourceToFop() throws JAXBException, TransformerException, FOPException, IOException {
+    void testTransformJaxbSourceToFop(final String fileType, final String mimeType) throws JAXBException, TransformerException, FOPException, IOException {
         final Source srcData = createDataFromPojos();
 
         // capture resulting fop for assertions
@@ -132,7 +137,7 @@ public class FopTest {
         assertTrue(xslFo.contains("<barcode:pdf417>"));
 
         // now ensure the generated XSL-FO can be used by Apache FOP without error
-        generatePdfFileFromXslFo(new ByteArrayInputStream(xslFo.getBytes(StandardCharsets.UTF_8)));
+        generateFileFromXslFo(fileType, mimeType, new ByteArrayInputStream(xslFo.getBytes(StandardCharsets.UTF_8)));
     }
 
     private Source createDataFromPojos() throws JAXBException {
@@ -169,13 +174,24 @@ public class FopTest {
         return new JAXBSource( JAXBContext.newInstance(Data.class, Barcode.class) , data);
     }
 
-    private void generatePdfFileFromXslFo(final InputStream xslFo) throws FOPException, IOException, TransformerException {
+    private static Stream<Arguments> outputArgs() {
+        return Stream.of(
+            Arguments.of("pdf", MimeConstants.MIME_PDF),
+            Arguments.of("eps", MimeConstants.MIME_EPS)
+            //Arguments.of("jpg", MimeConstants.MIME_JPEG),
+            //Arguments.of("gif", MimeConstants.MIME_GIF),
+            //Arguments.of("bmp", MimeConstants.MIME_BITMAP) // "image/x-bitmap"
+            //Arguments.of("bmp", org.krysalis.barcode4j.tools.MimeTypes.MIME_BMP) // "image/bmp"
+        );
+    }
+
+    private void generateFileFromXslFo(final String fileType, final String mimeType, final InputStream xslFo) throws FOPException, IOException, TransformerException {
         final FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
 
-        final Path filePath = Files.createTempFile("barcode4j-fop-test-", ".pdf");
+        final Path filePath = Files.createTempFile("barcode4j-fop-test-", String.format(".%s", fileType));
 
         try(OutputStream out = new BufferedOutputStream(Files.newOutputStream(filePath))) {
-            final Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
+            final Fop fop = fopFactory.newFop(mimeType, out);
 
             final Transformer transformer = TransformerFactory.newInstance().newTransformer();
 
@@ -184,7 +200,7 @@ public class FopTest {
 
             transformer.transform(src, res);
 
-            System.out.println("To view rendered pdf open " + filePath);
+            System.out.printf("To view rendered %s open: %s%n", fileType, filePath);
         }
     }
 
