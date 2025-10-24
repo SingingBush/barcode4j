@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
@@ -23,6 +25,8 @@ import java.net.URL;
  */
 public class BarcodeSchemaTest {
 
+    private static final Logger _log = LoggerFactory.getLogger(BarcodeSchemaTest.class);
+
     private static final Validator _validator;
 
     static {
@@ -39,7 +43,7 @@ public class BarcodeSchemaTest {
             "    <qr/>\n" +
             "</barcode>";
 
-        _validator.validate(new StreamSource(new StringReader(xml)));
+        validate(xml);
     }
 
     @Test
@@ -58,7 +62,7 @@ public class BarcodeSchemaTest {
             "    </pdf417>\n" +
             "</barcode>";
 
-        _validator.validate(new StreamSource(new StringReader(xml)));
+        validate(xml);
     }
 
     @Test
@@ -67,7 +71,7 @@ public class BarcodeSchemaTest {
             "    <barcode:aztec/>\n" +
             "</barcode:barcode>";
 
-        _validator.validate(new StreamSource(new StringReader(xml)));
+        validate(xml);
     }
 
     @Test
@@ -82,7 +86,7 @@ public class BarcodeSchemaTest {
             "    </bc:aztec>\n" +
             "</bc:barcode>";
 
-        _validator.validate(new StreamSource(new StringReader(xml)));
+        validate(xml);
     }
 
     @Test
@@ -91,14 +95,14 @@ public class BarcodeSchemaTest {
             "  <bc:qr>\n" +
             "    <bc:module-width>1.8mm</bc:module-width>\n" +
             "    <bc:encoding>UTF_8</bc:encoding>\n" +
-            "    <bc:ec-level>23</bc:ec-level>\n" +
+            "    <bc:ec-level>M</bc:ec-level>\n" +
             "    <bc:min-symbol-size>30</bc:min-symbol-size>\n" +
             "    <bc:max-symbol-size>60x60</bc:max-symbol-size>\n" +
             "    <bc:quiet-zone>12</bc:quiet-zone>\n" +
             "  </bc:qr>\n" +
             "</bc:barcode>";
 
-        _validator.validate(new StreamSource(new StringReader(xml)));
+        validate(xml);
     }
 
     @Test
@@ -119,7 +123,7 @@ public class BarcodeSchemaTest {
             "  </bc:pdf417>\n" +
             "</bc:barcode>";
 
-        _validator.validate(new StreamSource(new StringReader(xml)));
+        validate(xml);
     }
 
     @ParameterizedTest
@@ -133,7 +137,7 @@ public class BarcodeSchemaTest {
             "  </bc:upc-a>\n" +
             "</bc:barcode>";
 
-        _validator.validate(new StreamSource(new StringReader(xml)));
+        validate(xml);
     }
 
     @ParameterizedTest
@@ -149,7 +153,7 @@ public class BarcodeSchemaTest {
             "  </bc:ean-13>\n" +
             "</bc:barcode>";
 
-        _validator.validate(new StreamSource(new StringReader(xml)));
+        validate(xml);
     }
 
     @Test
@@ -166,7 +170,7 @@ public class BarcodeSchemaTest {
             "  </bc:code128>\n" +
             "</bc:barcode>";
 
-        _validator.validate(new StreamSource(new StringReader(xml)));
+        validate(xml);
     }
 
     @Test
@@ -183,7 +187,7 @@ public class BarcodeSchemaTest {
             "  </bc:ean-128>\n" +
             "</bc:barcode>";
 
-        _validator.validate(new StreamSource(new StringReader(xml)));
+        validate(xml);
     }
 
     @ParameterizedTest
@@ -211,7 +215,7 @@ public class BarcodeSchemaTest {
             String.format("    <barcode:%s/>\n", symbology) +
             "</barcode:barcode>";
 
-        _validator.validate(new StreamSource(new StringReader(xml)));
+        validate(xml);
     }
 
     private static Validator initValidator() throws SAXException {
@@ -225,6 +229,16 @@ public class BarcodeSchemaTest {
         final Source schemaFile = new StreamSource(xsdFile);
         final Schema schema = factory.newSchema(schemaFile);
         return schema.newValidator();
+    }
+
+    private static void validate(String xml) throws SAXException, IOException {
+        try {
+            _validator.validate(new StreamSource(new StringReader(xml)));
+        }
+        catch (SAXException e) {
+            _log.info("Validation failed for XML:\n" + xml);
+            throw e;
+        }
     }
 
 }
