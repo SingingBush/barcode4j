@@ -177,7 +177,10 @@ public class FopTest {
     private static Stream<Arguments> outputArgs() {
         return Stream.of(
             Arguments.of("pdf", MimeConstants.MIME_PDF),
+            Arguments.of("png", MimeConstants.MIME_PNG),
+            Arguments.of("tiff", MimeConstants.MIME_TIFF),
             Arguments.of("eps", MimeConstants.MIME_EPS)
+            // breaks with "image/jpeg", "image/gif", and "image/bmp"
             //Arguments.of("jpg", MimeConstants.MIME_JPEG),
             //Arguments.of("gif", MimeConstants.MIME_GIF),
             //Arguments.of("bmp", MimeConstants.MIME_BITMAP) // "image/x-bitmap"

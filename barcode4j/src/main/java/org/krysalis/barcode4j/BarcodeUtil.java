@@ -74,7 +74,7 @@ public class BarcodeUtil {
      * @throws BarcodeException if setting up a BarcodeGenerator fails
      * @throws ConfigurationException if something's wrong wth the configuration
      */
-    public static BarcodeGenerator createBarcodeGenerator(final @NotNull Configuration cfg, BarcodeClassResolver classResolver) throws BarcodeException, ConfigurationException {
+    public static BarcodeGenerator createBarcodeGenerator(final @NotNull Configuration cfg, final @NotNull BarcodeClassResolver classResolver) throws BarcodeException, ConfigurationException {
         Class<BarcodeGenerator> cl = null;
         try {
             //First, check Configuration directly
@@ -83,7 +83,7 @@ public class BarcodeUtil {
             if (type != null && !type.isEmpty()) {
                 try {
                     cl = classResolver.resolve(type);
-                } catch (ClassNotFoundException cnfe) {
+                } catch (final ClassNotFoundException e) {
                     // noop
                 }
             }
