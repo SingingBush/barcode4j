@@ -88,12 +88,12 @@
                 </xs:element>
                 <xs:element name="qr" type="QRBarcodeParams">
                     <xs:annotation>
-                        <xs:documentation><![CDATA[The Codabar symbology]]></xs:documentation>
+                        <xs:documentation><![CDATA[The QR code barcode]]></xs:documentation>
                     </xs:annotation>
                 </xs:element>
                 <xs:element name="aztec" type="AztecBarcodeParams">
                     <xs:annotation>
-                        <xs:documentation><![CDATA[The Codabar symbology]]></xs:documentation>
+                        <xs:documentation><![CDATA[The Aztec barcode]]></xs:documentation>
                     </xs:annotation>
                 </xs:element>
             </xs:choice>
@@ -122,170 +122,170 @@
         </xs:complexType>
     </xs:element>
 
-        <xs:complexType name="CodabarBarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+    <xs:complexType name="CodabarBarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
 
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
 
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
 
-                <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
-                <xs:element type="human-readable-with-start-stop" name="human-readable" minOccurs="0"/>
-            </xs:choice>
-        </xs:complexType>
+            <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
+            <xs:element type="human-readable-with-start-stop" name="human-readable" minOccurs="0"/>
+        </xs:choice>
+    </xs:complexType>
 
-        <xs:complexType name="MailBarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+    <xs:complexType name="MailBarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
 
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
 
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
 
-                <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
-                <xs:element type="human-readable" name="human-readable" minOccurs="0"/>
+            <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
+            <xs:element type="human-readable" name="human-readable" minOccurs="0"/>
 
-                <xs:element type="interchar-gap-width" name="interchar-gap-width" minOccurs="0"/>
-                <xs:element type="Length" name="ascender-height" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation><![CDATA[Only used by RoyalMailCBC and USPSIntelligentMail barcodes]]></xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element type="Length" name="track-height" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation><![CDATA[Only used by RoyalMailCBC and USPSIntelligentMail barcodes]]></xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-            </xs:choice>
-        </xs:complexType>
+            <xs:element type="interchar-gap-width" name="interchar-gap-width" minOccurs="0"/>
+            <xs:element type="Length" name="ascender-height" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[Only used by RoyalMailCBC and USPSIntelligentMail barcodes]]></xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="Length" name="track-height" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[Only used by RoyalMailCBC and USPSIntelligentMail barcodes]]></xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
 
-        <xs:complexType name="Code39BarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+    <xs:complexType name="Code39BarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
 
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
 
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
 
-                <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
-                <xs:element type="human-readable" name="human-readable" minOccurs="0"/>
+            <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
+            <xs:element type="human-readable" name="human-readable" minOccurs="0"/>
 
-                <xs:element type="interchar-gap-width" name="interchar-gap-width" minOccurs="0"/>
-            </xs:choice>
-        </xs:complexType>
+            <xs:element type="interchar-gap-width" name="interchar-gap-width" minOccurs="0"/>
+        </xs:choice>
+    </xs:complexType>
 
-        <xs:complexType name="PostNetBarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+    <xs:complexType name="PostNetBarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
 
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
 
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
 
-                <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
-                <xs:element type="human-readable" name="human-readable" minOccurs="0"/>
+            <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
+            <xs:element type="human-readable" name="human-readable" minOccurs="0"/>
 
-                <xs:element type="interchar-gap-width" name="interchar-gap-width" minOccurs="0"/>
+            <xs:element type="interchar-gap-width" name="interchar-gap-width" minOccurs="0"/>
 
-                <xs:element type="Length" name="tall-bar-height" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>Only used by POSTNET barcodes</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element type="Length" name="short-bar-height" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>Only used by POSTNET barcodes</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element type="BaselineAlignment" name="baseline-alignment" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>Only used by POSTNET barcodes</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-            </xs:choice>
-        </xs:complexType>
+            <xs:element type="Length" name="tall-bar-height" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Only used by POSTNET barcodes</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="Length" name="short-bar-height" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Only used by POSTNET barcodes</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="BaselineAlignment" name="baseline-alignment" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Only used by POSTNET barcodes</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
 
-        <xs:complexType name="ITF14BarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+    <xs:complexType name="ITF14BarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
 
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
 
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
 
-                <xs:element type="Length" name="bearer-bar-width" minOccurs="0"/>
-                <xs:element type="xs:boolean" name="bearer-box" minOccurs="0"/>
-            </xs:choice>
-        </xs:complexType>
+            <xs:element type="Length" name="bearer-bar-width" minOccurs="0"/>
+            <xs:element type="xs:boolean" name="bearer-box" minOccurs="0"/>
+        </xs:choice>
+    </xs:complexType>
 
-        <xs:complexType name="Int2of5BarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+    <xs:complexType name="Int2of5BarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
 
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
 
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
 
-                <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
-                <xs:element type="human-readable" name="human-readable" minOccurs="0"/>
-            </xs:choice>
-        </xs:complexType>
+            <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
+            <xs:element type="human-readable" name="human-readable" minOccurs="0"/>
+        </xs:choice>
+    </xs:complexType>
 
-        <xs:complexType name="DataMatrixBarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+    <xs:complexType name="DataMatrixBarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
 
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
 
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
 
-                <xs:element type="DimensionString" name="min-symbol-size" minOccurs="0"/>
-                <xs:element type="DimensionString" name="max-symbol-size" minOccurs="0"/>
+            <xs:element type="DimensionString" name="min-symbol-size" minOccurs="0"/>
+            <xs:element type="DimensionString" name="max-symbol-size" minOccurs="0"/>
 
-                <xs:element type="SymbolShapeHint" name="shape" minOccurs="0"/>
-            </xs:choice>
-        </xs:complexType>
+            <xs:element type="SymbolShapeHint" name="shape" minOccurs="0"/>
+        </xs:choice>
+    </xs:complexType>
 
-        <xs:complexType name="QRBarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+    <xs:complexType name="QRBarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
 
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
 
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
 
                 <xs:element type="encoding" name="encoding" minOccurs="0"/>
                 <xs:element name="ec-level" minOccurs="0">
@@ -301,199 +301,199 @@
                 <xs:element type="DimensionString" name="min-symbol-size" minOccurs="0"/>
                 <xs:element type="DimensionString" name="max-symbol-size" minOccurs="0"/>
             </xs:choice>
-        </xs:complexType>
+    </xs:complexType>
 
-        <xs:complexType name="Code128BarcodeParams">
+    <xs:complexType name="Code128BarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+
+            <xs:element type="human-readable" name="human-readable" minOccurs="0"/>
+            <xs:element type="xs:string" name="codesets" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Only used by implementations of Code128, eg: EAN-128. Use any or all of 'A', 'B', 'C'</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="EAN13BarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+
+            <xs:element type="human-readable" name="human-readable" minOccurs="0"/>
+            <xs:element type="xs:string" name="codesets" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Only used by implementations of Code128, eg: EAN-128. Use any or all of 'A', 'B', 'C'</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="AztecBarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+
+            <xs:element type="encoding" name="encoding" minOccurs="0"/>
+            <xs:element type="xs:integer" name="ec-level" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Numeric Error Correction Level is used by PDF417 and Aztec barcodes</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:integer" name="layers" minOccurs="0" default="0"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="PDF417BarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+
+            <xs:element type="xs:integer" name="ec-level" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Numeric Error Correction Level is used by PDF417, and Aztec barcodes</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:boolean" name="enable-eci" minOccurs="0" default="false"/>
+            <xs:element type="encoding" name="encoding" minOccurs="0"/>
+            <xs:element type="Length" name="row-height" minOccurs="0"/>
+            <xs:element type="xs:integer" name="columns" minOccurs="0"/>
+            <xs:element type="xs:integer" name="min-columns" minOccurs="0"/>
+            <xs:element type="xs:integer" name="max-columns" minOccurs="0"/>
+            <xs:element type="xs:integer" name="min-rows" minOccurs="0"/>
+            <xs:element type="xs:integer" name="max-rows" minOccurs="0"/>
+            <xs:element type="xs:float" name="width-to-height-ratio" minOccurs="0"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="EAN128BarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+
+            <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
+            <xs:element type="human-readable-without-brackets" name="human-readable" minOccurs="0" />
+            <xs:element type="xs:string" name="template" minOccurs="0"/>
+            <xs:element type="xs:string" name="group-separator" minOccurs="0"/>
+            <xs:element type="xs:string" name="check-digit-marker" minOccurs="0"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="UPCBarcodeParams">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="Length" name="height" minOccurs="0" />
+            <xs:element type="Length" name="module-width" minOccurs="0" />
+            <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
+
+            <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
+            <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
+
+            <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
+            <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
+
+            <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="human-readable">
+        <xs:annotation>
+            <xs:documentation><![CDATA[
+                The human-readable sections is used by many barcode types. However, some child properties are for
+                specific barcode implementations
+            ]]></xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
-
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
-
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
-
-                <xs:element type="human-readable" name="human-readable" minOccurs="0"/>
-                <xs:element type="xs:string" name="codesets" minOccurs="0">
+                <xs:element type="HumanReadablePlacement" name="placement" minOccurs="0"/>
+                <xs:element type="xs:string" name="font-size" minOccurs="0">
                     <xs:annotation>
-                        <xs:documentation>Only used by implementations of Code128, eg: EAN-128. Use any or all of 'A', 'B', 'C'</xs:documentation>
+                        <xs:documentation><![CDATA[
+                            Widely used across barcodes. Fonts can be set with the same units as Length. Eg:
+                            20pt or 12mm
+                        ]]></xs:documentation>
                     </xs:annotation>
                 </xs:element>
-            </xs:choice>
-        </xs:complexType>
-
-        <xs:complexType name="EAN13BarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
-
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
-
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
-
-                <xs:element type="human-readable" name="human-readable" minOccurs="0"/>
-                <xs:element type="xs:string" name="codesets" minOccurs="0">
+                <xs:element type="xs:string" name="font-name" minOccurs="0" default="Helvetica">
                     <xs:annotation>
-                        <xs:documentation>Only used by implementations of Code128, eg: EAN-128. Use any or all of 'A', 'B', 'C'</xs:documentation>
+                        <xs:documentation><![CDATA[Widely used across barcodes. Currently defaults to Helvetica]]></xs:documentation>
                     </xs:annotation>
                 </xs:element>
+                <xs:element type="xs:string" name="pattern" minOccurs="0"/>
+                <xs:element type="xs:boolean" name="display-checksum" minOccurs="0" default="false"/>
             </xs:choice>
-        </xs:complexType>
+        </xs:sequence>
+    </xs:complexType>
 
-        <xs:complexType name="AztecBarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
-
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
-
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
-
-                <xs:element type="encoding" name="encoding" minOccurs="0"/>
-                <xs:element type="xs:integer" name="ec-level" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>Numeric Error Correction Level is used by PDF417 and Aztec barcodes</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element type="xs:integer" name="layers" minOccurs="0" default="0"/>
-            </xs:choice>
-        </xs:complexType>
-
-        <xs:complexType name="PDF417BarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
-
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
-
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
-
-                <xs:element type="xs:integer" name="ec-level" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>Numeric Error Correction Level is used by PDF417, and Aztec barcodes</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element type="xs:boolean" name="enable-eci" minOccurs="0" default="false"/>
-                <xs:element type="encoding" name="encoding" minOccurs="0"/>
-                <xs:element type="Length" name="row-height" minOccurs="0"/>
-                <xs:element type="xs:integer" name="columns" minOccurs="0"/>
-                <xs:element type="xs:integer" name="min-columns" minOccurs="0"/>
-                <xs:element type="xs:integer" name="max-columns" minOccurs="0"/>
-                <xs:element type="xs:integer" name="min-rows" minOccurs="0"/>
-                <xs:element type="xs:integer" name="max-rows" minOccurs="0"/>
-                <xs:element type="xs:float" name="width-to-height-ratio" minOccurs="0"/>
-            </xs:choice>
-        </xs:complexType>
-
-        <xs:complexType name="EAN128BarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
-
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
-
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
-
-                <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
-                <xs:element type="human-readable-without-brackets" name="human-readable" minOccurs="0" />
-                <xs:element type="xs:string" name="template" minOccurs="0"/>
-                <xs:element type="xs:string" name="group-separator" minOccurs="0"/>
-                <xs:element type="xs:string" name="check-digit-marker" minOccurs="0"/>
-            </xs:choice>
-        </xs:complexType>
-
-        <xs:complexType name="UPCBarcodeParams">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element type="Length" name="height" minOccurs="0" />
-                <xs:element type="Length" name="module-width" minOccurs="0" />
-                <xs:element type="xs:float" name="wide-factor" minOccurs="0" />
-
-                <xs:element type="EnableableOptionalLength" name="quiet-zone" minOccurs="0"/>
-                <xs:element type="EnableableOptionalLength" name="vertical-quiet-zone" minOccurs="0"/>
-
-                <xs:element type="human-readable-font" name="human-readable-font" minOccurs="0"/>
-                <xs:element type="human-readable-size" name="human-readable-size" minOccurs="0"/>
-
-                <xs:element type="ChecksumMode" name="checksum" minOccurs="0" default="auto" />
-            </xs:choice>
-        </xs:complexType>
-
-        <xs:complexType name="human-readable">
-            <xs:annotation>
-                <xs:documentation><![CDATA[
-                    The human-readable sections is used by many barcode types. However, some child properties are for
-                    specific barcode implementations
-                ]]></xs:documentation>
-            </xs:annotation>
-            <xs:sequence>
+    <xs:complexType name="human-readable-with-start-stop">
+        <xs:annotation>
+            <xs:documentation><![CDATA[
+                The human-readable sections is used by many barcode types. However, some child properties are
+                for specific barcode implementations
+            ]]></xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="human-readable">
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element type="HumanReadablePlacement" name="placement" minOccurs="0"/>
-                    <xs:element type="xs:string" name="font-size" minOccurs="0">
+                    <xs:element type="xs:boolean" name="display-start-stop" minOccurs="0" default="false">
                         <xs:annotation>
-                            <xs:documentation><![CDATA[
-                                Widely used across barcodes. Fonts can be set with the same units as Length. Eg:
-                                20pt or 12mm
-                            ]]></xs:documentation>
+                            <xs:documentation><![CDATA[Only used by Codabar and Code39 barcodes]]></xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element type="xs:string" name="font-name" minOccurs="0" default="Helvetica">
-                        <xs:annotation>
-                            <xs:documentation><![CDATA[Widely used across barcodes. Currently defaults to Helvetica]]></xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element type="xs:string" name="pattern" minOccurs="0"/>
-                    <xs:element type="xs:boolean" name="display-checksum" minOccurs="0" default="false"/>
                 </xs:choice>
-            </xs:sequence>
-        </xs:complexType>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
-        <xs:complexType name="human-readable-with-start-stop">
-            <xs:annotation>
-                <xs:documentation><![CDATA[
-                    The human-readable sections is used by many barcode types. However, some child properties are
-                    for specific barcode implementations
-                ]]></xs:documentation>
-            </xs:annotation>
-            <xs:complexContent>
-                <xs:extension base="human-readable">
-                    <xs:choice minOccurs="0" maxOccurs="unbounded">
-                        <xs:element type="xs:boolean" name="display-start-stop" minOccurs="0" default="false">
-                            <xs:annotation>
-                                <xs:documentation><![CDATA[Only used by Codabar and Code39 barcodes]]></xs:documentation>
-                            </xs:annotation>
-                        </xs:element>
-                    </xs:choice>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-
-        <xs:complexType name="human-readable-without-brackets">
-            <xs:complexContent>
-                <xs:extension base="human-readable">
-                    <xs:choice minOccurs="0" maxOccurs="unbounded">
-                        <xs:element type="xs:boolean" name="omit-brackets" minOccurs="0" default="false">
-                            <xs:annotation>
-                                <xs:documentation>Only used by EAN-128 barcodes</xs:documentation>
-                            </xs:annotation>
-                        </xs:element>
-                    </xs:choice>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
+    <xs:complexType name="human-readable-without-brackets">
+        <xs:complexContent>
+            <xs:extension base="human-readable">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element type="xs:boolean" name="omit-brackets" minOccurs="0" default="false">
+                        <xs:annotation>
+                            <xs:documentation>Only used by EAN-128 barcodes</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:choice>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
     <xs:simpleType name="Length">
         <xs:annotation>
