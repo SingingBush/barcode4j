@@ -18,6 +18,10 @@
 
 package org.krysalis.barcode4j.tools;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -33,8 +37,8 @@ public class ECIUtil {
     private static final Map<String, Integer> encodingToECI = new java.util.HashMap<>();
 
     static {
-        mapEncoding("Cp437", 2);
-        mapEncoding("ISO-8859-1", 3);
+        mapEncoding("Cp437", 2);        // MS-DOS United States
+        mapEncoding("ISO-8859-1", 3);   // StandardCharsets.ISO_8859_1
         mapEncoding("ISO-8859-2", 4);
         mapEncoding("ISO-8859-3", 5);
         mapEncoding("ISO-8859-4", 6);
@@ -49,34 +53,52 @@ public class ECIUtil {
         mapEncoding("ISO-8859-14", 16);
         mapEncoding("ISO-8859-15", 17);
         mapEncoding("ISO-8859-16", 18);
-        mapEncoding("SJIS", 20);
-        mapEncoding("Cp1250", 21);
-        mapEncoding("Cp1251", 22);
-        mapEncoding("Cp1252", 23);
-        mapEncoding("Cp1256", 24);
-        mapEncoding("UnicodeBigUnmarked", 25);
-        mapEncoding("UTF-8", 26);
-        mapEncoding("US-ASCII", 27);
-        mapEncoding("Big5", 28);
-        mapEncoding("GB18030", 29);
+        mapEncoding("SJIS", 20);        // Shift-JIS, Japanese
+        mapEncoding("Cp1250", 21);      // a.k.a: windows-1250
+        mapEncoding("Cp1251", 22);      // a.k.a: windows-1251
+        mapEncoding("Cp1252", 23);      // a.k.a: windows-1252
+        mapEncoding("Cp1256", 24);      // a.k.a: windows-1256
+        mapEncoding("UnicodeBigUnmarked", 25); // StandardCharsets.UTF_16BE
+        mapEncoding("UTF-8", 26);       // StandardCharsets.UTF_8
+        mapEncoding("US-ASCII", 27);    // StandardCharsets.US_ASCII
+        mapEncoding("Big5", 28);        // Traditional Chinese
+        mapEncoding("GB18030", 29);     // Simplified Chinese, PRC standard
     }
 
-    private static void mapEncoding(String encoding, int eci) {
+    private static void mapEncoding(final @NotNull String encoding, int eci) {
         encodingToECI.put(encoding, eci);
     }
 
     /**
      * Returns the ECI code for a given encoding.
+     *
      * @param encoding the encoding
-     * @return the corresponding ECI code
+     * @return the corresponding ECI code or -1 if not defined
      */
-    public static int getECIForEncoding(String encoding) {
-        final Integer code = encodingToECI.get(encoding);
-        if (code != null) {
-            return code.intValue();
-        } else {
-            return -1; //undefined
-        }
+    public static int getECIForEncoding(final @NotNull String encoding) {
+        return encodingToECI.getOrDefault(encoding, -1);
     }
 
+    /**
+     * Returns the ECI code for a given charset.
+     * <p>
+     *     Typical charsets, available for all JDK's, can be found from {@link StandardCharsets}:
+     *     <ul>
+     *         <li>{@link StandardCharsets#US_ASCII}</li>
+     *         <li>{@link StandardCharsets#ISO_8859_1}</li>
+     *         <li>{@link StandardCharsets#UTF_8}</li>
+     *     </ul>
+     * </p>
+     * <p>
+     *     Further charsets may be available for your system and can potentially be used if the barcode supports it.
+     *     Consider checking {@link Charset#availableCharsets()} if you need to get an ECI code for a charset that's
+     *     not in {@link StandardCharsets}. eg; Japanese <code>Charset.forName("SJIS")</code>
+     * </p>
+     * @param charset the charset
+     * @return the corresponding ECI code or -1 if not defined
+     * @since 2.5.0
+     */
+    public static int getECIForCharset(final @NotNull Charset charset) {
+        return encodingToECI.getOrDefault(charset.name(), -1);
+    }
 }

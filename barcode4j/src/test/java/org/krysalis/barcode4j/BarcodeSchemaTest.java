@@ -74,11 +74,15 @@ public class BarcodeSchemaTest {
     }
 
     // Supported values for encodings are the strings defined in org.krysalis.barcode4j.tools.ECIUtil
-    // We don't support underscores as used in the names on StandardCharsets enum.
+    // These should match up to the canonical name values that are in Charset. eg;
+    // StandardCharsets.UTF_8.name()
+    // StandardCharsets.ISO_8859_1.name()
+    // StandardCharsets.ISO_8859_1.name()
+    // note that the string returned from name() is the hyphenated value, not underscored.
     @ParameterizedTest
     @ValueSource(strings = {
         "Cp437",
-        "ISO-8859-1", // default for both QR and Aztec. (Do not use "ISO_8859_1" as per StandardCharsets enum name)
+        "ISO-8859-1", // default for both QR and Aztec. (Do not use "ISO_8859_1")
         "ISO-8859-2",
         "ISO-8859-3",
         "ISO-8859-4",
