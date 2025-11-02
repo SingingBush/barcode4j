@@ -4,9 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.krysalis.barcode4j.impl.qr.QRConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
@@ -27,8 +26,6 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 public class BarcodeSchemaTest {
 
-    private static final Logger _log = LoggerFactory.getLogger(BarcodeSchemaTest.class);
-
     private static final Validator _validator;
 
     static {
@@ -41,47 +38,77 @@ public class BarcodeSchemaTest {
 
     @Test
     void testBasicXml() throws IOException {
-        final String xml = "<bc:barcode message=\"3216455597\" xmlns:bc=\"http://barcode4j.krysalis.org/ns\">\n" +
-            "    <bc:qr/>\n" +
-            "</bc:barcode>";
+        final String xml = "<barcode message=\"3216455597\" xmlns=\"http://barcode4j.krysalis.org/ns\">\n" +
+            "    <qr/>\n" +
+            "</barcode>";
 
         validate(xml);
     }
 
     @Test
-    void testPDF417Barcode() throws IOException {
-        final String xml = "<bc:barcode message=\"3216455597\" xmlns:bc=\"http://barcode4j.krysalis.org/ns\">\n" +
-            "    <bc:pdf417>\n" +
-            "        <bc:module-width>0.705554mm</bc:module-width>\n" +
-            "        <bc:row-height>3mm</bc:row-height>\n" +
-            "        <bc:columns>2</bc:columns>\n" +
-            "        <bc:min-columns>2</bc:min-columns>\n" +
-            "        <bc:max-columns>2</bc:max-columns>\n" +
-            "        <bc:min-rows>3</bc:min-rows>\n" +
-            "        <bc:max-rows>90</bc:max-rows>\n" +
-            "        <bc:ec-level>0</bc:ec-level>\n" +
-            "        <bc:quiet-zone enabled=\"false\">123cm</bc:quiet-zone>\n" +
-            "    </bc:pdf417>\n" +
-            "</bc:barcode>";
+    void testParameterisedBarcode() throws IOException {
+        final String xml = "<barcode message=\"3216455597\" xmlns=\"http://barcode4j.krysalis.org/ns\">\n" +
+            "    <pdf417>\n" +
+            "        <module-width>0.705554mm</module-width>\n" +
+            "        <row-height>3mw</row-height>\n" +
+            "        <columns>2</columns>\n" +
+            "        <min-columns>2</min-columns>\n" +
+            "        <max-columns>2</max-columns>\n" +
+            "        <min-rows>3</min-rows>\n" +
+            "        <max-rows>90</max-rows>\n" +
+            "        <ec-level>0</ec-level>\n" +
+            "        <quiet-zone enabled=\"false\">123cm</quiet-zone>\n" +
+            "    </pdf417>\n" +
+            "</barcode>";
 
         validate(xml);
     }
 
     @Test
     void testBasicNamespacedXml() throws IOException {
-        final String xml = "<bc:barcode message=\"3216455597\" xmlns:bc=\"http://barcode4j.krysalis.org/ns\">\n" +
-            "    <bc:aztec/>\n" +
-            "</bc:barcode>";
+        final String xml = "<barcode:barcode message=\"3216455597\" xmlns:barcode=\"http://barcode4j.krysalis.org/ns\">\n" +
+            "    <barcode:aztec/>\n" +
+            "</barcode:barcode>";
 
         validate(xml);
     }
 
-    @Test
-    void testNamespacedParameterised_Aztec_Barcode() throws IOException {
+    // Supported values for encodings are the strings defined in org.krysalis.barcode4j.tools.ECIUtil
+    // We don't support underscores as used in the names on StandardCharsets enum.
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "Cp437",
+        "ISO-8859-1", // default for both QR and Aztec. (Do not use "ISO_8859_1" as per StandardCharsets enum name)
+        "ISO-8859-2",
+        "ISO-8859-3",
+        "ISO-8859-4",
+        "ISO-8859-5",
+        "ISO-8859-6",
+        "ISO-8859-7",
+        "ISO-8859-8",
+        "ISO-8859-9",
+        "ISO-8859-10",
+        "ISO-8859-11",
+        "ISO-8859-13",
+        "ISO-8859-14",
+        "ISO-8859-15",
+        "ISO-8859-16",
+        "SJIS",
+        "Cp1250",
+        "Cp1251",
+        "Cp1252",
+        "Cp1256",
+        "UnicodeBigUnmarked",
+        "UTF-8",
+        "US-ASCII",
+        "Big5",
+        "GB18030"
+    })
+    void testNamespacedParameterised_Aztec_Barcode(final String encoding) throws IOException {
         final String xml = "<bc:barcode message=\"3216455597\" xmlns:bc=\"http://barcode4j.krysalis.org/ns\">\n" +
             "    <bc:aztec>\n" +
             "        <bc:module-width>1.8mm</bc:module-width>\n" +
-            "        <bc:encoding>ISO-8859-1</bc:encoding>\n" +
+            String.format("        <bc:encoding>%s</bc:encoding>\n", encoding) +
             "        <bc:ec-level>23</bc:ec-level>\n" +
             "        <bc:layers>0</bc:layers>\n" +
             "        <bc:quiet-zone enabled=\"false\"/>\n" +
@@ -133,13 +160,20 @@ public class BarcodeSchemaTest {
         validate(xml);
     }
 
-    @Test
-    void testNamespacedParameterised_PDF417_Barcode() throws IOException {
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "3in",
+        "3pt",
+        "3cm",
+        "3mm",
+        "3mw"
+    })
+    void testNamespacedParameterised_PDF417_Barcode(final String rowHeight) throws IOException {
         final String xml = "<bc:barcode message=\"3216455597\" xmlns:bc=\"http://barcode4j.krysalis.org/ns\">\n" +
             "  <bc:pdf417>\n" +
             "    <bc:module-width>0.705554mm</bc:module-width>\n" +
             "    <bc:encoding>US-ASCII</bc:encoding>\n" +
-            "    <bc:row-height>3mm</bc:row-height>\n" +
+            String.format("    <bc:row-height>%s</bc:row-height>\n", rowHeight) +
             "    <bc:columns>2</bc:columns>\n" +
             "    <bc:min-columns>2</bc:min-columns>\n" +
             "    <bc:max-columns>2</bc:max-columns>\n" +
@@ -155,7 +189,12 @@ public class BarcodeSchemaTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"auto","ignore","add","check"})
+    @ValueSource(strings = {
+        "auto",
+        "ignore",
+        "add",
+        "check"
+    })
     void testNamespacedParameterised_UPC_A_Barcode(final String checksumValue) throws IOException {
         final String xml = "<bc:barcode message=\"3216455597\" xmlns:bc=\"http://barcode4j.krysalis.org/ns\">\n" +
             "  <bc:upc-a>\n" +
@@ -169,7 +208,11 @@ public class BarcodeSchemaTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"none","top","bottom"})
+    @ValueSource(strings = {
+        "none",
+        "top",
+        "bottom"
+    })
     void testNamespacedParameterised_EAN_13_Barcode(final String hrPlacementName) throws IOException {
         final String xml = "<bc:barcode message=\"3216455597\" xmlns:bc=\"http://barcode4j.krysalis.org/ns\">\n" +
             "  <bc:ean-13>\n" +
@@ -239,9 +282,9 @@ public class BarcodeSchemaTest {
         "aztec"
     })
     void testSymbols(final String symbology) throws IOException {
-        final String xml = "<bc:barcode message=\"3216455597\" xmlns:bc=\"http://barcode4j.krysalis.org/ns\">\n" +
-            String.format("    <bc:%s/>\n", symbology) +
-            "</bc:barcode>";
+        final String xml = "<barcode:barcode message=\"3216455597\" xmlns:barcode=\"http://barcode4j.krysalis.org/ns\">\n" +
+            String.format("    <barcode:%s/>\n", symbology) +
+            "</barcode:barcode>";
 
         validate(xml);
     }
@@ -262,10 +305,12 @@ public class BarcodeSchemaTest {
     private static void validate(String xml) throws IOException {
         try {
             _validator.validate(new StreamSource(new StringReader(xml)));
-        }
-        catch (SAXException e) {
-            _log.info("Validation failed for XML:\n{}", xml);
-            fail("XML failed validation", e);
+        } catch (final SAXException e) {
+            if (SAXParseException.class.isAssignableFrom(e.getClass())) {
+                final SAXParseException spe = (SAXParseException) e;
+                System.out.printf("XML validation failed at line %s, column %s:\n%s%n", spe.getLineNumber(), spe.getColumnNumber(), xml);
+            }
+            fail(e.getMessage(), e);
         }
     }
 
