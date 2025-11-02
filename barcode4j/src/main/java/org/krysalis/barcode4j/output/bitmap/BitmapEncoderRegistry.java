@@ -118,7 +118,6 @@ public class BitmapEncoderRegistry {
      * @param bitmapEncoder an implementation of BitmapEncoder
      * @param priority lets you define a priority for an encoder. If you want to give an encoder a high priority, assign a value of 100 or higher.
      * @return true if the bitmap encoder has been registered
-     * @author Samael Bate (singingbush)
      * created on 23/02/2024
      * @since 2.2.3
      */

@@ -81,14 +81,12 @@ public class ECIUtil {
 
     /**
      * Returns the ECI code for a given charset.
-     * <p>
-     *     Typical charsets, available for all JDK's, can be found from {@link StandardCharsets}:
-     *     <ul>
-     *         <li>{@link StandardCharsets#US_ASCII}</li>
-     *         <li>{@link StandardCharsets#ISO_8859_1}</li>
-     *         <li>{@link StandardCharsets#UTF_8}</li>
-     *     </ul>
-     * </p>
+     * <p>Typical charsets, available for all JDK's, can be found from {@link StandardCharsets}:</p>
+     * <ul>
+     *   <li>{@link StandardCharsets#US_ASCII}</li>
+     *   <li>{@link StandardCharsets#ISO_8859_1}</li>
+     *   <li>{@link StandardCharsets#UTF_8}</li>
+     * </ul>
      * <p>
      *     Further charsets may be available for your system and can potentially be used if the barcode supports it.
      *     Consider checking {@link Charset#availableCharsets()} if you need to get an ECI code for a charset that's

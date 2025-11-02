@@ -41,7 +41,6 @@ public class MessagePatternUtil {
      * @param msg the original message
      * @param pattern the message pattern to be applied or null
      * @return the formatted message or null if message was null
-     * @author Dimitar Vlasev
      */
     @Nullable
     public static String applyCustomMessagePattern(@Nullable String msg, @Nullable String pattern) {
@@ -119,7 +118,6 @@ public class MessagePatternUtil {
      * Returns true if the input parameter is escape character
      * @param c char
      * @return boolean
-     * @author Dimitar Vlasev
      */
     private static boolean isEscapeChar(char c) {
         return (c == '\\');

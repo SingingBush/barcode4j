@@ -109,7 +109,6 @@ public class Java2DCanvasProvider extends AbstractCanvasProvider {
         g2d.fill(new Rectangle2D.Double(x, y, w, h));
     }
 
-    /** {@inheritDoc} */
     public void deviceDrawRect(double x, double y, double w, double h) {
         g2d.draw(new Rectangle2D.Double(x, y, w, h));
     }

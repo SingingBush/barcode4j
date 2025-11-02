@@ -15,6 +15,9 @@
  */
 package org.krysalis.barcode4j.tools;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * This class represents a length (value plus unit). It is used to parse
  * expressions like "0.21mm".
@@ -38,10 +41,18 @@ public class Length {
 
     /**
      * Creates a Length instance.
+     * <p>The unit should be one of the following:</p>
+     * <ul>
+     *   <li>{@link #INCH}</li>
+     *   <li>{@link #POINT}</li>
+     *   <li>{@link #CM}</li>
+     *   <li>{@link #MM}</li>
+     * </ul>
+     *
      * @param value the value
      * @param unit the unit (ex. "cm")
      */
-    public Length(double value, String unit) {
+    public Length(final double value, final @NotNull String unit) {
         this.value = value;
         this.unit = unit.toLowerCase();
     }
@@ -59,7 +70,7 @@ public class Length {
      * Creates a Length instance. The default unit assumed is "mm".
      * @param text the String to parse
      */
-    public Length(String text) {
+    public Length(final @NotNull String text) {
         this(text, null);
     }
 
@@ -68,12 +79,12 @@ public class Length {
      * @param text the String to parse
      * @param defaultUnit the default unit to assume
      */
-    protected void parse(String text, String defaultUnit) {
+    protected void parse(final @NotNull String text, final @Nullable String defaultUnit) {
         final String s = text.trim();
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             throw new IllegalArgumentException("Length is empty");
         }
-        StringBuffer sb = new StringBuffer(s.length());
+        final StringBuffer sb = new StringBuffer(s.length());
         int mode = 0;
         int i = 0;
         while (i < s.length()) {
