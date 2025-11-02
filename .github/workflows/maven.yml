@@ -58,7 +58,7 @@ jobs:
 
     - name: Upload JaCoCo Coverage
       if: ${{ matrix.jdk == '11' }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: jacoco.html
         path: ${{ github.workspace }}/aggregate-report/target/site/jacoco-aggregate/index.html
@@ -140,7 +140,7 @@ jobs:
         QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
 
     - name: Upload Qodana report to GitHub code scanning
-      uses: github/codeql-action/upload-sarif@v3
+      uses: github/codeql-action/upload-sarif@v4
       with:
         sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json
 
@@ -154,7 +154,7 @@ jobs:
 #        cx_tenant: ${{ secrets.CX_TENANT }} # This should be replaced by your tenant for Checkmarx One
 #        additional_params: --report-format sarif --output-path .
 #    - name: Upload SARIF file
-#      uses: github/codeql-action/upload-sarif@v3
+#      uses: github/codeql-action/upload-sarif@v4
 #      with:
 #        # Path to SARIF file relative to the root of the repository
 #        sarif_file: cx_result.sarif
