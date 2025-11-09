@@ -13,7 +13,7 @@
 
     <artifactId>barcode4j-xalan</artifactId>
     <name>Barcode4J Xalan</name>
-    <description>This module contains the extension for the apache xml-api.</description>
+    <description>This module contains the extension for the Apache's Xalan XSLT processor.</description>
 
     <dependencies>
         <dependency>
@@ -25,13 +25,6 @@
         <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>xml-apis</groupId>
-                    <artifactId>xml-apis</artifactId>
-                    <!-- excluding xml-apis:xml-apis:1.3.04 because version 1.4.01 is used -->
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>xalan</groupId>
