@@ -79,7 +79,7 @@ public class BarcodeTask extends Task {
     @Override
     public void execute() throws BuildException {
 
-        if (message == null || message.length() == 0) {
+        if (message == null || message.isEmpty()) {
             throw new BuildException("No message");
         }
 

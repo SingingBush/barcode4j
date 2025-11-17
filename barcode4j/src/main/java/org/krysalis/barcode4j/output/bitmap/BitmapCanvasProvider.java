@@ -44,6 +44,7 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
 
     /**
      * Creates a new BitmapCanvasProvider.
+     *
      * @param out OutputStream to write to
      * @param mime MIME type of the desired output format (ex. "image/png")
      * @param resolution the desired image resolution (dots per inch)
@@ -51,6 +52,8 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
      * @param antiAlias true if antialiasing should be enabled
      * @param orientation Orientation must be 0, 90, 180, 270, -90, -180 or -270
      * @see BarcodeDimension#normalizeOrientation(int)
+     * @see BufferedImage#TYPE_BYTE_BINARY
+     * @see BufferedImage#TYPE_BYTE_GRAY
      */
     public BitmapCanvasProvider(@Nullable OutputStream out, @Nullable String mime, int resolution, int imageType, boolean antiAlias, int orientation) {
         super(orientation);
@@ -63,11 +66,14 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
 
     /**
      * Creates a new BitmapCanvasProvider.
+     *
      * @param resolution the desired image resolution (dots per inch)
      * @param imageType the desired image type (Values: BufferedImage.TYPE_*)
      * @param antiAlias true if antialiasing should be enabled
      * @param orientation Orientation must be 0, 90, 180, 270, -90, -180 or -270
      * @see BarcodeDimension#normalizeOrientation(int)
+     * @see BufferedImage#TYPE_BYTE_BINARY
+     * @see BufferedImage#TYPE_BYTE_GRAY
      */
     public BitmapCanvasProvider(int resolution, int imageType, boolean antiAlias, int orientation) {
         this(null, null, resolution, imageType, antiAlias, orientation);
@@ -76,6 +82,7 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
     /**
      * Call this method to finish any pending operations after the
      * BarcodeGenerator has finished its work.
+     *
      * @throws IOException in case of an I/O problem
      */
     public void finish() throws IOException {
@@ -88,6 +95,7 @@ public class BitmapCanvasProvider extends AbstractCanvasProvider {
 
     /**
      * Returns the buffered image that is used to paint the barcode on.
+     *
      * @return the image.
      */
     public BufferedImage getBufferedImage() {

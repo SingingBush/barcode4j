@@ -121,7 +121,6 @@
         <org.apache.xmlgraphics.batik.version>1.19</org.apache.xmlgraphics.batik.version>
         <org.apache.xalan.version>2.7.3</org.apache.xalan.version>
 
-        <org.apache.ant.version>1.10.15</org.apache.ant.version>
         <!-- todo: ditch jdom support if project isn't maintained https://github.com/hunterhacker/jdom -->
         <org.jdom.jdom2.version>2.0.6.1</org.jdom.jdom2.version>
         <net.sf.saxon.8.version>8.7</net.sf.saxon.8.version>
@@ -217,11 +216,7 @@
                 <artifactId>core</artifactId>
                 <version>3.5.3</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.ant</groupId>
-                <artifactId>ant</artifactId>
-                <version>${org.apache.ant.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>org.jdom</groupId>
                 <artifactId>jdom2</artifactId>
