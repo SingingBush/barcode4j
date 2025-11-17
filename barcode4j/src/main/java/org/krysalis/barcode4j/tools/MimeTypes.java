@@ -23,34 +23,55 @@ package org.krysalis.barcode4j.tools;
  */
 public class MimeTypes {
 
-    /** SVG MIME type: image/svg+xml */
+    /**
+     * SVG MIME type: <code>image/svg+xml</code>
+     */
     public static final String MIME_SVG  = "image/svg+xml";
-    /** EPS MIME type: image/x-eps */
-    public static final String MIME_EPS  = "image/x-eps";
-    /** TIFF MIME type: image/tiff */
+
+    /**
+     * PostScript (EPS) MIME type: <code>image/eps</code>
+     */
+    public static final String MIME_EPS  = "image/eps";
+
+    /**
+     * TIFF MIME type: <code>image/tiff</code>
+     */
     public static final String MIME_TIFF = "image/tiff";
-    /** JPEG MIME type: image/jpeg */
+
+    /**
+     * JPEG MIME type: <code>image/jpeg</code>
+     */
     public static final String MIME_JPEG = "image/jpeg";
-    /** PNG MIME type: image/x-png */
-    public static final String MIME_PNG  = "image/x-png";
-    /** GIF MIME type: image/gif */
+
+    /**
+     * PNG MIME type: <code>image/png</code>
+     */
+    public static final String MIME_PNG  = "image/png";
+
+    /**
+     * GIF MIME type: <code>image/gif</code>
+     */
     public static final String MIME_GIF  = "image/gif";
-    /** BMP MIME type: image/bmp*/
+
+    /**
+     * BMP MIME type: <code>image/bmp</code>
+     */
     public static final String MIME_BMP  = "image/bmp";
 
-    private static final String[][] FORMAT_MAPPINGS =
-            {{"svg", MIME_SVG},
-             {"eps", MIME_EPS},
-             {"image/eps", MIME_EPS},
-             {"tif", MIME_TIFF},
-             {"tiff", MIME_TIFF},
-             {"jpg", MIME_JPEG},
-             {"jpeg", MIME_JPEG},
-             {"png", MIME_PNG},
-             {"image/png", MIME_PNG},
-             {"gif", MIME_GIF},
-             {"image/x-bmp", MIME_BMP},
-             {"bmp", MIME_BMP}};
+    private static final String[][] FORMAT_MAPPINGS = {
+        {"svg", MIME_SVG},
+        {"eps", MIME_EPS},
+        {"image/x-eps", MIME_EPS},
+        {"tif", MIME_TIFF},
+        {"tiff", MIME_TIFF},
+        {"jpg", MIME_JPEG},
+        {"jpeg", MIME_JPEG},
+        {"png", MIME_PNG},
+        {"image/x-png", MIME_PNG},
+        {"gif", MIME_GIF},
+        {"image/x-bmp", MIME_BMP},
+        {"bmp", MIME_BMP}
+    };
 
     /**
      * Utility class: Constructor prevents instantiating when subclassed.
@@ -66,7 +87,7 @@ public class MimeTypes {
      * @return MIME type
      */
     public static String expandFormat(String format) {
-        if (format == null || format.length() == 0) {
+        if (format == null || format.isEmpty()) {
             return null;
         }
         for (int i = 0; i < FORMAT_MAPPINGS.length; i++) {
