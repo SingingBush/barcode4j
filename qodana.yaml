@@ -38,7 +38,7 @@ exclude:
       - barcode4j-saxon91
       - barcode4j-servlet
 
-projectJDK: '8'
+projectJDK: '11'
 
 licenseRules:
   - prohibited:
