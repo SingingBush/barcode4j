@@ -104,7 +104,7 @@ jobs:
         cache: maven
 
     - name: Setup Cache for SonarCloud packages
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
