@@ -58,7 +58,7 @@ jobs:
 
     - name: Upload JaCoCo Coverage
       if: ${{ matrix.jdk == '11' }}
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: jacoco.html
         path: ${{ github.workspace }}/aggregate-report/target/site/jacoco-aggregate/index.html
@@ -104,7 +104,7 @@ jobs:
         cache: maven
 
     - name: Setup Cache for SonarCloud packages
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
@@ -132,7 +132,7 @@ jobs:
 
     # potentially Qodana could be its own workflow (recommended in the docs)
     - name: Qodana Scan
-      uses: JetBrains/qodana-action@v2025.2
+      uses: JetBrains/qodana-action@v2025.3
       with:
         args: --baseline,qodana.sarif.json
         fail-threshold: 100
