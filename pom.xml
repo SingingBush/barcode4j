@@ -126,7 +126,7 @@
         <net.sf.saxon.9.version>9.1.0.8</net.sf.saxon.9.version>
 
         <slf4j.version>2.0.17</slf4j.version>
-        <junit.version>5.14.1</junit.version>
+        <junit.version>5.14.3</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -272,7 +272,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.9.0</version>
+                    <version>3.10.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -297,7 +297,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.4.0</version>
+                    <version>3.5.0</version>
                     <executions>
                         <execution>
                             <id>copy-license-file</id>
