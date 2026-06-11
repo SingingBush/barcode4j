@@ -46,7 +46,7 @@ jobs:
 
     - name: Add coverage to PR
       id: jacoco
-      uses: madrapps/jacoco-report@v1.7.2
+      uses: madrapps/jacoco-report@v1.8.0
       if: ${{ matrix.jdk == '11' }}
       with:
         paths: |
@@ -132,7 +132,7 @@ jobs:
 
     # potentially Qodana could be its own workflow (recommended in the docs)
     - name: Qodana Scan
-      uses: JetBrains/qodana-action@v2025.3
+      uses: JetBrains/qodana-action@v2026.1
       with:
         args: --baseline,qodana.sarif.json
         fail-threshold: 100
