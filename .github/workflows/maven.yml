@@ -132,7 +132,7 @@ jobs:
 
     # potentially Qodana could be its own workflow (recommended in the docs)
     - name: Qodana Scan
-      uses: JetBrains/qodana-action@v2026.1
+      uses: JetBrains/qodana-action@v2026.2
       with:
         args: --baseline,qodana.sarif.json
         fail-threshold: 100
@@ -168,7 +168,7 @@ jobs:
 #    steps:
 #      - uses: actions/checkout@v7
 #      - name: Set up JDK 7
-#        uses: actions/setup-java@v4
+#        uses: actions/setup-java@v5
 #        with:
 #          distribution: zulu
 #          java-version: 7
