@@ -92,7 +92,14 @@ public class FopTest {
         assertTrue(xslFo.contains("<barcode:barcode message=\"Here is some text encoded in a 2D barcode\">"));
         assertTrue(xslFo.contains("<barcode:pdf417>"));
 
+        assertTrue(xslFo.contains("<barcode:barcode message=\"Here is some text encoded in a datamatrix\">"));
         assertTrue(xslFo.contains("<barcode:datamatrix>"));
+
+        assertTrue(xslFo.contains("<barcode:barcode message=\"Here is some text encoded in a QR Code\">"));
+        assertTrue(xslFo.contains("<barcode:qr>"));
+
+        assertTrue(xslFo.contains("<barcode:barcode message=\"Here is some text encoded in an Aztec barcode\">"));
+        assertTrue(xslFo.contains("<barcode:aztec>"));
 
         // now ensure the generated XSL-FO can be used by Apache FOP without error
         generateFileFromXslFo(fileType, mimeType, new ByteArrayInputStream(xslFo.getBytes(StandardCharsets.UTF_8)));
@@ -136,40 +143,26 @@ public class FopTest {
         assertTrue(xslFo.contains("<barcode:barcode message=\"Here is some text encoded in a 2D barcode\">"));
         assertTrue(xslFo.contains("<barcode:pdf417>"));
 
+        assertTrue(xslFo.contains("<barcode:barcode message=\"Here is some text encoded in a QR Code\">"));
+        assertTrue(xslFo.contains("<barcode:qr>"));
+
+        assertTrue(xslFo.contains("<barcode:barcode message=\"Here is some text encoded in an Aztec barcode\">"));
+        assertTrue(xslFo.contains("<barcode:aztec>"));
+
         // now ensure the generated XSL-FO can be used by Apache FOP without error
         generateFileFromXslFo(fileType, mimeType, new ByteArrayInputStream(xslFo.getBytes(StandardCharsets.UTF_8)));
     }
 
     private Source createDataFromPojos() throws JAXBException {
-        final Barcode upcA = new Barcode();
-        upcA.setMessage("012345678905");
-        upcA.setType("upc-A");
-
-        final Barcode ean13 = new Barcode();
-        ean13.setMessage("0012345678905");
-        ean13.setType("ean-13");
-
-        final Barcode code128 = new Barcode();
-        code128.setMessage("1234567890");
-        code128.setType("code128");
-
-        final Barcode ean128 = new Barcode();
-        ean128.setMessage("00353912341234567895");
-        ean128.setType("ean-128");
-
-        final Barcode pdf417 = new Barcode();
-        pdf417.setMessage("Here is some text encoded in a 2D barcode");
-        pdf417.setType("pdf417");
-
-        final Data data = new Data();
-        final List<Barcode> barcodes = new java.util.ArrayList<>();
-        barcodes.add(upcA);
-        barcodes.add(ean13);
-        barcodes.add(code128);
-        barcodes.add(ean128);
-        barcodes.add(pdf417);
-
-        data.setBarcodes(barcodes);
+        final Data data = new Data(List.of(
+            new Barcode("upc-A", "012345678905"),
+            new Barcode("ean-13", "0012345678905"),
+            new Barcode("code128", "1234567890"),
+            new Barcode("ean-128", "00353912341234567895"),
+            new Barcode("pdf417", "Here is some text encoded in a 2D barcode"),
+            new Barcode("qr", "Here is some text encoded in a QR Code"),
+            new Barcode("aztec", "Here is some text encoded in an Aztec barcode")
+        ));
 
         return new JAXBSource( JAXBContext.newInstance(Data.class, Barcode.class) , data);
     }
@@ -224,7 +217,18 @@ public class FopTest {
         @XmlElement(name = "message", required = true)
         private String message;
 
+        @SuppressWarnings("unused") // no-arg default constructor required
         public Barcode() {}
+
+        /**
+         * Create a barcode bean with required values
+         * @param type The type of barcode required, eg: 'ean-128' or 'pdf417'
+         * @param message The text to be encoded in the barcode
+         */
+        public Barcode(final String type, final String message) {
+            this.type = type;
+            this.message = message;
+        }
 
         public String getType() {
             return type;
@@ -251,7 +255,16 @@ public class FopTest {
         @XmlElement(name = "barcode")
         private List<Barcode> barcodes;
 
+        @SuppressWarnings("unused") // no-arg default constructor required
         public Data() {}
+
+        /**
+         * Convenience constructor for create wrapper for a list of barcodes
+         * @param barcodes The barcodes to be set in this class
+         */
+        public Data(final List<Barcode> barcodes) {
+            this.barcodes = barcodes;
+        }
 
         public List<Barcode> getBarcodes() {
             return barcodes;
